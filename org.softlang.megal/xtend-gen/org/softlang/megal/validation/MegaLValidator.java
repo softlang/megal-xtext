@@ -3,8 +3,18 @@
  */
 package org.softlang.megal.validation;
 
+import com.google.common.base.Objects;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.xtext.validation.Check;
+import org.eclipse.xtext.xbase.lib.Functions.Function1;
+import org.eclipse.xtext.xbase.lib.IterableExtensions;
+import org.softlang.megal.megaL.ED;
 import org.softlang.megal.megaL.ETD;
+import org.softlang.megal.megaL.LD;
+import org.softlang.megal.megaL.MegaLDefinition;
+import org.softlang.megal.megaL.MegaLLinking;
 import org.softlang.megal.megaL.MegaLPackage;
 import org.softlang.megal.validation.AbstractMegaLValidator;
 
@@ -15,10 +25,51 @@ import org.softlang.megal.validation.AbstractMegaLValidator;
  */
 @SuppressWarnings("all")
 public class MegaLValidator extends AbstractMegaLValidator {
+  public boolean operator_spaceship(final EObject a, final EObject b) {
+    return EcoreUtil.equals(a, b);
+  }
+  
   @Check
   public void checkSemanticsExisting(final ETD it) {
     String _name = it.getName();
     String _plus = ("No implementation for " + _name);
     this.warning(_plus, MegaLPackage.Literals.ETD__NAME);
+  }
+  
+  @Check
+  public void checkIsLinked(final MegaLDefinition it) {
+    MegaLLinking _linker = it.getLinker();
+    boolean _equals = Objects.equal(_linker, null);
+    if (_equals) {
+      this.warning("Model is not linked", MegaLPackage.Literals.MODEL__NAME);
+    }
+  }
+  
+  @Check
+  public void checkIsLinked(final MegaLLinking it) {
+    MegaLDefinition _target = it.getTarget();
+    boolean _equals = Objects.equal(_target, null);
+    if (_equals) {
+      this.warning("Linking is not targeting a model", MegaLPackage.Literals.MODEL__NAME);
+    }
+  }
+  
+  @Check
+  public void checkIsLinked(final ED it) {
+    EObject _eContainer = it.eContainer();
+    final MegaLDefinition md = ((MegaLDefinition) _eContainer);
+    MegaLLinking _linker = md.getLinker();
+    EList<LD> _links = _linker.getLinks();
+    final Function1<LD, Boolean> _function = new Function1<LD, Boolean>() {
+      public Boolean apply(final LD l) {
+        ED _target = l.getTarget();
+        return Boolean.valueOf(MegaLValidator.this.operator_spaceship(_target, it));
+      }
+    };
+    boolean _exists = IterableExtensions.<LD>exists(_links, _function);
+    boolean _not = (!_exists);
+    if (_not) {
+      this.error("Unlinked entity", MegaLPackage.Literals.ED__NAME);
+    }
   }
 }

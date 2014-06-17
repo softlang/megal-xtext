@@ -5,8 +5,12 @@ package org.softlang.megal.validation
 
 import org.eclipse.xtext.validation.Check
 import org.softlang.megal.megaL.ED
-import org.softlang.megal.megaL.MegaLPackage
 import org.softlang.megal.megaL.ETD
+import org.softlang.megal.megaL.MegaLDefinition
+import org.softlang.megal.megaL.MegaLLinking
+import org.softlang.megal.megaL.MegaLPackage
+import org.eclipse.emf.ecore.util.EcoreUtil
+import org.eclipse.emf.ecore.EObject
 
 /**
  * Custom validation rules. 
@@ -14,20 +18,32 @@ import org.softlang.megal.megaL.ETD
  * see http://www.eclipse.org/Xtext/documentation.html#validation
  */
 class MegaLValidator extends AbstractMegaLValidator {
+	def operator_spaceship(EObject a, EObject b) {
+		EcoreUtil.equals(a, b)
+	}
 
 	@Check
 	def checkSemanticsExisting(ETD it) {
 		warning('No implementation for ' + name, MegaLPackage.Literals.ETD__NAME)
 	}
 
-//  public static val INVALID_NAME = 'invalidName'
-//
-//	@Check
-//	def checkGreetingStartsWithCapital(Greeting greeting) {
-//		if (!Character.isUpperCase(greeting.name.charAt(0))) {
-//			warning('Name should start with a capital', 
-//					MyDslPackage.Literals.GREETING__NAME,
-//					INVALID_NAME)
-//		}
-//	}
+	@Check
+	def checkIsLinked(MegaLDefinition it) {
+		if (linker == null)
+			warning('Model is not linked', MegaLPackage.Literals.MODEL__NAME)
+	}
+
+	@Check
+	def checkIsLinked(MegaLLinking it) {
+		if (target == null)
+			warning('Linking is not targeting a model', MegaLPackage.Literals.MODEL__NAME)
+	}
+
+	@Check
+	def checkIsLinked(ED it) {
+		val md = eContainer as MegaLDefinition
+
+		if (!md.linker.links.exists[l|l.target <=> it])
+			error('Unlinked entity', MegaLPackage.Literals.ED__NAME)
+	}
 }

@@ -17,7 +17,9 @@ import org.softlang.megal.megaL.ED;
 import org.softlang.megal.megaL.ETD;
 import org.softlang.megal.megaL.ETDDeclared;
 import org.softlang.megal.megaL.ETDEntity;
-import org.softlang.megal.megaL.MegaL;
+import org.softlang.megal.megaL.LD;
+import org.softlang.megal.megaL.MegaLDefinition;
+import org.softlang.megal.megaL.MegaLLinking;
 import org.softlang.megal.megaL.MegaLPackage;
 import org.softlang.megal.megaL.RD;
 import org.softlang.megal.megaL.RTD;
@@ -57,9 +59,23 @@ public class MegaLSemanticSequencer extends AbstractDelegatingSemanticSequencer 
 					return; 
 				}
 				else break;
-			case MegaLPackage.MEGA_L:
-				if(context == grammarAccess.getMegaLRule()) {
-					sequence_MegaL(context, (MegaL) semanticObject); 
+			case MegaLPackage.LD:
+				if(context == grammarAccess.getLDRule()) {
+					sequence_LD(context, (LD) semanticObject); 
+					return; 
+				}
+				else break;
+			case MegaLPackage.MEGA_LDEFINITION:
+				if(context == grammarAccess.getMegaLDefinitionRule() ||
+				   context == grammarAccess.getModelRule()) {
+					sequence_MegaLDefinition(context, (MegaLDefinition) semanticObject); 
+					return; 
+				}
+				else break;
+			case MegaLPackage.MEGA_LLINKING:
+				if(context == grammarAccess.getMegaLLinkingRule() ||
+				   context == grammarAccess.getModelRule()) {
+					sequence_MegaLLinking(context, (MegaLLinking) semanticObject); 
 					return; 
 				}
 				else break;
@@ -144,9 +160,27 @@ public class MegaLSemanticSequencer extends AbstractDelegatingSemanticSequencer 
 	
 	/**
 	 * Constraint:
-	 *     (name=QualifiedID (imports+=[MegaL|ID] | etd+=ETD | rtd+=RTD | ed+=ED | rd+=RD)*)
+	 *     (target=[ED|ID] key=ID? value=STRING)
 	 */
-	protected void sequence_MegaL(EObject context, MegaL semanticObject) {
+	protected void sequence_LD(EObject context, LD semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Constraint:
+	 *     (name=QualifiedID linker=[MegaLLinking|QualifiedID]? (imports+=[MegaLDefinition|ID] | etd+=ETD | rtd+=RTD | ed+=ED | rd+=RD)*)
+	 */
+	protected void sequence_MegaLDefinition(EObject context, MegaLDefinition semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Constraint:
+	 *     (name=QualifiedID target=[MegaLDefinition|QualifiedID]? links+=LD*)
+	 */
+	protected void sequence_MegaLLinking(EObject context, MegaLLinking semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	

@@ -4,60 +4,58 @@ package org.softlang.megal.megaL;
 
 import org.eclipse.emf.common.util.EList;
 
-import org.eclipse.emf.ecore.EObject;
-
 /**
  * <!-- begin-user-doc -->
- * A representation of the model object '<em><b>Mega L</b></em>'.
+ * A representation of the model object '<em><b>Definition</b></em>'.
  * <!-- end-user-doc -->
  *
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.softlang.megal.megaL.MegaL#getName <em>Name</em>}</li>
- *   <li>{@link org.softlang.megal.megaL.MegaL#getImports <em>Imports</em>}</li>
- *   <li>{@link org.softlang.megal.megaL.MegaL#getEtd <em>Etd</em>}</li>
- *   <li>{@link org.softlang.megal.megaL.MegaL#getRtd <em>Rtd</em>}</li>
- *   <li>{@link org.softlang.megal.megaL.MegaL#getEd <em>Ed</em>}</li>
- *   <li>{@link org.softlang.megal.megaL.MegaL#getRd <em>Rd</em>}</li>
+ *   <li>{@link org.softlang.megal.megaL.MegaLDefinition#getLinker <em>Linker</em>}</li>
+ *   <li>{@link org.softlang.megal.megaL.MegaLDefinition#getImports <em>Imports</em>}</li>
+ *   <li>{@link org.softlang.megal.megaL.MegaLDefinition#getEtd <em>Etd</em>}</li>
+ *   <li>{@link org.softlang.megal.megaL.MegaLDefinition#getRtd <em>Rtd</em>}</li>
+ *   <li>{@link org.softlang.megal.megaL.MegaLDefinition#getEd <em>Ed</em>}</li>
+ *   <li>{@link org.softlang.megal.megaL.MegaLDefinition#getRd <em>Rd</em>}</li>
  * </ul>
  * </p>
  *
- * @see org.softlang.megal.megaL.MegaLPackage#getMegaL()
+ * @see org.softlang.megal.megaL.MegaLPackage#getMegaLDefinition()
  * @model
  * @generated
  */
-public interface MegaL extends EObject
+public interface MegaLDefinition extends Model
 {
   /**
-   * Returns the value of the '<em><b>Name</b></em>' attribute.
+   * Returns the value of the '<em><b>Linker</b></em>' reference.
    * <!-- begin-user-doc -->
    * <p>
-   * If the meaning of the '<em>Name</em>' attribute isn't clear,
+   * If the meaning of the '<em>Linker</em>' reference isn't clear,
    * there really should be more of a description here...
    * </p>
    * <!-- end-user-doc -->
-   * @return the value of the '<em>Name</em>' attribute.
-   * @see #setName(String)
-   * @see org.softlang.megal.megaL.MegaLPackage#getMegaL_Name()
+   * @return the value of the '<em>Linker</em>' reference.
+   * @see #setLinker(MegaLLinking)
+   * @see org.softlang.megal.megaL.MegaLPackage#getMegaLDefinition_Linker()
    * @model
    * @generated
    */
-  String getName();
+  MegaLLinking getLinker();
 
   /**
-   * Sets the value of the '{@link org.softlang.megal.megaL.MegaL#getName <em>Name</em>}' attribute.
+   * Sets the value of the '{@link org.softlang.megal.megaL.MegaLDefinition#getLinker <em>Linker</em>}' reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Name</em>' attribute.
-   * @see #getName()
+   * @param value the new value of the '<em>Linker</em>' reference.
+   * @see #getLinker()
    * @generated
    */
-  void setName(String value);
+  void setLinker(MegaLLinking value);
 
   /**
    * Returns the value of the '<em><b>Imports</b></em>' reference list.
-   * The list contents are of type {@link org.softlang.megal.megaL.MegaL}.
+   * The list contents are of type {@link org.softlang.megal.megaL.MegaLDefinition}.
    * <!-- begin-user-doc -->
    * <p>
    * If the meaning of the '<em>Imports</em>' reference list isn't clear,
@@ -65,11 +63,11 @@ public interface MegaL extends EObject
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Imports</em>' reference list.
-   * @see org.softlang.megal.megaL.MegaLPackage#getMegaL_Imports()
+   * @see org.softlang.megal.megaL.MegaLPackage#getMegaLDefinition_Imports()
    * @model
    * @generated
    */
-  EList<MegaL> getImports();
+  EList<MegaLDefinition> getImports();
 
   /**
    * Returns the value of the '<em><b>Etd</b></em>' containment reference list.
@@ -81,7 +79,7 @@ public interface MegaL extends EObject
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Etd</em>' containment reference list.
-   * @see org.softlang.megal.megaL.MegaLPackage#getMegaL_Etd()
+   * @see org.softlang.megal.megaL.MegaLPackage#getMegaLDefinition_Etd()
    * @model containment="true"
    * @generated
    */
@@ -97,7 +95,7 @@ public interface MegaL extends EObject
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Rtd</em>' containment reference list.
-   * @see org.softlang.megal.megaL.MegaLPackage#getMegaL_Rtd()
+   * @see org.softlang.megal.megaL.MegaLPackage#getMegaLDefinition_Rtd()
    * @model containment="true"
    * @generated
    */
@@ -113,7 +111,7 @@ public interface MegaL extends EObject
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Ed</em>' containment reference list.
-   * @see org.softlang.megal.megaL.MegaLPackage#getMegaL_Ed()
+   * @see org.softlang.megal.megaL.MegaLPackage#getMegaLDefinition_Ed()
    * @model containment="true"
    * @generated
    */
@@ -129,10 +127,10 @@ public interface MegaL extends EObject
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Rd</em>' containment reference list.
-   * @see org.softlang.megal.megaL.MegaLPackage#getMegaL_Rd()
+   * @see org.softlang.megal.megaL.MegaLPackage#getMegaLDefinition_Rd()
    * @model containment="true"
    * @generated
    */
   EList<RD> getRd();
 
-} // MegaL
+} // MegaLDefinition

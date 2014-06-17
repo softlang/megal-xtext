@@ -3,6 +3,12 @@
  */
 package org.softlang.megal.scoping
 
+import org.eclipse.emf.ecore.EReference
+import org.softlang.megal.megaL.ED
+import org.softlang.megal.megaL.ETDDeclared
+import org.eclipse.xtext.scoping.Scopes
+import org.softlang.megal.megaL.MegaLLinking
+
 /**
  * This class contains custom scoping description.
  * 
@@ -12,4 +18,11 @@ package org.softlang.megal.scoping
  */
 class MegaLScopeProvider extends org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider {
 
+	//	def scope_SchemaInstance_declaration(ED it, EReference ref) {
+	//		if (type instanceof ETDDeclared)
+	//			Scopes::scopeFor((type as ETDDeclared).reference.schema)
+	//	}
+	def scope_LD_target(MegaLLinking it, EReference ref) {
+		Scopes::scopeFor(target.ed)
+	}
 }

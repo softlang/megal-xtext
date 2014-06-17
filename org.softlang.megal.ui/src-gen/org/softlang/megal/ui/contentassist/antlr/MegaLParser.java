@@ -37,10 +37,12 @@ public class MegaLParser extends AbstractContentAssistParser {
 			nameMappings = new HashMap<AbstractElement, String>() {
 				private static final long serialVersionUID = 1L;
 				{
-					put(grammarAccess.getMegaLAccess().getAlternatives_2(), "rule__MegaL__Alternatives_2");
+					put(grammarAccess.getModelAccess().getAlternatives(), "rule__Model__Alternatives");
+					put(grammarAccess.getMegaLDefinitionAccess().getAlternatives_3(), "rule__MegaLDefinition__Alternatives_3");
 					put(grammarAccess.getETDRAccess().getAlternatives(), "rule__ETDR__Alternatives");
-					put(grammarAccess.getMegaLAccess().getGroup(), "rule__MegaL__Group__0");
-					put(grammarAccess.getMegaLAccess().getGroup_2_0(), "rule__MegaL__Group_2_0__0");
+					put(grammarAccess.getMegaLDefinitionAccess().getGroup(), "rule__MegaLDefinition__Group__0");
+					put(grammarAccess.getMegaLDefinitionAccess().getGroup_2(), "rule__MegaLDefinition__Group_2__0");
+					put(grammarAccess.getMegaLDefinitionAccess().getGroup_3_0(), "rule__MegaLDefinition__Group_3_0__0");
 					put(grammarAccess.getETDEntityAccess().getGroup(), "rule__ETDEntity__Group__0");
 					put(grammarAccess.getETDAccess().getGroup(), "rule__ETD__Group__0");
 					put(grammarAccess.getRTDAccess().getGroup(), "rule__RTD__Group__0");
@@ -48,12 +50,17 @@ public class MegaLParser extends AbstractContentAssistParser {
 					put(grammarAccess.getRDAccess().getGroup(), "rule__RD__Group__0");
 					put(grammarAccess.getQualifiedIDAccess().getGroup(), "rule__QualifiedID__Group__0");
 					put(grammarAccess.getQualifiedIDAccess().getGroup_1(), "rule__QualifiedID__Group_1__0");
-					put(grammarAccess.getMegaLAccess().getNameAssignment_1(), "rule__MegaL__NameAssignment_1");
-					put(grammarAccess.getMegaLAccess().getImportsAssignment_2_0_1(), "rule__MegaL__ImportsAssignment_2_0_1");
-					put(grammarAccess.getMegaLAccess().getEtdAssignment_2_1(), "rule__MegaL__EtdAssignment_2_1");
-					put(grammarAccess.getMegaLAccess().getRtdAssignment_2_2(), "rule__MegaL__RtdAssignment_2_2");
-					put(grammarAccess.getMegaLAccess().getEdAssignment_2_3(), "rule__MegaL__EdAssignment_2_3");
-					put(grammarAccess.getMegaLAccess().getRdAssignment_2_4(), "rule__MegaL__RdAssignment_2_4");
+					put(grammarAccess.getMegaLLinkingAccess().getGroup(), "rule__MegaLLinking__Group__0");
+					put(grammarAccess.getMegaLLinkingAccess().getGroup_2(), "rule__MegaLLinking__Group_2__0");
+					put(grammarAccess.getLDAccess().getGroup(), "rule__LD__Group__0");
+					put(grammarAccess.getLDAccess().getGroup_1(), "rule__LD__Group_1__0");
+					put(grammarAccess.getMegaLDefinitionAccess().getNameAssignment_1(), "rule__MegaLDefinition__NameAssignment_1");
+					put(grammarAccess.getMegaLDefinitionAccess().getLinkerAssignment_2_2(), "rule__MegaLDefinition__LinkerAssignment_2_2");
+					put(grammarAccess.getMegaLDefinitionAccess().getImportsAssignment_3_0_1(), "rule__MegaLDefinition__ImportsAssignment_3_0_1");
+					put(grammarAccess.getMegaLDefinitionAccess().getEtdAssignment_3_1(), "rule__MegaLDefinition__EtdAssignment_3_1");
+					put(grammarAccess.getMegaLDefinitionAccess().getRtdAssignment_3_2(), "rule__MegaLDefinition__RtdAssignment_3_2");
+					put(grammarAccess.getMegaLDefinitionAccess().getEdAssignment_3_3(), "rule__MegaLDefinition__EdAssignment_3_3");
+					put(grammarAccess.getMegaLDefinitionAccess().getRdAssignment_3_4(), "rule__MegaLDefinition__RdAssignment_3_4");
 					put(grammarAccess.getETDDeclaredAccess().getReferenceAssignment(), "rule__ETDDeclared__ReferenceAssignment");
 					put(grammarAccess.getETDAccess().getNameAssignment_0(), "rule__ETD__NameAssignment_0");
 					put(grammarAccess.getETDAccess().getSupertypeAssignment_2(), "rule__ETD__SupertypeAssignment_2");
@@ -65,6 +72,12 @@ public class MegaLParser extends AbstractContentAssistParser {
 					put(grammarAccess.getRDAccess().getSourceAssignment_0(), "rule__RD__SourceAssignment_0");
 					put(grammarAccess.getRDAccess().getRelAssignment_1(), "rule__RD__RelAssignment_1");
 					put(grammarAccess.getRDAccess().getTargetAssignment_2(), "rule__RD__TargetAssignment_2");
+					put(grammarAccess.getMegaLLinkingAccess().getNameAssignment_1(), "rule__MegaLLinking__NameAssignment_1");
+					put(grammarAccess.getMegaLLinkingAccess().getTargetAssignment_2_1(), "rule__MegaLLinking__TargetAssignment_2_1");
+					put(grammarAccess.getMegaLLinkingAccess().getLinksAssignment_3(), "rule__MegaLLinking__LinksAssignment_3");
+					put(grammarAccess.getLDAccess().getTargetAssignment_0(), "rule__LD__TargetAssignment_0");
+					put(grammarAccess.getLDAccess().getKeyAssignment_1_1(), "rule__LD__KeyAssignment_1_1");
+					put(grammarAccess.getLDAccess().getValueAssignment_3(), "rule__LD__ValueAssignment_3");
 				}
 			};
 		}
@@ -75,7 +88,7 @@ public class MegaLParser extends AbstractContentAssistParser {
 	protected Collection<FollowElement> getFollowElements(AbstractInternalContentAssistParser parser) {
 		try {
 			org.softlang.megal.ui.contentassist.antlr.internal.InternalMegaLParser typedParser = (org.softlang.megal.ui.contentassist.antlr.internal.InternalMegaLParser) parser;
-			typedParser.entryRuleMegaL();
+			typedParser.entryRuleModel();
 			return typedParser.getFollowElements();
 		} catch(RecognitionException ex) {
 			throw new RuntimeException(ex);

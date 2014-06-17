@@ -72,10 +72,18 @@ public class MegaLSwitch<T> extends Switch<T>
   {
     switch (classifierID)
     {
-      case MegaLPackage.MEGA_L:
+      case MegaLPackage.MODEL:
       {
-        MegaL megaL = (MegaL)theEObject;
-        T result = caseMegaL(megaL);
+        Model model = (Model)theEObject;
+        T result = caseModel(model);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case MegaLPackage.MEGA_LDEFINITION:
+      {
+        MegaLDefinition megaLDefinition = (MegaLDefinition)theEObject;
+        T result = caseMegaLDefinition(megaLDefinition);
+        if (result == null) result = caseModel(megaLDefinition);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -130,22 +138,53 @@ public class MegaLSwitch<T> extends Switch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
+      case MegaLPackage.MEGA_LLINKING:
+      {
+        MegaLLinking megaLLinking = (MegaLLinking)theEObject;
+        T result = caseMegaLLinking(megaLLinking);
+        if (result == null) result = caseModel(megaLLinking);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case MegaLPackage.LD:
+      {
+        LD ld = (LD)theEObject;
+        T result = caseLD(ld);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
       default: return defaultCase(theEObject);
     }
   }
 
   /**
-   * Returns the result of interpreting the object as an instance of '<em>Mega L</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Model</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>Mega L</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Model</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public T caseMegaL(MegaL object)
+  public T caseModel(Model object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Definition</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Definition</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseMegaLDefinition(MegaLDefinition object)
   {
     return null;
   }
@@ -258,6 +297,38 @@ public class MegaLSwitch<T> extends Switch<T>
    * @generated
    */
   public T caseRD(RD object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Linking</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Linking</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseMegaLLinking(MegaLLinking object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>LD</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>LD</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseLD(LD object)
   {
     return null;
   }

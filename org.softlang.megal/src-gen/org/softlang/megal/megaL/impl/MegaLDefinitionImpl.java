@@ -13,7 +13,6 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
@@ -21,50 +20,41 @@ import org.eclipse.emf.ecore.util.InternalEList;
 
 import org.softlang.megal.megaL.ED;
 import org.softlang.megal.megaL.ETD;
-import org.softlang.megal.megaL.MegaL;
+import org.softlang.megal.megaL.MegaLDefinition;
+import org.softlang.megal.megaL.MegaLLinking;
 import org.softlang.megal.megaL.MegaLPackage;
 import org.softlang.megal.megaL.RD;
 import org.softlang.megal.megaL.RTD;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Mega L</b></em>'.
+ * An implementation of the model object '<em><b>Definition</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.softlang.megal.megaL.impl.MegaLImpl#getName <em>Name</em>}</li>
- *   <li>{@link org.softlang.megal.megaL.impl.MegaLImpl#getImports <em>Imports</em>}</li>
- *   <li>{@link org.softlang.megal.megaL.impl.MegaLImpl#getEtd <em>Etd</em>}</li>
- *   <li>{@link org.softlang.megal.megaL.impl.MegaLImpl#getRtd <em>Rtd</em>}</li>
- *   <li>{@link org.softlang.megal.megaL.impl.MegaLImpl#getEd <em>Ed</em>}</li>
- *   <li>{@link org.softlang.megal.megaL.impl.MegaLImpl#getRd <em>Rd</em>}</li>
+ *   <li>{@link org.softlang.megal.megaL.impl.MegaLDefinitionImpl#getLinker <em>Linker</em>}</li>
+ *   <li>{@link org.softlang.megal.megaL.impl.MegaLDefinitionImpl#getImports <em>Imports</em>}</li>
+ *   <li>{@link org.softlang.megal.megaL.impl.MegaLDefinitionImpl#getEtd <em>Etd</em>}</li>
+ *   <li>{@link org.softlang.megal.megaL.impl.MegaLDefinitionImpl#getRtd <em>Rtd</em>}</li>
+ *   <li>{@link org.softlang.megal.megaL.impl.MegaLDefinitionImpl#getEd <em>Ed</em>}</li>
+ *   <li>{@link org.softlang.megal.megaL.impl.MegaLDefinitionImpl#getRd <em>Rd</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class MegaLImpl extends MinimalEObjectImpl.Container implements MegaL
+public class MegaLDefinitionImpl extends ModelImpl implements MegaLDefinition
 {
   /**
-   * The default value of the '{@link #getName() <em>Name</em>}' attribute.
+   * The cached value of the '{@link #getLinker() <em>Linker</em>}' reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getName()
+   * @see #getLinker()
    * @generated
    * @ordered
    */
-  protected static final String NAME_EDEFAULT = null;
-
-  /**
-   * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #getName()
-   * @generated
-   * @ordered
-   */
-  protected String name = NAME_EDEFAULT;
+  protected MegaLLinking linker;
 
   /**
    * The cached value of the '{@link #getImports() <em>Imports</em>}' reference list.
@@ -74,7 +64,7 @@ public class MegaLImpl extends MinimalEObjectImpl.Container implements MegaL
    * @generated
    * @ordered
    */
-  protected EList<MegaL> imports;
+  protected EList<MegaLDefinition> imports;
 
   /**
    * The cached value of the '{@link #getEtd() <em>Etd</em>}' containment reference list.
@@ -121,7 +111,7 @@ public class MegaLImpl extends MinimalEObjectImpl.Container implements MegaL
    * <!-- end-user-doc -->
    * @generated
    */
-  protected MegaLImpl()
+  protected MegaLDefinitionImpl()
   {
     super();
   }
@@ -134,7 +124,7 @@ public class MegaLImpl extends MinimalEObjectImpl.Container implements MegaL
   @Override
   protected EClass eStaticClass()
   {
-    return MegaLPackage.Literals.MEGA_L;
+    return MegaLPackage.Literals.MEGA_LDEFINITION;
   }
 
   /**
@@ -142,9 +132,19 @@ public class MegaLImpl extends MinimalEObjectImpl.Container implements MegaL
    * <!-- end-user-doc -->
    * @generated
    */
-  public String getName()
+  public MegaLLinking getLinker()
   {
-    return name;
+    if (linker != null && linker.eIsProxy())
+    {
+      InternalEObject oldLinker = (InternalEObject)linker;
+      linker = (MegaLLinking)eResolveProxy(oldLinker);
+      if (linker != oldLinker)
+      {
+        if (eNotificationRequired())
+          eNotify(new ENotificationImpl(this, Notification.RESOLVE, MegaLPackage.MEGA_LDEFINITION__LINKER, oldLinker, linker));
+      }
+    }
+    return linker;
   }
 
   /**
@@ -152,12 +152,22 @@ public class MegaLImpl extends MinimalEObjectImpl.Container implements MegaL
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setName(String newName)
+  public MegaLLinking basicGetLinker()
   {
-    String oldName = name;
-    name = newName;
+    return linker;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setLinker(MegaLLinking newLinker)
+  {
+    MegaLLinking oldLinker = linker;
+    linker = newLinker;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, MegaLPackage.MEGA_L__NAME, oldName, name));
+      eNotify(new ENotificationImpl(this, Notification.SET, MegaLPackage.MEGA_LDEFINITION__LINKER, oldLinker, linker));
   }
 
   /**
@@ -165,11 +175,11 @@ public class MegaLImpl extends MinimalEObjectImpl.Container implements MegaL
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList<MegaL> getImports()
+  public EList<MegaLDefinition> getImports()
   {
     if (imports == null)
     {
-      imports = new EObjectResolvingEList<MegaL>(MegaL.class, this, MegaLPackage.MEGA_L__IMPORTS);
+      imports = new EObjectResolvingEList<MegaLDefinition>(MegaLDefinition.class, this, MegaLPackage.MEGA_LDEFINITION__IMPORTS);
     }
     return imports;
   }
@@ -183,7 +193,7 @@ public class MegaLImpl extends MinimalEObjectImpl.Container implements MegaL
   {
     if (etd == null)
     {
-      etd = new EObjectContainmentEList<ETD>(ETD.class, this, MegaLPackage.MEGA_L__ETD);
+      etd = new EObjectContainmentEList<ETD>(ETD.class, this, MegaLPackage.MEGA_LDEFINITION__ETD);
     }
     return etd;
   }
@@ -197,7 +207,7 @@ public class MegaLImpl extends MinimalEObjectImpl.Container implements MegaL
   {
     if (rtd == null)
     {
-      rtd = new EObjectContainmentEList<RTD>(RTD.class, this, MegaLPackage.MEGA_L__RTD);
+      rtd = new EObjectContainmentEList<RTD>(RTD.class, this, MegaLPackage.MEGA_LDEFINITION__RTD);
     }
     return rtd;
   }
@@ -211,7 +221,7 @@ public class MegaLImpl extends MinimalEObjectImpl.Container implements MegaL
   {
     if (ed == null)
     {
-      ed = new EObjectContainmentEList<ED>(ED.class, this, MegaLPackage.MEGA_L__ED);
+      ed = new EObjectContainmentEList<ED>(ED.class, this, MegaLPackage.MEGA_LDEFINITION__ED);
     }
     return ed;
   }
@@ -225,7 +235,7 @@ public class MegaLImpl extends MinimalEObjectImpl.Container implements MegaL
   {
     if (rd == null)
     {
-      rd = new EObjectContainmentEList<RD>(RD.class, this, MegaLPackage.MEGA_L__RD);
+      rd = new EObjectContainmentEList<RD>(RD.class, this, MegaLPackage.MEGA_LDEFINITION__RD);
     }
     return rd;
   }
@@ -240,13 +250,13 @@ public class MegaLImpl extends MinimalEObjectImpl.Container implements MegaL
   {
     switch (featureID)
     {
-      case MegaLPackage.MEGA_L__ETD:
+      case MegaLPackage.MEGA_LDEFINITION__ETD:
         return ((InternalEList<?>)getEtd()).basicRemove(otherEnd, msgs);
-      case MegaLPackage.MEGA_L__RTD:
+      case MegaLPackage.MEGA_LDEFINITION__RTD:
         return ((InternalEList<?>)getRtd()).basicRemove(otherEnd, msgs);
-      case MegaLPackage.MEGA_L__ED:
+      case MegaLPackage.MEGA_LDEFINITION__ED:
         return ((InternalEList<?>)getEd()).basicRemove(otherEnd, msgs);
-      case MegaLPackage.MEGA_L__RD:
+      case MegaLPackage.MEGA_LDEFINITION__RD:
         return ((InternalEList<?>)getRd()).basicRemove(otherEnd, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
@@ -262,17 +272,18 @@ public class MegaLImpl extends MinimalEObjectImpl.Container implements MegaL
   {
     switch (featureID)
     {
-      case MegaLPackage.MEGA_L__NAME:
-        return getName();
-      case MegaLPackage.MEGA_L__IMPORTS:
+      case MegaLPackage.MEGA_LDEFINITION__LINKER:
+        if (resolve) return getLinker();
+        return basicGetLinker();
+      case MegaLPackage.MEGA_LDEFINITION__IMPORTS:
         return getImports();
-      case MegaLPackage.MEGA_L__ETD:
+      case MegaLPackage.MEGA_LDEFINITION__ETD:
         return getEtd();
-      case MegaLPackage.MEGA_L__RTD:
+      case MegaLPackage.MEGA_LDEFINITION__RTD:
         return getRtd();
-      case MegaLPackage.MEGA_L__ED:
+      case MegaLPackage.MEGA_LDEFINITION__ED:
         return getEd();
-      case MegaLPackage.MEGA_L__RD:
+      case MegaLPackage.MEGA_LDEFINITION__RD:
         return getRd();
     }
     return super.eGet(featureID, resolve, coreType);
@@ -289,26 +300,26 @@ public class MegaLImpl extends MinimalEObjectImpl.Container implements MegaL
   {
     switch (featureID)
     {
-      case MegaLPackage.MEGA_L__NAME:
-        setName((String)newValue);
+      case MegaLPackage.MEGA_LDEFINITION__LINKER:
+        setLinker((MegaLLinking)newValue);
         return;
-      case MegaLPackage.MEGA_L__IMPORTS:
+      case MegaLPackage.MEGA_LDEFINITION__IMPORTS:
         getImports().clear();
-        getImports().addAll((Collection<? extends MegaL>)newValue);
+        getImports().addAll((Collection<? extends MegaLDefinition>)newValue);
         return;
-      case MegaLPackage.MEGA_L__ETD:
+      case MegaLPackage.MEGA_LDEFINITION__ETD:
         getEtd().clear();
         getEtd().addAll((Collection<? extends ETD>)newValue);
         return;
-      case MegaLPackage.MEGA_L__RTD:
+      case MegaLPackage.MEGA_LDEFINITION__RTD:
         getRtd().clear();
         getRtd().addAll((Collection<? extends RTD>)newValue);
         return;
-      case MegaLPackage.MEGA_L__ED:
+      case MegaLPackage.MEGA_LDEFINITION__ED:
         getEd().clear();
         getEd().addAll((Collection<? extends ED>)newValue);
         return;
-      case MegaLPackage.MEGA_L__RD:
+      case MegaLPackage.MEGA_LDEFINITION__RD:
         getRd().clear();
         getRd().addAll((Collection<? extends RD>)newValue);
         return;
@@ -326,22 +337,22 @@ public class MegaLImpl extends MinimalEObjectImpl.Container implements MegaL
   {
     switch (featureID)
     {
-      case MegaLPackage.MEGA_L__NAME:
-        setName(NAME_EDEFAULT);
+      case MegaLPackage.MEGA_LDEFINITION__LINKER:
+        setLinker((MegaLLinking)null);
         return;
-      case MegaLPackage.MEGA_L__IMPORTS:
+      case MegaLPackage.MEGA_LDEFINITION__IMPORTS:
         getImports().clear();
         return;
-      case MegaLPackage.MEGA_L__ETD:
+      case MegaLPackage.MEGA_LDEFINITION__ETD:
         getEtd().clear();
         return;
-      case MegaLPackage.MEGA_L__RTD:
+      case MegaLPackage.MEGA_LDEFINITION__RTD:
         getRtd().clear();
         return;
-      case MegaLPackage.MEGA_L__ED:
+      case MegaLPackage.MEGA_LDEFINITION__ED:
         getEd().clear();
         return;
-      case MegaLPackage.MEGA_L__RD:
+      case MegaLPackage.MEGA_LDEFINITION__RD:
         getRd().clear();
         return;
     }
@@ -358,37 +369,20 @@ public class MegaLImpl extends MinimalEObjectImpl.Container implements MegaL
   {
     switch (featureID)
     {
-      case MegaLPackage.MEGA_L__NAME:
-        return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-      case MegaLPackage.MEGA_L__IMPORTS:
+      case MegaLPackage.MEGA_LDEFINITION__LINKER:
+        return linker != null;
+      case MegaLPackage.MEGA_LDEFINITION__IMPORTS:
         return imports != null && !imports.isEmpty();
-      case MegaLPackage.MEGA_L__ETD:
+      case MegaLPackage.MEGA_LDEFINITION__ETD:
         return etd != null && !etd.isEmpty();
-      case MegaLPackage.MEGA_L__RTD:
+      case MegaLPackage.MEGA_LDEFINITION__RTD:
         return rtd != null && !rtd.isEmpty();
-      case MegaLPackage.MEGA_L__ED:
+      case MegaLPackage.MEGA_LDEFINITION__ED:
         return ed != null && !ed.isEmpty();
-      case MegaLPackage.MEGA_L__RD:
+      case MegaLPackage.MEGA_LDEFINITION__RD:
         return rd != null && !rd.isEmpty();
     }
     return super.eIsSet(featureID);
   }
 
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public String toString()
-  {
-    if (eIsProxy()) return super.toString();
-
-    StringBuffer result = new StringBuffer(super.toString());
-    result.append(" (name: ");
-    result.append(name);
-    result.append(')');
-    return result.toString();
-  }
-
-} //MegaLImpl
+} //MegaLDefinitionImpl

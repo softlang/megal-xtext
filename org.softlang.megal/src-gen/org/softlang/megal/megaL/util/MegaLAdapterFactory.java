@@ -75,9 +75,14 @@ public class MegaLAdapterFactory extends AdapterFactoryImpl
     new MegaLSwitch<Adapter>()
     {
       @Override
-      public Adapter caseMegaL(MegaL object)
+      public Adapter caseModel(Model object)
       {
-        return createMegaLAdapter();
+        return createModelAdapter();
+      }
+      @Override
+      public Adapter caseMegaLDefinition(MegaLDefinition object)
+      {
+        return createMegaLDefinitionAdapter();
       }
       @Override
       public Adapter caseETDR(ETDR object)
@@ -115,6 +120,16 @@ public class MegaLAdapterFactory extends AdapterFactoryImpl
         return createRDAdapter();
       }
       @Override
+      public Adapter caseMegaLLinking(MegaLLinking object)
+      {
+        return createMegaLLinkingAdapter();
+      }
+      @Override
+      public Adapter caseLD(LD object)
+      {
+        return createLDAdapter();
+      }
+      @Override
       public Adapter defaultCase(EObject object)
       {
         return createEObjectAdapter();
@@ -137,16 +152,31 @@ public class MegaLAdapterFactory extends AdapterFactoryImpl
 
 
   /**
-   * Creates a new adapter for an object of class '{@link org.softlang.megal.megaL.MegaL <em>Mega L</em>}'.
+   * Creates a new adapter for an object of class '{@link org.softlang.megal.megaL.Model <em>Model</em>}'.
    * <!-- begin-user-doc -->
    * This default implementation returns null so that we can easily ignore cases;
    * it's useful to ignore a case when inheritance will catch all the cases anyway.
    * <!-- end-user-doc -->
    * @return the new adapter.
-   * @see org.softlang.megal.megaL.MegaL
+   * @see org.softlang.megal.megaL.Model
    * @generated
    */
-  public Adapter createMegaLAdapter()
+  public Adapter createModelAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link org.softlang.megal.megaL.MegaLDefinition <em>Definition</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see org.softlang.megal.megaL.MegaLDefinition
+   * @generated
+   */
+  public Adapter createMegaLDefinitionAdapter()
   {
     return null;
   }
@@ -252,6 +282,36 @@ public class MegaLAdapterFactory extends AdapterFactoryImpl
    * @generated
    */
   public Adapter createRDAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link org.softlang.megal.megaL.MegaLLinking <em>Linking</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see org.softlang.megal.megaL.MegaLLinking
+   * @generated
+   */
+  public Adapter createMegaLLinkingAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link org.softlang.megal.megaL.LD <em>LD</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see org.softlang.megal.megaL.LD
+   * @generated
+   */
+  public Adapter createLDAdapter()
   {
     return null;
   }

@@ -57,14 +57,14 @@ public interface MegaLPackage extends EPackage
   MegaLPackage eINSTANCE = org.softlang.megal.megaL.impl.MegaLPackageImpl.init();
 
   /**
-   * The meta object id for the '{@link org.softlang.megal.megaL.impl.MegaLImpl <em>Mega L</em>}' class.
+   * The meta object id for the '{@link org.softlang.megal.megaL.impl.ModelImpl <em>Model</em>}' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see org.softlang.megal.megaL.impl.MegaLImpl
-   * @see org.softlang.megal.megaL.impl.MegaLPackageImpl#getMegaL()
+   * @see org.softlang.megal.megaL.impl.ModelImpl
+   * @see org.softlang.megal.megaL.impl.MegaLPackageImpl#getModel()
    * @generated
    */
-  int MEGA_L = 0;
+  int MODEL = 0;
 
   /**
    * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -73,7 +73,44 @@ public interface MegaLPackage extends EPackage
    * @generated
    * @ordered
    */
-  int MEGA_L__NAME = 0;
+  int MODEL__NAME = 0;
+
+  /**
+   * The number of structural features of the '<em>Model</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int MODEL_FEATURE_COUNT = 1;
+
+  /**
+   * The meta object id for the '{@link org.softlang.megal.megaL.impl.MegaLDefinitionImpl <em>Definition</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see org.softlang.megal.megaL.impl.MegaLDefinitionImpl
+   * @see org.softlang.megal.megaL.impl.MegaLPackageImpl#getMegaLDefinition()
+   * @generated
+   */
+  int MEGA_LDEFINITION = 1;
+
+  /**
+   * The feature id for the '<em><b>Name</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int MEGA_LDEFINITION__NAME = MODEL__NAME;
+
+  /**
+   * The feature id for the '<em><b>Linker</b></em>' reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int MEGA_LDEFINITION__LINKER = MODEL_FEATURE_COUNT + 0;
 
   /**
    * The feature id for the '<em><b>Imports</b></em>' reference list.
@@ -82,7 +119,7 @@ public interface MegaLPackage extends EPackage
    * @generated
    * @ordered
    */
-  int MEGA_L__IMPORTS = 1;
+  int MEGA_LDEFINITION__IMPORTS = MODEL_FEATURE_COUNT + 1;
 
   /**
    * The feature id for the '<em><b>Etd</b></em>' containment reference list.
@@ -91,7 +128,7 @@ public interface MegaLPackage extends EPackage
    * @generated
    * @ordered
    */
-  int MEGA_L__ETD = 2;
+  int MEGA_LDEFINITION__ETD = MODEL_FEATURE_COUNT + 2;
 
   /**
    * The feature id for the '<em><b>Rtd</b></em>' containment reference list.
@@ -100,7 +137,7 @@ public interface MegaLPackage extends EPackage
    * @generated
    * @ordered
    */
-  int MEGA_L__RTD = 3;
+  int MEGA_LDEFINITION__RTD = MODEL_FEATURE_COUNT + 3;
 
   /**
    * The feature id for the '<em><b>Ed</b></em>' containment reference list.
@@ -109,7 +146,7 @@ public interface MegaLPackage extends EPackage
    * @generated
    * @ordered
    */
-  int MEGA_L__ED = 4;
+  int MEGA_LDEFINITION__ED = MODEL_FEATURE_COUNT + 4;
 
   /**
    * The feature id for the '<em><b>Rd</b></em>' containment reference list.
@@ -118,16 +155,16 @@ public interface MegaLPackage extends EPackage
    * @generated
    * @ordered
    */
-  int MEGA_L__RD = 5;
+  int MEGA_LDEFINITION__RD = MODEL_FEATURE_COUNT + 5;
 
   /**
-   * The number of structural features of the '<em>Mega L</em>' class.
+   * The number of structural features of the '<em>Definition</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int MEGA_L_FEATURE_COUNT = 6;
+  int MEGA_LDEFINITION_FEATURE_COUNT = MODEL_FEATURE_COUNT + 6;
 
   /**
    * The meta object id for the '{@link org.softlang.megal.megaL.impl.ETDRImpl <em>ETDR</em>}' class.
@@ -137,7 +174,7 @@ public interface MegaLPackage extends EPackage
    * @see org.softlang.megal.megaL.impl.MegaLPackageImpl#getETDR()
    * @generated
    */
-  int ETDR = 1;
+  int ETDR = 2;
 
   /**
    * The number of structural features of the '<em>ETDR</em>' class.
@@ -156,7 +193,7 @@ public interface MegaLPackage extends EPackage
    * @see org.softlang.megal.megaL.impl.MegaLPackageImpl#getETDEntity()
    * @generated
    */
-  int ETD_ENTITY = 2;
+  int ETD_ENTITY = 3;
 
   /**
    * The number of structural features of the '<em>ETD Entity</em>' class.
@@ -175,7 +212,7 @@ public interface MegaLPackage extends EPackage
    * @see org.softlang.megal.megaL.impl.MegaLPackageImpl#getETDDeclared()
    * @generated
    */
-  int ETD_DECLARED = 3;
+  int ETD_DECLARED = 4;
 
   /**
    * The feature id for the '<em><b>Reference</b></em>' reference.
@@ -203,7 +240,7 @@ public interface MegaLPackage extends EPackage
    * @see org.softlang.megal.megaL.impl.MegaLPackageImpl#getETD()
    * @generated
    */
-  int ETD = 4;
+  int ETD = 5;
 
   /**
    * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -240,7 +277,7 @@ public interface MegaLPackage extends EPackage
    * @see org.softlang.megal.megaL.impl.MegaLPackageImpl#getRTD()
    * @generated
    */
-  int RTD = 5;
+  int RTD = 6;
 
   /**
    * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -286,7 +323,7 @@ public interface MegaLPackage extends EPackage
    * @see org.softlang.megal.megaL.impl.MegaLPackageImpl#getED()
    * @generated
    */
-  int ED = 6;
+  int ED = 7;
 
   /**
    * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -323,7 +360,7 @@ public interface MegaLPackage extends EPackage
    * @see org.softlang.megal.megaL.impl.MegaLPackageImpl#getRD()
    * @generated
    */
-  int RD = 7;
+  int RD = 8;
 
   /**
    * The feature id for the '<em><b>Source</b></em>' reference.
@@ -361,82 +398,195 @@ public interface MegaLPackage extends EPackage
    */
   int RD_FEATURE_COUNT = 3;
 
-
   /**
-   * Returns the meta object for class '{@link org.softlang.megal.megaL.MegaL <em>Mega L</em>}'.
+   * The meta object id for the '{@link org.softlang.megal.megaL.impl.MegaLLinkingImpl <em>Linking</em>}' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for class '<em>Mega L</em>'.
-   * @see org.softlang.megal.megaL.MegaL
+   * @see org.softlang.megal.megaL.impl.MegaLLinkingImpl
+   * @see org.softlang.megal.megaL.impl.MegaLPackageImpl#getMegaLLinking()
    * @generated
    */
-  EClass getMegaL();
+  int MEGA_LLINKING = 9;
 
   /**
-   * Returns the meta object for the attribute '{@link org.softlang.megal.megaL.MegaL#getName <em>Name</em>}'.
+   * The feature id for the '<em><b>Name</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int MEGA_LLINKING__NAME = MODEL__NAME;
+
+  /**
+   * The feature id for the '<em><b>Target</b></em>' reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int MEGA_LLINKING__TARGET = MODEL_FEATURE_COUNT + 0;
+
+  /**
+   * The feature id for the '<em><b>Links</b></em>' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int MEGA_LLINKING__LINKS = MODEL_FEATURE_COUNT + 1;
+
+  /**
+   * The number of structural features of the '<em>Linking</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int MEGA_LLINKING_FEATURE_COUNT = MODEL_FEATURE_COUNT + 2;
+
+  /**
+   * The meta object id for the '{@link org.softlang.megal.megaL.impl.LDImpl <em>LD</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see org.softlang.megal.megaL.impl.LDImpl
+   * @see org.softlang.megal.megaL.impl.MegaLPackageImpl#getLD()
+   * @generated
+   */
+  int LD = 10;
+
+  /**
+   * The feature id for the '<em><b>Target</b></em>' reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int LD__TARGET = 0;
+
+  /**
+   * The feature id for the '<em><b>Key</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int LD__KEY = 1;
+
+  /**
+   * The feature id for the '<em><b>Value</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int LD__VALUE = 2;
+
+  /**
+   * The number of structural features of the '<em>LD</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int LD_FEATURE_COUNT = 3;
+
+
+  /**
+   * Returns the meta object for class '{@link org.softlang.megal.megaL.Model <em>Model</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>Model</em>'.
+   * @see org.softlang.megal.megaL.Model
+   * @generated
+   */
+  EClass getModel();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.softlang.megal.megaL.Model#getName <em>Name</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for the attribute '<em>Name</em>'.
-   * @see org.softlang.megal.megaL.MegaL#getName()
-   * @see #getMegaL()
+   * @see org.softlang.megal.megaL.Model#getName()
+   * @see #getModel()
    * @generated
    */
-  EAttribute getMegaL_Name();
+  EAttribute getModel_Name();
 
   /**
-   * Returns the meta object for the reference list '{@link org.softlang.megal.megaL.MegaL#getImports <em>Imports</em>}'.
+   * Returns the meta object for class '{@link org.softlang.megal.megaL.MegaLDefinition <em>Definition</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>Definition</em>'.
+   * @see org.softlang.megal.megaL.MegaLDefinition
+   * @generated
+   */
+  EClass getMegaLDefinition();
+
+  /**
+   * Returns the meta object for the reference '{@link org.softlang.megal.megaL.MegaLDefinition#getLinker <em>Linker</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the reference '<em>Linker</em>'.
+   * @see org.softlang.megal.megaL.MegaLDefinition#getLinker()
+   * @see #getMegaLDefinition()
+   * @generated
+   */
+  EReference getMegaLDefinition_Linker();
+
+  /**
+   * Returns the meta object for the reference list '{@link org.softlang.megal.megaL.MegaLDefinition#getImports <em>Imports</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for the reference list '<em>Imports</em>'.
-   * @see org.softlang.megal.megaL.MegaL#getImports()
-   * @see #getMegaL()
+   * @see org.softlang.megal.megaL.MegaLDefinition#getImports()
+   * @see #getMegaLDefinition()
    * @generated
    */
-  EReference getMegaL_Imports();
+  EReference getMegaLDefinition_Imports();
 
   /**
-   * Returns the meta object for the containment reference list '{@link org.softlang.megal.megaL.MegaL#getEtd <em>Etd</em>}'.
+   * Returns the meta object for the containment reference list '{@link org.softlang.megal.megaL.MegaLDefinition#getEtd <em>Etd</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for the containment reference list '<em>Etd</em>'.
-   * @see org.softlang.megal.megaL.MegaL#getEtd()
-   * @see #getMegaL()
+   * @see org.softlang.megal.megaL.MegaLDefinition#getEtd()
+   * @see #getMegaLDefinition()
    * @generated
    */
-  EReference getMegaL_Etd();
+  EReference getMegaLDefinition_Etd();
 
   /**
-   * Returns the meta object for the containment reference list '{@link org.softlang.megal.megaL.MegaL#getRtd <em>Rtd</em>}'.
+   * Returns the meta object for the containment reference list '{@link org.softlang.megal.megaL.MegaLDefinition#getRtd <em>Rtd</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for the containment reference list '<em>Rtd</em>'.
-   * @see org.softlang.megal.megaL.MegaL#getRtd()
-   * @see #getMegaL()
+   * @see org.softlang.megal.megaL.MegaLDefinition#getRtd()
+   * @see #getMegaLDefinition()
    * @generated
    */
-  EReference getMegaL_Rtd();
+  EReference getMegaLDefinition_Rtd();
 
   /**
-   * Returns the meta object for the containment reference list '{@link org.softlang.megal.megaL.MegaL#getEd <em>Ed</em>}'.
+   * Returns the meta object for the containment reference list '{@link org.softlang.megal.megaL.MegaLDefinition#getEd <em>Ed</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for the containment reference list '<em>Ed</em>'.
-   * @see org.softlang.megal.megaL.MegaL#getEd()
-   * @see #getMegaL()
+   * @see org.softlang.megal.megaL.MegaLDefinition#getEd()
+   * @see #getMegaLDefinition()
    * @generated
    */
-  EReference getMegaL_Ed();
+  EReference getMegaLDefinition_Ed();
 
   /**
-   * Returns the meta object for the containment reference list '{@link org.softlang.megal.megaL.MegaL#getRd <em>Rd</em>}'.
+   * Returns the meta object for the containment reference list '{@link org.softlang.megal.megaL.MegaLDefinition#getRd <em>Rd</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for the containment reference list '<em>Rd</em>'.
-   * @see org.softlang.megal.megaL.MegaL#getRd()
-   * @see #getMegaL()
+   * @see org.softlang.megal.megaL.MegaLDefinition#getRd()
+   * @see #getMegaLDefinition()
    * @generated
    */
-  EReference getMegaL_Rd();
+  EReference getMegaLDefinition_Rd();
 
   /**
    * Returns the meta object for class '{@link org.softlang.megal.megaL.ETDR <em>ETDR</em>}'.
@@ -630,6 +780,81 @@ public interface MegaLPackage extends EPackage
   EReference getRD_Target();
 
   /**
+   * Returns the meta object for class '{@link org.softlang.megal.megaL.MegaLLinking <em>Linking</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>Linking</em>'.
+   * @see org.softlang.megal.megaL.MegaLLinking
+   * @generated
+   */
+  EClass getMegaLLinking();
+
+  /**
+   * Returns the meta object for the reference '{@link org.softlang.megal.megaL.MegaLLinking#getTarget <em>Target</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the reference '<em>Target</em>'.
+   * @see org.softlang.megal.megaL.MegaLLinking#getTarget()
+   * @see #getMegaLLinking()
+   * @generated
+   */
+  EReference getMegaLLinking_Target();
+
+  /**
+   * Returns the meta object for the containment reference list '{@link org.softlang.megal.megaL.MegaLLinking#getLinks <em>Links</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference list '<em>Links</em>'.
+   * @see org.softlang.megal.megaL.MegaLLinking#getLinks()
+   * @see #getMegaLLinking()
+   * @generated
+   */
+  EReference getMegaLLinking_Links();
+
+  /**
+   * Returns the meta object for class '{@link org.softlang.megal.megaL.LD <em>LD</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>LD</em>'.
+   * @see org.softlang.megal.megaL.LD
+   * @generated
+   */
+  EClass getLD();
+
+  /**
+   * Returns the meta object for the reference '{@link org.softlang.megal.megaL.LD#getTarget <em>Target</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the reference '<em>Target</em>'.
+   * @see org.softlang.megal.megaL.LD#getTarget()
+   * @see #getLD()
+   * @generated
+   */
+  EReference getLD_Target();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.softlang.megal.megaL.LD#getKey <em>Key</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Key</em>'.
+   * @see org.softlang.megal.megaL.LD#getKey()
+   * @see #getLD()
+   * @generated
+   */
+  EAttribute getLD_Key();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.softlang.megal.megaL.LD#getValue <em>Value</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Value</em>'.
+   * @see org.softlang.megal.megaL.LD#getValue()
+   * @see #getLD()
+   * @generated
+   */
+  EAttribute getLD_Value();
+
+  /**
    * Returns the factory that creates the instances of the model.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -653,14 +878,14 @@ public interface MegaLPackage extends EPackage
   interface Literals
   {
     /**
-     * The meta object literal for the '{@link org.softlang.megal.megaL.impl.MegaLImpl <em>Mega L</em>}' class.
+     * The meta object literal for the '{@link org.softlang.megal.megaL.impl.ModelImpl <em>Model</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see org.softlang.megal.megaL.impl.MegaLImpl
-     * @see org.softlang.megal.megaL.impl.MegaLPackageImpl#getMegaL()
+     * @see org.softlang.megal.megaL.impl.ModelImpl
+     * @see org.softlang.megal.megaL.impl.MegaLPackageImpl#getModel()
      * @generated
      */
-    EClass MEGA_L = eINSTANCE.getMegaL();
+    EClass MODEL = eINSTANCE.getModel();
 
     /**
      * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
@@ -668,7 +893,25 @@ public interface MegaLPackage extends EPackage
      * <!-- end-user-doc -->
      * @generated
      */
-    EAttribute MEGA_L__NAME = eINSTANCE.getMegaL_Name();
+    EAttribute MODEL__NAME = eINSTANCE.getModel_Name();
+
+    /**
+     * The meta object literal for the '{@link org.softlang.megal.megaL.impl.MegaLDefinitionImpl <em>Definition</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.softlang.megal.megaL.impl.MegaLDefinitionImpl
+     * @see org.softlang.megal.megaL.impl.MegaLPackageImpl#getMegaLDefinition()
+     * @generated
+     */
+    EClass MEGA_LDEFINITION = eINSTANCE.getMegaLDefinition();
+
+    /**
+     * The meta object literal for the '<em><b>Linker</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference MEGA_LDEFINITION__LINKER = eINSTANCE.getMegaLDefinition_Linker();
 
     /**
      * The meta object literal for the '<em><b>Imports</b></em>' reference list feature.
@@ -676,7 +919,7 @@ public interface MegaLPackage extends EPackage
      * <!-- end-user-doc -->
      * @generated
      */
-    EReference MEGA_L__IMPORTS = eINSTANCE.getMegaL_Imports();
+    EReference MEGA_LDEFINITION__IMPORTS = eINSTANCE.getMegaLDefinition_Imports();
 
     /**
      * The meta object literal for the '<em><b>Etd</b></em>' containment reference list feature.
@@ -684,7 +927,7 @@ public interface MegaLPackage extends EPackage
      * <!-- end-user-doc -->
      * @generated
      */
-    EReference MEGA_L__ETD = eINSTANCE.getMegaL_Etd();
+    EReference MEGA_LDEFINITION__ETD = eINSTANCE.getMegaLDefinition_Etd();
 
     /**
      * The meta object literal for the '<em><b>Rtd</b></em>' containment reference list feature.
@@ -692,7 +935,7 @@ public interface MegaLPackage extends EPackage
      * <!-- end-user-doc -->
      * @generated
      */
-    EReference MEGA_L__RTD = eINSTANCE.getMegaL_Rtd();
+    EReference MEGA_LDEFINITION__RTD = eINSTANCE.getMegaLDefinition_Rtd();
 
     /**
      * The meta object literal for the '<em><b>Ed</b></em>' containment reference list feature.
@@ -700,7 +943,7 @@ public interface MegaLPackage extends EPackage
      * <!-- end-user-doc -->
      * @generated
      */
-    EReference MEGA_L__ED = eINSTANCE.getMegaL_Ed();
+    EReference MEGA_LDEFINITION__ED = eINSTANCE.getMegaLDefinition_Ed();
 
     /**
      * The meta object literal for the '<em><b>Rd</b></em>' containment reference list feature.
@@ -708,7 +951,7 @@ public interface MegaLPackage extends EPackage
      * <!-- end-user-doc -->
      * @generated
      */
-    EReference MEGA_L__RD = eINSTANCE.getMegaL_Rd();
+    EReference MEGA_LDEFINITION__RD = eINSTANCE.getMegaLDefinition_Rd();
 
     /**
      * The meta object literal for the '{@link org.softlang.megal.megaL.impl.ETDRImpl <em>ETDR</em>}' class.
@@ -867,6 +1110,66 @@ public interface MegaLPackage extends EPackage
      * @generated
      */
     EReference RD__TARGET = eINSTANCE.getRD_Target();
+
+    /**
+     * The meta object literal for the '{@link org.softlang.megal.megaL.impl.MegaLLinkingImpl <em>Linking</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.softlang.megal.megaL.impl.MegaLLinkingImpl
+     * @see org.softlang.megal.megaL.impl.MegaLPackageImpl#getMegaLLinking()
+     * @generated
+     */
+    EClass MEGA_LLINKING = eINSTANCE.getMegaLLinking();
+
+    /**
+     * The meta object literal for the '<em><b>Target</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference MEGA_LLINKING__TARGET = eINSTANCE.getMegaLLinking_Target();
+
+    /**
+     * The meta object literal for the '<em><b>Links</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference MEGA_LLINKING__LINKS = eINSTANCE.getMegaLLinking_Links();
+
+    /**
+     * The meta object literal for the '{@link org.softlang.megal.megaL.impl.LDImpl <em>LD</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.softlang.megal.megaL.impl.LDImpl
+     * @see org.softlang.megal.megaL.impl.MegaLPackageImpl#getLD()
+     * @generated
+     */
+    EClass LD = eINSTANCE.getLD();
+
+    /**
+     * The meta object literal for the '<em><b>Target</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference LD__TARGET = eINSTANCE.getLD_Target();
+
+    /**
+     * The meta object literal for the '<em><b>Key</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute LD__KEY = eINSTANCE.getLD_Key();
+
+    /**
+     * The meta object literal for the '<em><b>Value</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute LD__VALUE = eINSTANCE.getLD_Value();
 
   }
 

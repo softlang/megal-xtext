@@ -64,7 +64,8 @@ public class MegaLFactoryImpl extends EFactoryImpl implements MegaLFactory
   {
     switch (eClass.getClassifierID())
     {
-      case MegaLPackage.MEGA_L: return createMegaL();
+      case MegaLPackage.MODEL: return createModel();
+      case MegaLPackage.MEGA_LDEFINITION: return createMegaLDefinition();
       case MegaLPackage.ETDR: return createETDR();
       case MegaLPackage.ETD_ENTITY: return createETDEntity();
       case MegaLPackage.ETD_DECLARED: return createETDDeclared();
@@ -72,6 +73,8 @@ public class MegaLFactoryImpl extends EFactoryImpl implements MegaLFactory
       case MegaLPackage.RTD: return createRTD();
       case MegaLPackage.ED: return createED();
       case MegaLPackage.RD: return createRD();
+      case MegaLPackage.MEGA_LLINKING: return createMegaLLinking();
+      case MegaLPackage.LD: return createLD();
       default:
         throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
     }
@@ -82,10 +85,21 @@ public class MegaLFactoryImpl extends EFactoryImpl implements MegaLFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  public MegaL createMegaL()
+  public Model createModel()
   {
-    MegaLImpl megaL = new MegaLImpl();
-    return megaL;
+    ModelImpl model = new ModelImpl();
+    return model;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public MegaLDefinition createMegaLDefinition()
+  {
+    MegaLDefinitionImpl megaLDefinition = new MegaLDefinitionImpl();
+    return megaLDefinition;
   }
 
   /**
@@ -163,6 +177,28 @@ public class MegaLFactoryImpl extends EFactoryImpl implements MegaLFactory
   {
     RDImpl rd = new RDImpl();
     return rd;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public MegaLLinking createMegaLLinking()
+  {
+    MegaLLinkingImpl megaLLinking = new MegaLLinkingImpl();
+    return megaLLinking;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public LD createLD()
+  {
+    LDImpl ld = new LDImpl();
+    return ld;
   }
 
   /**

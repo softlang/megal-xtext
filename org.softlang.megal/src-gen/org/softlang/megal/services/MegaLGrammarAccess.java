@@ -18,32 +18,60 @@ import org.eclipse.xtext.common.services.TerminalsGrammarAccess;
 public class MegaLGrammarAccess extends AbstractGrammarElementFinder {
 	
 	
-	public class MegaLElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "MegaL");
+	public class ModelElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "Model");
+		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
+		private final RuleCall cMegaLDefinitionParserRuleCall_0 = (RuleCall)cAlternatives.eContents().get(0);
+		private final RuleCall cMegaLLinkingParserRuleCall_1 = (RuleCall)cAlternatives.eContents().get(1);
+		
+		//Model:
+		//	MegaLDefinition | MegaLLinking;
+		public ParserRule getRule() { return rule; }
+
+		//MegaLDefinition | MegaLLinking
+		public Alternatives getAlternatives() { return cAlternatives; }
+
+		//MegaLDefinition
+		public RuleCall getMegaLDefinitionParserRuleCall_0() { return cMegaLDefinitionParserRuleCall_0; }
+
+		//MegaLLinking
+		public RuleCall getMegaLLinkingParserRuleCall_1() { return cMegaLLinkingParserRuleCall_1; }
+	}
+
+	public class MegaLDefinitionElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "MegaLDefinition");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Keyword cModelKeyword_0 = (Keyword)cGroup.eContents().get(0);
 		private final Assignment cNameAssignment_1 = (Assignment)cGroup.eContents().get(1);
 		private final RuleCall cNameQualifiedIDParserRuleCall_1_0 = (RuleCall)cNameAssignment_1.eContents().get(0);
-		private final Alternatives cAlternatives_2 = (Alternatives)cGroup.eContents().get(2);
-		private final Group cGroup_2_0 = (Group)cAlternatives_2.eContents().get(0);
-		private final Keyword cImportKeyword_2_0_0 = (Keyword)cGroup_2_0.eContents().get(0);
-		private final Assignment cImportsAssignment_2_0_1 = (Assignment)cGroup_2_0.eContents().get(1);
-		private final CrossReference cImportsMegaLCrossReference_2_0_1_0 = (CrossReference)cImportsAssignment_2_0_1.eContents().get(0);
-		private final RuleCall cImportsMegaLIDTerminalRuleCall_2_0_1_0_1 = (RuleCall)cImportsMegaLCrossReference_2_0_1_0.eContents().get(1);
-		private final Assignment cEtdAssignment_2_1 = (Assignment)cAlternatives_2.eContents().get(1);
-		private final RuleCall cEtdETDParserRuleCall_2_1_0 = (RuleCall)cEtdAssignment_2_1.eContents().get(0);
-		private final Assignment cRtdAssignment_2_2 = (Assignment)cAlternatives_2.eContents().get(2);
-		private final RuleCall cRtdRTDParserRuleCall_2_2_0 = (RuleCall)cRtdAssignment_2_2.eContents().get(0);
-		private final Assignment cEdAssignment_2_3 = (Assignment)cAlternatives_2.eContents().get(3);
-		private final RuleCall cEdEDParserRuleCall_2_3_0 = (RuleCall)cEdAssignment_2_3.eContents().get(0);
-		private final Assignment cRdAssignment_2_4 = (Assignment)cAlternatives_2.eContents().get(4);
-		private final RuleCall cRdRDParserRuleCall_2_4_0 = (RuleCall)cRdAssignment_2_4.eContents().get(0);
+		private final Group cGroup_2 = (Group)cGroup.eContents().get(2);
+		private final Keyword cLinkedKeyword_2_0 = (Keyword)cGroup_2.eContents().get(0);
+		private final Keyword cInKeyword_2_1 = (Keyword)cGroup_2.eContents().get(1);
+		private final Assignment cLinkerAssignment_2_2 = (Assignment)cGroup_2.eContents().get(2);
+		private final CrossReference cLinkerMegaLLinkingCrossReference_2_2_0 = (CrossReference)cLinkerAssignment_2_2.eContents().get(0);
+		private final RuleCall cLinkerMegaLLinkingQualifiedIDParserRuleCall_2_2_0_1 = (RuleCall)cLinkerMegaLLinkingCrossReference_2_2_0.eContents().get(1);
+		private final Alternatives cAlternatives_3 = (Alternatives)cGroup.eContents().get(3);
+		private final Group cGroup_3_0 = (Group)cAlternatives_3.eContents().get(0);
+		private final Keyword cImportKeyword_3_0_0 = (Keyword)cGroup_3_0.eContents().get(0);
+		private final Assignment cImportsAssignment_3_0_1 = (Assignment)cGroup_3_0.eContents().get(1);
+		private final CrossReference cImportsMegaLDefinitionCrossReference_3_0_1_0 = (CrossReference)cImportsAssignment_3_0_1.eContents().get(0);
+		private final RuleCall cImportsMegaLDefinitionIDTerminalRuleCall_3_0_1_0_1 = (RuleCall)cImportsMegaLDefinitionCrossReference_3_0_1_0.eContents().get(1);
+		private final Assignment cEtdAssignment_3_1 = (Assignment)cAlternatives_3.eContents().get(1);
+		private final RuleCall cEtdETDParserRuleCall_3_1_0 = (RuleCall)cEtdAssignment_3_1.eContents().get(0);
+		private final Assignment cRtdAssignment_3_2 = (Assignment)cAlternatives_3.eContents().get(2);
+		private final RuleCall cRtdRTDParserRuleCall_3_2_0 = (RuleCall)cRtdAssignment_3_2.eContents().get(0);
+		private final Assignment cEdAssignment_3_3 = (Assignment)cAlternatives_3.eContents().get(3);
+		private final RuleCall cEdEDParserRuleCall_3_3_0 = (RuleCall)cEdAssignment_3_3.eContents().get(0);
+		private final Assignment cRdAssignment_3_4 = (Assignment)cAlternatives_3.eContents().get(4);
+		private final RuleCall cRdRDParserRuleCall_3_4_0 = (RuleCall)cRdAssignment_3_4.eContents().get(0);
 		
-		//MegaL:
-		//	"model" name=QualifiedID ("import" imports+=[MegaL] | etd+=ETD | rtd+=RTD | ed+=ED | rd+=RD)*;
+		//MegaLDefinition:
+		//	"model" name=QualifiedID ("linked" "in" linker=[MegaLLinking|QualifiedID])? ("import" imports+=[MegaLDefinition] |
+		//	etd+=ETD | rtd+=RTD | ed+=ED | rd+=RD)*;
 		public ParserRule getRule() { return rule; }
 
-		//"model" name=QualifiedID ("import" imports+=[MegaL] | etd+=ETD | rtd+=RTD | ed+=ED | rd+=RD)*
+		//"model" name=QualifiedID ("linked" "in" linker=[MegaLLinking|QualifiedID])? ("import" imports+=[MegaLDefinition] |
+		//etd+=ETD | rtd+=RTD | ed+=ED | rd+=RD)*
 		public Group getGroup() { return cGroup; }
 
 		//"model"
@@ -55,47 +83,65 @@ public class MegaLGrammarAccess extends AbstractGrammarElementFinder {
 		//QualifiedID
 		public RuleCall getNameQualifiedIDParserRuleCall_1_0() { return cNameQualifiedIDParserRuleCall_1_0; }
 
-		//("import" imports+=[MegaL] | etd+=ETD | rtd+=RTD | ed+=ED | rd+=RD)*
-		public Alternatives getAlternatives_2() { return cAlternatives_2; }
+		//("linked" "in" linker=[MegaLLinking|QualifiedID])?
+		public Group getGroup_2() { return cGroup_2; }
 
-		//"import" imports+=[MegaL]
-		public Group getGroup_2_0() { return cGroup_2_0; }
+		//"linked"
+		public Keyword getLinkedKeyword_2_0() { return cLinkedKeyword_2_0; }
+
+		//"in"
+		public Keyword getInKeyword_2_1() { return cInKeyword_2_1; }
+
+		//linker=[MegaLLinking|QualifiedID]
+		public Assignment getLinkerAssignment_2_2() { return cLinkerAssignment_2_2; }
+
+		//[MegaLLinking|QualifiedID]
+		public CrossReference getLinkerMegaLLinkingCrossReference_2_2_0() { return cLinkerMegaLLinkingCrossReference_2_2_0; }
+
+		//QualifiedID
+		public RuleCall getLinkerMegaLLinkingQualifiedIDParserRuleCall_2_2_0_1() { return cLinkerMegaLLinkingQualifiedIDParserRuleCall_2_2_0_1; }
+
+		//("import" imports+=[MegaLDefinition] | etd+=ETD | rtd+=RTD | ed+=ED | rd+=RD)*
+		public Alternatives getAlternatives_3() { return cAlternatives_3; }
+
+		//"import" imports+=[MegaLDefinition]
+		public Group getGroup_3_0() { return cGroup_3_0; }
 
 		//"import"
-		public Keyword getImportKeyword_2_0_0() { return cImportKeyword_2_0_0; }
+		public Keyword getImportKeyword_3_0_0() { return cImportKeyword_3_0_0; }
 
-		//imports+=[MegaL]
-		public Assignment getImportsAssignment_2_0_1() { return cImportsAssignment_2_0_1; }
+		//imports+=[MegaLDefinition]
+		public Assignment getImportsAssignment_3_0_1() { return cImportsAssignment_3_0_1; }
 
-		//[MegaL]
-		public CrossReference getImportsMegaLCrossReference_2_0_1_0() { return cImportsMegaLCrossReference_2_0_1_0; }
+		//[MegaLDefinition]
+		public CrossReference getImportsMegaLDefinitionCrossReference_3_0_1_0() { return cImportsMegaLDefinitionCrossReference_3_0_1_0; }
 
 		//ID
-		public RuleCall getImportsMegaLIDTerminalRuleCall_2_0_1_0_1() { return cImportsMegaLIDTerminalRuleCall_2_0_1_0_1; }
+		public RuleCall getImportsMegaLDefinitionIDTerminalRuleCall_3_0_1_0_1() { return cImportsMegaLDefinitionIDTerminalRuleCall_3_0_1_0_1; }
 
 		//etd+=ETD
-		public Assignment getEtdAssignment_2_1() { return cEtdAssignment_2_1; }
+		public Assignment getEtdAssignment_3_1() { return cEtdAssignment_3_1; }
 
 		//ETD
-		public RuleCall getEtdETDParserRuleCall_2_1_0() { return cEtdETDParserRuleCall_2_1_0; }
+		public RuleCall getEtdETDParserRuleCall_3_1_0() { return cEtdETDParserRuleCall_3_1_0; }
 
 		//rtd+=RTD
-		public Assignment getRtdAssignment_2_2() { return cRtdAssignment_2_2; }
+		public Assignment getRtdAssignment_3_2() { return cRtdAssignment_3_2; }
 
 		//RTD
-		public RuleCall getRtdRTDParserRuleCall_2_2_0() { return cRtdRTDParserRuleCall_2_2_0; }
+		public RuleCall getRtdRTDParserRuleCall_3_2_0() { return cRtdRTDParserRuleCall_3_2_0; }
 
 		//ed+=ED
-		public Assignment getEdAssignment_2_3() { return cEdAssignment_2_3; }
+		public Assignment getEdAssignment_3_3() { return cEdAssignment_3_3; }
 
 		//ED
-		public RuleCall getEdEDParserRuleCall_2_3_0() { return cEdEDParserRuleCall_2_3_0; }
+		public RuleCall getEdEDParserRuleCall_3_3_0() { return cEdEDParserRuleCall_3_3_0; }
 
 		//rd+=RD
-		public Assignment getRdAssignment_2_4() { return cRdAssignment_2_4; }
+		public Assignment getRdAssignment_3_4() { return cRdAssignment_3_4; }
 
 		//RD
-		public RuleCall getRdRDParserRuleCall_2_4_0() { return cRdRDParserRuleCall_2_4_0; }
+		public RuleCall getRdRDParserRuleCall_3_4_0() { return cRdRDParserRuleCall_3_4_0; }
 	}
 
 	public class ETDRElements extends AbstractParserRuleElementFinder {
@@ -341,9 +387,114 @@ public class MegaLGrammarAccess extends AbstractGrammarElementFinder {
 		//ID
 		public RuleCall getIDTerminalRuleCall_1_1() { return cIDTerminalRuleCall_1_1; }
 	}
+
+	public class MegaLLinkingElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "MegaLLinking");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final Keyword cLinkingKeyword_0 = (Keyword)cGroup.eContents().get(0);
+		private final Assignment cNameAssignment_1 = (Assignment)cGroup.eContents().get(1);
+		private final RuleCall cNameQualifiedIDParserRuleCall_1_0 = (RuleCall)cNameAssignment_1.eContents().get(0);
+		private final Group cGroup_2 = (Group)cGroup.eContents().get(2);
+		private final Keyword cForKeyword_2_0 = (Keyword)cGroup_2.eContents().get(0);
+		private final Assignment cTargetAssignment_2_1 = (Assignment)cGroup_2.eContents().get(1);
+		private final CrossReference cTargetMegaLDefinitionCrossReference_2_1_0 = (CrossReference)cTargetAssignment_2_1.eContents().get(0);
+		private final RuleCall cTargetMegaLDefinitionQualifiedIDParserRuleCall_2_1_0_1 = (RuleCall)cTargetMegaLDefinitionCrossReference_2_1_0.eContents().get(1);
+		private final Assignment cLinksAssignment_3 = (Assignment)cGroup.eContents().get(3);
+		private final RuleCall cLinksLDParserRuleCall_3_0 = (RuleCall)cLinksAssignment_3.eContents().get(0);
+		
+		//MegaLLinking:
+		//	"linking" name=QualifiedID ("for" target=[MegaLDefinition|QualifiedID])? links+=LD*;
+		public ParserRule getRule() { return rule; }
+
+		//"linking" name=QualifiedID ("for" target=[MegaLDefinition|QualifiedID])? links+=LD*
+		public Group getGroup() { return cGroup; }
+
+		//"linking"
+		public Keyword getLinkingKeyword_0() { return cLinkingKeyword_0; }
+
+		//name=QualifiedID
+		public Assignment getNameAssignment_1() { return cNameAssignment_1; }
+
+		//QualifiedID
+		public RuleCall getNameQualifiedIDParserRuleCall_1_0() { return cNameQualifiedIDParserRuleCall_1_0; }
+
+		//("for" target=[MegaLDefinition|QualifiedID])?
+		public Group getGroup_2() { return cGroup_2; }
+
+		//"for"
+		public Keyword getForKeyword_2_0() { return cForKeyword_2_0; }
+
+		//target=[MegaLDefinition|QualifiedID]
+		public Assignment getTargetAssignment_2_1() { return cTargetAssignment_2_1; }
+
+		//[MegaLDefinition|QualifiedID]
+		public CrossReference getTargetMegaLDefinitionCrossReference_2_1_0() { return cTargetMegaLDefinitionCrossReference_2_1_0; }
+
+		//QualifiedID
+		public RuleCall getTargetMegaLDefinitionQualifiedIDParserRuleCall_2_1_0_1() { return cTargetMegaLDefinitionQualifiedIDParserRuleCall_2_1_0_1; }
+
+		//links+=LD*
+		public Assignment getLinksAssignment_3() { return cLinksAssignment_3; }
+
+		//LD
+		public RuleCall getLinksLDParserRuleCall_3_0() { return cLinksLDParserRuleCall_3_0; }
+	}
+
+	public class LDElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "LD");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final Assignment cTargetAssignment_0 = (Assignment)cGroup.eContents().get(0);
+		private final CrossReference cTargetEDCrossReference_0_0 = (CrossReference)cTargetAssignment_0.eContents().get(0);
+		private final RuleCall cTargetEDIDTerminalRuleCall_0_0_1 = (RuleCall)cTargetEDCrossReference_0_0.eContents().get(1);
+		private final Group cGroup_1 = (Group)cGroup.eContents().get(1);
+		private final Keyword cFullStopKeyword_1_0 = (Keyword)cGroup_1.eContents().get(0);
+		private final Assignment cKeyAssignment_1_1 = (Assignment)cGroup_1.eContents().get(1);
+		private final RuleCall cKeyIDTerminalRuleCall_1_1_0 = (RuleCall)cKeyAssignment_1_1.eContents().get(0);
+		private final Keyword cEqualsSignKeyword_2 = (Keyword)cGroup.eContents().get(2);
+		private final Assignment cValueAssignment_3 = (Assignment)cGroup.eContents().get(3);
+		private final RuleCall cValueSTRINGTerminalRuleCall_3_0 = (RuleCall)cValueAssignment_3.eContents().get(0);
+		
+		//LD:
+		//	target=[ED] ("." key=ID)? "=" value=STRING;
+		public ParserRule getRule() { return rule; }
+
+		//target=[ED] ("." key=ID)? "=" value=STRING
+		public Group getGroup() { return cGroup; }
+
+		//target=[ED]
+		public Assignment getTargetAssignment_0() { return cTargetAssignment_0; }
+
+		//[ED]
+		public CrossReference getTargetEDCrossReference_0_0() { return cTargetEDCrossReference_0_0; }
+
+		//ID
+		public RuleCall getTargetEDIDTerminalRuleCall_0_0_1() { return cTargetEDIDTerminalRuleCall_0_0_1; }
+
+		//("." key=ID)?
+		public Group getGroup_1() { return cGroup_1; }
+
+		//"."
+		public Keyword getFullStopKeyword_1_0() { return cFullStopKeyword_1_0; }
+
+		//key=ID
+		public Assignment getKeyAssignment_1_1() { return cKeyAssignment_1_1; }
+
+		//ID
+		public RuleCall getKeyIDTerminalRuleCall_1_1_0() { return cKeyIDTerminalRuleCall_1_1_0; }
+
+		//"="
+		public Keyword getEqualsSignKeyword_2() { return cEqualsSignKeyword_2; }
+
+		//value=STRING
+		public Assignment getValueAssignment_3() { return cValueAssignment_3; }
+
+		//STRING
+		public RuleCall getValueSTRINGTerminalRuleCall_3_0() { return cValueSTRINGTerminalRuleCall_3_0; }
+	}
 	
 	
-	private MegaLElements pMegaL;
+	private ModelElements pModel;
+	private MegaLDefinitionElements pMegaLDefinition;
 	private ETDRElements pETDR;
 	private ETDEntityElements pETDEntity;
 	private ETDDeclaredElements pETDDeclared;
@@ -352,6 +503,8 @@ public class MegaLGrammarAccess extends AbstractGrammarElementFinder {
 	private EDElements pED;
 	private RDElements pRD;
 	private QualifiedIDElements pQualifiedID;
+	private MegaLLinkingElements pMegaLLinking;
+	private LDElements pLD;
 	
 	private final Grammar grammar;
 
@@ -391,14 +544,25 @@ public class MegaLGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	
-	//MegaL:
-	//	"model" name=QualifiedID ("import" imports+=[MegaL] | etd+=ETD | rtd+=RTD | ed+=ED | rd+=RD)*;
-	public MegaLElements getMegaLAccess() {
-		return (pMegaL != null) ? pMegaL : (pMegaL = new MegaLElements());
+	//Model:
+	//	MegaLDefinition | MegaLLinking;
+	public ModelElements getModelAccess() {
+		return (pModel != null) ? pModel : (pModel = new ModelElements());
 	}
 	
-	public ParserRule getMegaLRule() {
-		return getMegaLAccess().getRule();
+	public ParserRule getModelRule() {
+		return getModelAccess().getRule();
+	}
+
+	//MegaLDefinition:
+	//	"model" name=QualifiedID ("linked" "in" linker=[MegaLLinking|QualifiedID])? ("import" imports+=[MegaLDefinition] |
+	//	etd+=ETD | rtd+=RTD | ed+=ED | rd+=RD)*;
+	public MegaLDefinitionElements getMegaLDefinitionAccess() {
+		return (pMegaLDefinition != null) ? pMegaLDefinition : (pMegaLDefinition = new MegaLDefinitionElements());
+	}
+	
+	public ParserRule getMegaLDefinitionRule() {
+		return getMegaLDefinitionAccess().getRule();
 	}
 
 	//ETDR:
@@ -479,6 +643,26 @@ public class MegaLGrammarAccess extends AbstractGrammarElementFinder {
 	
 	public ParserRule getQualifiedIDRule() {
 		return getQualifiedIDAccess().getRule();
+	}
+
+	//MegaLLinking:
+	//	"linking" name=QualifiedID ("for" target=[MegaLDefinition|QualifiedID])? links+=LD*;
+	public MegaLLinkingElements getMegaLLinkingAccess() {
+		return (pMegaLLinking != null) ? pMegaLLinking : (pMegaLLinking = new MegaLLinkingElements());
+	}
+	
+	public ParserRule getMegaLLinkingRule() {
+		return getMegaLLinkingAccess().getRule();
+	}
+
+	//LD:
+	//	target=[ED] ("." key=ID)? "=" value=STRING;
+	public LDElements getLDAccess() {
+		return (pLD != null) ? pLD : (pLD = new LDElements());
+	}
+	
+	public ParserRule getLDRule() {
+		return getLDAccess().getRule();
 	}
 
 	//terminal ID:

@@ -44,7 +44,7 @@ import org.softlang.megal.services.MegaLGrammarAccess;
     
     @Override
     protected String getFirstRuleName() {
-    	return "MegaL";	
+    	return "Model";	
    	}
    	
    	@Override
@@ -63,32 +63,72 @@ import org.softlang.megal.services.MegaLGrammarAccess;
 
 
 
-// Entry rule entryRuleMegaL
-entryRuleMegaL returns [EObject current=null] 
+// Entry rule entryRuleModel
+entryRuleModel returns [EObject current=null] 
 	:
-	{ newCompositeNode(grammarAccess.getMegaLRule()); }
-	 iv_ruleMegaL=ruleMegaL 
-	 { $current=$iv_ruleMegaL.current; } 
+	{ newCompositeNode(grammarAccess.getModelRule()); }
+	 iv_ruleModel=ruleModel 
+	 { $current=$iv_ruleModel.current; } 
 	 EOF 
 ;
 
-// Rule MegaL
-ruleMegaL returns [EObject current=null] 
+// Rule Model
+ruleModel returns [EObject current=null] 
+    @init { enterRule(); 
+    }
+    @after { leaveRule(); }:
+(
+    { 
+        newCompositeNode(grammarAccess.getModelAccess().getMegaLDefinitionParserRuleCall_0()); 
+    }
+    this_MegaLDefinition_0=ruleMegaLDefinition
+    { 
+        $current = $this_MegaLDefinition_0.current; 
+        afterParserOrEnumRuleCall();
+    }
+
+    |
+    { 
+        newCompositeNode(grammarAccess.getModelAccess().getMegaLLinkingParserRuleCall_1()); 
+    }
+    this_MegaLLinking_1=ruleMegaLLinking
+    { 
+        $current = $this_MegaLLinking_1.current; 
+        afterParserOrEnumRuleCall();
+    }
+)
+;
+
+
+
+
+
+// Entry rule entryRuleMegaLDefinition
+entryRuleMegaLDefinition returns [EObject current=null] 
+	:
+	{ newCompositeNode(grammarAccess.getMegaLDefinitionRule()); }
+	 iv_ruleMegaLDefinition=ruleMegaLDefinition 
+	 { $current=$iv_ruleMegaLDefinition.current; } 
+	 EOF 
+;
+
+// Rule MegaLDefinition
+ruleMegaLDefinition returns [EObject current=null] 
     @init { enterRule(); 
     }
     @after { leaveRule(); }:
 (	otherlv_0='model' 
     {
-    	newLeafNode(otherlv_0, grammarAccess.getMegaLAccess().getModelKeyword_0());
+    	newLeafNode(otherlv_0, grammarAccess.getMegaLDefinitionAccess().getModelKeyword_0());
     }
 (
 (
 		{ 
-	        newCompositeNode(grammarAccess.getMegaLAccess().getNameQualifiedIDParserRuleCall_1_0()); 
+	        newCompositeNode(grammarAccess.getMegaLDefinitionAccess().getNameQualifiedIDParserRuleCall_1_0()); 
 	    }
 		lv_name_1_0=ruleQualifiedID		{
 	        if ($current==null) {
-	            $current = createModelElementForParent(grammarAccess.getMegaLRule());
+	            $current = createModelElementForParent(grammarAccess.getMegaLDefinitionRule());
 	        }
        		set(
        			$current, 
@@ -99,20 +139,43 @@ ruleMegaL returns [EObject current=null]
 	    }
 
 )
-)((	otherlv_2='import' 
+)(	otherlv_2='linked' 
     {
-    	newLeafNode(otherlv_2, grammarAccess.getMegaLAccess().getImportKeyword_2_0_0());
+    	newLeafNode(otherlv_2, grammarAccess.getMegaLDefinitionAccess().getLinkedKeyword_2_0());
+    }
+	otherlv_3='in' 
+    {
+    	newLeafNode(otherlv_3, grammarAccess.getMegaLDefinitionAccess().getInKeyword_2_1());
     }
 (
 (
 		{
 			if ($current==null) {
-	            $current = createModelElement(grammarAccess.getMegaLRule());
+	            $current = createModelElement(grammarAccess.getMegaLDefinitionRule());
 	        }
         }
-	otherlv_3=RULE_ID
+		{ 
+	        newCompositeNode(grammarAccess.getMegaLDefinitionAccess().getLinkerMegaLLinkingCrossReference_2_2_0()); 
+	    }
+		ruleQualifiedID		{ 
+	        afterParserOrEnumRuleCall();
+	    }
+
+)
+))?((	otherlv_5='import' 
+    {
+    	newLeafNode(otherlv_5, grammarAccess.getMegaLDefinitionAccess().getImportKeyword_3_0_0());
+    }
+(
+(
+		{
+			if ($current==null) {
+	            $current = createModelElement(grammarAccess.getMegaLDefinitionRule());
+	        }
+        }
+	otherlv_6=RULE_ID
 	{
-		newLeafNode(otherlv_3, grammarAccess.getMegaLAccess().getImportsMegaLCrossReference_2_0_1_0()); 
+		newLeafNode(otherlv_6, grammarAccess.getMegaLDefinitionAccess().getImportsMegaLDefinitionCrossReference_3_0_1_0()); 
 	}
 
 )
@@ -120,16 +183,16 @@ ruleMegaL returns [EObject current=null]
     |(
 (
 		{ 
-	        newCompositeNode(grammarAccess.getMegaLAccess().getEtdETDParserRuleCall_2_1_0()); 
+	        newCompositeNode(grammarAccess.getMegaLDefinitionAccess().getEtdETDParserRuleCall_3_1_0()); 
 	    }
-		lv_etd_4_0=ruleETD		{
+		lv_etd_7_0=ruleETD		{
 	        if ($current==null) {
-	            $current = createModelElementForParent(grammarAccess.getMegaLRule());
+	            $current = createModelElementForParent(grammarAccess.getMegaLDefinitionRule());
 	        }
        		add(
        			$current, 
        			"etd",
-        		lv_etd_4_0, 
+        		lv_etd_7_0, 
         		"ETD");
 	        afterParserOrEnumRuleCall();
 	    }
@@ -139,16 +202,16 @@ ruleMegaL returns [EObject current=null]
     |(
 (
 		{ 
-	        newCompositeNode(grammarAccess.getMegaLAccess().getRtdRTDParserRuleCall_2_2_0()); 
+	        newCompositeNode(grammarAccess.getMegaLDefinitionAccess().getRtdRTDParserRuleCall_3_2_0()); 
 	    }
-		lv_rtd_5_0=ruleRTD		{
+		lv_rtd_8_0=ruleRTD		{
 	        if ($current==null) {
-	            $current = createModelElementForParent(grammarAccess.getMegaLRule());
+	            $current = createModelElementForParent(grammarAccess.getMegaLDefinitionRule());
 	        }
        		add(
        			$current, 
        			"rtd",
-        		lv_rtd_5_0, 
+        		lv_rtd_8_0, 
         		"RTD");
 	        afterParserOrEnumRuleCall();
 	    }
@@ -158,16 +221,16 @@ ruleMegaL returns [EObject current=null]
     |(
 (
 		{ 
-	        newCompositeNode(grammarAccess.getMegaLAccess().getEdEDParserRuleCall_2_3_0()); 
+	        newCompositeNode(grammarAccess.getMegaLDefinitionAccess().getEdEDParserRuleCall_3_3_0()); 
 	    }
-		lv_ed_6_0=ruleED		{
+		lv_ed_9_0=ruleED		{
 	        if ($current==null) {
-	            $current = createModelElementForParent(grammarAccess.getMegaLRule());
+	            $current = createModelElementForParent(grammarAccess.getMegaLDefinitionRule());
 	        }
        		add(
        			$current, 
        			"ed",
-        		lv_ed_6_0, 
+        		lv_ed_9_0, 
         		"ED");
 	        afterParserOrEnumRuleCall();
 	    }
@@ -177,16 +240,16 @@ ruleMegaL returns [EObject current=null]
     |(
 (
 		{ 
-	        newCompositeNode(grammarAccess.getMegaLAccess().getRdRDParserRuleCall_2_4_0()); 
+	        newCompositeNode(grammarAccess.getMegaLDefinitionAccess().getRdRDParserRuleCall_3_4_0()); 
 	    }
-		lv_rd_7_0=ruleRD		{
+		lv_rd_10_0=ruleRD		{
 	        if ($current==null) {
-	            $current = createModelElementForParent(grammarAccess.getMegaLRule());
+	            $current = createModelElementForParent(grammarAccess.getMegaLDefinitionRule());
 	        }
        		add(
        			$current, 
        			"rd",
-        		lv_rd_7_0, 
+        		lv_rd_10_0, 
         		"RD");
 	        afterParserOrEnumRuleCall();
 	    }
@@ -605,6 +668,164 @@ ruleQualifiedID returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleTok
     }
 )*)
     ;
+
+
+
+
+
+// Entry rule entryRuleMegaLLinking
+entryRuleMegaLLinking returns [EObject current=null] 
+	:
+	{ newCompositeNode(grammarAccess.getMegaLLinkingRule()); }
+	 iv_ruleMegaLLinking=ruleMegaLLinking 
+	 { $current=$iv_ruleMegaLLinking.current; } 
+	 EOF 
+;
+
+// Rule MegaLLinking
+ruleMegaLLinking returns [EObject current=null] 
+    @init { enterRule(); 
+    }
+    @after { leaveRule(); }:
+(	otherlv_0='linking' 
+    {
+    	newLeafNode(otherlv_0, grammarAccess.getMegaLLinkingAccess().getLinkingKeyword_0());
+    }
+(
+(
+		{ 
+	        newCompositeNode(grammarAccess.getMegaLLinkingAccess().getNameQualifiedIDParserRuleCall_1_0()); 
+	    }
+		lv_name_1_0=ruleQualifiedID		{
+	        if ($current==null) {
+	            $current = createModelElementForParent(grammarAccess.getMegaLLinkingRule());
+	        }
+       		set(
+       			$current, 
+       			"name",
+        		lv_name_1_0, 
+        		"QualifiedID");
+	        afterParserOrEnumRuleCall();
+	    }
+
+)
+)(	otherlv_2='for' 
+    {
+    	newLeafNode(otherlv_2, grammarAccess.getMegaLLinkingAccess().getForKeyword_2_0());
+    }
+(
+(
+		{
+			if ($current==null) {
+	            $current = createModelElement(grammarAccess.getMegaLLinkingRule());
+	        }
+        }
+		{ 
+	        newCompositeNode(grammarAccess.getMegaLLinkingAccess().getTargetMegaLDefinitionCrossReference_2_1_0()); 
+	    }
+		ruleQualifiedID		{ 
+	        afterParserOrEnumRuleCall();
+	    }
+
+)
+))?(
+(
+		{ 
+	        newCompositeNode(grammarAccess.getMegaLLinkingAccess().getLinksLDParserRuleCall_3_0()); 
+	    }
+		lv_links_4_0=ruleLD		{
+	        if ($current==null) {
+	            $current = createModelElementForParent(grammarAccess.getMegaLLinkingRule());
+	        }
+       		add(
+       			$current, 
+       			"links",
+        		lv_links_4_0, 
+        		"LD");
+	        afterParserOrEnumRuleCall();
+	    }
+
+)
+)*)
+;
+
+
+
+
+
+// Entry rule entryRuleLD
+entryRuleLD returns [EObject current=null] 
+	:
+	{ newCompositeNode(grammarAccess.getLDRule()); }
+	 iv_ruleLD=ruleLD 
+	 { $current=$iv_ruleLD.current; } 
+	 EOF 
+;
+
+// Rule LD
+ruleLD returns [EObject current=null] 
+    @init { enterRule(); 
+    }
+    @after { leaveRule(); }:
+((
+(
+		{
+			if ($current==null) {
+	            $current = createModelElement(grammarAccess.getLDRule());
+	        }
+        }
+	otherlv_0=RULE_ID
+	{
+		newLeafNode(otherlv_0, grammarAccess.getLDAccess().getTargetEDCrossReference_0_0()); 
+	}
+
+)
+)(	otherlv_1='.' 
+    {
+    	newLeafNode(otherlv_1, grammarAccess.getLDAccess().getFullStopKeyword_1_0());
+    }
+(
+(
+		lv_key_2_0=RULE_ID
+		{
+			newLeafNode(lv_key_2_0, grammarAccess.getLDAccess().getKeyIDTerminalRuleCall_1_1_0()); 
+		}
+		{
+	        if ($current==null) {
+	            $current = createModelElement(grammarAccess.getLDRule());
+	        }
+       		setWithLastConsumed(
+       			$current, 
+       			"key",
+        		lv_key_2_0, 
+        		"ID");
+	    }
+
+)
+))?	otherlv_3='=' 
+    {
+    	newLeafNode(otherlv_3, grammarAccess.getLDAccess().getEqualsSignKeyword_2());
+    }
+(
+(
+		lv_value_4_0=RULE_STRING
+		{
+			newLeafNode(lv_value_4_0, grammarAccess.getLDAccess().getValueSTRINGTerminalRuleCall_3_0()); 
+		}
+		{
+	        if ($current==null) {
+	            $current = createModelElement(grammarAccess.getLDRule());
+	        }
+       		setWithLastConsumed(
+       			$current, 
+       			"value",
+        		lv_value_4_0, 
+        		"STRING");
+	    }
+
+)
+))
+;
 
 
 

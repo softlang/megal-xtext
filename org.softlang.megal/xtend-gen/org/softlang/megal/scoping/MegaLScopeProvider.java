@@ -3,7 +3,14 @@
  */
 package org.softlang.megal.scoping;
 
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EReference;
+import org.eclipse.xtext.scoping.IScope;
+import org.eclipse.xtext.scoping.Scopes;
 import org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider;
+import org.softlang.megal.megaL.ED;
+import org.softlang.megal.megaL.MegaLDefinition;
+import org.softlang.megal.megaL.MegaLLinking;
 
 /**
  * This class contains custom scoping description.
@@ -13,4 +20,9 @@ import org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider;
  */
 @SuppressWarnings("all")
 public class MegaLScopeProvider extends AbstractDeclarativeScopeProvider {
+  public IScope scope_LD_target(final MegaLLinking it, final EReference ref) {
+    MegaLDefinition _target = it.getTarget();
+    EList<ED> _ed = _target.getEd();
+    return Scopes.scopeFor(_ed);
+  }
 }

@@ -25,7 +25,7 @@ public class MegaLParser extends org.eclipse.xtext.parser.antlr.AbstractAntlrPar
 	
 	@Override 
 	protected String getDefaultRuleName() {
-		return "MegaL";
+		return "Model";
 	}
 	
 	public MegaLGrammarAccess getGrammarAccess() {

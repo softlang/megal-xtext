@@ -23,13 +23,22 @@ public interface MegaLFactory extends EFactory
   MegaLFactory eINSTANCE = org.softlang.megal.megaL.impl.MegaLFactoryImpl.init();
 
   /**
-   * Returns a new object of class '<em>Mega L</em>'.
+   * Returns a new object of class '<em>Model</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return a new object of class '<em>Mega L</em>'.
+   * @return a new object of class '<em>Model</em>'.
    * @generated
    */
-  MegaL createMegaL();
+  Model createModel();
+
+  /**
+   * Returns a new object of class '<em>Definition</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Definition</em>'.
+   * @generated
+   */
+  MegaLDefinition createMegaLDefinition();
 
   /**
    * Returns a new object of class '<em>ETDR</em>'.
@@ -93,6 +102,24 @@ public interface MegaLFactory extends EFactory
    * @generated
    */
   RD createRD();
+
+  /**
+   * Returns a new object of class '<em>Linking</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Linking</em>'.
+   * @generated
+   */
+  MegaLLinking createMegaLLinking();
+
+  /**
+   * Returns a new object of class '<em>LD</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>LD</em>'.
+   * @generated
+   */
+  LD createLD();
 
   /**
    * Returns the package supported by this factory.
