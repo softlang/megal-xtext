@@ -2,8 +2,29 @@ grammar org.softlang.megal.MegaL with org.eclipse.xtext.common.Terminals
 
 generate megaL "http://www.softlang.org/megal/MegaL"
 
-Model:
-	greetings+=Greeting*;
-	
-Greeting:
-	'Hello' name=ID '!';
+MegaL:
+	'model' name=QualifiedID (('import' imports+=[MegaL]) | etd+=ETD | rtd+=RTD | ed+=ED | rd+=RD)*;
+
+ETDR:
+	ETDEntity | ETDDeclared;
+
+ETDEntity:
+	{ETDEntity} 'Entity';
+
+ETDDeclared:
+	reference=[ETD];
+
+ETD:
+	name=ID '<' (supertype=ETDR );
+
+RTD:
+	name=ID '<' domain=ETDR '*' coDomain=ETDR;
+
+ED:
+	name=ID ':' type=ETDR;
+
+RD:
+	source=[ED] rel=[RTD] target=[ED];
+
+QualifiedID:
+	ID ('.' ID)*;

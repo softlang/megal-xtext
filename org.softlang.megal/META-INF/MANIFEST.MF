@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: org.softlang.megal
 Bundle-Vendor: My Company
 Bundle-Version: 1.0.0.qualifier
-Bundle-SymbolicName: org.softlang.megal; singleton:=true
+Bundle-SymbolicName: org.softlang.megal;singleton:=true
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.eclipse.xtext;visibility:=reexport,
  org.eclipse.xtext.xbase;resolution:=optional;visibility:=reexport,
@@ -11,6 +11,26 @@ Require-Bundle: org.eclipse.xtext;visibility:=reexport,
  org.apache.commons.logging;bundle-version="1.0.4";resolution:=optional,
  org.eclipse.emf.codegen.ecore;resolution:=optional,
  org.eclipse.emf.mwe.utils;resolution:=optional,
- org.eclipse.emf.mwe2.launch;resolution:=optional
-Import-Package: org.apache.log4j
-Bundle-RequiredExecutionEnvironment: J2SE-1.5
+ org.eclipse.emf.mwe2.launch;resolution:=optional,
+ org.eclipse.xtext.util,
+ org.eclipse.emf.ecore,
+ org.eclipse.emf.common,
+ org.antlr.runtime,
+ org.eclipse.xtext.common.types,
+ org.objectweb.asm;bundle-version="[5.0.1,6.0.0)";resolution:=optional
+Import-Package: org.apache.log4j,
+ org.eclipse.xtext.xbase.lib
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Export-Package: org.softlang.megal.semantics,
+ org.softlang.megal,
+ org.softlang.megal.services,
+ org.softlang.megal.megaL,
+ org.softlang.megal.megaL.impl,
+ org.softlang.megal.megaL.util,
+ org.softlang.megal.serializer,
+ org.softlang.megal.parser.antlr,
+ org.softlang.megal.parser.antlr.internal,
+ org.softlang.megal.validation,
+ org.softlang.megal.scoping,
+ org.softlang.megal.generator,
+ org.softlang.megal.formatting

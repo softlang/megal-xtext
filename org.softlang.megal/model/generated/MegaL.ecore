@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="megaL" nsURI="http://www.softlang.org/megal/MegaL" nsPrefix="megaL">
+  <eClassifiers xsi:type="ecore:EClass" name="MegaL">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="imports" unique="false"
+        upperBound="-1" eType="#//MegaL"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="etd" upperBound="-1" eType="#//ETD"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rtd" upperBound="-1" eType="#//RTD"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ed" upperBound="-1" eType="#//ED"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rd" upperBound="-1" eType="#//RD"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ETDR"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ETDEntity" eSuperTypes="#//ETDR"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ETDDeclared" eSuperTypes="#//ETDR">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="reference" eType="#//ETD"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ETD">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="supertype" eType="#//ETDR"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RTD">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="domain" eType="#//ETDR"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="coDomain" eType="#//ETDR"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ED">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="#//ETDR" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RD">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" eType="#//ED"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rel" eType="#//RTD"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#//ED"/>
+  </eClassifiers>
+</ecore:EPackage>

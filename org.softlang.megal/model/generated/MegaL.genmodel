@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.softlang.megal/src-gen" editDirectory="/org.softlang.megal.edit/src"
+    editorDirectory="/org.softlang.megal.editor/src" modelPluginID="org.softlang.megal"
+    forceOverwrite="true" modelName="MegaL" updateClasspath="false" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+    complianceLevel="5.0" copyrightFields="false" editPluginID="org.softlang.megal.edit"
+    editorPluginID="org.softlang.megal.editor" runtimeVersion="2.9">
+  <genPackages prefix="MegaL" basePackage="org.softlang.megal" disposableProviderFactory="true"
+      fileExtensions="megal" ecorePackage="MegaL.ecore#/">
+    <genClasses ecoreClass="MegaL.ecore#//MegaL">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MegaL.ecore#//MegaL/name"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MegaL.ecore#//MegaL/imports"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MegaL.ecore#//MegaL/etd"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MegaL.ecore#//MegaL/rtd"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MegaL.ecore#//MegaL/ed"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MegaL.ecore#//MegaL/rd"/>
+    </genClasses>
+    <genClasses ecoreClass="MegaL.ecore#//ETDR"/>
+    <genClasses ecoreClass="MegaL.ecore#//ETDEntity"/>
+    <genClasses ecoreClass="MegaL.ecore#//ETDDeclared">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MegaL.ecore#//ETDDeclared/reference"/>
+    </genClasses>
+    <genClasses ecoreClass="MegaL.ecore#//ETD">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MegaL.ecore#//ETD/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MegaL.ecore#//ETD/supertype"/>
+    </genClasses>
+    <genClasses ecoreClass="MegaL.ecore#//RTD">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MegaL.ecore#//RTD/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MegaL.ecore#//RTD/domain"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MegaL.ecore#//RTD/coDomain"/>
+    </genClasses>
+    <genClasses ecoreClass="MegaL.ecore#//ED">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MegaL.ecore#//ED/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MegaL.ecore#//ED/type"/>
+    </genClasses>
+    <genClasses ecoreClass="MegaL.ecore#//RD">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MegaL.ecore#//RD/source"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MegaL.ecore#//RD/rel"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MegaL.ecore#//RD/target"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>
