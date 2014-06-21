@@ -3,14 +3,21 @@
  */
 package org.softlang.megal.scoping;
 
+import com.google.common.collect.Iterables;
+import java.util.Set;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.xtext.scoping.IScope;
 import org.eclipse.xtext.scoping.Scopes;
 import org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider;
+import org.eclipse.xtext.xbase.lib.Functions.Function1;
+import org.eclipse.xtext.xbase.lib.IterableExtensions;
+import org.softlang.megal.calculation.Calculation;
 import org.softlang.megal.megaL.ED;
+import org.softlang.megal.megaL.ETD;
 import org.softlang.megal.megaL.MegaLDefinition;
 import org.softlang.megal.megaL.MegaLLinking;
+import org.softlang.megal.megaL.RTD;
 
 /**
  * This class contains custom scoping description.
@@ -20,9 +27,72 @@ import org.softlang.megal.megaL.MegaLLinking;
  */
 @SuppressWarnings("all")
 public class MegaLScopeProvider extends AbstractDeclarativeScopeProvider {
-  public IScope scope_LD_target(final MegaLLinking it, final EReference ref) {
-    MegaLDefinition _target = it.getTarget();
-    EList<ED> _ed = _target.getEd();
-    return Scopes.scopeFor(_ed);
+  public IScope scope_ETD(final MegaLDefinition d, final EReference er) {
+    IScope _xblockexpression = null;
+    {
+      final Set<MegaLDefinition> is = Calculation.allDefinitions(d);
+      final Function1<MegaLDefinition, EList<ETD>> _function = new Function1<MegaLDefinition, EList<ETD>>() {
+        public EList<ETD> apply(final MegaLDefinition it) {
+          return it.getEtds();
+        }
+      };
+      Iterable<EList<ETD>> _map = IterableExtensions.<MegaLDefinition, EList<ETD>>map(is, _function);
+      Iterable<ETD> _flatten = Iterables.<ETD>concat(_map);
+      _xblockexpression = Scopes.scopeFor(_flatten);
+    }
+    return _xblockexpression;
+  }
+  
+  public IScope scope_RTD(final MegaLDefinition d, final EReference er) {
+    IScope _xblockexpression = null;
+    {
+      final Set<MegaLDefinition> is = Calculation.allDefinitions(d);
+      final Function1<MegaLDefinition, EList<RTD>> _function = new Function1<MegaLDefinition, EList<RTD>>() {
+        public EList<RTD> apply(final MegaLDefinition it) {
+          return it.getRtds();
+        }
+      };
+      Iterable<EList<RTD>> _map = IterableExtensions.<MegaLDefinition, EList<RTD>>map(is, _function);
+      Iterable<RTD> _flatten = Iterables.<RTD>concat(_map);
+      _xblockexpression = Scopes.scopeFor(_flatten);
+    }
+    return _xblockexpression;
+  }
+  
+  public IScope scope_ED(final MegaLDefinition d, final EReference er) {
+    IScope _xblockexpression = null;
+    {
+      final Set<MegaLDefinition> is = Calculation.allDefinitions(d);
+      final Function1<MegaLDefinition, EList<ED>> _function = new Function1<MegaLDefinition, EList<ED>>() {
+        public EList<ED> apply(final MegaLDefinition it) {
+          return it.getEds();
+        }
+      };
+      Iterable<EList<ED>> _map = IterableExtensions.<MegaLDefinition, EList<ED>>map(is, _function);
+      Iterable<ED> _flatten = Iterables.<ED>concat(_map);
+      _xblockexpression = Scopes.scopeFor(_flatten);
+    }
+    return _xblockexpression;
+  }
+  
+  public IScope scope_ETD(final MegaLLinking l, final EReference er) {
+    MegaLDefinition _target = l.getTarget();
+    return this.scope_ETD(_target, er);
+  }
+  
+  public IScope scope_RTD(final MegaLLinking l, final EReference er) {
+    MegaLDefinition _target = l.getTarget();
+    return this.scope_RTD(_target, er);
+  }
+  
+  public IScope scope_ED(final MegaLLinking l, final EReference er) {
+    MegaLDefinition _target = l.getTarget();
+    return this.scope_ED(_target, er);
+  }
+  
+  public IScope scope_LD_target(final MegaLLinking l, final EReference er) {
+    MegaLDefinition _target = l.getTarget();
+    EList<ED> _eds = _target.getEds();
+    return Scopes.scopeFor(_eds);
   }
 }

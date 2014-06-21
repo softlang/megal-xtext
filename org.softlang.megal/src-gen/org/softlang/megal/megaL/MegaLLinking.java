@@ -13,7 +13,7 @@ import org.eclipse.emf.common.util.EList;
  * The following features are supported:
  * <ul>
  *   <li>{@link org.softlang.megal.megaL.MegaLLinking#getTarget <em>Target</em>}</li>
- *   <li>{@link org.softlang.megal.megaL.MegaLLinking#getLinks <em>Links</em>}</li>
+ *   <li>{@link org.softlang.megal.megaL.MegaLLinking#getLds <em>Lds</em>}</li>
  * </ul>
  * </p>
  *
@@ -50,19 +50,19 @@ public interface MegaLLinking extends Model
   void setTarget(MegaLDefinition value);
 
   /**
-   * Returns the value of the '<em><b>Links</b></em>' containment reference list.
+   * Returns the value of the '<em><b>Lds</b></em>' containment reference list.
    * The list contents are of type {@link org.softlang.megal.megaL.LD}.
    * <!-- begin-user-doc -->
    * <p>
-   * If the meaning of the '<em>Links</em>' containment reference list isn't clear,
+   * If the meaning of the '<em>Lds</em>' containment reference list isn't clear,
    * there really should be more of a description here...
    * </p>
    * <!-- end-user-doc -->
-   * @return the value of the '<em>Links</em>' containment reference list.
-   * @see org.softlang.megal.megaL.MegaLPackage#getMegaLLinking_Links()
+   * @return the value of the '<em>Lds</em>' containment reference list.
+   * @see org.softlang.megal.megaL.MegaLPackage#getMegaLLinking_Lds()
    * @model containment="true"
    * @generated
    */
-  EList<LD> getLinks();
+  EList<LD> getLds();
 
 } // MegaLLinking

@@ -22,7 +22,6 @@ import org.softlang.megal.megaL.MegaLPackage;
  * The following features are implemented:
  * <ul>
  *   <li>{@link org.softlang.megal.megaL.impl.LDImpl#getTarget <em>Target</em>}</li>
- *   <li>{@link org.softlang.megal.megaL.impl.LDImpl#getKey <em>Key</em>}</li>
  *   <li>{@link org.softlang.megal.megaL.impl.LDImpl#getValue <em>Value</em>}</li>
  * </ul>
  * </p>
@@ -40,26 +39,6 @@ public class LDImpl extends MinimalEObjectImpl.Container implements LD
    * @ordered
    */
   protected ED target;
-
-  /**
-   * The default value of the '{@link #getKey() <em>Key</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #getKey()
-   * @generated
-   * @ordered
-   */
-  protected static final String KEY_EDEFAULT = null;
-
-  /**
-   * The cached value of the '{@link #getKey() <em>Key</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #getKey()
-   * @generated
-   * @ordered
-   */
-  protected String key = KEY_EDEFAULT;
 
   /**
    * The default value of the '{@link #getValue() <em>Value</em>}' attribute.
@@ -150,29 +129,6 @@ public class LDImpl extends MinimalEObjectImpl.Container implements LD
    * <!-- end-user-doc -->
    * @generated
    */
-  public String getKey()
-  {
-    return key;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public void setKey(String newKey)
-  {
-    String oldKey = key;
-    key = newKey;
-    if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, MegaLPackage.LD__KEY, oldKey, key));
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
   public String getValue()
   {
     return value;
@@ -204,8 +160,6 @@ public class LDImpl extends MinimalEObjectImpl.Container implements LD
       case MegaLPackage.LD__TARGET:
         if (resolve) return getTarget();
         return basicGetTarget();
-      case MegaLPackage.LD__KEY:
-        return getKey();
       case MegaLPackage.LD__VALUE:
         return getValue();
     }
@@ -224,9 +178,6 @@ public class LDImpl extends MinimalEObjectImpl.Container implements LD
     {
       case MegaLPackage.LD__TARGET:
         setTarget((ED)newValue);
-        return;
-      case MegaLPackage.LD__KEY:
-        setKey((String)newValue);
         return;
       case MegaLPackage.LD__VALUE:
         setValue((String)newValue);
@@ -248,9 +199,6 @@ public class LDImpl extends MinimalEObjectImpl.Container implements LD
       case MegaLPackage.LD__TARGET:
         setTarget((ED)null);
         return;
-      case MegaLPackage.LD__KEY:
-        setKey(KEY_EDEFAULT);
-        return;
       case MegaLPackage.LD__VALUE:
         setValue(VALUE_EDEFAULT);
         return;
@@ -270,8 +218,6 @@ public class LDImpl extends MinimalEObjectImpl.Container implements LD
     {
       case MegaLPackage.LD__TARGET:
         return target != null;
-      case MegaLPackage.LD__KEY:
-        return KEY_EDEFAULT == null ? key != null : !KEY_EDEFAULT.equals(key);
       case MegaLPackage.LD__VALUE:
         return VALUE_EDEFAULT == null ? value != null : !VALUE_EDEFAULT.equals(value);
     }
@@ -289,9 +235,7 @@ public class LDImpl extends MinimalEObjectImpl.Container implements LD
     if (eIsProxy()) return super.toString();
 
     StringBuffer result = new StringBuffer(super.toString());
-    result.append(" (key: ");
-    result.append(key);
-    result.append(", value: ");
+    result.append(" (value: ");
     result.append(value);
     result.append(')');
     return result.toString();

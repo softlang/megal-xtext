@@ -66,6 +66,7 @@ public class MegaLFactoryImpl extends EFactoryImpl implements MegaLFactory
     {
       case MegaLPackage.MODEL: return createModel();
       case MegaLPackage.MEGA_LDEFINITION: return createMegaLDefinition();
+      case MegaLPackage.IMPORT: return createImport();
       case MegaLPackage.ETDR: return createETDR();
       case MegaLPackage.ETD_ENTITY: return createETDEntity();
       case MegaLPackage.ETD_DECLARED: return createETDDeclared();
@@ -100,6 +101,17 @@ public class MegaLFactoryImpl extends EFactoryImpl implements MegaLFactory
   {
     MegaLDefinitionImpl megaLDefinition = new MegaLDefinitionImpl();
     return megaLDefinition;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public Import createImport()
+  {
+    ImportImpl import_ = new ImportImpl();
+    return import_;
   }
 
   /**

@@ -14,10 +14,10 @@ import org.eclipse.emf.common.util.EList;
  * <ul>
  *   <li>{@link org.softlang.megal.megaL.MegaLDefinition#getLinker <em>Linker</em>}</li>
  *   <li>{@link org.softlang.megal.megaL.MegaLDefinition#getImports <em>Imports</em>}</li>
- *   <li>{@link org.softlang.megal.megaL.MegaLDefinition#getEtd <em>Etd</em>}</li>
- *   <li>{@link org.softlang.megal.megaL.MegaLDefinition#getRtd <em>Rtd</em>}</li>
- *   <li>{@link org.softlang.megal.megaL.MegaLDefinition#getEd <em>Ed</em>}</li>
- *   <li>{@link org.softlang.megal.megaL.MegaLDefinition#getRd <em>Rd</em>}</li>
+ *   <li>{@link org.softlang.megal.megaL.MegaLDefinition#getEtds <em>Etds</em>}</li>
+ *   <li>{@link org.softlang.megal.megaL.MegaLDefinition#getRtds <em>Rtds</em>}</li>
+ *   <li>{@link org.softlang.megal.megaL.MegaLDefinition#getEds <em>Eds</em>}</li>
+ *   <li>{@link org.softlang.megal.megaL.MegaLDefinition#getRds <em>Rds</em>}</li>
  * </ul>
  * </p>
  *
@@ -54,83 +54,83 @@ public interface MegaLDefinition extends Model
   void setLinker(MegaLLinking value);
 
   /**
-   * Returns the value of the '<em><b>Imports</b></em>' reference list.
-   * The list contents are of type {@link org.softlang.megal.megaL.MegaLDefinition}.
+   * Returns the value of the '<em><b>Imports</b></em>' containment reference list.
+   * The list contents are of type {@link org.softlang.megal.megaL.Import}.
    * <!-- begin-user-doc -->
    * <p>
-   * If the meaning of the '<em>Imports</em>' reference list isn't clear,
+   * If the meaning of the '<em>Imports</em>' containment reference list isn't clear,
    * there really should be more of a description here...
    * </p>
    * <!-- end-user-doc -->
-   * @return the value of the '<em>Imports</em>' reference list.
+   * @return the value of the '<em>Imports</em>' containment reference list.
    * @see org.softlang.megal.megaL.MegaLPackage#getMegaLDefinition_Imports()
-   * @model
+   * @model containment="true"
    * @generated
    */
-  EList<MegaLDefinition> getImports();
+  EList<Import> getImports();
 
   /**
-   * Returns the value of the '<em><b>Etd</b></em>' containment reference list.
+   * Returns the value of the '<em><b>Etds</b></em>' containment reference list.
    * The list contents are of type {@link org.softlang.megal.megaL.ETD}.
    * <!-- begin-user-doc -->
    * <p>
-   * If the meaning of the '<em>Etd</em>' containment reference list isn't clear,
+   * If the meaning of the '<em>Etds</em>' containment reference list isn't clear,
    * there really should be more of a description here...
    * </p>
    * <!-- end-user-doc -->
-   * @return the value of the '<em>Etd</em>' containment reference list.
-   * @see org.softlang.megal.megaL.MegaLPackage#getMegaLDefinition_Etd()
+   * @return the value of the '<em>Etds</em>' containment reference list.
+   * @see org.softlang.megal.megaL.MegaLPackage#getMegaLDefinition_Etds()
    * @model containment="true"
    * @generated
    */
-  EList<ETD> getEtd();
+  EList<ETD> getEtds();
 
   /**
-   * Returns the value of the '<em><b>Rtd</b></em>' containment reference list.
+   * Returns the value of the '<em><b>Rtds</b></em>' containment reference list.
    * The list contents are of type {@link org.softlang.megal.megaL.RTD}.
    * <!-- begin-user-doc -->
    * <p>
-   * If the meaning of the '<em>Rtd</em>' containment reference list isn't clear,
+   * If the meaning of the '<em>Rtds</em>' containment reference list isn't clear,
    * there really should be more of a description here...
    * </p>
    * <!-- end-user-doc -->
-   * @return the value of the '<em>Rtd</em>' containment reference list.
-   * @see org.softlang.megal.megaL.MegaLPackage#getMegaLDefinition_Rtd()
+   * @return the value of the '<em>Rtds</em>' containment reference list.
+   * @see org.softlang.megal.megaL.MegaLPackage#getMegaLDefinition_Rtds()
    * @model containment="true"
    * @generated
    */
-  EList<RTD> getRtd();
+  EList<RTD> getRtds();
 
   /**
-   * Returns the value of the '<em><b>Ed</b></em>' containment reference list.
+   * Returns the value of the '<em><b>Eds</b></em>' containment reference list.
    * The list contents are of type {@link org.softlang.megal.megaL.ED}.
    * <!-- begin-user-doc -->
    * <p>
-   * If the meaning of the '<em>Ed</em>' containment reference list isn't clear,
+   * If the meaning of the '<em>Eds</em>' containment reference list isn't clear,
    * there really should be more of a description here...
    * </p>
    * <!-- end-user-doc -->
-   * @return the value of the '<em>Ed</em>' containment reference list.
-   * @see org.softlang.megal.megaL.MegaLPackage#getMegaLDefinition_Ed()
+   * @return the value of the '<em>Eds</em>' containment reference list.
+   * @see org.softlang.megal.megaL.MegaLPackage#getMegaLDefinition_Eds()
    * @model containment="true"
    * @generated
    */
-  EList<ED> getEd();
+  EList<ED> getEds();
 
   /**
-   * Returns the value of the '<em><b>Rd</b></em>' containment reference list.
+   * Returns the value of the '<em><b>Rds</b></em>' containment reference list.
    * The list contents are of type {@link org.softlang.megal.megaL.RD}.
    * <!-- begin-user-doc -->
    * <p>
-   * If the meaning of the '<em>Rd</em>' containment reference list isn't clear,
+   * If the meaning of the '<em>Rds</em>' containment reference list isn't clear,
    * there really should be more of a description here...
    * </p>
    * <!-- end-user-doc -->
-   * @return the value of the '<em>Rd</em>' containment reference list.
-   * @see org.softlang.megal.megaL.MegaLPackage#getMegaLDefinition_Rd()
+   * @return the value of the '<em>Rds</em>' containment reference list.
+   * @see org.softlang.megal.megaL.MegaLPackage#getMegaLDefinition_Rds()
    * @model containment="true"
    * @generated
    */
-  EList<RD> getRd();
+  EList<RD> getRds();
 
 } // MegaLDefinition

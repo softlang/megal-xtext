@@ -85,6 +85,11 @@ public class MegaLAdapterFactory extends AdapterFactoryImpl
         return createMegaLDefinitionAdapter();
       }
       @Override
+      public Adapter caseImport(Import object)
+      {
+        return createImportAdapter();
+      }
+      @Override
       public Adapter caseETDR(ETDR object)
       {
         return createETDRAdapter();
@@ -177,6 +182,21 @@ public class MegaLAdapterFactory extends AdapterFactoryImpl
    * @generated
    */
   public Adapter createMegaLDefinitionAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link org.softlang.megal.megaL.Import <em>Import</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see org.softlang.megal.megaL.Import
+   * @generated
+   */
+  public Adapter createImportAdapter()
   {
     return null;
   }

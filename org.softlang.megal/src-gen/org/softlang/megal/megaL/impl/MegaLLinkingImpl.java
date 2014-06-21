@@ -30,7 +30,7 @@ import org.softlang.megal.megaL.MegaLPackage;
  * The following features are implemented:
  * <ul>
  *   <li>{@link org.softlang.megal.megaL.impl.MegaLLinkingImpl#getTarget <em>Target</em>}</li>
- *   <li>{@link org.softlang.megal.megaL.impl.MegaLLinkingImpl#getLinks <em>Links</em>}</li>
+ *   <li>{@link org.softlang.megal.megaL.impl.MegaLLinkingImpl#getLds <em>Lds</em>}</li>
  * </ul>
  * </p>
  *
@@ -49,14 +49,14 @@ public class MegaLLinkingImpl extends ModelImpl implements MegaLLinking
   protected MegaLDefinition target;
 
   /**
-   * The cached value of the '{@link #getLinks() <em>Links</em>}' containment reference list.
+   * The cached value of the '{@link #getLds() <em>Lds</em>}' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getLinks()
+   * @see #getLds()
    * @generated
    * @ordered
    */
-  protected EList<LD> links;
+  protected EList<LD> lds;
 
   /**
    * <!-- begin-user-doc -->
@@ -127,13 +127,13 @@ public class MegaLLinkingImpl extends ModelImpl implements MegaLLinking
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList<LD> getLinks()
+  public EList<LD> getLds()
   {
-    if (links == null)
+    if (lds == null)
     {
-      links = new EObjectContainmentEList<LD>(LD.class, this, MegaLPackage.MEGA_LLINKING__LINKS);
+      lds = new EObjectContainmentEList<LD>(LD.class, this, MegaLPackage.MEGA_LLINKING__LDS);
     }
-    return links;
+    return lds;
   }
 
   /**
@@ -146,8 +146,8 @@ public class MegaLLinkingImpl extends ModelImpl implements MegaLLinking
   {
     switch (featureID)
     {
-      case MegaLPackage.MEGA_LLINKING__LINKS:
-        return ((InternalEList<?>)getLinks()).basicRemove(otherEnd, msgs);
+      case MegaLPackage.MEGA_LLINKING__LDS:
+        return ((InternalEList<?>)getLds()).basicRemove(otherEnd, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -165,8 +165,8 @@ public class MegaLLinkingImpl extends ModelImpl implements MegaLLinking
       case MegaLPackage.MEGA_LLINKING__TARGET:
         if (resolve) return getTarget();
         return basicGetTarget();
-      case MegaLPackage.MEGA_LLINKING__LINKS:
-        return getLinks();
+      case MegaLPackage.MEGA_LLINKING__LDS:
+        return getLds();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -185,9 +185,9 @@ public class MegaLLinkingImpl extends ModelImpl implements MegaLLinking
       case MegaLPackage.MEGA_LLINKING__TARGET:
         setTarget((MegaLDefinition)newValue);
         return;
-      case MegaLPackage.MEGA_LLINKING__LINKS:
-        getLinks().clear();
-        getLinks().addAll((Collection<? extends LD>)newValue);
+      case MegaLPackage.MEGA_LLINKING__LDS:
+        getLds().clear();
+        getLds().addAll((Collection<? extends LD>)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -206,8 +206,8 @@ public class MegaLLinkingImpl extends ModelImpl implements MegaLLinking
       case MegaLPackage.MEGA_LLINKING__TARGET:
         setTarget((MegaLDefinition)null);
         return;
-      case MegaLPackage.MEGA_LLINKING__LINKS:
-        getLinks().clear();
+      case MegaLPackage.MEGA_LLINKING__LDS:
+        getLds().clear();
         return;
     }
     super.eUnset(featureID);
@@ -225,8 +225,8 @@ public class MegaLLinkingImpl extends ModelImpl implements MegaLLinking
     {
       case MegaLPackage.MEGA_LLINKING__TARGET:
         return target != null;
-      case MegaLPackage.MEGA_LLINKING__LINKS:
-        return links != null && !links.isEmpty();
+      case MegaLPackage.MEGA_LLINKING__LDS:
+        return lds != null && !lds.isEmpty();
     }
     return super.eIsSet(featureID);
   }

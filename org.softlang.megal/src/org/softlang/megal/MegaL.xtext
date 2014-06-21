@@ -6,8 +6,12 @@ Model:
 	MegaLDefinition | MegaLLinking;
 
 MegaLDefinition:
-	'model' name=QualifiedID ('linked' 'in' linker=[MegaLLinking|QualifiedID])? (('import' imports+=[MegaLDefinition]) |
-	etd+=ETD | rtd+=RTD | ed+=ED | rd+=RD)*;
+	'model' name=QualifiedID
+	('linked' 'in' linker=[MegaLLinking|QualifiedID])?
+	(imports+=Import | etds+=ETD | rtds+=RTD | eds+=ED | rds+=RD)*;
+
+Import:
+	'import' ref=[MegaLDefinition];
 
 ETDR:
 	ETDEntity | ETDDeclared;
@@ -16,7 +20,7 @@ ETDEntity:
 	{ETDEntity} 'Entity';
 
 ETDDeclared:
-	reference=[ETD];
+	ref=[ETD];
 
 ETD:
 	name=ID '<' supertype=ETDR;
@@ -30,11 +34,13 @@ ED:
 RD:
 	source=[ED] rel=[RTD] target=[ED];
 
-QualifiedID:
-	ID ('.' ID)*;
-
 MegaLLinking:
-	'linking' name=QualifiedID ('for' target=[MegaLDefinition|QualifiedID])? (links+=LD)*;
+	'linking' name=QualifiedID
+	('for' target=[MegaLDefinition|QualifiedID])?
+	(lds+=LD)*;
 
 LD:
-	target=[ED] ('.' key=ID)? '=' value=STRING;
+	target=[ED] '=' value=STRING;
+
+QualifiedID:
+	ID ('.' ID)*;

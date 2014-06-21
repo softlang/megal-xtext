@@ -6,21 +6,24 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="MegaLDefinition" eSuperTypes="#//Model">
     <eStructuralFeatures xsi:type="ecore:EReference" name="linker" eType="#//MegaLLinking"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="imports" unique="false"
-        upperBound="-1" eType="#//MegaLDefinition"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="etd" upperBound="-1" eType="#//ETD"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="imports" upperBound="-1"
+        eType="#//Import" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="etds" upperBound="-1" eType="#//ETD"
         containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="rtd" upperBound="-1" eType="#//RTD"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rtds" upperBound="-1" eType="#//RTD"
         containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="ed" upperBound="-1" eType="#//ED"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="eds" upperBound="-1" eType="#//ED"
         containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="rd" upperBound="-1" eType="#//RD"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rds" upperBound="-1" eType="#//RD"
         containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Import">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ref" eType="#//MegaLDefinition"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ETDR"/>
   <eClassifiers xsi:type="ecore:EClass" name="ETDEntity" eSuperTypes="#//ETDR"/>
   <eClassifiers xsi:type="ecore:EClass" name="ETDDeclared" eSuperTypes="#//ETDR">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="reference" eType="#//ETD"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ref" eType="#//ETD"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ETD">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -45,12 +48,11 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="MegaLLinking" eSuperTypes="#//Model">
     <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#//MegaLDefinition"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="links" upperBound="-1"
-        eType="#//LD" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="lds" upperBound="-1" eType="#//LD"
+        containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="LD">
     <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#//ED"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="key" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
 </ecore:EPackage>

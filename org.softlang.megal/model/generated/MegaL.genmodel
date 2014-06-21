@@ -12,16 +12,19 @@
     </genClasses>
     <genClasses ecoreClass="MegaL.ecore#//MegaLDefinition">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MegaL.ecore#//MegaLDefinition/linker"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MegaL.ecore#//MegaLDefinition/imports"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MegaL.ecore#//MegaLDefinition/etd"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MegaL.ecore#//MegaLDefinition/rtd"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MegaL.ecore#//MegaLDefinition/ed"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MegaL.ecore#//MegaLDefinition/rd"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MegaL.ecore#//MegaLDefinition/imports"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MegaL.ecore#//MegaLDefinition/etds"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MegaL.ecore#//MegaLDefinition/rtds"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MegaL.ecore#//MegaLDefinition/eds"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MegaL.ecore#//MegaLDefinition/rds"/>
+    </genClasses>
+    <genClasses ecoreClass="MegaL.ecore#//Import">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MegaL.ecore#//Import/ref"/>
     </genClasses>
     <genClasses ecoreClass="MegaL.ecore#//ETDR"/>
     <genClasses ecoreClass="MegaL.ecore#//ETDEntity"/>
     <genClasses ecoreClass="MegaL.ecore#//ETDDeclared">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MegaL.ecore#//ETDDeclared/reference"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MegaL.ecore#//ETDDeclared/ref"/>
     </genClasses>
     <genClasses ecoreClass="MegaL.ecore#//ETD">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MegaL.ecore#//ETD/name"/>
@@ -43,11 +46,10 @@
     </genClasses>
     <genClasses ecoreClass="MegaL.ecore#//MegaLLinking">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MegaL.ecore#//MegaLLinking/target"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MegaL.ecore#//MegaLLinking/links"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MegaL.ecore#//MegaLLinking/lds"/>
     </genClasses>
     <genClasses ecoreClass="MegaL.ecore#//LD">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MegaL.ecore#//LD/target"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MegaL.ecore#//LD/key"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MegaL.ecore#//LD/value"/>
     </genClasses>
   </genPackages>

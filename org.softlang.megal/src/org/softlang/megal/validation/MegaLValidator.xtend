@@ -3,14 +3,13 @@
  */
 package org.softlang.megal.validation
 
+import org.eclipse.emf.ecore.util.EcoreUtil
 import org.eclipse.xtext.validation.Check
 import org.softlang.megal.megaL.ED
 import org.softlang.megal.megaL.ETD
 import org.softlang.megal.megaL.MegaLDefinition
 import org.softlang.megal.megaL.MegaLLinking
 import org.softlang.megal.megaL.MegaLPackage
-import org.eclipse.emf.ecore.util.EcoreUtil
-import org.eclipse.emf.ecore.EObject
 
 /**
  * Custom validation rules. 
@@ -18,9 +17,6 @@ import org.eclipse.emf.ecore.EObject
  * see http://www.eclipse.org/Xtext/documentation.html#validation
  */
 class MegaLValidator extends AbstractMegaLValidator {
-	def operator_spaceship(EObject a, EObject b) {
-		EcoreUtil.equals(a, b)
-	}
 
 	@Check
 	def checkSemanticsExisting(ETD it) {
@@ -40,10 +36,10 @@ class MegaLValidator extends AbstractMegaLValidator {
 	}
 
 	@Check
-	def checkIsLinked(ED it) {
-		val md = eContainer as MegaLDefinition
+	def checkIsLinked(ED e) {
+		val md = e.eContainer as MegaLDefinition
 
-		if (!md.linker.links.exists[l|l.target <=> it])
+		if (!md.linker.lds.exists[l|EcoreUtil.equals(l.target, e)])
 			error('Unlinked entity', MegaLPackage.Literals.ED__NAME)
 	}
 }

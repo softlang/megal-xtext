@@ -8,25 +8,26 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
-import org.softlang.megal.megaL.ETD;
-import org.softlang.megal.megaL.ETDDeclared;
+import org.softlang.megal.megaL.Import;
+import org.softlang.megal.megaL.MegaLDefinition;
 import org.softlang.megal.megaL.MegaLPackage;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>ETD Declared</b></em>'.
+ * An implementation of the model object '<em><b>Import</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.softlang.megal.megaL.impl.ETDDeclaredImpl#getRef <em>Ref</em>}</li>
+ *   <li>{@link org.softlang.megal.megaL.impl.ImportImpl#getRef <em>Ref</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class ETDDeclaredImpl extends ETDRImpl implements ETDDeclared
+public class ImportImpl extends MinimalEObjectImpl.Container implements Import
 {
   /**
    * The cached value of the '{@link #getRef() <em>Ref</em>}' reference.
@@ -36,14 +37,14 @@ public class ETDDeclaredImpl extends ETDRImpl implements ETDDeclared
    * @generated
    * @ordered
    */
-  protected ETD ref;
+  protected MegaLDefinition ref;
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  protected ETDDeclaredImpl()
+  protected ImportImpl()
   {
     super();
   }
@@ -56,7 +57,7 @@ public class ETDDeclaredImpl extends ETDRImpl implements ETDDeclared
   @Override
   protected EClass eStaticClass()
   {
-    return MegaLPackage.Literals.ETD_DECLARED;
+    return MegaLPackage.Literals.IMPORT;
   }
 
   /**
@@ -64,16 +65,16 @@ public class ETDDeclaredImpl extends ETDRImpl implements ETDDeclared
    * <!-- end-user-doc -->
    * @generated
    */
-  public ETD getRef()
+  public MegaLDefinition getRef()
   {
     if (ref != null && ref.eIsProxy())
     {
       InternalEObject oldRef = (InternalEObject)ref;
-      ref = (ETD)eResolveProxy(oldRef);
+      ref = (MegaLDefinition)eResolveProxy(oldRef);
       if (ref != oldRef)
       {
         if (eNotificationRequired())
-          eNotify(new ENotificationImpl(this, Notification.RESOLVE, MegaLPackage.ETD_DECLARED__REF, oldRef, ref));
+          eNotify(new ENotificationImpl(this, Notification.RESOLVE, MegaLPackage.IMPORT__REF, oldRef, ref));
       }
     }
     return ref;
@@ -84,7 +85,7 @@ public class ETDDeclaredImpl extends ETDRImpl implements ETDDeclared
    * <!-- end-user-doc -->
    * @generated
    */
-  public ETD basicGetRef()
+  public MegaLDefinition basicGetRef()
   {
     return ref;
   }
@@ -94,12 +95,12 @@ public class ETDDeclaredImpl extends ETDRImpl implements ETDDeclared
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setRef(ETD newRef)
+  public void setRef(MegaLDefinition newRef)
   {
-    ETD oldRef = ref;
+    MegaLDefinition oldRef = ref;
     ref = newRef;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, MegaLPackage.ETD_DECLARED__REF, oldRef, ref));
+      eNotify(new ENotificationImpl(this, Notification.SET, MegaLPackage.IMPORT__REF, oldRef, ref));
   }
 
   /**
@@ -112,7 +113,7 @@ public class ETDDeclaredImpl extends ETDRImpl implements ETDDeclared
   {
     switch (featureID)
     {
-      case MegaLPackage.ETD_DECLARED__REF:
+      case MegaLPackage.IMPORT__REF:
         if (resolve) return getRef();
         return basicGetRef();
     }
@@ -129,8 +130,8 @@ public class ETDDeclaredImpl extends ETDRImpl implements ETDDeclared
   {
     switch (featureID)
     {
-      case MegaLPackage.ETD_DECLARED__REF:
-        setRef((ETD)newValue);
+      case MegaLPackage.IMPORT__REF:
+        setRef((MegaLDefinition)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -146,8 +147,8 @@ public class ETDDeclaredImpl extends ETDRImpl implements ETDDeclared
   {
     switch (featureID)
     {
-      case MegaLPackage.ETD_DECLARED__REF:
-        setRef((ETD)null);
+      case MegaLPackage.IMPORT__REF:
+        setRef((MegaLDefinition)null);
         return;
     }
     super.eUnset(featureID);
@@ -163,10 +164,10 @@ public class ETDDeclaredImpl extends ETDRImpl implements ETDDeclared
   {
     switch (featureID)
     {
-      case MegaLPackage.ETD_DECLARED__REF:
+      case MegaLPackage.IMPORT__REF:
         return ref != null;
     }
     return super.eIsSet(featureID);
   }
 
-} //ETDDeclaredImpl
+} //ImportImpl

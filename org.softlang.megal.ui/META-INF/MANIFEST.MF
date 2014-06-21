@@ -19,8 +19,8 @@ Require-Bundle: org.softlang.megal;visibility:=reexport,
 Import-Package: org.apache.log4j,
  org.eclipse.xtext.xbase.lib
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
-Export-Package: org.softlang.megal.ui.quickfix,
- org.softlang.megal.ui.contentassist,
+Export-Package: org.softlang.megal.ui.contentassist,
  org.softlang.megal.ui.contentassist.antlr,
- org.softlang.megal.ui.internal
+ org.softlang.megal.ui.internal,
+ org.softlang.megal.ui.quickfix
 Bundle-Activator: org.softlang.megal.ui.internal.MegaLActivator

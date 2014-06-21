@@ -25,10 +25,6 @@ import org.softlang.megal.validation.AbstractMegaLValidator;
  */
 @SuppressWarnings("all")
 public class MegaLValidator extends AbstractMegaLValidator {
-  public boolean operator_spaceship(final EObject a, final EObject b) {
-    return EcoreUtil.equals(a, b);
-  }
-  
   @Check
   public void checkSemanticsExisting(final ETD it) {
     String _name = it.getName();
@@ -55,18 +51,18 @@ public class MegaLValidator extends AbstractMegaLValidator {
   }
   
   @Check
-  public void checkIsLinked(final ED it) {
-    EObject _eContainer = it.eContainer();
+  public void checkIsLinked(final ED e) {
+    EObject _eContainer = e.eContainer();
     final MegaLDefinition md = ((MegaLDefinition) _eContainer);
     MegaLLinking _linker = md.getLinker();
-    EList<LD> _links = _linker.getLinks();
+    EList<LD> _lds = _linker.getLds();
     final Function1<LD, Boolean> _function = new Function1<LD, Boolean>() {
       public Boolean apply(final LD l) {
         ED _target = l.getTarget();
-        return Boolean.valueOf(MegaLValidator.this.operator_spaceship(_target, it));
+        return Boolean.valueOf(EcoreUtil.equals(_target, e));
       }
     };
-    boolean _exists = IterableExtensions.<LD>exists(_links, _function);
+    boolean _exists = IterableExtensions.<LD>exists(_lds, _function);
     boolean _not = (!_exists);
     if (_not) {
       this.error("Unlinked entity", MegaLPackage.Literals.ED__NAME);
