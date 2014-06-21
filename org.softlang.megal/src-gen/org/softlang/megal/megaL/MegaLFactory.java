@@ -50,33 +50,6 @@ public interface MegaLFactory extends EFactory
   Import createImport();
 
   /**
-   * Returns a new object of class '<em>ETDR</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return a new object of class '<em>ETDR</em>'.
-   * @generated
-   */
-  ETDR createETDR();
-
-  /**
-   * Returns a new object of class '<em>ETD Entity</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return a new object of class '<em>ETD Entity</em>'.
-   * @generated
-   */
-  ETDEntity createETDEntity();
-
-  /**
-   * Returns a new object of class '<em>ETD Declared</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return a new object of class '<em>ETD Declared</em>'.
-   * @generated
-   */
-  ETDDeclared createETDDeclared();
-
-  /**
    * Returns a new object of class '<em>ETD</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -93,6 +66,15 @@ public interface MegaLFactory extends EFactory
    * @generated
    */
   RTD createRTD();
+
+  /**
+   * Returns a new object of class '<em>ED Group</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>ED Group</em>'.
+   * @generated
+   */
+  EDGroup createEDGroup();
 
   /**
    * Returns a new object of class '<em>ED</em>'.

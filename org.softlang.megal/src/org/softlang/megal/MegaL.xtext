@@ -8,28 +8,22 @@ Model:
 MegaLDefinition:
 	'model' name=QualifiedID
 	('linked' 'in' linker=[MegaLLinking|QualifiedID])?
-	(imports+=Import | etds+=ETD | rtds+=RTD | eds+=ED | rds+=RD)*;
+	(imports+=Import | rds+=RD | etds+=ETD | rtds+=RTD | eds+=EDGroup)*;
 
 Import:
 	'import' ref=[MegaLDefinition];
 
-ETDR:
-	ETDEntity | ETDDeclared;
-
-ETDEntity:
-	{ETDEntity} 'Entity';
-
-ETDDeclared:
-	ref=[ETD];
-
 ETD:
-	name=ID '<' supertype=ETDR;
+	'define' name=ID ('from' supertype=[ETD])?;
 
 RTD:
-	name=ID '<' domain=ETDR '*' coDomain=ETDR;
+	'define' name=ID ':' domain=[ETD] '->' coDomain=[ETD];
+
+EDGroup:
+	type=[ETD] ':' items+=ED (',' items+=ED)*;
 
 ED:
-	name=ID ':' type=ETDR;
+	name=ID;
 
 RD:
 	source=[ED] rel=[RTD] target=[ED];

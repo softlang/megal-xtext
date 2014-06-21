@@ -90,21 +90,6 @@ public class MegaLAdapterFactory extends AdapterFactoryImpl
         return createImportAdapter();
       }
       @Override
-      public Adapter caseETDR(ETDR object)
-      {
-        return createETDRAdapter();
-      }
-      @Override
-      public Adapter caseETDEntity(ETDEntity object)
-      {
-        return createETDEntityAdapter();
-      }
-      @Override
-      public Adapter caseETDDeclared(ETDDeclared object)
-      {
-        return createETDDeclaredAdapter();
-      }
-      @Override
       public Adapter caseETD(ETD object)
       {
         return createETDAdapter();
@@ -113,6 +98,11 @@ public class MegaLAdapterFactory extends AdapterFactoryImpl
       public Adapter caseRTD(RTD object)
       {
         return createRTDAdapter();
+      }
+      @Override
+      public Adapter caseEDGroup(EDGroup object)
+      {
+        return createEDGroupAdapter();
       }
       @Override
       public Adapter caseED(ED object)
@@ -202,51 +192,6 @@ public class MegaLAdapterFactory extends AdapterFactoryImpl
   }
 
   /**
-   * Creates a new adapter for an object of class '{@link org.softlang.megal.megaL.ETDR <em>ETDR</em>}'.
-   * <!-- begin-user-doc -->
-   * This default implementation returns null so that we can easily ignore cases;
-   * it's useful to ignore a case when inheritance will catch all the cases anyway.
-   * <!-- end-user-doc -->
-   * @return the new adapter.
-   * @see org.softlang.megal.megaL.ETDR
-   * @generated
-   */
-  public Adapter createETDRAdapter()
-  {
-    return null;
-  }
-
-  /**
-   * Creates a new adapter for an object of class '{@link org.softlang.megal.megaL.ETDEntity <em>ETD Entity</em>}'.
-   * <!-- begin-user-doc -->
-   * This default implementation returns null so that we can easily ignore cases;
-   * it's useful to ignore a case when inheritance will catch all the cases anyway.
-   * <!-- end-user-doc -->
-   * @return the new adapter.
-   * @see org.softlang.megal.megaL.ETDEntity
-   * @generated
-   */
-  public Adapter createETDEntityAdapter()
-  {
-    return null;
-  }
-
-  /**
-   * Creates a new adapter for an object of class '{@link org.softlang.megal.megaL.ETDDeclared <em>ETD Declared</em>}'.
-   * <!-- begin-user-doc -->
-   * This default implementation returns null so that we can easily ignore cases;
-   * it's useful to ignore a case when inheritance will catch all the cases anyway.
-   * <!-- end-user-doc -->
-   * @return the new adapter.
-   * @see org.softlang.megal.megaL.ETDDeclared
-   * @generated
-   */
-  public Adapter createETDDeclaredAdapter()
-  {
-    return null;
-  }
-
-  /**
    * Creates a new adapter for an object of class '{@link org.softlang.megal.megaL.ETD <em>ETD</em>}'.
    * <!-- begin-user-doc -->
    * This default implementation returns null so that we can easily ignore cases;
@@ -272,6 +217,21 @@ public class MegaLAdapterFactory extends AdapterFactoryImpl
    * @generated
    */
   public Adapter createRTDAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link org.softlang.megal.megaL.EDGroup <em>ED Group</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see org.softlang.megal.megaL.EDGroup
+   * @generated
+   */
+  public Adapter createEDGroupAdapter()
   {
     return null;
   }

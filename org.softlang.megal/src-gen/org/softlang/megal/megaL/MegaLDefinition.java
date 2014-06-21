@@ -14,10 +14,10 @@ import org.eclipse.emf.common.util.EList;
  * <ul>
  *   <li>{@link org.softlang.megal.megaL.MegaLDefinition#getLinker <em>Linker</em>}</li>
  *   <li>{@link org.softlang.megal.megaL.MegaLDefinition#getImports <em>Imports</em>}</li>
+ *   <li>{@link org.softlang.megal.megaL.MegaLDefinition#getRds <em>Rds</em>}</li>
  *   <li>{@link org.softlang.megal.megaL.MegaLDefinition#getEtds <em>Etds</em>}</li>
  *   <li>{@link org.softlang.megal.megaL.MegaLDefinition#getRtds <em>Rtds</em>}</li>
  *   <li>{@link org.softlang.megal.megaL.MegaLDefinition#getEds <em>Eds</em>}</li>
- *   <li>{@link org.softlang.megal.megaL.MegaLDefinition#getRds <em>Rds</em>}</li>
  * </ul>
  * </p>
  *
@@ -70,6 +70,22 @@ public interface MegaLDefinition extends Model
   EList<Import> getImports();
 
   /**
+   * Returns the value of the '<em><b>Rds</b></em>' containment reference list.
+   * The list contents are of type {@link org.softlang.megal.megaL.RD}.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Rds</em>' containment reference list isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Rds</em>' containment reference list.
+   * @see org.softlang.megal.megaL.MegaLPackage#getMegaLDefinition_Rds()
+   * @model containment="true"
+   * @generated
+   */
+  EList<RD> getRds();
+
+  /**
    * Returns the value of the '<em><b>Etds</b></em>' containment reference list.
    * The list contents are of type {@link org.softlang.megal.megaL.ETD}.
    * <!-- begin-user-doc -->
@@ -103,7 +119,7 @@ public interface MegaLDefinition extends Model
 
   /**
    * Returns the value of the '<em><b>Eds</b></em>' containment reference list.
-   * The list contents are of type {@link org.softlang.megal.megaL.ED}.
+   * The list contents are of type {@link org.softlang.megal.megaL.EDGroup}.
    * <!-- begin-user-doc -->
    * <p>
    * If the meaning of the '<em>Eds</em>' containment reference list isn't clear,
@@ -115,22 +131,6 @@ public interface MegaLDefinition extends Model
    * @model containment="true"
    * @generated
    */
-  EList<ED> getEds();
-
-  /**
-   * Returns the value of the '<em><b>Rds</b></em>' containment reference list.
-   * The list contents are of type {@link org.softlang.megal.megaL.RD}.
-   * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Rds</em>' containment reference list isn't clear,
-   * there really should be more of a description here...
-   * </p>
-   * <!-- end-user-doc -->
-   * @return the value of the '<em>Rds</em>' containment reference list.
-   * @see org.softlang.megal.megaL.MegaLPackage#getMegaLDefinition_Rds()
-   * @model containment="true"
-   * @generated
-   */
-  EList<RD> getRds();
+  EList<EDGroup> getEds();
 
 } // MegaLDefinition

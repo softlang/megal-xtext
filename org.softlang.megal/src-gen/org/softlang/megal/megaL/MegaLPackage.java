@@ -122,13 +122,22 @@ public interface MegaLPackage extends EPackage
   int MEGA_LDEFINITION__IMPORTS = MODEL_FEATURE_COUNT + 1;
 
   /**
+   * The feature id for the '<em><b>Rds</b></em>' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int MEGA_LDEFINITION__RDS = MODEL_FEATURE_COUNT + 2;
+
+  /**
    * The feature id for the '<em><b>Etds</b></em>' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int MEGA_LDEFINITION__ETDS = MODEL_FEATURE_COUNT + 2;
+  int MEGA_LDEFINITION__ETDS = MODEL_FEATURE_COUNT + 3;
 
   /**
    * The feature id for the '<em><b>Rtds</b></em>' containment reference list.
@@ -137,7 +146,7 @@ public interface MegaLPackage extends EPackage
    * @generated
    * @ordered
    */
-  int MEGA_LDEFINITION__RTDS = MODEL_FEATURE_COUNT + 3;
+  int MEGA_LDEFINITION__RTDS = MODEL_FEATURE_COUNT + 4;
 
   /**
    * The feature id for the '<em><b>Eds</b></em>' containment reference list.
@@ -146,16 +155,7 @@ public interface MegaLPackage extends EPackage
    * @generated
    * @ordered
    */
-  int MEGA_LDEFINITION__EDS = MODEL_FEATURE_COUNT + 4;
-
-  /**
-   * The feature id for the '<em><b>Rds</b></em>' containment reference list.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int MEGA_LDEFINITION__RDS = MODEL_FEATURE_COUNT + 5;
+  int MEGA_LDEFINITION__EDS = MODEL_FEATURE_COUNT + 5;
 
   /**
    * The number of structural features of the '<em>Definition</em>' class.
@@ -195,72 +195,6 @@ public interface MegaLPackage extends EPackage
   int IMPORT_FEATURE_COUNT = 1;
 
   /**
-   * The meta object id for the '{@link org.softlang.megal.megaL.impl.ETDRImpl <em>ETDR</em>}' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see org.softlang.megal.megaL.impl.ETDRImpl
-   * @see org.softlang.megal.megaL.impl.MegaLPackageImpl#getETDR()
-   * @generated
-   */
-  int ETDR = 3;
-
-  /**
-   * The number of structural features of the '<em>ETDR</em>' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int ETDR_FEATURE_COUNT = 0;
-
-  /**
-   * The meta object id for the '{@link org.softlang.megal.megaL.impl.ETDEntityImpl <em>ETD Entity</em>}' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see org.softlang.megal.megaL.impl.ETDEntityImpl
-   * @see org.softlang.megal.megaL.impl.MegaLPackageImpl#getETDEntity()
-   * @generated
-   */
-  int ETD_ENTITY = 4;
-
-  /**
-   * The number of structural features of the '<em>ETD Entity</em>' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int ETD_ENTITY_FEATURE_COUNT = ETDR_FEATURE_COUNT + 0;
-
-  /**
-   * The meta object id for the '{@link org.softlang.megal.megaL.impl.ETDDeclaredImpl <em>ETD Declared</em>}' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see org.softlang.megal.megaL.impl.ETDDeclaredImpl
-   * @see org.softlang.megal.megaL.impl.MegaLPackageImpl#getETDDeclared()
-   * @generated
-   */
-  int ETD_DECLARED = 5;
-
-  /**
-   * The feature id for the '<em><b>Ref</b></em>' reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int ETD_DECLARED__REF = ETDR_FEATURE_COUNT + 0;
-
-  /**
-   * The number of structural features of the '<em>ETD Declared</em>' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int ETD_DECLARED_FEATURE_COUNT = ETDR_FEATURE_COUNT + 1;
-
-  /**
    * The meta object id for the '{@link org.softlang.megal.megaL.impl.ETDImpl <em>ETD</em>}' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -268,7 +202,7 @@ public interface MegaLPackage extends EPackage
    * @see org.softlang.megal.megaL.impl.MegaLPackageImpl#getETD()
    * @generated
    */
-  int ETD = 6;
+  int ETD = 3;
 
   /**
    * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -280,7 +214,7 @@ public interface MegaLPackage extends EPackage
   int ETD__NAME = 0;
 
   /**
-   * The feature id for the '<em><b>Supertype</b></em>' containment reference.
+   * The feature id for the '<em><b>Supertype</b></em>' reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -305,7 +239,7 @@ public interface MegaLPackage extends EPackage
    * @see org.softlang.megal.megaL.impl.MegaLPackageImpl#getRTD()
    * @generated
    */
-  int RTD = 7;
+  int RTD = 4;
 
   /**
    * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -317,7 +251,7 @@ public interface MegaLPackage extends EPackage
   int RTD__NAME = 0;
 
   /**
-   * The feature id for the '<em><b>Domain</b></em>' containment reference.
+   * The feature id for the '<em><b>Domain</b></em>' reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -326,7 +260,7 @@ public interface MegaLPackage extends EPackage
   int RTD__DOMAIN = 1;
 
   /**
-   * The feature id for the '<em><b>Co Domain</b></em>' containment reference.
+   * The feature id for the '<em><b>Co Domain</b></em>' reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -344,6 +278,43 @@ public interface MegaLPackage extends EPackage
   int RTD_FEATURE_COUNT = 3;
 
   /**
+   * The meta object id for the '{@link org.softlang.megal.megaL.impl.EDGroupImpl <em>ED Group</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see org.softlang.megal.megaL.impl.EDGroupImpl
+   * @see org.softlang.megal.megaL.impl.MegaLPackageImpl#getEDGroup()
+   * @generated
+   */
+  int ED_GROUP = 5;
+
+  /**
+   * The feature id for the '<em><b>Type</b></em>' reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int ED_GROUP__TYPE = 0;
+
+  /**
+   * The feature id for the '<em><b>Items</b></em>' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int ED_GROUP__ITEMS = 1;
+
+  /**
+   * The number of structural features of the '<em>ED Group</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int ED_GROUP_FEATURE_COUNT = 2;
+
+  /**
    * The meta object id for the '{@link org.softlang.megal.megaL.impl.EDImpl <em>ED</em>}' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -351,7 +322,7 @@ public interface MegaLPackage extends EPackage
    * @see org.softlang.megal.megaL.impl.MegaLPackageImpl#getED()
    * @generated
    */
-  int ED = 8;
+  int ED = 6;
 
   /**
    * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -363,22 +334,13 @@ public interface MegaLPackage extends EPackage
   int ED__NAME = 0;
 
   /**
-   * The feature id for the '<em><b>Type</b></em>' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int ED__TYPE = 1;
-
-  /**
    * The number of structural features of the '<em>ED</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int ED_FEATURE_COUNT = 2;
+  int ED_FEATURE_COUNT = 1;
 
   /**
    * The meta object id for the '{@link org.softlang.megal.megaL.impl.RDImpl <em>RD</em>}' class.
@@ -388,7 +350,7 @@ public interface MegaLPackage extends EPackage
    * @see org.softlang.megal.megaL.impl.MegaLPackageImpl#getRD()
    * @generated
    */
-  int RD = 9;
+  int RD = 7;
 
   /**
    * The feature id for the '<em><b>Source</b></em>' reference.
@@ -434,7 +396,7 @@ public interface MegaLPackage extends EPackage
    * @see org.softlang.megal.megaL.impl.MegaLPackageImpl#getMegaLLinking()
    * @generated
    */
-  int MEGA_LLINKING = 10;
+  int MEGA_LLINKING = 8;
 
   /**
    * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -480,7 +442,7 @@ public interface MegaLPackage extends EPackage
    * @see org.softlang.megal.megaL.impl.MegaLPackageImpl#getLD()
    * @generated
    */
-  int LD = 11;
+  int LD = 9;
 
   /**
    * The feature id for the '<em><b>Target</b></em>' reference.
@@ -564,6 +526,17 @@ public interface MegaLPackage extends EPackage
   EReference getMegaLDefinition_Imports();
 
   /**
+   * Returns the meta object for the containment reference list '{@link org.softlang.megal.megaL.MegaLDefinition#getRds <em>Rds</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference list '<em>Rds</em>'.
+   * @see org.softlang.megal.megaL.MegaLDefinition#getRds()
+   * @see #getMegaLDefinition()
+   * @generated
+   */
+  EReference getMegaLDefinition_Rds();
+
+  /**
    * Returns the meta object for the containment reference list '{@link org.softlang.megal.megaL.MegaLDefinition#getEtds <em>Etds</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -597,17 +570,6 @@ public interface MegaLPackage extends EPackage
   EReference getMegaLDefinition_Eds();
 
   /**
-   * Returns the meta object for the containment reference list '{@link org.softlang.megal.megaL.MegaLDefinition#getRds <em>Rds</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the containment reference list '<em>Rds</em>'.
-   * @see org.softlang.megal.megaL.MegaLDefinition#getRds()
-   * @see #getMegaLDefinition()
-   * @generated
-   */
-  EReference getMegaLDefinition_Rds();
-
-  /**
    * Returns the meta object for class '{@link org.softlang.megal.megaL.Import <em>Import</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -627,47 +589,6 @@ public interface MegaLPackage extends EPackage
    * @generated
    */
   EReference getImport_Ref();
-
-  /**
-   * Returns the meta object for class '{@link org.softlang.megal.megaL.ETDR <em>ETDR</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for class '<em>ETDR</em>'.
-   * @see org.softlang.megal.megaL.ETDR
-   * @generated
-   */
-  EClass getETDR();
-
-  /**
-   * Returns the meta object for class '{@link org.softlang.megal.megaL.ETDEntity <em>ETD Entity</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for class '<em>ETD Entity</em>'.
-   * @see org.softlang.megal.megaL.ETDEntity
-   * @generated
-   */
-  EClass getETDEntity();
-
-  /**
-   * Returns the meta object for class '{@link org.softlang.megal.megaL.ETDDeclared <em>ETD Declared</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for class '<em>ETD Declared</em>'.
-   * @see org.softlang.megal.megaL.ETDDeclared
-   * @generated
-   */
-  EClass getETDDeclared();
-
-  /**
-   * Returns the meta object for the reference '{@link org.softlang.megal.megaL.ETDDeclared#getRef <em>Ref</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the reference '<em>Ref</em>'.
-   * @see org.softlang.megal.megaL.ETDDeclared#getRef()
-   * @see #getETDDeclared()
-   * @generated
-   */
-  EReference getETDDeclared_Ref();
 
   /**
    * Returns the meta object for class '{@link org.softlang.megal.megaL.ETD <em>ETD</em>}'.
@@ -691,10 +612,10 @@ public interface MegaLPackage extends EPackage
   EAttribute getETD_Name();
 
   /**
-   * Returns the meta object for the containment reference '{@link org.softlang.megal.megaL.ETD#getSupertype <em>Supertype</em>}'.
+   * Returns the meta object for the reference '{@link org.softlang.megal.megaL.ETD#getSupertype <em>Supertype</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for the containment reference '<em>Supertype</em>'.
+   * @return the meta object for the reference '<em>Supertype</em>'.
    * @see org.softlang.megal.megaL.ETD#getSupertype()
    * @see #getETD()
    * @generated
@@ -723,10 +644,10 @@ public interface MegaLPackage extends EPackage
   EAttribute getRTD_Name();
 
   /**
-   * Returns the meta object for the containment reference '{@link org.softlang.megal.megaL.RTD#getDomain <em>Domain</em>}'.
+   * Returns the meta object for the reference '{@link org.softlang.megal.megaL.RTD#getDomain <em>Domain</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for the containment reference '<em>Domain</em>'.
+   * @return the meta object for the reference '<em>Domain</em>'.
    * @see org.softlang.megal.megaL.RTD#getDomain()
    * @see #getRTD()
    * @generated
@@ -734,15 +655,47 @@ public interface MegaLPackage extends EPackage
   EReference getRTD_Domain();
 
   /**
-   * Returns the meta object for the containment reference '{@link org.softlang.megal.megaL.RTD#getCoDomain <em>Co Domain</em>}'.
+   * Returns the meta object for the reference '{@link org.softlang.megal.megaL.RTD#getCoDomain <em>Co Domain</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for the containment reference '<em>Co Domain</em>'.
+   * @return the meta object for the reference '<em>Co Domain</em>'.
    * @see org.softlang.megal.megaL.RTD#getCoDomain()
    * @see #getRTD()
    * @generated
    */
   EReference getRTD_CoDomain();
+
+  /**
+   * Returns the meta object for class '{@link org.softlang.megal.megaL.EDGroup <em>ED Group</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>ED Group</em>'.
+   * @see org.softlang.megal.megaL.EDGroup
+   * @generated
+   */
+  EClass getEDGroup();
+
+  /**
+   * Returns the meta object for the reference '{@link org.softlang.megal.megaL.EDGroup#getType <em>Type</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the reference '<em>Type</em>'.
+   * @see org.softlang.megal.megaL.EDGroup#getType()
+   * @see #getEDGroup()
+   * @generated
+   */
+  EReference getEDGroup_Type();
+
+  /**
+   * Returns the meta object for the containment reference list '{@link org.softlang.megal.megaL.EDGroup#getItems <em>Items</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference list '<em>Items</em>'.
+   * @see org.softlang.megal.megaL.EDGroup#getItems()
+   * @see #getEDGroup()
+   * @generated
+   */
+  EReference getEDGroup_Items();
 
   /**
    * Returns the meta object for class '{@link org.softlang.megal.megaL.ED <em>ED</em>}'.
@@ -764,17 +717,6 @@ public interface MegaLPackage extends EPackage
    * @generated
    */
   EAttribute getED_Name();
-
-  /**
-   * Returns the meta object for the containment reference '{@link org.softlang.megal.megaL.ED#getType <em>Type</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the containment reference '<em>Type</em>'.
-   * @see org.softlang.megal.megaL.ED#getType()
-   * @see #getED()
-   * @generated
-   */
-  EReference getED_Type();
 
   /**
    * Returns the meta object for class '{@link org.softlang.megal.megaL.RD <em>RD</em>}'.
@@ -951,6 +893,14 @@ public interface MegaLPackage extends EPackage
     EReference MEGA_LDEFINITION__IMPORTS = eINSTANCE.getMegaLDefinition_Imports();
 
     /**
+     * The meta object literal for the '<em><b>Rds</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference MEGA_LDEFINITION__RDS = eINSTANCE.getMegaLDefinition_Rds();
+
+    /**
      * The meta object literal for the '<em><b>Etds</b></em>' containment reference list feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -975,14 +925,6 @@ public interface MegaLPackage extends EPackage
     EReference MEGA_LDEFINITION__EDS = eINSTANCE.getMegaLDefinition_Eds();
 
     /**
-     * The meta object literal for the '<em><b>Rds</b></em>' containment reference list feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EReference MEGA_LDEFINITION__RDS = eINSTANCE.getMegaLDefinition_Rds();
-
-    /**
      * The meta object literal for the '{@link org.softlang.megal.megaL.impl.ImportImpl <em>Import</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -999,44 +941,6 @@ public interface MegaLPackage extends EPackage
      * @generated
      */
     EReference IMPORT__REF = eINSTANCE.getImport_Ref();
-
-    /**
-     * The meta object literal for the '{@link org.softlang.megal.megaL.impl.ETDRImpl <em>ETDR</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see org.softlang.megal.megaL.impl.ETDRImpl
-     * @see org.softlang.megal.megaL.impl.MegaLPackageImpl#getETDR()
-     * @generated
-     */
-    EClass ETDR = eINSTANCE.getETDR();
-
-    /**
-     * The meta object literal for the '{@link org.softlang.megal.megaL.impl.ETDEntityImpl <em>ETD Entity</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see org.softlang.megal.megaL.impl.ETDEntityImpl
-     * @see org.softlang.megal.megaL.impl.MegaLPackageImpl#getETDEntity()
-     * @generated
-     */
-    EClass ETD_ENTITY = eINSTANCE.getETDEntity();
-
-    /**
-     * The meta object literal for the '{@link org.softlang.megal.megaL.impl.ETDDeclaredImpl <em>ETD Declared</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see org.softlang.megal.megaL.impl.ETDDeclaredImpl
-     * @see org.softlang.megal.megaL.impl.MegaLPackageImpl#getETDDeclared()
-     * @generated
-     */
-    EClass ETD_DECLARED = eINSTANCE.getETDDeclared();
-
-    /**
-     * The meta object literal for the '<em><b>Ref</b></em>' reference feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EReference ETD_DECLARED__REF = eINSTANCE.getETDDeclared_Ref();
 
     /**
      * The meta object literal for the '{@link org.softlang.megal.megaL.impl.ETDImpl <em>ETD</em>}' class.
@@ -1057,7 +961,7 @@ public interface MegaLPackage extends EPackage
     EAttribute ETD__NAME = eINSTANCE.getETD_Name();
 
     /**
-     * The meta object literal for the '<em><b>Supertype</b></em>' containment reference feature.
+     * The meta object literal for the '<em><b>Supertype</b></em>' reference feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -1083,7 +987,7 @@ public interface MegaLPackage extends EPackage
     EAttribute RTD__NAME = eINSTANCE.getRTD_Name();
 
     /**
-     * The meta object literal for the '<em><b>Domain</b></em>' containment reference feature.
+     * The meta object literal for the '<em><b>Domain</b></em>' reference feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -1091,12 +995,38 @@ public interface MegaLPackage extends EPackage
     EReference RTD__DOMAIN = eINSTANCE.getRTD_Domain();
 
     /**
-     * The meta object literal for the '<em><b>Co Domain</b></em>' containment reference feature.
+     * The meta object literal for the '<em><b>Co Domain</b></em>' reference feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
     EReference RTD__CO_DOMAIN = eINSTANCE.getRTD_CoDomain();
+
+    /**
+     * The meta object literal for the '{@link org.softlang.megal.megaL.impl.EDGroupImpl <em>ED Group</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.softlang.megal.megaL.impl.EDGroupImpl
+     * @see org.softlang.megal.megaL.impl.MegaLPackageImpl#getEDGroup()
+     * @generated
+     */
+    EClass ED_GROUP = eINSTANCE.getEDGroup();
+
+    /**
+     * The meta object literal for the '<em><b>Type</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference ED_GROUP__TYPE = eINSTANCE.getEDGroup_Type();
+
+    /**
+     * The meta object literal for the '<em><b>Items</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference ED_GROUP__ITEMS = eINSTANCE.getEDGroup_Items();
 
     /**
      * The meta object literal for the '{@link org.softlang.megal.megaL.impl.EDImpl <em>ED</em>}' class.
@@ -1115,14 +1045,6 @@ public interface MegaLPackage extends EPackage
      * @generated
      */
     EAttribute ED__NAME = eINSTANCE.getED_Name();
-
-    /**
-     * The meta object literal for the '<em><b>Type</b></em>' containment reference feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EReference ED__TYPE = eINSTANCE.getED_Type();
 
     /**
      * The meta object literal for the '{@link org.softlang.megal.megaL.impl.RDImpl <em>RD</em>}' class.

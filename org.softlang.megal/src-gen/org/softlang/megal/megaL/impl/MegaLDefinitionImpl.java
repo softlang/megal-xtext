@@ -17,7 +17,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
-import org.softlang.megal.megaL.ED;
+import org.softlang.megal.megaL.EDGroup;
 import org.softlang.megal.megaL.ETD;
 import org.softlang.megal.megaL.Import;
 import org.softlang.megal.megaL.MegaLDefinition;
@@ -35,10 +35,10 @@ import org.softlang.megal.megaL.RTD;
  * <ul>
  *   <li>{@link org.softlang.megal.megaL.impl.MegaLDefinitionImpl#getLinker <em>Linker</em>}</li>
  *   <li>{@link org.softlang.megal.megaL.impl.MegaLDefinitionImpl#getImports <em>Imports</em>}</li>
+ *   <li>{@link org.softlang.megal.megaL.impl.MegaLDefinitionImpl#getRds <em>Rds</em>}</li>
  *   <li>{@link org.softlang.megal.megaL.impl.MegaLDefinitionImpl#getEtds <em>Etds</em>}</li>
  *   <li>{@link org.softlang.megal.megaL.impl.MegaLDefinitionImpl#getRtds <em>Rtds</em>}</li>
  *   <li>{@link org.softlang.megal.megaL.impl.MegaLDefinitionImpl#getEds <em>Eds</em>}</li>
- *   <li>{@link org.softlang.megal.megaL.impl.MegaLDefinitionImpl#getRds <em>Rds</em>}</li>
  * </ul>
  * </p>
  *
@@ -65,6 +65,16 @@ public class MegaLDefinitionImpl extends ModelImpl implements MegaLDefinition
    * @ordered
    */
   protected EList<Import> imports;
+
+  /**
+   * The cached value of the '{@link #getRds() <em>Rds</em>}' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getRds()
+   * @generated
+   * @ordered
+   */
+  protected EList<RD> rds;
 
   /**
    * The cached value of the '{@link #getEtds() <em>Etds</em>}' containment reference list.
@@ -94,17 +104,7 @@ public class MegaLDefinitionImpl extends ModelImpl implements MegaLDefinition
    * @generated
    * @ordered
    */
-  protected EList<ED> eds;
-
-  /**
-   * The cached value of the '{@link #getRds() <em>Rds</em>}' containment reference list.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #getRds()
-   * @generated
-   * @ordered
-   */
-  protected EList<RD> rds;
+  protected EList<EDGroup> eds;
 
   /**
    * <!-- begin-user-doc -->
@@ -189,6 +189,20 @@ public class MegaLDefinitionImpl extends ModelImpl implements MegaLDefinition
    * <!-- end-user-doc -->
    * @generated
    */
+  public EList<RD> getRds()
+  {
+    if (rds == null)
+    {
+      rds = new EObjectContainmentEList<RD>(RD.class, this, MegaLPackage.MEGA_LDEFINITION__RDS);
+    }
+    return rds;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EList<ETD> getEtds()
   {
     if (etds == null)
@@ -217,27 +231,13 @@ public class MegaLDefinitionImpl extends ModelImpl implements MegaLDefinition
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList<ED> getEds()
+  public EList<EDGroup> getEds()
   {
     if (eds == null)
     {
-      eds = new EObjectContainmentEList<ED>(ED.class, this, MegaLPackage.MEGA_LDEFINITION__EDS);
+      eds = new EObjectContainmentEList<EDGroup>(EDGroup.class, this, MegaLPackage.MEGA_LDEFINITION__EDS);
     }
     return eds;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public EList<RD> getRds()
-  {
-    if (rds == null)
-    {
-      rds = new EObjectContainmentEList<RD>(RD.class, this, MegaLPackage.MEGA_LDEFINITION__RDS);
-    }
-    return rds;
   }
 
   /**
@@ -252,14 +252,14 @@ public class MegaLDefinitionImpl extends ModelImpl implements MegaLDefinition
     {
       case MegaLPackage.MEGA_LDEFINITION__IMPORTS:
         return ((InternalEList<?>)getImports()).basicRemove(otherEnd, msgs);
+      case MegaLPackage.MEGA_LDEFINITION__RDS:
+        return ((InternalEList<?>)getRds()).basicRemove(otherEnd, msgs);
       case MegaLPackage.MEGA_LDEFINITION__ETDS:
         return ((InternalEList<?>)getEtds()).basicRemove(otherEnd, msgs);
       case MegaLPackage.MEGA_LDEFINITION__RTDS:
         return ((InternalEList<?>)getRtds()).basicRemove(otherEnd, msgs);
       case MegaLPackage.MEGA_LDEFINITION__EDS:
         return ((InternalEList<?>)getEds()).basicRemove(otherEnd, msgs);
-      case MegaLPackage.MEGA_LDEFINITION__RDS:
-        return ((InternalEList<?>)getRds()).basicRemove(otherEnd, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -279,14 +279,14 @@ public class MegaLDefinitionImpl extends ModelImpl implements MegaLDefinition
         return basicGetLinker();
       case MegaLPackage.MEGA_LDEFINITION__IMPORTS:
         return getImports();
+      case MegaLPackage.MEGA_LDEFINITION__RDS:
+        return getRds();
       case MegaLPackage.MEGA_LDEFINITION__ETDS:
         return getEtds();
       case MegaLPackage.MEGA_LDEFINITION__RTDS:
         return getRtds();
       case MegaLPackage.MEGA_LDEFINITION__EDS:
         return getEds();
-      case MegaLPackage.MEGA_LDEFINITION__RDS:
-        return getRds();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -309,6 +309,10 @@ public class MegaLDefinitionImpl extends ModelImpl implements MegaLDefinition
         getImports().clear();
         getImports().addAll((Collection<? extends Import>)newValue);
         return;
+      case MegaLPackage.MEGA_LDEFINITION__RDS:
+        getRds().clear();
+        getRds().addAll((Collection<? extends RD>)newValue);
+        return;
       case MegaLPackage.MEGA_LDEFINITION__ETDS:
         getEtds().clear();
         getEtds().addAll((Collection<? extends ETD>)newValue);
@@ -319,11 +323,7 @@ public class MegaLDefinitionImpl extends ModelImpl implements MegaLDefinition
         return;
       case MegaLPackage.MEGA_LDEFINITION__EDS:
         getEds().clear();
-        getEds().addAll((Collection<? extends ED>)newValue);
-        return;
-      case MegaLPackage.MEGA_LDEFINITION__RDS:
-        getRds().clear();
-        getRds().addAll((Collection<? extends RD>)newValue);
+        getEds().addAll((Collection<? extends EDGroup>)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -345,6 +345,9 @@ public class MegaLDefinitionImpl extends ModelImpl implements MegaLDefinition
       case MegaLPackage.MEGA_LDEFINITION__IMPORTS:
         getImports().clear();
         return;
+      case MegaLPackage.MEGA_LDEFINITION__RDS:
+        getRds().clear();
+        return;
       case MegaLPackage.MEGA_LDEFINITION__ETDS:
         getEtds().clear();
         return;
@@ -353,9 +356,6 @@ public class MegaLDefinitionImpl extends ModelImpl implements MegaLDefinition
         return;
       case MegaLPackage.MEGA_LDEFINITION__EDS:
         getEds().clear();
-        return;
-      case MegaLPackage.MEGA_LDEFINITION__RDS:
-        getRds().clear();
         return;
     }
     super.eUnset(featureID);
@@ -375,14 +375,14 @@ public class MegaLDefinitionImpl extends ModelImpl implements MegaLDefinition
         return linker != null;
       case MegaLPackage.MEGA_LDEFINITION__IMPORTS:
         return imports != null && !imports.isEmpty();
+      case MegaLPackage.MEGA_LDEFINITION__RDS:
+        return rds != null && !rds.isEmpty();
       case MegaLPackage.MEGA_LDEFINITION__ETDS:
         return etds != null && !etds.isEmpty();
       case MegaLPackage.MEGA_LDEFINITION__RTDS:
         return rtds != null && !rtds.isEmpty();
       case MegaLPackage.MEGA_LDEFINITION__EDS:
         return eds != null && !eds.isEmpty();
-      case MegaLPackage.MEGA_LDEFINITION__RDS:
-        return rds != null && !rds.isEmpty();
     }
     return super.eIsSet(featureID);
   }

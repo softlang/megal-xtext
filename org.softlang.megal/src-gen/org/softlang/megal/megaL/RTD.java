@@ -51,55 +51,55 @@ public interface RTD extends EObject
   void setName(String value);
 
   /**
-   * Returns the value of the '<em><b>Domain</b></em>' containment reference.
+   * Returns the value of the '<em><b>Domain</b></em>' reference.
    * <!-- begin-user-doc -->
    * <p>
-   * If the meaning of the '<em>Domain</em>' containment reference isn't clear,
+   * If the meaning of the '<em>Domain</em>' reference isn't clear,
    * there really should be more of a description here...
    * </p>
    * <!-- end-user-doc -->
-   * @return the value of the '<em>Domain</em>' containment reference.
-   * @see #setDomain(ETDR)
+   * @return the value of the '<em>Domain</em>' reference.
+   * @see #setDomain(ETD)
    * @see org.softlang.megal.megaL.MegaLPackage#getRTD_Domain()
-   * @model containment="true"
+   * @model
    * @generated
    */
-  ETDR getDomain();
+  ETD getDomain();
 
   /**
-   * Sets the value of the '{@link org.softlang.megal.megaL.RTD#getDomain <em>Domain</em>}' containment reference.
+   * Sets the value of the '{@link org.softlang.megal.megaL.RTD#getDomain <em>Domain</em>}' reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Domain</em>' containment reference.
+   * @param value the new value of the '<em>Domain</em>' reference.
    * @see #getDomain()
    * @generated
    */
-  void setDomain(ETDR value);
+  void setDomain(ETD value);
 
   /**
-   * Returns the value of the '<em><b>Co Domain</b></em>' containment reference.
+   * Returns the value of the '<em><b>Co Domain</b></em>' reference.
    * <!-- begin-user-doc -->
    * <p>
-   * If the meaning of the '<em>Co Domain</em>' containment reference isn't clear,
+   * If the meaning of the '<em>Co Domain</em>' reference isn't clear,
    * there really should be more of a description here...
    * </p>
    * <!-- end-user-doc -->
-   * @return the value of the '<em>Co Domain</em>' containment reference.
-   * @see #setCoDomain(ETDR)
+   * @return the value of the '<em>Co Domain</em>' reference.
+   * @see #setCoDomain(ETD)
    * @see org.softlang.megal.megaL.MegaLPackage#getRTD_CoDomain()
-   * @model containment="true"
+   * @model
    * @generated
    */
-  ETDR getCoDomain();
+  ETD getCoDomain();
 
   /**
-   * Sets the value of the '{@link org.softlang.megal.megaL.RTD#getCoDomain <em>Co Domain</em>}' containment reference.
+   * Sets the value of the '{@link org.softlang.megal.megaL.RTD#getCoDomain <em>Co Domain</em>}' reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Co Domain</em>' containment reference.
+   * @param value the new value of the '<em>Co Domain</em>' reference.
    * @see #getCoDomain()
    * @generated
    */
-  void setCoDomain(ETDR value);
+  void setCoDomain(ETD value);
 
 } // RTD

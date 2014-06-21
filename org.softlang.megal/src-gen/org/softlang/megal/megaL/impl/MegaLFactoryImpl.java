@@ -67,11 +67,9 @@ public class MegaLFactoryImpl extends EFactoryImpl implements MegaLFactory
       case MegaLPackage.MODEL: return createModel();
       case MegaLPackage.MEGA_LDEFINITION: return createMegaLDefinition();
       case MegaLPackage.IMPORT: return createImport();
-      case MegaLPackage.ETDR: return createETDR();
-      case MegaLPackage.ETD_ENTITY: return createETDEntity();
-      case MegaLPackage.ETD_DECLARED: return createETDDeclared();
       case MegaLPackage.ETD: return createETD();
       case MegaLPackage.RTD: return createRTD();
+      case MegaLPackage.ED_GROUP: return createEDGroup();
       case MegaLPackage.ED: return createED();
       case MegaLPackage.RD: return createRD();
       case MegaLPackage.MEGA_LLINKING: return createMegaLLinking();
@@ -119,39 +117,6 @@ public class MegaLFactoryImpl extends EFactoryImpl implements MegaLFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  public ETDR createETDR()
-  {
-    ETDRImpl etdr = new ETDRImpl();
-    return etdr;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public ETDEntity createETDEntity()
-  {
-    ETDEntityImpl etdEntity = new ETDEntityImpl();
-    return etdEntity;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public ETDDeclared createETDDeclared()
-  {
-    ETDDeclaredImpl etdDeclared = new ETDDeclaredImpl();
-    return etdDeclared;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
   public ETD createETD()
   {
     ETDImpl etd = new ETDImpl();
@@ -167,6 +132,17 @@ public class MegaLFactoryImpl extends EFactoryImpl implements MegaLFactory
   {
     RTDImpl rtd = new RTDImpl();
     return rtd;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EDGroup createEDGroup()
+  {
+    EDGroupImpl edGroup = new EDGroupImpl();
+    return edGroup;
   }
 
   /**

@@ -94,29 +94,6 @@ public class MegaLSwitch<T> extends Switch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
-      case MegaLPackage.ETDR:
-      {
-        ETDR etdr = (ETDR)theEObject;
-        T result = caseETDR(etdr);
-        if (result == null) result = defaultCase(theEObject);
-        return result;
-      }
-      case MegaLPackage.ETD_ENTITY:
-      {
-        ETDEntity etdEntity = (ETDEntity)theEObject;
-        T result = caseETDEntity(etdEntity);
-        if (result == null) result = caseETDR(etdEntity);
-        if (result == null) result = defaultCase(theEObject);
-        return result;
-      }
-      case MegaLPackage.ETD_DECLARED:
-      {
-        ETDDeclared etdDeclared = (ETDDeclared)theEObject;
-        T result = caseETDDeclared(etdDeclared);
-        if (result == null) result = caseETDR(etdDeclared);
-        if (result == null) result = defaultCase(theEObject);
-        return result;
-      }
       case MegaLPackage.ETD:
       {
         ETD etd = (ETD)theEObject;
@@ -128,6 +105,13 @@ public class MegaLSwitch<T> extends Switch<T>
       {
         RTD rtd = (RTD)theEObject;
         T result = caseRTD(rtd);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case MegaLPackage.ED_GROUP:
+      {
+        EDGroup edGroup = (EDGroup)theEObject;
+        T result = caseEDGroup(edGroup);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -213,54 +197,6 @@ public class MegaLSwitch<T> extends Switch<T>
   }
 
   /**
-   * Returns the result of interpreting the object as an instance of '<em>ETDR</em>'.
-   * <!-- begin-user-doc -->
-   * This implementation returns null;
-   * returning a non-null result will terminate the switch.
-   * <!-- end-user-doc -->
-   * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>ETDR</em>'.
-   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-   * @generated
-   */
-  public T caseETDR(ETDR object)
-  {
-    return null;
-  }
-
-  /**
-   * Returns the result of interpreting the object as an instance of '<em>ETD Entity</em>'.
-   * <!-- begin-user-doc -->
-   * This implementation returns null;
-   * returning a non-null result will terminate the switch.
-   * <!-- end-user-doc -->
-   * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>ETD Entity</em>'.
-   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-   * @generated
-   */
-  public T caseETDEntity(ETDEntity object)
-  {
-    return null;
-  }
-
-  /**
-   * Returns the result of interpreting the object as an instance of '<em>ETD Declared</em>'.
-   * <!-- begin-user-doc -->
-   * This implementation returns null;
-   * returning a non-null result will terminate the switch.
-   * <!-- end-user-doc -->
-   * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>ETD Declared</em>'.
-   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-   * @generated
-   */
-  public T caseETDDeclared(ETDDeclared object)
-  {
-    return null;
-  }
-
-  /**
    * Returns the result of interpreting the object as an instance of '<em>ETD</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
@@ -288,6 +224,22 @@ public class MegaLSwitch<T> extends Switch<T>
    * @generated
    */
   public T caseRTD(RTD object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>ED Group</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>ED Group</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseEDGroup(EDGroup object)
   {
     return null;
   }

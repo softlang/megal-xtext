@@ -13,7 +13,7 @@ import org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider;
 import org.eclipse.xtext.xbase.lib.Functions.Function1;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
 import org.softlang.megal.calculation.Calculation;
-import org.softlang.megal.megaL.ED;
+import org.softlang.megal.megaL.EDGroup;
 import org.softlang.megal.megaL.ETD;
 import org.softlang.megal.megaL.MegaLDefinition;
 import org.softlang.megal.megaL.MegaLLinking;
@@ -63,13 +63,13 @@ public class MegaLScopeProvider extends AbstractDeclarativeScopeProvider {
     IScope _xblockexpression = null;
     {
       final Set<MegaLDefinition> is = Calculation.allDefinitions(d);
-      final Function1<MegaLDefinition, EList<ED>> _function = new Function1<MegaLDefinition, EList<ED>>() {
-        public EList<ED> apply(final MegaLDefinition it) {
+      final Function1<MegaLDefinition, EList<EDGroup>> _function = new Function1<MegaLDefinition, EList<EDGroup>>() {
+        public EList<EDGroup> apply(final MegaLDefinition it) {
           return it.getEds();
         }
       };
-      Iterable<EList<ED>> _map = IterableExtensions.<MegaLDefinition, EList<ED>>map(is, _function);
-      Iterable<ED> _flatten = Iterables.<ED>concat(_map);
+      Iterable<EList<EDGroup>> _map = IterableExtensions.<MegaLDefinition, EList<EDGroup>>map(is, _function);
+      Iterable<EDGroup> _flatten = Iterables.<EDGroup>concat(_map);
       _xblockexpression = Scopes.scopeFor(_flatten);
     }
     return _xblockexpression;
@@ -92,7 +92,7 @@ public class MegaLScopeProvider extends AbstractDeclarativeScopeProvider {
   
   public IScope scope_LD_target(final MegaLLinking l, final EReference er) {
     MegaLDefinition _target = l.getTarget();
-    EList<ED> _eds = _target.getEds();
+    EList<EDGroup> _eds = _target.getEds();
     return Scopes.scopeFor(_eds);
   }
 }
