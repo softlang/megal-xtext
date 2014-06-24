@@ -49,9 +49,6 @@
 
    <element name="relationtype">
       <complexType>
-         <choice>
-            <element ref="selector" minOccurs="1" maxOccurs="unbounded"/>
-         </choice>
          <attribute name="name" type="string" use="required">
             <annotation>
                <documentation>
@@ -67,25 +64,6 @@
                <appinfo>
                   <meta.attribute kind="java" basedOn=":org.softlang.megal.semantics.IRelationSemantics"/>
                </appinfo>
-            </annotation>
-         </attribute>
-      </complexType>
-   </element>
-
-   <element name="selector">
-      <complexType>
-         <attribute name="source" type="string" use="required">
-            <annotation>
-               <documentation>
-                  
-               </documentation>
-            </annotation>
-         </attribute>
-         <attribute name="target" type="string" use="required">
-            <annotation>
-               <documentation>
-                  
-               </documentation>
             </annotation>
          </attribute>
       </complexType>

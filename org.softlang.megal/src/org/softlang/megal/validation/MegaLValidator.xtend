@@ -10,6 +10,14 @@ import org.softlang.megal.megaL.ETD
 import org.softlang.megal.megaL.MegaLDefinition
 import org.softlang.megal.megaL.MegaLLinking
 import org.softlang.megal.megaL.MegaLPackage
+import org.softlang.megal.semantics.MegaLRegistry
+import org.softlang.megal.megaL.RTD
+import org.softlang.megal.megaL.EDGroup
+import org.eclipse.emf.ecore.EStructuralFeature
+import org.softlang.megal.semantics.Diagnostic
+import org.eclipse.emf.ecore.EObject
+import com.google.common.base.Optional
+import org.softlang.megal.megaL.RD
 
 /**
  * Custom validation rules. 
@@ -17,10 +25,45 @@ import org.softlang.megal.megaL.MegaLPackage
  * see http://www.eclipse.org/Xtext/documentation.html#validation
  */
 class MegaLValidator extends AbstractMegaLValidator {
+	private static class DiagnosticWrapper implements Diagnostic {
+		val MegaLValidator validator
+		val EObject object
+		val EStructuralFeature feature
+
+		new(MegaLValidator validator, EObject object, EStructuralFeature feature) {
+			this.validator = validator
+			this.object = object
+			this.feature = feature
+		}
+
+		override info(String string) {
+			validator.acceptInfo(string, object, feature, -1, null)
+		}
+
+		override warning(String string) {
+			validator.acceptWarning(string, object, feature, -1, null)
+		}
+
+		override error(String string) {
+			validator.acceptError(string, object, feature, -1, null)
+		}
+
+	}
 
 	@Check
 	def checkSemanticsExisting(ETD it) {
-		warning('No implementation for ' + name, MegaLPackage.Literals.ETD__NAME)
+		if (!MegaLRegistry.instance.entitytypes.containsKey(name))
+			warning('No implementation for ' + name, MegaLPackage.Literals.ETD__NAME)
+		else if (!MegaLRegistry.instance.hardEntitytypes.containsKey(name))
+			info('Soft implementation for ' + name, MegaLPackage.Literals.ETD__NAME)
+	}
+
+	@Check
+	def checkSemanticsExisting(RTD it) {
+		if (!MegaLRegistry.instance.relationtypes.containsKey(name))
+			warning('No implementation for ' + name, MegaLPackage.Literals.RTD__NAME)
+		else if (!MegaLRegistry.instance.hardRelationtypes.containsKey(name))
+			info('Soft implementation for ' + name, MegaLPackage.Literals.RTD__NAME)
 	}
 
 	@Check
@@ -36,10 +79,28 @@ class MegaLValidator extends AbstractMegaLValidator {
 	}
 
 	@Check
-	def checkIsLinked(ED e) {
-		val md = e.eContainer as MegaLDefinition
+	def checkEntity(ED e) {
+		val d = new DiagnosticWrapper(this, e, MegaLPackage.Literals.ED__NAME)
 
-		if (!md.linker.lds.exists[l|EcoreUtil.equals(l.target, e)])
-			error('Unlinked entity', MegaLPackage.Literals.ED__NAME)
+		val g = e.eContainer as EDGroup
+		val m = g.eContainer as MegaLDefinition
+		val s = MegaLRegistry.instance.hardEntitytypes.get(g.type.name)
+		val l = Optional.fromNullable(m.linker.lds.findFirst[l|EcoreUtil.equals(l.target, e)])
+
+		if (s != null)
+			s.validate(d, e, l)
+	}
+
+	@Check
+	def checkRelation(RD r) {
+		val d = new DiagnosticWrapper(this, r, MegaLPackage.Literals.RD__REL)
+
+		val m = r.eContainer as MegaLDefinition
+		val s = MegaLRegistry.instance.hardRelationtypes.get(r.rel.name)
+		val ls = Optional.fromNullable(m.linker.lds.findFirst[l|EcoreUtil.equals(l.target, r.source)])
+		val lt = Optional.fromNullable(m.linker.lds.findFirst[l|EcoreUtil.equals(l.target, r.target)])
+
+		if (s != null)
+			s.validate(d, r, ls, lt)
 	}
 }

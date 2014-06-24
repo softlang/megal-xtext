@@ -4,18 +4,28 @@
 package org.softlang.megal.validation;
 
 import com.google.common.base.Objects;
+import com.google.common.base.Optional;
+import java.util.Map;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.xtext.validation.Check;
 import org.eclipse.xtext.xbase.lib.Functions.Function1;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
 import org.softlang.megal.megaL.ED;
+import org.softlang.megal.megaL.EDGroup;
 import org.softlang.megal.megaL.ETD;
 import org.softlang.megal.megaL.LD;
 import org.softlang.megal.megaL.MegaLDefinition;
 import org.softlang.megal.megaL.MegaLLinking;
 import org.softlang.megal.megaL.MegaLPackage;
+import org.softlang.megal.megaL.RD;
+import org.softlang.megal.megaL.RTD;
+import org.softlang.megal.semantics.Diagnostic;
+import org.softlang.megal.semantics.EntitySemantics;
+import org.softlang.megal.semantics.MegaLRegistry;
+import org.softlang.megal.semantics.RelationSemantics;
 import org.softlang.megal.validation.AbstractMegaLValidator;
 
 /**
@@ -25,11 +35,80 @@ import org.softlang.megal.validation.AbstractMegaLValidator;
  */
 @SuppressWarnings("all")
 public class MegaLValidator extends AbstractMegaLValidator {
+  private static class DiagnosticWrapper implements Diagnostic {
+    private final MegaLValidator validator;
+    
+    private final EObject object;
+    
+    private final EStructuralFeature feature;
+    
+    public DiagnosticWrapper(final MegaLValidator validator, final EObject object, final EStructuralFeature feature) {
+      this.validator = validator;
+      this.object = object;
+      this.feature = feature;
+    }
+    
+    public void info(final String string) {
+      this.validator.acceptInfo(string, this.object, this.feature, (-1), null);
+    }
+    
+    public void warning(final String string) {
+      this.validator.acceptWarning(string, this.object, this.feature, (-1), null);
+    }
+    
+    public void error(final String string) {
+      this.validator.acceptError(string, this.object, this.feature, (-1), null);
+    }
+  }
+  
   @Check
   public void checkSemanticsExisting(final ETD it) {
+    MegaLRegistry _instance = MegaLRegistry.getInstance();
+    Map<String, Optional<EntitySemantics>> _entitytypes = _instance.getEntitytypes();
     String _name = it.getName();
-    String _plus = ("No implementation for " + _name);
-    this.warning(_plus, MegaLPackage.Literals.ETD__NAME);
+    boolean _containsKey = _entitytypes.containsKey(_name);
+    boolean _not = (!_containsKey);
+    if (_not) {
+      String _name_1 = it.getName();
+      String _plus = ("No implementation for " + _name_1);
+      this.warning(_plus, MegaLPackage.Literals.ETD__NAME);
+    } else {
+      MegaLRegistry _instance_1 = MegaLRegistry.getInstance();
+      Map<String, EntitySemantics> _hardEntitytypes = _instance_1.getHardEntitytypes();
+      String _name_2 = it.getName();
+      boolean _containsKey_1 = _hardEntitytypes.containsKey(_name_2);
+      boolean _not_1 = (!_containsKey_1);
+      if (_not_1) {
+        String _name_3 = it.getName();
+        String _plus_1 = ("Soft implementation for " + _name_3);
+        this.info(_plus_1, MegaLPackage.Literals.ETD__NAME);
+      }
+    }
+  }
+  
+  @Check
+  public void checkSemanticsExisting(final RTD it) {
+    MegaLRegistry _instance = MegaLRegistry.getInstance();
+    Map<String, Optional<RelationSemantics>> _relationtypes = _instance.getRelationtypes();
+    String _name = it.getName();
+    boolean _containsKey = _relationtypes.containsKey(_name);
+    boolean _not = (!_containsKey);
+    if (_not) {
+      String _name_1 = it.getName();
+      String _plus = ("No implementation for " + _name_1);
+      this.warning(_plus, MegaLPackage.Literals.RTD__NAME);
+    } else {
+      MegaLRegistry _instance_1 = MegaLRegistry.getInstance();
+      Map<String, RelationSemantics> _hardRelationtypes = _instance_1.getHardRelationtypes();
+      String _name_2 = it.getName();
+      boolean _containsKey_1 = _hardRelationtypes.containsKey(_name_2);
+      boolean _not_1 = (!_containsKey_1);
+      if (_not_1) {
+        String _name_3 = it.getName();
+        String _plus_1 = ("Soft implementation for " + _name_3);
+        this.info(_plus_1, MegaLPackage.Literals.RTD__NAME);
+      }
+    }
   }
   
   @Check
@@ -51,10 +130,18 @@ public class MegaLValidator extends AbstractMegaLValidator {
   }
   
   @Check
-  public void checkIsLinked(final ED e) {
+  public void checkEntity(final ED e) {
+    final MegaLValidator.DiagnosticWrapper d = new MegaLValidator.DiagnosticWrapper(this, e, MegaLPackage.Literals.ED__NAME);
     EObject _eContainer = e.eContainer();
-    final MegaLDefinition md = ((MegaLDefinition) _eContainer);
-    MegaLLinking _linker = md.getLinker();
+    final EDGroup g = ((EDGroup) _eContainer);
+    EObject _eContainer_1 = g.eContainer();
+    final MegaLDefinition m = ((MegaLDefinition) _eContainer_1);
+    MegaLRegistry _instance = MegaLRegistry.getInstance();
+    Map<String, EntitySemantics> _hardEntitytypes = _instance.getHardEntitytypes();
+    ETD _type = g.getType();
+    String _name = _type.getName();
+    final EntitySemantics s = _hardEntitytypes.get(_name);
+    MegaLLinking _linker = m.getLinker();
     EList<LD> _lds = _linker.getLds();
     final Function1<LD, Boolean> _function = new Function1<LD, Boolean>() {
       public Boolean apply(final LD l) {
@@ -62,10 +149,49 @@ public class MegaLValidator extends AbstractMegaLValidator {
         return Boolean.valueOf(EcoreUtil.equals(_target, e));
       }
     };
-    boolean _exists = IterableExtensions.<LD>exists(_lds, _function);
-    boolean _not = (!_exists);
-    if (_not) {
-      this.error("Unlinked entity", MegaLPackage.Literals.ED__NAME);
+    LD _findFirst = IterableExtensions.<LD>findFirst(_lds, _function);
+    final Optional<LD> l = Optional.<LD>fromNullable(_findFirst);
+    boolean _notEquals = (!Objects.equal(s, null));
+    if (_notEquals) {
+      s.validate(d, e, l);
+    }
+  }
+  
+  @Check
+  public void checkRelation(final RD r) {
+    final MegaLValidator.DiagnosticWrapper d = new MegaLValidator.DiagnosticWrapper(this, r, MegaLPackage.Literals.RD__REL);
+    EObject _eContainer = r.eContainer();
+    final MegaLDefinition m = ((MegaLDefinition) _eContainer);
+    MegaLRegistry _instance = MegaLRegistry.getInstance();
+    Map<String, RelationSemantics> _hardRelationtypes = _instance.getHardRelationtypes();
+    RTD _rel = r.getRel();
+    String _name = _rel.getName();
+    final RelationSemantics s = _hardRelationtypes.get(_name);
+    MegaLLinking _linker = m.getLinker();
+    EList<LD> _lds = _linker.getLds();
+    final Function1<LD, Boolean> _function = new Function1<LD, Boolean>() {
+      public Boolean apply(final LD l) {
+        ED _target = l.getTarget();
+        ED _source = r.getSource();
+        return Boolean.valueOf(EcoreUtil.equals(_target, _source));
+      }
+    };
+    LD _findFirst = IterableExtensions.<LD>findFirst(_lds, _function);
+    final Optional<LD> ls = Optional.<LD>fromNullable(_findFirst);
+    MegaLLinking _linker_1 = m.getLinker();
+    EList<LD> _lds_1 = _linker_1.getLds();
+    final Function1<LD, Boolean> _function_1 = new Function1<LD, Boolean>() {
+      public Boolean apply(final LD l) {
+        ED _target = l.getTarget();
+        ED _target_1 = r.getTarget();
+        return Boolean.valueOf(EcoreUtil.equals(_target, _target_1));
+      }
+    };
+    LD _findFirst_1 = IterableExtensions.<LD>findFirst(_lds_1, _function_1);
+    final Optional<LD> lt = Optional.<LD>fromNullable(_findFirst_1);
+    boolean _notEquals = (!Objects.equal(s, null));
+    if (_notEquals) {
+      s.validate(d, r, ls, lt);
     }
   }
 }

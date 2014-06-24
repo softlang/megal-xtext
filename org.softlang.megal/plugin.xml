@@ -1,6 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
-   <extension-point id="org.softlang.relation_type" name="relation_type" schema="schema/org.softlang.relation_type.exsd"/>
+   <extension-point id="org.softlang.relationtype" name="relationtype" schema="schema/org.softlang.relationtype.exsd"/>
+   <extension-point id="org.softlang.entitytype" name="entitytype" schema="schema/org.softlang.entitytype.exsd"/>
+   <extension
+         id="entitysemantics"
+         point="org.softlang.entitytype">
+      <entitytype
+            name="Entity"
+            semantics="org.softlang.megal.semantics.impl.EntitySemanticsImpl">
+      </entitytype>
+      <entitytype
+            name="Set"
+            semantics="org.softlang.megal.semantics.impl.SetSemanticsImpl">
+      </entitytype>
+      <entitytype
+            name="Artifact"
+            semantics="org.softlang.megal.semantics.impl.ArtifactsSemanticsImpl">
+      </entitytype>
+   </extension>
+   <extension
+         point="org.softlang.relationtype">
+      <relationtype
+            name="conformsTo">
+      </relationtype>
+   </extension>
 
 </plugin>
