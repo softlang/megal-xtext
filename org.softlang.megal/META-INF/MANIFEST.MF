@@ -18,7 +18,8 @@ Require-Bundle: org.eclipse.xtext;visibility:=reexport,
  org.antlr.runtime,
  org.eclipse.xtext.common.types,
  org.objectweb.asm;bundle-version="[5.0.1,6.0.0)";resolution:=optional,
- org.eclipse.core.runtime
+ org.eclipse.core.runtime,
+ org.eclipse.core.resources;bundle-version="3.8.101"
 Import-Package: org.apache.log4j,
  org.eclipse.xtext.xbase.lib
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
@@ -35,3 +36,6 @@ Export-Package: org.softlang.megal.semantics,
  org.softlang.megal.scoping,
  org.softlang.megal.generator,
  org.softlang.megal.formatting
+Bundle-ClassPath: .,
+ libs/jcl-core-2.6-SNAPSHOT.jar,
+ libs/reflections-0.9.9-RC1-uberjar.jar

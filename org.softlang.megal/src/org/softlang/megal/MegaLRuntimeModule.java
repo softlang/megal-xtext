@@ -4,11 +4,17 @@
 package org.softlang.megal;
 
 import org.eclipse.xtext.resource.IResourceFactory;
+import org.softlang.megal.semantics.MegaLPluginProvider;
+
+import com.google.inject.Binder;
 
 /**
  * Use this class to register components to be used at runtime / without the
  * Equinox extension registry.
  */
 public class MegaLRuntimeModule extends AbstractMegaLRuntimeModule {
-
+	@Override
+	public void configure(Binder binder) {
+		super.configure(binder);
+	}
 }

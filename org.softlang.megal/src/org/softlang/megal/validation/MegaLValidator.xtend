@@ -3,6 +3,11 @@
  */
 package org.softlang.megal.validation
 
+import com.google.common.base.Optional
+import org.eclipse.core.resources.ResourcesPlugin
+import org.eclipse.emf.common.util.URI
+import org.eclipse.emf.ecore.EObject
+import org.eclipse.emf.ecore.EStructuralFeature
 import org.eclipse.emf.ecore.util.EcoreUtil
 import org.eclipse.xtext.validation.Check
 import org.softlang.megal.megaL.ED
@@ -10,13 +15,10 @@ import org.softlang.megal.megaL.ETD
 import org.softlang.megal.megaL.MegaLDefinition
 import org.softlang.megal.megaL.MegaLLinking
 import org.softlang.megal.megaL.MegaLPackage
-import org.softlang.megal.semantics.MegaLRegistry
-import org.softlang.megal.megaL.RTD
-import org.eclipse.emf.ecore.EStructuralFeature
-import org.softlang.megal.semantics.Diagnostic
-import org.eclipse.emf.ecore.EObject
-import com.google.common.base.Optional
 import org.softlang.megal.megaL.RD
+import org.softlang.megal.megaL.RTD
+import org.softlang.megal.semantics.Diagnostic
+
 import static extension org.softlang.megal.calculation.Calculation.*
 
 /**
@@ -60,7 +62,7 @@ class MegaLValidator extends AbstractMegaLValidator {
 
 	@Check
 	def checkSemanticsExisting(RTD it) {
-		if (!MegaLRegistry.instance.relationtypes.containsKey(name))
+		if (!Registry.INSTANCE.relationtypes.containsKey(name))
 			warning('No implementation for ' + name, MegaLPackage.Literals.RTD__NAME)
 		else if (!MegaLRegistry.instance.hardRelationtypes.containsKey(name))
 			info('Soft implementation for ' + name, MegaLPackage.Literals.RTD__NAME)
@@ -68,8 +70,14 @@ class MegaLValidator extends AbstractMegaLValidator {
 
 	@Check
 	def checkIsLinked(MegaLDefinition it) {
-		if (linker == null)
-			warning('Model is not linked', MegaLPackage.Literals.MODEL__NAME)
+		val relative = eResource.URI.deresolve(URI.createURI("platform:/resource/"))
+		val project = relative.segment(0)
+
+		val folder = ResourcesPlugin.workspace.root.getProject(project).getFolder("plugins");
+
+		if (folder.exists)
+			if (linker == null)
+				warning('Model is not linked', MegaLPackage.Literals.MODEL__NAME)
 	}
 
 	@Check
@@ -88,7 +96,7 @@ class MegaLValidator extends AbstractMegaLValidator {
 
 	@Check
 	def checkEntity(ED e) {
-		val d = new DiagnosticWrapper(this, e, MegaLPackage.Literals.ED__NAME)
+		val d = new MegaLValidator.DiagnosticWrapper(this, e, MegaLPackage.Literals.ED__NAME)
 
 		val m = e.eContainer as MegaLDefinition
 		val s = MegaLRegistry.instance.hardEntitytypes.get(e.type.name)
@@ -100,7 +108,7 @@ class MegaLValidator extends AbstractMegaLValidator {
 
 	@Check
 	def checkRelation(RD r) {
-		val d = new DiagnosticWrapper(this, r, MegaLPackage.Literals.RD__REL)
+		val d = new MegaLValidator.DiagnosticWrapper(this, r, MegaLPackage.Literals.RD__REL)
 
 		val m = r.eContainer as MegaLDefinition
 		val s = MegaLRegistry.instance.hardRelationtypes.get(r.rel.name)
