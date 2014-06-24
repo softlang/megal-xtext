@@ -19,7 +19,7 @@ class Registry {
 	val static ENTITYTYPE = 'org.softlang.entitytype'
 	val static RELATIONTYPE = 'org.softlang.relationtype'
 
-	var static Registry INSTANCE = new Registry
+	var static public Registry INSTANCE = new Registry
 
 	val Set<String> softEntitySemantics
 	val Set<String> softRelationSemantics

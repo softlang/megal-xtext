@@ -4,7 +4,6 @@
 package org.softlang.megal;
 
 import org.eclipse.xtext.resource.IResourceFactory;
-import org.softlang.megal.semantics.MegaLPluginProvider;
 
 import com.google.inject.Binder;
 
@@ -13,8 +12,5 @@ import com.google.inject.Binder;
  * Equinox extension registry.
  */
 public class MegaLRuntimeModule extends AbstractMegaLRuntimeModule {
-	@Override
-	public void configure(Binder binder) {
-		super.configure(binder);
-	}
+
 }

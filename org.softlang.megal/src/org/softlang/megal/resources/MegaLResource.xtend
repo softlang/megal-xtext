@@ -3,6 +3,7 @@ package org.softlang.megal.resources
 import org.eclipse.xtext.resource.XtextResource
 import org.eclipse.emf.common.util.URI
 import org.softlang.megal.semantics.Context
+import org.softlang.megal.semantics.Registry
 
 class MegaLResource extends XtextResource {
 	new() {
@@ -18,6 +19,7 @@ class MegaLResource extends XtextResource {
 	def getContext() {
 		if (context == null || contextURI != URI) {
 			contextURI = URI
+			context = Registry.INSTANCE.contextInstance
 		}
 
 		return context
