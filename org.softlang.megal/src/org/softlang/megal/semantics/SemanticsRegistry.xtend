@@ -12,14 +12,14 @@ import org.softlang.megal.megaL.RD
 import java.util.Set
 import java.util.Map
 
-class Registry {
+class SemanticsRegistry {
 
 	val static NAME = 'name'
 	val static SEMANTICS = 'semantics'
 	val static ENTITYTYPE = 'org.softlang.entitytype'
 	val static RELATIONTYPE = 'org.softlang.relationtype'
 
-	var static public Registry INSTANCE = new Registry
+	var static public SemanticsRegistry INSTANCE = new SemanticsRegistry
 
 	val Set<String> softEntitySemantics
 	val Set<String> softRelationSemantics
@@ -58,9 +58,9 @@ class Registry {
 	 * Management class that listens for runtime change of the extension registry
 	 */
 	private static class Listener implements IRegistryEventListener {
-		val Registry registry
+		val SemanticsRegistry registry
 
-		new(Registry registry) {
+		new(SemanticsRegistry registry) {
 			this.registry = registry
 		}
 

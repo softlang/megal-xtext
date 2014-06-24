@@ -3,7 +3,6 @@
  */
 package org.softlang.megal.validation
 
-import com.google.common.base.Optional
 import org.eclipse.core.resources.ResourcesPlugin
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.EObject
@@ -19,7 +18,10 @@ import org.softlang.megal.megaL.RD
 import org.softlang.megal.megaL.RTD
 import org.softlang.megal.semantics.Diagnostic
 
+import static extension org.softlang.megal.attachment.Attachment.*
 import static extension org.softlang.megal.calculation.Calculation.*
+import org.softlang.megal.semantics.SemanticsRegistry
+import com.google.common.base.Optional
 
 /**
  * Custom validation rules. 
@@ -52,21 +54,25 @@ class MegaLValidator extends AbstractMegaLValidator {
 
 	}
 
-//	@Check
-//	def checkSemanticsExisting(ETD it) {
-//		if (!MegaLRegistry.instance.entitytypes.containsKey(name))
-//			warning('No implementation for ' + name, MegaLPackage.Literals.ETD__NAME)
-//		else if (!MegaLRegistry.instance.hardEntitytypes.containsKey(name))
-//			info('Soft implementation for ' + name, MegaLPackage.Literals.ETD__NAME)
-//	}
-//
-//	@Check
-//	def checkSemanticsExisting(RTD it) {
-//		if (!Registry.INSTANCE.relationtypes.containsKey(name))
-//			warning('No implementation for ' + name, MegaLPackage.Literals.RTD__NAME)
-//		else if (!MegaLRegistry.instance.hardRelationtypes.containsKey(name))
-//			info('Soft implementation for ' + name, MegaLPackage.Literals.RTD__NAME)
-//	}
+	@Check
+	def checkSemanticsExisting(ETD e) {
+		val c = e.eResource.getContextOrCreate[|SemanticsRegistry.INSTANCE.contextInstance]
+
+		if (c.softEntitySemantics.contains(e.name))
+			info('Soft implementation for ' + e.name, MegaLPackage.Literals.ETD__NAME)
+		else if (!c.hardEntitySemantics.containsKey(e.name))
+			error('No implementation for ' + e.name, MegaLPackage.Literals.ETD__NAME)
+	}
+
+	@Check
+	def checkSemanticsExisting(RTD r) {
+		val c = r.eResource.getContextOrCreate[|SemanticsRegistry.INSTANCE.contextInstance]
+
+		if (c.softRelationSemantics.contains(r.name))
+			info('Soft implementation for ' + r.name, MegaLPackage.Literals.RTD__NAME)
+		else if (!c.hardRelationSemantics.containsKey(r.name))
+			error('No implementation for ' + r.name, MegaLPackage.Literals.RTD__NAME)
+	}
 
 	@Check
 	def checkIsLinked(MegaLDefinition it) {
@@ -94,30 +100,34 @@ class MegaLValidator extends AbstractMegaLValidator {
 			warning('Unlinked entity', MegaLPackage.Literals.ED__NAME)
 	}
 
-//	@Check
-//	def checkEntity(ED e) {
-//		val d = new MegaLValidator.DiagnosticWrapper(this, e, MegaLPackage.Literals.ED__NAME)
-//
-//		val m = e.eContainer as MegaLDefinition
-//		val s = MegaLRegistry.instance.hardEntitytypes.get(e.type.name)
-//		val l = Optional.fromNullable(m.linker.lds.findFirst[l|EcoreUtil.equals(l.target, e)])
-//
-//		if (s != null)
-//			s.validate(d, e, l)
-//	}
+	@Check
+	def checkEntity(ED e) {
+		val c = e.eResource.getContextOrCreate[|SemanticsRegistry.INSTANCE.contextInstance]
 
-//	@Check
-//	def checkRelation(RD r) {
-//		val d = new MegaLValidator.DiagnosticWrapper(this, r, MegaLPackage.Literals.RD__REL)
-//
-//		val m = r.eContainer as MegaLDefinition
-//		val s = MegaLRegistry.instance.hardRelationtypes.get(r.rel.name)
-//		val ls = Optional.fromNullable(m.linker.lds.findFirst[l|EcoreUtil.equals(l.target, r.source)])
-//		val lt = Optional.fromNullable(m.linker.lds.findFirst[l|EcoreUtil.equals(l.target, r.target)])
-//
-//		if (s != null)
-//			s.validate(d, r, ls, lt)
-//	}
+		val d = new MegaLValidator.DiagnosticWrapper(this, e, MegaLPackage.Literals.ED__NAME)
+
+		val m = e.eContainer as MegaLDefinition
+		val s = c.hardEntitySemantics.get(e.type.name)
+		val l = Optional.fromNullable(m.linker.lds.findFirst[l|EcoreUtil.equals(l.target, e)])
+
+		if (s != null)
+			s.validate(d, e, l)
+	}
+
+	@Check
+	def checkRelation(RD r) {
+		val c = r.eResource.getContextOrCreate[|SemanticsRegistry.INSTANCE.contextInstance]
+
+		val d = new MegaLValidator.DiagnosticWrapper(this, r, MegaLPackage.Literals.RD__REL)
+
+		val m = r.eContainer as MegaLDefinition
+		val s = c.hardRelationSemantics.get(r.rel.name)
+		val ls = Optional.fromNullable(m.linker.lds.findFirst[l|EcoreUtil.equals(l.target, r.source)])
+		val lt = Optional.fromNullable(m.linker.lds.findFirst[l|EcoreUtil.equals(l.target, r.target)])
+
+		if (s != null)
+			s.validate(d, r, ls, lt)
+	}
 
 	@Check
 	def checkRelationApplicable(RD r) {

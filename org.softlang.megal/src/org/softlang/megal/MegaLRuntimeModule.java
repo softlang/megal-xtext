@@ -3,9 +3,6 @@
  */
 package org.softlang.megal;
 
-import org.eclipse.xtext.resource.IResourceFactory;
-
-import com.google.inject.Binder;
 
 /**
  * Use this class to register components to be used at runtime / without the

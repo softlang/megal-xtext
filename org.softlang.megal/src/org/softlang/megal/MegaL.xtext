@@ -15,10 +15,13 @@ Import:
 	'import' ref=[MegaLDefinition];
 
 ETD:
-	name=ID '<' supertype=UseETD;
+	annotations+=Annotation* name=ID '<' supertype=UseETD;
+
+Annotation:
+	'@' key=ID '(' value=STRING ')';
 
 RTD:
-	name=ID '<' domain=UseETD '*' coDomain=UseETD;
+	annotations+=Annotation* name=ID '<' domain=UseETD '*' coDomain=UseETD;
 
 RD:
 	source=[ED] rel=[RTD] target=[ED];
