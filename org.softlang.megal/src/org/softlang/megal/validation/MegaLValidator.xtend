@@ -12,12 +12,12 @@ import org.softlang.megal.megaL.MegaLLinking
 import org.softlang.megal.megaL.MegaLPackage
 import org.softlang.megal.semantics.MegaLRegistry
 import org.softlang.megal.megaL.RTD
-import org.softlang.megal.megaL.EDGroup
 import org.eclipse.emf.ecore.EStructuralFeature
 import org.softlang.megal.semantics.Diagnostic
 import org.eclipse.emf.ecore.EObject
 import com.google.common.base.Optional
 import org.softlang.megal.megaL.RD
+import static extension org.softlang.megal.calculation.Calculation.*
 
 /**
  * Custom validation rules. 
@@ -79,12 +79,19 @@ class MegaLValidator extends AbstractMegaLValidator {
 	}
 
 	@Check
+	def checkIsLinked(ED e) {
+		val m = e.eContainer as MegaLDefinition
+
+		if (!m.linker.lds.exists[l|EcoreUtil.equals(l.target, e)])
+			warning('Unlinked entity', MegaLPackage.Literals.ED__NAME)
+	}
+
+	@Check
 	def checkEntity(ED e) {
 		val d = new DiagnosticWrapper(this, e, MegaLPackage.Literals.ED__NAME)
 
-		val g = e.eContainer as EDGroup
-		val m = g.eContainer as MegaLDefinition
-		val s = MegaLRegistry.instance.hardEntitytypes.get(g.type.name)
+		val m = e.eContainer as MegaLDefinition
+		val s = MegaLRegistry.instance.hardEntitytypes.get(e.type.name)
 		val l = Optional.fromNullable(m.linker.lds.findFirst[l|EcoreUtil.equals(l.target, e)])
 
 		if (s != null)
@@ -102,5 +109,17 @@ class MegaLValidator extends AbstractMegaLValidator {
 
 		if (s != null)
 			s.validate(d, r, ls, lt)
+	}
+
+	@Check
+	def checkRelationApplicable(RD r) {
+		val a = r.appliedRTD
+
+		if (a.present)
+			info('''Applied overload from «a.get.domain.name» to «a.get.coDomain.name»''',
+				MegaLPackage.Literals.RD__REL)
+		else
+			error('''There is no applicable overload matching «r.source.type.name» to «r.target.type.name» ''',
+				MegaLPackage.Literals.RD__REL)
 	}
 }

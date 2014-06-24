@@ -3,6 +3,7 @@
 package org.softlang.megal.megaL.impl;
 
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
@@ -12,6 +13,7 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
 import org.softlang.megal.megaL.ETD;
 import org.softlang.megal.megaL.MegaLPackage;
+import org.softlang.megal.megaL.UseETD;
 
 /**
  * <!-- begin-user-doc -->
@@ -50,14 +52,14 @@ public class ETDImpl extends MinimalEObjectImpl.Container implements ETD
   protected String name = NAME_EDEFAULT;
 
   /**
-   * The cached value of the '{@link #getSupertype() <em>Supertype</em>}' reference.
+   * The cached value of the '{@link #getSupertype() <em>Supertype</em>}' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #getSupertype()
    * @generated
    * @ordered
    */
-  protected ETD supertype;
+  protected UseETD supertype;
 
   /**
    * <!-- begin-user-doc -->
@@ -108,27 +110,7 @@ public class ETDImpl extends MinimalEObjectImpl.Container implements ETD
    * <!-- end-user-doc -->
    * @generated
    */
-  public ETD getSupertype()
-  {
-    if (supertype != null && supertype.eIsProxy())
-    {
-      InternalEObject oldSupertype = (InternalEObject)supertype;
-      supertype = (ETD)eResolveProxy(oldSupertype);
-      if (supertype != oldSupertype)
-      {
-        if (eNotificationRequired())
-          eNotify(new ENotificationImpl(this, Notification.RESOLVE, MegaLPackage.ETD__SUPERTYPE, oldSupertype, supertype));
-      }
-    }
-    return supertype;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public ETD basicGetSupertype()
+  public UseETD getSupertype()
   {
     return supertype;
   }
@@ -138,12 +120,53 @@ public class ETDImpl extends MinimalEObjectImpl.Container implements ETD
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setSupertype(ETD newSupertype)
+  public NotificationChain basicSetSupertype(UseETD newSupertype, NotificationChain msgs)
   {
-    ETD oldSupertype = supertype;
+    UseETD oldSupertype = supertype;
     supertype = newSupertype;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, MegaLPackage.ETD__SUPERTYPE, oldSupertype, supertype));
+    {
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, MegaLPackage.ETD__SUPERTYPE, oldSupertype, newSupertype);
+      if (msgs == null) msgs = notification; else msgs.add(notification);
+    }
+    return msgs;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setSupertype(UseETD newSupertype)
+  {
+    if (newSupertype != supertype)
+    {
+      NotificationChain msgs = null;
+      if (supertype != null)
+        msgs = ((InternalEObject)supertype).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - MegaLPackage.ETD__SUPERTYPE, null, msgs);
+      if (newSupertype != null)
+        msgs = ((InternalEObject)newSupertype).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - MegaLPackage.ETD__SUPERTYPE, null, msgs);
+      msgs = basicSetSupertype(newSupertype, msgs);
+      if (msgs != null) msgs.dispatch();
+    }
+    else if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, MegaLPackage.ETD__SUPERTYPE, newSupertype, newSupertype));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
+  {
+    switch (featureID)
+    {
+      case MegaLPackage.ETD__SUPERTYPE:
+        return basicSetSupertype(null, msgs);
+    }
+    return super.eInverseRemove(otherEnd, featureID, msgs);
   }
 
   /**
@@ -159,8 +182,7 @@ public class ETDImpl extends MinimalEObjectImpl.Container implements ETD
       case MegaLPackage.ETD__NAME:
         return getName();
       case MegaLPackage.ETD__SUPERTYPE:
-        if (resolve) return getSupertype();
-        return basicGetSupertype();
+        return getSupertype();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -179,7 +201,7 @@ public class ETDImpl extends MinimalEObjectImpl.Container implements ETD
         setName((String)newValue);
         return;
       case MegaLPackage.ETD__SUPERTYPE:
-        setSupertype((ETD)newValue);
+        setSupertype((UseETD)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -199,7 +221,7 @@ public class ETDImpl extends MinimalEObjectImpl.Container implements ETD
         setName(NAME_EDEFAULT);
         return;
       case MegaLPackage.ETD__SUPERTYPE:
-        setSupertype((ETD)null);
+        setSupertype((UseETD)null);
         return;
     }
     super.eUnset(featureID);

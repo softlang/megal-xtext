@@ -4,7 +4,6 @@
 package org.softlang.megal.scoping;
 
 import com.google.common.collect.Iterables;
-import java.util.List;
 import java.util.Set;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EReference;
@@ -13,10 +12,8 @@ import org.eclipse.xtext.scoping.Scopes;
 import org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider;
 import org.eclipse.xtext.xbase.lib.Functions.Function1;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
-import org.eclipse.xtext.xbase.lib.ListExtensions;
 import org.softlang.megal.calculation.Calculation;
 import org.softlang.megal.megaL.ED;
-import org.softlang.megal.megaL.EDGroup;
 import org.softlang.megal.megaL.ETD;
 import org.softlang.megal.megaL.MegaLDefinition;
 import org.softlang.megal.megaL.MegaLLinking;
@@ -30,6 +27,10 @@ import org.softlang.megal.megaL.RTD;
  */
 @SuppressWarnings("all")
 public class MegaLScopeProvider extends AbstractDeclarativeScopeProvider {
+  public Object scope_MegaLDefinition(final MegaLDefinition d, final EReference er) {
+    return null;
+  }
+  
   public IScope scope_ETD(final MegaLDefinition d, final EReference er) {
     IScope _xblockexpression = null;
     {
@@ -66,19 +67,12 @@ public class MegaLScopeProvider extends AbstractDeclarativeScopeProvider {
     IScope _xblockexpression = null;
     {
       final Set<MegaLDefinition> is = Calculation.allDefinitions(d);
-      final Function1<MegaLDefinition, Iterable<ED>> _function = new Function1<MegaLDefinition, Iterable<ED>>() {
-        public Iterable<ED> apply(final MegaLDefinition it) {
-          EList<EDGroup> _eds = it.getEds();
-          final Function1<EDGroup, EList<ED>> _function = new Function1<EDGroup, EList<ED>>() {
-            public EList<ED> apply(final EDGroup it) {
-              return it.getItems();
-            }
-          };
-          List<EList<ED>> _map = ListExtensions.<EDGroup, EList<ED>>map(_eds, _function);
-          return Iterables.<ED>concat(_map);
+      final Function1<MegaLDefinition, EList<ED>> _function = new Function1<MegaLDefinition, EList<ED>>() {
+        public EList<ED> apply(final MegaLDefinition it) {
+          return it.getEds();
         }
       };
-      Iterable<Iterable<ED>> _map = IterableExtensions.<MegaLDefinition, Iterable<ED>>map(is, _function);
+      Iterable<EList<ED>> _map = IterableExtensions.<MegaLDefinition, EList<ED>>map(is, _function);
       Iterable<ED> _flatten = Iterables.<ED>concat(_map);
       _xblockexpression = Scopes.scopeFor(_flatten);
     }

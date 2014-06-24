@@ -3,9 +3,12 @@
  */
 package org.softlang.megal;
 
+import org.eclipse.xtext.resource.IResourceFactory;
+
 /**
- * Use this class to register components to be used at runtime / without the Equinox extension registry.
+ * Use this class to register components to be used at runtime / without the
+ * Equinox extension registry.
  */
-public class MegaLRuntimeModule extends org.softlang.megal.AbstractMegaLRuntimeModule {
+public class MegaLRuntimeModule extends AbstractMegaLRuntimeModule {
 
 }

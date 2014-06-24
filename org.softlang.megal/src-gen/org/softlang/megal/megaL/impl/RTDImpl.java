@@ -3,6 +3,7 @@
 package org.softlang.megal.megaL.impl;
 
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
@@ -10,9 +11,9 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
-import org.softlang.megal.megaL.ETD;
 import org.softlang.megal.megaL.MegaLPackage;
 import org.softlang.megal.megaL.RTD;
+import org.softlang.megal.megaL.UseETD;
 
 /**
  * <!-- begin-user-doc -->
@@ -52,24 +53,24 @@ public class RTDImpl extends MinimalEObjectImpl.Container implements RTD
   protected String name = NAME_EDEFAULT;
 
   /**
-   * The cached value of the '{@link #getDomain() <em>Domain</em>}' reference.
+   * The cached value of the '{@link #getDomain() <em>Domain</em>}' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #getDomain()
    * @generated
    * @ordered
    */
-  protected ETD domain;
+  protected UseETD domain;
 
   /**
-   * The cached value of the '{@link #getCoDomain() <em>Co Domain</em>}' reference.
+   * The cached value of the '{@link #getCoDomain() <em>Co Domain</em>}' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #getCoDomain()
    * @generated
    * @ordered
    */
-  protected ETD coDomain;
+  protected UseETD coDomain;
 
   /**
    * <!-- begin-user-doc -->
@@ -120,27 +121,7 @@ public class RTDImpl extends MinimalEObjectImpl.Container implements RTD
    * <!-- end-user-doc -->
    * @generated
    */
-  public ETD getDomain()
-  {
-    if (domain != null && domain.eIsProxy())
-    {
-      InternalEObject oldDomain = (InternalEObject)domain;
-      domain = (ETD)eResolveProxy(oldDomain);
-      if (domain != oldDomain)
-      {
-        if (eNotificationRequired())
-          eNotify(new ENotificationImpl(this, Notification.RESOLVE, MegaLPackage.RTD__DOMAIN, oldDomain, domain));
-      }
-    }
-    return domain;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public ETD basicGetDomain()
+  public UseETD getDomain()
   {
     return domain;
   }
@@ -150,32 +131,16 @@ public class RTDImpl extends MinimalEObjectImpl.Container implements RTD
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setDomain(ETD newDomain)
+  public NotificationChain basicSetDomain(UseETD newDomain, NotificationChain msgs)
   {
-    ETD oldDomain = domain;
+    UseETD oldDomain = domain;
     domain = newDomain;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, MegaLPackage.RTD__DOMAIN, oldDomain, domain));
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public ETD getCoDomain()
-  {
-    if (coDomain != null && coDomain.eIsProxy())
     {
-      InternalEObject oldCoDomain = (InternalEObject)coDomain;
-      coDomain = (ETD)eResolveProxy(oldCoDomain);
-      if (coDomain != oldCoDomain)
-      {
-        if (eNotificationRequired())
-          eNotify(new ENotificationImpl(this, Notification.RESOLVE, MegaLPackage.RTD__CO_DOMAIN, oldCoDomain, coDomain));
-      }
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, MegaLPackage.RTD__DOMAIN, oldDomain, newDomain);
+      if (msgs == null) msgs = notification; else msgs.add(notification);
     }
-    return coDomain;
+    return msgs;
   }
 
   /**
@@ -183,7 +148,28 @@ public class RTDImpl extends MinimalEObjectImpl.Container implements RTD
    * <!-- end-user-doc -->
    * @generated
    */
-  public ETD basicGetCoDomain()
+  public void setDomain(UseETD newDomain)
+  {
+    if (newDomain != domain)
+    {
+      NotificationChain msgs = null;
+      if (domain != null)
+        msgs = ((InternalEObject)domain).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - MegaLPackage.RTD__DOMAIN, null, msgs);
+      if (newDomain != null)
+        msgs = ((InternalEObject)newDomain).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - MegaLPackage.RTD__DOMAIN, null, msgs);
+      msgs = basicSetDomain(newDomain, msgs);
+      if (msgs != null) msgs.dispatch();
+    }
+    else if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, MegaLPackage.RTD__DOMAIN, newDomain, newDomain));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public UseETD getCoDomain()
   {
     return coDomain;
   }
@@ -193,12 +179,55 @@ public class RTDImpl extends MinimalEObjectImpl.Container implements RTD
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setCoDomain(ETD newCoDomain)
+  public NotificationChain basicSetCoDomain(UseETD newCoDomain, NotificationChain msgs)
   {
-    ETD oldCoDomain = coDomain;
+    UseETD oldCoDomain = coDomain;
     coDomain = newCoDomain;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, MegaLPackage.RTD__CO_DOMAIN, oldCoDomain, coDomain));
+    {
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, MegaLPackage.RTD__CO_DOMAIN, oldCoDomain, newCoDomain);
+      if (msgs == null) msgs = notification; else msgs.add(notification);
+    }
+    return msgs;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setCoDomain(UseETD newCoDomain)
+  {
+    if (newCoDomain != coDomain)
+    {
+      NotificationChain msgs = null;
+      if (coDomain != null)
+        msgs = ((InternalEObject)coDomain).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - MegaLPackage.RTD__CO_DOMAIN, null, msgs);
+      if (newCoDomain != null)
+        msgs = ((InternalEObject)newCoDomain).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - MegaLPackage.RTD__CO_DOMAIN, null, msgs);
+      msgs = basicSetCoDomain(newCoDomain, msgs);
+      if (msgs != null) msgs.dispatch();
+    }
+    else if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, MegaLPackage.RTD__CO_DOMAIN, newCoDomain, newCoDomain));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
+  {
+    switch (featureID)
+    {
+      case MegaLPackage.RTD__DOMAIN:
+        return basicSetDomain(null, msgs);
+      case MegaLPackage.RTD__CO_DOMAIN:
+        return basicSetCoDomain(null, msgs);
+    }
+    return super.eInverseRemove(otherEnd, featureID, msgs);
   }
 
   /**
@@ -214,11 +243,9 @@ public class RTDImpl extends MinimalEObjectImpl.Container implements RTD
       case MegaLPackage.RTD__NAME:
         return getName();
       case MegaLPackage.RTD__DOMAIN:
-        if (resolve) return getDomain();
-        return basicGetDomain();
+        return getDomain();
       case MegaLPackage.RTD__CO_DOMAIN:
-        if (resolve) return getCoDomain();
-        return basicGetCoDomain();
+        return getCoDomain();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -237,10 +264,10 @@ public class RTDImpl extends MinimalEObjectImpl.Container implements RTD
         setName((String)newValue);
         return;
       case MegaLPackage.RTD__DOMAIN:
-        setDomain((ETD)newValue);
+        setDomain((UseETD)newValue);
         return;
       case MegaLPackage.RTD__CO_DOMAIN:
-        setCoDomain((ETD)newValue);
+        setCoDomain((UseETD)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -260,10 +287,10 @@ public class RTDImpl extends MinimalEObjectImpl.Container implements RTD
         setName(NAME_EDEFAULT);
         return;
       case MegaLPackage.RTD__DOMAIN:
-        setDomain((ETD)null);
+        setDomain((UseETD)null);
         return;
       case MegaLPackage.RTD__CO_DOMAIN:
-        setCoDomain((ETD)null);
+        setCoDomain((UseETD)null);
         return;
     }
     super.eUnset(featureID);

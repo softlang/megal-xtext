@@ -21,29 +21,27 @@ import java.util.ArrayList;
 @SuppressWarnings("all")
 public class InternalMegaLParser extends AbstractInternalAntlrParser {
     public static final String[] tokenNames = new String[] {
-        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "RULE_ID", "RULE_STRING", "RULE_INT", "RULE_ML_COMMENT", "RULE_SL_COMMENT", "RULE_WS", "RULE_ANY_OTHER", "'model'", "'linked'", "'in'", "'import'", "'define'", "'from'", "':'", "'->'", "','", "'linking'", "'for'", "'='", "'.'"
+        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "RULE_ID", "RULE_STRING", "RULE_ML_COMMENT", "RULE_SL_COMMENT", "RULE_WS", "RULE_ANY_OTHER", "'model'", "'linked'", "'in'", "'import'", "'<'", "'*'", "':'", "'Entity'", "'linking'", "'for'", "'='", "'.'"
     };
-    public static final int RULE_STRING=5;
-    public static final int RULE_SL_COMMENT=8;
-    public static final int T__19=19;
-    public static final int T__15=15;
-    public static final int T__16=16;
-    public static final int T__17=17;
-    public static final int T__18=18;
-    public static final int T__11=11;
-    public static final int T__12=12;
-    public static final int T__13=13;
-    public static final int T__14=14;
-    public static final int EOF=-1;
     public static final int RULE_ID=4;
-    public static final int RULE_WS=9;
-    public static final int RULE_ANY_OTHER=10;
-    public static final int RULE_INT=6;
-    public static final int T__22=22;
-    public static final int RULE_ML_COMMENT=7;
-    public static final int T__23=23;
-    public static final int T__20=20;
+    public static final int RULE_ANY_OTHER=9;
     public static final int T__21=21;
+    public static final int T__20=20;
+    public static final int RULE_SL_COMMENT=7;
+    public static final int EOF=-1;
+    public static final int RULE_ML_COMMENT=6;
+    public static final int T__19=19;
+    public static final int RULE_STRING=5;
+    public static final int T__16=16;
+    public static final int T__15=15;
+    public static final int T__18=18;
+    public static final int T__17=17;
+    public static final int T__12=12;
+    public static final int T__11=11;
+    public static final int T__14=14;
+    public static final int T__13=13;
+    public static final int T__10=10;
+    public static final int RULE_WS=8;
 
     // delegates
     // delegators
@@ -139,10 +137,10 @@ public class InternalMegaLParser extends AbstractInternalAntlrParser {
             int alt1=2;
             int LA1_0 = input.LA(1);
 
-            if ( (LA1_0==11) ) {
+            if ( (LA1_0==10) ) {
                 alt1=1;
             }
-            else if ( (LA1_0==20) ) {
+            else if ( (LA1_0==18) ) {
                 alt1=2;
             }
             else {
@@ -245,7 +243,7 @@ public class InternalMegaLParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleMegaLDefinition"
-    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:116:1: ruleMegaLDefinition returns [EObject current=null] : (otherlv_0= 'model' ( (lv_name_1_0= ruleQualifiedID ) ) (otherlv_2= 'linked' otherlv_3= 'in' ( ( ruleQualifiedID ) ) )? ( ( (lv_imports_5_0= ruleImport ) ) | ( (lv_rds_6_0= ruleRD ) ) | ( (lv_etds_7_0= ruleETD ) ) | ( (lv_rtds_8_0= ruleRTD ) ) | ( (lv_eds_9_0= ruleEDGroup ) ) )* ) ;
+    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:116:1: ruleMegaLDefinition returns [EObject current=null] : (otherlv_0= 'model' ( (lv_name_1_0= ruleQualifiedID ) ) (otherlv_2= 'linked' otherlv_3= 'in' ( ( ruleQualifiedID ) ) )? ( ( (lv_imports_5_0= ruleImport ) ) | ( (lv_etds_6_0= ruleETD ) ) | ( (lv_rtds_7_0= ruleRTD ) ) | ( (lv_eds_8_0= ruleED ) ) | ( (lv_rds_9_0= ruleRD ) ) )* ) ;
     public final EObject ruleMegaLDefinition() throws RecognitionException {
         EObject current = null;
 
@@ -256,25 +254,25 @@ public class InternalMegaLParser extends AbstractInternalAntlrParser {
 
         EObject lv_imports_5_0 = null;
 
-        EObject lv_rds_6_0 = null;
+        EObject lv_etds_6_0 = null;
 
-        EObject lv_etds_7_0 = null;
+        EObject lv_rtds_7_0 = null;
 
-        EObject lv_rtds_8_0 = null;
+        EObject lv_eds_8_0 = null;
 
-        EObject lv_eds_9_0 = null;
+        EObject lv_rds_9_0 = null;
 
 
          enterRule(); 
             
         try {
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:119:28: ( (otherlv_0= 'model' ( (lv_name_1_0= ruleQualifiedID ) ) (otherlv_2= 'linked' otherlv_3= 'in' ( ( ruleQualifiedID ) ) )? ( ( (lv_imports_5_0= ruleImport ) ) | ( (lv_rds_6_0= ruleRD ) ) | ( (lv_etds_7_0= ruleETD ) ) | ( (lv_rtds_8_0= ruleRTD ) ) | ( (lv_eds_9_0= ruleEDGroup ) ) )* ) )
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:120:1: (otherlv_0= 'model' ( (lv_name_1_0= ruleQualifiedID ) ) (otherlv_2= 'linked' otherlv_3= 'in' ( ( ruleQualifiedID ) ) )? ( ( (lv_imports_5_0= ruleImport ) ) | ( (lv_rds_6_0= ruleRD ) ) | ( (lv_etds_7_0= ruleETD ) ) | ( (lv_rtds_8_0= ruleRTD ) ) | ( (lv_eds_9_0= ruleEDGroup ) ) )* )
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:119:28: ( (otherlv_0= 'model' ( (lv_name_1_0= ruleQualifiedID ) ) (otherlv_2= 'linked' otherlv_3= 'in' ( ( ruleQualifiedID ) ) )? ( ( (lv_imports_5_0= ruleImport ) ) | ( (lv_etds_6_0= ruleETD ) ) | ( (lv_rtds_7_0= ruleRTD ) ) | ( (lv_eds_8_0= ruleED ) ) | ( (lv_rds_9_0= ruleRD ) ) )* ) )
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:120:1: (otherlv_0= 'model' ( (lv_name_1_0= ruleQualifiedID ) ) (otherlv_2= 'linked' otherlv_3= 'in' ( ( ruleQualifiedID ) ) )? ( ( (lv_imports_5_0= ruleImport ) ) | ( (lv_etds_6_0= ruleETD ) ) | ( (lv_rtds_7_0= ruleRTD ) ) | ( (lv_eds_8_0= ruleED ) ) | ( (lv_rds_9_0= ruleRD ) ) )* )
             {
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:120:1: (otherlv_0= 'model' ( (lv_name_1_0= ruleQualifiedID ) ) (otherlv_2= 'linked' otherlv_3= 'in' ( ( ruleQualifiedID ) ) )? ( ( (lv_imports_5_0= ruleImport ) ) | ( (lv_rds_6_0= ruleRD ) ) | ( (lv_etds_7_0= ruleETD ) ) | ( (lv_rtds_8_0= ruleRTD ) ) | ( (lv_eds_9_0= ruleEDGroup ) ) )* )
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:120:3: otherlv_0= 'model' ( (lv_name_1_0= ruleQualifiedID ) ) (otherlv_2= 'linked' otherlv_3= 'in' ( ( ruleQualifiedID ) ) )? ( ( (lv_imports_5_0= ruleImport ) ) | ( (lv_rds_6_0= ruleRD ) ) | ( (lv_etds_7_0= ruleETD ) ) | ( (lv_rtds_8_0= ruleRTD ) ) | ( (lv_eds_9_0= ruleEDGroup ) ) )*
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:120:1: (otherlv_0= 'model' ( (lv_name_1_0= ruleQualifiedID ) ) (otherlv_2= 'linked' otherlv_3= 'in' ( ( ruleQualifiedID ) ) )? ( ( (lv_imports_5_0= ruleImport ) ) | ( (lv_etds_6_0= ruleETD ) ) | ( (lv_rtds_7_0= ruleRTD ) ) | ( (lv_eds_8_0= ruleED ) ) | ( (lv_rds_9_0= ruleRD ) ) )* )
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:120:3: otherlv_0= 'model' ( (lv_name_1_0= ruleQualifiedID ) ) (otherlv_2= 'linked' otherlv_3= 'in' ( ( ruleQualifiedID ) ) )? ( ( (lv_imports_5_0= ruleImport ) ) | ( (lv_etds_6_0= ruleETD ) ) | ( (lv_rtds_7_0= ruleRTD ) ) | ( (lv_eds_8_0= ruleED ) ) | ( (lv_rds_9_0= ruleRD ) ) )*
             {
-            otherlv_0=(Token)match(input,11,FOLLOW_11_in_ruleMegaLDefinition241); 
+            otherlv_0=(Token)match(input,10,FOLLOW_10_in_ruleMegaLDefinition241); 
 
                 	newLeafNode(otherlv_0, grammarAccess.getMegaLDefinitionAccess().getModelKeyword_0());
                 
@@ -313,18 +311,18 @@ public class InternalMegaLParser extends AbstractInternalAntlrParser {
             int alt2=2;
             int LA2_0 = input.LA(1);
 
-            if ( (LA2_0==12) ) {
+            if ( (LA2_0==11) ) {
                 alt2=1;
             }
             switch (alt2) {
                 case 1 :
                     // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:142:4: otherlv_2= 'linked' otherlv_3= 'in' ( ( ruleQualifiedID ) )
                     {
-                    otherlv_2=(Token)match(input,12,FOLLOW_12_in_ruleMegaLDefinition275); 
+                    otherlv_2=(Token)match(input,11,FOLLOW_11_in_ruleMegaLDefinition275); 
 
                         	newLeafNode(otherlv_2, grammarAccess.getMegaLDefinitionAccess().getLinkedKeyword_2_0());
                         
-                    otherlv_3=(Token)match(input,13,FOLLOW_13_in_ruleMegaLDefinition287); 
+                    otherlv_3=(Token)match(input,12,FOLLOW_12_in_ruleMegaLDefinition287); 
 
                         	newLeafNode(otherlv_3, grammarAccess.getMegaLDefinitionAccess().getInKeyword_2_1());
                         
@@ -362,7 +360,7 @@ public class InternalMegaLParser extends AbstractInternalAntlrParser {
 
             }
 
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:165:4: ( ( (lv_imports_5_0= ruleImport ) ) | ( (lv_rds_6_0= ruleRD ) ) | ( (lv_etds_7_0= ruleETD ) ) | ( (lv_rtds_8_0= ruleRTD ) ) | ( (lv_eds_9_0= ruleEDGroup ) ) )*
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:165:4: ( ( (lv_imports_5_0= ruleImport ) ) | ( (lv_etds_6_0= ruleETD ) ) | ( (lv_rtds_7_0= ruleRTD ) ) | ( (lv_eds_8_0= ruleED ) ) | ( (lv_rds_9_0= ruleRD ) ) )*
             loop3:
             do {
                 int alt3=6;
@@ -406,56 +404,19 @@ public class InternalMegaLParser extends AbstractInternalAntlrParser {
             	    }
             	    break;
             	case 2 :
-            	    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:184:6: ( (lv_rds_6_0= ruleRD ) )
+            	    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:184:6: ( (lv_etds_6_0= ruleETD ) )
             	    {
-            	    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:184:6: ( (lv_rds_6_0= ruleRD ) )
-            	    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:185:1: (lv_rds_6_0= ruleRD )
+            	    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:184:6: ( (lv_etds_6_0= ruleETD ) )
+            	    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:185:1: (lv_etds_6_0= ruleETD )
             	    {
-            	    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:185:1: (lv_rds_6_0= ruleRD )
-            	    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:186:3: lv_rds_6_0= ruleRD
-            	    {
-            	     
-            	    	        newCompositeNode(grammarAccess.getMegaLDefinitionAccess().getRdsRDParserRuleCall_3_1_0()); 
-            	    	    
-            	    pushFollow(FOLLOW_ruleRD_in_ruleMegaLDefinition361);
-            	    lv_rds_6_0=ruleRD();
-
-            	    state._fsp--;
-
-
-            	    	        if (current==null) {
-            	    	            current = createModelElementForParent(grammarAccess.getMegaLDefinitionRule());
-            	    	        }
-            	           		add(
-            	           			current, 
-            	           			"rds",
-            	            		lv_rds_6_0, 
-            	            		"RD");
-            	    	        afterParserOrEnumRuleCall();
-            	    	    
-
-            	    }
-
-
-            	    }
-
-
-            	    }
-            	    break;
-            	case 3 :
-            	    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:203:6: ( (lv_etds_7_0= ruleETD ) )
-            	    {
-            	    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:203:6: ( (lv_etds_7_0= ruleETD ) )
-            	    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:204:1: (lv_etds_7_0= ruleETD )
-            	    {
-            	    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:204:1: (lv_etds_7_0= ruleETD )
-            	    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:205:3: lv_etds_7_0= ruleETD
+            	    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:185:1: (lv_etds_6_0= ruleETD )
+            	    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:186:3: lv_etds_6_0= ruleETD
             	    {
             	     
-            	    	        newCompositeNode(grammarAccess.getMegaLDefinitionAccess().getEtdsETDParserRuleCall_3_2_0()); 
+            	    	        newCompositeNode(grammarAccess.getMegaLDefinitionAccess().getEtdsETDParserRuleCall_3_1_0()); 
             	    	    
-            	    pushFollow(FOLLOW_ruleETD_in_ruleMegaLDefinition388);
-            	    lv_etds_7_0=ruleETD();
+            	    pushFollow(FOLLOW_ruleETD_in_ruleMegaLDefinition361);
+            	    lv_etds_6_0=ruleETD();
 
             	    state._fsp--;
 
@@ -466,7 +427,7 @@ public class InternalMegaLParser extends AbstractInternalAntlrParser {
             	           		add(
             	           			current, 
             	           			"etds",
-            	            		lv_etds_7_0, 
+            	            		lv_etds_6_0, 
             	            		"ETD");
             	    	        afterParserOrEnumRuleCall();
             	    	    
@@ -479,20 +440,20 @@ public class InternalMegaLParser extends AbstractInternalAntlrParser {
 
             	    }
             	    break;
-            	case 4 :
-            	    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:222:6: ( (lv_rtds_8_0= ruleRTD ) )
+            	case 3 :
+            	    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:203:6: ( (lv_rtds_7_0= ruleRTD ) )
             	    {
-            	    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:222:6: ( (lv_rtds_8_0= ruleRTD ) )
-            	    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:223:1: (lv_rtds_8_0= ruleRTD )
+            	    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:203:6: ( (lv_rtds_7_0= ruleRTD ) )
+            	    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:204:1: (lv_rtds_7_0= ruleRTD )
             	    {
-            	    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:223:1: (lv_rtds_8_0= ruleRTD )
-            	    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:224:3: lv_rtds_8_0= ruleRTD
+            	    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:204:1: (lv_rtds_7_0= ruleRTD )
+            	    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:205:3: lv_rtds_7_0= ruleRTD
             	    {
             	     
-            	    	        newCompositeNode(grammarAccess.getMegaLDefinitionAccess().getRtdsRTDParserRuleCall_3_3_0()); 
+            	    	        newCompositeNode(grammarAccess.getMegaLDefinitionAccess().getRtdsRTDParserRuleCall_3_2_0()); 
             	    	    
-            	    pushFollow(FOLLOW_ruleRTD_in_ruleMegaLDefinition415);
-            	    lv_rtds_8_0=ruleRTD();
+            	    pushFollow(FOLLOW_ruleRTD_in_ruleMegaLDefinition388);
+            	    lv_rtds_7_0=ruleRTD();
 
             	    state._fsp--;
 
@@ -503,7 +464,7 @@ public class InternalMegaLParser extends AbstractInternalAntlrParser {
             	           		add(
             	           			current, 
             	           			"rtds",
-            	            		lv_rtds_8_0, 
+            	            		lv_rtds_7_0, 
             	            		"RTD");
             	    	        afterParserOrEnumRuleCall();
             	    	    
@@ -516,20 +477,20 @@ public class InternalMegaLParser extends AbstractInternalAntlrParser {
 
             	    }
             	    break;
-            	case 5 :
-            	    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:241:6: ( (lv_eds_9_0= ruleEDGroup ) )
+            	case 4 :
+            	    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:222:6: ( (lv_eds_8_0= ruleED ) )
             	    {
-            	    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:241:6: ( (lv_eds_9_0= ruleEDGroup ) )
-            	    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:242:1: (lv_eds_9_0= ruleEDGroup )
+            	    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:222:6: ( (lv_eds_8_0= ruleED ) )
+            	    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:223:1: (lv_eds_8_0= ruleED )
             	    {
-            	    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:242:1: (lv_eds_9_0= ruleEDGroup )
-            	    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:243:3: lv_eds_9_0= ruleEDGroup
+            	    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:223:1: (lv_eds_8_0= ruleED )
+            	    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:224:3: lv_eds_8_0= ruleED
             	    {
             	     
-            	    	        newCompositeNode(grammarAccess.getMegaLDefinitionAccess().getEdsEDGroupParserRuleCall_3_4_0()); 
+            	    	        newCompositeNode(grammarAccess.getMegaLDefinitionAccess().getEdsEDParserRuleCall_3_3_0()); 
             	    	    
-            	    pushFollow(FOLLOW_ruleEDGroup_in_ruleMegaLDefinition442);
-            	    lv_eds_9_0=ruleEDGroup();
+            	    pushFollow(FOLLOW_ruleED_in_ruleMegaLDefinition415);
+            	    lv_eds_8_0=ruleED();
 
             	    state._fsp--;
 
@@ -540,8 +501,45 @@ public class InternalMegaLParser extends AbstractInternalAntlrParser {
             	           		add(
             	           			current, 
             	           			"eds",
-            	            		lv_eds_9_0, 
-            	            		"EDGroup");
+            	            		lv_eds_8_0, 
+            	            		"ED");
+            	    	        afterParserOrEnumRuleCall();
+            	    	    
+
+            	    }
+
+
+            	    }
+
+
+            	    }
+            	    break;
+            	case 5 :
+            	    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:241:6: ( (lv_rds_9_0= ruleRD ) )
+            	    {
+            	    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:241:6: ( (lv_rds_9_0= ruleRD ) )
+            	    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:242:1: (lv_rds_9_0= ruleRD )
+            	    {
+            	    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:242:1: (lv_rds_9_0= ruleRD )
+            	    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:243:3: lv_rds_9_0= ruleRD
+            	    {
+            	     
+            	    	        newCompositeNode(grammarAccess.getMegaLDefinitionAccess().getRdsRDParserRuleCall_3_4_0()); 
+            	    	    
+            	    pushFollow(FOLLOW_ruleRD_in_ruleMegaLDefinition442);
+            	    lv_rds_9_0=ruleRD();
+
+            	    state._fsp--;
+
+
+            	    	        if (current==null) {
+            	    	            current = createModelElementForParent(grammarAccess.getMegaLDefinitionRule());
+            	    	        }
+            	           		add(
+            	           			current, 
+            	           			"rds",
+            	            		lv_rds_9_0, 
+            	            		"RD");
             	    	        afterParserOrEnumRuleCall();
             	    	    
 
@@ -632,7 +630,7 @@ public class InternalMegaLParser extends AbstractInternalAntlrParser {
             // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:280:1: (otherlv_0= 'import' ( (otherlv_1= RULE_ID ) ) )
             // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:280:3: otherlv_0= 'import' ( (otherlv_1= RULE_ID ) )
             {
-            otherlv_0=(Token)match(input,14,FOLLOW_14_in_ruleImport527); 
+            otherlv_0=(Token)match(input,13,FOLLOW_13_in_ruleImport527); 
 
                 	newLeafNode(otherlv_0, grammarAccess.getImportAccess().getImportKeyword_0());
                 
@@ -714,37 +712,33 @@ public class InternalMegaLParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleETD"
-    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:314:1: ruleETD returns [EObject current=null] : (otherlv_0= 'define' ( (lv_name_1_0= RULE_ID ) ) (otherlv_2= 'from' ( (otherlv_3= RULE_ID ) ) )? ) ;
+    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:314:1: ruleETD returns [EObject current=null] : ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '<' ( (lv_supertype_2_0= ruleUseETD ) ) ) ;
     public final EObject ruleETD() throws RecognitionException {
         EObject current = null;
 
-        Token otherlv_0=null;
-        Token lv_name_1_0=null;
-        Token otherlv_2=null;
-        Token otherlv_3=null;
+        Token lv_name_0_0=null;
+        Token otherlv_1=null;
+        EObject lv_supertype_2_0 = null;
+
 
          enterRule(); 
             
         try {
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:317:28: ( (otherlv_0= 'define' ( (lv_name_1_0= RULE_ID ) ) (otherlv_2= 'from' ( (otherlv_3= RULE_ID ) ) )? ) )
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:318:1: (otherlv_0= 'define' ( (lv_name_1_0= RULE_ID ) ) (otherlv_2= 'from' ( (otherlv_3= RULE_ID ) ) )? )
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:317:28: ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '<' ( (lv_supertype_2_0= ruleUseETD ) ) ) )
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:318:1: ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '<' ( (lv_supertype_2_0= ruleUseETD ) ) )
             {
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:318:1: (otherlv_0= 'define' ( (lv_name_1_0= RULE_ID ) ) (otherlv_2= 'from' ( (otherlv_3= RULE_ID ) ) )? )
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:318:3: otherlv_0= 'define' ( (lv_name_1_0= RULE_ID ) ) (otherlv_2= 'from' ( (otherlv_3= RULE_ID ) ) )?
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:318:1: ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '<' ( (lv_supertype_2_0= ruleUseETD ) ) )
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:318:2: ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '<' ( (lv_supertype_2_0= ruleUseETD ) )
             {
-            otherlv_0=(Token)match(input,15,FOLLOW_15_in_ruleETD630); 
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:318:2: ( (lv_name_0_0= RULE_ID ) )
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:319:1: (lv_name_0_0= RULE_ID )
+            {
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:319:1: (lv_name_0_0= RULE_ID )
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:320:3: lv_name_0_0= RULE_ID
+            {
+            lv_name_0_0=(Token)match(input,RULE_ID,FOLLOW_RULE_ID_in_ruleETD635); 
 
-                	newLeafNode(otherlv_0, grammarAccess.getETDAccess().getDefineKeyword_0());
-                
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:322:1: ( (lv_name_1_0= RULE_ID ) )
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:323:1: (lv_name_1_0= RULE_ID )
-            {
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:323:1: (lv_name_1_0= RULE_ID )
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:324:3: lv_name_1_0= RULE_ID
-            {
-            lv_name_1_0=(Token)match(input,RULE_ID,FOLLOW_RULE_ID_in_ruleETD647); 
-
-            			newLeafNode(lv_name_1_0, grammarAccess.getETDAccess().getNameIDTerminalRuleCall_1_0()); 
+            			newLeafNode(lv_name_0_0, grammarAccess.getETDAccess().getNameIDTerminalRuleCall_0_0()); 
             		
 
             	        if (current==null) {
@@ -753,7 +747,7 @@ public class InternalMegaLParser extends AbstractInternalAntlrParser {
                    		setWithLastConsumed(
                    			current, 
                    			"name",
-                    		lv_name_1_0, 
+                    		lv_name_0_0, 
                     		"ID");
             	    
 
@@ -762,45 +756,38 @@ public class InternalMegaLParser extends AbstractInternalAntlrParser {
 
             }
 
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:340:2: (otherlv_2= 'from' ( (otherlv_3= RULE_ID ) ) )?
-            int alt4=2;
-            int LA4_0 = input.LA(1);
+            otherlv_1=(Token)match(input,14,FOLLOW_14_in_ruleETD652); 
 
-            if ( (LA4_0==16) ) {
-                alt4=1;
+                	newLeafNode(otherlv_1, grammarAccess.getETDAccess().getLessThanSignKeyword_1());
+                
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:340:1: ( (lv_supertype_2_0= ruleUseETD ) )
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:341:1: (lv_supertype_2_0= ruleUseETD )
+            {
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:341:1: (lv_supertype_2_0= ruleUseETD )
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:342:3: lv_supertype_2_0= ruleUseETD
+            {
+             
+            	        newCompositeNode(grammarAccess.getETDAccess().getSupertypeUseETDParserRuleCall_2_0()); 
+            	    
+            pushFollow(FOLLOW_ruleUseETD_in_ruleETD673);
+            lv_supertype_2_0=ruleUseETD();
+
+            state._fsp--;
+
+
+            	        if (current==null) {
+            	            current = createModelElementForParent(grammarAccess.getETDRule());
+            	        }
+                   		set(
+                   			current, 
+                   			"supertype",
+                    		lv_supertype_2_0, 
+                    		"UseETD");
+            	        afterParserOrEnumRuleCall();
+            	    
+
             }
-            switch (alt4) {
-                case 1 :
-                    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:340:4: otherlv_2= 'from' ( (otherlv_3= RULE_ID ) )
-                    {
-                    otherlv_2=(Token)match(input,16,FOLLOW_16_in_ruleETD665); 
 
-                        	newLeafNode(otherlv_2, grammarAccess.getETDAccess().getFromKeyword_2_0());
-                        
-                    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:344:1: ( (otherlv_3= RULE_ID ) )
-                    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:345:1: (otherlv_3= RULE_ID )
-                    {
-                    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:345:1: (otherlv_3= RULE_ID )
-                    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:346:3: otherlv_3= RULE_ID
-                    {
-
-                    			if (current==null) {
-                    	            current = createModelElement(grammarAccess.getETDRule());
-                    	        }
-                            
-                    otherlv_3=(Token)match(input,RULE_ID,FOLLOW_RULE_ID_in_ruleETD685); 
-
-                    		newLeafNode(otherlv_3, grammarAccess.getETDAccess().getSupertypeETDCrossReference_2_1_0()); 
-                    	
-
-                    }
-
-
-                    }
-
-
-                    }
-                    break;
 
             }
 
@@ -825,7 +812,7 @@ public class InternalMegaLParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleRTD"
-    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:365:1: entryRuleRTD returns [EObject current=null] : iv_ruleRTD= ruleRTD EOF ;
+    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:366:1: entryRuleRTD returns [EObject current=null] : iv_ruleRTD= ruleRTD EOF ;
     public final EObject entryRuleRTD() throws RecognitionException {
         EObject current = null;
 
@@ -833,17 +820,17 @@ public class InternalMegaLParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:366:2: (iv_ruleRTD= ruleRTD EOF )
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:367:2: iv_ruleRTD= ruleRTD EOF
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:367:2: (iv_ruleRTD= ruleRTD EOF )
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:368:2: iv_ruleRTD= ruleRTD EOF
             {
              newCompositeNode(grammarAccess.getRTDRule()); 
-            pushFollow(FOLLOW_ruleRTD_in_entryRuleRTD723);
+            pushFollow(FOLLOW_ruleRTD_in_entryRuleRTD709);
             iv_ruleRTD=ruleRTD();
 
             state._fsp--;
 
              current =iv_ruleRTD; 
-            match(input,EOF,FOLLOW_EOF_in_entryRuleRTD733); 
+            match(input,EOF,FOLLOW_EOF_in_entryRuleRTD719); 
 
             }
 
@@ -861,39 +848,36 @@ public class InternalMegaLParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleRTD"
-    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:374:1: ruleRTD returns [EObject current=null] : (otherlv_0= 'define' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= ':' ( (otherlv_3= RULE_ID ) ) otherlv_4= '->' ( (otherlv_5= RULE_ID ) ) ) ;
+    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:375:1: ruleRTD returns [EObject current=null] : ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '<' ( (lv_domain_2_0= ruleUseETD ) ) otherlv_3= '*' ( (lv_coDomain_4_0= ruleUseETD ) ) ) ;
     public final EObject ruleRTD() throws RecognitionException {
         EObject current = null;
 
-        Token otherlv_0=null;
-        Token lv_name_1_0=null;
-        Token otherlv_2=null;
+        Token lv_name_0_0=null;
+        Token otherlv_1=null;
         Token otherlv_3=null;
-        Token otherlv_4=null;
-        Token otherlv_5=null;
+        EObject lv_domain_2_0 = null;
+
+        EObject lv_coDomain_4_0 = null;
+
 
          enterRule(); 
             
         try {
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:377:28: ( (otherlv_0= 'define' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= ':' ( (otherlv_3= RULE_ID ) ) otherlv_4= '->' ( (otherlv_5= RULE_ID ) ) ) )
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:378:1: (otherlv_0= 'define' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= ':' ( (otherlv_3= RULE_ID ) ) otherlv_4= '->' ( (otherlv_5= RULE_ID ) ) )
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:378:28: ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '<' ( (lv_domain_2_0= ruleUseETD ) ) otherlv_3= '*' ( (lv_coDomain_4_0= ruleUseETD ) ) ) )
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:379:1: ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '<' ( (lv_domain_2_0= ruleUseETD ) ) otherlv_3= '*' ( (lv_coDomain_4_0= ruleUseETD ) ) )
             {
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:378:1: (otherlv_0= 'define' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= ':' ( (otherlv_3= RULE_ID ) ) otherlv_4= '->' ( (otherlv_5= RULE_ID ) ) )
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:378:3: otherlv_0= 'define' ( (lv_name_1_0= RULE_ID ) ) otherlv_2= ':' ( (otherlv_3= RULE_ID ) ) otherlv_4= '->' ( (otherlv_5= RULE_ID ) )
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:379:1: ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '<' ( (lv_domain_2_0= ruleUseETD ) ) otherlv_3= '*' ( (lv_coDomain_4_0= ruleUseETD ) ) )
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:379:2: ( (lv_name_0_0= RULE_ID ) ) otherlv_1= '<' ( (lv_domain_2_0= ruleUseETD ) ) otherlv_3= '*' ( (lv_coDomain_4_0= ruleUseETD ) )
             {
-            otherlv_0=(Token)match(input,15,FOLLOW_15_in_ruleRTD770); 
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:379:2: ( (lv_name_0_0= RULE_ID ) )
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:380:1: (lv_name_0_0= RULE_ID )
+            {
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:380:1: (lv_name_0_0= RULE_ID )
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:381:3: lv_name_0_0= RULE_ID
+            {
+            lv_name_0_0=(Token)match(input,RULE_ID,FOLLOW_RULE_ID_in_ruleRTD761); 
 
-                	newLeafNode(otherlv_0, grammarAccess.getRTDAccess().getDefineKeyword_0());
-                
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:382:1: ( (lv_name_1_0= RULE_ID ) )
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:383:1: (lv_name_1_0= RULE_ID )
-            {
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:383:1: (lv_name_1_0= RULE_ID )
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:384:3: lv_name_1_0= RULE_ID
-            {
-            lv_name_1_0=(Token)match(input,RULE_ID,FOLLOW_RULE_ID_in_ruleRTD787); 
-
-            			newLeafNode(lv_name_1_0, grammarAccess.getRTDAccess().getNameIDTerminalRuleCall_1_0()); 
+            			newLeafNode(lv_name_0_0, grammarAccess.getRTDAccess().getNameIDTerminalRuleCall_0_0()); 
             		
 
             	        if (current==null) {
@@ -902,7 +886,7 @@ public class InternalMegaLParser extends AbstractInternalAntlrParser {
                    		setWithLastConsumed(
                    			current, 
                    			"name",
-                    		lv_name_1_0, 
+                    		lv_name_0_0, 
                     		"ID");
             	    
 
@@ -911,50 +895,70 @@ public class InternalMegaLParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_2=(Token)match(input,17,FOLLOW_17_in_ruleRTD804); 
+            otherlv_1=(Token)match(input,14,FOLLOW_14_in_ruleRTD778); 
 
-                	newLeafNode(otherlv_2, grammarAccess.getRTDAccess().getColonKeyword_2());
+                	newLeafNode(otherlv_1, grammarAccess.getRTDAccess().getLessThanSignKeyword_1());
                 
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:404:1: ( (otherlv_3= RULE_ID ) )
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:405:1: (otherlv_3= RULE_ID )
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:401:1: ( (lv_domain_2_0= ruleUseETD ) )
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:402:1: (lv_domain_2_0= ruleUseETD )
             {
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:405:1: (otherlv_3= RULE_ID )
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:406:3: otherlv_3= RULE_ID
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:402:1: (lv_domain_2_0= ruleUseETD )
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:403:3: lv_domain_2_0= ruleUseETD
             {
+             
+            	        newCompositeNode(grammarAccess.getRTDAccess().getDomainUseETDParserRuleCall_2_0()); 
+            	    
+            pushFollow(FOLLOW_ruleUseETD_in_ruleRTD799);
+            lv_domain_2_0=ruleUseETD();
 
-            			if (current==null) {
-            	            current = createModelElement(grammarAccess.getRTDRule());
+            state._fsp--;
+
+
+            	        if (current==null) {
+            	            current = createModelElementForParent(grammarAccess.getRTDRule());
             	        }
-                    
-            otherlv_3=(Token)match(input,RULE_ID,FOLLOW_RULE_ID_in_ruleRTD824); 
-
-            		newLeafNode(otherlv_3, grammarAccess.getRTDAccess().getDomainETDCrossReference_3_0()); 
-            	
+                   		set(
+                   			current, 
+                   			"domain",
+                    		lv_domain_2_0, 
+                    		"UseETD");
+            	        afterParserOrEnumRuleCall();
+            	    
 
             }
 
 
             }
 
-            otherlv_4=(Token)match(input,18,FOLLOW_18_in_ruleRTD836); 
+            otherlv_3=(Token)match(input,15,FOLLOW_15_in_ruleRTD811); 
 
-                	newLeafNode(otherlv_4, grammarAccess.getRTDAccess().getHyphenMinusGreaterThanSignKeyword_4());
+                	newLeafNode(otherlv_3, grammarAccess.getRTDAccess().getAsteriskKeyword_3());
                 
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:421:1: ( (otherlv_5= RULE_ID ) )
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:422:1: (otherlv_5= RULE_ID )
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:423:1: ( (lv_coDomain_4_0= ruleUseETD ) )
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:424:1: (lv_coDomain_4_0= ruleUseETD )
             {
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:422:1: (otherlv_5= RULE_ID )
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:423:3: otherlv_5= RULE_ID
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:424:1: (lv_coDomain_4_0= ruleUseETD )
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:425:3: lv_coDomain_4_0= ruleUseETD
             {
+             
+            	        newCompositeNode(grammarAccess.getRTDAccess().getCoDomainUseETDParserRuleCall_4_0()); 
+            	    
+            pushFollow(FOLLOW_ruleUseETD_in_ruleRTD832);
+            lv_coDomain_4_0=ruleUseETD();
 
-            			if (current==null) {
-            	            current = createModelElement(grammarAccess.getRTDRule());
+            state._fsp--;
+
+
+            	        if (current==null) {
+            	            current = createModelElementForParent(grammarAccess.getRTDRule());
             	        }
-                    
-            otherlv_5=(Token)match(input,RULE_ID,FOLLOW_RULE_ID_in_ruleRTD856); 
-
-            		newLeafNode(otherlv_5, grammarAccess.getRTDAccess().getCoDomainETDCrossReference_5_0()); 
-            	
+                   		set(
+                   			current, 
+                   			"coDomain",
+                    		lv_coDomain_4_0, 
+                    		"UseETD");
+            	        afterParserOrEnumRuleCall();
+            	    
 
             }
 
@@ -981,293 +985,8 @@ public class InternalMegaLParser extends AbstractInternalAntlrParser {
     // $ANTLR end "ruleRTD"
 
 
-    // $ANTLR start "entryRuleEDGroup"
-    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:442:1: entryRuleEDGroup returns [EObject current=null] : iv_ruleEDGroup= ruleEDGroup EOF ;
-    public final EObject entryRuleEDGroup() throws RecognitionException {
-        EObject current = null;
-
-        EObject iv_ruleEDGroup = null;
-
-
-        try {
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:443:2: (iv_ruleEDGroup= ruleEDGroup EOF )
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:444:2: iv_ruleEDGroup= ruleEDGroup EOF
-            {
-             newCompositeNode(grammarAccess.getEDGroupRule()); 
-            pushFollow(FOLLOW_ruleEDGroup_in_entryRuleEDGroup892);
-            iv_ruleEDGroup=ruleEDGroup();
-
-            state._fsp--;
-
-             current =iv_ruleEDGroup; 
-            match(input,EOF,FOLLOW_EOF_in_entryRuleEDGroup902); 
-
-            }
-
-        }
-         
-            catch (RecognitionException re) { 
-                recover(input,re); 
-                appendSkippedTokens();
-            } 
-        finally {
-        }
-        return current;
-    }
-    // $ANTLR end "entryRuleEDGroup"
-
-
-    // $ANTLR start "ruleEDGroup"
-    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:451:1: ruleEDGroup returns [EObject current=null] : ( ( (otherlv_0= RULE_ID ) ) otherlv_1= ':' ( (lv_items_2_0= ruleED ) ) (otherlv_3= ',' ( (lv_items_4_0= ruleED ) ) )* ) ;
-    public final EObject ruleEDGroup() throws RecognitionException {
-        EObject current = null;
-
-        Token otherlv_0=null;
-        Token otherlv_1=null;
-        Token otherlv_3=null;
-        EObject lv_items_2_0 = null;
-
-        EObject lv_items_4_0 = null;
-
-
-         enterRule(); 
-            
-        try {
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:454:28: ( ( ( (otherlv_0= RULE_ID ) ) otherlv_1= ':' ( (lv_items_2_0= ruleED ) ) (otherlv_3= ',' ( (lv_items_4_0= ruleED ) ) )* ) )
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:455:1: ( ( (otherlv_0= RULE_ID ) ) otherlv_1= ':' ( (lv_items_2_0= ruleED ) ) (otherlv_3= ',' ( (lv_items_4_0= ruleED ) ) )* )
-            {
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:455:1: ( ( (otherlv_0= RULE_ID ) ) otherlv_1= ':' ( (lv_items_2_0= ruleED ) ) (otherlv_3= ',' ( (lv_items_4_0= ruleED ) ) )* )
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:455:2: ( (otherlv_0= RULE_ID ) ) otherlv_1= ':' ( (lv_items_2_0= ruleED ) ) (otherlv_3= ',' ( (lv_items_4_0= ruleED ) ) )*
-            {
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:455:2: ( (otherlv_0= RULE_ID ) )
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:456:1: (otherlv_0= RULE_ID )
-            {
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:456:1: (otherlv_0= RULE_ID )
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:457:3: otherlv_0= RULE_ID
-            {
-
-            			if (current==null) {
-            	            current = createModelElement(grammarAccess.getEDGroupRule());
-            	        }
-                    
-            otherlv_0=(Token)match(input,RULE_ID,FOLLOW_RULE_ID_in_ruleEDGroup947); 
-
-            		newLeafNode(otherlv_0, grammarAccess.getEDGroupAccess().getTypeETDCrossReference_0_0()); 
-            	
-
-            }
-
-
-            }
-
-            otherlv_1=(Token)match(input,17,FOLLOW_17_in_ruleEDGroup959); 
-
-                	newLeafNode(otherlv_1, grammarAccess.getEDGroupAccess().getColonKeyword_1());
-                
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:472:1: ( (lv_items_2_0= ruleED ) )
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:473:1: (lv_items_2_0= ruleED )
-            {
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:473:1: (lv_items_2_0= ruleED )
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:474:3: lv_items_2_0= ruleED
-            {
-             
-            	        newCompositeNode(grammarAccess.getEDGroupAccess().getItemsEDParserRuleCall_2_0()); 
-            	    
-            pushFollow(FOLLOW_ruleED_in_ruleEDGroup980);
-            lv_items_2_0=ruleED();
-
-            state._fsp--;
-
-
-            	        if (current==null) {
-            	            current = createModelElementForParent(grammarAccess.getEDGroupRule());
-            	        }
-                   		add(
-                   			current, 
-                   			"items",
-                    		lv_items_2_0, 
-                    		"ED");
-            	        afterParserOrEnumRuleCall();
-            	    
-
-            }
-
-
-            }
-
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:490:2: (otherlv_3= ',' ( (lv_items_4_0= ruleED ) ) )*
-            loop5:
-            do {
-                int alt5=2;
-                int LA5_0 = input.LA(1);
-
-                if ( (LA5_0==19) ) {
-                    alt5=1;
-                }
-
-
-                switch (alt5) {
-            	case 1 :
-            	    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:490:4: otherlv_3= ',' ( (lv_items_4_0= ruleED ) )
-            	    {
-            	    otherlv_3=(Token)match(input,19,FOLLOW_19_in_ruleEDGroup993); 
-
-            	        	newLeafNode(otherlv_3, grammarAccess.getEDGroupAccess().getCommaKeyword_3_0());
-            	        
-            	    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:494:1: ( (lv_items_4_0= ruleED ) )
-            	    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:495:1: (lv_items_4_0= ruleED )
-            	    {
-            	    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:495:1: (lv_items_4_0= ruleED )
-            	    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:496:3: lv_items_4_0= ruleED
-            	    {
-            	     
-            	    	        newCompositeNode(grammarAccess.getEDGroupAccess().getItemsEDParserRuleCall_3_1_0()); 
-            	    	    
-            	    pushFollow(FOLLOW_ruleED_in_ruleEDGroup1014);
-            	    lv_items_4_0=ruleED();
-
-            	    state._fsp--;
-
-
-            	    	        if (current==null) {
-            	    	            current = createModelElementForParent(grammarAccess.getEDGroupRule());
-            	    	        }
-            	           		add(
-            	           			current, 
-            	           			"items",
-            	            		lv_items_4_0, 
-            	            		"ED");
-            	    	        afterParserOrEnumRuleCall();
-            	    	    
-
-            	    }
-
-
-            	    }
-
-
-            	    }
-            	    break;
-
-            	default :
-            	    break loop5;
-                }
-            } while (true);
-
-
-            }
-
-
-            }
-
-             leaveRule(); 
-        }
-         
-            catch (RecognitionException re) { 
-                recover(input,re); 
-                appendSkippedTokens();
-            } 
-        finally {
-        }
-        return current;
-    }
-    // $ANTLR end "ruleEDGroup"
-
-
-    // $ANTLR start "entryRuleED"
-    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:520:1: entryRuleED returns [EObject current=null] : iv_ruleED= ruleED EOF ;
-    public final EObject entryRuleED() throws RecognitionException {
-        EObject current = null;
-
-        EObject iv_ruleED = null;
-
-
-        try {
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:521:2: (iv_ruleED= ruleED EOF )
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:522:2: iv_ruleED= ruleED EOF
-            {
-             newCompositeNode(grammarAccess.getEDRule()); 
-            pushFollow(FOLLOW_ruleED_in_entryRuleED1052);
-            iv_ruleED=ruleED();
-
-            state._fsp--;
-
-             current =iv_ruleED; 
-            match(input,EOF,FOLLOW_EOF_in_entryRuleED1062); 
-
-            }
-
-        }
-         
-            catch (RecognitionException re) { 
-                recover(input,re); 
-                appendSkippedTokens();
-            } 
-        finally {
-        }
-        return current;
-    }
-    // $ANTLR end "entryRuleED"
-
-
-    // $ANTLR start "ruleED"
-    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:529:1: ruleED returns [EObject current=null] : ( (lv_name_0_0= RULE_ID ) ) ;
-    public final EObject ruleED() throws RecognitionException {
-        EObject current = null;
-
-        Token lv_name_0_0=null;
-
-         enterRule(); 
-            
-        try {
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:532:28: ( ( (lv_name_0_0= RULE_ID ) ) )
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:533:1: ( (lv_name_0_0= RULE_ID ) )
-            {
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:533:1: ( (lv_name_0_0= RULE_ID ) )
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:534:1: (lv_name_0_0= RULE_ID )
-            {
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:534:1: (lv_name_0_0= RULE_ID )
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:535:3: lv_name_0_0= RULE_ID
-            {
-            lv_name_0_0=(Token)match(input,RULE_ID,FOLLOW_RULE_ID_in_ruleED1103); 
-
-            			newLeafNode(lv_name_0_0, grammarAccess.getEDAccess().getNameIDTerminalRuleCall_0()); 
-            		
-
-            	        if (current==null) {
-            	            current = createModelElement(grammarAccess.getEDRule());
-            	        }
-                   		setWithLastConsumed(
-                   			current, 
-                   			"name",
-                    		lv_name_0_0, 
-                    		"ID");
-            	    
-
-            }
-
-
-            }
-
-
-            }
-
-             leaveRule(); 
-        }
-         
-            catch (RecognitionException re) { 
-                recover(input,re); 
-                appendSkippedTokens();
-            } 
-        finally {
-        }
-        return current;
-    }
-    // $ANTLR end "ruleED"
-
-
     // $ANTLR start "entryRuleRD"
-    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:559:1: entryRuleRD returns [EObject current=null] : iv_ruleRD= ruleRD EOF ;
+    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:449:1: entryRuleRD returns [EObject current=null] : iv_ruleRD= ruleRD EOF ;
     public final EObject entryRuleRD() throws RecognitionException {
         EObject current = null;
 
@@ -1275,17 +994,17 @@ public class InternalMegaLParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:560:2: (iv_ruleRD= ruleRD EOF )
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:561:2: iv_ruleRD= ruleRD EOF
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:450:2: (iv_ruleRD= ruleRD EOF )
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:451:2: iv_ruleRD= ruleRD EOF
             {
              newCompositeNode(grammarAccess.getRDRule()); 
-            pushFollow(FOLLOW_ruleRD_in_entryRuleRD1143);
+            pushFollow(FOLLOW_ruleRD_in_entryRuleRD868);
             iv_ruleRD=ruleRD();
 
             state._fsp--;
 
              current =iv_ruleRD; 
-            match(input,EOF,FOLLOW_EOF_in_entryRuleRD1153); 
+            match(input,EOF,FOLLOW_EOF_in_entryRuleRD878); 
 
             }
 
@@ -1303,7 +1022,7 @@ public class InternalMegaLParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleRD"
-    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:568:1: ruleRD returns [EObject current=null] : ( ( (otherlv_0= RULE_ID ) ) ( (otherlv_1= RULE_ID ) ) ( (otherlv_2= RULE_ID ) ) ) ;
+    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:458:1: ruleRD returns [EObject current=null] : ( ( (otherlv_0= RULE_ID ) ) ( (otherlv_1= RULE_ID ) ) ( (otherlv_2= RULE_ID ) ) ) ;
     public final EObject ruleRD() throws RecognitionException {
         EObject current = null;
 
@@ -1314,24 +1033,24 @@ public class InternalMegaLParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:571:28: ( ( ( (otherlv_0= RULE_ID ) ) ( (otherlv_1= RULE_ID ) ) ( (otherlv_2= RULE_ID ) ) ) )
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:572:1: ( ( (otherlv_0= RULE_ID ) ) ( (otherlv_1= RULE_ID ) ) ( (otherlv_2= RULE_ID ) ) )
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:461:28: ( ( ( (otherlv_0= RULE_ID ) ) ( (otherlv_1= RULE_ID ) ) ( (otherlv_2= RULE_ID ) ) ) )
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:462:1: ( ( (otherlv_0= RULE_ID ) ) ( (otherlv_1= RULE_ID ) ) ( (otherlv_2= RULE_ID ) ) )
             {
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:572:1: ( ( (otherlv_0= RULE_ID ) ) ( (otherlv_1= RULE_ID ) ) ( (otherlv_2= RULE_ID ) ) )
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:572:2: ( (otherlv_0= RULE_ID ) ) ( (otherlv_1= RULE_ID ) ) ( (otherlv_2= RULE_ID ) )
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:462:1: ( ( (otherlv_0= RULE_ID ) ) ( (otherlv_1= RULE_ID ) ) ( (otherlv_2= RULE_ID ) ) )
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:462:2: ( (otherlv_0= RULE_ID ) ) ( (otherlv_1= RULE_ID ) ) ( (otherlv_2= RULE_ID ) )
             {
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:572:2: ( (otherlv_0= RULE_ID ) )
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:573:1: (otherlv_0= RULE_ID )
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:462:2: ( (otherlv_0= RULE_ID ) )
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:463:1: (otherlv_0= RULE_ID )
             {
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:573:1: (otherlv_0= RULE_ID )
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:574:3: otherlv_0= RULE_ID
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:463:1: (otherlv_0= RULE_ID )
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:464:3: otherlv_0= RULE_ID
             {
 
             			if (current==null) {
             	            current = createModelElement(grammarAccess.getRDRule());
             	        }
                     
-            otherlv_0=(Token)match(input,RULE_ID,FOLLOW_RULE_ID_in_ruleRD1198); 
+            otherlv_0=(Token)match(input,RULE_ID,FOLLOW_RULE_ID_in_ruleRD923); 
 
             		newLeafNode(otherlv_0, grammarAccess.getRDAccess().getSourceEDCrossReference_0_0()); 
             	
@@ -1341,18 +1060,18 @@ public class InternalMegaLParser extends AbstractInternalAntlrParser {
 
             }
 
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:585:2: ( (otherlv_1= RULE_ID ) )
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:586:1: (otherlv_1= RULE_ID )
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:475:2: ( (otherlv_1= RULE_ID ) )
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:476:1: (otherlv_1= RULE_ID )
             {
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:586:1: (otherlv_1= RULE_ID )
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:587:3: otherlv_1= RULE_ID
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:476:1: (otherlv_1= RULE_ID )
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:477:3: otherlv_1= RULE_ID
             {
 
             			if (current==null) {
             	            current = createModelElement(grammarAccess.getRDRule());
             	        }
                     
-            otherlv_1=(Token)match(input,RULE_ID,FOLLOW_RULE_ID_in_ruleRD1218); 
+            otherlv_1=(Token)match(input,RULE_ID,FOLLOW_RULE_ID_in_ruleRD943); 
 
             		newLeafNode(otherlv_1, grammarAccess.getRDAccess().getRelRTDCrossReference_1_0()); 
             	
@@ -1362,18 +1081,18 @@ public class InternalMegaLParser extends AbstractInternalAntlrParser {
 
             }
 
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:598:2: ( (otherlv_2= RULE_ID ) )
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:599:1: (otherlv_2= RULE_ID )
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:488:2: ( (otherlv_2= RULE_ID ) )
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:489:1: (otherlv_2= RULE_ID )
             {
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:599:1: (otherlv_2= RULE_ID )
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:600:3: otherlv_2= RULE_ID
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:489:1: (otherlv_2= RULE_ID )
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:490:3: otherlv_2= RULE_ID
             {
 
             			if (current==null) {
             	            current = createModelElement(grammarAccess.getRDRule());
             	        }
                     
-            otherlv_2=(Token)match(input,RULE_ID,FOLLOW_RULE_ID_in_ruleRD1238); 
+            otherlv_2=(Token)match(input,RULE_ID,FOLLOW_RULE_ID_in_ruleRD963); 
 
             		newLeafNode(otherlv_2, grammarAccess.getRDAccess().getTargetEDCrossReference_2_0()); 
             	
@@ -1403,8 +1122,443 @@ public class InternalMegaLParser extends AbstractInternalAntlrParser {
     // $ANTLR end "ruleRD"
 
 
+    // $ANTLR start "entryRuleED"
+    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:509:1: entryRuleED returns [EObject current=null] : iv_ruleED= ruleED EOF ;
+    public final EObject entryRuleED() throws RecognitionException {
+        EObject current = null;
+
+        EObject iv_ruleED = null;
+
+
+        try {
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:510:2: (iv_ruleED= ruleED EOF )
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:511:2: iv_ruleED= ruleED EOF
+            {
+             newCompositeNode(grammarAccess.getEDRule()); 
+            pushFollow(FOLLOW_ruleED_in_entryRuleED999);
+            iv_ruleED=ruleED();
+
+            state._fsp--;
+
+             current =iv_ruleED; 
+            match(input,EOF,FOLLOW_EOF_in_entryRuleED1009); 
+
+            }
+
+        }
+         
+            catch (RecognitionException re) { 
+                recover(input,re); 
+                appendSkippedTokens();
+            } 
+        finally {
+        }
+        return current;
+    }
+    // $ANTLR end "entryRuleED"
+
+
+    // $ANTLR start "ruleED"
+    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:518:1: ruleED returns [EObject current=null] : ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= ':' ( (lv_type_2_0= ruleUseETD ) ) ) ;
+    public final EObject ruleED() throws RecognitionException {
+        EObject current = null;
+
+        Token lv_name_0_0=null;
+        Token otherlv_1=null;
+        EObject lv_type_2_0 = null;
+
+
+         enterRule(); 
+            
+        try {
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:521:28: ( ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= ':' ( (lv_type_2_0= ruleUseETD ) ) ) )
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:522:1: ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= ':' ( (lv_type_2_0= ruleUseETD ) ) )
+            {
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:522:1: ( ( (lv_name_0_0= RULE_ID ) ) otherlv_1= ':' ( (lv_type_2_0= ruleUseETD ) ) )
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:522:2: ( (lv_name_0_0= RULE_ID ) ) otherlv_1= ':' ( (lv_type_2_0= ruleUseETD ) )
+            {
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:522:2: ( (lv_name_0_0= RULE_ID ) )
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:523:1: (lv_name_0_0= RULE_ID )
+            {
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:523:1: (lv_name_0_0= RULE_ID )
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:524:3: lv_name_0_0= RULE_ID
+            {
+            lv_name_0_0=(Token)match(input,RULE_ID,FOLLOW_RULE_ID_in_ruleED1051); 
+
+            			newLeafNode(lv_name_0_0, grammarAccess.getEDAccess().getNameIDTerminalRuleCall_0_0()); 
+            		
+
+            	        if (current==null) {
+            	            current = createModelElement(grammarAccess.getEDRule());
+            	        }
+                   		setWithLastConsumed(
+                   			current, 
+                   			"name",
+                    		lv_name_0_0, 
+                    		"ID");
+            	    
+
+            }
+
+
+            }
+
+            otherlv_1=(Token)match(input,16,FOLLOW_16_in_ruleED1068); 
+
+                	newLeafNode(otherlv_1, grammarAccess.getEDAccess().getColonKeyword_1());
+                
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:544:1: ( (lv_type_2_0= ruleUseETD ) )
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:545:1: (lv_type_2_0= ruleUseETD )
+            {
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:545:1: (lv_type_2_0= ruleUseETD )
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:546:3: lv_type_2_0= ruleUseETD
+            {
+             
+            	        newCompositeNode(grammarAccess.getEDAccess().getTypeUseETDParserRuleCall_2_0()); 
+            	    
+            pushFollow(FOLLOW_ruleUseETD_in_ruleED1089);
+            lv_type_2_0=ruleUseETD();
+
+            state._fsp--;
+
+
+            	        if (current==null) {
+            	            current = createModelElementForParent(grammarAccess.getEDRule());
+            	        }
+                   		set(
+                   			current, 
+                   			"type",
+                    		lv_type_2_0, 
+                    		"UseETD");
+            	        afterParserOrEnumRuleCall();
+            	    
+
+            }
+
+
+            }
+
+
+            }
+
+
+            }
+
+             leaveRule(); 
+        }
+         
+            catch (RecognitionException re) { 
+                recover(input,re); 
+                appendSkippedTokens();
+            } 
+        finally {
+        }
+        return current;
+    }
+    // $ANTLR end "ruleED"
+
+
+    // $ANTLR start "entryRuleUseETD"
+    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:570:1: entryRuleUseETD returns [EObject current=null] : iv_ruleUseETD= ruleUseETD EOF ;
+    public final EObject entryRuleUseETD() throws RecognitionException {
+        EObject current = null;
+
+        EObject iv_ruleUseETD = null;
+
+
+        try {
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:571:2: (iv_ruleUseETD= ruleUseETD EOF )
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:572:2: iv_ruleUseETD= ruleUseETD EOF
+            {
+             newCompositeNode(grammarAccess.getUseETDRule()); 
+            pushFollow(FOLLOW_ruleUseETD_in_entryRuleUseETD1125);
+            iv_ruleUseETD=ruleUseETD();
+
+            state._fsp--;
+
+             current =iv_ruleUseETD; 
+            match(input,EOF,FOLLOW_EOF_in_entryRuleUseETD1135); 
+
+            }
+
+        }
+         
+            catch (RecognitionException re) { 
+                recover(input,re); 
+                appendSkippedTokens();
+            } 
+        finally {
+        }
+        return current;
+    }
+    // $ANTLR end "entryRuleUseETD"
+
+
+    // $ANTLR start "ruleUseETD"
+    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:579:1: ruleUseETD returns [EObject current=null] : (this_UseETDRef_0= ruleUseETDRef | this_UseEntity_1= ruleUseEntity ) ;
+    public final EObject ruleUseETD() throws RecognitionException {
+        EObject current = null;
+
+        EObject this_UseETDRef_0 = null;
+
+        EObject this_UseEntity_1 = null;
+
+
+         enterRule(); 
+            
+        try {
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:582:28: ( (this_UseETDRef_0= ruleUseETDRef | this_UseEntity_1= ruleUseEntity ) )
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:583:1: (this_UseETDRef_0= ruleUseETDRef | this_UseEntity_1= ruleUseEntity )
+            {
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:583:1: (this_UseETDRef_0= ruleUseETDRef | this_UseEntity_1= ruleUseEntity )
+            int alt4=2;
+            int LA4_0 = input.LA(1);
+
+            if ( (LA4_0==RULE_ID) ) {
+                alt4=1;
+            }
+            else if ( (LA4_0==17) ) {
+                alt4=2;
+            }
+            else {
+                NoViableAltException nvae =
+                    new NoViableAltException("", 4, 0, input);
+
+                throw nvae;
+            }
+            switch (alt4) {
+                case 1 :
+                    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:584:5: this_UseETDRef_0= ruleUseETDRef
+                    {
+                     
+                            newCompositeNode(grammarAccess.getUseETDAccess().getUseETDRefParserRuleCall_0()); 
+                        
+                    pushFollow(FOLLOW_ruleUseETDRef_in_ruleUseETD1182);
+                    this_UseETDRef_0=ruleUseETDRef();
+
+                    state._fsp--;
+
+                     
+                            current = this_UseETDRef_0; 
+                            afterParserOrEnumRuleCall();
+                        
+
+                    }
+                    break;
+                case 2 :
+                    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:594:5: this_UseEntity_1= ruleUseEntity
+                    {
+                     
+                            newCompositeNode(grammarAccess.getUseETDAccess().getUseEntityParserRuleCall_1()); 
+                        
+                    pushFollow(FOLLOW_ruleUseEntity_in_ruleUseETD1209);
+                    this_UseEntity_1=ruleUseEntity();
+
+                    state._fsp--;
+
+                     
+                            current = this_UseEntity_1; 
+                            afterParserOrEnumRuleCall();
+                        
+
+                    }
+                    break;
+
+            }
+
+
+            }
+
+             leaveRule(); 
+        }
+         
+            catch (RecognitionException re) { 
+                recover(input,re); 
+                appendSkippedTokens();
+            } 
+        finally {
+        }
+        return current;
+    }
+    // $ANTLR end "ruleUseETD"
+
+
+    // $ANTLR start "entryRuleUseETDRef"
+    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:610:1: entryRuleUseETDRef returns [EObject current=null] : iv_ruleUseETDRef= ruleUseETDRef EOF ;
+    public final EObject entryRuleUseETDRef() throws RecognitionException {
+        EObject current = null;
+
+        EObject iv_ruleUseETDRef = null;
+
+
+        try {
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:611:2: (iv_ruleUseETDRef= ruleUseETDRef EOF )
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:612:2: iv_ruleUseETDRef= ruleUseETDRef EOF
+            {
+             newCompositeNode(grammarAccess.getUseETDRefRule()); 
+            pushFollow(FOLLOW_ruleUseETDRef_in_entryRuleUseETDRef1244);
+            iv_ruleUseETDRef=ruleUseETDRef();
+
+            state._fsp--;
+
+             current =iv_ruleUseETDRef; 
+            match(input,EOF,FOLLOW_EOF_in_entryRuleUseETDRef1254); 
+
+            }
+
+        }
+         
+            catch (RecognitionException re) { 
+                recover(input,re); 
+                appendSkippedTokens();
+            } 
+        finally {
+        }
+        return current;
+    }
+    // $ANTLR end "entryRuleUseETDRef"
+
+
+    // $ANTLR start "ruleUseETDRef"
+    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:619:1: ruleUseETDRef returns [EObject current=null] : ( (otherlv_0= RULE_ID ) ) ;
+    public final EObject ruleUseETDRef() throws RecognitionException {
+        EObject current = null;
+
+        Token otherlv_0=null;
+
+         enterRule(); 
+            
+        try {
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:622:28: ( ( (otherlv_0= RULE_ID ) ) )
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:623:1: ( (otherlv_0= RULE_ID ) )
+            {
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:623:1: ( (otherlv_0= RULE_ID ) )
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:624:1: (otherlv_0= RULE_ID )
+            {
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:624:1: (otherlv_0= RULE_ID )
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:625:3: otherlv_0= RULE_ID
+            {
+
+            			if (current==null) {
+            	            current = createModelElement(grammarAccess.getUseETDRefRule());
+            	        }
+                    
+            otherlv_0=(Token)match(input,RULE_ID,FOLLOW_RULE_ID_in_ruleUseETDRef1298); 
+
+            		newLeafNode(otherlv_0, grammarAccess.getUseETDRefAccess().getRefETDCrossReference_0()); 
+            	
+
+            }
+
+
+            }
+
+
+            }
+
+             leaveRule(); 
+        }
+         
+            catch (RecognitionException re) { 
+                recover(input,re); 
+                appendSkippedTokens();
+            } 
+        finally {
+        }
+        return current;
+    }
+    // $ANTLR end "ruleUseETDRef"
+
+
+    // $ANTLR start "entryRuleUseEntity"
+    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:644:1: entryRuleUseEntity returns [EObject current=null] : iv_ruleUseEntity= ruleUseEntity EOF ;
+    public final EObject entryRuleUseEntity() throws RecognitionException {
+        EObject current = null;
+
+        EObject iv_ruleUseEntity = null;
+
+
+        try {
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:645:2: (iv_ruleUseEntity= ruleUseEntity EOF )
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:646:2: iv_ruleUseEntity= ruleUseEntity EOF
+            {
+             newCompositeNode(grammarAccess.getUseEntityRule()); 
+            pushFollow(FOLLOW_ruleUseEntity_in_entryRuleUseEntity1333);
+            iv_ruleUseEntity=ruleUseEntity();
+
+            state._fsp--;
+
+             current =iv_ruleUseEntity; 
+            match(input,EOF,FOLLOW_EOF_in_entryRuleUseEntity1343); 
+
+            }
+
+        }
+         
+            catch (RecognitionException re) { 
+                recover(input,re); 
+                appendSkippedTokens();
+            } 
+        finally {
+        }
+        return current;
+    }
+    // $ANTLR end "entryRuleUseEntity"
+
+
+    // $ANTLR start "ruleUseEntity"
+    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:653:1: ruleUseEntity returns [EObject current=null] : ( () otherlv_1= 'Entity' ) ;
+    public final EObject ruleUseEntity() throws RecognitionException {
+        EObject current = null;
+
+        Token otherlv_1=null;
+
+         enterRule(); 
+            
+        try {
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:656:28: ( ( () otherlv_1= 'Entity' ) )
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:657:1: ( () otherlv_1= 'Entity' )
+            {
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:657:1: ( () otherlv_1= 'Entity' )
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:657:2: () otherlv_1= 'Entity'
+            {
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:657:2: ()
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:658:5: 
+            {
+
+                    current = forceCreateModelElement(
+                        grammarAccess.getUseEntityAccess().getUseEntityAction_0(),
+                        current);
+                
+
+            }
+
+            otherlv_1=(Token)match(input,17,FOLLOW_17_in_ruleUseEntity1389); 
+
+                	newLeafNode(otherlv_1, grammarAccess.getUseEntityAccess().getEntityKeyword_1());
+                
+
+            }
+
+
+            }
+
+             leaveRule(); 
+        }
+         
+            catch (RecognitionException re) { 
+                recover(input,re); 
+                appendSkippedTokens();
+            } 
+        finally {
+        }
+        return current;
+    }
+    // $ANTLR end "ruleUseEntity"
+
+
     // $ANTLR start "entryRuleMegaLLinking"
-    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:619:1: entryRuleMegaLLinking returns [EObject current=null] : iv_ruleMegaLLinking= ruleMegaLLinking EOF ;
+    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:675:1: entryRuleMegaLLinking returns [EObject current=null] : iv_ruleMegaLLinking= ruleMegaLLinking EOF ;
     public final EObject entryRuleMegaLLinking() throws RecognitionException {
         EObject current = null;
 
@@ -1412,17 +1566,17 @@ public class InternalMegaLParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:620:2: (iv_ruleMegaLLinking= ruleMegaLLinking EOF )
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:621:2: iv_ruleMegaLLinking= ruleMegaLLinking EOF
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:676:2: (iv_ruleMegaLLinking= ruleMegaLLinking EOF )
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:677:2: iv_ruleMegaLLinking= ruleMegaLLinking EOF
             {
              newCompositeNode(grammarAccess.getMegaLLinkingRule()); 
-            pushFollow(FOLLOW_ruleMegaLLinking_in_entryRuleMegaLLinking1274);
+            pushFollow(FOLLOW_ruleMegaLLinking_in_entryRuleMegaLLinking1425);
             iv_ruleMegaLLinking=ruleMegaLLinking();
 
             state._fsp--;
 
              current =iv_ruleMegaLLinking; 
-            match(input,EOF,FOLLOW_EOF_in_entryRuleMegaLLinking1284); 
+            match(input,EOF,FOLLOW_EOF_in_entryRuleMegaLLinking1435); 
 
             }
 
@@ -1440,7 +1594,7 @@ public class InternalMegaLParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleMegaLLinking"
-    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:628:1: ruleMegaLLinking returns [EObject current=null] : (otherlv_0= 'linking' ( (lv_name_1_0= ruleQualifiedID ) ) (otherlv_2= 'for' ( ( ruleQualifiedID ) ) )? ( (lv_lds_4_0= ruleLD ) )* ) ;
+    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:684:1: ruleMegaLLinking returns [EObject current=null] : (otherlv_0= 'linking' ( (lv_name_1_0= ruleQualifiedID ) ) (otherlv_2= 'for' ( ( ruleQualifiedID ) ) )? ( (lv_lds_4_0= ruleLD ) )* ) ;
     public final EObject ruleMegaLLinking() throws RecognitionException {
         EObject current = null;
 
@@ -1454,26 +1608,26 @@ public class InternalMegaLParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:631:28: ( (otherlv_0= 'linking' ( (lv_name_1_0= ruleQualifiedID ) ) (otherlv_2= 'for' ( ( ruleQualifiedID ) ) )? ( (lv_lds_4_0= ruleLD ) )* ) )
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:632:1: (otherlv_0= 'linking' ( (lv_name_1_0= ruleQualifiedID ) ) (otherlv_2= 'for' ( ( ruleQualifiedID ) ) )? ( (lv_lds_4_0= ruleLD ) )* )
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:687:28: ( (otherlv_0= 'linking' ( (lv_name_1_0= ruleQualifiedID ) ) (otherlv_2= 'for' ( ( ruleQualifiedID ) ) )? ( (lv_lds_4_0= ruleLD ) )* ) )
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:688:1: (otherlv_0= 'linking' ( (lv_name_1_0= ruleQualifiedID ) ) (otherlv_2= 'for' ( ( ruleQualifiedID ) ) )? ( (lv_lds_4_0= ruleLD ) )* )
             {
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:632:1: (otherlv_0= 'linking' ( (lv_name_1_0= ruleQualifiedID ) ) (otherlv_2= 'for' ( ( ruleQualifiedID ) ) )? ( (lv_lds_4_0= ruleLD ) )* )
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:632:3: otherlv_0= 'linking' ( (lv_name_1_0= ruleQualifiedID ) ) (otherlv_2= 'for' ( ( ruleQualifiedID ) ) )? ( (lv_lds_4_0= ruleLD ) )*
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:688:1: (otherlv_0= 'linking' ( (lv_name_1_0= ruleQualifiedID ) ) (otherlv_2= 'for' ( ( ruleQualifiedID ) ) )? ( (lv_lds_4_0= ruleLD ) )* )
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:688:3: otherlv_0= 'linking' ( (lv_name_1_0= ruleQualifiedID ) ) (otherlv_2= 'for' ( ( ruleQualifiedID ) ) )? ( (lv_lds_4_0= ruleLD ) )*
             {
-            otherlv_0=(Token)match(input,20,FOLLOW_20_in_ruleMegaLLinking1321); 
+            otherlv_0=(Token)match(input,18,FOLLOW_18_in_ruleMegaLLinking1472); 
 
                 	newLeafNode(otherlv_0, grammarAccess.getMegaLLinkingAccess().getLinkingKeyword_0());
                 
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:636:1: ( (lv_name_1_0= ruleQualifiedID ) )
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:637:1: (lv_name_1_0= ruleQualifiedID )
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:692:1: ( (lv_name_1_0= ruleQualifiedID ) )
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:693:1: (lv_name_1_0= ruleQualifiedID )
             {
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:637:1: (lv_name_1_0= ruleQualifiedID )
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:638:3: lv_name_1_0= ruleQualifiedID
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:693:1: (lv_name_1_0= ruleQualifiedID )
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:694:3: lv_name_1_0= ruleQualifiedID
             {
              
             	        newCompositeNode(grammarAccess.getMegaLLinkingAccess().getNameQualifiedIDParserRuleCall_1_0()); 
             	    
-            pushFollow(FOLLOW_ruleQualifiedID_in_ruleMegaLLinking1342);
+            pushFollow(FOLLOW_ruleQualifiedID_in_ruleMegaLLinking1493);
             lv_name_1_0=ruleQualifiedID();
 
             state._fsp--;
@@ -1495,26 +1649,26 @@ public class InternalMegaLParser extends AbstractInternalAntlrParser {
 
             }
 
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:654:2: (otherlv_2= 'for' ( ( ruleQualifiedID ) ) )?
-            int alt6=2;
-            int LA6_0 = input.LA(1);
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:710:2: (otherlv_2= 'for' ( ( ruleQualifiedID ) ) )?
+            int alt5=2;
+            int LA5_0 = input.LA(1);
 
-            if ( (LA6_0==21) ) {
-                alt6=1;
+            if ( (LA5_0==19) ) {
+                alt5=1;
             }
-            switch (alt6) {
+            switch (alt5) {
                 case 1 :
-                    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:654:4: otherlv_2= 'for' ( ( ruleQualifiedID ) )
+                    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:710:4: otherlv_2= 'for' ( ( ruleQualifiedID ) )
                     {
-                    otherlv_2=(Token)match(input,21,FOLLOW_21_in_ruleMegaLLinking1355); 
+                    otherlv_2=(Token)match(input,19,FOLLOW_19_in_ruleMegaLLinking1506); 
 
                         	newLeafNode(otherlv_2, grammarAccess.getMegaLLinkingAccess().getForKeyword_2_0());
                         
-                    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:658:1: ( ( ruleQualifiedID ) )
-                    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:659:1: ( ruleQualifiedID )
+                    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:714:1: ( ( ruleQualifiedID ) )
+                    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:715:1: ( ruleQualifiedID )
                     {
-                    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:659:1: ( ruleQualifiedID )
-                    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:660:3: ruleQualifiedID
+                    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:715:1: ( ruleQualifiedID )
+                    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:716:3: ruleQualifiedID
                     {
 
                     			if (current==null) {
@@ -1524,7 +1678,7 @@ public class InternalMegaLParser extends AbstractInternalAntlrParser {
                      
                     	        newCompositeNode(grammarAccess.getMegaLLinkingAccess().getTargetMegaLDefinitionCrossReference_2_1_0()); 
                     	    
-                    pushFollow(FOLLOW_ruleQualifiedID_in_ruleMegaLLinking1378);
+                    pushFollow(FOLLOW_ruleQualifiedID_in_ruleMegaLLinking1529);
                     ruleQualifiedID();
 
                     state._fsp--;
@@ -1544,28 +1698,28 @@ public class InternalMegaLParser extends AbstractInternalAntlrParser {
 
             }
 
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:673:4: ( (lv_lds_4_0= ruleLD ) )*
-            loop7:
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:729:4: ( (lv_lds_4_0= ruleLD ) )*
+            loop6:
             do {
-                int alt7=2;
-                int LA7_0 = input.LA(1);
+                int alt6=2;
+                int LA6_0 = input.LA(1);
 
-                if ( (LA7_0==RULE_ID) ) {
-                    alt7=1;
+                if ( (LA6_0==RULE_ID) ) {
+                    alt6=1;
                 }
 
 
-                switch (alt7) {
+                switch (alt6) {
             	case 1 :
-            	    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:674:1: (lv_lds_4_0= ruleLD )
+            	    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:730:1: (lv_lds_4_0= ruleLD )
             	    {
-            	    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:674:1: (lv_lds_4_0= ruleLD )
-            	    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:675:3: lv_lds_4_0= ruleLD
+            	    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:730:1: (lv_lds_4_0= ruleLD )
+            	    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:731:3: lv_lds_4_0= ruleLD
             	    {
             	     
             	    	        newCompositeNode(grammarAccess.getMegaLLinkingAccess().getLdsLDParserRuleCall_3_0()); 
             	    	    
-            	    pushFollow(FOLLOW_ruleLD_in_ruleMegaLLinking1401);
+            	    pushFollow(FOLLOW_ruleLD_in_ruleMegaLLinking1552);
             	    lv_lds_4_0=ruleLD();
 
             	    state._fsp--;
@@ -1589,7 +1743,7 @@ public class InternalMegaLParser extends AbstractInternalAntlrParser {
             	    break;
 
             	default :
-            	    break loop7;
+            	    break loop6;
                 }
             } while (true);
 
@@ -1614,7 +1768,7 @@ public class InternalMegaLParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleLD"
-    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:699:1: entryRuleLD returns [EObject current=null] : iv_ruleLD= ruleLD EOF ;
+    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:755:1: entryRuleLD returns [EObject current=null] : iv_ruleLD= ruleLD EOF ;
     public final EObject entryRuleLD() throws RecognitionException {
         EObject current = null;
 
@@ -1622,17 +1776,17 @@ public class InternalMegaLParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:700:2: (iv_ruleLD= ruleLD EOF )
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:701:2: iv_ruleLD= ruleLD EOF
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:756:2: (iv_ruleLD= ruleLD EOF )
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:757:2: iv_ruleLD= ruleLD EOF
             {
              newCompositeNode(grammarAccess.getLDRule()); 
-            pushFollow(FOLLOW_ruleLD_in_entryRuleLD1438);
+            pushFollow(FOLLOW_ruleLD_in_entryRuleLD1589);
             iv_ruleLD=ruleLD();
 
             state._fsp--;
 
              current =iv_ruleLD; 
-            match(input,EOF,FOLLOW_EOF_in_entryRuleLD1448); 
+            match(input,EOF,FOLLOW_EOF_in_entryRuleLD1599); 
 
             }
 
@@ -1650,7 +1804,7 @@ public class InternalMegaLParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleLD"
-    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:708:1: ruleLD returns [EObject current=null] : ( ( (otherlv_0= RULE_ID ) ) otherlv_1= '=' ( (lv_value_2_0= RULE_STRING ) ) ) ;
+    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:764:1: ruleLD returns [EObject current=null] : ( ( (otherlv_0= RULE_ID ) ) otherlv_1= '=' ( (lv_value_2_0= RULE_STRING ) ) ) ;
     public final EObject ruleLD() throws RecognitionException {
         EObject current = null;
 
@@ -1661,24 +1815,24 @@ public class InternalMegaLParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:711:28: ( ( ( (otherlv_0= RULE_ID ) ) otherlv_1= '=' ( (lv_value_2_0= RULE_STRING ) ) ) )
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:712:1: ( ( (otherlv_0= RULE_ID ) ) otherlv_1= '=' ( (lv_value_2_0= RULE_STRING ) ) )
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:767:28: ( ( ( (otherlv_0= RULE_ID ) ) otherlv_1= '=' ( (lv_value_2_0= RULE_STRING ) ) ) )
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:768:1: ( ( (otherlv_0= RULE_ID ) ) otherlv_1= '=' ( (lv_value_2_0= RULE_STRING ) ) )
             {
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:712:1: ( ( (otherlv_0= RULE_ID ) ) otherlv_1= '=' ( (lv_value_2_0= RULE_STRING ) ) )
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:712:2: ( (otherlv_0= RULE_ID ) ) otherlv_1= '=' ( (lv_value_2_0= RULE_STRING ) )
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:768:1: ( ( (otherlv_0= RULE_ID ) ) otherlv_1= '=' ( (lv_value_2_0= RULE_STRING ) ) )
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:768:2: ( (otherlv_0= RULE_ID ) ) otherlv_1= '=' ( (lv_value_2_0= RULE_STRING ) )
             {
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:712:2: ( (otherlv_0= RULE_ID ) )
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:713:1: (otherlv_0= RULE_ID )
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:768:2: ( (otherlv_0= RULE_ID ) )
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:769:1: (otherlv_0= RULE_ID )
             {
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:713:1: (otherlv_0= RULE_ID )
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:714:3: otherlv_0= RULE_ID
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:769:1: (otherlv_0= RULE_ID )
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:770:3: otherlv_0= RULE_ID
             {
 
             			if (current==null) {
             	            current = createModelElement(grammarAccess.getLDRule());
             	        }
                     
-            otherlv_0=(Token)match(input,RULE_ID,FOLLOW_RULE_ID_in_ruleLD1493); 
+            otherlv_0=(Token)match(input,RULE_ID,FOLLOW_RULE_ID_in_ruleLD1644); 
 
             		newLeafNode(otherlv_0, grammarAccess.getLDAccess().getTargetEDCrossReference_0_0()); 
             	
@@ -1688,17 +1842,17 @@ public class InternalMegaLParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_1=(Token)match(input,22,FOLLOW_22_in_ruleLD1505); 
+            otherlv_1=(Token)match(input,20,FOLLOW_20_in_ruleLD1656); 
 
                 	newLeafNode(otherlv_1, grammarAccess.getLDAccess().getEqualsSignKeyword_1());
                 
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:729:1: ( (lv_value_2_0= RULE_STRING ) )
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:730:1: (lv_value_2_0= RULE_STRING )
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:785:1: ( (lv_value_2_0= RULE_STRING ) )
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:786:1: (lv_value_2_0= RULE_STRING )
             {
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:730:1: (lv_value_2_0= RULE_STRING )
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:731:3: lv_value_2_0= RULE_STRING
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:786:1: (lv_value_2_0= RULE_STRING )
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:787:3: lv_value_2_0= RULE_STRING
             {
-            lv_value_2_0=(Token)match(input,RULE_STRING,FOLLOW_RULE_STRING_in_ruleLD1522); 
+            lv_value_2_0=(Token)match(input,RULE_STRING,FOLLOW_RULE_STRING_in_ruleLD1673); 
 
             			newLeafNode(lv_value_2_0, grammarAccess.getLDAccess().getValueSTRINGTerminalRuleCall_2_0()); 
             		
@@ -1739,7 +1893,7 @@ public class InternalMegaLParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleQualifiedID"
-    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:755:1: entryRuleQualifiedID returns [String current=null] : iv_ruleQualifiedID= ruleQualifiedID EOF ;
+    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:811:1: entryRuleQualifiedID returns [String current=null] : iv_ruleQualifiedID= ruleQualifiedID EOF ;
     public final String entryRuleQualifiedID() throws RecognitionException {
         String current = null;
 
@@ -1747,17 +1901,17 @@ public class InternalMegaLParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:756:2: (iv_ruleQualifiedID= ruleQualifiedID EOF )
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:757:2: iv_ruleQualifiedID= ruleQualifiedID EOF
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:812:2: (iv_ruleQualifiedID= ruleQualifiedID EOF )
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:813:2: iv_ruleQualifiedID= ruleQualifiedID EOF
             {
              newCompositeNode(grammarAccess.getQualifiedIDRule()); 
-            pushFollow(FOLLOW_ruleQualifiedID_in_entryRuleQualifiedID1564);
+            pushFollow(FOLLOW_ruleQualifiedID_in_entryRuleQualifiedID1715);
             iv_ruleQualifiedID=ruleQualifiedID();
 
             state._fsp--;
 
              current =iv_ruleQualifiedID.getText(); 
-            match(input,EOF,FOLLOW_EOF_in_entryRuleQualifiedID1575); 
+            match(input,EOF,FOLLOW_EOF_in_entryRuleQualifiedID1726); 
 
             }
 
@@ -1775,7 +1929,7 @@ public class InternalMegaLParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleQualifiedID"
-    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:764:1: ruleQualifiedID returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] : (this_ID_0= RULE_ID (kw= '.' this_ID_2= RULE_ID )* ) ;
+    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:820:1: ruleQualifiedID returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] : (this_ID_0= RULE_ID (kw= '.' this_ID_2= RULE_ID )* ) ;
     public final AntlrDatatypeRuleToken ruleQualifiedID() throws RecognitionException {
         AntlrDatatypeRuleToken current = new AntlrDatatypeRuleToken();
 
@@ -1786,40 +1940,40 @@ public class InternalMegaLParser extends AbstractInternalAntlrParser {
          enterRule(); 
             
         try {
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:767:28: ( (this_ID_0= RULE_ID (kw= '.' this_ID_2= RULE_ID )* ) )
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:768:1: (this_ID_0= RULE_ID (kw= '.' this_ID_2= RULE_ID )* )
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:823:28: ( (this_ID_0= RULE_ID (kw= '.' this_ID_2= RULE_ID )* ) )
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:824:1: (this_ID_0= RULE_ID (kw= '.' this_ID_2= RULE_ID )* )
             {
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:768:1: (this_ID_0= RULE_ID (kw= '.' this_ID_2= RULE_ID )* )
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:768:6: this_ID_0= RULE_ID (kw= '.' this_ID_2= RULE_ID )*
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:824:1: (this_ID_0= RULE_ID (kw= '.' this_ID_2= RULE_ID )* )
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:824:6: this_ID_0= RULE_ID (kw= '.' this_ID_2= RULE_ID )*
             {
-            this_ID_0=(Token)match(input,RULE_ID,FOLLOW_RULE_ID_in_ruleQualifiedID1615); 
+            this_ID_0=(Token)match(input,RULE_ID,FOLLOW_RULE_ID_in_ruleQualifiedID1766); 
 
             		current.merge(this_ID_0);
                 
              
                 newLeafNode(this_ID_0, grammarAccess.getQualifiedIDAccess().getIDTerminalRuleCall_0()); 
                 
-            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:775:1: (kw= '.' this_ID_2= RULE_ID )*
-            loop8:
+            // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:831:1: (kw= '.' this_ID_2= RULE_ID )*
+            loop7:
             do {
-                int alt8=2;
-                int LA8_0 = input.LA(1);
+                int alt7=2;
+                int LA7_0 = input.LA(1);
 
-                if ( (LA8_0==23) ) {
-                    alt8=1;
+                if ( (LA7_0==21) ) {
+                    alt7=1;
                 }
 
 
-                switch (alt8) {
+                switch (alt7) {
             	case 1 :
-            	    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:776:2: kw= '.' this_ID_2= RULE_ID
+            	    // ../org.softlang.megal/src-gen/org/softlang/megal/parser/antlr/internal/InternalMegaL.g:832:2: kw= '.' this_ID_2= RULE_ID
             	    {
-            	    kw=(Token)match(input,23,FOLLOW_23_in_ruleQualifiedID1634); 
+            	    kw=(Token)match(input,21,FOLLOW_21_in_ruleQualifiedID1785); 
 
             	            current.merge(kw);
             	            newLeafNode(kw, grammarAccess.getQualifiedIDAccess().getFullStopKeyword_1_0()); 
             	        
-            	    this_ID_2=(Token)match(input,RULE_ID,FOLLOW_RULE_ID_in_ruleQualifiedID1649); 
+            	    this_ID_2=(Token)match(input,RULE_ID,FOLLOW_RULE_ID_in_ruleQualifiedID1800); 
 
             	    		current.merge(this_ID_2);
             	        
@@ -1831,7 +1985,7 @@ public class InternalMegaLParser extends AbstractInternalAntlrParser {
             	    break;
 
             	default :
-            	    break loop8;
+            	    break loop7;
                 }
             } while (true);
 
@@ -1859,26 +2013,27 @@ public class InternalMegaLParser extends AbstractInternalAntlrParser {
 
     protected DFA3 dfa3 = new DFA3(this);
     static final String DFA3_eotS =
-        "\12\uffff";
+        "\13\uffff";
     static final String DFA3_eofS =
-        "\1\1\6\uffff\1\10\2\uffff";
+        "\1\1\6\uffff\2\11\2\uffff";
     static final String DFA3_minS =
-        "\1\4\2\uffff\2\4\2\uffff\1\4\2\uffff";
+        "\1\4\2\uffff\2\4\2\uffff\2\4\2\uffff";
     static final String DFA3_maxS =
-        "\1\17\2\uffff\1\21\1\4\2\uffff\1\21\2\uffff";
+        "\1\15\2\uffff\1\20\1\21\2\uffff\2\17\2\uffff";
     static final String DFA3_acceptS =
-        "\1\uffff\1\6\1\1\2\uffff\1\2\1\5\1\uffff\1\3\1\4";
+        "\1\uffff\1\6\1\1\2\uffff\1\5\1\4\2\uffff\1\2\1\3";
     static final String DFA3_specialS =
-        "\12\uffff}>";
+        "\13\uffff}>";
     static final String[] DFA3_transitionS = {
-            "\1\3\11\uffff\1\2\1\4",
+            "\1\3\10\uffff\1\2",
             "",
             "",
-            "\1\5\14\uffff\1\6",
-            "\1\7",
+            "\1\5\11\uffff\1\4\1\uffff\1\6",
+            "\1\7\14\uffff\1\10",
             "",
             "",
-            "\1\10\11\uffff\3\10\1\11",
+            "\1\11\10\uffff\1\11\1\uffff\1\12",
+            "\1\11\10\uffff\1\11\1\uffff\1\12",
             "",
             ""
     };
@@ -1913,7 +2068,7 @@ public class InternalMegaLParser extends AbstractInternalAntlrParser {
             this.transition = DFA3_transition;
         }
         public String getDescription() {
-            return "()* loopback of 165:4: ( ( (lv_imports_5_0= ruleImport ) ) | ( (lv_rds_6_0= ruleRD ) ) | ( (lv_etds_7_0= ruleETD ) ) | ( (lv_rtds_8_0= ruleRTD ) ) | ( (lv_eds_9_0= ruleEDGroup ) ) )*";
+            return "()* loopback of 165:4: ( ( (lv_imports_5_0= ruleImport ) ) | ( (lv_etds_6_0= ruleETD ) ) | ( (lv_rtds_7_0= ruleRTD ) ) | ( (lv_eds_8_0= ruleED ) ) | ( (lv_rds_9_0= ruleRD ) ) )*";
         }
     }
  
@@ -1924,65 +2079,68 @@ public class InternalMegaLParser extends AbstractInternalAntlrParser {
     public static final BitSet FOLLOW_ruleMegaLLinking_in_ruleModel159 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_ruleMegaLDefinition_in_entryRuleMegaLDefinition194 = new BitSet(new long[]{0x0000000000000000L});
     public static final BitSet FOLLOW_EOF_in_entryRuleMegaLDefinition204 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_11_in_ruleMegaLDefinition241 = new BitSet(new long[]{0x0000000000000010L});
-    public static final BitSet FOLLOW_ruleQualifiedID_in_ruleMegaLDefinition262 = new BitSet(new long[]{0x000000000000D012L});
-    public static final BitSet FOLLOW_12_in_ruleMegaLDefinition275 = new BitSet(new long[]{0x0000000000002000L});
-    public static final BitSet FOLLOW_13_in_ruleMegaLDefinition287 = new BitSet(new long[]{0x0000000000000010L});
-    public static final BitSet FOLLOW_ruleQualifiedID_in_ruleMegaLDefinition310 = new BitSet(new long[]{0x000000000000C012L});
-    public static final BitSet FOLLOW_ruleImport_in_ruleMegaLDefinition334 = new BitSet(new long[]{0x000000000000C012L});
-    public static final BitSet FOLLOW_ruleRD_in_ruleMegaLDefinition361 = new BitSet(new long[]{0x000000000000C012L});
-    public static final BitSet FOLLOW_ruleETD_in_ruleMegaLDefinition388 = new BitSet(new long[]{0x000000000000C012L});
-    public static final BitSet FOLLOW_ruleRTD_in_ruleMegaLDefinition415 = new BitSet(new long[]{0x000000000000C012L});
-    public static final BitSet FOLLOW_ruleEDGroup_in_ruleMegaLDefinition442 = new BitSet(new long[]{0x000000000000C012L});
+    public static final BitSet FOLLOW_10_in_ruleMegaLDefinition241 = new BitSet(new long[]{0x0000000000000010L});
+    public static final BitSet FOLLOW_ruleQualifiedID_in_ruleMegaLDefinition262 = new BitSet(new long[]{0x0000000000002812L});
+    public static final BitSet FOLLOW_11_in_ruleMegaLDefinition275 = new BitSet(new long[]{0x0000000000001000L});
+    public static final BitSet FOLLOW_12_in_ruleMegaLDefinition287 = new BitSet(new long[]{0x0000000000000010L});
+    public static final BitSet FOLLOW_ruleQualifiedID_in_ruleMegaLDefinition310 = new BitSet(new long[]{0x0000000000002012L});
+    public static final BitSet FOLLOW_ruleImport_in_ruleMegaLDefinition334 = new BitSet(new long[]{0x0000000000002012L});
+    public static final BitSet FOLLOW_ruleETD_in_ruleMegaLDefinition361 = new BitSet(new long[]{0x0000000000002012L});
+    public static final BitSet FOLLOW_ruleRTD_in_ruleMegaLDefinition388 = new BitSet(new long[]{0x0000000000002012L});
+    public static final BitSet FOLLOW_ruleED_in_ruleMegaLDefinition415 = new BitSet(new long[]{0x0000000000002012L});
+    public static final BitSet FOLLOW_ruleRD_in_ruleMegaLDefinition442 = new BitSet(new long[]{0x0000000000002012L});
     public static final BitSet FOLLOW_ruleImport_in_entryRuleImport480 = new BitSet(new long[]{0x0000000000000000L});
     public static final BitSet FOLLOW_EOF_in_entryRuleImport490 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_14_in_ruleImport527 = new BitSet(new long[]{0x0000000000000010L});
+    public static final BitSet FOLLOW_13_in_ruleImport527 = new BitSet(new long[]{0x0000000000000010L});
     public static final BitSet FOLLOW_RULE_ID_in_ruleImport547 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_ruleETD_in_entryRuleETD583 = new BitSet(new long[]{0x0000000000000000L});
     public static final BitSet FOLLOW_EOF_in_entryRuleETD593 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_15_in_ruleETD630 = new BitSet(new long[]{0x0000000000000010L});
-    public static final BitSet FOLLOW_RULE_ID_in_ruleETD647 = new BitSet(new long[]{0x0000000000010002L});
-    public static final BitSet FOLLOW_16_in_ruleETD665 = new BitSet(new long[]{0x0000000000000010L});
-    public static final BitSet FOLLOW_RULE_ID_in_ruleETD685 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleRTD_in_entryRuleRTD723 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleRTD733 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_15_in_ruleRTD770 = new BitSet(new long[]{0x0000000000000010L});
-    public static final BitSet FOLLOW_RULE_ID_in_ruleRTD787 = new BitSet(new long[]{0x0000000000020000L});
-    public static final BitSet FOLLOW_17_in_ruleRTD804 = new BitSet(new long[]{0x0000000000000010L});
-    public static final BitSet FOLLOW_RULE_ID_in_ruleRTD824 = new BitSet(new long[]{0x0000000000040000L});
-    public static final BitSet FOLLOW_18_in_ruleRTD836 = new BitSet(new long[]{0x0000000000000010L});
-    public static final BitSet FOLLOW_RULE_ID_in_ruleRTD856 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleEDGroup_in_entryRuleEDGroup892 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleEDGroup902 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_RULE_ID_in_ruleEDGroup947 = new BitSet(new long[]{0x0000000000020000L});
-    public static final BitSet FOLLOW_17_in_ruleEDGroup959 = new BitSet(new long[]{0x0000000000000010L});
-    public static final BitSet FOLLOW_ruleED_in_ruleEDGroup980 = new BitSet(new long[]{0x0000000000080002L});
-    public static final BitSet FOLLOW_19_in_ruleEDGroup993 = new BitSet(new long[]{0x0000000000000010L});
-    public static final BitSet FOLLOW_ruleED_in_ruleEDGroup1014 = new BitSet(new long[]{0x0000000000080002L});
-    public static final BitSet FOLLOW_ruleED_in_entryRuleED1052 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleED1062 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_RULE_ID_in_ruleED1103 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleRD_in_entryRuleRD1143 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleRD1153 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_RULE_ID_in_ruleRD1198 = new BitSet(new long[]{0x0000000000000010L});
-    public static final BitSet FOLLOW_RULE_ID_in_ruleRD1218 = new BitSet(new long[]{0x0000000000000010L});
-    public static final BitSet FOLLOW_RULE_ID_in_ruleRD1238 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleMegaLLinking_in_entryRuleMegaLLinking1274 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleMegaLLinking1284 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_20_in_ruleMegaLLinking1321 = new BitSet(new long[]{0x0000000000000010L});
-    public static final BitSet FOLLOW_ruleQualifiedID_in_ruleMegaLLinking1342 = new BitSet(new long[]{0x0000000000200012L});
-    public static final BitSet FOLLOW_21_in_ruleMegaLLinking1355 = new BitSet(new long[]{0x0000000000000010L});
-    public static final BitSet FOLLOW_ruleQualifiedID_in_ruleMegaLLinking1378 = new BitSet(new long[]{0x0000000000000012L});
-    public static final BitSet FOLLOW_ruleLD_in_ruleMegaLLinking1401 = new BitSet(new long[]{0x0000000000000012L});
-    public static final BitSet FOLLOW_ruleLD_in_entryRuleLD1438 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleLD1448 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_RULE_ID_in_ruleLD1493 = new BitSet(new long[]{0x0000000000400000L});
-    public static final BitSet FOLLOW_22_in_ruleLD1505 = new BitSet(new long[]{0x0000000000000020L});
-    public static final BitSet FOLLOW_RULE_STRING_in_ruleLD1522 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ruleQualifiedID_in_entryRuleQualifiedID1564 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_entryRuleQualifiedID1575 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_RULE_ID_in_ruleQualifiedID1615 = new BitSet(new long[]{0x0000000000800002L});
-    public static final BitSet FOLLOW_23_in_ruleQualifiedID1634 = new BitSet(new long[]{0x0000000000000010L});
-    public static final BitSet FOLLOW_RULE_ID_in_ruleQualifiedID1649 = new BitSet(new long[]{0x0000000000800002L});
+    public static final BitSet FOLLOW_RULE_ID_in_ruleETD635 = new BitSet(new long[]{0x0000000000004000L});
+    public static final BitSet FOLLOW_14_in_ruleETD652 = new BitSet(new long[]{0x0000000000020010L});
+    public static final BitSet FOLLOW_ruleUseETD_in_ruleETD673 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleRTD_in_entryRuleRTD709 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleRTD719 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_RULE_ID_in_ruleRTD761 = new BitSet(new long[]{0x0000000000004000L});
+    public static final BitSet FOLLOW_14_in_ruleRTD778 = new BitSet(new long[]{0x0000000000020010L});
+    public static final BitSet FOLLOW_ruleUseETD_in_ruleRTD799 = new BitSet(new long[]{0x0000000000008000L});
+    public static final BitSet FOLLOW_15_in_ruleRTD811 = new BitSet(new long[]{0x0000000000020010L});
+    public static final BitSet FOLLOW_ruleUseETD_in_ruleRTD832 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleRD_in_entryRuleRD868 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleRD878 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_RULE_ID_in_ruleRD923 = new BitSet(new long[]{0x0000000000000010L});
+    public static final BitSet FOLLOW_RULE_ID_in_ruleRD943 = new BitSet(new long[]{0x0000000000000010L});
+    public static final BitSet FOLLOW_RULE_ID_in_ruleRD963 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleED_in_entryRuleED999 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleED1009 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_RULE_ID_in_ruleED1051 = new BitSet(new long[]{0x0000000000010000L});
+    public static final BitSet FOLLOW_16_in_ruleED1068 = new BitSet(new long[]{0x0000000000020010L});
+    public static final BitSet FOLLOW_ruleUseETD_in_ruleED1089 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleUseETD_in_entryRuleUseETD1125 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleUseETD1135 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleUseETDRef_in_ruleUseETD1182 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleUseEntity_in_ruleUseETD1209 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleUseETDRef_in_entryRuleUseETDRef1244 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleUseETDRef1254 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_RULE_ID_in_ruleUseETDRef1298 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleUseEntity_in_entryRuleUseEntity1333 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleUseEntity1343 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_17_in_ruleUseEntity1389 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleMegaLLinking_in_entryRuleMegaLLinking1425 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleMegaLLinking1435 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_18_in_ruleMegaLLinking1472 = new BitSet(new long[]{0x0000000000000010L});
+    public static final BitSet FOLLOW_ruleQualifiedID_in_ruleMegaLLinking1493 = new BitSet(new long[]{0x0000000000080012L});
+    public static final BitSet FOLLOW_19_in_ruleMegaLLinking1506 = new BitSet(new long[]{0x0000000000000010L});
+    public static final BitSet FOLLOW_ruleQualifiedID_in_ruleMegaLLinking1529 = new BitSet(new long[]{0x0000000000000012L});
+    public static final BitSet FOLLOW_ruleLD_in_ruleMegaLLinking1552 = new BitSet(new long[]{0x0000000000000012L});
+    public static final BitSet FOLLOW_ruleLD_in_entryRuleLD1589 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleLD1599 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_RULE_ID_in_ruleLD1644 = new BitSet(new long[]{0x0000000000100000L});
+    public static final BitSet FOLLOW_20_in_ruleLD1656 = new BitSet(new long[]{0x0000000000000020L});
+    public static final BitSet FOLLOW_RULE_STRING_in_ruleLD1673 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ruleQualifiedID_in_entryRuleQualifiedID1715 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_entryRuleQualifiedID1726 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_RULE_ID_in_ruleQualifiedID1766 = new BitSet(new long[]{0x0000000000200002L});
+    public static final BitSet FOLLOW_21_in_ruleQualifiedID1785 = new BitSet(new long[]{0x0000000000000010L});
+    public static final BitSet FOLLOW_RULE_ID_in_ruleQualifiedID1800 = new BitSet(new long[]{0x0000000000200002L});
 
 }

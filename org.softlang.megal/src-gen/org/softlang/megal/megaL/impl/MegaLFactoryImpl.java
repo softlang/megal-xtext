@@ -69,9 +69,11 @@ public class MegaLFactoryImpl extends EFactoryImpl implements MegaLFactory
       case MegaLPackage.IMPORT: return createImport();
       case MegaLPackage.ETD: return createETD();
       case MegaLPackage.RTD: return createRTD();
-      case MegaLPackage.ED_GROUP: return createEDGroup();
-      case MegaLPackage.ED: return createED();
       case MegaLPackage.RD: return createRD();
+      case MegaLPackage.ED: return createED();
+      case MegaLPackage.USE_ETD: return createUseETD();
+      case MegaLPackage.USE_ETD_REF: return createUseETDRef();
+      case MegaLPackage.USE_ENTITY: return createUseEntity();
       case MegaLPackage.MEGA_LLINKING: return createMegaLLinking();
       case MegaLPackage.LD: return createLD();
       default:
@@ -139,10 +141,10 @@ public class MegaLFactoryImpl extends EFactoryImpl implements MegaLFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  public EDGroup createEDGroup()
+  public RD createRD()
   {
-    EDGroupImpl edGroup = new EDGroupImpl();
-    return edGroup;
+    RDImpl rd = new RDImpl();
+    return rd;
   }
 
   /**
@@ -161,10 +163,32 @@ public class MegaLFactoryImpl extends EFactoryImpl implements MegaLFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  public RD createRD()
+  public UseETD createUseETD()
   {
-    RDImpl rd = new RDImpl();
-    return rd;
+    UseETDImpl useETD = new UseETDImpl();
+    return useETD;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public UseETDRef createUseETDRef()
+  {
+    UseETDRefImpl useETDRef = new UseETDRefImpl();
+    return useETDRef;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public UseEntity createUseEntity()
+  {
+    UseEntityImpl useEntity = new UseEntityImpl();
+    return useEntity;
   }
 
   /**

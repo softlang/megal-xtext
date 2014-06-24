@@ -18,6 +18,9 @@ import org.softlang.megal.megaL.MegaLLinking
  *
  */
 class MegaLScopeProvider extends AbstractDeclarativeScopeProvider {
+	def scope_MegaLDefinition(MegaLDefinition d, EReference er) {
+
+	}
 
 	def scope_ETD(MegaLDefinition d, EReference er) {
 		val is = Calculation.allDefinitions(d)
@@ -34,7 +37,7 @@ class MegaLScopeProvider extends AbstractDeclarativeScopeProvider {
 	def scope_ED(MegaLDefinition d, EReference er) {
 		val is = Calculation.allDefinitions(d)
 
-		Scopes::scopeFor(is.map[eds.map[items].flatten].flatten)
+		Scopes::scopeFor(is.map[eds].flatten)
 	}
 
 	def scope_ETD(MegaLLinking l, EReference er) {

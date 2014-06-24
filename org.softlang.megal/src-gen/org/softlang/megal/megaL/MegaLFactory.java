@@ -68,13 +68,13 @@ public interface MegaLFactory extends EFactory
   RTD createRTD();
 
   /**
-   * Returns a new object of class '<em>ED Group</em>'.
+   * Returns a new object of class '<em>RD</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return a new object of class '<em>ED Group</em>'.
+   * @return a new object of class '<em>RD</em>'.
    * @generated
    */
-  EDGroup createEDGroup();
+  RD createRD();
 
   /**
    * Returns a new object of class '<em>ED</em>'.
@@ -86,13 +86,31 @@ public interface MegaLFactory extends EFactory
   ED createED();
 
   /**
-   * Returns a new object of class '<em>RD</em>'.
+   * Returns a new object of class '<em>Use ETD</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return a new object of class '<em>RD</em>'.
+   * @return a new object of class '<em>Use ETD</em>'.
    * @generated
    */
-  RD createRD();
+  UseETD createUseETD();
+
+  /**
+   * Returns a new object of class '<em>Use ETD Ref</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Use ETD Ref</em>'.
+   * @generated
+   */
+  UseETDRef createUseETDRef();
+
+  /**
+   * Returns a new object of class '<em>Use Entity</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Use Entity</em>'.
+   * @generated
+   */
+  UseEntity createUseEntity();
 
   /**
    * Returns a new object of class '<em>Linking</em>'.

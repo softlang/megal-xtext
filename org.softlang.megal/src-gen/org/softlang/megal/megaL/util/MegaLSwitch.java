@@ -108,10 +108,10 @@ public class MegaLSwitch<T> extends Switch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
-      case MegaLPackage.ED_GROUP:
+      case MegaLPackage.RD:
       {
-        EDGroup edGroup = (EDGroup)theEObject;
-        T result = caseEDGroup(edGroup);
+        RD rd = (RD)theEObject;
+        T result = caseRD(rd);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -122,10 +122,26 @@ public class MegaLSwitch<T> extends Switch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
-      case MegaLPackage.RD:
+      case MegaLPackage.USE_ETD:
       {
-        RD rd = (RD)theEObject;
-        T result = caseRD(rd);
+        UseETD useETD = (UseETD)theEObject;
+        T result = caseUseETD(useETD);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case MegaLPackage.USE_ETD_REF:
+      {
+        UseETDRef useETDRef = (UseETDRef)theEObject;
+        T result = caseUseETDRef(useETDRef);
+        if (result == null) result = caseUseETD(useETDRef);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case MegaLPackage.USE_ENTITY:
+      {
+        UseEntity useEntity = (UseEntity)theEObject;
+        T result = caseUseEntity(useEntity);
+        if (result == null) result = caseUseETD(useEntity);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -229,17 +245,17 @@ public class MegaLSwitch<T> extends Switch<T>
   }
 
   /**
-   * Returns the result of interpreting the object as an instance of '<em>ED Group</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>RD</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>ED Group</em>'.
+   * @return the result of interpreting the object as an instance of '<em>RD</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public T caseEDGroup(EDGroup object)
+  public T caseRD(RD object)
   {
     return null;
   }
@@ -261,17 +277,49 @@ public class MegaLSwitch<T> extends Switch<T>
   }
 
   /**
-   * Returns the result of interpreting the object as an instance of '<em>RD</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Use ETD</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>RD</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Use ETD</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public T caseRD(RD object)
+  public T caseUseETD(UseETD object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Use ETD Ref</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Use ETD Ref</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseUseETDRef(UseETDRef object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Use Entity</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Use Entity</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseUseEntity(UseEntity object)
   {
     return null;
   }

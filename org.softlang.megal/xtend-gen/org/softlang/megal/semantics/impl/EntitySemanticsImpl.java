@@ -9,10 +9,5 @@ import org.softlang.megal.semantics.EntitySemantics;
 @SuppressWarnings("all")
 public class EntitySemanticsImpl implements EntitySemantics {
   public void validate(final Diagnostic diagnostic, final ED entity, final Optional<LD> linking) {
-    boolean _isPresent = linking.isPresent();
-    boolean _not = (!_isPresent);
-    if (_not) {
-      diagnostic.error("Unlinked entity");
-    }
   }
 }

@@ -13,6 +13,7 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * <ul>
  *   <li>{@link org.softlang.megal.megaL.ED#getName <em>Name</em>}</li>
+ *   <li>{@link org.softlang.megal.megaL.ED#getType <em>Type</em>}</li>
  * </ul>
  * </p>
  *
@@ -47,5 +48,31 @@ public interface ED extends EObject
    * @generated
    */
   void setName(String value);
+
+  /**
+   * Returns the value of the '<em><b>Type</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Type</em>' containment reference isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Type</em>' containment reference.
+   * @see #setType(UseETD)
+   * @see org.softlang.megal.megaL.MegaLPackage#getED_Type()
+   * @model containment="true"
+   * @generated
+   */
+  UseETD getType();
+
+  /**
+   * Sets the value of the '{@link org.softlang.megal.megaL.ED#getType <em>Type</em>}' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Type</em>' containment reference.
+   * @see #getType()
+   * @generated
+   */
+  void setType(UseETD value);
 
 } // ED

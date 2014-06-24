@@ -1,5 +1,6 @@
-grammar org.softlang.megal.MegaL with org.eclipse.xtext.common.Terminals
+grammar org.softlang.megal.MegaL hidden(ML_COMMENT, SL_COMMENT, WS)
 
+import "http://www.eclipse.org/emf/2002/Ecore" as ecore
 generate megaL "http://www.softlang.org/megal/MegaL"
 
 Model:
@@ -8,25 +9,31 @@ Model:
 MegaLDefinition:
 	'model' name=QualifiedID
 	('linked' 'in' linker=[MegaLLinking|QualifiedID])?
-	(imports+=Import | rds+=RD | etds+=ETD | rtds+=RTD | eds+=EDGroup)*;
+	(imports+=Import | etds+=ETD | rtds+=RTD | eds+=ED | rds+=RD)*;
 
 Import:
 	'import' ref=[MegaLDefinition];
 
 ETD:
-	'define' name=ID ('from' supertype=[ETD])?;
+	name=ID '<' supertype=UseETD;
 
 RTD:
-	'define' name=ID ':' domain=[ETD] '->' coDomain=[ETD];
-
-EDGroup:
-	type=[ETD] ':' items+=ED (',' items+=ED)*;
-
-ED:
-	name=ID;
+	name=ID '<' domain=UseETD '*' coDomain=UseETD;
 
 RD:
 	source=[ED] rel=[RTD] target=[ED];
+
+ED:
+	name=ID ':' type=UseETD;
+
+UseETD:
+	UseETDRef | UseEntity;
+
+UseETDRef:
+	ref=[ETD];
+
+UseEntity:
+	{UseEntity} 'Entity';
 
 MegaLLinking:
 	'linking' name=QualifiedID
@@ -38,3 +45,21 @@ LD:
 
 QualifiedID:
 	ID ('.' ID)*;
+
+terminal ID:
+	'^'? ('a'..'z' | 'A'..'Z' | '_') ('a'..'z' | 'A'..'Z' | '_' | '0'..'9')*;
+
+terminal STRING:
+	'"' ('\\' ('b' | 't' | 'n' | 'f' | 'r' | 'u' | '"' | "'" | '\\') | !('\\' | '"'))* '"';
+
+terminal ML_COMMENT:
+	'/*'->'*/';
+
+terminal SL_COMMENT:
+	'//' !('\n' | '\r')* ('\r'? '\n')?;
+
+terminal WS:
+	(' ' | '\t' | '\r' | '\n')+;
+
+terminal ANY_OTHER:
+	.;

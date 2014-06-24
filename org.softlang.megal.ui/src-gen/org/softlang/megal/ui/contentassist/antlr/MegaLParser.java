@@ -39,15 +39,15 @@ public class MegaLParser extends AbstractContentAssistParser {
 				{
 					put(grammarAccess.getModelAccess().getAlternatives(), "rule__Model__Alternatives");
 					put(grammarAccess.getMegaLDefinitionAccess().getAlternatives_3(), "rule__MegaLDefinition__Alternatives_3");
+					put(grammarAccess.getUseETDAccess().getAlternatives(), "rule__UseETD__Alternatives");
 					put(grammarAccess.getMegaLDefinitionAccess().getGroup(), "rule__MegaLDefinition__Group__0");
 					put(grammarAccess.getMegaLDefinitionAccess().getGroup_2(), "rule__MegaLDefinition__Group_2__0");
 					put(grammarAccess.getImportAccess().getGroup(), "rule__Import__Group__0");
 					put(grammarAccess.getETDAccess().getGroup(), "rule__ETD__Group__0");
-					put(grammarAccess.getETDAccess().getGroup_2(), "rule__ETD__Group_2__0");
 					put(grammarAccess.getRTDAccess().getGroup(), "rule__RTD__Group__0");
-					put(grammarAccess.getEDGroupAccess().getGroup(), "rule__EDGroup__Group__0");
-					put(grammarAccess.getEDGroupAccess().getGroup_3(), "rule__EDGroup__Group_3__0");
 					put(grammarAccess.getRDAccess().getGroup(), "rule__RD__Group__0");
+					put(grammarAccess.getEDAccess().getGroup(), "rule__ED__Group__0");
+					put(grammarAccess.getUseEntityAccess().getGroup(), "rule__UseEntity__Group__0");
 					put(grammarAccess.getMegaLLinkingAccess().getGroup(), "rule__MegaLLinking__Group__0");
 					put(grammarAccess.getMegaLLinkingAccess().getGroup_2(), "rule__MegaLLinking__Group_2__0");
 					put(grammarAccess.getLDAccess().getGroup(), "rule__LD__Group__0");
@@ -56,23 +56,22 @@ public class MegaLParser extends AbstractContentAssistParser {
 					put(grammarAccess.getMegaLDefinitionAccess().getNameAssignment_1(), "rule__MegaLDefinition__NameAssignment_1");
 					put(grammarAccess.getMegaLDefinitionAccess().getLinkerAssignment_2_2(), "rule__MegaLDefinition__LinkerAssignment_2_2");
 					put(grammarAccess.getMegaLDefinitionAccess().getImportsAssignment_3_0(), "rule__MegaLDefinition__ImportsAssignment_3_0");
-					put(grammarAccess.getMegaLDefinitionAccess().getRdsAssignment_3_1(), "rule__MegaLDefinition__RdsAssignment_3_1");
-					put(grammarAccess.getMegaLDefinitionAccess().getEtdsAssignment_3_2(), "rule__MegaLDefinition__EtdsAssignment_3_2");
-					put(grammarAccess.getMegaLDefinitionAccess().getRtdsAssignment_3_3(), "rule__MegaLDefinition__RtdsAssignment_3_3");
-					put(grammarAccess.getMegaLDefinitionAccess().getEdsAssignment_3_4(), "rule__MegaLDefinition__EdsAssignment_3_4");
+					put(grammarAccess.getMegaLDefinitionAccess().getEtdsAssignment_3_1(), "rule__MegaLDefinition__EtdsAssignment_3_1");
+					put(grammarAccess.getMegaLDefinitionAccess().getRtdsAssignment_3_2(), "rule__MegaLDefinition__RtdsAssignment_3_2");
+					put(grammarAccess.getMegaLDefinitionAccess().getEdsAssignment_3_3(), "rule__MegaLDefinition__EdsAssignment_3_3");
+					put(grammarAccess.getMegaLDefinitionAccess().getRdsAssignment_3_4(), "rule__MegaLDefinition__RdsAssignment_3_4");
 					put(grammarAccess.getImportAccess().getRefAssignment_1(), "rule__Import__RefAssignment_1");
-					put(grammarAccess.getETDAccess().getNameAssignment_1(), "rule__ETD__NameAssignment_1");
-					put(grammarAccess.getETDAccess().getSupertypeAssignment_2_1(), "rule__ETD__SupertypeAssignment_2_1");
-					put(grammarAccess.getRTDAccess().getNameAssignment_1(), "rule__RTD__NameAssignment_1");
-					put(grammarAccess.getRTDAccess().getDomainAssignment_3(), "rule__RTD__DomainAssignment_3");
-					put(grammarAccess.getRTDAccess().getCoDomainAssignment_5(), "rule__RTD__CoDomainAssignment_5");
-					put(grammarAccess.getEDGroupAccess().getTypeAssignment_0(), "rule__EDGroup__TypeAssignment_0");
-					put(grammarAccess.getEDGroupAccess().getItemsAssignment_2(), "rule__EDGroup__ItemsAssignment_2");
-					put(grammarAccess.getEDGroupAccess().getItemsAssignment_3_1(), "rule__EDGroup__ItemsAssignment_3_1");
-					put(grammarAccess.getEDAccess().getNameAssignment(), "rule__ED__NameAssignment");
+					put(grammarAccess.getETDAccess().getNameAssignment_0(), "rule__ETD__NameAssignment_0");
+					put(grammarAccess.getETDAccess().getSupertypeAssignment_2(), "rule__ETD__SupertypeAssignment_2");
+					put(grammarAccess.getRTDAccess().getNameAssignment_0(), "rule__RTD__NameAssignment_0");
+					put(grammarAccess.getRTDAccess().getDomainAssignment_2(), "rule__RTD__DomainAssignment_2");
+					put(grammarAccess.getRTDAccess().getCoDomainAssignment_4(), "rule__RTD__CoDomainAssignment_4");
 					put(grammarAccess.getRDAccess().getSourceAssignment_0(), "rule__RD__SourceAssignment_0");
 					put(grammarAccess.getRDAccess().getRelAssignment_1(), "rule__RD__RelAssignment_1");
 					put(grammarAccess.getRDAccess().getTargetAssignment_2(), "rule__RD__TargetAssignment_2");
+					put(grammarAccess.getEDAccess().getNameAssignment_0(), "rule__ED__NameAssignment_0");
+					put(grammarAccess.getEDAccess().getTypeAssignment_2(), "rule__ED__TypeAssignment_2");
+					put(grammarAccess.getUseETDRefAccess().getRefAssignment(), "rule__UseETDRef__RefAssignment");
 					put(grammarAccess.getMegaLLinkingAccess().getNameAssignment_1(), "rule__MegaLLinking__NameAssignment_1");
 					put(grammarAccess.getMegaLLinkingAccess().getTargetAssignment_2_1(), "rule__MegaLLinking__TargetAssignment_2_1");
 					put(grammarAccess.getMegaLLinkingAccess().getLdsAssignment_3(), "rule__MegaLLinking__LdsAssignment_3");
@@ -97,7 +96,7 @@ public class MegaLParser extends AbstractContentAssistParser {
 	
 	@Override
 	protected String[] getInitialHiddenTokens() {
-		return new String[] { "RULE_WS", "RULE_ML_COMMENT", "RULE_SL_COMMENT" };
+		return new String[] { "RULE_ML_COMMENT", "RULE_SL_COMMENT", "RULE_WS" };
 	}
 	
 	public MegaLGrammarAccess getGrammarAccess() {

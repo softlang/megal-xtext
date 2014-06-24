@@ -100,9 +100,9 @@ public class MegaLAdapterFactory extends AdapterFactoryImpl
         return createRTDAdapter();
       }
       @Override
-      public Adapter caseEDGroup(EDGroup object)
+      public Adapter caseRD(RD object)
       {
-        return createEDGroupAdapter();
+        return createRDAdapter();
       }
       @Override
       public Adapter caseED(ED object)
@@ -110,9 +110,19 @@ public class MegaLAdapterFactory extends AdapterFactoryImpl
         return createEDAdapter();
       }
       @Override
-      public Adapter caseRD(RD object)
+      public Adapter caseUseETD(UseETD object)
       {
-        return createRDAdapter();
+        return createUseETDAdapter();
+      }
+      @Override
+      public Adapter caseUseETDRef(UseETDRef object)
+      {
+        return createUseETDRefAdapter();
+      }
+      @Override
+      public Adapter caseUseEntity(UseEntity object)
+      {
+        return createUseEntityAdapter();
       }
       @Override
       public Adapter caseMegaLLinking(MegaLLinking object)
@@ -222,16 +232,16 @@ public class MegaLAdapterFactory extends AdapterFactoryImpl
   }
 
   /**
-   * Creates a new adapter for an object of class '{@link org.softlang.megal.megaL.EDGroup <em>ED Group</em>}'.
+   * Creates a new adapter for an object of class '{@link org.softlang.megal.megaL.RD <em>RD</em>}'.
    * <!-- begin-user-doc -->
    * This default implementation returns null so that we can easily ignore cases;
    * it's useful to ignore a case when inheritance will catch all the cases anyway.
    * <!-- end-user-doc -->
    * @return the new adapter.
-   * @see org.softlang.megal.megaL.EDGroup
+   * @see org.softlang.megal.megaL.RD
    * @generated
    */
-  public Adapter createEDGroupAdapter()
+  public Adapter createRDAdapter()
   {
     return null;
   }
@@ -252,16 +262,46 @@ public class MegaLAdapterFactory extends AdapterFactoryImpl
   }
 
   /**
-   * Creates a new adapter for an object of class '{@link org.softlang.megal.megaL.RD <em>RD</em>}'.
+   * Creates a new adapter for an object of class '{@link org.softlang.megal.megaL.UseETD <em>Use ETD</em>}'.
    * <!-- begin-user-doc -->
    * This default implementation returns null so that we can easily ignore cases;
    * it's useful to ignore a case when inheritance will catch all the cases anyway.
    * <!-- end-user-doc -->
    * @return the new adapter.
-   * @see org.softlang.megal.megaL.RD
+   * @see org.softlang.megal.megaL.UseETD
    * @generated
    */
-  public Adapter createRDAdapter()
+  public Adapter createUseETDAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link org.softlang.megal.megaL.UseETDRef <em>Use ETD Ref</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see org.softlang.megal.megaL.UseETDRef
+   * @generated
+   */
+  public Adapter createUseETDRefAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link org.softlang.megal.megaL.UseEntity <em>Use Entity</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see org.softlang.megal.megaL.UseEntity
+   * @generated
+   */
+  public Adapter createUseEntityAdapter()
   {
     return null;
   }

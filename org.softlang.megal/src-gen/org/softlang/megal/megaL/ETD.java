@@ -50,29 +50,29 @@ public interface ETD extends EObject
   void setName(String value);
 
   /**
-   * Returns the value of the '<em><b>Supertype</b></em>' reference.
+   * Returns the value of the '<em><b>Supertype</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <p>
-   * If the meaning of the '<em>Supertype</em>' reference isn't clear,
+   * If the meaning of the '<em>Supertype</em>' containment reference isn't clear,
    * there really should be more of a description here...
    * </p>
    * <!-- end-user-doc -->
-   * @return the value of the '<em>Supertype</em>' reference.
-   * @see #setSupertype(ETD)
+   * @return the value of the '<em>Supertype</em>' containment reference.
+   * @see #setSupertype(UseETD)
    * @see org.softlang.megal.megaL.MegaLPackage#getETD_Supertype()
-   * @model
+   * @model containment="true"
    * @generated
    */
-  ETD getSupertype();
+  UseETD getSupertype();
 
   /**
-   * Sets the value of the '{@link org.softlang.megal.megaL.ETD#getSupertype <em>Supertype</em>}' reference.
+   * Sets the value of the '{@link org.softlang.megal.megaL.ETD#getSupertype <em>Supertype</em>}' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Supertype</em>' reference.
+   * @param value the new value of the '<em>Supertype</em>' containment reference.
    * @see #getSupertype()
    * @generated
    */
-  void setSupertype(ETD value);
+  void setSupertype(UseETD value);
 
 } // ETD

@@ -9,13 +9,15 @@ import org.eclipse.emf.ecore.EReference;
 
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
-import org.softlang.megal.megaL.EDGroup;
 import org.softlang.megal.megaL.Import;
 import org.softlang.megal.megaL.MegaLDefinition;
 import org.softlang.megal.megaL.MegaLFactory;
 import org.softlang.megal.megaL.MegaLLinking;
 import org.softlang.megal.megaL.MegaLPackage;
 import org.softlang.megal.megaL.Model;
+import org.softlang.megal.megaL.UseETD;
+import org.softlang.megal.megaL.UseETDRef;
+import org.softlang.megal.megaL.UseEntity;
 
 /**
  * <!-- begin-user-doc -->
@@ -65,7 +67,7 @@ public class MegaLPackageImpl extends EPackageImpl implements MegaLPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  private EClass edGroupEClass = null;
+  private EClass rdEClass = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -79,7 +81,21 @@ public class MegaLPackageImpl extends EPackageImpl implements MegaLPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  private EClass rdEClass = null;
+  private EClass useETDEClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EClass useETDRefEClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EClass useEntityEClass = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -213,7 +229,7 @@ public class MegaLPackageImpl extends EPackageImpl implements MegaLPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EReference getMegaLDefinition_Rds()
+  public EReference getMegaLDefinition_Etds()
   {
     return (EReference)megaLDefinitionEClass.getEStructuralFeatures().get(2);
   }
@@ -223,7 +239,7 @@ public class MegaLPackageImpl extends EPackageImpl implements MegaLPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EReference getMegaLDefinition_Etds()
+  public EReference getMegaLDefinition_Rtds()
   {
     return (EReference)megaLDefinitionEClass.getEStructuralFeatures().get(3);
   }
@@ -233,7 +249,7 @@ public class MegaLPackageImpl extends EPackageImpl implements MegaLPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EReference getMegaLDefinition_Rtds()
+  public EReference getMegaLDefinition_Eds()
   {
     return (EReference)megaLDefinitionEClass.getEStructuralFeatures().get(4);
   }
@@ -243,7 +259,7 @@ public class MegaLPackageImpl extends EPackageImpl implements MegaLPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EReference getMegaLDefinition_Eds()
+  public EReference getMegaLDefinition_Rds()
   {
     return (EReference)megaLDefinitionEClass.getEStructuralFeatures().get(5);
   }
@@ -343,56 +359,6 @@ public class MegaLPackageImpl extends EPackageImpl implements MegaLPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EClass getEDGroup()
-  {
-    return edGroupEClass;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public EReference getEDGroup_Type()
-  {
-    return (EReference)edGroupEClass.getEStructuralFeatures().get(0);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public EReference getEDGroup_Items()
-  {
-    return (EReference)edGroupEClass.getEStructuralFeatures().get(1);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public EClass getED()
-  {
-    return edEClass;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public EAttribute getED_Name()
-  {
-    return (EAttribute)edEClass.getEStructuralFeatures().get(0);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
   public EClass getRD()
   {
     return rdEClass;
@@ -426,6 +392,76 @@ public class MegaLPackageImpl extends EPackageImpl implements MegaLPackage
   public EReference getRD_Target()
   {
     return (EReference)rdEClass.getEStructuralFeatures().get(2);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EClass getED()
+  {
+    return edEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getED_Name()
+  {
+    return (EAttribute)edEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EReference getED_Type()
+  {
+    return (EReference)edEClass.getEStructuralFeatures().get(1);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EClass getUseETD()
+  {
+    return useETDEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EClass getUseETDRef()
+  {
+    return useETDRefEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EReference getUseETDRef_Ref()
+  {
+    return (EReference)useETDRefEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EClass getUseEntity()
+  {
+    return useEntityEClass;
   }
 
   /**
@@ -524,10 +560,10 @@ public class MegaLPackageImpl extends EPackageImpl implements MegaLPackage
     megaLDefinitionEClass = createEClass(MEGA_LDEFINITION);
     createEReference(megaLDefinitionEClass, MEGA_LDEFINITION__LINKER);
     createEReference(megaLDefinitionEClass, MEGA_LDEFINITION__IMPORTS);
-    createEReference(megaLDefinitionEClass, MEGA_LDEFINITION__RDS);
     createEReference(megaLDefinitionEClass, MEGA_LDEFINITION__ETDS);
     createEReference(megaLDefinitionEClass, MEGA_LDEFINITION__RTDS);
     createEReference(megaLDefinitionEClass, MEGA_LDEFINITION__EDS);
+    createEReference(megaLDefinitionEClass, MEGA_LDEFINITION__RDS);
 
     importEClass = createEClass(IMPORT);
     createEReference(importEClass, IMPORT__REF);
@@ -541,17 +577,21 @@ public class MegaLPackageImpl extends EPackageImpl implements MegaLPackage
     createEReference(rtdEClass, RTD__DOMAIN);
     createEReference(rtdEClass, RTD__CO_DOMAIN);
 
-    edGroupEClass = createEClass(ED_GROUP);
-    createEReference(edGroupEClass, ED_GROUP__TYPE);
-    createEReference(edGroupEClass, ED_GROUP__ITEMS);
-
-    edEClass = createEClass(ED);
-    createEAttribute(edEClass, ED__NAME);
-
     rdEClass = createEClass(RD);
     createEReference(rdEClass, RD__SOURCE);
     createEReference(rdEClass, RD__REL);
     createEReference(rdEClass, RD__TARGET);
+
+    edEClass = createEClass(ED);
+    createEAttribute(edEClass, ED__NAME);
+    createEReference(edEClass, ED__TYPE);
+
+    useETDEClass = createEClass(USE_ETD);
+
+    useETDRefEClass = createEClass(USE_ETD_REF);
+    createEReference(useETDRefEClass, USE_ETD_REF__REF);
+
+    useEntityEClass = createEClass(USE_ENTITY);
 
     megaLLinkingEClass = createEClass(MEGA_LLINKING);
     createEReference(megaLLinkingEClass, MEGA_LLINKING__TARGET);
@@ -592,6 +632,8 @@ public class MegaLPackageImpl extends EPackageImpl implements MegaLPackage
 
     // Add supertypes to classes
     megaLDefinitionEClass.getESuperTypes().add(this.getModel());
+    useETDRefEClass.getESuperTypes().add(this.getUseETD());
+    useEntityEClass.getESuperTypes().add(this.getUseETD());
     megaLLinkingEClass.getESuperTypes().add(this.getModel());
 
     // Initialize classes and features; add operations and parameters
@@ -601,34 +643,38 @@ public class MegaLPackageImpl extends EPackageImpl implements MegaLPackage
     initEClass(megaLDefinitionEClass, MegaLDefinition.class, "MegaLDefinition", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getMegaLDefinition_Linker(), this.getMegaLLinking(), null, "linker", null, 0, 1, MegaLDefinition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getMegaLDefinition_Imports(), this.getImport(), null, "imports", null, 0, -1, MegaLDefinition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getMegaLDefinition_Rds(), this.getRD(), null, "rds", null, 0, -1, MegaLDefinition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getMegaLDefinition_Etds(), this.getETD(), null, "etds", null, 0, -1, MegaLDefinition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getMegaLDefinition_Rtds(), this.getRTD(), null, "rtds", null, 0, -1, MegaLDefinition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getMegaLDefinition_Eds(), this.getEDGroup(), null, "eds", null, 0, -1, MegaLDefinition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getMegaLDefinition_Eds(), this.getED(), null, "eds", null, 0, -1, MegaLDefinition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getMegaLDefinition_Rds(), this.getRD(), null, "rds", null, 0, -1, MegaLDefinition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(importEClass, Import.class, "Import", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getImport_Ref(), this.getMegaLDefinition(), null, "ref", null, 0, 1, Import.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(etdEClass, org.softlang.megal.megaL.ETD.class, "ETD", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getETD_Name(), ecorePackage.getEString(), "name", null, 0, 1, org.softlang.megal.megaL.ETD.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getETD_Supertype(), this.getETD(), null, "supertype", null, 0, 1, org.softlang.megal.megaL.ETD.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getETD_Supertype(), this.getUseETD(), null, "supertype", null, 0, 1, org.softlang.megal.megaL.ETD.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(rtdEClass, org.softlang.megal.megaL.RTD.class, "RTD", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getRTD_Name(), ecorePackage.getEString(), "name", null, 0, 1, org.softlang.megal.megaL.RTD.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getRTD_Domain(), this.getETD(), null, "domain", null, 0, 1, org.softlang.megal.megaL.RTD.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getRTD_CoDomain(), this.getETD(), null, "coDomain", null, 0, 1, org.softlang.megal.megaL.RTD.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-    initEClass(edGroupEClass, EDGroup.class, "EDGroup", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEReference(getEDGroup_Type(), this.getETD(), null, "type", null, 0, 1, EDGroup.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getEDGroup_Items(), this.getED(), null, "items", null, 0, -1, EDGroup.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-    initEClass(edEClass, org.softlang.megal.megaL.ED.class, "ED", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEAttribute(getED_Name(), ecorePackage.getEString(), "name", null, 0, 1, org.softlang.megal.megaL.ED.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getRTD_Domain(), this.getUseETD(), null, "domain", null, 0, 1, org.softlang.megal.megaL.RTD.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getRTD_CoDomain(), this.getUseETD(), null, "coDomain", null, 0, 1, org.softlang.megal.megaL.RTD.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(rdEClass, org.softlang.megal.megaL.RD.class, "RD", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getRD_Source(), this.getED(), null, "source", null, 0, 1, org.softlang.megal.megaL.RD.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getRD_Rel(), this.getRTD(), null, "rel", null, 0, 1, org.softlang.megal.megaL.RD.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getRD_Target(), this.getED(), null, "target", null, 0, 1, org.softlang.megal.megaL.RD.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+    initEClass(edEClass, org.softlang.megal.megaL.ED.class, "ED", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEAttribute(getED_Name(), ecorePackage.getEString(), "name", null, 0, 1, org.softlang.megal.megaL.ED.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getED_Type(), this.getUseETD(), null, "type", null, 0, 1, org.softlang.megal.megaL.ED.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+    initEClass(useETDEClass, UseETD.class, "UseETD", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+    initEClass(useETDRefEClass, UseETDRef.class, "UseETDRef", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEReference(getUseETDRef_Ref(), this.getETD(), null, "ref", null, 0, 1, UseETDRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+    initEClass(useEntityEClass, UseEntity.class, "UseEntity", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
     initEClass(megaLLinkingEClass, MegaLLinking.class, "MegaLLinking", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getMegaLLinking_Target(), this.getMegaLDefinition(), null, "target", null, 0, 1, MegaLLinking.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

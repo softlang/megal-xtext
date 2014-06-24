@@ -14,7 +14,6 @@ import org.eclipse.xtext.serializer.sequencer.ISemanticSequencer;
 import org.eclipse.xtext.serializer.sequencer.ITransientValueService;
 import org.eclipse.xtext.serializer.sequencer.ITransientValueService.ValueTransient;
 import org.softlang.megal.megaL.ED;
-import org.softlang.megal.megaL.EDGroup;
 import org.softlang.megal.megaL.ETD;
 import org.softlang.megal.megaL.Import;
 import org.softlang.megal.megaL.LD;
@@ -23,6 +22,8 @@ import org.softlang.megal.megaL.MegaLLinking;
 import org.softlang.megal.megaL.MegaLPackage;
 import org.softlang.megal.megaL.RD;
 import org.softlang.megal.megaL.RTD;
+import org.softlang.megal.megaL.UseETDRef;
+import org.softlang.megal.megaL.UseEntity;
 import org.softlang.megal.services.MegaLGrammarAccess;
 
 @SuppressWarnings("all")
@@ -36,12 +37,6 @@ public class MegaLSemanticSequencer extends AbstractDelegatingSemanticSequencer 
 			case MegaLPackage.ED:
 				if(context == grammarAccess.getEDRule()) {
 					sequence_ED(context, (ED) semanticObject); 
-					return; 
-				}
-				else break;
-			case MegaLPackage.ED_GROUP:
-				if(context == grammarAccess.getEDGroupRule()) {
-					sequence_EDGroup(context, (EDGroup) semanticObject); 
 					return; 
 				}
 				else break;
@@ -89,41 +84,59 @@ public class MegaLSemanticSequencer extends AbstractDelegatingSemanticSequencer 
 					return; 
 				}
 				else break;
+			case MegaLPackage.USE_ETD_REF:
+				if(context == grammarAccess.getUseETDRule() ||
+				   context == grammarAccess.getUseETDRefRule()) {
+					sequence_UseETDRef(context, (UseETDRef) semanticObject); 
+					return; 
+				}
+				else break;
+			case MegaLPackage.USE_ENTITY:
+				if(context == grammarAccess.getUseETDRule() ||
+				   context == grammarAccess.getUseEntityRule()) {
+					sequence_UseEntity(context, (UseEntity) semanticObject); 
+					return; 
+				}
+				else break;
 			}
 		if (errorAcceptor != null) errorAcceptor.accept(diagnosticProvider.createInvalidContextOrTypeDiagnostic(semanticObject, context));
 	}
 	
 	/**
 	 * Constraint:
-	 *     (type=[ETD|ID] items+=ED items+=ED*)
-	 */
-	protected void sequence_EDGroup(EObject context, EDGroup semanticObject) {
-		genericSequencer.createSequence(context, semanticObject);
-	}
-	
-	
-	/**
-	 * Constraint:
-	 *     name=ID
+	 *     (name=ID type=UseETD)
 	 */
 	protected void sequence_ED(EObject context, ED semanticObject) {
 		if(errorAcceptor != null) {
 			if(transientValues.isValueTransient(semanticObject, MegaLPackage.Literals.ED__NAME) == ValueTransient.YES)
 				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, MegaLPackage.Literals.ED__NAME));
+			if(transientValues.isValueTransient(semanticObject, MegaLPackage.Literals.ED__TYPE) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, MegaLPackage.Literals.ED__TYPE));
 		}
 		INodesForEObjectProvider nodes = createNodeProvider(semanticObject);
 		SequenceFeeder feeder = createSequencerFeeder(semanticObject, nodes);
-		feeder.accept(grammarAccess.getEDAccess().getNameIDTerminalRuleCall_0(), semanticObject.getName());
+		feeder.accept(grammarAccess.getEDAccess().getNameIDTerminalRuleCall_0_0(), semanticObject.getName());
+		feeder.accept(grammarAccess.getEDAccess().getTypeUseETDParserRuleCall_2_0(), semanticObject.getType());
 		feeder.finish();
 	}
 	
 	
 	/**
 	 * Constraint:
-	 *     (name=ID supertype=[ETD|ID]?)
+	 *     (name=ID supertype=UseETD)
 	 */
 	protected void sequence_ETD(EObject context, ETD semanticObject) {
-		genericSequencer.createSequence(context, semanticObject);
+		if(errorAcceptor != null) {
+			if(transientValues.isValueTransient(semanticObject, MegaLPackage.Literals.ETD__NAME) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, MegaLPackage.Literals.ETD__NAME));
+			if(transientValues.isValueTransient(semanticObject, MegaLPackage.Literals.ETD__SUPERTYPE) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, MegaLPackage.Literals.ETD__SUPERTYPE));
+		}
+		INodesForEObjectProvider nodes = createNodeProvider(semanticObject);
+		SequenceFeeder feeder = createSequencerFeeder(semanticObject, nodes);
+		feeder.accept(grammarAccess.getETDAccess().getNameIDTerminalRuleCall_0_0(), semanticObject.getName());
+		feeder.accept(grammarAccess.getETDAccess().getSupertypeUseETDParserRuleCall_2_0(), semanticObject.getSupertype());
+		feeder.finish();
 	}
 	
 	
@@ -164,7 +177,7 @@ public class MegaLSemanticSequencer extends AbstractDelegatingSemanticSequencer 
 	
 	/**
 	 * Constraint:
-	 *     (name=QualifiedID linker=[MegaLLinking|QualifiedID]? (imports+=Import | rds+=RD | etds+=ETD | rtds+=RTD | eds+=EDGroup)*)
+	 *     (name=QualifiedID linker=[MegaLLinking|QualifiedID]? (imports+=Import | etds+=ETD | rtds+=RTD | eds+=ED | rds+=RD)*)
 	 */
 	protected void sequence_MegaLDefinition(EObject context, MegaLDefinition semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -204,7 +217,7 @@ public class MegaLSemanticSequencer extends AbstractDelegatingSemanticSequencer 
 	
 	/**
 	 * Constraint:
-	 *     (name=ID domain=[ETD|ID] coDomain=[ETD|ID])
+	 *     (name=ID domain=UseETD coDomain=UseETD)
 	 */
 	protected void sequence_RTD(EObject context, RTD semanticObject) {
 		if(errorAcceptor != null) {
@@ -217,9 +230,34 @@ public class MegaLSemanticSequencer extends AbstractDelegatingSemanticSequencer 
 		}
 		INodesForEObjectProvider nodes = createNodeProvider(semanticObject);
 		SequenceFeeder feeder = createSequencerFeeder(semanticObject, nodes);
-		feeder.accept(grammarAccess.getRTDAccess().getNameIDTerminalRuleCall_1_0(), semanticObject.getName());
-		feeder.accept(grammarAccess.getRTDAccess().getDomainETDIDTerminalRuleCall_3_0_1(), semanticObject.getDomain());
-		feeder.accept(grammarAccess.getRTDAccess().getCoDomainETDIDTerminalRuleCall_5_0_1(), semanticObject.getCoDomain());
+		feeder.accept(grammarAccess.getRTDAccess().getNameIDTerminalRuleCall_0_0(), semanticObject.getName());
+		feeder.accept(grammarAccess.getRTDAccess().getDomainUseETDParserRuleCall_2_0(), semanticObject.getDomain());
+		feeder.accept(grammarAccess.getRTDAccess().getCoDomainUseETDParserRuleCall_4_0(), semanticObject.getCoDomain());
 		feeder.finish();
+	}
+	
+	
+	/**
+	 * Constraint:
+	 *     ref=[ETD|ID]
+	 */
+	protected void sequence_UseETDRef(EObject context, UseETDRef semanticObject) {
+		if(errorAcceptor != null) {
+			if(transientValues.isValueTransient(semanticObject, MegaLPackage.Literals.USE_ETD_REF__REF) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, MegaLPackage.Literals.USE_ETD_REF__REF));
+		}
+		INodesForEObjectProvider nodes = createNodeProvider(semanticObject);
+		SequenceFeeder feeder = createSequencerFeeder(semanticObject, nodes);
+		feeder.accept(grammarAccess.getUseETDRefAccess().getRefETDIDTerminalRuleCall_0_1(), semanticObject.getRef());
+		feeder.finish();
+	}
+	
+	
+	/**
+	 * Constraint:
+	 *     {UseEntity}
+	 */
+	protected void sequence_UseEntity(EObject context, UseEntity semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
 	}
 }

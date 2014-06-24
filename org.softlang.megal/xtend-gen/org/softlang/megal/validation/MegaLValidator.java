@@ -10,11 +10,12 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.validation.Check;
 import org.eclipse.xtext.xbase.lib.Functions.Function1;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
+import org.softlang.megal.calculation.Calculation;
 import org.softlang.megal.megaL.ED;
-import org.softlang.megal.megaL.EDGroup;
 import org.softlang.megal.megaL.ETD;
 import org.softlang.megal.megaL.LD;
 import org.softlang.megal.megaL.MegaLDefinition;
@@ -22,6 +23,7 @@ import org.softlang.megal.megaL.MegaLLinking;
 import org.softlang.megal.megaL.MegaLPackage;
 import org.softlang.megal.megaL.RD;
 import org.softlang.megal.megaL.RTD;
+import org.softlang.megal.megaL.UseETD;
 import org.softlang.megal.semantics.Diagnostic;
 import org.softlang.megal.semantics.EntitySemantics;
 import org.softlang.megal.semantics.MegaLRegistry;
@@ -130,16 +132,33 @@ public class MegaLValidator extends AbstractMegaLValidator {
   }
   
   @Check
+  public void checkIsLinked(final ED e) {
+    EObject _eContainer = e.eContainer();
+    final MegaLDefinition m = ((MegaLDefinition) _eContainer);
+    MegaLLinking _linker = m.getLinker();
+    EList<LD> _lds = _linker.getLds();
+    final Function1<LD, Boolean> _function = new Function1<LD, Boolean>() {
+      public Boolean apply(final LD l) {
+        ED _target = l.getTarget();
+        return Boolean.valueOf(EcoreUtil.equals(_target, e));
+      }
+    };
+    boolean _exists = IterableExtensions.<LD>exists(_lds, _function);
+    boolean _not = (!_exists);
+    if (_not) {
+      this.warning("Unlinked entity", MegaLPackage.Literals.ED__NAME);
+    }
+  }
+  
+  @Check
   public void checkEntity(final ED e) {
     final MegaLValidator.DiagnosticWrapper d = new MegaLValidator.DiagnosticWrapper(this, e, MegaLPackage.Literals.ED__NAME);
     EObject _eContainer = e.eContainer();
-    final EDGroup g = ((EDGroup) _eContainer);
-    EObject _eContainer_1 = g.eContainer();
-    final MegaLDefinition m = ((MegaLDefinition) _eContainer_1);
+    final MegaLDefinition m = ((MegaLDefinition) _eContainer);
     MegaLRegistry _instance = MegaLRegistry.getInstance();
     Map<String, EntitySemantics> _hardEntitytypes = _instance.getHardEntitytypes();
-    ETD _type = g.getType();
-    String _name = _type.getName();
+    UseETD _type = e.getType();
+    String _name = Calculation.getName(_type);
     final EntitySemantics s = _hardEntitytypes.get(_name);
     MegaLLinking _linker = m.getLinker();
     EList<LD> _lds = _linker.getLds();
@@ -192,6 +211,42 @@ public class MegaLValidator extends AbstractMegaLValidator {
     boolean _notEquals = (!Objects.equal(s, null));
     if (_notEquals) {
       s.validate(d, r, ls, lt);
+    }
+  }
+  
+  @Check
+  public void checkRelationApplicable(final RD r) {
+    final Optional<RTD> a = Calculation.getAppliedRTD(r);
+    boolean _isPresent = a.isPresent();
+    if (_isPresent) {
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("Applied overload from ");
+      RTD _get = a.get();
+      UseETD _domain = _get.getDomain();
+      String _name = Calculation.getName(_domain);
+      _builder.append(_name, "");
+      _builder.append(" to ");
+      RTD _get_1 = a.get();
+      UseETD _coDomain = _get_1.getCoDomain();
+      String _name_1 = Calculation.getName(_coDomain);
+      _builder.append(_name_1, "");
+      this.info(_builder.toString(), 
+        MegaLPackage.Literals.RD__REL);
+    } else {
+      StringConcatenation _builder_1 = new StringConcatenation();
+      _builder_1.append("There is no applicable overload matching ");
+      ED _source = r.getSource();
+      UseETD _type = _source.getType();
+      String _name_2 = Calculation.getName(_type);
+      _builder_1.append(_name_2, "");
+      _builder_1.append(" to ");
+      ED _target = r.getTarget();
+      UseETD _type_1 = _target.getType();
+      String _name_3 = Calculation.getName(_type_1);
+      _builder_1.append(_name_3, "");
+      _builder_1.append(" ");
+      this.error(_builder_1.toString(), 
+        MegaLPackage.Literals.RD__REL);
     }
   }
 }
