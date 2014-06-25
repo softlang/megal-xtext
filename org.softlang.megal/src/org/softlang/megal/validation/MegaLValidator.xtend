@@ -59,9 +59,9 @@ class MegaLValidator extends AbstractMegaLValidator {
 		val c = e.eResource.getContextOrCreate[|SemanticsRegistry.INSTANCE.contextInstance]
 
 		if (c.softEntitySemantics.contains(e.name))
-			info('Soft implementation for ' + e.name, MegaLPackage.Literals.ETD__NAME)
+			info('Soft implementation for ' + e.name, MegaLPackage.Literals.NAMED_DEFINITION__NAME)
 		else if (!c.hardEntitySemantics.containsKey(e.name))
-			error('No implementation for ' + e.name, MegaLPackage.Literals.ETD__NAME)
+			error('No implementation for ' + e.name, MegaLPackage.Literals.NAMED_DEFINITION__NAME)
 	}
 
 	@Check
@@ -69,9 +69,9 @@ class MegaLValidator extends AbstractMegaLValidator {
 		val c = r.eResource.getContextOrCreate[|SemanticsRegistry.INSTANCE.contextInstance]
 
 		if (c.softRelationSemantics.contains(r.name))
-			info('Soft implementation for ' + r.name, MegaLPackage.Literals.RTD__NAME)
+			info('Soft implementation for ' + r.name, MegaLPackage.Literals.NAMED_DEFINITION__NAME)
 		else if (!c.hardRelationSemantics.containsKey(r.name))
-			error('No implementation for ' + r.name, MegaLPackage.Literals.RTD__NAME)
+			error('No implementation for ' + r.name, MegaLPackage.Literals.NAMED_DEFINITION__NAME)
 	}
 
 	@Check
@@ -97,14 +97,14 @@ class MegaLValidator extends AbstractMegaLValidator {
 		val m = e.eContainer as MegaLDefinition
 
 		if (!m.linker.lds.exists[l|EcoreUtil.equals(l.target, e)])
-			warning('Unlinked entity', MegaLPackage.Literals.ED__NAME)
+			warning('Unlinked entity', MegaLPackage.Literals.NAMED_DEFINITION__NAME)
 	}
 
 	@Check
 	def checkEntity(ED e) {
 		val c = e.eResource.getContextOrCreate[|SemanticsRegistry.INSTANCE.contextInstance]
 
-		val d = new MegaLValidator.DiagnosticWrapper(this, e, MegaLPackage.Literals.ED__NAME)
+		val d = new MegaLValidator.DiagnosticWrapper(this, e, MegaLPackage.Literals.NAMED_DEFINITION__NAME)
 
 		val m = e.eContainer as MegaLDefinition
 		val s = c.hardEntitySemantics.get(e.type.name)

@@ -14,6 +14,9 @@ MegaLDefinition:
 Import:
 	'import' ref=[MegaLDefinition];
 
+NamedDefinition:
+	ETD | RTD | ED;
+
 ETD:
 	annotations+=Annotation* name=ID '<' supertype=UseETD;
 
