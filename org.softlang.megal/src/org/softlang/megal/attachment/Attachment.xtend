@@ -3,6 +3,7 @@ package org.softlang.megal.attachment
 import java.util.WeakHashMap
 import org.softlang.megal.semantics.Context
 import com.google.common.base.Supplier
+import org.eclipse.emf.ecore.resource.Resource
 
 class Attachment {
 	val static contexts = new WeakHashMap<Object, Context>
@@ -11,7 +12,7 @@ class Attachment {
 		contexts.get(of)
 	}
 
-	def static getContextOrCreate(Object of, Supplier<Context> sc) {
+	def static getContextOrCreate(Resource of, Supplier<Context> sc) {
 		if (contexts.containsKey(of))
 			return contexts.get(of)
 
@@ -20,7 +21,7 @@ class Attachment {
 		return r
 	}
 
-	def static setContext(Object of, Context c) {
+	def static setContext(Resource of, Context c) {
 		contexts.put(of, c)
 	}
 }
