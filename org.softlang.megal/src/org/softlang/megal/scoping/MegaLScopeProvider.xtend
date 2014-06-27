@@ -19,7 +19,6 @@ import org.softlang.megal.megaL.MegaLLinking
  */
 class MegaLScopeProvider extends AbstractDeclarativeScopeProvider {
 	def scope_MegaLDefinition(MegaLDefinition d, EReference er) {
-
 	}
 
 	def scope_ETD(MegaLDefinition d, EReference er) {

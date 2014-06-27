@@ -2,8 +2,10 @@
  */
 package org.softlang.megal.pp.impl;
 
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
@@ -65,6 +67,13 @@ public class PPPackageImpl extends EPackageImpl implements PPPackage {
 	 * @generated
 	 */
 	private EClass typeEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EDataType euriEDataType = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -258,6 +267,33 @@ public class PPPackageImpl extends EPackageImpl implements PPPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getRootPackage_Source() {
+		return (EAttribute)rootPackageEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getRootPackage_Name() {
+		return (EAttribute)rootPackageEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getRootPackage_Base() {
+		return (EAttribute)rootPackageEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getType() {
 		return typeEClass;
 	}
@@ -278,6 +314,15 @@ public class PPPackageImpl extends EPackageImpl implements PPPackage {
 	 */
 	public EReference getType_Arguments() {
 		return (EReference)typeEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EDataType getEURI() {
+		return euriEDataType;
 	}
 
 	/**
@@ -326,10 +371,16 @@ public class PPPackageImpl extends EPackageImpl implements PPPackage {
 		createEReference(genericEClass, GENERIC__BOUNDS);
 
 		rootPackageEClass = createEClass(ROOT_PACKAGE);
+		createEAttribute(rootPackageEClass, ROOT_PACKAGE__SOURCE);
+		createEAttribute(rootPackageEClass, ROOT_PACKAGE__NAME);
+		createEAttribute(rootPackageEClass, ROOT_PACKAGE__BASE);
 
 		typeEClass = createEClass(TYPE);
 		createEAttribute(typeEClass, TYPE__VALUE);
 		createEReference(typeEClass, TYPE__ARGUMENTS);
+
+		// Create data types
+		euriEDataType = createEDataType(EURI);
 	}
 
 	/**
@@ -383,10 +434,16 @@ public class PPPackageImpl extends EPackageImpl implements PPPackage {
 		initEReference(getGeneric_Bounds(), this.getType(), null, "bounds", null, 0, -1, Generic.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(rootPackageEClass, RootPackage.class, "RootPackage", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getRootPackage_Source(), this.getEURI(), "source", null, 1, 1, RootPackage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getRootPackage_Name(), ecorePackage.getEString(), "name", null, 1, 1, RootPackage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getRootPackage_Base(), ecorePackage.getEString(), "base", null, 1, 1, RootPackage.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 
 		initEClass(typeEClass, Type.class, "Type", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getType_Value(), ecorePackage.getEString(), "value", null, 1, 1, Type.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getType_Arguments(), this.getType(), null, "arguments", null, 0, -1, Type.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		// Initialize data types
+		initEDataType(euriEDataType, URI.class, "EURI", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
 
 		// Create resource
 		createResource(eNS_URI);

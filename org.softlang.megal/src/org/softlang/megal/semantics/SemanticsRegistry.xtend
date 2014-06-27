@@ -1,16 +1,11 @@
 package org.softlang.megal.semantics
 
-import com.google.common.base.Optional
-import java.util.Collections
+import java.util.Map
+import java.util.Set
 import org.eclipse.core.runtime.IExtension
 import org.eclipse.core.runtime.IExtensionPoint
 import org.eclipse.core.runtime.IRegistryEventListener
 import org.eclipse.core.runtime.RegistryFactory
-import org.softlang.megal.megaL.ED
-import org.softlang.megal.megaL.LD
-import org.softlang.megal.megaL.RD
-import java.util.Set
-import java.util.Map
 
 class SemanticsRegistry {
 
@@ -39,7 +34,7 @@ class SemanticsRegistry {
 		RegistryFactory.registry.getExtensionPoint(ENTITYTYPE).extensions.forEach[addExtension]
 
 		// Listen to changing extensions
-		val listener = new Listener(this)
+		val listener = new SemanticsRegistry.Listener(this)
 
 		RegistryFactory.registry.addListener(listener, RELATIONTYPE)
 		RegistryFactory.registry.addListener(listener, ENTITYTYPE)

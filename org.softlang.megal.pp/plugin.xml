@@ -20,5 +20,12 @@
             type="jar">
       </parser>
    </extension>
+   <extension
+         point="org.eclipse.xtext.extension_resourceServiceProvider">
+      <resourceServiceProvider
+            class="org.softlang.megal.pp.jar.JarResourceServiceProvider"
+            uriExtension="jar">
+      </resourceServiceProvider>
+   </extension>
 
 </plugin>

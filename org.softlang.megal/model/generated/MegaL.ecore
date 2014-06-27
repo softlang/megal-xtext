@@ -57,8 +57,23 @@
   <eClassifiers xsi:type="ecore:EClass" name="UseEntity" eSuperTypes="#//UseETD"/>
   <eClassifiers xsi:type="ecore:EClass" name="MegaLLinking" eSuperTypes="#//Model">
     <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#//MegaLDefinition"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="withs" upperBound="-1"
+        eType="#//With" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="eco" upperBound="-1" eType="#//Eco"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="providers" upperBound="-1"
+        eType="#//Provider" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="lds" upperBound="-1" eType="#//LD"
         containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="With">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="package" eType="ecore:EClass platform:/resource/org.softlang.megal.pp/src/PP.ecore#//RootPackage"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Eco">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="e" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EClassifier"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Provider">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="classifier" eType="ecore:EClass platform:/resource/org.softlang.megal.pp/src/PP.ecore#//Classifier"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="LD">
     <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#//ED"/>
