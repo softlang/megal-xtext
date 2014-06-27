@@ -1,0 +1,22 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %pluginName
+Bundle-SymbolicName: org.softlang.megal.pp;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-ClassPath: .,
+ libs/jcl-core-2.6-SNAPSHOT.jar
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Export-Package: org.softlang.megal.pp,
+ org.softlang.megal.pp.general,
+ org.softlang.megal.pp.impl,
+ org.softlang.megal.pp.jar,
+ org.softlang.megal.pp.util
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.emf.ecore;visibility:=reexport,
+ com.google.guava,
+ org.eclipse.xtend.lib,
+ org.eclipse.xtext.xbase.lib
+Bundle-ActivationPolicy: lazy
+
