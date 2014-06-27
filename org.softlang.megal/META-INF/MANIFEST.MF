@@ -36,6 +36,4 @@ Export-Package: org.softlang.megal.semantics,
  org.softlang.megal.scoping,
  org.softlang.megal.generator,
  org.softlang.megal.formatting
-Bundle-ClassPath: .,
- libs/jcl-core-2.6-SNAPSHOT.jar,
- libs/reflections-0.9.9-RC1-uberjar.jar
+Bundle-ClassPath: .
