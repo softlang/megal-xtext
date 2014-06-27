@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<description:Group xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:description="http://www.eclipse.org/sirius/description/1.1.0" xmlns:description_1="http://www.eclipse.org/sirius/diagram/description/1.1.0" xmlns:style="http://www.eclipse.org/sirius/diagram/description/style/1.1.0" name="MegaL" version="8.1.0">
+  <ownedViewpoints name="MegalInstance" modelFileExtension="megal">
+    <ownedRepresentations xsi:type="description_1:DiagramDescription" name="MegalModel" domainClass="megaL.MegaLDefinition">
+      <defaultLayer name="Default">
+        <nodeMappings xsi:type="description_1:NodeMappingImport" name="Entity" domainClass="megaL.ED">
+          <style xsi:type="style:SquareDescription" labelSize="10" showIcon="false" labelExpression="[name + ' : ' + self.getTypeName()/]" labelPosition="node" resizeKind="NSEW" width="13" height="7" color="//@userColorsPalettes[name='MegalColors']/@entries[name='EntityTypeColor']">
+            <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+          </style>
+        </nodeMappings>
+        <edgeMappings name="Relation" sourceMapping="//@ownedViewpoints[name='MegalInstance']/@ownedRepresentations[name='MegalModel']/@defaultLayer/@nodeMappings[name='Entity']" targetMapping="//@ownedViewpoints[name='MegalInstance']/@ownedRepresentations[name='MegalModel']/@defaultLayer/@nodeMappings[name='Entity']" targetFinderExpression="[target/]" sourceFinderExpression="[source/]" domainClass="megaL.RD" useDomainElement="true">
+          <style sizeComputationExpression="2">
+            <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
+            <centerLabelStyleDescription labelSize="10" showIcon="false" labelExpression="[rel.name/]">
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            </centerLabelStyleDescription>
+          </style>
+        </edgeMappings>
+        <customization>
+          <vsmElementCustomizations xsi:type="description:VSMElementCustomization" predicateExpression="[self.oclIsTypeOf(RD)/]">
+            <featureCustomizations xsi:type="description:EAttributeCustomization" appliedOn="//@ownedViewpoints[name='MegalInstance']/@ownedRepresentations[name='MegalModel']/@defaultLayer/@edgeMappings[name='Relation']/@style" attributeName="lineStyle" value="[self.oclAsType(RD).getLineStyle()/]"/>
+          </vsmElementCustomizations>
+        </customization>
+      </defaultLayer>
+    </ownedRepresentations>
+    <ownedJavaExtensions qualifiedClassName="org.softlang.megal.sirius.EObjectServices"/>
+  </ownedViewpoints>
+  <userColorsPalettes name="MegalColors">
+    <entries xsi:type="description:ComputedColor" name="EntityTypeColor" red="[self.oclAsType(ED).getEntityRed()/]" green="[self.oclAsType(ED).getEntityGreen()/]" blue="[self.oclAsType(ED).getEntityBlue()/]"/>
+  </userColorsPalettes>
+</description:Group>
