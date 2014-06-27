@@ -11,6 +11,7 @@ import org.softlang.megal.megaL.UseEntity;
 
 public class EObjectServices
 {
+	//TODO: Add method getting all accessible types and add type diagram.
 
 	private static final String COLOR = "color";
 
@@ -20,17 +21,17 @@ public class EObjectServices
 
 	private static final String[] STYLES = new String[] { "solid", "dash", "dot", "dash_dot" };
 
-	private static final Integer COLOR_ENTITY_RED = 100;
+	private static final Integer COLOR_ENTITY_RED = 230;
 
-	private static final Integer COLOR_ENTITY_GREEN = 100;
+	private static final Integer COLOR_ENTITY_GREEN = 230;
 
-	private static final Integer COLOR_ENTITY_BLUE = 100;
+	private static final Integer COLOR_ENTITY_BLUE = 250;
 
-	private static final Integer COLOR_DEFAULT_RED = 140;
+	private static final Integer COLOR_DEFAULT_RED = 253;
 
-	private static final Integer COLOR_DEFAULT_GREEN = 140;
+	private static final Integer COLOR_DEFAULT_GREEN = 245;
 
-	private static final Integer COLOR_DEFAULT_BLUE = 140;
+	private static final Integer COLOR_DEFAULT_BLUE = 230;
 
 	/**
 	 * Get the line style of the relation. Called by sirius vsm.
