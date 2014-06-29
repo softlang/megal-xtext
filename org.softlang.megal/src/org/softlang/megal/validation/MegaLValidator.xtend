@@ -128,12 +128,12 @@ class MegaLValidator extends AbstractMegaLValidator {
 		val d = new MegaLValidator.DiagnosticWrapper(this, r, MegaLPackage.Literals.RD__REL)
 
 		val m = r.eContainer as MegaLDefinition
-		val s = c.hardRelationSemantics.get(r.rel.name)
+		val s = c.getHardRelationSemantics(r.rel)
 		val ls = Optional.fromNullable(m.linker.lds.findFirst[l|EcoreUtil.equals(l.target, r.source)])
 		val lt = Optional.fromNullable(m.linker.lds.findFirst[l|EcoreUtil.equals(l.target, r.target)])
 
 		if (s != null)
-			s.validate(d, r, ls, lt)
+			s.value.validate(d, r, ls, lt)
 	}
 
 	@Check

@@ -15,6 +15,7 @@ import org.softlang.megal.megaL.UseETDRef
 import org.softlang.megal.megaL.UseEntity
 
 import static extension org.softlang.megal.operators.Operators.*
+import java.util.List
 
 class Calculation {
 	def static tryResolveJar(Jar i) {
@@ -117,6 +118,14 @@ class Calculation {
 		a.ref.name
 	}
 
+	def static dispatch getSupertype(UseETDRef e) {
+		e.ref.supertype
+	}
+
+	def static dispatch getSupertype(UseEntity e) {
+		null
+	}
+
 	def static getHierarchy(UseETD e) {
 		val h = newArrayList
 		var x = e
@@ -147,7 +156,11 @@ class Calculation {
 			val retd = p.last as UseETD
 			// Map to their items
 			return r.filter[domain <=> letd && coDomain <=> retd]
-		].flatten.toList.sort [ a, b |
+		].flatten.toList.sortByStrength
+	}
+
+	def static sortByStrength(List<RTD> rtd) {
+		return rtd.sort [ a, b |
 			val ds = a.domain.isSupertypeOf(b.domain)
 			val cs = a.coDomain.isSupertypeOf(b.coDomain)
 			if (ds && cs)

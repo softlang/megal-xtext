@@ -6,10 +6,13 @@ import org.eclipse.core.runtime.IExtension
 import org.eclipse.core.runtime.IExtensionPoint
 import org.eclipse.core.runtime.IRegistryEventListener
 import org.eclipse.core.runtime.RegistryFactory
+import java.util.List
 
 class SemanticsRegistry {
 
 	val static NAME = 'name'
+	val static SOURCE = 'source'
+	val static TARGET = 'target'
 	val static SEMANTICS = 'semantics'
 	val static ENTITYTYPE = 'org.softlang.entitytype'
 	val static RELATIONTYPE = 'org.softlang.relationtype'
@@ -17,9 +20,9 @@ class SemanticsRegistry {
 	var static public SemanticsRegistry INSTANCE = new SemanticsRegistry
 
 	val Set<String> softEntitySemantics
-	val Set<String> softRelationSemantics
+	val Set<List<String>> softRelationSemantics
 	val Map<String, EntitySemantics> hardEntitySemantics
-	val Map<String, RelationSemantics> hardRelationSemantics
+	val Map<List<String>, RelationSemantics> hardRelationSemantics
 
 	private new() {
 
@@ -86,12 +89,16 @@ class SemanticsRegistry {
 	}
 
 	private def addRelationtype(IExtension e) {
-		for (c : e.configurationElements)
+		for (c : e.configurationElements) {
+			val s = c.getAttribute(SOURCE)
+			val n = c.getAttribute(NAME)
+			val t = c.getAttribute(TARGET)
+
 			if (c.getAttribute(SEMANTICS) == null)
-				softRelationSemantics += c.getAttribute(NAME)
+				softRelationSemantics.add(#[s, n, t])
 			else
-				hardRelationSemantics.put(c.getAttribute(NAME),
-					c.createExecutableExtension(SEMANTICS) as RelationSemantics)
+				hardRelationSemantics.put(#[s, n, t], c.createExecutableExtension(SEMANTICS) as RelationSemantics)
+		}
 	}
 
 	private def addEntitytype(IExtension e) {
@@ -115,11 +122,15 @@ class SemanticsRegistry {
 	}
 
 	private def removeRelationtype(IExtension e) {
-		for (c : e.configurationElements)
+		for (c : e.configurationElements) {
+			val s = c.getAttribute(SOURCE)
+			val n = c.getAttribute(NAME)
+			val t = c.getAttribute(TARGET)
 			if (c.getAttribute(SEMANTICS) == null)
-				softRelationSemantics -= c.getAttribute(NAME)
+				softRelationSemantics.remove(#[s, n, t])
 			else
-				hardRelationSemantics.remove(c.getAttribute(NAME))
+				hardRelationSemantics.remove(#[s, n, t])
+		}
 	}
 
 	private def removeEntitytype(IExtension e) {
