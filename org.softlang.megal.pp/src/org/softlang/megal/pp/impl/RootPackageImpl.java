@@ -2,10 +2,13 @@
  */
 package org.softlang.megal.pp.impl;
 
+import java.util.Collection;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
 import org.softlang.megal.pp.Node;
 import org.softlang.megal.pp.PPPackage;
 import org.softlang.megal.pp.RootPackage;
@@ -20,6 +23,7 @@ import org.softlang.megal.pp.Package;
  *   <li>{@link org.softlang.megal.pp.impl.RootPackageImpl#getSource <em>Source</em>}</li>
  *   <li>{@link org.softlang.megal.pp.impl.RootPackageImpl#getName <em>Name</em>}</li>
  *   <li>{@link org.softlang.megal.pp.impl.RootPackageImpl#getBase <em>Base</em>}</li>
+ *   <li>{@link org.softlang.megal.pp.impl.RootPackageImpl#getNoClassDefs <em>No Class Defs</em>}</li>
  * </ul>
  * </p>
  *
@@ -67,6 +71,16 @@ public class RootPackageImpl extends NodeImpl implements RootPackage {
 	 * @ordered
 	 */
 	protected static final String BASE_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getNoClassDefs() <em>No Class Defs</em>}' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getNoClassDefs()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<String> noClassDefs;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -149,6 +163,18 @@ public class RootPackageImpl extends NodeImpl implements RootPackage {
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<String> getNoClassDefs() {
+		if (noClassDefs == null) {
+			noClassDefs = new EDataTypeUniqueEList<String>(String.class, this, PPPackage.ROOT_PACKAGE__NO_CLASS_DEFS);
+		}
+		return noClassDefs;
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -161,6 +187,8 @@ public class RootPackageImpl extends NodeImpl implements RootPackage {
 				return getName();
 			case PPPackage.ROOT_PACKAGE__BASE:
 				return getBase();
+			case PPPackage.ROOT_PACKAGE__NO_CLASS_DEFS:
+				return getNoClassDefs();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -169,6 +197,7 @@ public class RootPackageImpl extends NodeImpl implements RootPackage {
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
@@ -177,6 +206,10 @@ public class RootPackageImpl extends NodeImpl implements RootPackage {
 				return;
 			case PPPackage.ROOT_PACKAGE__NAME:
 				setName((String)newValue);
+				return;
+			case PPPackage.ROOT_PACKAGE__NO_CLASS_DEFS:
+				getNoClassDefs().clear();
+				getNoClassDefs().addAll((Collection<? extends String>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -195,6 +228,9 @@ public class RootPackageImpl extends NodeImpl implements RootPackage {
 			case PPPackage.ROOT_PACKAGE__NAME:
 				setName(NAME_EDEFAULT);
 				return;
+			case PPPackage.ROOT_PACKAGE__NO_CLASS_DEFS:
+				getNoClassDefs().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -212,6 +248,8 @@ public class RootPackageImpl extends NodeImpl implements RootPackage {
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 			case PPPackage.ROOT_PACKAGE__BASE:
 				return BASE_EDEFAULT == null ? getBase() != null : !BASE_EDEFAULT.equals(getBase());
+			case PPPackage.ROOT_PACKAGE__NO_CLASS_DEFS:
+				return noClassDefs != null && !noClassDefs.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
@@ -229,6 +267,8 @@ public class RootPackageImpl extends NodeImpl implements RootPackage {
 		result.append(source);
 		result.append(", name: ");
 		result.append(name);
+		result.append(", noClassDefs: ");
+		result.append(noClassDefs);
 		result.append(')');
 		return result.toString();
 	}

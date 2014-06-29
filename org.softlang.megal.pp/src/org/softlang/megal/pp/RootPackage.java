@@ -2,6 +2,7 @@
  */
 package org.softlang.megal.pp;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 
 
@@ -16,6 +17,7 @@ import org.eclipse.emf.common.util.URI;
  *   <li>{@link org.softlang.megal.pp.RootPackage#getSource <em>Source</em>}</li>
  *   <li>{@link org.softlang.megal.pp.RootPackage#getName <em>Name</em>}</li>
  *   <li>{@link org.softlang.megal.pp.RootPackage#getBase <em>Base</em>}</li>
+ *   <li>{@link org.softlang.megal.pp.RootPackage#getNoClassDefs <em>No Class Defs</em>}</li>
  * </ul>
  * </p>
  *
@@ -91,4 +93,20 @@ public interface RootPackage extends Node {
 	 * @generated
 	 */
 	String getBase();
+
+	/**
+	 * Returns the value of the '<em><b>No Class Defs</b></em>' attribute list.
+	 * The list contents are of type {@link java.lang.String}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>No Class Defs</em>' attribute list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>No Class Defs</em>' attribute list.
+	 * @see org.softlang.megal.pp.PPPackage#getRootPackage_NoClassDefs()
+	 * @model
+	 * @generated
+	 */
+	EList<String> getNoClassDefs();
 } // RootPackage

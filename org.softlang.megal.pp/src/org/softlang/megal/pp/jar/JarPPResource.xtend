@@ -149,7 +149,7 @@ class JarPPResource extends ResourceImpl {
 
 				// If not found and not already reported, add to warnings
 				if (unfoundClasses += x.message)
-					getWarnings += new NoClassDefFoundDiagnostic(x)
+					rootPackage.noClassDefs += x.message
 			} catch (Throwable t) {
 				getWarnings += new ThrowableDiagnostic(t)
 			}

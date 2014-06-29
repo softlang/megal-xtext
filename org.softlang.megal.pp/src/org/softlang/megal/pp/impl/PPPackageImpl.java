@@ -304,6 +304,15 @@ public class PPPackageImpl extends EPackageImpl implements PPPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getRootPackage_NoClassDefs() {
+		return (EAttribute)rootPackageEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getType() {
 		return typeEClass;
 	}
@@ -385,6 +394,7 @@ public class PPPackageImpl extends EPackageImpl implements PPPackage {
 		createEAttribute(rootPackageEClass, ROOT_PACKAGE__SOURCE);
 		createEAttribute(rootPackageEClass, ROOT_PACKAGE__NAME);
 		createEAttribute(rootPackageEClass, ROOT_PACKAGE__BASE);
+		createEAttribute(rootPackageEClass, ROOT_PACKAGE__NO_CLASS_DEFS);
 
 		typeEClass = createEClass(TYPE);
 		createEAttribute(typeEClass, TYPE__VALUE);
@@ -451,6 +461,7 @@ public class PPPackageImpl extends EPackageImpl implements PPPackage {
 		initEAttribute(getRootPackage_Source(), this.getEURI(), "source", null, 1, 1, RootPackage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getRootPackage_Name(), ecorePackage.getEString(), "name", null, 1, 1, RootPackage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getRootPackage_Base(), ecorePackage.getEString(), "base", null, 1, 1, RootPackage.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+		initEAttribute(getRootPackage_NoClassDefs(), ecorePackage.getEString(), "noClassDefs", null, 0, -1, RootPackage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(typeEClass, Type.class, "Type", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getType_Value(), ecorePackage.getEString(), "value", null, 1, 1, Type.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

@@ -325,13 +325,22 @@ public interface PPPackage extends EPackage {
 	int ROOT_PACKAGE__BASE = NODE_FEATURE_COUNT + 2;
 
 	/**
+	 * The feature id for the '<em><b>No Class Defs</b></em>' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ROOT_PACKAGE__NO_CLASS_DEFS = NODE_FEATURE_COUNT + 3;
+
+	/**
 	 * The number of structural features of the '<em>Root Package</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ROOT_PACKAGE_FEATURE_COUNT = NODE_FEATURE_COUNT + 3;
+	int ROOT_PACKAGE_FEATURE_COUNT = NODE_FEATURE_COUNT + 4;
 
 	/**
 	 * The number of operations of the '<em>Root Package</em>' class.
@@ -593,6 +602,17 @@ public interface PPPackage extends EPackage {
 	EAttribute getRootPackage_Base();
 
 	/**
+	 * Returns the meta object for the attribute list '{@link org.softlang.megal.pp.RootPackage#getNoClassDefs <em>No Class Defs</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute list '<em>No Class Defs</em>'.
+	 * @see org.softlang.megal.pp.RootPackage#getNoClassDefs()
+	 * @see #getRootPackage()
+	 * @generated
+	 */
+	EAttribute getRootPackage_NoClassDefs();
+
+	/**
 	 * Returns the meta object for class '{@link org.softlang.megal.pp.Type <em>Type</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -811,6 +831,14 @@ public interface PPPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute ROOT_PACKAGE__BASE = eINSTANCE.getRootPackage_Base();
+
+		/**
+		 * The meta object literal for the '<em><b>No Class Defs</b></em>' attribute list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ROOT_PACKAGE__NO_CLASS_DEFS = eINSTANCE.getRootPackage_NoClassDefs();
 
 		/**
 		 * The meta object literal for the '{@link org.softlang.megal.pp.impl.TypeImpl <em>Type</em>}' class.
