@@ -1,9 +1,11 @@
 package org.softlang.megal.sirius;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 
+import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.util.Diagnostic;
+import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.Diagnostician;
 import org.eclipse.xtext.util.Arrays;
@@ -11,6 +13,7 @@ import org.softlang.megal.calculation.Calculation;
 import org.softlang.megal.megaL.Annotation;
 import org.softlang.megal.megaL.ED;
 import org.softlang.megal.megaL.ETD;
+import org.softlang.megal.megaL.LD;
 import org.softlang.megal.megaL.MegaLDefinition;
 import org.softlang.megal.megaL.RD;
 import org.softlang.megal.megaL.RTD;
@@ -74,18 +77,7 @@ public class EObjectServices
 		return ((UseETDRef) type).getRef().getName();
 	}
 
-//	public ETD getTypeByName(ED ed, String string)
-//	{
-//		Collection<ETD> etds = effectiveETDs((MegaLDefinition) ed.eContainer());
-//
-//		for (ETD etd : etds)
-//		{
-//			if (etd.getName().equals(string)) return etd;
-//		}
-//
-//		return null;
-//	}
-
+	
 	/**
 	 * Get color for entities.
 	 * 
@@ -212,5 +204,33 @@ public class EObjectServices
 
 		return null;
 	}
+	
+	public Collection<EObject> affectedDefinitions(ED ed)
+	{
+		TreeIterator<Notifier> iterator = ed.eResource().getResourceSet().getAllContents();
+
+		ArrayList<EObject> result = new ArrayList<EObject>();
+
+		while (iterator.hasNext())
+		{
+			Notifier notifier = (Notifier) iterator.next();
+
+			if (notifier instanceof RD)
+			{
+				RD rd = (RD) notifier;
+
+				if (rd.getSource() == ed || rd.getTarget() == ed) result.add(rd);
+			}
+			else if (notifier instanceof LD)
+			{
+				LD ld = (LD) notifier;
+
+				if (ld.getTarget() == ed) result.add(ld);
+			}
+		}
+
+		return result;
+	}
+
 
 }
