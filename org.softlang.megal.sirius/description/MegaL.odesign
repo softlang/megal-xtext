@@ -67,6 +67,13 @@
                 <subModelOperations xsi:type="tool_1:If" conditionExpression="[self.oclIsTypeOf(RD)/]">
                   <subModelOperations xsi:type="tool_1:SetValue" featureName="rel" valueExpression="[selectedType/]"/>
                 </subModelOperations>
+                <subModelOperations xsi:type="tool_1:If" conditionExpression="[self.oclIsTypeOf(ED)/]">
+                  <subModelOperations xsi:type="tool_1:Unset" featureName="type" elementExpression="[thisEObject.oclAsType(ED).type/]">
+                    <subModelOperations xsi:type="tool_1:CreateInstance" typeName="megaL.UseETDRef" referenceName="type">
+                      <subModelOperations xsi:type="tool_1:SetValue" featureName="ref" valueExpression="[selectedType/]"/>
+                    </subModelOperations>
+                  </subModelOperations>
+                </subModelOperations>
               </firstModelOperations>
             </initialOperation>
           </ownedTools>
