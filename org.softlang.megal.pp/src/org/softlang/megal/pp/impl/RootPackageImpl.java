@@ -17,10 +17,9 @@ import org.softlang.megal.pp.Package;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>{@link org.softlang.megal.pp.impl.RootPackageImpl#getSource <em>Source
- * </em>}</li>
- * <li>{@link org.softlang.megal.pp.impl.RootPackageImpl#getName <em>Name</em>}</li>
- * <li>{@link org.softlang.megal.pp.impl.RootPackageImpl#getBase <em>Base</em>}</li>
+ *   <li>{@link org.softlang.megal.pp.impl.RootPackageImpl#getSource <em>Source</em>}</li>
+ *   <li>{@link org.softlang.megal.pp.impl.RootPackageImpl#getName <em>Name</em>}</li>
+ *   <li>{@link org.softlang.megal.pp.impl.RootPackageImpl#getBase <em>Base</em>}</li>
  * </ul>
  * </p>
  *
@@ -28,9 +27,8 @@ import org.softlang.megal.pp.Package;
  */
 public class RootPackageImpl extends NodeImpl implements RootPackage {
 	/**
-	 * The default value of the '{@link #getSource() <em>Source</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getSource() <em>Source</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getSource()
 	 * @generated
 	 * @ordered
@@ -39,7 +37,6 @@ public class RootPackageImpl extends NodeImpl implements RootPackage {
 	/**
 	 * The cached value of the '{@link #getSource() <em>Source</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @see #getSource()
 	 * @generated
 	 * @ordered
@@ -48,7 +45,6 @@ public class RootPackageImpl extends NodeImpl implements RootPackage {
 	/**
 	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @see #getName()
 	 * @generated
 	 * @ordered
@@ -57,7 +53,6 @@ public class RootPackageImpl extends NodeImpl implements RootPackage {
 	/**
 	 * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @see #getName()
 	 * @generated
 	 * @ordered
@@ -67,7 +62,6 @@ public class RootPackageImpl extends NodeImpl implements RootPackage {
 	/**
 	 * The default value of the '{@link #getBase() <em>Base</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @see #getBase()
 	 * @generated
 	 * @ordered
@@ -76,7 +70,6 @@ public class RootPackageImpl extends NodeImpl implements RootPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected RootPackageImpl() {
@@ -85,7 +78,6 @@ public class RootPackageImpl extends NodeImpl implements RootPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -95,7 +87,6 @@ public class RootPackageImpl extends NodeImpl implements RootPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public URI getSource() {
@@ -104,20 +95,17 @@ public class RootPackageImpl extends NodeImpl implements RootPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setSource(URI newSource) {
 		URI oldSource = source;
 		source = newSource;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					PPPackage.ROOT_PACKAGE__SOURCE, oldSource, source));
+			eNotify(new ENotificationImpl(this, Notification.SET, PPPackage.ROOT_PACKAGE__SOURCE, oldSource, source));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String getName() {
@@ -126,15 +114,13 @@ public class RootPackageImpl extends NodeImpl implements RootPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setName(String newName) {
 		String oldName = name;
 		name = newName;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET,
-					PPPackage.ROOT_PACKAGE__NAME, oldName, name));
+			eNotify(new ENotificationImpl(this, Notification.SET, PPPackage.ROOT_PACKAGE__NAME, oldName, name));
 	}
 
 	/**
@@ -164,88 +150,79 @@ public class RootPackageImpl extends NodeImpl implements RootPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-		case PPPackage.ROOT_PACKAGE__SOURCE:
-			return getSource();
-		case PPPackage.ROOT_PACKAGE__NAME:
-			return getName();
-		case PPPackage.ROOT_PACKAGE__BASE:
-			return getBase();
+			case PPPackage.ROOT_PACKAGE__SOURCE:
+				return getSource();
+			case PPPackage.ROOT_PACKAGE__NAME:
+				return getName();
+			case PPPackage.ROOT_PACKAGE__BASE:
+				return getBase();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-		case PPPackage.ROOT_PACKAGE__SOURCE:
-			setSource((URI) newValue);
-			return;
-		case PPPackage.ROOT_PACKAGE__NAME:
-			setName((String) newValue);
-			return;
+			case PPPackage.ROOT_PACKAGE__SOURCE:
+				setSource((URI)newValue);
+				return;
+			case PPPackage.ROOT_PACKAGE__NAME:
+				setName((String)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-		case PPPackage.ROOT_PACKAGE__SOURCE:
-			setSource(SOURCE_EDEFAULT);
-			return;
-		case PPPackage.ROOT_PACKAGE__NAME:
-			setName(NAME_EDEFAULT);
-			return;
+			case PPPackage.ROOT_PACKAGE__SOURCE:
+				setSource(SOURCE_EDEFAULT);
+				return;
+			case PPPackage.ROOT_PACKAGE__NAME:
+				setName(NAME_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-		case PPPackage.ROOT_PACKAGE__SOURCE:
-			return SOURCE_EDEFAULT == null ? source != null : !SOURCE_EDEFAULT
-					.equals(source);
-		case PPPackage.ROOT_PACKAGE__NAME:
-			return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT
-					.equals(name);
-		case PPPackage.ROOT_PACKAGE__BASE:
-			return BASE_EDEFAULT == null ? getBase() != null : !BASE_EDEFAULT
-					.equals(getBase());
+			case PPPackage.ROOT_PACKAGE__SOURCE:
+				return SOURCE_EDEFAULT == null ? source != null : !SOURCE_EDEFAULT.equals(source);
+			case PPPackage.ROOT_PACKAGE__NAME:
+				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+			case PPPackage.ROOT_PACKAGE__BASE:
+				return BASE_EDEFAULT == null ? getBase() != null : !BASE_EDEFAULT.equals(getBase());
 		}
 		return super.eIsSet(featureID);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy())
-			return super.toString();
+		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (source: ");

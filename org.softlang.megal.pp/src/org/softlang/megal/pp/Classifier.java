@@ -135,4 +135,12 @@ public interface Classifier extends Node {
 	 */
 	void setInterface(boolean value);
 
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model required="true"
+	 * @generated
+	 */
+	boolean isImplementationOf(String typeName);
+
 } // Classifier

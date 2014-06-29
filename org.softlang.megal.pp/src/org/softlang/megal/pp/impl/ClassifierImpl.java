@@ -2,21 +2,18 @@
  */
 package org.softlang.megal.pp.impl;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
+import java.util.Objects;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
-
 import org.softlang.megal.pp.Classifier;
 import org.softlang.megal.pp.Generic;
 import org.softlang.megal.pp.PPPackage;
@@ -241,6 +238,24 @@ public class ClassifierImpl extends NodeImpl implements Classifier {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public boolean isImplementationOf(String typeName) {
+		typeName = typeName.trim();
+		if (getExtends() != null
+				&& Objects.equals(getExtends().getValue(), typeName))
+			return true;
+
+		for (Type i : getImplements())
+			if (Objects.equals(i.getValue(), typeName))
+				return true;
+
+		return false;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -355,6 +370,20 @@ public class ClassifierImpl extends NodeImpl implements Classifier {
 				return interface_ != INTERFACE_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Object eInvoke(int operationID, EList<?> arguments) throws InvocationTargetException {
+		switch (operationID) {
+			case PPPackage.CLASSIFIER___IS_IMPLEMENTATION_OF__STRING:
+				return isImplementationOf((String)arguments.get(0));
+		}
+		return super.eInvoke(operationID, arguments);
 	}
 
 	/**

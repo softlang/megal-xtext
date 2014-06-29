@@ -1,20 +1,37 @@
 package org.softlang.megal.calculation
 
+import com.google.common.base.Optional
 import com.google.common.collect.Sets
 import java.util.Set
+import org.eclipse.emf.common.util.URI
 import org.softlang.megal.megaL.ED
 import org.softlang.megal.megaL.ETD
+import org.softlang.megal.megaL.Jar
 import org.softlang.megal.megaL.MegaLDefinition
 import org.softlang.megal.megaL.RD
 import org.softlang.megal.megaL.RTD
-import com.google.common.base.Optional
 import org.softlang.megal.megaL.UseETD
-import org.softlang.megal.megaL.UseEntity
 import org.softlang.megal.megaL.UseETDRef
+import org.softlang.megal.megaL.UseEntity
 
 import static extension org.softlang.megal.operators.Operators.*
 
 class Calculation {
+	def static tryResolveJar(Jar i) {
+
+		// Check for well-formed input
+		if (i?.ref == null)
+			return Optional.absent
+		try {
+
+			// Try loading
+			return Optional.of(i.eResource.resourceSet.getResource(URI.createURI(i.ref), true))
+		} catch (IllegalArgumentException e) {
+
+			// On an invalid input do not process
+			return Optional.absent
+		}
+	}
 
 	/**
 	 * Searches the definition and their respective imports

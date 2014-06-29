@@ -23,15 +23,15 @@
   <eClassifiers xsi:type="ecore:EClass" name="NamedDefinition">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Annotation">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="key" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ETD" eSuperTypes="#//NamedDefinition">
     <eStructuralFeatures xsi:type="ecore:EReference" name="annotations" upperBound="-1"
         eType="#//Annotation" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="supertype" eType="#//UseETD"
         containment="true"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Annotation">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="key" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="RTD" eSuperTypes="#//NamedDefinition">
     <eStructuralFeatures xsi:type="ecore:EReference" name="annotations" upperBound="-1"
@@ -57,20 +57,15 @@
   <eClassifiers xsi:type="ecore:EClass" name="UseEntity" eSuperTypes="#//UseETD"/>
   <eClassifiers xsi:type="ecore:EClass" name="MegaLLinking" eSuperTypes="#//Model">
     <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#//MegaLDefinition"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="withs" upperBound="-1"
-        eType="#//With" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="eco" upperBound="-1" eType="#//Eco"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="jars" upperBound="-1" eType="#//Jar"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="providers" upperBound="-1"
         eType="#//Provider" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="lds" upperBound="-1" eType="#//LD"
         containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="With">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="package" eType="ecore:EClass platform:/resource/org.softlang.megal.pp/src/PP.ecore#//RootPackage"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Eco">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="e" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EClassifier"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Jar">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ref" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Provider">
     <eStructuralFeatures xsi:type="ecore:EReference" name="classifier" eType="ecore:EClass platform:/resource/org.softlang.megal.pp/src/PP.ecore#//Classifier"/>

@@ -9,6 +9,7 @@ import org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider
 import org.softlang.megal.calculation.Calculation
 import org.softlang.megal.megaL.MegaLDefinition
 import org.softlang.megal.megaL.MegaLLinking
+import org.softlang.megal.pp.Classifier
 
 /**
  * This class contains custom scoping description.
@@ -49,5 +50,29 @@ class MegaLScopeProvider extends AbstractDeclarativeScopeProvider {
 
 	def scope_ED(MegaLLinking l, EReference er) {
 		scope_ED(l.target, er)
+	}
+
+	def visibleClassifiers(MegaLLinking l) {
+
+		// TODO: Implement by resource services which is fukt
+		l.jars.map[i|Calculation.tryResolveJar(i)].filter[present].map[get.allContents.toIterable.filter(Classifier)].
+			flatten
+	}
+
+	def scope_Classifier(MegaLLinking l, EReference er) {
+		Scopes::scopeFor(visibleClassifiers(l))
+	}
+
+	def scope_Provider_classifier(MegaLLinking l, EReference er) {
+
+		// Get all classifiers
+		val classifiers = visibleClassifiers(l)
+
+		// Filter resource and VCS providers
+		val resourceProviders = classifiers.filter[isImplementationOf("megal.providers.IResourceProvider")]
+		val vcsProviders = classifiers.filter[isImplementationOf("megal.providers.IVCSProvider")]
+
+		// Make scope of it
+		Scopes::scopeFor(resourceProviders + vcsProviders)
 	}
 }

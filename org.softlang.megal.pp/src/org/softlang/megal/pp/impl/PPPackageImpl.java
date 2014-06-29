@@ -6,6 +6,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
+import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
@@ -231,6 +232,15 @@ public class PPPackageImpl extends EPackageImpl implements PPPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EOperation getClassifier__IsImplementationOf__String() {
+		return classifierEClass.getEOperations().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getGeneric() {
 		return genericEClass;
 	}
@@ -365,6 +375,7 @@ public class PPPackageImpl extends EPackageImpl implements PPPackage {
 		createEReference(classifierEClass, CLASSIFIER__EXTENDS);
 		createEReference(classifierEClass, CLASSIFIER__IMPLEMENTS);
 		createEAttribute(classifierEClass, CLASSIFIER__INTERFACE);
+		createEOperation(classifierEClass, CLASSIFIER___IS_IMPLEMENTATION_OF__STRING);
 
 		genericEClass = createEClass(GENERIC);
 		createEAttribute(genericEClass, GENERIC__NAME);
@@ -428,6 +439,9 @@ public class PPPackageImpl extends EPackageImpl implements PPPackage {
 		initEReference(getClassifier_Extends(), this.getType(), null, "extends", null, 0, 1, Classifier.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getClassifier_Implements(), this.getType(), null, "implements", null, 0, -1, Classifier.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getClassifier_Interface(), ecorePackage.getEBoolean(), "interface", null, 1, 1, Classifier.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		EOperation op = initEOperation(getClassifier__IsImplementationOf__String(), ecorePackage.getEBoolean(), "isImplementationOf", 1, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEString(), "typeName", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(genericEClass, Generic.class, "Generic", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getGeneric_Name(), ecorePackage.getEString(), "name", null, 1, 1, Generic.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

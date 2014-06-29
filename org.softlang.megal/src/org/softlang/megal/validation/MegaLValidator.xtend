@@ -22,6 +22,7 @@ import static extension org.softlang.megal.attachment.Attachment.*
 import static extension org.softlang.megal.calculation.Calculation.*
 import org.softlang.megal.semantics.SemanticsRegistry
 import com.google.common.base.Optional
+import org.softlang.megal.megaL.Jar
 
 /**
  * Custom validation rules. 
@@ -140,4 +141,14 @@ class MegaLValidator extends AbstractMegaLValidator {
 			error('''There is no applicable overload matching «r.source.type.name» to «r.target.type.name» ''',
 				MegaLPackage.Literals.RD__REL)
 	}
+
+	@Check
+	def checkJarUnique(Jar j) {
+		val l = j.eContainer as MegaLLinking
+		val i = l.jars.indexOf(j)
+
+		if (l.jars.filter[ref == j.ref].exists[l.jars.indexOf(it) < i])
+			warning('''Already imported this jar''', MegaLPackage.Literals.JAR__REF)
+	}
+
 }

@@ -5,6 +5,7 @@ package org.softlang.megal.pp;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
+import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
@@ -214,13 +215,22 @@ public interface PPPackage extends EPackage {
 	int CLASSIFIER_FEATURE_COUNT = NODE_FEATURE_COUNT + 5;
 
 	/**
+	 * The operation id for the '<em>Is Implementation Of</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASSIFIER___IS_IMPLEMENTATION_OF__STRING = NODE_OPERATION_COUNT + 0;
+
+	/**
 	 * The number of operations of the '<em>Classifier</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CLASSIFIER_OPERATION_COUNT = NODE_OPERATION_COUNT + 0;
+	int CLASSIFIER_OPERATION_COUNT = NODE_OPERATION_COUNT + 1;
 
 	/**
 	 * The meta object id for the '{@link org.softlang.megal.pp.impl.GenericImpl <em>Generic</em>}' class.
@@ -498,6 +508,16 @@ public interface PPPackage extends EPackage {
 	EAttribute getClassifier_Interface();
 
 	/**
+	 * Returns the meta object for the '{@link org.softlang.megal.pp.Classifier#isImplementationOf(java.lang.String) <em>Is Implementation Of</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Is Implementation Of</em>' operation.
+	 * @see org.softlang.megal.pp.Classifier#isImplementationOf(java.lang.String)
+	 * @generated
+	 */
+	EOperation getClassifier__IsImplementationOf__String();
+
+	/**
 	 * Returns the meta object for class '{@link org.softlang.megal.pp.Generic <em>Generic</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -723,6 +743,14 @@ public interface PPPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute CLASSIFIER__INTERFACE = eINSTANCE.getClassifier_Interface();
+
+		/**
+		 * The meta object literal for the '<em><b>Is Implementation Of</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation CLASSIFIER___IS_IMPLEMENTATION_OF__STRING = eINSTANCE.getClassifier__IsImplementationOf__String();
 
 		/**
 		 * The meta object literal for the '{@link org.softlang.megal.pp.impl.GenericImpl <em>Generic</em>}' class.

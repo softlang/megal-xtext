@@ -18,11 +18,11 @@ Import:
 NamedDefinition:
 	ETD | RTD | ED;
 
-ETD:
-	annotations+=Annotation* name=ID '<' supertype=UseETD;
-
 Annotation:
 	'@' key=ID '(' value=STRING ')';
+
+ETD:
+	annotations+=Annotation* name=ID '<' supertype=UseETD;
 
 RTD:
 	annotations+=Annotation* name=ID '<' domain=UseETD '*' coDomain=UseETD;
@@ -45,13 +45,10 @@ UseEntity:
 MegaLLinking:
 	'linking' name=QualifiedID
 	('for' target=[MegaLDefinition|QualifiedID])?
-	(withs+=With | eco+=Eco | providers+=Provider | lds+=LD)*;
+	(jars+=Jar | providers+=Provider | lds+=LD)*;
 
-With:
-	'with' package=[pp::RootPackage|QualifiedID];
-
-Eco:
-	'eco' e=[ecore::EClassifier|QualifiedID];
+Jar:
+	'jar' ref=STRING;
 
 Provider:
 	'provider' classifier=[pp::Classifier|QualifiedID];
