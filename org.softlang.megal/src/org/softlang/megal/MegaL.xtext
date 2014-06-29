@@ -15,6 +15,7 @@ MegaLDefinition:
 Import:
 	'import' ref=[MegaLDefinition];
 
+
 NamedDefinition:
 	ETD | RTD | ED;
 
