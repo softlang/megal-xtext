@@ -23,17 +23,18 @@ Require-Bundle: org.eclipse.xtext;visibility:=reexport,
 Import-Package: org.apache.log4j,
  org.eclipse.xtext.xbase.lib
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
-Export-Package: org.softlang.megal.semantics,
- org.softlang.megal,
- org.softlang.megal.services,
+Export-Package: org.softlang.megal,
+ org.softlang.megal.calculation,
+ org.softlang.megal.formatting,
+ org.softlang.megal.generator,
  org.softlang.megal.megaL,
  org.softlang.megal.megaL.impl,
  org.softlang.megal.megaL.util,
- org.softlang.megal.serializer,
  org.softlang.megal.parser.antlr,
  org.softlang.megal.parser.antlr.internal,
- org.softlang.megal.validation,
  org.softlang.megal.scoping,
- org.softlang.megal.generator,
- org.softlang.megal.formatting
+ org.softlang.megal.semantics,
+ org.softlang.megal.serializer,
+ org.softlang.megal.services,
+ org.softlang.megal.validation
 Bundle-ClassPath: .

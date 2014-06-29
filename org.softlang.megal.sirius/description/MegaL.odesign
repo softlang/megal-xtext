@@ -3,8 +3,8 @@
   <ownedViewpoints name="MegalInstance" modelFileExtension="megal">
     <ownedRepresentations xsi:type="description_1:DiagramDescription" name="MegalModel" domainClass="megaL.MegaLDefinition">
       <defaultLayer name="Default">
-        <nodeMappings xsi:type="description_1:NodeMappingImport" name="Entity" semanticCandidatesExpression="[eds/]" domainClass="megaL.ED">
-          <style xsi:type="style:SquareDescription" labelSize="10" showIcon="false" labelExpression="[name + ' : ' + self.getTypeName()/]" labelPosition="node" resizeKind="NSEW" width="13" height="7" color="//@userColorsPalettes[name='MegalColors']/@entries[name='EntityTypeColor']">
+        <nodeMappings xsi:type="description_1:NodeMappingImport" name="Entity" labelDirectEdit="//@ownedViewpoints[name='MegalInstance']/@ownedRepresentations[name='MegalModel']/@defaultLayer/@toolSections.0/@ownedTools[name='setEntityName']" semanticCandidatesExpression="[eds/]" domainClass="megaL.ED">
+          <style xsi:type="style:SquareDescription" labelSize="10" showIcon="false" labelExpression="[name + ':' + self.getTypeName()/]" tooltipExpression="[self.getMessage()/]" labelPosition="node" resizeKind="NSEW" width="13" height="7" color="//@userColorsPalettes[name='MegalColors']/@entries[name='EntityTypeColor']">
             <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
           </style>
@@ -18,9 +18,9 @@
           </style>
         </edgeMappings>
         <toolSections name="MegalInstanceTools" label="MagaL Instance Tools">
-          <ownedTools xsi:type="tool:NodeCreationDescription" name="createEntity" label="Entity" nodeMappings="//@ownedViewpoints[name='MegalInstance']/@ownedRepresentations[name='MegalModel']/@defaultLayer/@nodeMappings[name='Entity']">
+          <ownedTools xsi:type="tool:NodeCreationDescription" name="createEntity" label="Entity" nodeMappings="//@ownedViewpoints[name='MegalInstance']/@ownedRepresentations[name='MegalModel']/@defaultLayer/@nodeMappings[name='Entity']" iconPath="org.softlang.megal.sirius/icons/entity.gif">
             <variable name="container">
-              <subVariables xsi:type="tool_1:SelectModelElementVariable" name="selectedType" candidatesExpression="[container.oclAsType(MegaLDefinition).etds/]" message="Select type of entity"/>
+              <subVariables xsi:type="tool_1:SelectModelElementVariable" name="selectedType" candidatesExpression="[container.oclAsType(MegaLDefinition).effectiveETDs()/]" message="Select type of entity"/>
             </variable>
             <viewVariable name="containerView"/>
             <initialOperation>
@@ -35,10 +35,10 @@
               </firstModelOperations>
             </initialOperation>
           </ownedTools>
-          <ownedTools xsi:type="tool:EdgeCreationDescription" name="createRelation" label="Relation" edgeMappings="//@ownedViewpoints[name='MegalInstance']/@ownedRepresentations[name='MegalModel']/@defaultLayer/@edgeMappings[name='Relation']">
+          <ownedTools xsi:type="tool:EdgeCreationDescription" name="createRelation" label="Relation" edgeMappings="//@ownedViewpoints[name='MegalInstance']/@ownedRepresentations[name='MegalModel']/@defaultLayer/@edgeMappings[name='Relation']" iconPath="org.softlang.megal.sirius/icons/relation.gif">
             <sourceVariable name="from"/>
             <targetVariable name="to">
-              <subVariables xsi:type="tool_1:SelectModelElementVariable" name="selectedType" candidatesExpression="[from.eContainer().oclAsType(MegaLDefinition).rtds/]" message="Select type of relation"/>
+              <subVariables xsi:type="tool_1:SelectModelElementVariable" name="selectedType" candidatesExpression="[from.eContainer().oclAsType(MegaLDefinition).effectiveRTDs()/]" message="Select type of relation"/>
             </targetVariable>
             <sourceViewVariable name="sourceView"/>
             <targetViewVariable name="targetView"/>
@@ -52,10 +52,52 @@
               </firstModelOperations>
             </initialOperation>
           </ownedTools>
+          <ownedTools xsi:type="tool:DirectEditLabel" name="setEntityName" inputLabelExpression="[name/]">
+            <mask mask="{0}"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:SetValue" featureName="name" valueExpression="[arg0/]"/>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool_1:SelectionWizardDescription" name="typer" label="Typer" precondition="[self.oclIsTypeOf(RD)._or(self.oclIsTypeOf(ED))/]" candidatesExpression="[if self.oclIsTypeOf(ED) then self.eContainer().oclAsType(MegaLDefinition).effectiveETDs() else self.eContainer().oclAsType(MegaLDefinition).effectiveRTDs() endif/]" iconPath="org.softlang.megal.sirius/icons/typer.gif" windowTitle="Selection entity type">
+            <element name="selectedType"/>
+            <containerView name="containerView"/>
+            <container name="container"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="[container/]">
+                <subModelOperations xsi:type="tool_1:If" conditionExpression="[self.oclIsTypeOf(RD)/]">
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="rel" valueExpression="[selectedType/]"/>
+                </subModelOperations>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
         </toolSections>
         <customization>
           <vsmElementCustomizations xsi:type="description:VSMElementCustomization" predicateExpression="[self.oclIsTypeOf(RD)/]">
             <featureCustomizations xsi:type="description:EAttributeCustomization" appliedOn="//@ownedViewpoints[name='MegalInstance']/@ownedRepresentations[name='MegalModel']/@defaultLayer/@edgeMappings[name='Relation']/@style" attributeName="lineStyle" value="[self.oclAsType(RD).getLineStyle()/]"/>
+          </vsmElementCustomizations>
+          <vsmElementCustomizations xsi:type="description:VSMElementCustomization" predicateExpression="[self.oclIsTypeOf(ED)._and(self.oclAsType(ED).hasErrorMessage())/]">
+            <featureCustomizations xsi:type="description:EReferenceCustomization" appliedOn="//@ownedViewpoints[name='MegalInstance']/@ownedRepresentations[name='MegalModel']/@defaultLayer/@nodeMappings[name='Entity']/@style" referenceName="borderColor">
+              <value href="environment:/viewpoint#//@systemColors/@entries[name='red']"/>
+            </featureCustomizations>
+            <featureCustomizations xsi:type="description:EAttributeCustomization" appliedOn="//@ownedViewpoints[name='MegalInstance']/@ownedRepresentations[name='MegalModel']/@defaultLayer/@nodeMappings[name='Entity']/@style" attributeName="borderSizeComputationExpression" value="[2/]"/>
+          </vsmElementCustomizations>
+          <vsmElementCustomizations xsi:type="description:VSMElementCustomization" predicateExpression="[self.oclIsTypeOf(ED)._and(self.oclAsType(ED).hasWarningMessage())/]">
+            <featureCustomizations xsi:type="description:EReferenceCustomization" appliedOn="//@ownedViewpoints[name='MegalInstance']/@ownedRepresentations[name='MegalModel']/@defaultLayer/@nodeMappings[name='Entity']/@style" referenceName="borderColor">
+              <value href="environment:/viewpoint#//@systemColors/@entries[name='yellow']"/>
+            </featureCustomizations>
+            <featureCustomizations xsi:type="description:EAttributeCustomization" appliedOn="//@ownedViewpoints[name='MegalInstance']/@ownedRepresentations[name='MegalModel']/@defaultLayer/@nodeMappings[name='Entity']/@style" attributeName="borderSizeComputationExpression" value="[2/]"/>
+          </vsmElementCustomizations>
+          <vsmElementCustomizations xsi:type="description:VSMElementCustomization" predicateExpression="[self.oclIsTypeOf(RD)._and(self.oclAsType(RD).hasErrorMessage())/]">
+            <featureCustomizations xsi:type="description:EReferenceCustomization" appliedOn="//@ownedViewpoints[name='MegalInstance']/@ownedRepresentations[name='MegalModel']/@defaultLayer/@edgeMappings[name='Relation']/@style" referenceName="strokeColor">
+              <value href="environment:/viewpoint#//@systemColors/@entries[name='red']"/>
+            </featureCustomizations>
+            <featureCustomizations xsi:type="description:EAttributeCustomization" appliedOn="//@ownedViewpoints[name='MegalInstance']/@ownedRepresentations[name='MegalModel']/@defaultLayer/@edgeMappings[name='Relation']/@style" attributeName="sizeComputationExpression" value="[3/]"/>
+          </vsmElementCustomizations>
+          <vsmElementCustomizations xsi:type="description:VSMElementCustomization" predicateExpression="[self.oclIsTypeOf(RD)._and(self.oclAsType(RD).hasWarningMessage())/]">
+            <featureCustomizations xsi:type="description:EReferenceCustomization" appliedOn="//@ownedViewpoints[name='MegalInstance']/@ownedRepresentations[name='MegalModel']/@defaultLayer/@edgeMappings[name='Relation']/@style" referenceName="strokeColor">
+              <value href="environment:/viewpoint#//@systemColors/@entries[name='yellow']"/>
+            </featureCustomizations>
+            <featureCustomizations xsi:type="description:EAttributeCustomization" appliedOn="//@ownedViewpoints[name='MegalInstance']/@ownedRepresentations[name='MegalModel']/@defaultLayer/@edgeMappings[name='Relation']/@style" attributeName="sizeComputationExpression" value="[3/]"/>
           </vsmElementCustomizations>
         </customization>
       </defaultLayer>

@@ -1,17 +1,26 @@
 package org.softlang.megal.sirius;
 
+import java.util.Collection;
+import java.util.Iterator;
+
+import org.eclipse.emf.common.util.Diagnostic;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.util.Diagnostician;
 import org.eclipse.xtext.util.Arrays;
+import org.softlang.megal.calculation.Calculation;
 import org.softlang.megal.megaL.Annotation;
 import org.softlang.megal.megaL.ED;
 import org.softlang.megal.megaL.ETD;
+import org.softlang.megal.megaL.MegaLDefinition;
 import org.softlang.megal.megaL.RD;
+import org.softlang.megal.megaL.RTD;
 import org.softlang.megal.megaL.UseETD;
 import org.softlang.megal.megaL.UseETDRef;
 import org.softlang.megal.megaL.UseEntity;
 
 public class EObjectServices
 {
-	//TODO: Add method getting all accessible types and add type diagram.
+	// TODO: Add method getting all accessible types and add type diagram.
 
 	private static final String COLOR = "color";
 
@@ -64,6 +73,18 @@ public class EObjectServices
 
 		return ((UseETDRef) type).getRef().getName();
 	}
+
+//	public ETD getTypeByName(ED ed, String string)
+//	{
+//		Collection<ETD> etds = effectiveETDs((MegaLDefinition) ed.eContainer());
+//
+//		for (ETD etd : etds)
+//		{
+//			if (etd.getName().equals(string)) return etd;
+//		}
+//
+//		return null;
+//	}
 
 	/**
 	 * Get color for entities.
@@ -149,4 +170,47 @@ public class EObjectServices
 
 		return COLOR_DEFAULT_BLUE;
 	}
+
+	public Collection<ETD> effectiveETDs(MegaLDefinition definition)
+	{
+		return Calculation.effectiveETDs(definition);
+	}
+
+	public Collection<RTD> effectiveRTDs(MegaLDefinition definition)
+	{
+		return Calculation.effectiveRTDs(definition);
+	}
+
+	public Boolean hasErrorMessage(EObject e)
+	{
+		Diagnostic d = Diagnostician.INSTANCE.validate(e);
+
+		if (d.getSeverity() == Diagnostic.ERROR) return true;
+
+		return false;
+	}
+
+	public Boolean hasWarningMessage(EObject e)
+	{
+		Diagnostic d = Diagnostician.INSTANCE.validate(e);
+
+		if (d.getSeverity() == Diagnostic.WARNING) return true;
+
+		return false;
+	}
+
+	public String getMessage(EObject e)
+	{
+		Diagnostic d = Diagnostician.INSTANCE.validate(e);
+
+		if (d.getSeverity() == Diagnostic.ERROR || d.getSeverity() == Diagnostic.WARNING)
+		{
+			if (d.getChildren().size() == 1) return d.getChildren().get(0).getMessage();
+
+			return d.getMessage();
+		}
+
+		return null;
+	}
+
 }
