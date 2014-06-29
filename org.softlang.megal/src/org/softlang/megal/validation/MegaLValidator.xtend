@@ -59,20 +59,26 @@ class MegaLValidator extends AbstractMegaLValidator {
 	def checkSemanticsExisting(ETD e) {
 		val c = e.eResource.getContextOrCreate[|SemanticsRegistry.INSTANCE.contextInstance]
 
-		if (c.softEntitySemantics.contains(e.name))
+		val s = c.getSoftEntitySemantics(e)
+		val h = c.getHardEntitySemantics(e)
+
+		if (s != null && h == null)
 			info('Soft implementation for ' + e.name, MegaLPackage.Literals.NAMED_DEFINITION__NAME)
-		else if (!c.hardEntitySemantics.containsKey(e.name))
+		if (s == null && h == null)
 			error('No implementation for ' + e.name, MegaLPackage.Literals.NAMED_DEFINITION__NAME)
 	}
 
 	@Check
 	def checkSemanticsExisting(RTD r) {
 		val c = r.eResource.getContextOrCreate[|SemanticsRegistry.INSTANCE.contextInstance]
+		val s = c.getSoftRelationSemantics(r)
+		val h = c.getHardRelationSemantics(r)
 
-		if (c.softRelationSemantics.contains(r.name))
+		if (s != null && h == null)
 			info('Soft implementation for ' + r.name, MegaLPackage.Literals.NAMED_DEFINITION__NAME)
-		else if (!c.hardRelationSemantics.containsKey(r.name))
+		if (s == null && h == null)
 			error('No implementation for ' + r.name, MegaLPackage.Literals.NAMED_DEFINITION__NAME)
+
 	}
 
 	@Check

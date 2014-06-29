@@ -3,6 +3,12 @@ package org.softlang.megal.semantics
 import com.google.common.collect.Sets
 import java.util.Map
 import java.util.Set
+import static org.softlang.megal.calculation.Calculation.*
+import org.softlang.megal.megaL.ETD
+import org.softlang.megal.megaL.UseETD
+import org.softlang.megal.megaL.UseEntity
+import org.softlang.megal.megaL.UseETDRef
+import org.softlang.megal.megaL.RTD
 
 class Context {
 	val static public EMPTY = new Context(emptySet, emptySet, emptyMap, emptyMap)
@@ -49,5 +55,61 @@ class Context {
 			Sets.union(hardRelationSemantics.filter[k, v|!c.hardRelationSemantics.containsKey(k)].entrySet,
 				c.hardRelationSemantics.entrySet).toMap[key].mapValues[value]
 		)
+	}
+
+	/**
+	 * Gets the name of the first entity type that has a soft semantic implementation
+	 */
+	def String getSoftRelationSemantics(RTD e) {
+		if (softRelationSemantics.contains(e.name))
+			return e.name
+
+		return null
+	}
+
+	def Pair<String, RelationSemantics> getHardRelationSemantics(RTD e) {
+		if (hardRelationSemantics.containsKey(e.name))
+			return e.name -> hardRelationSemantics.get(e.name)
+
+		return null
+	}
+
+	/**
+	 * Gets the name of the first entity type that has a soft semantic implementation
+	 */
+	def dispatch String getSoftEntitySemantics(ETD e) {
+		if (softEntitySemantics.contains(e.name))
+			return e.name
+
+		return getSoftEntitySemantics(e.supertype)
+	}
+
+	def dispatch String getSoftEntitySemantics(UseEntity e) {
+		if (softEntitySemantics.contains('Entity'))
+			return 'Entity'
+
+		return null
+	}
+
+	def dispatch String getSoftEntitySemantics(UseETDRef e) {
+		return getSoftEntitySemantics(e.ref)
+	}
+
+	def dispatch Pair<String, EntitySemantics> getHardEntitySemantics(ETD e) {
+		if (hardEntitySemantics.containsKey(e.name))
+			return e.name -> hardEntitySemantics.get(e.name)
+
+		return getHardEntitySemantics(e.supertype)
+	}
+
+	def dispatch Pair<String, EntitySemantics> getHardEntitySemantics(UseEntity e) {
+		if (hardEntitySemantics.containsKey('Entity'))
+			return 'Entity' -> hardEntitySemantics.get('Entity')
+
+		return null
+	}
+
+	def dispatch Pair<String, EntitySemantics> getHardEntitySemantics(UseETDRef e) {
+		return getHardEntitySemantics(e.ref)
 	}
 }
