@@ -22,6 +22,7 @@ import static extension org.softlang.megal.attachment.Attachment.*
 import static extension org.softlang.megal.calculation.Calculation.*
 import org.softlang.megal.semantics.SemanticsRegistry
 import com.google.common.base.Optional
+import org.softlang.megal.megaL.Jar
 
 /**
  * Custom validation rules. 
@@ -58,20 +59,26 @@ class MegaLValidator extends AbstractMegaLValidator {
 	def checkSemanticsExisting(ETD e) {
 		val c = e.eResource.getContextOrCreate[|SemanticsRegistry.INSTANCE.contextInstance]
 
-		if (c.softEntitySemantics.contains(e.name))
+		val s = c.getSoftEntitySemantics(e)
+		val h = c.getHardEntitySemantics(e)
+
+		if (s != null && h == null)
 			info('Soft implementation for ' + e.name, MegaLPackage.Literals.NAMED_DEFINITION__NAME)
-		else if (!c.hardEntitySemantics.containsKey(e.name))
+		if (s == null && h == null)
 			error('No implementation for ' + e.name, MegaLPackage.Literals.NAMED_DEFINITION__NAME)
 	}
 
 	@Check
 	def checkSemanticsExisting(RTD r) {
 		val c = r.eResource.getContextOrCreate[|SemanticsRegistry.INSTANCE.contextInstance]
+		val s = c.getSoftRelationSemantics(r)
+		val h = c.getHardRelationSemantics(r)
 
-		if (c.softRelationSemantics.contains(r.name))
+		if (s != null && h == null)
 			info('Soft implementation for ' + r.name, MegaLPackage.Literals.NAMED_DEFINITION__NAME)
-		else if (!c.hardRelationSemantics.containsKey(r.name))
+		if (s == null && h == null)
 			error('No implementation for ' + r.name, MegaLPackage.Literals.NAMED_DEFINITION__NAME)
+
 	}
 
 	@Check
@@ -121,12 +128,12 @@ class MegaLValidator extends AbstractMegaLValidator {
 		val d = new MegaLValidator.DiagnosticWrapper(this, r, MegaLPackage.Literals.RD__REL)
 
 		val m = r.eContainer as MegaLDefinition
-		val s = c.hardRelationSemantics.get(r.rel.name)
+		val s = c.getHardRelationSemantics(r.rel)
 		val ls = Optional.fromNullable(m.linker.lds.findFirst[l|EcoreUtil.equals(l.target, r.source)])
 		val lt = Optional.fromNullable(m.linker.lds.findFirst[l|EcoreUtil.equals(l.target, r.target)])
 
 		if (s != null)
-			s.validate(d, r, ls, lt)
+			s.value.validate(d, r, ls, lt)
 	}
 
 	@Check
@@ -140,4 +147,14 @@ class MegaLValidator extends AbstractMegaLValidator {
 			error('''There is no applicable overload matching «r.source.type.name» to «r.target.type.name» ''',
 				MegaLPackage.Literals.RD__REL)
 	}
+
+	@Check
+	def checkJarUnique(Jar j) {
+		val l = j.eContainer as MegaLLinking
+		val i = l.jars.indexOf(j)
+
+		if (l.jars.filter[ref == j.ref].exists[l.jars.indexOf(it) < i])
+			warning('''Already imported this jar''', MegaLPackage.Literals.JAR__REF)
+	}
+
 }

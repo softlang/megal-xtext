@@ -4,6 +4,8 @@ package org.softlang.megal.pp;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EDataType;
+import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
@@ -213,13 +215,22 @@ public interface PPPackage extends EPackage {
 	int CLASSIFIER_FEATURE_COUNT = NODE_FEATURE_COUNT + 5;
 
 	/**
+	 * The operation id for the '<em>Is Implementation Of</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASSIFIER___IS_IMPLEMENTATION_OF__STRING = NODE_OPERATION_COUNT + 0;
+
+	/**
 	 * The number of operations of the '<em>Classifier</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CLASSIFIER_OPERATION_COUNT = NODE_OPERATION_COUNT + 0;
+	int CLASSIFIER_OPERATION_COUNT = NODE_OPERATION_COUNT + 1;
 
 	/**
 	 * The meta object id for the '{@link org.softlang.megal.pp.impl.GenericImpl <em>Generic</em>}' class.
@@ -287,13 +298,49 @@ public interface PPPackage extends EPackage {
 	int ROOT_PACKAGE__CHILDREN = NODE__CHILDREN;
 
 	/**
+	 * The feature id for the '<em><b>Source</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ROOT_PACKAGE__SOURCE = NODE_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ROOT_PACKAGE__NAME = NODE_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Base</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ROOT_PACKAGE__BASE = NODE_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>No Class Defs</b></em>' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ROOT_PACKAGE__NO_CLASS_DEFS = NODE_FEATURE_COUNT + 3;
+
+	/**
 	 * The number of structural features of the '<em>Root Package</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ROOT_PACKAGE_FEATURE_COUNT = NODE_FEATURE_COUNT + 0;
+	int ROOT_PACKAGE_FEATURE_COUNT = NODE_FEATURE_COUNT + 4;
 
 	/**
 	 * The number of operations of the '<em>Root Package</em>' class.
@@ -349,6 +396,17 @@ public interface PPPackage extends EPackage {
 	 * @ordered
 	 */
 	int TYPE_OPERATION_COUNT = 0;
+
+
+	/**
+	 * The meta object id for the '<em>EURI</em>' data type.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.emf.common.util.URI
+	 * @see org.softlang.megal.pp.impl.PPPackageImpl#getEURI()
+	 * @generated
+	 */
+	int EURI = 6;
 
 
 	/**
@@ -459,6 +517,16 @@ public interface PPPackage extends EPackage {
 	EAttribute getClassifier_Interface();
 
 	/**
+	 * Returns the meta object for the '{@link org.softlang.megal.pp.Classifier#isImplementationOf(java.lang.String) <em>Is Implementation Of</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Is Implementation Of</em>' operation.
+	 * @see org.softlang.megal.pp.Classifier#isImplementationOf(java.lang.String)
+	 * @generated
+	 */
+	EOperation getClassifier__IsImplementationOf__String();
+
+	/**
 	 * Returns the meta object for class '{@link org.softlang.megal.pp.Generic <em>Generic</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -501,6 +569,50 @@ public interface PPPackage extends EPackage {
 	EClass getRootPackage();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.softlang.megal.pp.RootPackage#getSource <em>Source</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Source</em>'.
+	 * @see org.softlang.megal.pp.RootPackage#getSource()
+	 * @see #getRootPackage()
+	 * @generated
+	 */
+	EAttribute getRootPackage_Source();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.softlang.megal.pp.RootPackage#getName <em>Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Name</em>'.
+	 * @see org.softlang.megal.pp.RootPackage#getName()
+	 * @see #getRootPackage()
+	 * @generated
+	 */
+	EAttribute getRootPackage_Name();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.softlang.megal.pp.RootPackage#getBase <em>Base</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Base</em>'.
+	 * @see org.softlang.megal.pp.RootPackage#getBase()
+	 * @see #getRootPackage()
+	 * @generated
+	 */
+	EAttribute getRootPackage_Base();
+
+	/**
+	 * Returns the meta object for the attribute list '{@link org.softlang.megal.pp.RootPackage#getNoClassDefs <em>No Class Defs</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute list '<em>No Class Defs</em>'.
+	 * @see org.softlang.megal.pp.RootPackage#getNoClassDefs()
+	 * @see #getRootPackage()
+	 * @generated
+	 */
+	EAttribute getRootPackage_NoClassDefs();
+
+	/**
 	 * Returns the meta object for class '{@link org.softlang.megal.pp.Type <em>Type</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -531,6 +643,17 @@ public interface PPPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getType_Arguments();
+
+	/**
+	 * Returns the meta object for data type '{@link org.eclipse.emf.common.util.URI <em>EURI</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for data type '<em>EURI</em>'.
+	 * @see org.eclipse.emf.common.util.URI
+	 * @model instanceClass="org.eclipse.emf.common.util.URI"
+	 * @generated
+	 */
+	EDataType getEURI();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -642,6 +765,14 @@ public interface PPPackage extends EPackage {
 		EAttribute CLASSIFIER__INTERFACE = eINSTANCE.getClassifier_Interface();
 
 		/**
+		 * The meta object literal for the '<em><b>Is Implementation Of</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation CLASSIFIER___IS_IMPLEMENTATION_OF__STRING = eINSTANCE.getClassifier__IsImplementationOf__String();
+
+		/**
 		 * The meta object literal for the '{@link org.softlang.megal.pp.impl.GenericImpl <em>Generic</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -678,6 +809,38 @@ public interface PPPackage extends EPackage {
 		EClass ROOT_PACKAGE = eINSTANCE.getRootPackage();
 
 		/**
+		 * The meta object literal for the '<em><b>Source</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ROOT_PACKAGE__SOURCE = eINSTANCE.getRootPackage_Source();
+
+		/**
+		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ROOT_PACKAGE__NAME = eINSTANCE.getRootPackage_Name();
+
+		/**
+		 * The meta object literal for the '<em><b>Base</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ROOT_PACKAGE__BASE = eINSTANCE.getRootPackage_Base();
+
+		/**
+		 * The meta object literal for the '<em><b>No Class Defs</b></em>' attribute list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ROOT_PACKAGE__NO_CLASS_DEFS = eINSTANCE.getRootPackage_NoClassDefs();
+
+		/**
 		 * The meta object literal for the '{@link org.softlang.megal.pp.impl.TypeImpl <em>Type</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -702,6 +865,16 @@ public interface PPPackage extends EPackage {
 		 * @generated
 		 */
 		EReference TYPE__ARGUMENTS = eINSTANCE.getType_Arguments();
+
+		/**
+		 * The meta object literal for the '<em>EURI</em>' data type.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.emf.common.util.URI
+		 * @see org.softlang.megal.pp.impl.PPPackageImpl#getEURI()
+		 * @generated
+		 */
+		EDataType EURI = eINSTANCE.getEURI();
 
 	}
 

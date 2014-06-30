@@ -3,10 +3,29 @@
  */
 package org.softlang.megal.ui.contentassist
 
-import org.softlang.megal.ui.contentassist.AbstractMegaLProposalProvider
+import org.eclipse.core.resources.IResource
+import org.eclipse.core.resources.IResourceProxy
+import org.eclipse.core.resources.ResourcesPlugin
+import org.eclipse.emf.ecore.EObject
+import org.eclipse.xtext.Assignment
+import org.eclipse.xtext.ui.editor.contentassist.ContentAssistContext
+import org.eclipse.xtext.ui.editor.contentassist.ICompletionProposalAcceptor
 
 /**
  * see http://www.eclipse.org/Xtext/documentation.html#contentAssist on how to customize content assistant
  */
 class MegaLProposalProvider extends AbstractMegaLProposalProvider {
+
+	override completeJar_Ref(EObject model, Assignment assignment, ContentAssistContext context,
+		ICompletionProposalAcceptor acceptor) {
+		ResourcesPlugin.workspace.root.accept(
+			[ IResourceProxy p |
+				if (p.type == IResource.FILE && p.name.toLowerCase.endsWith(".jar")) {
+					acceptor.accept(createCompletionProposal('''"«p.requestFullPath»"''', context))
+				}
+				return true
+			], IResource.DEPTH_INFINITE)
+		super.completeJar_Ref(model, assignment, context, acceptor)
+	}
+
 }

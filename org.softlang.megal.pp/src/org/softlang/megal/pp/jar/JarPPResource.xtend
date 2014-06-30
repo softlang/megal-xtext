@@ -3,24 +3,20 @@ package org.softlang.megal.pp.jar
 import java.io.IOException
 import java.io.InputStream
 import java.io.OutputStream
+import java.lang.reflect.GenericArrayType
+import java.lang.reflect.ParameterizedType
+import java.lang.reflect.TypeVariable
 import java.util.Map
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl
-import org.softlang.megal.pp.general.ThrowableDiagnostic
-import org.xeustechnologies.jcl.JarClassLoader
-import org.softlang.megal.pp.PPFactory
-import org.softlang.megal.pp.general.NoClassDefFoundDiagnostic
-import org.softlang.megal.pp.RootPackage
-import org.softlang.megal.pp.Package
-import java.util.Set
 import org.softlang.megal.pp.Classifier
 import org.softlang.megal.pp.Node
-import java.lang.reflect.Modifier
-import java.lang.reflect.GenericArrayType
+import org.softlang.megal.pp.PPFactory
+import org.softlang.megal.pp.Package
+import org.softlang.megal.pp.RootPackage
 import org.softlang.megal.pp.Type
-import java.lang.reflect.ParameterizedType
-import java.lang.reflect.TypeVariable
-import org.xeustechnologies.jcl.ProxyClassLoader
+import org.softlang.megal.pp.general.ThrowableDiagnostic
+import org.xeustechnologies.jcl.JarClassLoader
 
 class JarPPResource extends ResourceImpl {
 
@@ -36,8 +32,8 @@ class JarPPResource extends ResourceImpl {
 		super(uri)
 	}
 
-	def Type convert(java.lang.reflect.Type t) {
-		switch (t) {
+	def private Type convert(java.lang.reflect.Type t) {
+		return switch (t) {
 			Class<?>:
 				createType => [
 					value = t.name
@@ -136,7 +132,10 @@ class JarPPResource extends ResourceImpl {
 			replace('.class', '').replace('/', '.')]
 
 		// Create the root package
-		val rootPackage = createRootPackage
+		val rootPackage = createRootPackage => [
+			name = uri.segmentsList.last
+			source = uri
+		]
 
 		// Create the set of classes that could not be found
 		val unfoundClasses = newHashSet
@@ -149,7 +148,7 @@ class JarPPResource extends ResourceImpl {
 
 				// If not found and not already reported, add to warnings
 				if (unfoundClasses += x.message)
-					getWarnings += new NoClassDefFoundDiagnostic(x)
+					rootPackage.noClassDefs += x.message
 			} catch (Throwable t) {
 				getWarnings += new ThrowableDiagnostic(t)
 			}

@@ -1,20 +1,60 @@
 package org.softlang.megal.calculation
 
+import com.google.common.base.Optional
 import com.google.common.collect.Sets
 import java.util.Set
+import org.eclipse.emf.common.util.URI
 import org.softlang.megal.megaL.ED
 import org.softlang.megal.megaL.ETD
+import org.softlang.megal.megaL.Jar
 import org.softlang.megal.megaL.MegaLDefinition
 import org.softlang.megal.megaL.RD
 import org.softlang.megal.megaL.RTD
-import com.google.common.base.Optional
 import org.softlang.megal.megaL.UseETD
-import org.softlang.megal.megaL.UseEntity
 import org.softlang.megal.megaL.UseETDRef
+import org.softlang.megal.megaL.UseEntity
 
 import static extension org.softlang.megal.operators.Operators.*
+import java.util.List
+import org.softlang.megal.megaL.Project
+import org.eclipse.core.resources.ResourcesPlugin
 
 class Calculation {
+	def static tryResolveProject(Project p) {
+		if (p?.ref == null)
+			return Optional.absent
+		try {
+			val pr = ResourcesPlugin.workspace.root.getProject(p.ref)
+			if (!pr.exists)
+				return Optional.absent
+
+			val pf = pr.getFile(".project")
+			if (!pf.exists)
+				return Optional.absent
+
+			return Optional.of(p.eResource.resourceSet.getResource(URI.createURI('''platform:/resource/«pr.name»/.project'''), true))
+		} catch (IllegalArgumentException e) {
+
+			// On an invalid input do not process
+			return Optional.absent
+		}
+	}
+
+	def static tryResolveJar(Jar i) {
+
+		// Check for well-formed input
+		if (i?.ref == null)
+			return Optional.absent
+		try {
+
+			// Try loading
+			return Optional.of(i.eResource.resourceSet.getResource(URI.createURI(i.ref), true))
+		} catch (IllegalArgumentException e) {
+
+			// On an invalid input do not process
+			return Optional.absent
+		}
+	}
 
 	/**
 	 * Searches the definition and their respective imports
@@ -100,6 +140,14 @@ class Calculation {
 		a.ref.name
 	}
 
+	def static dispatch getSupertype(UseETDRef e) {
+		e.ref.supertype
+	}
+
+	def static dispatch getSupertype(UseEntity e) {
+		null
+	}
+
 	def static getHierarchy(UseETD e) {
 		val h = newArrayList
 		var x = e
@@ -130,7 +178,11 @@ class Calculation {
 			val retd = p.last as UseETD
 			// Map to their items
 			return r.filter[domain <=> letd && coDomain <=> retd]
-		].flatten.toList.sort [ a, b |
+		].flatten.toList.sortByStrength
+	}
+
+	def static sortByStrength(List<RTD> rtd) {
+		return rtd.sort [ a, b |
 			val ds = a.domain.isSupertypeOf(b.domain)
 			val cs = a.coDomain.isSupertypeOf(b.coDomain)
 			if (ds && cs)

@@ -22,7 +22,9 @@
    <extension
          point="org.softlang.relationtype">
       <relationtype
-            name="conformsTo">
+            name="conformsTo"
+            source="Artifact"
+            target="Artifact">
       </relationtype>
    </extension>
 
