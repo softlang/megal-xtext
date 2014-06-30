@@ -8,6 +8,7 @@ import java.io.OutputStream
 import java.io.ByteArrayInputStream
 import com.google.common.io.ByteStreams
 import org.eclipse.emf.common.util.URI
+import java.io.DataInputStream
 
 abstract class AbstractResource extends ResourceImpl {
 	var byte[] bytes
@@ -28,7 +29,7 @@ abstract class AbstractResource extends ResourceImpl {
 	override protected final doLoad(InputStream inputStream, Map<?, ?> options) throws IOException {
 		bytes = ByteStreams.toByteArray([|inputStream])
 		inputStream.close
-
+		
 		extractModel(options)
 	}
 

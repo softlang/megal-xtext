@@ -49,6 +49,7 @@ class JDTPPResource extends AbstractResource {
 	//			]
 	//		]
 	//	}
+	
 	def Classifier getOrCreate(RootPackage root, IType c) {
 
 		// Store for container node
