@@ -46,7 +46,11 @@ UseEntity:
 MegaLLinking:
 	'linking' name=QualifiedID
 	('for' target=[MegaLDefinition|QualifiedID])?
-	(jars+=Jar | providers+=Provider | lds+=LD)*;
+	(jars+=Jar | projects+=Project | providers+=Provider | lds+=LD)*;
+
+Project:
+	'project' ref=STRING
+;
 
 Jar:
 	'jar' ref=STRING;

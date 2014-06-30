@@ -52,11 +52,17 @@ class MegaLScopeProvider extends AbstractDeclarativeScopeProvider {
 		scope_ED(l.target, er)
 	}
 
+	def packageProviders(MegaLLinking l) {
+		val ps = l.projects.map[p|Calculation.tryResolveProject(p)]
+		val js = l.jars.map[j|Calculation.tryResolveJar(j)]
+
+		return ps + js
+	}
+
 	def visibleClassifiers(MegaLLinking l) {
 
 		// TODO: Implement by resource services which is fukt
-		l.jars.map[i|Calculation.tryResolveJar(i)].filter[present].map[get.allContents.toIterable.filter(Classifier)].
-			flatten
+		l.packageProviders.filter[present].map[get.allContents.toIterable.filter(Classifier)].flatten
 	}
 
 	def scope_Classifier(MegaLLinking l, EReference er) {

@@ -59,10 +59,15 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#//MegaLDefinition"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="jars" upperBound="-1" eType="#//Jar"
         containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="projects" upperBound="-1"
+        eType="#//Project" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="providers" upperBound="-1"
         eType="#//Provider" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="lds" upperBound="-1" eType="#//LD"
         containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Project">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ref" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Jar">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="ref" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>

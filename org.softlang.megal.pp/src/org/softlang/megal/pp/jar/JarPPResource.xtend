@@ -15,7 +15,6 @@ import org.softlang.megal.pp.PPFactory
 import org.softlang.megal.pp.Package
 import org.softlang.megal.pp.RootPackage
 import org.softlang.megal.pp.Type
-import org.softlang.megal.pp.general.NoClassDefFoundDiagnostic
 import org.softlang.megal.pp.general.ThrowableDiagnostic
 import org.xeustechnologies.jcl.JarClassLoader
 
@@ -33,8 +32,8 @@ class JarPPResource extends ResourceImpl {
 		super(uri)
 	}
 
-	def Type convert(java.lang.reflect.Type t) {
-		switch (t) {
+	def private Type convert(java.lang.reflect.Type t) {
+		return switch (t) {
 			Class<?>:
 				createType => [
 					value = t.name

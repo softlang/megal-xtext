@@ -16,8 +16,30 @@ import org.softlang.megal.megaL.UseEntity
 
 import static extension org.softlang.megal.operators.Operators.*
 import java.util.List
+import org.softlang.megal.megaL.Project
+import org.eclipse.core.resources.ResourcesPlugin
 
 class Calculation {
+	def static tryResolveProject(Project p) {
+		if (p?.ref == null)
+			return Optional.absent
+		try {
+			val pr = ResourcesPlugin.workspace.root.getProject(p.ref)
+			if (!pr.exists)
+				return Optional.absent
+
+			val pf = pr.getFile(".project")
+			if (!pf.exists)
+				return Optional.absent
+
+			return Optional.of(p.eResource.resourceSet.getResource(URI.createURI('''platform:/resource/«pr.name»/.project'''), true))
+		} catch (IllegalArgumentException e) {
+
+			// On an invalid input do not process
+			return Optional.absent
+		}
+	}
+
 	def static tryResolveJar(Jar i) {
 
 		// Check for well-formed input

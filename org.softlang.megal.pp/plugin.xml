@@ -19,6 +19,10 @@
             class="org.softlang.megal.pp.jar.JarPPResourceFactory"
             type="jar">
       </parser>
+      <parser
+            class="org.softlang.megal.pp.jdt.JDTPPResourceFactory"
+            type="project">
+      </parser>
    </extension>
 
 </plugin>
