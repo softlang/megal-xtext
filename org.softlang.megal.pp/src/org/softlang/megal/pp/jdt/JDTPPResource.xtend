@@ -1,12 +1,9 @@
 package org.softlang.megal.pp.jdt
 
 import java.io.IOException
-import java.io.InputStream
-import java.io.OutputStream
 import java.util.Map
 import org.eclipse.core.resources.ResourcesPlugin
 import org.eclipse.emf.common.util.URI
-import org.eclipse.emf.ecore.resource.impl.ResourceImpl
 import org.eclipse.jdt.core.IJavaElement
 import org.eclipse.jdt.core.IPackageFragmentRoot
 import org.eclipse.jdt.core.IParent
@@ -17,9 +14,10 @@ import org.softlang.megal.pp.Node
 import org.softlang.megal.pp.PPFactory
 import org.softlang.megal.pp.Package
 import org.softlang.megal.pp.RootPackage
+import org.softlang.megal.pp.ar.AbstractResource
 import org.softlang.megal.pp.general.ThrowableDiagnostic
 
-class JDTPPResource extends ResourceImpl {
+class JDTPPResource extends AbstractResource {
 
 	/**
 	 * Local instance of the factory as an extension
@@ -131,10 +129,10 @@ class JDTPPResource extends ResourceImpl {
 		return e.children + e.children.filter(IParent).map[allChildren].flatten
 	}
 
-	override protected doLoad(InputStream inputStream, Map<?, ?> options) throws IOException {
+	override protected extractModel(Map<?, ?> options) throws IOException {
 		val project = ResourcesPlugin.workspace.root.getProject(uri.segment(1))
 		val jdt = JavaCore.create(project)
-		
+
 		val rootPackage = createRootPackage => [
 			name = jdt.elementName
 			source = uri
@@ -152,8 +150,4 @@ class JDTPPResource extends ResourceImpl {
 
 		getContents += rootPackage
 	}
-
-	override protected doSave(OutputStream outputStream, Map<?, ?> options) throws IOException {
-	}
-
 }

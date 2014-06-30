@@ -17,8 +17,9 @@ import org.softlang.megal.pp.RootPackage
 import org.softlang.megal.pp.Type
 import org.softlang.megal.pp.general.ThrowableDiagnostic
 import org.xeustechnologies.jcl.JarClassLoader
+import org.softlang.megal.pp.ar.AbstractResource
 
-class JarPPResource extends ResourceImpl {
+class JarPPResource extends AbstractResource {
 
 	/**
 	 * Local instance of the factory as an extension
@@ -121,11 +122,11 @@ class JarPPResource extends ResourceImpl {
 		}
 	}
 
-	override protected doLoad(InputStream inputStream, Map<?, ?> options) throws IOException {
+	override protected extractModel(Map<?, ?> options) throws IOException {
 
 		// Load Jar
 		val jc = new JarClassLoader
-		jc.add(inputStream)
+		jc.add(image)
 
 		// Get all binary names
 		val names = jc.loadedResources.keySet.filter[n|n.toLowerCase.endsWith('.class')].map[
@@ -156,8 +157,4 @@ class JarPPResource extends ResourceImpl {
 
 		getContents += rootPackage
 	}
-
-	override protected doSave(OutputStream outputStream, Map<?, ?> options) throws IOException {
-	}
-
 }
