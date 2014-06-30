@@ -9,9 +9,7 @@ import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-
 import org.eclipse.emf.ecore.impl.EPackageImpl;
-
 import org.softlang.megal.pp.Classifier;
 import org.softlang.megal.pp.Generic;
 import org.softlang.megal.pp.Node;
@@ -151,15 +149,6 @@ public class PPPackageImpl extends EPackageImpl implements PPPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getPackage_Name() {
-		return (EAttribute)packageEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EClass getNode() {
 		return nodeEClass;
 	}
@@ -178,6 +167,15 @@ public class PPPackageImpl extends EPackageImpl implements PPPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getNode_Name() {
+		return (EAttribute)nodeEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getClassifier() {
 		return classifierEClass;
 	}
@@ -187,17 +185,8 @@ public class PPPackageImpl extends EPackageImpl implements PPPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getClassifier_Name() {
-		return (EAttribute)classifierEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EReference getClassifier_Generics() {
-		return (EReference)classifierEClass.getEStructuralFeatures().get(1);
+		return (EReference)classifierEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -206,7 +195,7 @@ public class PPPackageImpl extends EPackageImpl implements PPPackage {
 	 * @generated
 	 */
 	public EReference getClassifier_Extends() {
-		return (EReference)classifierEClass.getEStructuralFeatures().get(2);
+		return (EReference)classifierEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -215,7 +204,7 @@ public class PPPackageImpl extends EPackageImpl implements PPPackage {
 	 * @generated
 	 */
 	public EReference getClassifier_Implements() {
-		return (EReference)classifierEClass.getEStructuralFeatures().get(3);
+		return (EReference)classifierEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -224,7 +213,7 @@ public class PPPackageImpl extends EPackageImpl implements PPPackage {
 	 * @generated
 	 */
 	public EAttribute getClassifier_Interface() {
-		return (EAttribute)classifierEClass.getEStructuralFeatures().get(4);
+		return (EAttribute)classifierEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -277,7 +266,7 @@ public class PPPackageImpl extends EPackageImpl implements PPPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getRootPackage_Source() {
+	public EAttribute getRootPackage_Base() {
 		return (EAttribute)rootPackageEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -286,7 +275,7 @@ public class PPPackageImpl extends EPackageImpl implements PPPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getRootPackage_Name() {
+	public EAttribute getRootPackage_NoClassDefs() {
 		return (EAttribute)rootPackageEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -295,17 +284,8 @@ public class PPPackageImpl extends EPackageImpl implements PPPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getRootPackage_Base() {
-		return (EAttribute)rootPackageEClass.getEStructuralFeatures().get(2);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getRootPackage_NoClassDefs() {
-		return (EAttribute)rootPackageEClass.getEStructuralFeatures().get(3);
+	public EOperation getRootPackage__ResolveClassifier__String() {
+		return rootPackageEClass.getEOperations().get(0);
 	}
 
 	/**
@@ -333,6 +313,15 @@ public class PPPackageImpl extends EPackageImpl implements PPPackage {
 	 */
 	public EReference getType_Arguments() {
 		return (EReference)typeEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EOperation getType__ResolveClassifier() {
+		return typeEClass.getEOperations().get(0);
 	}
 
 	/**
@@ -373,13 +362,12 @@ public class PPPackageImpl extends EPackageImpl implements PPPackage {
 
 		// Create classes and their features
 		packageEClass = createEClass(PACKAGE);
-		createEAttribute(packageEClass, PACKAGE__NAME);
 
 		nodeEClass = createEClass(NODE);
 		createEReference(nodeEClass, NODE__CHILDREN);
+		createEAttribute(nodeEClass, NODE__NAME);
 
 		classifierEClass = createEClass(CLASSIFIER);
-		createEAttribute(classifierEClass, CLASSIFIER__NAME);
 		createEReference(classifierEClass, CLASSIFIER__GENERICS);
 		createEReference(classifierEClass, CLASSIFIER__EXTENDS);
 		createEReference(classifierEClass, CLASSIFIER__IMPLEMENTS);
@@ -391,14 +379,14 @@ public class PPPackageImpl extends EPackageImpl implements PPPackage {
 		createEReference(genericEClass, GENERIC__BOUNDS);
 
 		rootPackageEClass = createEClass(ROOT_PACKAGE);
-		createEAttribute(rootPackageEClass, ROOT_PACKAGE__SOURCE);
-		createEAttribute(rootPackageEClass, ROOT_PACKAGE__NAME);
 		createEAttribute(rootPackageEClass, ROOT_PACKAGE__BASE);
 		createEAttribute(rootPackageEClass, ROOT_PACKAGE__NO_CLASS_DEFS);
+		createEOperation(rootPackageEClass, ROOT_PACKAGE___RESOLVE_CLASSIFIER__STRING);
 
 		typeEClass = createEClass(TYPE);
 		createEAttribute(typeEClass, TYPE__VALUE);
 		createEReference(typeEClass, TYPE__ARGUMENTS);
+		createEOperation(typeEClass, TYPE___RESOLVE_CLASSIFIER);
 
 		// Create data types
 		euriEDataType = createEDataType(EURI);
@@ -438,13 +426,12 @@ public class PPPackageImpl extends EPackageImpl implements PPPackage {
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(packageEClass, org.softlang.megal.pp.Package.class, "Package", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getPackage_Name(), ecorePackage.getEString(), "name", null, 1, 1, org.softlang.megal.pp.Package.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(nodeEClass, Node.class, "Node", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getNode_Children(), this.getNode(), null, "children", null, 0, -1, Node.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getNode_Name(), ecorePackage.getEString(), "name", null, 1, 1, Node.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(classifierEClass, Classifier.class, "Classifier", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getClassifier_Name(), ecorePackage.getEString(), "name", null, 1, 1, Classifier.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getClassifier_Generics(), this.getGeneric(), null, "generics", null, 0, -1, Classifier.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getClassifier_Extends(), this.getType(), null, "extends", null, 0, 1, Classifier.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getClassifier_Implements(), this.getType(), null, "implements", null, 0, -1, Classifier.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -458,14 +445,17 @@ public class PPPackageImpl extends EPackageImpl implements PPPackage {
 		initEReference(getGeneric_Bounds(), this.getType(), null, "bounds", null, 0, -1, Generic.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(rootPackageEClass, RootPackage.class, "RootPackage", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getRootPackage_Source(), this.getEURI(), "source", null, 1, 1, RootPackage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getRootPackage_Name(), ecorePackage.getEString(), "name", null, 1, 1, RootPackage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getRootPackage_Base(), ecorePackage.getEString(), "base", null, 1, 1, RootPackage.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 		initEAttribute(getRootPackage_NoClassDefs(), ecorePackage.getEString(), "noClassDefs", null, 0, -1, RootPackage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		op = initEOperation(getRootPackage__ResolveClassifier__String(), this.getClassifier(), "resolveClassifier", 1, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, ecorePackage.getEString(), "typeName", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(typeEClass, Type.class, "Type", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getType_Value(), ecorePackage.getEString(), "value", null, 1, 1, Type.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getType_Arguments(), this.getType(), null, "arguments", null, 0, -1, Type.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEOperation(getType__ResolveClassifier(), this.getClassifier(), "resolveClassifier", 1, 1, IS_UNIQUE, IS_ORDERED);
 
 		// Initialize data types
 		initEDataType(euriEDataType, URI.class, "EURI", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);

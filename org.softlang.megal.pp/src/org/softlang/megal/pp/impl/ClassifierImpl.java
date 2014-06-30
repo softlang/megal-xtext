@@ -5,7 +5,6 @@ package org.softlang.megal.pp.impl;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.Objects;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
@@ -26,7 +25,6 @@ import org.softlang.megal.pp.Type;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.softlang.megal.pp.impl.ClassifierImpl#getName <em>Name</em>}</li>
  *   <li>{@link org.softlang.megal.pp.impl.ClassifierImpl#getGenerics <em>Generics</em>}</li>
  *   <li>{@link org.softlang.megal.pp.impl.ClassifierImpl#getExtends <em>Extends</em>}</li>
  *   <li>{@link org.softlang.megal.pp.impl.ClassifierImpl#getImplements <em>Implements</em>}</li>
@@ -37,26 +35,6 @@ import org.softlang.megal.pp.Type;
  * @generated
  */
 public class ClassifierImpl extends NodeImpl implements Classifier {
-	/**
-	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getName()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String NAME_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getName()
-	 * @generated
-	 * @ordered
-	 */
-	protected String name = NAME_EDEFAULT;
-
 	/**
 	 * The cached value of the '{@link #getGenerics() <em>Generics</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
@@ -124,27 +102,6 @@ public class ClassifierImpl extends NodeImpl implements Classifier {
 	@Override
 	protected EClass eStaticClass() {
 		return PPPackage.Literals.CLASSIFIER;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String getName() {
-		return name;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setName(String newName) {
-		String oldName = name;
-		name = newName;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, PPPackage.CLASSIFIER__NAME, oldName, name));
 	}
 
 	/**
@@ -279,8 +236,6 @@ public class ClassifierImpl extends NodeImpl implements Classifier {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case PPPackage.CLASSIFIER__NAME:
-				return getName();
 			case PPPackage.CLASSIFIER__GENERICS:
 				return getGenerics();
 			case PPPackage.CLASSIFIER__EXTENDS:
@@ -302,9 +257,6 @@ public class ClassifierImpl extends NodeImpl implements Classifier {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case PPPackage.CLASSIFIER__NAME:
-				setName((String)newValue);
-				return;
 			case PPPackage.CLASSIFIER__GENERICS:
 				getGenerics().clear();
 				getGenerics().addAll((Collection<? extends Generic>)newValue);
@@ -331,9 +283,6 @@ public class ClassifierImpl extends NodeImpl implements Classifier {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case PPPackage.CLASSIFIER__NAME:
-				setName(NAME_EDEFAULT);
-				return;
 			case PPPackage.CLASSIFIER__GENERICS:
 				getGenerics().clear();
 				return;
@@ -358,8 +307,6 @@ public class ClassifierImpl extends NodeImpl implements Classifier {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case PPPackage.CLASSIFIER__NAME:
-				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 			case PPPackage.CLASSIFIER__GENERICS:
 				return generics != null && !generics.isEmpty();
 			case PPPackage.CLASSIFIER__EXTENDS:
@@ -396,9 +343,7 @@ public class ClassifierImpl extends NodeImpl implements Classifier {
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (name: ");
-		result.append(name);
-		result.append(", interface: ");
+		result.append(" (interface: ");
 		result.append(interface_);
 		result.append(')');
 		return result.toString();

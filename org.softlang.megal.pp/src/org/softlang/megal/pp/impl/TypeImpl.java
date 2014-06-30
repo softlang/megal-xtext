@@ -2,29 +2,28 @@
  */
 package org.softlang.megal.pp.impl;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
-
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
-
+import org.eclipse.xtext.EcoreUtil2;
+import org.softlang.megal.pp.Classifier;
 import org.softlang.megal.pp.PPPackage;
+import org.softlang.megal.pp.RootPackage;
 import org.softlang.megal.pp.Type;
+import org.softlang.megal.pp.general.UnresolvableClassifierException;
 
 /**
- * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Type</b></em>'.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> An implementation of the model object '
+ * <em><b>Type</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
@@ -38,8 +37,7 @@ import org.softlang.megal.pp.Type;
 public class TypeImpl extends MinimalEObjectImpl.Container implements Type {
 	/**
 	 * The default value of the '{@link #getValue() <em>Value</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getValue()
 	 * @generated
 	 * @ordered
@@ -48,8 +46,7 @@ public class TypeImpl extends MinimalEObjectImpl.Container implements Type {
 
 	/**
 	 * The cached value of the '{@link #getValue() <em>Value</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getValue()
 	 * @generated
 	 * @ordered
@@ -58,8 +55,7 @@ public class TypeImpl extends MinimalEObjectImpl.Container implements Type {
 
 	/**
 	 * The cached value of the '{@link #getArguments() <em>Arguments</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getArguments()
 	 * @generated
 	 * @ordered
@@ -67,8 +63,7 @@ public class TypeImpl extends MinimalEObjectImpl.Container implements Type {
 	protected EList<Type> arguments;
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected TypeImpl() {
@@ -76,8 +71,7 @@ public class TypeImpl extends MinimalEObjectImpl.Container implements Type {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -86,8 +80,7 @@ public class TypeImpl extends MinimalEObjectImpl.Container implements Type {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public String getValue() {
@@ -95,8 +88,7 @@ public class TypeImpl extends MinimalEObjectImpl.Container implements Type {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public void setValue(String newValue) {
@@ -107,8 +99,7 @@ public class TypeImpl extends MinimalEObjectImpl.Container implements Type {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public EList<Type> getArguments() {
@@ -119,12 +110,37 @@ public class TypeImpl extends MinimalEObjectImpl.Container implements Type {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated NOT
+	 */
+	public Classifier resolveClassifier() {
+		if (getValue() == null)
+			throw new IllegalStateException("Value is invalid");
+
+		if (getValue().startsWith("<") && getValue().endsWith(">"))
+			throw new UnresolvableClassifierException(
+					"Cannot resolve type variable");
+
+		if (getValue().equals("[]"))
+			throw new UnresolvableClassifierException(
+					"Cannot resolve generic array");
+		RootPackage r = EcoreUtil2.getContainerOfType(this, RootPackage.class);
+
+		if (r == null)
+			throw new UnresolvableClassifierException(
+					"No resolving context available");
+
+		return r.resolveClassifier(getValue());
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+	public NotificationChain eInverseRemove(InternalEObject otherEnd,
+			int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case PPPackage.TYPE__ARGUMENTS:
 				return ((InternalEList<?>)getArguments()).basicRemove(otherEnd, msgs);
@@ -133,8 +149,7 @@ public class TypeImpl extends MinimalEObjectImpl.Container implements Type {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -149,8 +164,7 @@ public class TypeImpl extends MinimalEObjectImpl.Container implements Type {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -169,8 +183,7 @@ public class TypeImpl extends MinimalEObjectImpl.Container implements Type {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -187,8 +200,7 @@ public class TypeImpl extends MinimalEObjectImpl.Container implements Type {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -203,8 +215,21 @@ public class TypeImpl extends MinimalEObjectImpl.Container implements Type {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Object eInvoke(int operationID, EList<?> arguments)
+			throws InvocationTargetException {
+		switch (operationID) {
+			case PPPackage.TYPE___RESOLVE_CLASSIFIER:
+				return resolveClassifier();
+		}
+		return super.eInvoke(operationID, arguments);
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -218,4 +243,4 @@ public class TypeImpl extends MinimalEObjectImpl.Container implements Type {
 		return result.toString();
 	}
 
-} //TypeImpl
+} // TypeImpl

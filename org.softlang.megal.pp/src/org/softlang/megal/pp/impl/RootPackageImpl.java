@@ -2,17 +2,23 @@
  */
 package org.softlang.megal.pp.impl;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
-import org.eclipse.emf.common.notify.Notification;
+import java.util.Objects;
+
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
+import org.softlang.megal.pp.Classifier;
 import org.softlang.megal.pp.Node;
 import org.softlang.megal.pp.PPPackage;
 import org.softlang.megal.pp.RootPackage;
 import org.softlang.megal.pp.Package;
+import org.softlang.megal.pp.general.UnresolvableClassifierException;
+
+import com.google.common.base.Optional;
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model object '
@@ -20,8 +26,6 @@ import org.softlang.megal.pp.Package;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.softlang.megal.pp.impl.RootPackageImpl#getSource <em>Source</em>}</li>
- *   <li>{@link org.softlang.megal.pp.impl.RootPackageImpl#getName <em>Name</em>}</li>
  *   <li>{@link org.softlang.megal.pp.impl.RootPackageImpl#getBase <em>Base</em>}</li>
  *   <li>{@link org.softlang.megal.pp.impl.RootPackageImpl#getNoClassDefs <em>No Class Defs</em>}</li>
  * </ul>
@@ -30,39 +34,6 @@ import org.softlang.megal.pp.Package;
  * @generated
  */
 public class RootPackageImpl extends NodeImpl implements RootPackage {
-	/**
-	 * The default value of the '{@link #getSource() <em>Source</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @see #getSource()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final URI SOURCE_EDEFAULT = null;
-	/**
-	 * The cached value of the '{@link #getSource() <em>Source</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @see #getSource()
-	 * @generated
-	 * @ordered
-	 */
-	protected URI source = SOURCE_EDEFAULT;
-	/**
-	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @see #getName()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String NAME_EDEFAULT = null;
-	/**
-	 * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @see #getName()
-	 * @generated
-	 * @ordered
-	 */
-	protected String name = NAME_EDEFAULT;
-
 	/**
 	 * The default value of the '{@link #getBase() <em>Base</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -74,8 +45,7 @@ public class RootPackageImpl extends NodeImpl implements RootPackage {
 
 	/**
 	 * The cached value of the '{@link #getNoClassDefs() <em>No Class Defs</em>}' attribute list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getNoClassDefs()
 	 * @generated
 	 * @ordered
@@ -97,44 +67,6 @@ public class RootPackageImpl extends NodeImpl implements RootPackage {
 	@Override
 	protected EClass eStaticClass() {
 		return PPPackage.Literals.ROOT_PACKAGE;
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-	public URI getSource() {
-		return source;
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setSource(URI newSource) {
-		URI oldSource = source;
-		source = newSource;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, PPPackage.ROOT_PACKAGE__SOURCE, oldSource, source));
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String getName() {
-		return name;
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setName(String newName) {
-		String oldName = name;
-		name = newName;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, PPPackage.ROOT_PACKAGE__NAME, oldName, name));
 	}
 
 	/**
@@ -163,8 +95,7 @@ public class RootPackageImpl extends NodeImpl implements RootPackage {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public EList<String> getNoClassDefs() {
@@ -176,15 +107,43 @@ public class RootPackageImpl extends NodeImpl implements RootPackage {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated NOT
+	 */
+	public Classifier resolveClassifier(String typeName) {
+		String[] ps = typeName.split("\\.|\\$");
+
+		Node n = this;
+
+		// TODO: FUCKT because:!!! package vs. nested navigation may make shit
+		for (final String p : ps) {
+			Optional<Node> nc = Iterables.tryFind(n.getChildren(),
+					new Predicate<Node>() {
+
+						@Override
+						public boolean apply(Node input) {
+							return Objects.equals(p, input.getName());
+						}
+					});
+
+			if (nc.isPresent())
+				n = nc.get();
+			else
+				throw new UnresolvableClassifierException(p
+						+ " does not exist in " + n);
+		}
+
+		// No type checking!?
+		return (Classifier) n;
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case PPPackage.ROOT_PACKAGE__SOURCE:
-				return getSource();
-			case PPPackage.ROOT_PACKAGE__NAME:
-				return getName();
 			case PPPackage.ROOT_PACKAGE__BASE:
 				return getBase();
 			case PPPackage.ROOT_PACKAGE__NO_CLASS_DEFS:
@@ -201,12 +160,6 @@ public class RootPackageImpl extends NodeImpl implements RootPackage {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case PPPackage.ROOT_PACKAGE__SOURCE:
-				setSource((URI)newValue);
-				return;
-			case PPPackage.ROOT_PACKAGE__NAME:
-				setName((String)newValue);
-				return;
 			case PPPackage.ROOT_PACKAGE__NO_CLASS_DEFS:
 				getNoClassDefs().clear();
 				getNoClassDefs().addAll((Collection<? extends String>)newValue);
@@ -222,12 +175,6 @@ public class RootPackageImpl extends NodeImpl implements RootPackage {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case PPPackage.ROOT_PACKAGE__SOURCE:
-				setSource(SOURCE_EDEFAULT);
-				return;
-			case PPPackage.ROOT_PACKAGE__NAME:
-				setName(NAME_EDEFAULT);
-				return;
 			case PPPackage.ROOT_PACKAGE__NO_CLASS_DEFS:
 				getNoClassDefs().clear();
 				return;
@@ -242,10 +189,6 @@ public class RootPackageImpl extends NodeImpl implements RootPackage {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case PPPackage.ROOT_PACKAGE__SOURCE:
-				return SOURCE_EDEFAULT == null ? source != null : !SOURCE_EDEFAULT.equals(source);
-			case PPPackage.ROOT_PACKAGE__NAME:
-				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 			case PPPackage.ROOT_PACKAGE__BASE:
 				return BASE_EDEFAULT == null ? getBase() != null : !BASE_EDEFAULT.equals(getBase());
 			case PPPackage.ROOT_PACKAGE__NO_CLASS_DEFS:
@@ -259,15 +202,25 @@ public class RootPackageImpl extends NodeImpl implements RootPackage {
 	 * @generated
 	 */
 	@Override
+	public Object eInvoke(int operationID, EList<?> arguments)
+			throws InvocationTargetException {
+		switch (operationID) {
+			case PPPackage.ROOT_PACKAGE___RESOLVE_CLASSIFIER__STRING:
+				return resolveClassifier((String)arguments.get(0));
+		}
+		return super.eInvoke(operationID, arguments);
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (source: ");
-		result.append(source);
-		result.append(", name: ");
-		result.append(name);
-		result.append(", noClassDefs: ");
+		result.append(" (noClassDefs: ");
 		result.append(noClassDefs);
 		result.append(')');
 		return result.toString();

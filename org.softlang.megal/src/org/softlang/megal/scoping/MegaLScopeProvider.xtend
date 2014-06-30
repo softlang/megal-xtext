@@ -81,4 +81,20 @@ class MegaLScopeProvider extends AbstractDeclarativeScopeProvider {
 		// Make scope of it
 		Scopes::scopeFor(resourceProviders + vcsProviders)
 	}
+	
+	
+	def scope_Semantic_classifier(MegaLLinking l, EReference er) {
+
+		// Get all classifiers
+		val classifiers = visibleClassifiers(l)
+
+		// Filter resource and VCS providers
+		val resourceProviders = classifiers.filter[c|
+			c.extends.value == "megal.entity"
+		]
+		val vcsProviders = classifiers.filter[isImplementationOf("megal.providers.IVCSProvider")]
+
+		// Make scope of it
+		Scopes::scopeFor(resourceProviders + vcsProviders)
+	}
 }

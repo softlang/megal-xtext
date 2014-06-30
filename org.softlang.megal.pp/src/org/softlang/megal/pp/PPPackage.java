@@ -78,13 +78,22 @@ public interface PPPackage extends EPackage {
 	int NODE__CHILDREN = 0;
 
 	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NODE__NAME = 1;
+
+	/**
 	 * The number of structural features of the '<em>Node</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int NODE_FEATURE_COUNT = 1;
+	int NODE_FEATURE_COUNT = 2;
 
 	/**
 	 * The number of operations of the '<em>Node</em>' class.
@@ -121,7 +130,7 @@ public interface PPPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PACKAGE__NAME = NODE_FEATURE_COUNT + 0;
+	int PACKAGE__NAME = NODE__NAME;
 
 	/**
 	 * The number of structural features of the '<em>Package</em>' class.
@@ -130,7 +139,7 @@ public interface PPPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PACKAGE_FEATURE_COUNT = NODE_FEATURE_COUNT + 1;
+	int PACKAGE_FEATURE_COUNT = NODE_FEATURE_COUNT + 0;
 
 	/**
 	 * The number of operations of the '<em>Package</em>' class.
@@ -167,7 +176,7 @@ public interface PPPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CLASSIFIER__NAME = NODE_FEATURE_COUNT + 0;
+	int CLASSIFIER__NAME = NODE__NAME;
 
 	/**
 	 * The feature id for the '<em><b>Generics</b></em>' containment reference list.
@@ -176,7 +185,7 @@ public interface PPPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CLASSIFIER__GENERICS = NODE_FEATURE_COUNT + 1;
+	int CLASSIFIER__GENERICS = NODE_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Extends</b></em>' containment reference.
@@ -185,7 +194,7 @@ public interface PPPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CLASSIFIER__EXTENDS = NODE_FEATURE_COUNT + 2;
+	int CLASSIFIER__EXTENDS = NODE_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Implements</b></em>' containment reference list.
@@ -194,7 +203,7 @@ public interface PPPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CLASSIFIER__IMPLEMENTS = NODE_FEATURE_COUNT + 3;
+	int CLASSIFIER__IMPLEMENTS = NODE_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Interface</b></em>' attribute.
@@ -203,7 +212,7 @@ public interface PPPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CLASSIFIER__INTERFACE = NODE_FEATURE_COUNT + 4;
+	int CLASSIFIER__INTERFACE = NODE_FEATURE_COUNT + 3;
 
 	/**
 	 * The number of structural features of the '<em>Classifier</em>' class.
@@ -212,7 +221,7 @@ public interface PPPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CLASSIFIER_FEATURE_COUNT = NODE_FEATURE_COUNT + 5;
+	int CLASSIFIER_FEATURE_COUNT = NODE_FEATURE_COUNT + 4;
 
 	/**
 	 * The operation id for the '<em>Is Implementation Of</em>' operation.
@@ -298,22 +307,13 @@ public interface PPPackage extends EPackage {
 	int ROOT_PACKAGE__CHILDREN = NODE__CHILDREN;
 
 	/**
-	 * The feature id for the '<em><b>Source</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ROOT_PACKAGE__SOURCE = NODE_FEATURE_COUNT + 0;
-
-	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ROOT_PACKAGE__NAME = NODE_FEATURE_COUNT + 1;
+	int ROOT_PACKAGE__NAME = NODE__NAME;
 
 	/**
 	 * The feature id for the '<em><b>Base</b></em>' attribute.
@@ -322,7 +322,7 @@ public interface PPPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ROOT_PACKAGE__BASE = NODE_FEATURE_COUNT + 2;
+	int ROOT_PACKAGE__BASE = NODE_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>No Class Defs</b></em>' attribute list.
@@ -331,7 +331,7 @@ public interface PPPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ROOT_PACKAGE__NO_CLASS_DEFS = NODE_FEATURE_COUNT + 3;
+	int ROOT_PACKAGE__NO_CLASS_DEFS = NODE_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of structural features of the '<em>Root Package</em>' class.
@@ -340,7 +340,16 @@ public interface PPPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ROOT_PACKAGE_FEATURE_COUNT = NODE_FEATURE_COUNT + 4;
+	int ROOT_PACKAGE_FEATURE_COUNT = NODE_FEATURE_COUNT + 2;
+
+	/**
+	 * The operation id for the '<em>Resolve Classifier</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ROOT_PACKAGE___RESOLVE_CLASSIFIER__STRING = NODE_OPERATION_COUNT + 0;
 
 	/**
 	 * The number of operations of the '<em>Root Package</em>' class.
@@ -349,7 +358,7 @@ public interface PPPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ROOT_PACKAGE_OPERATION_COUNT = NODE_OPERATION_COUNT + 0;
+	int ROOT_PACKAGE_OPERATION_COUNT = NODE_OPERATION_COUNT + 1;
 
 	/**
 	 * The meta object id for the '{@link org.softlang.megal.pp.impl.TypeImpl <em>Type</em>}' class.
@@ -389,13 +398,22 @@ public interface PPPackage extends EPackage {
 	int TYPE_FEATURE_COUNT = 2;
 
 	/**
+	 * The operation id for the '<em>Resolve Classifier</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TYPE___RESOLVE_CLASSIFIER = 0;
+
+	/**
 	 * The number of operations of the '<em>Type</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TYPE_OPERATION_COUNT = 0;
+	int TYPE_OPERATION_COUNT = 1;
 
 
 	/**
@@ -420,17 +438,6 @@ public interface PPPackage extends EPackage {
 	EClass getPackage();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.softlang.megal.pp.Package#getName <em>Name</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Name</em>'.
-	 * @see org.softlang.megal.pp.Package#getName()
-	 * @see #getPackage()
-	 * @generated
-	 */
-	EAttribute getPackage_Name();
-
-	/**
 	 * Returns the meta object for class '{@link org.softlang.megal.pp.Node <em>Node</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -452,6 +459,17 @@ public interface PPPackage extends EPackage {
 	EReference getNode_Children();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.softlang.megal.pp.Node#getName <em>Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Name</em>'.
+	 * @see org.softlang.megal.pp.Node#getName()
+	 * @see #getNode()
+	 * @generated
+	 */
+	EAttribute getNode_Name();
+
+	/**
 	 * Returns the meta object for class '{@link org.softlang.megal.pp.Classifier <em>Classifier</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -460,17 +478,6 @@ public interface PPPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getClassifier();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.softlang.megal.pp.Classifier#getName <em>Name</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Name</em>'.
-	 * @see org.softlang.megal.pp.Classifier#getName()
-	 * @see #getClassifier()
-	 * @generated
-	 */
-	EAttribute getClassifier_Name();
 
 	/**
 	 * Returns the meta object for the containment reference list '{@link org.softlang.megal.pp.Classifier#getGenerics <em>Generics</em>}'.
@@ -569,28 +576,6 @@ public interface PPPackage extends EPackage {
 	EClass getRootPackage();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.softlang.megal.pp.RootPackage#getSource <em>Source</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Source</em>'.
-	 * @see org.softlang.megal.pp.RootPackage#getSource()
-	 * @see #getRootPackage()
-	 * @generated
-	 */
-	EAttribute getRootPackage_Source();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.softlang.megal.pp.RootPackage#getName <em>Name</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Name</em>'.
-	 * @see org.softlang.megal.pp.RootPackage#getName()
-	 * @see #getRootPackage()
-	 * @generated
-	 */
-	EAttribute getRootPackage_Name();
-
-	/**
 	 * Returns the meta object for the attribute '{@link org.softlang.megal.pp.RootPackage#getBase <em>Base</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -611,6 +596,16 @@ public interface PPPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getRootPackage_NoClassDefs();
+
+	/**
+	 * Returns the meta object for the '{@link org.softlang.megal.pp.RootPackage#resolveClassifier(java.lang.String) <em>Resolve Classifier</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Resolve Classifier</em>' operation.
+	 * @see org.softlang.megal.pp.RootPackage#resolveClassifier(java.lang.String)
+	 * @generated
+	 */
+	EOperation getRootPackage__ResolveClassifier__String();
 
 	/**
 	 * Returns the meta object for class '{@link org.softlang.megal.pp.Type <em>Type</em>}'.
@@ -643,6 +638,16 @@ public interface PPPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getType_Arguments();
+
+	/**
+	 * Returns the meta object for the '{@link org.softlang.megal.pp.Type#resolveClassifier() <em>Resolve Classifier</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Resolve Classifier</em>' operation.
+	 * @see org.softlang.megal.pp.Type#resolveClassifier()
+	 * @generated
+	 */
+	EOperation getType__ResolveClassifier();
 
 	/**
 	 * Returns the meta object for data type '{@link org.eclipse.emf.common.util.URI <em>EURI</em>}'.
@@ -689,14 +694,6 @@ public interface PPPackage extends EPackage {
 		EClass PACKAGE = eINSTANCE.getPackage();
 
 		/**
-		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute PACKAGE__NAME = eINSTANCE.getPackage_Name();
-
-		/**
 		 * The meta object literal for the '{@link org.softlang.megal.pp.impl.NodeImpl <em>Node</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -715,6 +712,14 @@ public interface PPPackage extends EPackage {
 		EReference NODE__CHILDREN = eINSTANCE.getNode_Children();
 
 		/**
+		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute NODE__NAME = eINSTANCE.getNode_Name();
+
+		/**
 		 * The meta object literal for the '{@link org.softlang.megal.pp.impl.ClassifierImpl <em>Classifier</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -723,14 +728,6 @@ public interface PPPackage extends EPackage {
 		 * @generated
 		 */
 		EClass CLASSIFIER = eINSTANCE.getClassifier();
-
-		/**
-		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute CLASSIFIER__NAME = eINSTANCE.getClassifier_Name();
 
 		/**
 		 * The meta object literal for the '<em><b>Generics</b></em>' containment reference list feature.
@@ -809,22 +806,6 @@ public interface PPPackage extends EPackage {
 		EClass ROOT_PACKAGE = eINSTANCE.getRootPackage();
 
 		/**
-		 * The meta object literal for the '<em><b>Source</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute ROOT_PACKAGE__SOURCE = eINSTANCE.getRootPackage_Source();
-
-		/**
-		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute ROOT_PACKAGE__NAME = eINSTANCE.getRootPackage_Name();
-
-		/**
 		 * The meta object literal for the '<em><b>Base</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -839,6 +820,14 @@ public interface PPPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute ROOT_PACKAGE__NO_CLASS_DEFS = eINSTANCE.getRootPackage_NoClassDefs();
+
+		/**
+		 * The meta object literal for the '<em><b>Resolve Classifier</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation ROOT_PACKAGE___RESOLVE_CLASSIFIER__STRING = eINSTANCE.getRootPackage__ResolveClassifier__String();
 
 		/**
 		 * The meta object literal for the '{@link org.softlang.megal.pp.impl.TypeImpl <em>Type</em>}' class.
@@ -865,6 +854,14 @@ public interface PPPackage extends EPackage {
 		 * @generated
 		 */
 		EReference TYPE__ARGUMENTS = eINSTANCE.getType_Arguments();
+
+		/**
+		 * The meta object literal for the '<em><b>Resolve Classifier</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation TYPE___RESOLVE_CLASSIFIER = eINSTANCE.getType__ResolveClassifier();
 
 		/**
 		 * The meta object literal for the '<em>EURI</em>' data type.

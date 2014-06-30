@@ -4,6 +4,7 @@ package org.softlang.megal.pp.impl;
 
 import java.util.Collection;
 
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.common.util.EList;
@@ -11,6 +12,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
@@ -27,6 +29,7 @@ import org.softlang.megal.pp.PPPackage;
  * The following features are implemented:
  * <ul>
  *   <li>{@link org.softlang.megal.pp.impl.NodeImpl#getChildren <em>Children</em>}</li>
+ *   <li>{@link org.softlang.megal.pp.impl.NodeImpl#getName <em>Name</em>}</li>
  * </ul>
  * </p>
  *
@@ -42,6 +45,25 @@ public abstract class NodeImpl extends MinimalEObjectImpl.Container implements N
 	 * @ordered
 	 */
 	protected EList<Node> children;
+
+	/**
+	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getName()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String NAME_EDEFAULT = null;
+	/**
+	 * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getName()
+	 * @generated
+	 * @ordered
+	 */
+	protected String name = NAME_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -79,6 +101,27 @@ public abstract class NodeImpl extends MinimalEObjectImpl.Container implements N
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setName(String newName) {
+		String oldName = name;
+		name = newName;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, PPPackage.NODE__NAME, oldName, name));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -98,6 +141,8 @@ public abstract class NodeImpl extends MinimalEObjectImpl.Container implements N
 		switch (featureID) {
 			case PPPackage.NODE__CHILDREN:
 				return getChildren();
+			case PPPackage.NODE__NAME:
+				return getName();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -115,6 +160,9 @@ public abstract class NodeImpl extends MinimalEObjectImpl.Container implements N
 				getChildren().clear();
 				getChildren().addAll((Collection<? extends Node>)newValue);
 				return;
+			case PPPackage.NODE__NAME:
+				setName((String)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -130,6 +178,9 @@ public abstract class NodeImpl extends MinimalEObjectImpl.Container implements N
 			case PPPackage.NODE__CHILDREN:
 				getChildren().clear();
 				return;
+			case PPPackage.NODE__NAME:
+				setName(NAME_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -144,8 +195,26 @@ public abstract class NodeImpl extends MinimalEObjectImpl.Container implements N
 		switch (featureID) {
 			case PPPackage.NODE__CHILDREN:
 				return children != null && !children.isEmpty();
+			case PPPackage.NODE__NAME:
+				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 		}
 		return super.eIsSet(featureID);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String toString() {
+		if (eIsProxy()) return super.toString();
+
+		StringBuffer result = new StringBuffer(super.toString());
+		result.append(" (name: ");
+		result.append(name);
+		result.append(')');
+		return result.toString();
 	}
 
 } //NodeImpl

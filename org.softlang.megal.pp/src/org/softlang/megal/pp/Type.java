@@ -66,4 +66,15 @@ public interface Type extends EObject {
 	 */
 	EList<Type> getArguments();
 
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * Resolves a classifier
+	 * <!-- end-model-doc -->
+	 * @model required="true"
+	 * @generated
+	 */
+	Classifier resolveClassifier();
+
 } // Type

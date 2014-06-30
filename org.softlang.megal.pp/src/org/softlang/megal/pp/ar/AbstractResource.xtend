@@ -1,14 +1,13 @@
 package org.softlang.megal.pp.ar
 
-import org.eclipse.emf.ecore.resource.impl.ResourceImpl
-import java.io.InputStream
-import java.util.Map
-import java.io.IOException
-import java.io.OutputStream
-import java.io.ByteArrayInputStream
 import com.google.common.io.ByteStreams
+import java.io.ByteArrayInputStream
+import java.io.IOException
+import java.io.InputStream
+import java.io.OutputStream
+import java.util.Map
 import org.eclipse.emf.common.util.URI
-import java.io.DataInputStream
+import org.eclipse.emf.ecore.resource.impl.ResourceImpl
 
 abstract class AbstractResource extends ResourceImpl {
 	var byte[] bytes

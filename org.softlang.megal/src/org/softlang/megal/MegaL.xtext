@@ -15,7 +15,6 @@ MegaLDefinition:
 Import:
 	'import' ref=[MegaLDefinition];
 
-
 NamedDefinition:
 	ETD | RTD | ED;
 
@@ -46,17 +45,19 @@ UseEntity:
 MegaLLinking:
 	'linking' name=QualifiedID
 	('for' target=[MegaLDefinition|QualifiedID])?
-	(jars+=Jar | projects+=Project | providers+=Provider | lds+=LD)*;
+	(jars+=Jar | projects+=Project | providers+=Provider | semantics+=Semantic | lds+=LD)*;
 
 Project:
-	'project' ref=STRING
-;
+	'project' ref=STRING;
 
 Jar:
 	'jar' ref=STRING;
 
 Provider:
 	'provider' classifier=[pp::Classifier|QualifiedID];
+
+Semantic:
+	'semantic' classifier=[pp::Classifier|QualifiedID];
 
 LD:
 	target=[ED] '=' value=STRING;

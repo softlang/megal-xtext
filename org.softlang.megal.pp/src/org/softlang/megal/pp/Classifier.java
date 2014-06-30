@@ -9,10 +9,13 @@ import org.eclipse.emf.common.util.EList;
  * A representation of the model object '<em><b>Classifier</b></em>'.
  * <!-- end-user-doc -->
  *
+ * <!-- begin-model-doc -->
+ * A classifier in a package, may be a class or an interface
+ * <!-- end-model-doc -->
+ *
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.softlang.megal.pp.Classifier#getName <em>Name</em>}</li>
  *   <li>{@link org.softlang.megal.pp.Classifier#getGenerics <em>Generics</em>}</li>
  *   <li>{@link org.softlang.megal.pp.Classifier#getExtends <em>Extends</em>}</li>
  *   <li>{@link org.softlang.megal.pp.Classifier#getImplements <em>Implements</em>}</li>
@@ -25,32 +28,6 @@ import org.eclipse.emf.common.util.EList;
  * @generated
  */
 public interface Classifier extends Node {
-	/**
-	 * Returns the value of the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Name</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Name</em>' attribute.
-	 * @see #setName(String)
-	 * @see org.softlang.megal.pp.PPPackage#getClassifier_Name()
-	 * @model id="true" required="true"
-	 * @generated
-	 */
-	String getName();
-
-	/**
-	 * Sets the value of the '{@link org.softlang.megal.pp.Classifier#getName <em>Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Name</em>' attribute.
-	 * @see #getName()
-	 * @generated
-	 */
-	void setName(String value);
-
 	/**
 	 * Returns the value of the '<em><b>Generics</b></em>' containment reference list.
 	 * The list contents are of type {@link org.softlang.megal.pp.Generic}.

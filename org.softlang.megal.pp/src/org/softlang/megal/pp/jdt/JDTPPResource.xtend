@@ -136,7 +136,6 @@ class JDTPPResource extends AbstractResource {
 
 		val rootPackage = createRootPackage => [
 			name = jdt.elementName
-			source = uri
 		]
 
 		for (pr : jdt.allPackageFragmentRoots.filter[kind == IPackageFragmentRoot.K_SOURCE]) {
