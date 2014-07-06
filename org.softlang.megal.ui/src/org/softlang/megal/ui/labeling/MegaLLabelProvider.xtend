@@ -16,7 +16,7 @@ class MegaLLabelProvider extends org.eclipse.xtext.ui.label.DefaultEObjectLabelP
 	new(org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider delegate) {
 		super(delegate);
 	}
-
+	
 	// Labels and icons can be computed like this:
 	
 //	def text(Greeting ele) {

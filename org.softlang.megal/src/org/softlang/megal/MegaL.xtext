@@ -9,7 +9,7 @@ Model:
 
 MegaLDefinition:
 	'model' name=QualifiedID
-	('linked' 'in' linker=[MegaLLinking|QualifiedID])?
+	('configured' 'in' linker=[MegaLLinking|QualifiedID])?
 	(imports+=Import | etds+=ETD | rtds+=RTD | eds+=ED | rds+=RD)*;
 
 Import:
@@ -43,7 +43,7 @@ UseEntity:
 	{UseEntity} 'Entity';
 
 MegaLLinking:
-	'linking' name=QualifiedID
+	'configuration' name=QualifiedID
 	('for' target=[MegaLDefinition|QualifiedID])?
 	(jars+=Jar | projects+=Project | providers+=Provider | semantics+=Semantic | lds+=LD)*;
 

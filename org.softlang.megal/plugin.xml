@@ -26,6 +26,36 @@
             source="Artifact"
             target="Artifact">
       </relationtype>
+      <relationtype
+            name="elementOf"
+            source="Entity"
+            target="Set">
+      </relationtype>
+      <relationtype
+            name="subsetOf"
+            source="Set"
+            target="Set">
+      </relationtype>
+      <relationtype
+            name="partOf"
+            source="Artefact"
+            target="Artefact">
+      </relationtype>
+      <relationtype
+            name="instanceOf"
+            source="Concept"
+            target="Concept">
+      </relationtype>
+      <relationtype
+            name="isA"
+            source="Concept"
+            target="Concept">
+      </relationtype>
+      <relationtype
+            name="definitionOf"
+            source="Artefact"
+            target="Language">
+      </relationtype>
    </extension>
 
 </plugin>
