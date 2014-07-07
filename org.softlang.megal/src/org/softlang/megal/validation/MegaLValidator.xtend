@@ -63,7 +63,7 @@ class MegaLValidator extends AbstractMegaLValidator {
 		val h = c.getHardEntitySemantics(e)
 
 		if (s != null && h == null)
-			info('Soft implementation for ' + e.name, MegaLPackage.Literals.NAMED_DEFINITION__NAME)
+			info('Abstract implementation for ' + e.name, MegaLPackage.Literals.NAMED_DEFINITION__NAME)
 		if (s == null && h == null)
 			error('No implementation for ' + e.name, MegaLPackage.Literals.NAMED_DEFINITION__NAME)
 	}
@@ -75,7 +75,7 @@ class MegaLValidator extends AbstractMegaLValidator {
 		val h = c.getHardRelationSemantics(r)
 
 		if (s != null && h == null)
-			info('Soft implementation for ' + r.name, MegaLPackage.Literals.NAMED_DEFINITION__NAME)
+			info('Abstract relationship for ' + r.name, MegaLPackage.Literals.NAMED_DEFINITION__NAME)
 		if (s == null && h == null)
 			error('No implementation for ' + r.name, MegaLPackage.Literals.NAMED_DEFINITION__NAME)
 
@@ -90,13 +90,13 @@ class MegaLValidator extends AbstractMegaLValidator {
 
 		if (folder.exists)
 			if (linker == null)
-				warning('Model is not linked', MegaLPackage.Literals.MODEL__NAME)
+				warning('Model is not configured', MegaLPackage.Literals.MODEL__NAME)
 	}
 
 	@Check
 	def checkIsLinked(MegaLLinking it) {
 		if (target == null)
-			warning('Linking is not targeting a model', MegaLPackage.Literals.MODEL__NAME)
+			warning('Configuration is not targeting a model', MegaLPackage.Literals.MODEL__NAME)
 	}
 
 	@Check
