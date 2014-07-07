@@ -4,6 +4,10 @@
 package org.softlang.megal.ui;
 
 import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.eclipse.xtext.ui.editor.hover.IEObjectHoverProvider;
+import org.softlang.megal.ui.hover.MegaLHoverProvider;
+
+import com.google.inject.Binder;
 
 /**
  * Use this class to register components to be used within the IDE.
@@ -11,5 +15,12 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 public class MegaLUiModule extends org.softlang.megal.ui.AbstractMegaLUiModule {
 	public MegaLUiModule(AbstractUIPlugin plugin) {
 		super(plugin);
+	}
+
+	@Override
+	public void configure(Binder binder) {
+		super.configure(binder);
+
+		binder.bind(IEObjectHoverProvider.class).to(MegaLHoverProvider.class);
 	}
 }
