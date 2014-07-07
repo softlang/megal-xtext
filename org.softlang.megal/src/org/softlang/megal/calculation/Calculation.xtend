@@ -32,7 +32,8 @@ class Calculation {
 			if (!pf.exists)
 				return Optional.absent
 
-			return Optional.of(p.eResource.resourceSet.getResource(URI.createURI('''platform:/resource/«pr.name»/.project'''), true))
+			return Optional.of(
+				p.eResource.resourceSet.getResource(URI.createURI('''platform:/resource/«pr.name»/.project'''), true))
 		} catch (IllegalArgumentException e) {
 
 			// On an invalid input do not process
@@ -128,16 +129,12 @@ class Calculation {
 		return b.ref.supertype <=> a || a.isSupertypeOf(b.ref.supertype)
 	}
 
-	def static dispatch String getName(UseETD a) {
-		throw new UnsupportedOperationException
-	}
-
-	def static dispatch String getName(UseEntity a) {
-		'Entity'
-	}
-
-	def static dispatch String getName(UseETDRef a) {
-		a.ref.name
+	def static String getName(UseETD a) {
+		switch (a) {
+			case null: null
+			UseEntity: 'Entity'
+			UseETDRef: a?.ref?.name
+		}
 	}
 
 	def static dispatch getSupertype(UseETDRef e) {

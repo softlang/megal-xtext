@@ -16,6 +16,8 @@
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="rds" upperBound="-1" eType="#//RD"
         containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fas" upperBound="-1" eType="#//FA"
+        containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Import">
     <eStructuralFeatures xsi:type="ecore:EReference" name="ref" eType="#//MegaLDefinition"/>
@@ -47,10 +49,20 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#//ED"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ED" eSuperTypes="#//NamedDefinition">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="modifiers" eType="#//Modifiers"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="#//UseETD"
         containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="genericLeft" eType="#//ED"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="genericRight" eType="#//ED"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="UseETD"/>
+  <eClassifiers xsi:type="ecore:EClass" name="FA">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" eType="#//ED"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#//ED"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="UseETD">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="cardinality" eType="#//Cardinality"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="UseETDRef" eSuperTypes="#//UseETD">
     <eStructuralFeatures xsi:type="ecore:EReference" name="ref" eType="#//ETD"/>
   </eClassifiers>
@@ -83,5 +95,15 @@
   <eClassifiers xsi:type="ecore:EClass" name="LD">
     <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#//ED"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="Modifiers">
+    <eLiterals name="Extern" literal="extern"/>
+    <eLiterals name="Intern" value="1" literal="intern"/>
+    <eLiterals name="Parameter" value="2" literal="?"/>
+    <eLiterals name="Dependent" value="3" literal="!"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="Cardinality">
+    <eLiterals name="Plus" literal="+"/>
+    <eLiterals name="Star" value="1" literal="*"/>
   </eClassifiers>
 </ecore:EPackage>

@@ -7,6 +7,16 @@
     editorPluginID="org.softlang.megal.editor" runtimeVersion="2.10" usedGenPackages="platform:/resource/org.softlang.megal.pp/src/PP.genmodel#//pp">
   <genPackages prefix="MegaL" basePackage="org.softlang.megal" disposableProviderFactory="true"
       fileExtensions="megal" ecorePackage="MegaL.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="MegaL.ecore#//Modifiers">
+      <genEnumLiterals ecoreEnumLiteral="MegaL.ecore#//Modifiers/Extern"/>
+      <genEnumLiterals ecoreEnumLiteral="MegaL.ecore#//Modifiers/Intern"/>
+      <genEnumLiterals ecoreEnumLiteral="MegaL.ecore#//Modifiers/Parameter"/>
+      <genEnumLiterals ecoreEnumLiteral="MegaL.ecore#//Modifiers/Dependent"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="MegaL.ecore#//Cardinality">
+      <genEnumLiterals ecoreEnumLiteral="MegaL.ecore#//Cardinality/Plus"/>
+      <genEnumLiterals ecoreEnumLiteral="MegaL.ecore#//Cardinality/Star"/>
+    </genEnums>
     <genClasses ecoreClass="MegaL.ecore#//Model">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MegaL.ecore#//Model/name"/>
     </genClasses>
@@ -17,6 +27,7 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MegaL.ecore#//MegaLDefinition/rtds"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MegaL.ecore#//MegaLDefinition/eds"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MegaL.ecore#//MegaLDefinition/rds"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MegaL.ecore#//MegaLDefinition/fas"/>
     </genClasses>
     <genClasses ecoreClass="MegaL.ecore#//Import">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MegaL.ecore#//Import/ref"/>
@@ -43,9 +54,19 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MegaL.ecore#//RD/target"/>
     </genClasses>
     <genClasses ecoreClass="MegaL.ecore#//ED">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MegaL.ecore#//ED/modifiers"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MegaL.ecore#//ED/type"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MegaL.ecore#//ED/genericLeft"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MegaL.ecore#//ED/genericRight"/>
     </genClasses>
-    <genClasses ecoreClass="MegaL.ecore#//UseETD"/>
+    <genClasses ecoreClass="MegaL.ecore#//FA">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MegaL.ecore#//FA/name"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MegaL.ecore#//FA/source"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MegaL.ecore#//FA/target"/>
+    </genClasses>
+    <genClasses ecoreClass="MegaL.ecore#//UseETD">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MegaL.ecore#//UseETD/cardinality"/>
+    </genClasses>
     <genClasses ecoreClass="MegaL.ecore#//UseETDRef">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MegaL.ecore#//UseETDRef/ref"/>
     </genClasses>

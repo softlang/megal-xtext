@@ -10,7 +10,7 @@ Model:
 MegaLDefinition:
 	'model' name=QualifiedID
 	('configured' 'in' linker=[MegaLLinking|QualifiedID])?
-	(imports+=Import | etds+=ETD | rtds+=RTD | eds+=ED | rds+=RD)*;
+	(imports+=Import | etds+=ETD | rtds+=RTD | eds+=ED | rds+=RD | fas+=FA)*;
 
 Import:
 	'import' ref=[MegaLDefinition];
@@ -22,25 +22,29 @@ Annotation:
 	'@' key=ID '(' value=STRING ')';
 
 ETD:
-	annotations+=Annotation* name=ID '<' supertype=UseETD;
+	annotations+=Annotation* name=QualifiedID '<' supertype=UseETD;
 
 RTD:
-	annotations+=Annotation* name=ID '<' domain=UseETD '*' coDomain=UseETD;
+	annotations+=Annotation* name=QualifiedID '<' domain=UseETD '*' coDomain=UseETD;
 
 RD:
-	source=[ED] rel=[RTD] target=[ED];
+	source=[ED|QualifiedID] rel=[RTD|QualifiedID] target=[ED|QualifiedID];
 
 ED:
-	name=ID ':' type=UseETD;
+	modifiers=Modifiers? name=QualifiedID ':' type=UseETD ('[' genericLeft=[ED|QualifiedID] '->'
+	genericRight=[ED|QualifiedID] ']')?;
+
+FA:
+	name=ID '(' source=[ED|QualifiedID] ')' '|' '->' target=[ED|QualifiedID];
 
 UseETD:
 	UseETDRef | UseEntity;
 
 UseETDRef:
-	ref=[ETD];
+	ref=[ETD|QualifiedID] cardinality=Cardinality?;
 
 UseEntity:
-	{UseEntity} 'Entity';
+	{UseEntity} 'Entity' cardinality=Cardinality?;
 
 MegaLLinking:
 	'configuration' name=QualifiedID
@@ -60,7 +64,16 @@ Semantic:
 	'semantic' classifier=[pp::Classifier|QualifiedID];
 
 LD:
-	target=[ED] '=' value=STRING;
+	target=[ED|QualifiedID] '=' value=STRING;
+
+enum Modifiers:
+	Extern='extern' |
+	Intern='intern' |
+	Parameter='?' |
+	Dependent='!';
+
+enum Cardinality:
+	Plus='+' | Star='*';
 
 QualifiedID:
 	ID ('.' ID)*;
