@@ -38,8 +38,8 @@
       </relationtype>
       <relationtype
             name="partOf"
-            source="Artefact"
-            target="Artefact">
+            source="Artifact"
+            target="Artifact">
       </relationtype>
       <relationtype
             name="instanceOf"
@@ -53,7 +53,17 @@
       </relationtype>
       <relationtype
             name="definitionOf"
-            source="Artefact"
+            source="Artifact"
+            target="Language">
+      </relationtype>
+      <relationtype
+            name="elementOf"
+            source="File"
+            target="Language">
+      </relationtype>
+      <relationtype
+            name="dependsOn"
+            source="Technology"
             target="Language">
       </relationtype>
    </extension>
