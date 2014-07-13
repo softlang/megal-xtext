@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/org.softlang.megal.sdk_1.0.0.201407131253.jar" id="org.softlang.megal.sdk" version="1.0.0.201407131253" os="linux,macosx,win32" arch="x86,x86_64"/>
+</site>

@@ -52,7 +52,7 @@
             target="Concept">
       </relationtype>
       <relationtype
-            name="definitionOf"
+            name="defines"
             source="Artifact"
             target="Language">
       </relationtype>
@@ -65,6 +65,41 @@
             name="dependsOn"
             source="Technology"
             target="Language">
+      </relationtype>
+      <relationtype
+            name="correspondsTo"
+            source="File"
+            target="File">
+      </relationtype>
+      <relationtype
+            name="dependsOn"
+            source="Artifact"
+            target="Artifact">
+      </relationtype>
+      <relationtype
+            name="transformableIn"
+            source="Language"
+            target="Language">
+      </relationtype>
+      <relationtype
+            name="transformedIn"
+            source="Language"
+            target="Language">
+      </relationtype>
+      <relationtype
+            name="linksTo"
+            source="File"
+            target="File">
+      </relationtype>
+      <relationtype
+            name="transformedIn"
+            source="Artifact"
+            target="Artifact">
+      </relationtype>
+      <relationtype
+            name="realizationOf"
+            source="Artifact"
+            target="Function">
       </relationtype>
    </extension>
 
