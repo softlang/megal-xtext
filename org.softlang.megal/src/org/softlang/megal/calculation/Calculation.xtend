@@ -179,7 +179,7 @@ class Calculation {
 	}
 
 	def static sortByStrength(List<RTD> rtd) {
-		return rtd.sort [ a, b |
+		return rtd.sortWith [ a, b |
 			val ds = a.domain.isSupertypeOf(b.domain)
 			val cs = a.coDomain.isSupertypeOf(b.coDomain)
 			if (ds && cs)
