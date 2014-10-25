@@ -1,0 +1,60 @@
+model Prelude
+
+Entity as entity
+
+// Entity types
+Artifact < Entity
+Concept < Entity
+Function < Entity
+FunctionApplication < Entity
+Set < Entity
+Technology < Entity
+Language < Set
+
+File < Artifact
+Folder < Artifact
+Fragment < Artifact
+
+// Relationship types
+elementOf < Entity * Set
+
+subsetOf < Set * Set
+
+partOf < Artifact * Artifact
+partOf < Artifact * Technology
+partOf < Technology * Technology
+partOf < Language * Technology
+
+elementOf < FunctionApplication * Function
+inputOf < Artifact * FunctionApplication
+outputOf < Artifact * FunctionApplication
+
+instanceOf < Concept * Concept
+
+isA < Concept * Concept
+
+conformsTo < Artifact * Artifact
+
+dependsOn < Artifact * Artifact
+dependsOn < Technology * Language
+dependsOn < Technology * Technology
+dependsOn < Function * Technology
+
+transformableIn < Language * Language
+transformedIn < Language * Language
+transformedIn < Artifact * Artifact
+
+correspondsTo < File * File
+
+defines < Artifact * Language
+
+linksTo < File * File
+
+realizationOf < Artifact * Function
+
+// XHTML variantOf HTML
+variantOf < Language * Language
+versionOf < Language * Language
+
+// a deployment perspective, where one technology is used as a container for deployment and execution of the other one
+deploysTo < Technology * Technology
