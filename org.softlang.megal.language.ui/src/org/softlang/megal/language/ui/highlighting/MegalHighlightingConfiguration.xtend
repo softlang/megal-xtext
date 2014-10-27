@@ -13,6 +13,7 @@ import org.softlang.megal.language.MegalEnvironment
 import org.softlang.megal.language.ui.swt.SWTUtil
 
 class MegalHighlightingConfiguration extends DefaultHighlightingConfiguration {
+	// TODO: A lot of guarding here, as null pointers do occur frequently in unassigned models
 
 	def static readStyle(String k, Iterable<? extends Annotation> xs) {
 
@@ -69,13 +70,6 @@ class MegalHighlightingConfiguration extends DefaultHighlightingConfiguration {
 	}
 
 	def static getID(RelationshipType it) {
-
-		// Guard pointers
-		if (left == null)
-			return null
-		if (right == null)
-			return null
-
 		left.definition.name + '_' + name + '_' + right.definition.name
 	}
 
@@ -84,13 +78,6 @@ class MegalHighlightingConfiguration extends DefaultHighlightingConfiguration {
 	}
 
 	def static getDescription(RelationshipType it) {
-
-		// Guard pointers
-		if (left == null)
-			return null
-		if (right == null)
-			return null
-
 		// TODO: This is not safe as left and right may have parameters and multiplicities, safe enough for now
 		name + " between " + left.definition.name + " and " + right.definition.name
 	}
