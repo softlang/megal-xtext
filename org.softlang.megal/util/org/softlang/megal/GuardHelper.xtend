@@ -1,6 +1,7 @@
 package org.softlang.megal
 
 import java.util.UUID
+import java.util.Collection
 
 final class GuardHelper {
 	val UUID uuid
@@ -10,28 +11,44 @@ final class GuardHelper {
 	}
 
 	def check(boolean k) {
-		if(!k) throw new GuardException(uuid)
+		if(!k) throw new GuardException('''Check failed''', uuid)
 	}
 
 	def checkNot(boolean k) {
-		if(k) throw new GuardException(uuid)
+		if(k) throw new GuardException('''Check failed''', uuid)
 	}
 
-	def <T> assigned(T t) {
-		if(t == null) throw new GuardException(uuid)
+	def <T> ifAssigned(T t) {
+		if(t == null) throw new GuardException('''Value was assigned, «t»''', uuid)
+		return t
 	}
 
-	def <T> unassigned(T t) {
-		if(t != null) throw new GuardException(uuid)
+	def <T> ifUnassigned(T t) {
+		if(t != null) throw new GuardException('''Value was null''', uuid)
+		return t
 	}
 
-	def <T> empty(Iterable<?> k) {
+	def <T> ifEmpty(Iterable<T> k) {
 		if (k.iterator.hasNext)
-			throw new GuardException(uuid)
+			throw new GuardException('''Values were not empty, «k»''', uuid)
+		k
 	}
 
-	def <T> notEmpty(Iterable<?> k) {
+	def <T> ifNotEmpty(Iterable<T> k) {
 		if (!k.iterator.hasNext)
-			throw new GuardException(uuid)
+			throw new GuardException('''Values were empty''', uuid)
+		k
+	}
+
+	def <T> ifContained(T o, Collection<?> c) {
+		if (!c.contains(o))
+			throw new GuardException('''Values did not contain «o», «c»''', uuid)
+		return o
+	}
+
+	def <T> ifNotContained(T o, Collection<?> c) {
+		if (c.contains(o))
+			throw new GuardException('''Values did contain «o», «c»''', uuid)
+		return o
 	}
 }

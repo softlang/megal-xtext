@@ -53,25 +53,33 @@ class Guard {
 	def static void main(String[] args) {
 		guarded[
 			check(true)
-			notEmpty(#["ad"])
+			ifNotEmpty(#["ad"])
 			println("Hello")
 		]
 		guarded[
 			check(true)
-			notEmpty(#[])
+			ifNotEmpty(#[])
 			println("You should not see me")
 		]
-		
-		println(guarded(1)[
-			check(1 < 2)
-			return 2
-		]) // Should output 2
-		
-		println(guarded(1)[
-			check(1 < 2)
-			checkNot(1 < 2)
-			return 2
-		]) // Should output 1
+
+		println(
+			guarded(1) [
+				check(1 < 2)
+				return 2
+			]) // Should output 2
+
+		println(
+			guarded(1) [
+				check(1 < 2)
+				checkNot(1 < 2)
+				return 2
+			]) // Should output 1
+
+		guarded[ extension f |
+			true.check
+			1.ifContained(#[1, 2, 3])
+		]
+
 	}
 
 }

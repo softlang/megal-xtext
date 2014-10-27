@@ -12,9 +12,11 @@ import org.softlang.megal.RelationshipType
 import org.softlang.megal.language.MegalEnvironment
 import org.softlang.megal.language.ui.swt.SWTUtil
 
-class MegalHighlightingConfiguration extends DefaultHighlightingConfiguration {
-	// TODO: A lot of guarding here, as null pointers do occur frequently in unassigned models
+import static org.softlang.megal.Guard.*
 
+class MegalHighlightingConfiguration extends DefaultHighlightingConfiguration {
+
+	// TODO: A lot of guarding here, as null pointers do occur frequently in unassigned models
 	def static readStyle(String k, Iterable<? extends Annotation> xs) {
 
 		// Find the style annotation if present
@@ -65,29 +67,65 @@ class MegalHighlightingConfiguration extends DefaultHighlightingConfiguration {
 		readTextStyle(from, STYLE_ANNOTATION_KEY, COLOR_ANNOTATION_KEY, BACKGROUND_ANNOTATION_KEY, xs)
 	}
 
-	def static getID(EntityType it) {
-		name
+	def static getID(EntityType o) {
+		guarded(null) [
+			// Guards
+			ifAssigned(o)
+			// Value
+			o.name
+		]
 	}
 
-	def static getID(RelationshipType it) {
-		left.definition.name + '_' + name + '_' + right.definition.name
+	def static getID(RelationshipType o) {
+		guarded(null) [
+			// Guards	
+			ifAssigned(o)
+			ifAssigned(o.left)
+			ifAssigned(o.right)
+			// Value
+			o.left.definition.name + '_' + o.name + '_' + o.right.definition.name
+		]
 	}
 
-	def static getDescription(EntityType it) {
-		name
+	def static getDescription(EntityType o) {
+		guarded(null) [
+			// Guards
+			ifAssigned(o)
+			// Value
+			o.name
+		]
 	}
 
-	def static getDescription(RelationshipType it) {
-		// TODO: This is not safe as left and right may have parameters and multiplicities, safe enough for now
-		name + " between " + left.definition.name + " and " + right.definition.name
+	def static getDescription(RelationshipType o) {
+		guarded('''Invalid object''') [
+			// Guards	
+			ifAssigned(o)
+			ifAssigned(o.left)
+			ifAssigned(o.right)
+			// Value
+			o.name + " between " + o.left.definition.name + " and " + o.right.definition.name
+		]
+
 	}
 
-	def getStyle(RelationshipType it) {
-		readTextStyle(relationshipTextStyle, annotations)
+	def getStyle(RelationshipType o) {
+		guarded(relationshipTextStyle) [
+			// Guards	
+			ifAssigned(o)
+			ifAssigned(o.annotations)
+			// Value
+			readTextStyle(relationshipTextStyle, o.annotations)
+		]
 	}
 
-	def getStyle(EntityType it) {
-		readTextStyle(entityTextStyle, annotations)
+	def getStyle(EntityType o) {
+		guarded(entityTextStyle) [
+			// Guards	
+			ifAssigned(o)
+			ifAssigned(o.annotations)
+			// Value
+			readTextStyle(entityTextStyle, o.annotations)
+		]
 	}
 
 	/**
@@ -100,32 +138,42 @@ class MegalHighlightingConfiguration extends DefaultHighlightingConfiguration {
 	public static val ENTITY_TYPE_ID = "entity_type";
 	public static val RELATIONSHIP_TYPE_ID = "relationship_type";
 
-	static def idFor(Entity it) {
-		val pr = type.definition.ID
-		if (available.contains(pr))
-			return pr
-		return ENTITY_ID
+	static def idFor(Entity o) {
+		guarded(ENTITY_ID) [
+			// Guards
+			ifAssigned(o)
+			ifAssigned(o.type)
+			// Value and out-guard
+			return ifContained(o.type.definition.ID, available)
+		]
 	}
 
-	static def idFor(Relationship it) {
-		val pr = type.ID
-		if (available.contains(pr))
-			return pr
-		return RELATIONSHIP_ID
+	static def idFor(Relationship o) {
+		guarded(RELATIONSHIP_ID) [
+			// Guards
+			ifAssigned(o)
+			ifAssigned(o.type)
+			// Value and out-guard
+			return ifContained(o.type.ID, available)
+		]
 	}
 
-	static def idFor(EntityType it) {
-		val pr = ID
-		if (available.contains(pr))
-			return pr
-		return ENTITY_TYPE_ID
+	static def idFor(EntityType o) {
+		guarded(ENTITY_TYPE_ID) [
+			// Guards
+			ifAssigned(o)
+			// Value and out-guard
+			return ifContained(o.ID, available)
+		]
 	}
 
-	static def idFor(RelationshipType it) {
-		val pr = ID
-		if (available.contains(pr))
-			return pr
-		return RELATIONSHIP_TYPE_ID
+	static def idFor(RelationshipType o) {
+		guarded(RELATIONSHIP_TYPE_ID) [
+			// Guards
+			ifAssigned(o)
+			// Value and out-guard
+			return ifContained(o.ID, available)
+		]
 	}
 
 	override configure(IHighlightingConfigurationAcceptor acceptor) {
