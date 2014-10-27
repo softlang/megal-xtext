@@ -13,7 +13,7 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Megal.ecore#//Megamodel/declarations"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Megal.ecore#//Megamodel/bindings"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Megal.ecore#//Megamodel/name"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Megal.ecore#//Megamodel/imports"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Megal.ecore#//Megamodel/imports"/>
     </genClasses>
     <genClasses ecoreClass="Megal.ecore#//Declaration">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Megal.ecore#//Declaration/annotations"/>
@@ -51,8 +51,10 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Megal.ecore#//Annotation/key"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Megal.ecore#//Annotation/value"/>
     </genClasses>
-    <genClasses ecoreClass="Megal.ecore#//Import">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Megal.ecore#//Import/importedNamespace"/>
+    <genClasses ecoreClass="Megal.ecore#//FunctionApplication">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Megal.ecore#//FunctionApplication/function"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Megal.ecore#//FunctionApplication/input"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Megal.ecore#//FunctionApplication/output"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

@@ -64,32 +64,48 @@ class MegalHighlightingConfiguration extends DefaultHighlightingConfiguration {
 		readTextStyle(from, STYLE_ANNOTATION_KEY, COLOR_ANNOTATION_KEY, BACKGROUND_ANNOTATION_KEY, xs)
 	}
 
-	def static getID(EntityType d) {
-		d.name
+	def static getID(EntityType it) {
+		name
 	}
 
-	def static getID(RelationshipType d) {
-		d.left.definition.name + '_' + d.name + '_' + d.right.definition.name
+	def static getID(RelationshipType it) {
+
+		// Guard pointers
+		if (left == null)
+			return null
+		if (right == null)
+			return null
+
+		left.definition.name + '_' + name + '_' + right.definition.name
 	}
 
-	def static getDescription(EntityType d) {
-		d.name
+	def static getDescription(EntityType it) {
+		name
 	}
 
-	def static getDescription(RelationshipType d) {
+	def static getDescription(RelationshipType it) {
+
+		// Guard pointers
+		if (left == null)
+			return null
+		if (right == null)
+			return null
 
 		// TODO: This is not safe as left and right may have parameters and multiplicities, safe enough for now
-		d.name + " between " + d.left.definition.name + " and " + d.right.definition.name
+		name + " between " + left.definition.name + " and " + right.definition.name
 	}
 
-	def getStyle(RelationshipType d) {
-		readTextStyle(relationshipTextStyle, d.annotations)
+	def getStyle(RelationshipType it) {
+		readTextStyle(relationshipTextStyle, annotations)
 	}
 
-	def getStyle(EntityType d) {
-		readTextStyle(entityTextStyle, d.annotations)
+	def getStyle(EntityType it) {
+		readTextStyle(entityTextStyle, annotations)
 	}
 
+	/**
+	 * Set of all available styles
+	 */
 	static val available = newHashSet
 
 	public static val ENTITY_ID = "entity";
@@ -97,29 +113,29 @@ class MegalHighlightingConfiguration extends DefaultHighlightingConfiguration {
 	public static val ENTITY_TYPE_ID = "entity_type";
 	public static val RELATIONSHIP_TYPE_ID = "relationship_type";
 
-	static def idFor(Entity e) {
-		val pr = e.type.definition.ID
+	static def idFor(Entity it) {
+		val pr = type.definition.ID
 		if (available.contains(pr))
 			return pr
 		return ENTITY_ID
 	}
 
-	static def idFor(Relationship e) {
-		val pr = e.type.ID
+	static def idFor(Relationship it) {
+		val pr = type.ID
 		if (available.contains(pr))
 			return pr
 		return RELATIONSHIP_ID
 	}
 
-	static def idFor(EntityType e) {
-		val pr = e.ID
+	static def idFor(EntityType it) {
+		val pr = ID
 		if (available.contains(pr))
 			return pr
 		return ENTITY_TYPE_ID
 	}
 
-	static def idFor(RelationshipType e) {
-		val pr = e.ID
+	static def idFor(RelationshipType it) {
+		val pr = ID
 		if (available.contains(pr))
 			return pr
 		return RELATIONSHIP_TYPE_ID
@@ -137,18 +153,20 @@ class MegalHighlightingConfiguration extends DefaultHighlightingConfiguration {
 		// Load the prelude, runtime relation highlighting is probably not doable as this configuration is on init
 		val px = MegalEnvironment.loadPreludeMegamodel
 
+		available.clear
+
 		// Register all stylable entity types
-		for (d : px.declarations.filter(EntityType))
-			if (!available.contains(d)) {
-				available += d.ID
-				acceptor.acceptDefaultHighlighting(d.ID, d.description, d.style)
+		for (it : px.declarations.filter(EntityType))
+			if (!available.contains(ID)) {
+				available += ID
+				acceptor.acceptDefaultHighlighting(ID, description, style)
 			}
 
 		// Register all stylable relationship types
-		for (d : px.declarations.filter(RelationshipType))
-			if (!available.contains(d)) {
-				available += d.ID
-				acceptor.acceptDefaultHighlighting(d.ID, d.description, d.style)
+		for (it : px.declarations.filter(RelationshipType))
+			if (!available.contains(ID)) {
+				available += ID
+				acceptor.acceptDefaultHighlighting(ID, description, style)
 			}
 	}
 

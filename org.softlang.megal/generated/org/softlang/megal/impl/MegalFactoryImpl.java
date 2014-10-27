@@ -72,7 +72,7 @@ public class MegalFactoryImpl extends EFactoryImpl implements MegalFactory
 			case MegalPackage.LINK: return createLink();
 			case MegalPackage.ENTITY_TYPE_REFERENCE: return createEntityTypeReference();
 			case MegalPackage.ANNOTATION: return createAnnotation();
-			case MegalPackage.IMPORT: return createImport();
+			case MegalPackage.FUNCTION_APPLICATION: return createFunctionApplication();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -171,10 +171,10 @@ public class MegalFactoryImpl extends EFactoryImpl implements MegalFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Import createImport()
+	public FunctionApplication createFunctionApplication()
 	{
-		ImportImpl import_ = new ImportImpl();
-		return import_;
+		FunctionApplicationImpl functionApplication = new FunctionApplicationImpl();
+		return functionApplication;
 	}
 
 	/**

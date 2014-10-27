@@ -14,7 +14,7 @@ import org.softlang.megal.Declaration;
 import org.softlang.megal.Entity;
 import org.softlang.megal.EntityType;
 import org.softlang.megal.EntityTypeReference;
-import org.softlang.megal.Import;
+import org.softlang.megal.FunctionApplication;
 import org.softlang.megal.Link;
 import org.softlang.megal.MegalFactory;
 import org.softlang.megal.MegalPackage;
@@ -106,7 +106,7 @@ public class MegalPackageImpl extends EPackageImpl implements MegalPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass importEClass = null;
+	private EClass functionApplicationEClass = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -496,9 +496,9 @@ public class MegalPackageImpl extends EPackageImpl implements MegalPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getImport()
+	public EClass getFunctionApplication()
 	{
-		return importEClass;
+		return functionApplicationEClass;
 	}
 
 	/**
@@ -506,9 +506,29 @@ public class MegalPackageImpl extends EPackageImpl implements MegalPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getImport_ImportedNamespace()
+	public EReference getFunctionApplication_Function()
 	{
-		return (EAttribute)importEClass.getEStructuralFeatures().get(0);
+		return (EReference)functionApplicationEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getFunctionApplication_Input()
+	{
+		return (EReference)functionApplicationEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getFunctionApplication_Output()
+	{
+		return (EReference)functionApplicationEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -583,8 +603,10 @@ public class MegalPackageImpl extends EPackageImpl implements MegalPackage
 		createEAttribute(annotationEClass, ANNOTATION__KEY);
 		createEAttribute(annotationEClass, ANNOTATION__VALUE);
 
-		importEClass = createEClass(IMPORT);
-		createEAttribute(importEClass, IMPORT__IMPORTED_NAMESPACE);
+		functionApplicationEClass = createEClass(FUNCTION_APPLICATION);
+		createEReference(functionApplicationEClass, FUNCTION_APPLICATION__FUNCTION);
+		createEReference(functionApplicationEClass, FUNCTION_APPLICATION__INPUT);
+		createEReference(functionApplicationEClass, FUNCTION_APPLICATION__OUTPUT);
 	}
 
 	/**
@@ -621,13 +643,14 @@ public class MegalPackageImpl extends EPackageImpl implements MegalPackage
 		relationshipTypeEClass.getESuperTypes().add(this.getNamedDeclaration());
 		entityEClass.getESuperTypes().add(this.getNamedDeclaration());
 		relationshipEClass.getESuperTypes().add(this.getDeclaration());
+		functionApplicationEClass.getESuperTypes().add(this.getDeclaration());
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(megamodelEClass, Megamodel.class, "Megamodel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getMegamodel_Declarations(), this.getDeclaration(), null, "declarations", null, 0, -1, Megamodel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getMegamodel_Bindings(), this.getLink(), null, "bindings", null, 0, -1, Megamodel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getMegamodel_Name(), ecorePackage.getEString(), "name", null, 0, 1, Megamodel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getMegamodel_Imports(), this.getImport(), null, "imports", null, 0, -1, Megamodel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getMegamodel_Imports(), this.getMegamodel(), null, "imports", null, 0, -1, Megamodel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(declarationEClass, Declaration.class, "Declaration", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getDeclaration_Annotations(), this.getAnnotation(), null, "annotations", null, 0, -1, Declaration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -665,8 +688,10 @@ public class MegalPackageImpl extends EPackageImpl implements MegalPackage
 		initEAttribute(getAnnotation_Key(), ecorePackage.getEString(), "key", null, 0, 1, Annotation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getAnnotation_Value(), ecorePackage.getEString(), "value", null, 0, 1, Annotation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(importEClass, Import.class, "Import", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getImport_ImportedNamespace(), ecorePackage.getEString(), "importedNamespace", null, 0, 1, Import.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(functionApplicationEClass, FunctionApplication.class, "FunctionApplication", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getFunctionApplication_Function(), this.getEntity(), null, "function", null, 0, 1, FunctionApplication.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getFunctionApplication_Input(), this.getEntity(), null, "input", null, 0, 1, FunctionApplication.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getFunctionApplication_Output(), this.getEntity(), null, "output", null, 0, 1, FunctionApplication.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);

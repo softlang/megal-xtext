@@ -16,10 +16,10 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 import org.softlang.megal.Declaration;
-import org.softlang.megal.Import;
 import org.softlang.megal.Link;
 import org.softlang.megal.MegalPackage;
 import org.softlang.megal.Megamodel;
@@ -83,14 +83,14 @@ public class MegamodelImpl extends MinimalEObjectImpl.Container implements Megam
 	protected String name = NAME_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getImports() <em>Imports</em>}' containment reference list.
+	 * The cached value of the '{@link #getImports() <em>Imports</em>}' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getImports()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<Import> imports;
+	protected EList<Megamodel> imports;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -169,11 +169,11 @@ public class MegamodelImpl extends MinimalEObjectImpl.Container implements Megam
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<Import> getImports()
+	public EList<Megamodel> getImports()
 	{
 		if (imports == null)
 		{
-			imports = new EObjectContainmentEList<Import>(Import.class, this, MegalPackage.MEGAMODEL__IMPORTS);
+			imports = new EObjectResolvingEList<Megamodel>(Megamodel.class, this, MegalPackage.MEGAMODEL__IMPORTS);
 		}
 		return imports;
 	}
@@ -192,8 +192,6 @@ public class MegamodelImpl extends MinimalEObjectImpl.Container implements Megam
 				return ((InternalEList<?>)getDeclarations()).basicRemove(otherEnd, msgs);
 			case MegalPackage.MEGAMODEL__BINDINGS:
 				return ((InternalEList<?>)getBindings()).basicRemove(otherEnd, msgs);
-			case MegalPackage.MEGAMODEL__IMPORTS:
-				return ((InternalEList<?>)getImports()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -244,7 +242,7 @@ public class MegamodelImpl extends MinimalEObjectImpl.Container implements Megam
 				return;
 			case MegalPackage.MEGAMODEL__IMPORTS:
 				getImports().clear();
-				getImports().addAll((Collection<? extends Import>)newValue);
+				getImports().addAll((Collection<? extends Megamodel>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);

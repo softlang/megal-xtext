@@ -6,7 +6,6 @@ import org.softlang.megal.Entity
 import org.softlang.megal.EntityType
 import org.softlang.megal.Relationship
 import org.softlang.megal.RelationshipType
-import org.eclipse.xtext.ui.editor.hover.html.XtextElementLinks
 
 class MegalEObjectHoverProvider extends DefaultEObjectHoverProvider {
 
@@ -48,7 +47,7 @@ class MegalEObjectHoverProvider extends DefaultEObjectHoverProvider {
 		null
 	}
 
-	def dispatch firstLineFor(Entity it) '''«type.definition.link» <b>«name»</b>'''
+	def dispatch firstLineFor(Entity it) '''<b>«name»</b> : «type.definition.link»'''
 
 	def dispatch firstLineFor(EntityType it) '''<b>«name»</b> «IF supertype != null» < «supertype.definition.link»«ENDIF»'''
 

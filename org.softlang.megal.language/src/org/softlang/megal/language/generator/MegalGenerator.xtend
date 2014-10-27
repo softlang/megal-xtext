@@ -6,6 +6,15 @@ package org.softlang.megal.language.generator
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.xtext.generator.IGenerator
 import org.eclipse.xtext.generator.IFileSystemAccess
+import org.softlang.megal.Megamodel
+import org.eclipse.emf.ecore.util.EcoreUtil
+import static extension org.softlang.megal.expansion.Desugar.*
+import org.eclipse.emf.ecore.EObject
+import org.eclipse.xtext.resource.XtextResourceSet
+import org.eclipse.emf.common.util.URI
+import java.io.ByteArrayOutputStream
+import org.eclipse.emf.ecore.resource.ResourceSet
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 
 /**
  * Generates code from your model files on save.
@@ -13,12 +22,29 @@ import org.eclipse.xtext.generator.IFileSystemAccess
  * see http://www.eclipse.org/Xtext/documentation.html#TutorialCodeGeneration
  */
 class MegalGenerator implements IGenerator {
-	
+
+	def static xmiString(EObject k) {
+		val rs = new ResourceSetImpl
+		val rc = rs.createResource(URI.createURI('''dummy://k.xmi'''))
+
+		val baos = new ByteArrayOutputStream
+		rc.contents += k
+		rc.save(baos, emptyMap)
+
+		return new String(baos.toByteArray)
+	}
+
 	override void doGenerate(Resource resource, IFileSystemAccess fsa) {
-//		fsa.generateFile('greetings.txt', 'People to greet: ' + 
-//			resource.allContents
-//				.filter(typeof(Greeting))
-//				.map[name]
-//				.join(', '))
+		for (m : resource.contents.filter(Megamodel)) {
+			val k = EcoreUtil.copy(m)
+			k.desugar
+			fsa.generateFile('''«k.name».xmi''', k.xmiString)
+		}
+
+	//		fsa.generateFile('greetings.txt', 'People to greet: ' + 
+	//			resource.allContents
+	//				.filter(typeof(Greeting))
+	//				.map[name]
+	//				.join(', '))
 	}
 }

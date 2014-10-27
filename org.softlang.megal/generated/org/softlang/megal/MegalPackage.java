@@ -95,7 +95,7 @@ public interface MegalPackage extends EPackage
 	int MEGAMODEL__NAME = 2;
 
 	/**
-	 * The feature id for the '<em><b>Imports</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Imports</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -608,41 +608,68 @@ public interface MegalPackage extends EPackage
 	int ANNOTATION_OPERATION_COUNT = 0;
 
 	/**
-	 * The meta object id for the '{@link org.softlang.megal.impl.ImportImpl <em>Import</em>}' class.
+	 * The meta object id for the '{@link org.softlang.megal.impl.FunctionApplicationImpl <em>Function Application</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.softlang.megal.impl.ImportImpl
-	 * @see org.softlang.megal.impl.MegalPackageImpl#getImport()
+	 * @see org.softlang.megal.impl.FunctionApplicationImpl
+	 * @see org.softlang.megal.impl.MegalPackageImpl#getFunctionApplication()
 	 * @generated
 	 */
-	int IMPORT = 10;
+	int FUNCTION_APPLICATION = 10;
 
 	/**
-	 * The feature id for the '<em><b>Imported Namespace</b></em>' attribute.
+	 * The feature id for the '<em><b>Annotations</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int IMPORT__IMPORTED_NAMESPACE = 0;
+	int FUNCTION_APPLICATION__ANNOTATIONS = DECLARATION__ANNOTATIONS;
 
 	/**
-	 * The number of structural features of the '<em>Import</em>' class.
+	 * The feature id for the '<em><b>Function</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int IMPORT_FEATURE_COUNT = 1;
+	int FUNCTION_APPLICATION__FUNCTION = DECLARATION_FEATURE_COUNT + 0;
 
 	/**
-	 * The number of operations of the '<em>Import</em>' class.
+	 * The feature id for the '<em><b>Input</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int IMPORT_OPERATION_COUNT = 0;
+	int FUNCTION_APPLICATION__INPUT = DECLARATION_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Output</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FUNCTION_APPLICATION__OUTPUT = DECLARATION_FEATURE_COUNT + 2;
+
+	/**
+	 * The number of structural features of the '<em>Function Application</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FUNCTION_APPLICATION_FEATURE_COUNT = DECLARATION_FEATURE_COUNT + 3;
+
+	/**
+	 * The number of operations of the '<em>Function Application</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FUNCTION_APPLICATION_OPERATION_COUNT = DECLARATION_OPERATION_COUNT + 0;
 
 
 	/**
@@ -689,10 +716,10 @@ public interface MegalPackage extends EPackage
 	EAttribute getMegamodel_Name();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link org.softlang.megal.Megamodel#getImports <em>Imports</em>}'.
+	 * Returns the meta object for the reference list '{@link org.softlang.megal.Megamodel#getImports <em>Imports</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Imports</em>'.
+	 * @return the meta object for the reference list '<em>Imports</em>'.
 	 * @see org.softlang.megal.Megamodel#getImports()
 	 * @see #getMegamodel()
 	 * @generated
@@ -988,25 +1015,47 @@ public interface MegalPackage extends EPackage
 	EAttribute getAnnotation_Value();
 
 	/**
-	 * Returns the meta object for class '{@link org.softlang.megal.Import <em>Import</em>}'.
+	 * Returns the meta object for class '{@link org.softlang.megal.FunctionApplication <em>Function Application</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Import</em>'.
-	 * @see org.softlang.megal.Import
+	 * @return the meta object for class '<em>Function Application</em>'.
+	 * @see org.softlang.megal.FunctionApplication
 	 * @generated
 	 */
-	EClass getImport();
+	EClass getFunctionApplication();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.softlang.megal.Import#getImportedNamespace <em>Imported Namespace</em>}'.
+	 * Returns the meta object for the reference '{@link org.softlang.megal.FunctionApplication#getFunction <em>Function</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Imported Namespace</em>'.
-	 * @see org.softlang.megal.Import#getImportedNamespace()
-	 * @see #getImport()
+	 * @return the meta object for the reference '<em>Function</em>'.
+	 * @see org.softlang.megal.FunctionApplication#getFunction()
+	 * @see #getFunctionApplication()
 	 * @generated
 	 */
-	EAttribute getImport_ImportedNamespace();
+	EReference getFunctionApplication_Function();
+
+	/**
+	 * Returns the meta object for the reference '{@link org.softlang.megal.FunctionApplication#getInput <em>Input</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Input</em>'.
+	 * @see org.softlang.megal.FunctionApplication#getInput()
+	 * @see #getFunctionApplication()
+	 * @generated
+	 */
+	EReference getFunctionApplication_Input();
+
+	/**
+	 * Returns the meta object for the reference '{@link org.softlang.megal.FunctionApplication#getOutput <em>Output</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Output</em>'.
+	 * @see org.softlang.megal.FunctionApplication#getOutput()
+	 * @see #getFunctionApplication()
+	 * @generated
+	 */
+	EReference getFunctionApplication_Output();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -1067,7 +1116,7 @@ public interface MegalPackage extends EPackage
 		EAttribute MEGAMODEL__NAME = eINSTANCE.getMegamodel_Name();
 
 		/**
-		 * The meta object literal for the '<em><b>Imports</b></em>' containment reference list feature.
+		 * The meta object literal for the '<em><b>Imports</b></em>' reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
@@ -1309,22 +1358,38 @@ public interface MegalPackage extends EPackage
 		EAttribute ANNOTATION__VALUE = eINSTANCE.getAnnotation_Value();
 
 		/**
-		 * The meta object literal for the '{@link org.softlang.megal.impl.ImportImpl <em>Import</em>}' class.
+		 * The meta object literal for the '{@link org.softlang.megal.impl.FunctionApplicationImpl <em>Function Application</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.softlang.megal.impl.ImportImpl
-		 * @see org.softlang.megal.impl.MegalPackageImpl#getImport()
+		 * @see org.softlang.megal.impl.FunctionApplicationImpl
+		 * @see org.softlang.megal.impl.MegalPackageImpl#getFunctionApplication()
 		 * @generated
 		 */
-		EClass IMPORT = eINSTANCE.getImport();
+		EClass FUNCTION_APPLICATION = eINSTANCE.getFunctionApplication();
 
 		/**
-		 * The meta object literal for the '<em><b>Imported Namespace</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Function</b></em>' reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute IMPORT__IMPORTED_NAMESPACE = eINSTANCE.getImport_ImportedNamespace();
+		EReference FUNCTION_APPLICATION__FUNCTION = eINSTANCE.getFunctionApplication_Function();
+
+		/**
+		 * The meta object literal for the '<em><b>Input</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference FUNCTION_APPLICATION__INPUT = eINSTANCE.getFunctionApplication_Input();
+
+		/**
+		 * The meta object literal for the '<em><b>Output</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference FUNCTION_APPLICATION__OUTPUT = eINSTANCE.getFunctionApplication_Output();
 
 	}
 

@@ -125,9 +125,9 @@ public class MegalAdapterFactory extends AdapterFactoryImpl
 				return createAnnotationAdapter();
 			}
 			@Override
-			public Adapter caseImport(Import object)
+			public Adapter caseFunctionApplication(FunctionApplication object)
 			{
-				return createImportAdapter();
+				return createFunctionApplicationAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object)
@@ -302,16 +302,16 @@ public class MegalAdapterFactory extends AdapterFactoryImpl
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.softlang.megal.Import <em>Import</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.softlang.megal.FunctionApplication <em>Function Application</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.softlang.megal.Import
+	 * @see org.softlang.megal.FunctionApplication
 	 * @generated
 	 */
-	public Adapter createImportAdapter()
+	public Adapter createFunctionApplicationAdapter()
 	{
 		return null;
 	}

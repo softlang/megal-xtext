@@ -3,36 +3,11 @@
  */
 package org.softlang.megal.language;
 
-import org.eclipse.xtext.naming.IQualifiedNameProvider;
-import org.eclipse.xtext.scoping.IScopeProvider;
-import org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider;
-import org.softlang.megal.language.naming.MegalQualifiedNameProvider;
-import org.softlang.megal.language.scoping.MegalScopeProviderImportAspect;
-
-import com.google.inject.Binder;
-import com.google.inject.name.Names;
 
 /**
  * Use this class to register components to be used at runtime / without the
  * Equinox extension registry.
  */
 public class MegalRuntimeModule extends AbstractMegalRuntimeModule {
-	@Override
-	public void configureIScopeProviderDelegate(Binder binder) {
-		// Bind the scope provider type
-		binder.bind(IScopeProvider.class)
-				// Qualify with delegate name as we have multiple scope
-				// providers
-				.annotatedWith(
-						Names.named(AbstractDeclarativeScopeProvider.NAMED_DELEGATE))
-				// Bind to the import aspect
-				.to(MegalScopeProviderImportAspect.class);
-	}
-
-	@Override
-	public Class<? extends IQualifiedNameProvider> bindIQualifiedNameProvider() {
-		// Bind to the MegaL qualified name provider to support nesting
-		return MegalQualifiedNameProvider.class;
-	}
 
 }

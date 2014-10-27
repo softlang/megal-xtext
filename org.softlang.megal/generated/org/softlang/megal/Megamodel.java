@@ -86,19 +86,19 @@ public interface Megamodel extends EObject
 	void setName(String value);
 
 	/**
-	 * Returns the value of the '<em><b>Imports</b></em>' containment reference list.
-	 * The list contents are of type {@link org.softlang.megal.Import}.
+	 * Returns the value of the '<em><b>Imports</b></em>' reference list.
+	 * The list contents are of type {@link org.softlang.megal.Megamodel}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Imports</em>' containment reference list isn't clear,
+	 * If the meaning of the '<em>Imports</em>' reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Imports</em>' containment reference list.
+	 * @return the value of the '<em>Imports</em>' reference list.
 	 * @see org.softlang.megal.MegalPackage#getMegamodel_Imports()
-	 * @model containment="true"
+	 * @model
 	 * @generated
 	 */
-	EList<Import> getImports();
+	EList<Megamodel> getImports();
 
 } // Megamodel

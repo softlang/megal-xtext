@@ -95,13 +95,13 @@ public interface MegalFactory extends EFactory
 	Annotation createAnnotation();
 
 	/**
-	 * Returns a new object of class '<em>Import</em>'.
+	 * Returns a new object of class '<em>Function Application</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Import</em>'.
+	 * @return a new object of class '<em>Function Application</em>'.
 	 * @generated
 	 */
-	Import createImport();
+	FunctionApplication createFunctionApplication();
 
 	/**
 	 * Returns the package supported by this factory.
