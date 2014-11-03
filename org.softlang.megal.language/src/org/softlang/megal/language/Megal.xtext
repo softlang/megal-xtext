@@ -65,7 +65,7 @@ ID:
 	 * Upper case identifier, most likely an entity
 	 */
 terminal UCID:
-	'^'? ('A'..'Z') ('a'..'z' | 'A'..'Z' | '_' | '0'..'9')*;
+	'^'? ('A'..'Z' | '0'..'9') ('a'..'z' | 'A'..'Z' | '_' | '0'..'9')*;
 
 	/**
 	 * Lower case identifier, most likely a relationship

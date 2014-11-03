@@ -11,6 +11,7 @@ Set < Entity
 Technology < Entity
 Language < Set
 
+@Color '255,0,0'
 File < Artifact
 Folder < Artifact
 Fragment < Artifact
