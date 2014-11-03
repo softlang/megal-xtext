@@ -19,7 +19,7 @@ final class GuardHelper {
 	}
 
 	def <T> ifAssigned(T t) {
-		if(t == null) throw new GuardException('''Value was assigned, «t»''', uuid)
+		if(t == null) throw new GuardException('''Value was assigned, Â«tÂ»''', uuid)
 		return t
 	}
 
@@ -30,7 +30,7 @@ final class GuardHelper {
 
 	def <T> ifEmpty(Iterable<T> k) {
 		if (k.iterator.hasNext)
-			throw new GuardException('''Values were not empty, «k»''', uuid)
+			throw new GuardException('''Values were not empty, Â«kÂ»''', uuid)
 		k
 	}
 
@@ -42,13 +42,13 @@ final class GuardHelper {
 
 	def <T> ifContained(T o, Collection<?> c) {
 		if (!c.contains(o))
-			throw new GuardException('''Values did not contain «o», «c»''', uuid)
+			throw new GuardException('''Values did not contain Â«oÂ», Â«cÂ»''', uuid)
 		return o
 	}
 
 	def <T> ifNotContained(T o, Collection<?> c) {
 		if (c.contains(o))
-			throw new GuardException('''Values did contain «o», «c»''', uuid)
+			throw new GuardException('''Values did contain Â«oÂ», Â«cÂ»''', uuid)
 		return o
 	}
 }

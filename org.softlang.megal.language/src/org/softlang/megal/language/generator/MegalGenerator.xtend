@@ -38,7 +38,7 @@ class MegalGenerator implements IGenerator {
 		for (m : resource.contents.filter(Megamodel)) {
 			val k = EcoreUtil.copy(m)
 			k.desugar
-			fsa.generateFile('''«k.name».xmi''', k.xmiString)
+			fsa.generateFile('''Â«k.nameÂ».xmi''', k.xmiString)
 		}
 
 	//		fsa.generateFile('greetings.txt', 'People to greet: ' + 

@@ -60,7 +60,7 @@ class Desugar {
 
 					// Corresponds to 1
 					val app = createEntity => [
-						name = '''«f.function.name».App«n»'''
+						name = '''Â«f.function.nameÂ».AppÂ«nÂ»'''
 						type = createEntityTypeReference => [
 							definition = functionApplication
 							many = false
