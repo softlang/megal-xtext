@@ -47,13 +47,13 @@ class MegalEObjectHoverProvider extends DefaultEObjectHoverProvider {
 		null
 	}
 
-	def dispatch firstLineFor(Entity it) '''<b>Â«nameÂ»</b> : Â«type.definition.linkÂ»'''
+	def dispatch firstLineFor(Entity it) '''<b>«name»</b> : «type.definition.link»'''
 
-	def dispatch firstLineFor(EntityType it) '''<b>Â«nameÂ»</b> Â«IF supertype != nullÂ» < Â«supertype.definition.linkÂ»Â«ENDIFÂ»'''
+	def dispatch firstLineFor(EntityType it) '''<b>«name»</b> «IF supertype != null» < «supertype.definition.link»«ENDIF»'''
 
-	def dispatch firstLineFor(Relationship it) '''Â«left.linkÂ» <i>Â«type.linkÂ»</i> Â«right.linkÂ»'''
+	def dispatch firstLineFor(Relationship it) '''«left.link» <i>«type.link»</i> «right.link»'''
 
-	def dispatch firstLineFor(RelationshipType it) '''Â«left.definition.linkÂ» <i>Â«nameÂ»</i> Â«right.definition.linkÂ»'''
+	def dispatch firstLineFor(RelationshipType it) '''«left.definition.link» <i>«name»</i> «right.definition.link»'''
 
 	/**
 	 * Calculates the documentation for an EObject or null if no documentation
@@ -63,14 +63,14 @@ class MegalEObjectHoverProvider extends DefaultEObjectHoverProvider {
 	}
 
 	def dispatch documentationFor(Entity it) '''
-		Â«IF dependentÂ»<p>Entity is <a href="put a cool link to explain dependency">dependent</a></p>Â«ENDIFÂ»
-		Â«IF parameterÂ»<p>Entity is <a href="put a cool link to explain parametricity">a parameter</a></p>Â«ENDIFÂ»
-		Â«super.getDocumentation(it)Â»
+		«IF dependent»<p>Entity is <a href="put a cool link to explain dependency">dependent</a></p>«ENDIF»
+		«IF parameter»<p>Entity is <a href="put a cool link to explain parametricity">a parameter</a></p>«ENDIF»
+		«super.getDocumentation(it)»
 	'''
 
-	def dispatch documentationFor(EntityType it) '''Â«super.getDocumentation(it)Â»'''
+	def dispatch documentationFor(EntityType it) '''«super.getDocumentation(it)»'''
 
-	def dispatch documentationFor(Relationship it) '''Â«super.getDocumentation(it)Â»'''
+	def dispatch documentationFor(Relationship it) '''«super.getDocumentation(it)»'''
 
-	def dispatch documentationFor(RelationshipType it) '''Â«super.getDocumentation(it)Â»'''
+	def dispatch documentationFor(RelationshipType it) '''«super.getDocumentation(it)»'''
 }

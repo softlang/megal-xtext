@@ -24,9 +24,9 @@ class MegalLabelProvider extends DefaultEObjectLabelProvider {
 		super(delegate);
 	}
 
-	def String text(NamedDeclaration it) '''Â«nameÂ»'''
+	def String text(NamedDeclaration it) '''«name»'''
 
-	def String text(Relationship it) '''Â«left.nameÂ» Â«type.nameÂ» Â«right.nameÂ»'''
+	def String text(Relationship it) '''«left.name» «type.name» «right.name»'''
 
 	def String image(Entity object) '''entity.gif'''
 
