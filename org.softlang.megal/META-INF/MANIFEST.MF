@@ -8,8 +8,10 @@ Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: org.softlang.megal,
+ org.softlang.megal.api,
  org.softlang.megal.expansion,
  org.softlang.megal.impl,
+ org.softlang.megal.reasoner,
  org.softlang.megal.util
 Require-Bundle: org.eclipse.core.runtime;visibility:=reexport,
  org.eclipse.emf.ecore;visibility:=reexport,
@@ -21,7 +23,5 @@ Require-Bundle: org.eclipse.core.runtime;visibility:=reexport,
  org.eclipse.xtext.xbase.lib,
  org.eclipse.xtend.lib,
  org.eclipse.xtend.lib.macro
-Bundle-ActivationPolicy: lazy
 Import-Package: org.apache.commons.logging,
  org.apache.log4j
-Bundle-Activator: org.softlang.megal.MegalPlugin

@@ -14,6 +14,7 @@ import org.softlang.megal.Graph
 import org.softlang.megal.Megamodel
 import org.eclipse.emf.ecore.util.EcoreUtil
 import org.eclipse.xtext.EcoreUtil2
+import static extension org.softlang.megal.reasoner.Reasoner.*
 
 class ListAnnotationsAction extends ExtenderAction {
 
@@ -156,6 +157,11 @@ class MegalEObjectHoverProvider extends ExtenderEObjectHoverProvider {
 	def dispatch documentationFor(Entity it) '''
 		«IF dependent»<p>Entity is <a href="put a cool link to explain dependency">dependent</a></p>«ENDIF»
 		«IF parameter»<p>Entity is <a href="put a cool link to explain parametricity">a parameter</a></p>«ENDIF»
+		«IF dispatcher»
+			«IF masterDispatcher»Dispatcher is <a href="put a cool link to explain master dispatchers">master</a>«ENDIF»
+			<p>Dispatchers involved: <ul>«FOR c : buildDisp»<li>«c.link»</li>«ENDFOR»</ul></p>
+			<p>Parameters bound: <ul> «FOR c : costaassa.entrySet»<li>«c.key.link»&larr;«c.value.link»</li>«ENDFOR»</ul></p>
+		«ENDIF»
 		«super.getDocumentation(it)»
 	'''
 
