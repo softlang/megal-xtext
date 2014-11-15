@@ -4,6 +4,7 @@ package org.softlang.megal.impl;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
@@ -107,6 +108,13 @@ public class MegalPackageImpl extends EPackageImpl implements MegalPackage
 	 * @generated
 	 */
 	private EClass functionApplicationEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EDataType uriEDataType = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -406,9 +414,9 @@ public class MegalPackageImpl extends EPackageImpl implements MegalPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getLink_To()
+	public EReference getLink_Link()
 	{
-		return (EAttribute)linkEClass.getEStructuralFeatures().get(0);
+		return (EReference)linkEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -416,9 +424,9 @@ public class MegalPackageImpl extends EPackageImpl implements MegalPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getLink_Link()
+	public EAttribute getLink_To()
 	{
-		return (EReference)linkEClass.getEStructuralFeatures().get(1);
+		return (EAttribute)linkEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -536,6 +544,16 @@ public class MegalPackageImpl extends EPackageImpl implements MegalPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EDataType getURI()
+	{
+		return uriEDataType;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public MegalFactory getMegalFactory()
 	{
 		return (MegalFactory)getEFactoryInstance();
@@ -591,8 +609,8 @@ public class MegalPackageImpl extends EPackageImpl implements MegalPackage
 		createEReference(relationshipEClass, RELATIONSHIP__RIGHT);
 
 		linkEClass = createEClass(LINK);
-		createEAttribute(linkEClass, LINK__TO);
 		createEReference(linkEClass, LINK__LINK);
+		createEAttribute(linkEClass, LINK__TO);
 
 		entityTypeReferenceEClass = createEClass(ENTITY_TYPE_REFERENCE);
 		createEAttribute(entityTypeReferenceEClass, ENTITY_TYPE_REFERENCE__MANY);
@@ -607,6 +625,9 @@ public class MegalPackageImpl extends EPackageImpl implements MegalPackage
 		createEReference(functionApplicationEClass, FUNCTION_APPLICATION__FUNCTION);
 		createEReference(functionApplicationEClass, FUNCTION_APPLICATION__INPUT);
 		createEReference(functionApplicationEClass, FUNCTION_APPLICATION__OUTPUT);
+
+		// Create data types
+		uriEDataType = createEDataType(URI);
 	}
 
 	/**
@@ -676,8 +697,8 @@ public class MegalPackageImpl extends EPackageImpl implements MegalPackage
 		initEReference(getRelationship_Right(), this.getEntity(), null, "right", null, 0, 1, Relationship.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(linkEClass, Link.class, "Link", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getLink_To(), ecorePackage.getEString(), "to", null, 0, 1, Link.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getLink_Link(), this.getEntity(), null, "link", null, 0, 1, Link.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getLink_To(), this.getURI(), "to", null, 0, 1, Link.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(entityTypeReferenceEClass, EntityTypeReference.class, "EntityTypeReference", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getEntityTypeReference_Many(), ecorePackage.getEBoolean(), "many", null, 0, 1, EntityTypeReference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -692,6 +713,9 @@ public class MegalPackageImpl extends EPackageImpl implements MegalPackage
 		initEReference(getFunctionApplication_Function(), this.getEntity(), null, "function", null, 0, 1, FunctionApplication.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getFunctionApplication_Input(), this.getEntity(), null, "input", null, 0, 1, FunctionApplication.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getFunctionApplication_Output(), this.getEntity(), null, "output", null, 0, 1, FunctionApplication.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		// Initialize data types
+		initEDataType(uriEDataType, org.softlang.megal.api.URI.class, "URI", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
 
 		// Create resource
 		createResource(eNS_URI);

@@ -14,6 +14,8 @@ import org.softlang.megal.Entity;
 import org.softlang.megal.Link;
 import org.softlang.megal.MegalPackage;
 
+import org.softlang.megal.api.URI;
+
 /**
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>Link</b></em>'.
@@ -21,8 +23,8 @@ import org.softlang.megal.MegalPackage;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.softlang.megal.impl.LinkImpl#getTo <em>To</em>}</li>
  *   <li>{@link org.softlang.megal.impl.LinkImpl#getLink <em>Link</em>}</li>
+ *   <li>{@link org.softlang.megal.impl.LinkImpl#getTo <em>To</em>}</li>
  * </ul>
  * </p>
  *
@@ -30,26 +32,6 @@ import org.softlang.megal.MegalPackage;
  */
 public class LinkImpl extends MinimalEObjectImpl.Container implements Link
 {
-	/**
-	 * The default value of the '{@link #getTo() <em>To</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getTo()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String TO_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getTo() <em>To</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getTo()
-	 * @generated
-	 * @ordered
-	 */
-	protected String to = TO_EDEFAULT;
-
 	/**
 	 * The cached value of the '{@link #getLink() <em>Link</em>}' reference.
 	 * <!-- begin-user-doc -->
@@ -59,6 +41,26 @@ public class LinkImpl extends MinimalEObjectImpl.Container implements Link
 	 * @ordered
 	 */
 	protected Entity link;
+
+	/**
+	 * The default value of the '{@link #getTo() <em>To</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getTo()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final URI TO_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getTo() <em>To</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getTo()
+	 * @generated
+	 * @ordered
+	 */
+	protected URI to = TO_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -79,29 +81,6 @@ public class LinkImpl extends MinimalEObjectImpl.Container implements Link
 	protected EClass eStaticClass()
 	{
 		return MegalPackage.Literals.LINK;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String getTo()
-	{
-		return to;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setTo(String newTo)
-	{
-		String oldTo = to;
-		to = newTo;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, MegalPackage.LINK__TO, oldTo, to));
 	}
 
 	/**
@@ -152,16 +131,39 @@ public class LinkImpl extends MinimalEObjectImpl.Container implements Link
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public URI getTo()
+	{
+		return to;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setTo(URI newTo)
+	{
+		URI oldTo = to;
+		to = newTo;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, MegalPackage.LINK__TO, oldTo, to));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType)
 	{
 		switch (featureID)
 		{
-			case MegalPackage.LINK__TO:
-				return getTo();
 			case MegalPackage.LINK__LINK:
 				if (resolve) return getLink();
 				return basicGetLink();
+			case MegalPackage.LINK__TO:
+				return getTo();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -176,11 +178,11 @@ public class LinkImpl extends MinimalEObjectImpl.Container implements Link
 	{
 		switch (featureID)
 		{
-			case MegalPackage.LINK__TO:
-				setTo((String)newValue);
-				return;
 			case MegalPackage.LINK__LINK:
 				setLink((Entity)newValue);
+				return;
+			case MegalPackage.LINK__TO:
+				setTo((URI)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -196,11 +198,11 @@ public class LinkImpl extends MinimalEObjectImpl.Container implements Link
 	{
 		switch (featureID)
 		{
-			case MegalPackage.LINK__TO:
-				setTo(TO_EDEFAULT);
-				return;
 			case MegalPackage.LINK__LINK:
 				setLink((Entity)null);
+				return;
+			case MegalPackage.LINK__TO:
+				setTo(TO_EDEFAULT);
 				return;
 		}
 		super.eUnset(featureID);
@@ -216,10 +218,10 @@ public class LinkImpl extends MinimalEObjectImpl.Container implements Link
 	{
 		switch (featureID)
 		{
-			case MegalPackage.LINK__TO:
-				return TO_EDEFAULT == null ? to != null : !TO_EDEFAULT.equals(to);
 			case MegalPackage.LINK__LINK:
 				return link != null;
+			case MegalPackage.LINK__TO:
+				return TO_EDEFAULT == null ? to != null : !TO_EDEFAULT.equals(to);
 		}
 		return super.eIsSet(featureID);
 	}

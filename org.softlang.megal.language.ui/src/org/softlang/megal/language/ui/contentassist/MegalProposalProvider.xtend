@@ -4,9 +4,30 @@
 package org.softlang.megal.language.ui.contentassist
 
 import org.softlang.megal.language.ui.contentassist.AbstractMegalProposalProvider
+import org.eclipse.emf.ecore.EObject
+import org.eclipse.xtext.RuleCall
+import org.eclipse.xtext.ui.editor.contentassist.ContentAssistContext
+import org.eclipse.xtext.ui.editor.contentassist.ICompletionProposalAcceptor
+import org.softlang.megal.api.URI
+import org.softlang.megal.Link
 
 /**
  * see http://www.eclipse.org/Xtext/documentation.html#contentAssist on how to customize content assistant
  */
 class MegalProposalProvider extends AbstractMegalProposalProvider {
+
+	override complete_URI(EObject model, RuleCall ruleCall, ContentAssistContext context,
+		ICompletionProposalAcceptor acceptor) {
+
+		switch model {
+			Link:
+				try {
+					val pf = URI.valueOf(context.prefix)
+
+					println("Proposing for " + pf)
+				} catch (IllegalArgumentException e) {
+				}
+		}
+	}
+
 }

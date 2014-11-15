@@ -3,11 +3,16 @@
  */
 package org.softlang.megal.language;
 
+import org.eclipse.xtext.conversion.IValueConverterService;
+import org.softlang.megal.language.values.MegalValueConverterService;
 
 /**
  * Use this class to register components to be used at runtime / without the
  * Equinox extension registry.
  */
 public class MegalRuntimeModule extends AbstractMegalRuntimeModule {
-
+	@Override
+	public Class<? extends IValueConverterService> bindIValueConverterService() {
+		return MegalValueConverterService.class;
+	}
 }
