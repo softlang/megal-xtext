@@ -21,7 +21,7 @@ public class ResourceFragmentProvider extends ObjectFragmentProvider {
 	public List<? extends Object> navigate(Object node, String segment) {
 		return getChildren((IContainer) node).stream().filter(x -> x.getName().equals(segment))
 				.collect(Collectors.toList());
-	}
+	}	
 
 	private List<IResource> getChildren(IResource node) {
 		List<IResource> children = new ArrayList<IResource>();

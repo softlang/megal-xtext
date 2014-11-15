@@ -60,11 +60,6 @@ QID:
 
 ID:
 	UCID | LCID;
-
-terminal URI returns URI:
-	'"' ('a'..'z')+ ':/' '/'? (!('/' | '"'))+ ('/' (!('/' | '"'))+)* '/'? '"' |
-	"'" ('a'..'z')+ ':/' '/'? (!('/' | "'"))+ ('/' (!('/' | "'"))+)* '/'? "'";
-
 	/**
 	 * Upper case identifier, most likely an entity
 	 */
@@ -92,3 +87,10 @@ terminal SL_COMMENT:
 
 terminal WS:
 	(' ' | '\t' | '\r' | '\n')+;
+
+terminal fragment SEGMENT:
+	('A'..'Z' | 'a'..'z' | '0'..'9' | '-' | '.' | '_' | '~' | ':' | '?' | '#' | '[' | ']' | '@' | '!' | '$' | '&' | "'" |
+	'(' | ')' | '*' | '+' | ',' | ';' | '=')+;
+
+terminal URI returns URI:
+	('a'..'z')+ ':/' '/'? SEGMENT ('/' SEGMENT)* '/'?;

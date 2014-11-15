@@ -4,27 +4,18 @@
 package org.softlang.megal.language.ui;
 
 import org.eclipse.ui.plugin.AbstractUIPlugin;
-import org.eclipse.xtext.common.types.xtext.ui.JdtHoverProvider.JavadocHoverWrapper;
-import org.eclipse.xtext.common.types.xtext.ui.JdtHyperlink;
-import org.eclipse.xtext.common.types.xtext.ui.JdtHyperlinkFactory;
-import org.eclipse.xtext.resource.containers.IAllContainersState;
-import org.eclipse.xtext.ui.editor.hover.IEObjectHover;
 import org.eclipse.xtext.ui.editor.hover.IEObjectHoverProvider;
-import org.eclipse.xtext.ui.editor.hover.html.DefaultEObjectHoverProvider;
-import org.eclipse.xtext.ui.editor.hyperlinking.IHyperlinkHelper;
-import org.eclipse.xtext.ui.editor.hyperlinking.XtextHyperlink;
 import org.eclipse.xtext.ui.editor.syntaxcoloring.AbstractAntlrTokenToAttributeIdMapper;
 import org.eclipse.xtext.ui.editor.syntaxcoloring.IHighlightingConfiguration;
-import org.eclipse.xtext.ui.editor.syntaxcoloring.IHighlightingHelper;
 import org.eclipse.xtext.ui.editor.syntaxcoloring.ISemanticHighlightingCalculator;
-import org.eclipse.xtext.ui.shared.Access;
+import org.softlang.megal.MegalPlugin;
+import org.softlang.megal.fragmentprovider.Evaluator;
 import org.softlang.megal.language.ui.highlighting.MegalAntlrTokenToAttributeIdMapper;
 import org.softlang.megal.language.ui.highlighting.MegalHighlightingConfiguration;
 import org.softlang.megal.language.ui.highlighting.MegalSemanticHighlightingCalculator;
 import org.softlang.megal.language.ui.hover.MegalEObjectHoverProvider;
 
 import com.google.inject.Binder;
-import com.google.inject.Provider;
 
 /**
  * Use this class to register components to be used within the IDE.
@@ -47,6 +38,7 @@ public class MegalUiModule extends AbstractMegalUiModule {
 
 		binder.bind(IEObjectHoverProvider.class).to(
 				MegalEObjectHoverProvider.class);
-		
+
+		binder.bind(Evaluator.class).toInstance(MegalPlugin.getEvaluator());
 	}
 }

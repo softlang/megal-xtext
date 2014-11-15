@@ -15,6 +15,12 @@ import org.softlang.megal.Megamodel
 import org.eclipse.emf.ecore.util.EcoreUtil
 import org.eclipse.xtext.EcoreUtil2
 import static extension org.softlang.megal.reasoner.Reasoner.*
+import org.softlang.megal.Link
+import org.eclipse.xtext.ui.codetemplates.ui.evaluator.EvaluatedTemplate
+import org.softlang.megal.MegalPlugin
+import org.eclipse.jdt.core.IMember
+import org.eclipse.jdt.ui.JavaUI
+import org.eclipse.jdt.core.IJavaElement
 
 class ListAnnotationsAction extends ExtenderAction {
 
@@ -30,6 +36,29 @@ class ListAnnotationsAction extends ExtenderAction {
 		val e = infoControl.input?.inputElement as EntityType
 
 		navigateToHTML(e, '''<ul>«FOR a : e.annotations»<li>«a.key» := «a.value»</li>«ENDFOR»</ul>''')
+	}
+}
+
+class ScopeToAction extends ExtenderAction {
+
+	// TODO: Custom link listener
+	new(ExtenderEObjectHoverProvider p, IXtextBrowserInformationControl c) {
+		super(p, c, "Navigate to link", ISharedImages.IMG_ETOOL_HOME_NAV)
+	}
+
+	override update() {
+		enabled = infoControl.input?.inputElement instanceof Link
+	}
+
+	override run() {
+		val e = infoControl.input?.inputElement as Link
+		val ns = MegalPlugin.evaluator.evaluate(e.to)
+
+		for (n : ns)
+			switch n {
+				IMember:
+					JavaUI.revealInEditor(JavaUI.openInEditor(n.compilationUnit), n as IJavaElement)
+			}
 	}
 }
 
@@ -95,9 +124,19 @@ class ListInstancesAction extends ExtenderAction {
 
 class MegalEObjectHoverProvider extends ExtenderEObjectHoverProvider {
 
+	override protected hasHover(EObject o) {
+		switch o {
+			Link:
+				true
+			default:
+				super.hasHover(o)
+		}
+	}
+
 	override protected addActions(ExtenderPresentationControlCreator p) {
 		p.constructors += [new ListAnnotationsAction(MegalEObjectHoverProvider.this, it)]
 		p.constructors += [new ListSubtypesAction(MegalEObjectHoverProvider.this, it)]
+		p.constructors += [new ScopeToAction(MegalEObjectHoverProvider.this, it)]
 		p.constructors += [new ListInstancesAction(MegalEObjectHoverProvider.this, it)]
 	}
 
@@ -147,6 +186,8 @@ class MegalEObjectHoverProvider extends ExtenderEObjectHoverProvider {
 
 	def dispatch firstLineFor(RelationshipType it) '''«left.definition.link» <i>«name»</i> «right.definition.link»'''
 
+	def dispatch firstLineFor(Link it) '''Link, «IF MegalPlugin.evaluator.evaluate(to).empty»unresolvable«ELSE»resolvable«ENDIF»'''
+
 	/**
 	 * Calculates the documentation for an EObject or null if no documentation
 	 */
@@ -170,4 +211,6 @@ class MegalEObjectHoverProvider extends ExtenderEObjectHoverProvider {
 	def dispatch documentationFor(Relationship it) '''«super.getDocumentation(it)»'''
 
 	def dispatch documentationFor(RelationshipType it) '''«super.getDocumentation(it)»'''
+
+	def dispatch documentationFor(Link it) '''<ul>«FOR n : MegalPlugin.evaluator.evaluate(to)»<li>«n»</li>«ENDFOR»</ul>'''
 }

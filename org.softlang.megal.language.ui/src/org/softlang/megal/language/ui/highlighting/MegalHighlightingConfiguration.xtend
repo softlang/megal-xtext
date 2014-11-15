@@ -13,6 +13,7 @@ import org.softlang.megal.language.MegalEnvironment
 import org.softlang.megal.language.ui.swt.SWTUtil
 
 import static org.softlang.megal.Guard.*
+import org.eclipse.swt.graphics.RGB
 
 class MegalHighlightingConfiguration extends DefaultHighlightingConfiguration {
 
@@ -210,7 +211,10 @@ class MegalHighlightingConfiguration extends DefaultHighlightingConfiguration {
 	}
 
 	def uriTextStyle() {
-		stringTextStyle.copy => []
+		defaultTextStyle.copy => [
+			style = SWT.ITALIC
+			color = new RGB(255, 60, 30)
+		]
 	}
 
 	def entityTextStyle() {

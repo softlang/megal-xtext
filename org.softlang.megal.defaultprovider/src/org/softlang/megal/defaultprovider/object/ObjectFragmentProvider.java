@@ -28,7 +28,9 @@ public class ObjectFragmentProvider implements FragmentProvider {
 
 		List<Object> result;
 
-		if (property instanceof Collection<?>)
+		if (property == null)
+			result = Collections.emptyList();
+		else if (property instanceof Collection<?>)
 			result = Lists.newArrayList((Collection<?>) property);
 		else if (property instanceof Object[])
 			result = Arrays.asList((Object[]) property);
@@ -55,8 +57,10 @@ public class ObjectFragmentProvider implements FragmentProvider {
 				continue;
 
 			try {
-				result.put(method.getName().substring(3).toLowerCase(), method.invoke(object));
-			} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+				result.put(method.getName().substring(3).toLowerCase(),
+						method.invoke(object));
+			} catch (IllegalAccessException | IllegalArgumentException
+					| InvocationTargetException e) {
 				e.printStackTrace();
 			}
 		}

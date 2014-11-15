@@ -27,9 +27,6 @@ public class URI {
 	 * Converts the string to an URI.
 	 * </p>
 	 * <p>
-	 * Trims any leading or tailing quote.
-	 * </p>
-	 * <p>
 	 * Converts a null string to a null value
 	 * </p>
 	 * 
@@ -40,12 +37,6 @@ public class URI {
 	public static URI valueOf(String s) {
 		if (s == null)
 			return null;
-
-		if (s.startsWith("\""))
-			s = s.substring(1, s.length());
-
-		if (s.endsWith("\""))
-			s = s.substring(0, s.length() - 1);
 
 		// Make result
 		URI r = new URI();
@@ -64,7 +55,7 @@ public class URI {
 			// Iterate segments
 			Matcher b = SEGMENTS_PATTERN.matcher(a.group(3));
 			while (b.find())
-				r.getSegments().add(b.group());
+				r.getSegments().add(b.group().substring(1));
 		} else
 			throw new IllegalArgumentException("Unable to convert URI");
 
@@ -83,10 +74,12 @@ public class URI {
 	public URI() {
 	}
 
-	public URI(String protocol, boolean net, Collection<String> segments) {
+	public URI(String protocol, boolean net, Collection<String> segments,
+			boolean folder) {
 		this.protocol = protocol;
 		this.net = net;
 		this.segments.addAll(segments);
+		this.folder = folder;
 	}
 
 	/**
