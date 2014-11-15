@@ -12,6 +12,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
+import org.softlang.megal.api.URI;
 
 public class Evaluator {
 
@@ -33,16 +34,23 @@ public class Evaluator {
 		}
 	}
 
-	public List<Object> evaluate() {
+	public List<Object> evaluate(URI uri) {
 
-		List<Object> current = roots("workspace", false);
+		List<Object> current = roots(uri.getProtocol(), uri.isNet());
 
-		List<String> segments = Arrays.asList("testproject", "src");
-
-		for (String segment : segments)
+		for (String segment : uri.getSegments())
 			current = navigate(current, segment);
 
 		return current;
+	}
+
+	public Set<String> next(Object object) {
+		Set<String> result = new HashSet<String>();
+
+		for (FragmentProvider fragmentProvider : getApplicableFragmentProviders(object))
+			result.addAll(fragmentProvider.next(object));
+
+		return result;
 	}
 
 	private List<Object> navigate(List<Object> currents, String segment) {
@@ -57,8 +65,7 @@ public class Evaluator {
 	private List<Object> navigate(Object current, String segment) {
 		// Get fragment providers applicable on this object.
 		// TODO: Make inheritance access.
-		List<FragmentProvider> applicableProviders = fragmentProviders.stream()
-				.filter(x -> x.accept(current)).collect(Collectors.toList());
+		List<FragmentProvider> applicableProviders = getApplicableFragmentProviders(current);
 
 		// Navigate to next nodes.
 		List<Object> nexts = new ArrayList<Object>();
@@ -68,6 +75,11 @@ public class Evaluator {
 		}
 
 		return nexts;
+	}
+
+	private List<FragmentProvider> getApplicableFragmentProviders(Object current) {
+		return fragmentProviders.stream().filter(x -> x.accept(current))
+				.collect(Collectors.toList());
 	}
 
 	private List<Object> roots(String protocol, boolean net) {

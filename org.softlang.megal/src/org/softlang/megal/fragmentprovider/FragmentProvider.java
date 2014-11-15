@@ -1,6 +1,7 @@
 package org.softlang.megal.fragmentprovider;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Extension points interface used for customization of fragment resolution.
@@ -28,4 +29,12 @@ public interface FragmentProvider {
 	 * @return
 	 */
 	List<? extends Object> navigate(Object node, String segment);
+	
+	
+	/**
+	 * Used for autocomplete.
+	 * @param node
+	 * @return
+	 */
+	Set<String> next(Object node);
 }

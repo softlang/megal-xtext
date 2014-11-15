@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.eclipse.core.resources.IContainer;
@@ -20,27 +21,30 @@ public class ResourceFragmentProvider implements FragmentProvider {
 
 	@Override
 	public List<? extends Object> navigate(Object node, String segment) {
-		if (node instanceof IContainer) {
-			return getChildren((IContainer) node).stream().filter(x -> x.getName().equals(segment))
-					.collect(Collectors.toList());
-		}
-
-		return Collections.emptyList();
+		return getChildren((IContainer) node).stream().filter(x -> x.getName().equals(segment))
+				.collect(Collectors.toList());
 	}
 
-
-	private List<IResource> getChildren(IContainer container) {
-
+	private List<IResource> getChildren(IResource node) {
 		List<IResource> children = new ArrayList<IResource>();
-		try {
-			for (IResource child : container.members()) {
-				children.add(child);
-			}
 
-		} catch (CoreException e) {
-			e.printStackTrace();
+		if (node instanceof IContainer) {
+			IContainer container = (IContainer) node;
+			try {
+				for (IResource child : container.members()) {
+					children.add(child);
+				}
+
+			} catch (CoreException e) {
+				e.printStackTrace();
+			}
 		}
 		return children;
 	}
 
+	@Override
+	public Set<String> next(Object node) {
+		return getChildren((IResource) node).stream().map(x -> x.getName())
+				.collect(Collectors.toSet());
+	}
 }
