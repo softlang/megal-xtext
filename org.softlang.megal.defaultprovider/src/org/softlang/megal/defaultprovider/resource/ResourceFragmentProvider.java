@@ -1,8 +1,6 @@
 package org.softlang.megal.defaultprovider.resource;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -10,9 +8,9 @@ import java.util.stream.Collectors;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
-import org.softlang.megal.fragmentprovider.FragmentProvider;
+import org.softlang.megal.defaultprovider.object.ObjectFragmentProvider;
 
-public class ResourceFragmentProvider implements FragmentProvider {
+public class ResourceFragmentProvider extends ObjectFragmentProvider {
 
 	@Override
 	public boolean accept(Object node) {

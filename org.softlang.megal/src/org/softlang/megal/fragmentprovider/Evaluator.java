@@ -3,8 +3,10 @@ package org.softlang.megal.fragmentprovider;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -22,11 +24,29 @@ public class Evaluator {
 	private final Collection<RootProvider> rootProviders = new ArrayList<RootProvider>();
 	private final Collection<FragmentProvider> fragmentProviders = new ArrayList<FragmentProvider>();
 
+	private final Map<FragmentProvider, Set<FragmentProvider>> fragmentProviderSubTypes = new HashMap<FragmentProvider, Set<FragmentProvider>>();
+
 	public Evaluator() {
 
 		try {
+			// Initialise provider collections.
 			rootProviders.addAll(getAllRootProviders());
 			fragmentProviders.addAll(getAllFragmentProvider());
+
+			// Initialise subtypes.
+			for (FragmentProvider fragmentProvider : fragmentProviders) {
+
+				Set<FragmentProvider> subtypes = new HashSet<FragmentProvider>();
+				fragmentProviderSubTypes.put(fragmentProvider, subtypes);
+
+				for (FragmentProvider subtype : fragmentProviders) {
+					if (subtype == fragmentProvider)
+						continue;
+
+					if (fragmentProvider.getClass().isAssignableFrom(subtype.getClass()))
+						subtypes.add(subtype);
+				}
+			}
 
 		} catch (CoreException e) {
 			// Error while initialisation of plugin list.
@@ -64,7 +84,6 @@ public class Evaluator {
 
 	private List<Object> navigate(Object current, String segment) {
 		// Get fragment providers applicable on this object.
-		// TODO: Make inheritance access.
 		List<FragmentProvider> applicableProviders = getApplicableFragmentProviders(current);
 
 		// Navigate to next nodes.
@@ -78,8 +97,26 @@ public class Evaluator {
 	}
 
 	private List<FragmentProvider> getApplicableFragmentProviders(Object current) {
-		return fragmentProviders.stream().filter(x -> x.accept(current))
-				.collect(Collectors.toList());
+		List<FragmentProvider> allFragmentProviders = fragmentProviders.stream()
+				.filter(x -> x.accept(current)).collect(Collectors.toList());
+
+		List<FragmentProvider> applicableFragmentProvider = new ArrayList<FragmentProvider>();
+
+		for (FragmentProvider fragmentProvider : allFragmentProviders) {
+			boolean valid = true;
+
+			for (FragmentProvider subType : fragmentProviderSubTypes.get(fragmentProvider)) {
+				if (allFragmentProviders.contains(subType)) {
+					valid = false;
+					break;
+				}
+			}
+
+			if (valid)
+				applicableFragmentProvider.add(fragmentProvider);
+		}
+
+		return applicableFragmentProvider;
 	}
 
 	private List<Object> roots(String protocol, boolean net) {

@@ -6,6 +6,12 @@
       <Class
             class="org.softlang.megal.defaultprovider.resource.ResourceFragmentProvider">
       </Class>
+      <Class
+            class="org.softlang.megal.defaultprovider.resource.JavaAstFragmentProvider">
+      </Class>
+      <Class
+            class="org.softlang.megal.defaultprovider.object.ObjectFragmentProvider">
+      </Class>
    </extension>
    <extension
          point="org.softlang.megal.RootProvider">
