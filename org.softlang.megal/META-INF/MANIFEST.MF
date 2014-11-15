@@ -8,8 +8,11 @@ Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: org.softlang.megal,
+ org.softlang.megal.api,
  org.softlang.megal.expansion,
+ org.softlang.megal.fragmentprovider,
  org.softlang.megal.impl,
+ org.softlang.megal.reasoner,
  org.softlang.megal.util
 Require-Bundle: org.eclipse.core.runtime;visibility:=reexport,
  org.eclipse.emf.ecore;visibility:=reexport,

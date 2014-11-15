@@ -5,6 +5,8 @@
 -->
 
 <plugin>
+   <extension-point id="FragmentProvider" name="FragmentProvider" schema="schema/FragmentProvider.exsd"/>
+   <extension-point id="RootProvider" name="RootProvider" schema="schema/RootProvider.exsd"/>
 
    <extension point="org.eclipse.emf.ecore.generated_package">
       <!-- @generated Megal -->
@@ -12,6 +14,13 @@
             uri="http://softlang.wikidot.com/megal"
             class="org.softlang.megal.MegalPackage"
             genModel="model/Megal.genmodel"/>
+   </extension>
+   <extension
+         point="org.eclipse.emf.ecore.factory_override">
+      <factory
+            class="org.softlang.megal.MegalFactoryExecutable"
+            uri="http://softlang.wikidot.com/megal">
+      </factory>
    </extension>
 
 </plugin>
