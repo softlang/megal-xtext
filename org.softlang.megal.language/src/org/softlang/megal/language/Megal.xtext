@@ -11,7 +11,7 @@ Declaration:
 	EntityType | RelationshipType | Entity | Relationship | FunctionApplication;
 
 Link:
-	link=[Entity|QID] '=' to=STRING;
+	link=[Entity|QID] '=' to=URI;
 
 PrefixAnnotation returns Annotation:
 	'@' key=QID (value=STRING)?;
@@ -60,6 +60,9 @@ QID:
 
 ID:
 	UCID | LCID;
+
+terminal URI returns URI:
+	'"' ('a'..'z')+ ':/' '/'? (!('/' | '"'))+ ('/' (!('/' | '"'))+)* '/'? '"';
 
 	/**
 	 * Upper case identifier, most likely an entity

@@ -137,6 +137,7 @@ class MegalHighlightingConfiguration extends DefaultHighlightingConfiguration {
 	public static val RELATIONSHIP_ID = "relationship";
 	public static val ENTITY_TYPE_ID = "entity_type";
 	public static val RELATIONSHIP_TYPE_ID = "relationship_type";
+	public static val URI_ID = "uri";
 
 	static def idFor(Entity o) {
 		guarded(ENTITY_ID) [
@@ -179,6 +180,9 @@ class MegalHighlightingConfiguration extends DefaultHighlightingConfiguration {
 	override configure(IHighlightingConfigurationAcceptor acceptor) {
 		super.configure(acceptor)
 
+		// Initialize URI 
+		acceptor.acceptDefaultHighlighting(URI_ID, "URI", uriTextStyle());
+
 		// Initialize fallback styles
 		acceptor.acceptDefaultHighlighting(ENTITY_ID, "Entity", entityTextStyle)
 		acceptor.acceptDefaultHighlighting(ENTITY_TYPE_ID, "Entity type", entityTypeTextStyle)
@@ -203,6 +207,10 @@ class MegalHighlightingConfiguration extends DefaultHighlightingConfiguration {
 				available += ID
 				acceptor.acceptDefaultHighlighting(ID, description, style)
 			}
+	}
+
+	def uriTextStyle() {
+		stringTextStyle.copy => []
 	}
 
 	def entityTextStyle() {

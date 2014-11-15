@@ -4,6 +4,7 @@ package org.softlang.megal;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
@@ -471,22 +472,22 @@ public interface MegalPackage extends EPackage
 	int LINK = 7;
 
 	/**
-	 * The feature id for the '<em><b>To</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int LINK__TO = 0;
-
-	/**
 	 * The feature id for the '<em><b>Link</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int LINK__LINK = 1;
+	int LINK__LINK = 0;
+
+	/**
+	 * The feature id for the '<em><b>To</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LINK__TO = 1;
 
 	/**
 	 * The number of structural features of the '<em>Link</em>' class.
@@ -670,6 +671,16 @@ public interface MegalPackage extends EPackage
 	 * @ordered
 	 */
 	int FUNCTION_APPLICATION_OPERATION_COUNT = DECLARATION_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '<em>URI</em>' data type.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.softlang.megal.api.URI
+	 * @see org.softlang.megal.impl.MegalPackageImpl#getURI()
+	 * @generated
+	 */
+	int URI = 11;
 
 
 	/**
@@ -918,17 +929,6 @@ public interface MegalPackage extends EPackage
 	EClass getLink();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.softlang.megal.Link#getTo <em>To</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>To</em>'.
-	 * @see org.softlang.megal.Link#getTo()
-	 * @see #getLink()
-	 * @generated
-	 */
-	EAttribute getLink_To();
-
-	/**
 	 * Returns the meta object for the reference '{@link org.softlang.megal.Link#getLink <em>Link</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -938,6 +938,17 @@ public interface MegalPackage extends EPackage
 	 * @generated
 	 */
 	EReference getLink_Link();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.softlang.megal.Link#getTo <em>To</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>To</em>'.
+	 * @see org.softlang.megal.Link#getTo()
+	 * @see #getLink()
+	 * @generated
+	 */
+	EAttribute getLink_To();
 
 	/**
 	 * Returns the meta object for class '{@link org.softlang.megal.EntityTypeReference <em>Entity Type Reference</em>}'.
@@ -1056,6 +1067,17 @@ public interface MegalPackage extends EPackage
 	 * @generated
 	 */
 	EReference getFunctionApplication_Output();
+
+	/**
+	 * Returns the meta object for data type '{@link org.softlang.megal.api.URI <em>URI</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for data type '<em>URI</em>'.
+	 * @see org.softlang.megal.api.URI
+	 * @model instanceClass="org.softlang.megal.api.URI"
+	 * @generated
+	 */
+	EDataType getURI();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -1282,20 +1304,20 @@ public interface MegalPackage extends EPackage
 		EClass LINK = eINSTANCE.getLink();
 
 		/**
-		 * The meta object literal for the '<em><b>To</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute LINK__TO = eINSTANCE.getLink_To();
-
-		/**
 		 * The meta object literal for the '<em><b>Link</b></em>' reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
 		EReference LINK__LINK = eINSTANCE.getLink_Link();
+
+		/**
+		 * The meta object literal for the '<em><b>To</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute LINK__TO = eINSTANCE.getLink_To();
 
 		/**
 		 * The meta object literal for the '{@link org.softlang.megal.impl.EntityTypeReferenceImpl <em>Entity Type Reference</em>}' class.
@@ -1390,6 +1412,16 @@ public interface MegalPackage extends EPackage
 		 * @generated
 		 */
 		EReference FUNCTION_APPLICATION__OUTPUT = eINSTANCE.getFunctionApplication_Output();
+
+		/**
+		 * The meta object literal for the '<em>URI</em>' data type.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.softlang.megal.api.URI
+		 * @see org.softlang.megal.impl.MegalPackageImpl#getURI()
+		 * @generated
+		 */
+		EDataType URI = eINSTANCE.getURI();
 
 	}
 

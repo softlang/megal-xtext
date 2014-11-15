@@ -21,6 +21,7 @@ elementOf < Entity * Set
 
 subsetOf < Set * Set
 
+
 partOf < Artifact * Artifact
 partOf < Artifact * Technology
 partOf < Technology * Technology

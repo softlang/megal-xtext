@@ -9,6 +9,7 @@
   <foreignModel>Megal.ecore</foreignModel>
   <genPackages prefix="Megal" basePackage="org.softlang" disposableProviderFactory="true"
       fileExtensions="megal" ecorePackage="Megal.ecore#/" publicationLocation="">
+    <genDataTypes ecoreDataType="Megal.ecore#//URI"/>
     <genClasses ecoreClass="Megal.ecore#//Megamodel">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Megal.ecore#//Megamodel/declarations"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Megal.ecore#//Megamodel/bindings"/>
@@ -39,8 +40,8 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Megal.ecore#//Relationship/right"/>
     </genClasses>
     <genClasses ecoreClass="Megal.ecore#//Link">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Megal.ecore#//Link/to"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Megal.ecore#//Link/link"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Megal.ecore#//Link/to"/>
     </genClasses>
     <genClasses ecoreClass="Megal.ecore#//EntityTypeReference">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Megal.ecore#//EntityTypeReference/many"/>
