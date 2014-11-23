@@ -2,6 +2,7 @@
  */
 package org.softlang.megal;
 
+import java.util.Set;
 
 /**
  * <!-- begin-user-doc -->
@@ -100,5 +101,29 @@ public interface Entity extends NamedDeclaration
 	 * @generated
 	 */
 	void setParameter(boolean value);
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation" dataType="org.softlang.megal.ESet<org.softlang.megal.Link>"
+	 * @generated
+	 */
+	Set<Link> getLinks();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model dataType="org.softlang.megal.ESet<org.softlang.megal.Entity>"
+	 * @generated
+	 */
+	Set<Entity> followOutgoing(RelationshipType type);
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model dataType="org.softlang.megal.ESet<org.softlang.megal.Entity>"
+	 * @generated
+	 */
+	Set<Entity> followIncoming(RelationshipType type);
 
 } // Entity

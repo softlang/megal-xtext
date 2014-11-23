@@ -2,6 +2,8 @@
  */
 package org.softlang.megal;
 
+import java.util.Set;
+
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EObject;
@@ -100,5 +102,21 @@ public interface Megamodel extends EObject
 	 * @generated
 	 */
 	EList<Megamodel> getImports();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation" dataType="org.softlang.megal.ESet<org.softlang.megal.Declaration>"
+	 * @generated
+	 */
+	Set<Declaration> getVisibleDeclarations();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation" dataType="org.softlang.megal.ESet<org.softlang.megal.Link>"
+	 * @generated
+	 */
+	Set<Link> getVisibleBindings();
 
 } // Megamodel

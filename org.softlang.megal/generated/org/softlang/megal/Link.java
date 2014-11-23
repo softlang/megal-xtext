@@ -2,8 +2,6 @@
  */
 package org.softlang.megal;
 
-import org.eclipse.emf.ecore.EObject;
-
 import org.softlang.megal.api.URI;
 
 /**
@@ -23,7 +21,7 @@ import org.softlang.megal.api.URI;
  * @model
  * @generated
  */
-public interface Link extends EObject
+public interface Link extends Element
 {
 	/**
 	 * Returns the value of the '<em><b>Link</b></em>' reference.

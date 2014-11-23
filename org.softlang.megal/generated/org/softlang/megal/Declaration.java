@@ -4,8 +4,6 @@ package org.softlang.megal;
 
 import org.eclipse.emf.common.util.EList;
 
-import org.eclipse.emf.ecore.EObject;
-
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Declaration</b></em>'.
@@ -22,7 +20,7 @@ import org.eclipse.emf.ecore.EObject;
  * @model abstract="true"
  * @generated
  */
-public interface Declaration extends EObject
+public interface Declaration extends Element
 {
 	/**
 	 * Returns the value of the '<em><b>Annotations</b></em>' containment reference list.

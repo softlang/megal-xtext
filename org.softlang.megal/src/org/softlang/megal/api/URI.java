@@ -1,5 +1,6 @@
 package org.softlang.megal.api;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
@@ -14,13 +15,7 @@ public class URI {
 	 * Pattern for matching an URI
 	 */
 	private static final Pattern URI_PATTERN = Pattern
-			.compile("([^:]+):(\\/)?((?:\\/[^\\/]+)+)(\\/)?");
-
-	/**
-	 * Pattern for matching one segment in the URIs path
-	 */
-	private static final Pattern SEGMENTS_PATTERN = Pattern
-			.compile("\\/[^\\/]+");
+			.compile("([^:]+):\\/(\\/)?(?:([^\\/]+(?:\\/[^\\/]+)*)(\\/)?)?");
 
 	/**
 	 * <p>
@@ -52,10 +47,11 @@ public class URI {
 			r.setNet(a.group(2) != null);
 			r.setFolder(a.group(4) != null);
 
-			// Iterate segments
-			Matcher b = SEGMENTS_PATTERN.matcher(a.group(3));
-			while (b.find())
-				r.getSegments().add(b.group().substring(1));
+			// Split the segments group if present
+			String segs = a.group(3);
+			if (segs != null)
+				for (String seg : segs.split("\\/"))
+					r.getSegments().add(seg);
 		} else
 			throw new IllegalArgumentException("Unable to convert URI");
 

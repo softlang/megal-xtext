@@ -5,6 +5,7 @@ package org.softlang.megal;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
+import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
@@ -114,13 +115,68 @@ public interface MegalPackage extends EPackage
 	int MEGAMODEL_FEATURE_COUNT = 4;
 
 	/**
+	 * The operation id for the '<em>Get Visible Declarations</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MEGAMODEL___GET_VISIBLE_DECLARATIONS = 0;
+
+	/**
+	 * The operation id for the '<em>Get Visible Bindings</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MEGAMODEL___GET_VISIBLE_BINDINGS = 1;
+
+	/**
 	 * The number of operations of the '<em>Megamodel</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MEGAMODEL_OPERATION_COUNT = 0;
+	int MEGAMODEL_OPERATION_COUNT = 2;
+
+	/**
+	 * The meta object id for the '{@link org.softlang.megal.Element <em>Element</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.softlang.megal.Element
+	 * @see org.softlang.megal.impl.MegalPackageImpl#getElement()
+	 * @generated
+	 */
+	int ELEMENT = 11;
+
+	/**
+	 * The number of structural features of the '<em>Element</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ELEMENT_FEATURE_COUNT = 0;
+
+	/**
+	 * The operation id for the '<em>Get Megamodel</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ELEMENT___GET_MEGAMODEL = 0;
+
+	/**
+	 * The number of operations of the '<em>Element</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ELEMENT_OPERATION_COUNT = 1;
 
 	/**
 	 * The meta object id for the '{@link org.softlang.megal.impl.DeclarationImpl <em>Declaration</em>}' class.
@@ -139,7 +195,7 @@ public interface MegalPackage extends EPackage
 	 * @generated
 	 * @ordered
 	 */
-	int DECLARATION__ANNOTATIONS = 0;
+	int DECLARATION__ANNOTATIONS = ELEMENT_FEATURE_COUNT + 0;
 
 	/**
 	 * The number of structural features of the '<em>Declaration</em>' class.
@@ -148,7 +204,16 @@ public interface MegalPackage extends EPackage
 	 * @generated
 	 * @ordered
 	 */
-	int DECLARATION_FEATURE_COUNT = 1;
+	int DECLARATION_FEATURE_COUNT = ELEMENT_FEATURE_COUNT + 1;
+
+	/**
+	 * The operation id for the '<em>Get Megamodel</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DECLARATION___GET_MEGAMODEL = ELEMENT___GET_MEGAMODEL;
 
 	/**
 	 * The number of operations of the '<em>Declaration</em>' class.
@@ -157,7 +222,7 @@ public interface MegalPackage extends EPackage
 	 * @generated
 	 * @ordered
 	 */
-	int DECLARATION_OPERATION_COUNT = 0;
+	int DECLARATION_OPERATION_COUNT = ELEMENT_OPERATION_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link org.softlang.megal.impl.NamedDeclarationImpl <em>Named Declaration</em>}' class.
@@ -195,6 +260,15 @@ public interface MegalPackage extends EPackage
 	 * @ordered
 	 */
 	int NAMED_DECLARATION_FEATURE_COUNT = DECLARATION_FEATURE_COUNT + 1;
+
+	/**
+	 * The operation id for the '<em>Get Megamodel</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NAMED_DECLARATION___GET_MEGAMODEL = DECLARATION___GET_MEGAMODEL;
 
 	/**
 	 * The number of operations of the '<em>Named Declaration</em>' class.
@@ -250,6 +324,15 @@ public interface MegalPackage extends EPackage
 	 * @ordered
 	 */
 	int ENTITY_TYPE_FEATURE_COUNT = NAMED_DECLARATION_FEATURE_COUNT + 1;
+
+	/**
+	 * The operation id for the '<em>Get Megamodel</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ENTITY_TYPE___GET_MEGAMODEL = NAMED_DECLARATION___GET_MEGAMODEL;
 
 	/**
 	 * The number of operations of the '<em>Entity Type</em>' class.
@@ -316,13 +399,31 @@ public interface MegalPackage extends EPackage
 	int RELATIONSHIP_TYPE_FEATURE_COUNT = NAMED_DECLARATION_FEATURE_COUNT + 2;
 
 	/**
+	 * The operation id for the '<em>Get Megamodel</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RELATIONSHIP_TYPE___GET_MEGAMODEL = NAMED_DECLARATION___GET_MEGAMODEL;
+
+	/**
+	 * The operation id for the '<em>Get Variants</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RELATIONSHIP_TYPE___GET_VARIANTS = NAMED_DECLARATION_OPERATION_COUNT + 0;
+
+	/**
 	 * The number of operations of the '<em>Relationship Type</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RELATIONSHIP_TYPE_OPERATION_COUNT = NAMED_DECLARATION_OPERATION_COUNT + 0;
+	int RELATIONSHIP_TYPE_OPERATION_COUNT = NAMED_DECLARATION_OPERATION_COUNT + 1;
 
 	/**
 	 * The meta object id for the '{@link org.softlang.megal.impl.EntityImpl <em>Entity</em>}' class.
@@ -389,13 +490,49 @@ public interface MegalPackage extends EPackage
 	int ENTITY_FEATURE_COUNT = NAMED_DECLARATION_FEATURE_COUNT + 3;
 
 	/**
+	 * The operation id for the '<em>Get Megamodel</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ENTITY___GET_MEGAMODEL = NAMED_DECLARATION___GET_MEGAMODEL;
+
+	/**
+	 * The operation id for the '<em>Get Links</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ENTITY___GET_LINKS = NAMED_DECLARATION_OPERATION_COUNT + 0;
+
+	/**
+	 * The operation id for the '<em>Follow Outgoing</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ENTITY___FOLLOW_OUTGOING__RELATIONSHIPTYPE = NAMED_DECLARATION_OPERATION_COUNT + 1;
+
+	/**
+	 * The operation id for the '<em>Follow Incoming</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ENTITY___FOLLOW_INCOMING__RELATIONSHIPTYPE = NAMED_DECLARATION_OPERATION_COUNT + 2;
+
+	/**
 	 * The number of operations of the '<em>Entity</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ENTITY_OPERATION_COUNT = NAMED_DECLARATION_OPERATION_COUNT + 0;
+	int ENTITY_OPERATION_COUNT = NAMED_DECLARATION_OPERATION_COUNT + 3;
 
 	/**
 	 * The meta object id for the '{@link org.softlang.megal.impl.RelationshipImpl <em>Relationship</em>}' class.
@@ -453,6 +590,15 @@ public interface MegalPackage extends EPackage
 	int RELATIONSHIP_FEATURE_COUNT = DECLARATION_FEATURE_COUNT + 3;
 
 	/**
+	 * The operation id for the '<em>Get Megamodel</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RELATIONSHIP___GET_MEGAMODEL = DECLARATION___GET_MEGAMODEL;
+
+	/**
 	 * The number of operations of the '<em>Relationship</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -478,7 +624,7 @@ public interface MegalPackage extends EPackage
 	 * @generated
 	 * @ordered
 	 */
-	int LINK__LINK = 0;
+	int LINK__LINK = ELEMENT_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>To</b></em>' attribute.
@@ -487,7 +633,7 @@ public interface MegalPackage extends EPackage
 	 * @generated
 	 * @ordered
 	 */
-	int LINK__TO = 1;
+	int LINK__TO = ELEMENT_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of structural features of the '<em>Link</em>' class.
@@ -496,7 +642,16 @@ public interface MegalPackage extends EPackage
 	 * @generated
 	 * @ordered
 	 */
-	int LINK_FEATURE_COUNT = 2;
+	int LINK_FEATURE_COUNT = ELEMENT_FEATURE_COUNT + 2;
+
+	/**
+	 * The operation id for the '<em>Get Megamodel</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LINK___GET_MEGAMODEL = ELEMENT___GET_MEGAMODEL;
 
 	/**
 	 * The number of operations of the '<em>Link</em>' class.
@@ -505,7 +660,7 @@ public interface MegalPackage extends EPackage
 	 * @generated
 	 * @ordered
 	 */
-	int LINK_OPERATION_COUNT = 0;
+	int LINK_OPERATION_COUNT = ELEMENT_OPERATION_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link org.softlang.megal.impl.EntityTypeReferenceImpl <em>Entity Type Reference</em>}' class.
@@ -664,6 +819,15 @@ public interface MegalPackage extends EPackage
 	int FUNCTION_APPLICATION_FEATURE_COUNT = DECLARATION_FEATURE_COUNT + 3;
 
 	/**
+	 * The operation id for the '<em>Get Megamodel</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FUNCTION_APPLICATION___GET_MEGAMODEL = DECLARATION___GET_MEGAMODEL;
+
+	/**
 	 * The number of operations of the '<em>Function Application</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -680,7 +844,17 @@ public interface MegalPackage extends EPackage
 	 * @see org.softlang.megal.impl.MegalPackageImpl#getURI()
 	 * @generated
 	 */
-	int URI = 11;
+	int URI = 12;
+
+	/**
+	 * The meta object id for the '<em>ESet</em>' data type.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see java.util.Set
+	 * @see org.softlang.megal.impl.MegalPackageImpl#getESet()
+	 * @generated
+	 */
+	int ESET = 13;
 
 
 	/**
@@ -736,6 +910,26 @@ public interface MegalPackage extends EPackage
 	 * @generated
 	 */
 	EReference getMegamodel_Imports();
+
+	/**
+	 * Returns the meta object for the '{@link org.softlang.megal.Megamodel#getVisibleDeclarations() <em>Get Visible Declarations</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Get Visible Declarations</em>' operation.
+	 * @see org.softlang.megal.Megamodel#getVisibleDeclarations()
+	 * @generated
+	 */
+	EOperation getMegamodel__GetVisibleDeclarations();
+
+	/**
+	 * Returns the meta object for the '{@link org.softlang.megal.Megamodel#getVisibleBindings() <em>Get Visible Bindings</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Get Visible Bindings</em>' operation.
+	 * @see org.softlang.megal.Megamodel#getVisibleBindings()
+	 * @generated
+	 */
+	EOperation getMegamodel__GetVisibleBindings();
 
 	/**
 	 * Returns the meta object for class '{@link org.softlang.megal.Declaration <em>Declaration</em>}'.
@@ -833,6 +1027,16 @@ public interface MegalPackage extends EPackage
 	EReference getRelationshipType_Right();
 
 	/**
+	 * Returns the meta object for the '{@link org.softlang.megal.RelationshipType#getVariants() <em>Get Variants</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Get Variants</em>' operation.
+	 * @see org.softlang.megal.RelationshipType#getVariants()
+	 * @generated
+	 */
+	EOperation getRelationshipType__GetVariants();
+
+	/**
 	 * Returns the meta object for class '{@link org.softlang.megal.Entity <em>Entity</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -874,6 +1078,36 @@ public interface MegalPackage extends EPackage
 	 * @generated
 	 */
 	EAttribute getEntity_Parameter();
+
+	/**
+	 * Returns the meta object for the '{@link org.softlang.megal.Entity#getLinks() <em>Get Links</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Get Links</em>' operation.
+	 * @see org.softlang.megal.Entity#getLinks()
+	 * @generated
+	 */
+	EOperation getEntity__GetLinks();
+
+	/**
+	 * Returns the meta object for the '{@link org.softlang.megal.Entity#followOutgoing(org.softlang.megal.RelationshipType) <em>Follow Outgoing</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Follow Outgoing</em>' operation.
+	 * @see org.softlang.megal.Entity#followOutgoing(org.softlang.megal.RelationshipType)
+	 * @generated
+	 */
+	EOperation getEntity__FollowOutgoing__RelationshipType();
+
+	/**
+	 * Returns the meta object for the '{@link org.softlang.megal.Entity#followIncoming(org.softlang.megal.RelationshipType) <em>Follow Incoming</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Follow Incoming</em>' operation.
+	 * @see org.softlang.megal.Entity#followIncoming(org.softlang.megal.RelationshipType)
+	 * @generated
+	 */
+	EOperation getEntity__FollowIncoming__RelationshipType();
 
 	/**
 	 * Returns the meta object for class '{@link org.softlang.megal.Relationship <em>Relationship</em>}'.
@@ -1069,6 +1303,26 @@ public interface MegalPackage extends EPackage
 	EReference getFunctionApplication_Output();
 
 	/**
+	 * Returns the meta object for class '{@link org.softlang.megal.Element <em>Element</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Element</em>'.
+	 * @see org.softlang.megal.Element
+	 * @generated
+	 */
+	EClass getElement();
+
+	/**
+	 * Returns the meta object for the '{@link org.softlang.megal.Element#getMegamodel() <em>Get Megamodel</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Get Megamodel</em>' operation.
+	 * @see org.softlang.megal.Element#getMegamodel()
+	 * @generated
+	 */
+	EOperation getElement__GetMegamodel();
+
+	/**
 	 * Returns the meta object for data type '{@link org.softlang.megal.api.URI <em>URI</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1078,6 +1332,17 @@ public interface MegalPackage extends EPackage
 	 * @generated
 	 */
 	EDataType getURI();
+
+	/**
+	 * Returns the meta object for data type '{@link java.util.Set <em>ESet</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for data type '<em>ESet</em>'.
+	 * @see java.util.Set
+	 * @model instanceClass="java.util.Set" typeParameters="T"
+	 * @generated
+	 */
+	EDataType getESet();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -1144,6 +1409,22 @@ public interface MegalPackage extends EPackage
 		 * @generated
 		 */
 		EReference MEGAMODEL__IMPORTS = eINSTANCE.getMegamodel_Imports();
+
+		/**
+		 * The meta object literal for the '<em><b>Get Visible Declarations</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation MEGAMODEL___GET_VISIBLE_DECLARATIONS = eINSTANCE.getMegamodel__GetVisibleDeclarations();
+
+		/**
+		 * The meta object literal for the '<em><b>Get Visible Bindings</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation MEGAMODEL___GET_VISIBLE_BINDINGS = eINSTANCE.getMegamodel__GetVisibleBindings();
 
 		/**
 		 * The meta object literal for the '{@link org.softlang.megal.impl.DeclarationImpl <em>Declaration</em>}' class.
@@ -1226,6 +1507,14 @@ public interface MegalPackage extends EPackage
 		EReference RELATIONSHIP_TYPE__RIGHT = eINSTANCE.getRelationshipType_Right();
 
 		/**
+		 * The meta object literal for the '<em><b>Get Variants</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation RELATIONSHIP_TYPE___GET_VARIANTS = eINSTANCE.getRelationshipType__GetVariants();
+
+		/**
 		 * The meta object literal for the '{@link org.softlang.megal.impl.EntityImpl <em>Entity</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1258,6 +1547,30 @@ public interface MegalPackage extends EPackage
 		 * @generated
 		 */
 		EAttribute ENTITY__PARAMETER = eINSTANCE.getEntity_Parameter();
+
+		/**
+		 * The meta object literal for the '<em><b>Get Links</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation ENTITY___GET_LINKS = eINSTANCE.getEntity__GetLinks();
+
+		/**
+		 * The meta object literal for the '<em><b>Follow Outgoing</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation ENTITY___FOLLOW_OUTGOING__RELATIONSHIPTYPE = eINSTANCE.getEntity__FollowOutgoing__RelationshipType();
+
+		/**
+		 * The meta object literal for the '<em><b>Follow Incoming</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation ENTITY___FOLLOW_INCOMING__RELATIONSHIPTYPE = eINSTANCE.getEntity__FollowIncoming__RelationshipType();
 
 		/**
 		 * The meta object literal for the '{@link org.softlang.megal.impl.RelationshipImpl <em>Relationship</em>}' class.
@@ -1414,6 +1727,24 @@ public interface MegalPackage extends EPackage
 		EReference FUNCTION_APPLICATION__OUTPUT = eINSTANCE.getFunctionApplication_Output();
 
 		/**
+		 * The meta object literal for the '{@link org.softlang.megal.Element <em>Element</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.softlang.megal.Element
+		 * @see org.softlang.megal.impl.MegalPackageImpl#getElement()
+		 * @generated
+		 */
+		EClass ELEMENT = eINSTANCE.getElement();
+
+		/**
+		 * The meta object literal for the '<em><b>Get Megamodel</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation ELEMENT___GET_MEGAMODEL = eINSTANCE.getElement__GetMegamodel();
+
+		/**
 		 * The meta object literal for the '<em>URI</em>' data type.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1422,6 +1753,16 @@ public interface MegalPackage extends EPackage
 		 * @generated
 		 */
 		EDataType URI = eINSTANCE.getURI();
+
+		/**
+		 * The meta object literal for the '<em>ESet</em>' data type.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see java.util.Set
+		 * @see org.softlang.megal.impl.MegalPackageImpl#getESet()
+		 * @generated
+		 */
+		EDataType ESET = eINSTANCE.getESet();
 
 	}
 

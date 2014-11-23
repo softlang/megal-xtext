@@ -2,6 +2,16 @@
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="megal" nsURI="http://softlang.wikidot.com/megal" nsPrefix="ml">
   <eClassifiers xsi:type="ecore:EClass" name="Megamodel">
+    <eOperations name="getVisibleDeclarations">
+      <eGenericType eClassifier="#//ESet">
+        <eTypeArguments eClassifier="#//Declaration"/>
+      </eGenericType>
+    </eOperations>
+    <eOperations name="getVisibleBindings">
+      <eGenericType eClassifier="#//ESet">
+        <eTypeArguments eClassifier="#//Link"/>
+      </eGenericType>
+    </eOperations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="declarations" upperBound="-1"
         eType="#//Declaration" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="bindings" upperBound="-1"
@@ -10,7 +20,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="imports" upperBound="-1"
         eType="#//Megamodel"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Declaration" abstract="true">
+  <eClassifiers xsi:type="ecore:EClass" name="Declaration" abstract="true" eSuperTypes="#//Element">
     <eStructuralFeatures xsi:type="ecore:EReference" name="annotations" upperBound="-1"
         eType="#//Annotation" containment="true"/>
   </eClassifiers>
@@ -22,12 +32,34 @@
         containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="RelationshipType" eSuperTypes="#//NamedDeclaration">
+    <eOperations name="getVariants">
+      <eGenericType eClassifier="#//ESet">
+        <eTypeArguments eClassifier="#//RelationshipType"/>
+      </eGenericType>
+    </eOperations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="left" eType="#//EntityTypeReference"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="right" eType="#//EntityTypeReference"
         containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Entity" eSuperTypes="#//NamedDeclaration">
+    <eOperations name="getLinks">
+      <eGenericType eClassifier="#//ESet">
+        <eTypeArguments eClassifier="#//Link"/>
+      </eGenericType>
+    </eOperations>
+    <eOperations name="followOutgoing">
+      <eGenericType eClassifier="#//ESet">
+        <eTypeArguments eClassifier="#//Entity"/>
+      </eGenericType>
+      <eParameters name="type" eType="#//RelationshipType"/>
+    </eOperations>
+    <eOperations name="followIncoming">
+      <eGenericType eClassifier="#//ESet">
+        <eTypeArguments eClassifier="#//Entity"/>
+      </eGenericType>
+      <eParameters name="type" eType="#//RelationshipType"/>
+    </eOperations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="#//EntityTypeReference"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="dependent" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
@@ -38,7 +70,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="left" eType="#//Entity"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="right" eType="#//Entity"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Link">
+  <eClassifiers xsi:type="ecore:EClass" name="Link" eSuperTypes="#//Element">
     <eStructuralFeatures xsi:type="ecore:EReference" name="link" eType="#//Entity"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="to" eType="#//URI"/>
   </eClassifiers>
@@ -58,4 +90,10 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="output" eType="#//Entity"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="URI" instanceClassName="org.softlang.megal.api.URI"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="ESet" instanceClassName="java.util.Set">
+    <eTypeParameters name="T"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Element" abstract="true" interface="true">
+    <eOperations name="getMegamodel" eType="#//Megamodel"/>
+  </eClassifiers>
 </ecore:EPackage>

@@ -14,7 +14,6 @@ import org.softlang.megal.Graph
 import org.softlang.megal.Megamodel
 import org.eclipse.emf.ecore.util.EcoreUtil
 import org.eclipse.xtext.EcoreUtil2
-import static extension org.softlang.megal.reasoner.Reasoner.*
 import org.softlang.megal.Link
 import org.eclipse.xtext.ui.codetemplates.ui.evaluator.EvaluatedTemplate
 import org.softlang.megal.MegalPlugin
@@ -198,11 +197,11 @@ class MegalEObjectHoverProvider extends ExtenderEObjectHoverProvider {
 	def dispatch documentationFor(Entity it) '''
 		«IF dependent»<p>Entity is <a href="put a cool link to explain dependency">dependent</a></p>«ENDIF»
 		«IF parameter»<p>Entity is <a href="put a cool link to explain parametricity">a parameter</a></p>«ENDIF»
-		«IF dispatcher»
-			«IF masterDispatcher»Dispatcher is <a href="put a cool link to explain master dispatchers">master</a>«ENDIF»
-			<p>Dispatchers involved: <ul>«FOR c : buildDisp»<li>«c.link»</li>«ENDFOR»</ul></p>
-			<p>Parameters bound: <ul> «FOR c : costaassa.entrySet»<li>«c.key.link»&larr;«c.value.link»</li>«ENDFOR»</ul></p>
-		«ENDIF»
+		«««		«IF dispatcher»
+«««			«IF masterDispatcher»Dispatcher is <a href="put a cool link to explain master dispatchers">master</a>«ENDIF»
+«««			<p>Dispatchers involved: <ul>«FOR c : buildDisp»<li>«c.link»</li>«ENDFOR»</ul></p>
+«««			<p>Parameters bound: <ul> «FOR c : costaassa.entrySet»<li>«c.key.link»&larr;«c.value.link»</li>«ENDFOR»</ul></p>
+«««		«ENDIF»
 		«super.getDocumentation(it)»
 	'''
 
@@ -210,7 +209,18 @@ class MegalEObjectHoverProvider extends ExtenderEObjectHoverProvider {
 
 	def dispatch documentationFor(Relationship it) '''«super.getDocumentation(it)»'''
 
-	def dispatch documentationFor(RelationshipType it) '''«super.getDocumentation(it)»'''
+	def dispatch documentationFor(RelationshipType relationshipType) '''
+			«super.getDocumentation(relationshipType)»
+		«IF relationshipType.variants.size > 1»
+			<p>Other variants:
+			<ul>
+			«FOR variant : relationshipType.variants.filter[relationshipType != it]»
+				<li><i>«variant.link»</i>: «variant.left.definition.link» &lowast; «variant.right.definition.link»</li>
+			«ENDFOR»
+			</ul>
+			</p>
+		«ENDIF»
+	'''
 
 	def dispatch documentationFor(Link it) '''<ul>«FOR n : MegalPlugin.evaluator.evaluate(to)»<li>«n»</li>«ENDFOR»</ul>'''
 }

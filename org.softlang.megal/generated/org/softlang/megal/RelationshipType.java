@@ -2,6 +2,7 @@
  */
 package org.softlang.megal;
 
+import java.util.Set;
 
 /**
  * <!-- begin-user-doc -->
@@ -73,5 +74,13 @@ public interface RelationshipType extends NamedDeclaration
 	 * @generated
 	 */
 	void setRight(EntityTypeReference value);
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation" dataType="org.softlang.megal.ESet<org.softlang.megal.RelationshipType>"
+	 * @generated
+	 */
+	Set<RelationshipType> getVariants();
 
 } // RelationshipType

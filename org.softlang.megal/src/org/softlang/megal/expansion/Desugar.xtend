@@ -9,8 +9,11 @@ import org.softlang.megal.RelationshipType
 
 import static extension org.softlang.megal.Graph.*
 import static extension org.softlang.megal.Lists.*
+import org.apache.log4j.Logger
 
 class Desugar {
+	val static logger = Logger.getLogger(Desugar);
+
 	val static PRELUDE_NAME = 'Prelude'
 
 	val static FUNCTION_APPLICATION_NAME = 'FunctionApplication'
@@ -23,20 +26,30 @@ class Desugar {
 	}
 
 	def static desugar(Megamodel megamodel, extension MegalFactory factory) {
-		val prelude = megamodel.extend[imports].findFirst[name == PRELUDE_NAME]
+		val prelude = megamodel.extendBy[imports].findFirst[name == PRELUDE_NAME]
 
-		if (prelude == null)
-			throw new IllegalStateException
+		if (prelude != null) {
+			val fa = prelude.declarations.filter(EntityType).findFirst[name == FUNCTION_APPLICATION_NAME]
+			val eo = prelude.declarations.filter(RelationshipType).findFirst[name == ELEMENT_OF_NAME]
+			val io = prelude.declarations.filter(RelationshipType).findFirst[name == INPUT_OF_NAME]
+			val oo = prelude.declarations.filter(RelationshipType).findFirst[name == OUTPUT_OF_NAME]
 
-		val fa = prelude.declarations.filter(EntityType).findFirst[name == FUNCTION_APPLICATION_NAME]
-		val eo = prelude.declarations.filter(RelationshipType).findFirst[name == ELEMENT_OF_NAME]
-		val io = prelude.declarations.filter(RelationshipType).findFirst[name == INPUT_OF_NAME]
-		val oo = prelude.declarations.filter(RelationshipType).findFirst[name == OUTPUT_OF_NAME]
+			if (fa != null && eo != null && io != null && oo != null) {
+				desugar(megamodel, factory, fa, eo, io, oo)
+			} else {
 
-		if (fa == null || eo == null || io == null || oo == null)
-			throw new IllegalStateException
+				// Get all unmapped items
+				val k = #[FUNCTION_APPLICATION_NAME -> fa, ELEMENT_OF_NAME -> eo, INPUT_OF_NAME -> io,
+					OUTPUT_OF_NAME -> oo].filter[value == null].map[key].join(', ')
 
-		desugar(megamodel, factory, fa, eo, io, oo)
+				// Print error
+				logger.error("Cannot desugar, types for function application are missing: " + k)
+			}
+		} else {
+
+			// Print error
+			logger.error("Cannot desugar, prelude is missing")
+		}
 	}
 
 	def static desugar(Megamodel megamodel, extension MegalFactory factory, EntityType functionApplication,

@@ -99,4 +99,4 @@ terminal fragment SEGMENT:
 	 * An URI
 	 */
 terminal URI returns URI:
-	('a'..'z')+ ':/' '/'? SEGMENT ('/' SEGMENT)* '/'?;
+	('a'..'z')+ ':/' '/'? (SEGMENT ('/' SEGMENT)* '/'?)?;

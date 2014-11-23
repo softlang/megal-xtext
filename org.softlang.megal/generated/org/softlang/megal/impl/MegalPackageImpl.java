@@ -2,9 +2,13 @@
  */
 package org.softlang.megal.impl;
 
+import java.util.Set;
+
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
+import org.eclipse.emf.ecore.EGenericType;
+import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
@@ -12,6 +16,7 @@ import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 import org.softlang.megal.Annotation;
 import org.softlang.megal.Declaration;
+import org.softlang.megal.Element;
 import org.softlang.megal.Entity;
 import org.softlang.megal.EntityType;
 import org.softlang.megal.EntityTypeReference;
@@ -114,7 +119,21 @@ public class MegalPackageImpl extends EPackageImpl implements MegalPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	private EClass elementEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	private EDataType uriEDataType = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EDataType eSetEDataType = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -234,6 +253,26 @@ public class MegalPackageImpl extends EPackageImpl implements MegalPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EOperation getMegamodel__GetVisibleDeclarations()
+	{
+		return megamodelEClass.getEOperations().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EOperation getMegamodel__GetVisibleBindings()
+	{
+		return megamodelEClass.getEOperations().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getDeclaration()
 	{
 		return declarationEClass;
@@ -324,6 +363,16 @@ public class MegalPackageImpl extends EPackageImpl implements MegalPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EOperation getRelationshipType__GetVariants()
+	{
+		return relationshipTypeEClass.getEOperations().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getEntity()
 	{
 		return entityEClass;
@@ -357,6 +406,36 @@ public class MegalPackageImpl extends EPackageImpl implements MegalPackage
 	public EAttribute getEntity_Parameter()
 	{
 		return (EAttribute)entityEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EOperation getEntity__GetLinks()
+	{
+		return entityEClass.getEOperations().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EOperation getEntity__FollowOutgoing__RelationshipType()
+	{
+		return entityEClass.getEOperations().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EOperation getEntity__FollowIncoming__RelationshipType()
+	{
+		return entityEClass.getEOperations().get(2);
 	}
 
 	/**
@@ -544,9 +623,39 @@ public class MegalPackageImpl extends EPackageImpl implements MegalPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getElement()
+	{
+		return elementEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EOperation getElement__GetMegamodel()
+	{
+		return elementEClass.getEOperations().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EDataType getURI()
 	{
 		return uriEDataType;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EDataType getESet()
+	{
+		return eSetEDataType;
 	}
 
 	/**
@@ -584,6 +693,8 @@ public class MegalPackageImpl extends EPackageImpl implements MegalPackage
 		createEReference(megamodelEClass, MEGAMODEL__BINDINGS);
 		createEAttribute(megamodelEClass, MEGAMODEL__NAME);
 		createEReference(megamodelEClass, MEGAMODEL__IMPORTS);
+		createEOperation(megamodelEClass, MEGAMODEL___GET_VISIBLE_DECLARATIONS);
+		createEOperation(megamodelEClass, MEGAMODEL___GET_VISIBLE_BINDINGS);
 
 		declarationEClass = createEClass(DECLARATION);
 		createEReference(declarationEClass, DECLARATION__ANNOTATIONS);
@@ -597,11 +708,15 @@ public class MegalPackageImpl extends EPackageImpl implements MegalPackage
 		relationshipTypeEClass = createEClass(RELATIONSHIP_TYPE);
 		createEReference(relationshipTypeEClass, RELATIONSHIP_TYPE__LEFT);
 		createEReference(relationshipTypeEClass, RELATIONSHIP_TYPE__RIGHT);
+		createEOperation(relationshipTypeEClass, RELATIONSHIP_TYPE___GET_VARIANTS);
 
 		entityEClass = createEClass(ENTITY);
 		createEReference(entityEClass, ENTITY__TYPE);
 		createEAttribute(entityEClass, ENTITY__DEPENDENT);
 		createEAttribute(entityEClass, ENTITY__PARAMETER);
+		createEOperation(entityEClass, ENTITY___GET_LINKS);
+		createEOperation(entityEClass, ENTITY___FOLLOW_OUTGOING__RELATIONSHIPTYPE);
+		createEOperation(entityEClass, ENTITY___FOLLOW_INCOMING__RELATIONSHIPTYPE);
 
 		relationshipEClass = createEClass(RELATIONSHIP);
 		createEReference(relationshipEClass, RELATIONSHIP__TYPE);
@@ -626,8 +741,12 @@ public class MegalPackageImpl extends EPackageImpl implements MegalPackage
 		createEReference(functionApplicationEClass, FUNCTION_APPLICATION__INPUT);
 		createEReference(functionApplicationEClass, FUNCTION_APPLICATION__OUTPUT);
 
+		elementEClass = createEClass(ELEMENT);
+		createEOperation(elementEClass, ELEMENT___GET_MEGAMODEL);
+
 		// Create data types
 		uriEDataType = createEDataType(URI);
+		eSetEDataType = createEDataType(ESET);
 	}
 
 	/**
@@ -655,15 +774,18 @@ public class MegalPackageImpl extends EPackageImpl implements MegalPackage
 		setNsURI(eNS_URI);
 
 		// Create type parameters
+		addETypeParameter(eSetEDataType, "T");
 
 		// Set bounds for type parameters
 
 		// Add supertypes to classes
+		declarationEClass.getESuperTypes().add(this.getElement());
 		namedDeclarationEClass.getESuperTypes().add(this.getDeclaration());
 		entityTypeEClass.getESuperTypes().add(this.getNamedDeclaration());
 		relationshipTypeEClass.getESuperTypes().add(this.getNamedDeclaration());
 		entityEClass.getESuperTypes().add(this.getNamedDeclaration());
 		relationshipEClass.getESuperTypes().add(this.getDeclaration());
+		linkEClass.getESuperTypes().add(this.getElement());
 		functionApplicationEClass.getESuperTypes().add(this.getDeclaration());
 
 		// Initialize classes, features, and operations; add parameters
@@ -672,6 +794,18 @@ public class MegalPackageImpl extends EPackageImpl implements MegalPackage
 		initEReference(getMegamodel_Bindings(), this.getLink(), null, "bindings", null, 0, -1, Megamodel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getMegamodel_Name(), ecorePackage.getEString(), "name", null, 0, 1, Megamodel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getMegamodel_Imports(), this.getMegamodel(), null, "imports", null, 0, -1, Megamodel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		EOperation op = initEOperation(getMegamodel__GetVisibleDeclarations(), null, "getVisibleDeclarations", 0, 1, IS_UNIQUE, IS_ORDERED);
+		EGenericType g1 = createEGenericType(this.getESet());
+		EGenericType g2 = createEGenericType(this.getDeclaration());
+		g1.getETypeArguments().add(g2);
+		initEOperation(op, g1);
+
+		op = initEOperation(getMegamodel__GetVisibleBindings(), null, "getVisibleBindings", 0, 1, IS_UNIQUE, IS_ORDERED);
+		g1 = createEGenericType(this.getESet());
+		g2 = createEGenericType(this.getLink());
+		g1.getETypeArguments().add(g2);
+		initEOperation(op, g1);
 
 		initEClass(declarationEClass, Declaration.class, "Declaration", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getDeclaration_Annotations(), this.getAnnotation(), null, "annotations", null, 0, -1, Declaration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -686,10 +820,36 @@ public class MegalPackageImpl extends EPackageImpl implements MegalPackage
 		initEReference(getRelationshipType_Left(), this.getEntityTypeReference(), null, "left", null, 0, 1, RelationshipType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getRelationshipType_Right(), this.getEntityTypeReference(), null, "right", null, 0, 1, RelationshipType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
+		op = initEOperation(getRelationshipType__GetVariants(), null, "getVariants", 0, 1, IS_UNIQUE, IS_ORDERED);
+		g1 = createEGenericType(this.getESet());
+		g2 = createEGenericType(this.getRelationshipType());
+		g1.getETypeArguments().add(g2);
+		initEOperation(op, g1);
+
 		initEClass(entityEClass, Entity.class, "Entity", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getEntity_Type(), this.getEntityTypeReference(), null, "type", null, 0, 1, Entity.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getEntity_Dependent(), ecorePackage.getEBoolean(), "dependent", null, 0, 1, Entity.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getEntity_Parameter(), ecorePackage.getEBoolean(), "parameter", null, 0, 1, Entity.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		op = initEOperation(getEntity__GetLinks(), null, "getLinks", 0, 1, IS_UNIQUE, IS_ORDERED);
+		g1 = createEGenericType(this.getESet());
+		g2 = createEGenericType(this.getLink());
+		g1.getETypeArguments().add(g2);
+		initEOperation(op, g1);
+
+		op = initEOperation(getEntity__FollowOutgoing__RelationshipType(), null, "followOutgoing", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, this.getRelationshipType(), "type", 0, 1, IS_UNIQUE, IS_ORDERED);
+		g1 = createEGenericType(this.getESet());
+		g2 = createEGenericType(this.getEntity());
+		g1.getETypeArguments().add(g2);
+		initEOperation(op, g1);
+
+		op = initEOperation(getEntity__FollowIncoming__RelationshipType(), null, "followIncoming", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, this.getRelationshipType(), "type", 0, 1, IS_UNIQUE, IS_ORDERED);
+		g1 = createEGenericType(this.getESet());
+		g2 = createEGenericType(this.getEntity());
+		g1.getETypeArguments().add(g2);
+		initEOperation(op, g1);
 
 		initEClass(relationshipEClass, Relationship.class, "Relationship", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getRelationship_Type(), this.getRelationshipType(), null, "type", null, 0, 1, Relationship.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -714,8 +874,13 @@ public class MegalPackageImpl extends EPackageImpl implements MegalPackage
 		initEReference(getFunctionApplication_Input(), this.getEntity(), null, "input", null, 0, 1, FunctionApplication.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getFunctionApplication_Output(), this.getEntity(), null, "output", null, 0, 1, FunctionApplication.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
+		initEClass(elementEClass, Element.class, "Element", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEOperation(getElement__GetMegamodel(), this.getMegamodel(), "getMegamodel", 0, 1, IS_UNIQUE, IS_ORDERED);
+
 		// Initialize data types
 		initEDataType(uriEDataType, org.softlang.megal.api.URI.class, "URI", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+		initEDataType(eSetEDataType, Set.class, "ESet", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
 
 		// Create resource
 		createResource(eNS_URI);

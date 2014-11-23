@@ -2,18 +2,18 @@
  */
 package org.softlang.megal.impl;
 
-import org.eclipse.emf.common.notify.Notification;
+import java.lang.reflect.InvocationTargetException;
 
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
-
 import org.softlang.megal.Entity;
 import org.softlang.megal.Link;
 import org.softlang.megal.MegalPackage;
-
+import org.softlang.megal.Megamodel;
 import org.softlang.megal.api.URI;
 
 /**
@@ -152,6 +152,19 @@ public class LinkImpl extends MinimalEObjectImpl.Container implements Link
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public Megamodel getMegamodel()
+	{
+		if(eContainer()== null || !(eContainer()instanceof Megamodel))
+			throw new IllegalStateException("Dangeling binding");
+		
+		return (Megamodel)eContainer();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -224,6 +237,22 @@ public class LinkImpl extends MinimalEObjectImpl.Container implements Link
 				return TO_EDEFAULT == null ? to != null : !TO_EDEFAULT.equals(to);
 		}
 		return super.eIsSet(featureID);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Object eInvoke(int operationID, EList<?> arguments) throws InvocationTargetException
+	{
+		switch (operationID)
+		{
+			case MegalPackage.LINK___GET_MEGAMODEL:
+				return getMegamodel();
+		}
+		return super.eInvoke(operationID, arguments);
 	}
 
 	/**

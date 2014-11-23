@@ -83,6 +83,7 @@ public class MegalSwitch<T> extends Switch<T>
 			{
 				Declaration declaration = (Declaration)theEObject;
 				T result = caseDeclaration(declaration);
+				if (result == null) result = caseElement(declaration);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -91,6 +92,7 @@ public class MegalSwitch<T> extends Switch<T>
 				NamedDeclaration namedDeclaration = (NamedDeclaration)theEObject;
 				T result = caseNamedDeclaration(namedDeclaration);
 				if (result == null) result = caseDeclaration(namedDeclaration);
+				if (result == null) result = caseElement(namedDeclaration);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -100,6 +102,7 @@ public class MegalSwitch<T> extends Switch<T>
 				T result = caseEntityType(entityType);
 				if (result == null) result = caseNamedDeclaration(entityType);
 				if (result == null) result = caseDeclaration(entityType);
+				if (result == null) result = caseElement(entityType);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -109,6 +112,7 @@ public class MegalSwitch<T> extends Switch<T>
 				T result = caseRelationshipType(relationshipType);
 				if (result == null) result = caseNamedDeclaration(relationshipType);
 				if (result == null) result = caseDeclaration(relationshipType);
+				if (result == null) result = caseElement(relationshipType);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -118,6 +122,7 @@ public class MegalSwitch<T> extends Switch<T>
 				T result = caseEntity(entity);
 				if (result == null) result = caseNamedDeclaration(entity);
 				if (result == null) result = caseDeclaration(entity);
+				if (result == null) result = caseElement(entity);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -126,6 +131,7 @@ public class MegalSwitch<T> extends Switch<T>
 				Relationship relationship = (Relationship)theEObject;
 				T result = caseRelationship(relationship);
 				if (result == null) result = caseDeclaration(relationship);
+				if (result == null) result = caseElement(relationship);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -133,6 +139,7 @@ public class MegalSwitch<T> extends Switch<T>
 			{
 				Link link = (Link)theEObject;
 				T result = caseLink(link);
+				if (result == null) result = caseElement(link);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -155,6 +162,14 @@ public class MegalSwitch<T> extends Switch<T>
 				FunctionApplication functionApplication = (FunctionApplication)theEObject;
 				T result = caseFunctionApplication(functionApplication);
 				if (result == null) result = caseDeclaration(functionApplication);
+				if (result == null) result = caseElement(functionApplication);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case MegalPackage.ELEMENT:
+			{
+				Element element = (Element)theEObject;
+				T result = caseElement(element);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -334,6 +349,22 @@ public class MegalSwitch<T> extends Switch<T>
 	 * @generated
 	 */
 	public T caseFunctionApplication(FunctionApplication object)
+	{
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Element</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Element</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseElement(Element object)
 	{
 		return null;
 	}

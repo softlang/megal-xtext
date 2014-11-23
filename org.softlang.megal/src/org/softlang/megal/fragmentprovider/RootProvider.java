@@ -15,6 +15,6 @@ public interface RootProvider {
 	 * @param id
 	 * @return
 	 */
-	List<Object> navigate(String protocol);
+	List<? extends Object> navigate(String protocol);
 
 }

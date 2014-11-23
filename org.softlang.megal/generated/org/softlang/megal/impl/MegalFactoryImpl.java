@@ -2,6 +2,8 @@
  */
 package org.softlang.megal.impl;
 
+import java.util.Set;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
@@ -93,6 +95,8 @@ public class MegalFactoryImpl extends EFactoryImpl implements MegalFactory
 		{
 			case MegalPackage.URI:
 				return createURIFromString(eDataType, initialValue);
+			case MegalPackage.ESET:
+				return createESetFromString(eDataType, initialValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -110,6 +114,8 @@ public class MegalFactoryImpl extends EFactoryImpl implements MegalFactory
 		{
 			case MegalPackage.URI:
 				return convertURIToString(eDataType, instanceValue);
+			case MegalPackage.ESET:
+				return convertESetToString(eDataType, instanceValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -232,6 +238,26 @@ public class MegalFactoryImpl extends EFactoryImpl implements MegalFactory
 	public String convertURIToString(EDataType eDataType, Object instanceValue)
 	{
 		return super.convertToString(eDataType, instanceValue);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Set<?> createESetFromString(EDataType eDataType, String initialValue)
+	{
+		return (Set<?>)super.createFromString(initialValue);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertESetToString(EDataType eDataType, Object instanceValue)
+	{
+		return super.convertToString(instanceValue);
 	}
 
 	/**
