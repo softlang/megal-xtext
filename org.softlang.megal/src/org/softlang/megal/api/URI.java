@@ -189,6 +189,25 @@ public class URI {
 		return true;
 	}
 
+	public boolean hasParent() {
+		return !getSegments().isEmpty();
+	}
+
+	public URI parent() {
+		if (segments.size() > 0) {
+			URI r = new URI();
+			r.setProtocol(getProtocol());
+			r.setNet(isNet());
+			r.setFolder(isFolder());
+
+			for (int i = 0; i < getSegments().size() - 1; i++)
+				r.getSegments().add(getSegments().get(i));
+			return r;
+		}
+
+		throw new IllegalStateException("Top level uri");
+	}
+
 	@Override
 	public String toString() {
 		return protocol + ":" + (net ? "//" : "/")

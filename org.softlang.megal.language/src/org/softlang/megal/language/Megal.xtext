@@ -88,9 +88,15 @@ terminal SL_COMMENT:
 terminal WS:
 	(' ' | '\t' | '\r' | '\n')+;
 
+	/**
+	 * Segment of an URI
+	 */
 terminal fragment SEGMENT:
 	('A'..'Z' | 'a'..'z' | '0'..'9' | '-' | '.' | '_' | '~' | ':' | '?' | '#' | '[' | ']' | '@' | '!' | '$' | '&' | "'" |
 	'(' | ')' | '*' | '+' | ',' | ';' | '=')+;
 
+	/**
+	 * An URI
+	 */
 terminal URI returns URI:
 	('a'..'z')+ ':/' '/'? SEGMENT ('/' SEGMENT)* '/'?;

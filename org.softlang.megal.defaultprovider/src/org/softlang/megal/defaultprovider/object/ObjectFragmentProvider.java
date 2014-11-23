@@ -46,19 +46,27 @@ public class ObjectFragmentProvider implements FragmentProvider {
 		return properties(node).keySet();
 	}
 
+	private static boolean isGetter(String n) {
+		return n.length() > 3 && n.startsWith("get")
+				&& Character.isUpperCase(n.charAt(3));
+	}
+
+	private static String getName(String n) {
+		return n.substring(3, 4).toLowerCase() + n.substring(4);
+	}
+
 	private Map<String, Object> properties(Object object) {
 		Map<String, Object> result = new HashMap<String, Object>();
 
 		for (Method method : object.getClass().getMethods()) {
-			if (!method.getName().startsWith("get"))
+			if (!isGetter(method.getName()))
 				continue;
 
 			if (method.getParameterCount() != 0)
 				continue;
 
 			try {
-				result.put(method.getName().substring(3).toLowerCase(),
-						method.invoke(object));
+				result.put(getName(method.getName()), method.invoke(object));
 			} catch (IllegalAccessException | IllegalArgumentException
 					| InvocationTargetException e) {
 				e.printStackTrace();

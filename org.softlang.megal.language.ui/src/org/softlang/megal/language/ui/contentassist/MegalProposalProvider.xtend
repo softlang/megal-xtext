@@ -26,14 +26,27 @@ class MegalProposalProvider extends AbstractMegalProposalProvider {
 				try {
 					val pf = URI.valueOf(context.prefix)
 
-					for (c : evaluator.evaluate(pf))
-						for (n : evaluator.next(c)) {
-							val v = '''«pf»«IF !pf.folder»/«ENDIF»«n»'''
-							acceptor.accept(createCompletionProposal(v, context))
-						}
+					// Evaluate and propose for
+					if (!proposeForAll(pf, acceptor, context) && pf.hasParent)
+						proposeForAll(pf.parent, acceptor, context)
 
 				} catch (IllegalArgumentException e) {
 				}
+		}
+	}
+
+	def proposeForAll(URI uri, ICompletionProposalAcceptor acceptor, ContentAssistContext context) {
+		val pfe = evaluator.evaluate(uri)
+		for (c : pfe)
+			proposeFor(c, uri, acceptor, context)
+		!pfe.empty
+	}
+
+	def proposeFor(Object item, URI uri, ICompletionProposalAcceptor acceptor, ContentAssistContext context) {
+		for (n : evaluator.next(item)) {
+			val d = '''«n»'''
+			val v = '''«uri»«IF !uri.folder»/«ENDIF»«n»'''
+			acceptor.accept(createCompletionProposal(v, d, null, context))
 		}
 	}
 
