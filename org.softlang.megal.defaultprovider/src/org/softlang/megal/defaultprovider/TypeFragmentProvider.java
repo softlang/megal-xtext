@@ -3,6 +3,7 @@ package org.softlang.megal.defaultprovider;
 import java.util.List;
 import java.util.Set;
 
+import org.softlang.megal.defaultprovider.object.ObjectFragmentProvider;
 import org.softlang.megal.fragmentprovider.FragmentProvider;
 
 /**
@@ -15,7 +16,7 @@ import org.softlang.megal.fragmentprovider.FragmentProvider;
  * @param <T>
  *            The type to check
  */
-public abstract class TypeFragmentProvider<T> implements FragmentProvider {
+public abstract class TypeFragmentProvider<T> extends ObjectFragmentProvider {
 	/**
 	 * <p>
 	 * Backing field for check type
