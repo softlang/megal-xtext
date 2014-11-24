@@ -12,11 +12,20 @@
       <Class
             class="org.softlang.megal.defaultprovider.object.ObjectFragmentProvider">
       </Class>
+      <Class
+            class="org.softlang.megal.defaultprovider.searchengine.TypenameDatabaseFragmentProvider">
+      </Class>
+      <Class
+            class="org.softlang.megal.defaultprovider.searchengine.TypenameInitFragmentProvider">
+      </Class>
    </extension>
    <extension
          point="org.softlang.megal.RootProvider">
       <Class
             class="org.softlang.megal.defaultprovider.resource.WorkspaceRootProvider">
+      </Class>
+      <Class
+            class="org.softlang.megal.defaultprovider.searchengine.SearchEngineRoot">
       </Class>
    </extension>
 
