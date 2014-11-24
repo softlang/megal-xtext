@@ -1,7 +1,9 @@
 package org.softlang.megal.defaultprovider.searchengine;
 
 import java.util.List;
+import java.util.Optional;
 
+import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
 
 /**
@@ -218,4 +220,61 @@ public class Typename {
 				+ typename + "]";
 	}
 
+	/**
+	 * <p>
+	 * Stores the value of load
+	 * </p>
+	 */
+	private Optional<Class<?>> loaded = Optional.empty();
+
+	/**
+	 * <p>
+	 * Tries to load the class, returns null if no class definition found
+	 * </p>
+	 * <p>
+	 * Cache invalidation may be done by passing this object to
+	 * {@link #invalidateLoad(Typename)}
+	 * </p>
+	 * 
+	 * @return Returns the value of the cache store
+	 */
+	public Class<?> load() {
+		if (loaded.isPresent())
+			return loaded.get();
+
+		String fqn;
+		if (enclosingTypes.isEmpty()) {
+			if (packagePrefix.isEmpty())
+				fqn = getTypename();
+			else
+				fqn = Joiner.on('.').join(packagePrefix) + '.' + getTypename();
+		} else {
+			if (packagePrefix.isEmpty())
+				fqn = Joiner.on('$').join(enclosingTypes) + '$' + getTypename();
+			else
+				fqn = Joiner.on('.').join(packagePrefix) + '.'
+						+ Joiner.on('$').join(enclosingTypes) + '$'
+						+ getTypename();
+		}
+
+		try {
+			loaded = Optional.of(Class.forName(fqn));
+		} catch (ClassNotFoundException e) {
+			loaded = Optional.of(null);
+		}
+
+		return loaded.get();
+	}
+
+	/**
+	 * <p>
+	 * Invalidates the stored value for {@link #load()}
+	 * </p>
+	 * 
+	 * @param t
+	 *            The type name to invalidate for
+	 */
+	public static void invalidateLoad(Typename t) {
+		t.loaded = Optional.empty();
+	}
 }
