@@ -14,10 +14,19 @@ import org.eclipse.jdt.core.search.TypeNameMatchRequestor;
 import org.softlang.megal.fragmentprovider.RootProvider;
 
 public class SearchEngineRoot implements RootProvider {
+	/**
+	 * <p>The decomposition pattern for the qualified names</p>
+	 */
 	private static final Pattern DECOMPOSITION = Pattern.compile("\\.");
 
+	/**
+	 * <p>The search engine used for searching type names</p>
+	 */
 	private final SearchEngine engine = new SearchEngine();
 
+	/**
+	 *  <p>The search scope on the entire workspace</p>
+	 */
 	private final IJavaSearchScope scope = SearchEngine.createWorkspaceScope();
 
 	@Override

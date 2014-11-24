@@ -4,13 +4,43 @@ import java.util.List;
 
 import com.google.common.collect.ImmutableList;
 
+/**
+ * <p>
+ * Typename composes the package as a list, the enclosing types as a list and
+ * the typename as an optional string
+ * <p>
+ * 
+ * @author Pazuzu
+ *
+ */
 public class Typename {
+	/**
+	 * Backing location for package prefix
+	 */
 	private final ImmutableList<String> packagePrefix;
 
+	/**
+	 * Backing location for enclosing type
+	 */
 	private final ImmutableList<String> enclosingTypes;
 
+	/**
+	 * Backing location for the optional type name
+	 */
 	private final String typename;
 
+	/**
+	 * <p>
+	 * Constructor, carrying the parameters into the backing
+	 * </p>
+	 * 
+	 * @param packagePrefix
+	 *            The package prefix, will be copied
+	 * @param enclosingTypes
+	 *            The package prefix, will be copied
+	 * @param typename
+	 *            The type name or null
+	 */
 	private Typename(List<String> packagePrefix, List<String> enclosingTypes,
 			String typename) {
 		this.packagePrefix = ImmutableList.copyOf(packagePrefix);
@@ -18,34 +48,98 @@ public class Typename {
 		this.typename = typename;
 	}
 
+	/**
+	 * <p>
+	 * Creates an incomplete type name, has not actual class but just a
+	 * container
+	 * </p>
+	 * 
+	 * @param packagePrefix
+	 *            The package prefix, will be copied
+	 * @param enclosingTypes
+	 *            The package prefix, will be copied
+	 * @return Returns a newly constructed type name
+	 */
 	public static Typename createIncomplete(List<String> packagePrefix,
 			List<String> enclosingTypes) {
 		return new Typename(packagePrefix, enclosingTypes, null);
 	}
 
+	/**
+	 * <p>
+	 * Creates a complete type name, has actual class
+	 * </p>
+	 * 
+	 * @param packagePrefix
+	 *            The package prefix, will be copied
+	 * @param enclosingTypes
+	 *            The package prefix, will be copied
+	 * @param typename
+	 *            The type name
+	 * @return Returns a newly constructed type name
+	 */
 	public static Typename createComplete(List<String> packagePrefix,
 			List<String> enclosingTypes, String typename) {
 		return new Typename(packagePrefix, enclosingTypes, typename);
 	}
 
+	/**
+	 * <p>
+	 * Getter for the package prefix
+	 * </p>
+	 * 
+	 * @return Returns the backing fields value
+	 */
 	public ImmutableList<String> getPackagePrefix() {
 		return packagePrefix;
 	}
 
+	/**
+	 * <p>
+	 * Getter for the enclosing type
+	 * </p>
+	 * 
+	 * @return Returns the backing fields value
+	 */
 	public ImmutableList<String> getEnclosingTypes() {
 		return enclosingTypes;
 	}
 
+	/**
+	 * <p>
+	 * Gets the type name, throws an {@link IllegalStateException} if no type
+	 * name present
+	 * </p>
+	 * 
+	 * @return Returns the type name
+	 */
 	public String getTypename() {
 		if (typename == null)
 			throw new IllegalStateException();
 		return typename;
 	}
 
+	/**
+	 * <p>
+	 * Status evaluator, true when a type name is present
+	 * </p>
+	 * 
+	 * @return Returns true if type name is not null
+	 */
 	public boolean isComplete() {
 		return typename != null;
 	}
 
+	/**
+	 * <p>
+	 * Views this type name as a list of segments and gets the element at the
+	 * position
+	 * </p>
+	 * 
+	 * @param i
+	 *            The index to get at
+	 * @return The gotten segment
+	 */
 	public String getSegment(int i) {
 		if (i < 0)
 			throw new IndexOutOfBoundsException();
@@ -65,6 +159,13 @@ public class Typename {
 		return getTypename();
 	}
 
+	/**
+	 * <p>
+	 * Views this type name as a list of segments and gets the size of the list
+	 * </p>
+	 * 
+	 * @return Returns the size of the segment concatenation
+	 */
 	public int size() {
 		return getPackagePrefix().size() + getEnclosingTypes().size()
 				+ (isComplete() ? 1 : 0);
