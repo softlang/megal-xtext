@@ -44,9 +44,13 @@ class MegalProposalProvider extends AbstractMegalProposalProvider {
 
 	def proposeFor(Object item, URI uri, ICompletionProposalAcceptor acceptor, ContentAssistContext context) {
 		for (n : evaluator.next(item)) {
-			val d = '''«n»'''
-			val v = '''«uri»«IF !uri.folder && !uri.segments.empty»/«ENDIF»«n»'''
-			acceptor.accept(createCompletionProposal(v, d, null, context))
+			val c = uri.append(n);
+
+			// TODO: better terminality
+//			if (!evaluator.evaluate(c).empty)
+//				c.folder = true
+
+			acceptor.accept(createCompletionProposal(c.toString, n, null, context))
 		}
 	}
 

@@ -1,6 +1,5 @@
 package org.softlang.megal.api;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
@@ -202,6 +201,12 @@ public class URI {
 		}
 
 		throw new IllegalStateException("Top level uri");
+	}
+
+	public URI append(String seg) {
+		URI r = new URI(protocol, net, segments, false);
+		r.getSegments().add(seg);
+		return r;
 	}
 
 	@Override

@@ -31,7 +31,7 @@ public class TypenameInitFragmentProvider extends
 	protected List<? extends Object> navigateTyped(TypenameInit i,
 			String segment) {
 		// If segment not equal to the segment we're at, return empty list
-		if (Objects.equal(segment, i.nextSegment()))
+		if (i.hasNext() && Objects.equal(segment, i.nextSegment()))
 			return Collections.singletonList(i.next());
 		else
 			return Collections.emptyList();
