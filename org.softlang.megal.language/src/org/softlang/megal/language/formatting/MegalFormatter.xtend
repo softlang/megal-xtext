@@ -17,21 +17,79 @@ import org.softlang.megal.language.services.MegalGrammarAccess
  * Also see {@link org.eclipse.xtext.xtext.XtextFormattingTokenSerializer} as an example
  */
 public class MegalFormatter extends AbstractDeclarativeFormatter {
-	
+
 	@Inject extension MegalGrammarAccess
-	
+
 	override protected configureFormatting(FormattingConfig c) {
-		for(pair: findKeywordPairs('{', '}')) {
-			c.setIndentation(pair.first, pair.second)
-			c.setLinewrap(1).after(pair.first)
-			c.setLinewrap(1).before(pair.second)
-			c.setLinewrap(1).after(pair.second)
-		}
-		for(comma: findKeywords(',')) {
-			c.setNoLinewrap().before(comma)
-			c.setNoSpace().before(comma)
-			c.setLinewrap().after(comma)
-		}
+		c.autoLinewrap = 120
+
+		// Megamodel
+		c.setLinewrap(0, 1, 2).before(megamodelAccess.importKeyword_2_0_0)
+		c.setLinewrap(0, 1, 2).after(megamodelAccess.nameAssignment_1)
+		c.setLinewrap(0, 1, 2).after(megamodelAccess.importsAssignment_2_0_1)
+
+		// Prefix Annotation
+		c.setLinewrap(0, 1, 2).after(prefixAnnotationRule)
+		c.setNoSpace.after(prefixAnnotationAccess.commercialAtKeyword_0)
+		c.setSpace(' ').between(prefixAnnotationAccess.keyAssignment_1, prefixAnnotationAccess.valueAssignment_2)
+
+		// Show Name Annotation
+		c.setNoSpace.after(showNameAnnotationAccess.leftSquareBracketKeyword_0)
+		c.setNoSpace.before(showNameAnnotationAccess.rightSquareBracketKeyword_2)
+
+		// Link
+		c.setLinewrap(0, 1, 2).around(linkRule)
+		c.setSpace(' ').before(linkAccess.equalsSignKeyword_2)
+		c.setSpace(' ').after(linkAccess.equalsSignKeyword_2)
+
+		// Entity Type
+		c.setLinewrap(0, 1, 2).around(entityTypeRule)
+		c.setNoSpace.before(entityTypeAccess.annotationsAssignment_2)
+		c.setNoSpace.after(entityTypeAccess.annotationsAssignment_2)
+		c.setSpace(' ').before(entityTypeAccess.lessThanSignKeyword_3_0_0)
+		c.setSpace(' ').after(entityTypeAccess.lessThanSignKeyword_3_0_0)
+
+		// Relationship Type
+		c.setLinewrap(0, 1, 2).around(relationshipTypeRule)
+		c.setNoSpace.before(relationshipTypeAccess.annotationsAssignment_2)
+		c.setNoSpace.after(relationshipTypeAccess.annotationsAssignment_2)
+		c.setSpace(' ').before(relationshipTypeAccess.lessThanSignKeyword_3)
+		c.setSpace(' ').after(relationshipTypeAccess.lessThanSignKeyword_3)
+		c.setSpace(' ').before(relationshipTypeAccess.asteriskKeyword_5)
+		c.setSpace(' ').after(relationshipTypeAccess.asteriskKeyword_5)
+
+		// Entity
+		c.setLinewrap(0, 1, 2).around(entityRule)
+		c.setNoSpace.after(entityAccess.dependentAssignment_1_0)
+		c.setNoSpace.after(entityAccess.parameterAssignment_1_1)
+		c.setNoSpace.after(entityAccess.annotationsAssignment_3)
+		c.setNoSpace.before(entityAccess.colonKeyword_4)
+		c.setSpace(' ').after(entityAccess.colonKeyword_4)
+
+		// Relationship
+		c.setLinewrap(0, 1, 2).around(relationshipRule)
+		c.setSpace(' ').before(relationshipAccess.typeAssignment_2)
+		c.setSpace(' ').after(relationshipAccess.typeAssignment_2)
+
+		// FunctionApplication
+		c.setLinewrap(0, 1, 2).around(functionApplicationRule)
+		c.setNoSpace.before(functionApplicationAccess.leftParenthesisKeyword_2)
+		c.setNoSpace.after(functionApplicationAccess.leftParenthesisKeyword_2)
+		c.setNoSpace.before(functionApplicationAccess.rightParenthesisKeyword_4)
+		c.setSpace(' ').after(functionApplicationAccess.rightParenthesisKeyword_4)
+		c.setLinewrap(0, 0, 1).after(functionApplicationAccess.rightParenthesisKeyword_4)
+		c.setNoSpace.after(functionApplicationAccess.verticalLineKeyword_5)
+		c.setSpace(' ').before(functionApplicationAccess.hyphenMinusGreaterThanSignKeyword_6)
+		c.setSpace(' ').after(functionApplicationAccess.hyphenMinusGreaterThanSignKeyword_6)
+
+		// Entity Type Reference
+		c.setNoSpace.before(entityTypeReferenceAccess.leftSquareBracketKeyword_1_0)
+		c.setSpace(' ').before(entityTypeReferenceAccess.hyphenMinusGreaterThanSignKeyword_1_2_0)
+		c.setSpace(' ').after(entityTypeReferenceAccess.hyphenMinusGreaterThanSignKeyword_1_2_0)
+		c.setNoSpace.before(entityTypeReferenceAccess.rightSquareBracketKeyword_1_3)
+		c.setNoSpace.before(entityTypeReferenceAccess.manyAssignment_2)
+
+		// Formatting for Comments 
 		c.setLinewrap(0, 1, 2).before(SL_COMMENTRule)
 		c.setLinewrap(0, 1, 2).before(ML_COMMENTRule)
 		c.setLinewrap(0, 1, 1).after(ML_COMMENTRule)

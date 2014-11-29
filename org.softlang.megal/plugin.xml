@@ -18,7 +18,7 @@
    <extension
          point="org.eclipse.emf.ecore.factory_override">
       <factory
-            class="org.softlang.megal.MegalFactoryExecutable"
+            class="org.softlang.megal.evaluation.MegalFactoryEval"
             uri="http://softlang.wikidot.com/megal">
       </factory>
    </extension>

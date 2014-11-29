@@ -71,6 +71,7 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Megal.ecore#//FunctionApplication/output"/>
     </genClasses>
     <genClasses ecoreClass="Megal.ecore#//Element">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Megal.ecore#//Element/origin"/>
       <genOperations ecoreOperation="Megal.ecore#//Element/getMegamodel"/>
     </genClasses>
   </genPackages>

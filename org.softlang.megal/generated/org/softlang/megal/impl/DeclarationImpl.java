@@ -3,15 +3,21 @@
 package org.softlang.megal.impl;
 
 import java.lang.reflect.InvocationTargetException;
+
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.NotificationChain;
+
 import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
+
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
+
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
+
 import org.softlang.megal.Annotation;
 import org.softlang.megal.Declaration;
 import org.softlang.megal.MegalPackage;
@@ -80,14 +86,13 @@ public abstract class DeclarationImpl extends MinimalEObjectImpl.Container imple
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated NOT
+	 * @generated
 	 */
 	public Megamodel getMegamodel()
 	{
-		if(eContainer()== null || !(eContainer()instanceof Megamodel))
-			throw new IllegalStateException("Dangeling declaration");
-		
-		return (Megamodel)eContainer();
+		// TODO: implement this method
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
 	}
 
 	/**

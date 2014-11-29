@@ -8,13 +8,16 @@ import org.eclipse.xtext.generator.IGenerator
 import org.eclipse.xtext.generator.IFileSystemAccess
 import org.softlang.megal.Megamodel
 import org.eclipse.emf.ecore.util.EcoreUtil
-import static extension org.softlang.megal.expansion.Desugar.*
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.xtext.resource.XtextResourceSet
 import org.eclipse.emf.common.util.URI
 import java.io.ByteArrayOutputStream
 import org.eclipse.emf.ecore.resource.ResourceSet
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
+import org.softlang.megal.processing.FunAppDesugaring
+import org.softlang.megal.language.MegalRuntimeModule
+import org.eclipse.xtext.resource.XtextResourceFactory
+import com.google.inject.Inject
 
 /**
  * Generates code from your model files on save.
@@ -22,24 +25,19 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
  * see http://www.eclipse.org/Xtext/documentation.html#TutorialCodeGeneration
  */
 class MegalGenerator implements IGenerator {
+	override void doGenerate(Resource resource, IFileSystemAccess fsa) {
 
-	def static xmiString(EObject k) {
-		val rs = new ResourceSetImpl
-		val rc = rs.createResource(URI.createURI('''dummy://k.xmi'''))
+		val funAppDesugaring = new FunAppDesugaring
+
+		for (m : resource.contents.filter(Megamodel)) {
+			funAppDesugaring.apply(m)
+		}
+		EcoreUtil.resolveAll(resource)
 
 		val baos = new ByteArrayOutputStream
-		rc.contents += k
-		rc.save(baos, emptyMap)
-
-		return new String(baos.toByteArray)
-	}
-
-	override void doGenerate(Resource resource, IFileSystemAccess fsa) {
-		for (m : resource.contents.filter(Megamodel)) {
-			val k = EcoreUtil.copy(m)
-			k.desugar
-			fsa.generateFile('''«k.name».xmi''', k.xmiString)
-		}
+		resource.save(baos, emptyMap)
+		val result = new String(baos.toByteArray)
+		fsa.generateFile('''«resource.URI.trimFileExtension.lastSegment».megal.gen''', result)
 
 	//		fsa.generateFile('greetings.txt', 'People to greet: ' + 
 	//			resource.allContents

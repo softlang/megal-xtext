@@ -10,14 +10,15 @@ Megamodel:
 Declaration:
 	EntityType | RelationshipType | Entity | Relationship | FunctionApplication;
 
-Link:
-	link=[Entity|QID] '=' to=URI;
-
 PrefixAnnotation returns Annotation:
 	'@' key=QID (value=STRING)?;
 
 ShowNameAnnotation returns Annotation:
 	'[' value=STRING ']';
+
+Link:
+	annotations+=PrefixAnnotation*
+	link=[Entity|QID] '=' to=URI;
 
 EntityType:
 	annotations+=PrefixAnnotation*
@@ -34,8 +35,7 @@ RelationshipType:
 
 Entity:
 	annotations+=PrefixAnnotation*
-	(dependent?='?')?
-	(parameter?='!')?
+	(dependent?='?' | parameter?='!')?
 	name=QID
 	(annotations+=ShowNameAnnotation)?
 	':' type=EntityTypeReference;
@@ -47,6 +47,7 @@ Relationship:
 	right=[Entity|QID];
 
 FunctionApplication:
+	annotations+=PrefixAnnotation*
 	function=[Entity|QID]
 	'(' input=[Entity|QID] ')' '|' '->' output=[Entity|QID];
 
@@ -56,6 +57,9 @@ EntityTypeReference:
 	(many?='+')?;
 
 QID:
+	NAME ('::' NAME)*;
+
+NAME:
 	ID ('.' ID)*;
 
 ID:

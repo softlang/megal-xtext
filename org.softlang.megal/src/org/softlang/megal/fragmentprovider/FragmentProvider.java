@@ -12,9 +12,9 @@ import java.util.Set;
 public interface FragmentProvider {
 
 	/**
-	 * Returns if this node can be resolved by the fragment provider. If more
+	 * <p>Returns if this node can be resolved by the fragment provider. If more
 	 * than one FragmentProvider accepts this node, only the deepest nodes in
-	 * the inheritance tree are used and the results of navigate are collected.
+	 * the inheritance tree are used and the results of navigate are collected.</p>
 	 * 
 	 * @param node
 	 * @return

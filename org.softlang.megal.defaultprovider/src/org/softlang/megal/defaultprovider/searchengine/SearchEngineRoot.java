@@ -31,7 +31,7 @@ public class SearchEngineRoot implements RootProvider {
 
 	@Override
 	public List<? extends Object> navigate(String protocol) {
-		if (!"java".equals(protocol))
+		if (!"classpath".equals(protocol))
 			return Collections.emptyList();
 
 		try {
