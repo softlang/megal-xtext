@@ -14,10 +14,10 @@ import org.eclipse.emf.common.util.URI
 import java.io.ByteArrayOutputStream
 import org.eclipse.emf.ecore.resource.ResourceSet
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
-import org.softlang.megal.processing.FunAppDesugaring
 import org.softlang.megal.language.MegalRuntimeModule
 import org.eclipse.xtext.resource.XtextResourceFactory
 import com.google.inject.Inject
+import org.softlang.megal.processing.FunAppDesugaring
 
 /**
  * Generates code from your model files on save.
