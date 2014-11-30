@@ -7,4 +7,11 @@
 	       name="Megal">
     </component>
   </extension>
+  <extension
+        point="org.eclipse.sirius.externalJavaAction">
+     <javaActions
+           actionClass="org.softlang.megal.sirius.entitydiagram.SetLableEntity"
+           id="org.softlang.megal.sirius.entitydiagram.tools.SetLableEntity">
+     </javaActions>
+  </extension>
 </plugin>
