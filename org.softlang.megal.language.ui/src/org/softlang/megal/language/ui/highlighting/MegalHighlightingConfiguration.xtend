@@ -113,9 +113,9 @@ class MegalHighlightingConfiguration extends DefaultHighlightingConfiguration {
 		guarded(relationshipTextStyle) [
 			// Guards	
 			ifAssigned(o)
-			ifAssigned(o.annotations)
+			ifAssigned(o.info)
 			// Value
-			readTextStyle(relationshipTextStyle, o.annotations)
+			readTextStyle(relationshipTextStyle, o.info)
 		]
 	}
 
@@ -123,9 +123,9 @@ class MegalHighlightingConfiguration extends DefaultHighlightingConfiguration {
 		guarded(entityTextStyle) [
 			// Guards	
 			ifAssigned(o)
-			ifAssigned(o.annotations)
+			ifAssigned(o.info)
 			// Value
-			readTextStyle(entityTextStyle, o.annotations)
+			readTextStyle(entityTextStyle, o.info)
 		]
 	}
 
