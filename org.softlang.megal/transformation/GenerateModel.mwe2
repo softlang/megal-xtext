@@ -3,7 +3,8 @@ module org.softlang.megal
 import org.eclipse.emf.mwe.utils.*
 import org.eclipse.emf.mwe2.ecore.EcoreGenerator
 
-var project = "org.softlang.megal"
+var projectName = "org.softlang.megal"
+var runtimeProject = "../${projectName}"
 var generated = "generated"
 
 Workflow {
@@ -12,13 +13,13 @@ Workflow {
 	}
 
 	component = DirectoryCleaner {
-		directory = generated
+		directory = "${runtimeProject}/${generated}"
 	}
 
 	component = EcoreGenerator {
 		generateEdit = false
 		generateEditor = false
-		genModel = 'platform:/resource/${project}/model/Megal.genmodel'
+		genModel = 'platform:/resource/${projectName}/model/Megal.genmodel'
 		srcPath = generated
 	}
 }

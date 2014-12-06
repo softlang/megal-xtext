@@ -143,7 +143,7 @@ public abstract class RefactoringAPI extends ModelAPI {
 
 				// Add all new bindings
 				for (Link newLink : newLinks) {
-					newLink.getAnnotations().add(
+					newLink.getInfo().add(
 							createOriginAnnotation(factory));
 					it.add(newLink);
 					mod = true;
@@ -151,7 +151,7 @@ public abstract class RefactoringAPI extends ModelAPI {
 
 				// Add all new declarations
 				for (Declaration newDeclaration : newDeclarations) {
-					newDeclaration.getAnnotations().add(
+					newDeclaration.getInfo().add(
 							createOriginAnnotation(factory));
 					megamodel.getDeclarations().add(newDeclaration);
 					mod = true;
@@ -176,7 +176,7 @@ public abstract class RefactoringAPI extends ModelAPI {
 
 				// Add all new declarations
 				for (Declaration newDeclaration : newDeclarations) {
-					newDeclaration.getAnnotations().add(
+					newDeclaration.getInfo().add(
 							createOriginAnnotation(factory));
 					it.add(newDeclaration);
 					mod = true;
@@ -184,7 +184,7 @@ public abstract class RefactoringAPI extends ModelAPI {
 
 				// Add all new bindings
 				for (Link newLink : newLinks) {
-					newLink.getAnnotations().add(
+					newLink.getInfo().add(
 							createOriginAnnotation(factory));
 					megamodel.getBindings().add(newLink);
 					mod = true;

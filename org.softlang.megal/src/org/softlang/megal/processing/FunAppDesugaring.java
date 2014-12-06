@@ -70,8 +70,8 @@ public class FunAppDesugaring extends RefactoringAPI {
 
 			// Corresponds to 1
 			Entity app = f.createEntity();
-			app.getAnnotations().addAll(
-					EcoreUtil.copyAll(decl.getAnnotations()));
+			app.getInfo().addAll(
+					EcoreUtil.copyAll(decl.getInfo()));
 			app.setName(decl.getFunction().getName() + ".App" + (n++));
 
 			EntityTypeReference appType = f.createEntityTypeReference();
