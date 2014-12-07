@@ -31,6 +31,7 @@
     <genClasses ecoreClass="Megal.ecore#//Element">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Megal.ecore#//Element/info"/>
       <genOperations ecoreOperation="Megal.ecore#//Element/getMegamodel"/>
+      <genOperations ecoreOperation="Megal.ecore#//Element/isAssigned"/>
     </genClasses>
     <genClasses ecoreClass="Megal.ecore#//Declaration"/>
     <genClasses image="false" ecoreClass="Megal.ecore#//NamedDeclaration">
@@ -38,9 +39,6 @@
     </genClasses>
     <genClasses ecoreClass="Megal.ecore#//EntityType">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Megal.ecore#//EntityType/supertype"/>
-      <genOperations ecoreOperation="Megal.ecore#//EntityType/isAssignableFrom">
-        <genParameters ecoreParameter="Megal.ecore#//EntityType/isAssignableFrom/type"/>
-      </genOperations>
     </genClasses>
     <genClasses ecoreClass="Megal.ecore#//RelationshipType">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Megal.ecore#//RelationshipType/left"/>
@@ -72,6 +70,9 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Megal.ecore#//EntityTypeReference/many"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Megal.ecore#//EntityTypeReference/definition"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Megal.ecore#//EntityTypeReference/parameters"/>
+      <genOperations ecoreOperation="Megal.ecore#//EntityTypeReference/isAssignableFrom">
+        <genParameters ecoreParameter="Megal.ecore#//EntityTypeReference/isAssignableFrom/type"/>
+      </genOperations>
     </genClasses>
     <genClasses ecoreClass="Megal.ecore#//Annotation">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Megal.ecore#//Annotation/key"/>

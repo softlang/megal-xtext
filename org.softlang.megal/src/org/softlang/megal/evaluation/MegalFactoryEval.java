@@ -2,6 +2,7 @@ package org.softlang.megal.evaluation;
 
 import org.softlang.megal.Entity;
 import org.softlang.megal.EntityType;
+import org.softlang.megal.EntityTypeReference;
 import org.softlang.megal.Link;
 import org.softlang.megal.Megamodel;
 import org.softlang.megal.Relationship;
@@ -18,6 +19,11 @@ public class MegalFactoryEval extends MegalFactoryImpl {
 	@Override
 	public EntityType createEntityType() {
 		return new EntityTypeEval();
+	}
+
+	@Override
+	public EntityTypeReference createEntityTypeReference() {
+		return new EntityTypeReferenceEval();
 	}
 
 	@Override

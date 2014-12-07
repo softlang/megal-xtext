@@ -14,9 +14,14 @@ public class EntityTypeEval extends EntityTypeImpl {
 	}
 
 	@Override
-	public boolean isAssignableFrom(EntityType type) {
-		return this == type
-				|| (type.getSupertype() != null && isAssignableFrom(type
-						.getSupertype().getDefinition()));
+	public boolean isAssigned() {
+		return getName() != null;
+	}
+
+	@Override
+	public String toString() {
+		if (getSupertype() == null)
+			return getName();
+		return getName() + " < " + getSupertype();
 	}
 }

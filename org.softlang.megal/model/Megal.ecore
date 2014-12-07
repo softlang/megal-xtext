@@ -29,6 +29,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Element" abstract="true" interface="true">
     <eOperations name="getMegamodel" eType="#//Megamodel"/>
+    <eOperations name="isAssigned" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="info" upperBound="-1" eType="#//Annotation"
         containment="true"/>
   </eClassifiers>
@@ -37,9 +38,6 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="EntityType" eSuperTypes="#//NamedDeclaration">
-    <eOperations name="isAssignableFrom" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
-      <eParameters name="type" eType="#//EntityType"/>
-    </eOperations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="supertype" eType="#//EntityTypeReference"
         containment="true"/>
   </eClassifiers>
@@ -87,6 +85,9 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="to" eType="#//URI"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="EntityTypeReference">
+    <eOperations name="isAssignableFrom" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eParameters name="type" eType="#//EntityTypeReference"/>
+    </eOperations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="many" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="definition" eType="#//EntityType"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="parameters" upperBound="-1"

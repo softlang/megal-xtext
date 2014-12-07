@@ -13,7 +13,9 @@ import org.softlang.megal.MegalFactory;
 import org.softlang.megal.Relationship;
 import org.softlang.megal.RelationshipType;
 import org.softlang.megal.api.In;
+import org.softlang.megal.api.Left;
 import org.softlang.megal.api.RefactoringAPI;
+import org.softlang.megal.api.Right;
 import org.softlang.megal.api.Slot;
 
 public class FunAppDesugaring extends RefactoringAPI {
@@ -37,6 +39,8 @@ public class FunAppDesugaring extends RefactoringAPI {
 	 */
 	@Slot
 	@In("Prelude")
+	@Left("FunctionApplication")
+	@Right("Function")
 	protected RelationshipType elementOf;
 
 	/**
@@ -46,6 +50,8 @@ public class FunAppDesugaring extends RefactoringAPI {
 	 */
 	@Slot
 	@In("Prelude")
+	@Left("Artifact")
+	@Right("FunctionApplication")
 	protected RelationshipType inputOf;
 
 	/**
@@ -55,6 +61,8 @@ public class FunAppDesugaring extends RefactoringAPI {
 	 */
 	@Slot
 	@In("Prelude")
+	@Left("Artifact")
+	@Right("FunctionApplication")
 	protected RelationshipType outputOf;
 
 	/**
@@ -70,8 +78,7 @@ public class FunAppDesugaring extends RefactoringAPI {
 
 			// Corresponds to 1
 			Entity app = f.createEntity();
-			app.getInfo().addAll(
-					EcoreUtil.copyAll(decl.getInfo()));
+			app.getInfo().addAll(EcoreUtil.copyAll(decl.getInfo()));
 			app.setName(decl.getFunction().getName() + ".App" + (n++));
 
 			EntityTypeReference appType = f.createEntityTypeReference();

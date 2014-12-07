@@ -27,4 +27,14 @@ public class RelationshipTypeEval extends RelationshipTypeImpl {
 						&& ((RelationshipType) d).getName().equals(getName()))
 				.map(d -> (RelationshipType) d).collect(Collectors.toSet());
 	}
+
+	@Override
+	public boolean isAssigned() {
+		return getName() != null && getLeft() != null && getRight() != null;
+	}
+
+	@Override
+	public String toString() {
+		return getName() + " < " + getLeft() + " * " + getRight();
+	}
 }

@@ -13,7 +13,7 @@ Workflow {
 	}
 
 	component = DirectoryCleaner {
-		directory = "${runtimeProject}/${generated}"
+		directory = generated
 	}
 
 	component = EcoreGenerator {

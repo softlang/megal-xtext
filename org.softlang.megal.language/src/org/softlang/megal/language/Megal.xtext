@@ -17,37 +17,37 @@ ShowNameAnnotation returns Annotation:
 	'[' value=STRING ']';
 
 Link:
-	annotations+=PrefixAnnotation*
+	info+=PrefixAnnotation*
 	link=[Entity|QID] '=' to=URI;
 
 EntityType:
-	annotations+=PrefixAnnotation*
+	info+=PrefixAnnotation*
 	name=QID
-	(annotations+=ShowNameAnnotation)?
+	(info+=ShowNameAnnotation)?
 	('<' supertype=EntityTypeReference | 'as' 'entity');
 
 RelationshipType:
-	annotations+=PrefixAnnotation*
+	info+=PrefixAnnotation*
 	name=QID
-	(annotations+=ShowNameAnnotation)?
+	(info+=ShowNameAnnotation)?
 	'<' left=EntityTypeReference
 	'*' right=EntityTypeReference;
 
 Entity:
-	annotations+=PrefixAnnotation*
+	info+=PrefixAnnotation*
 	(dependent?='?' | parameter?='!')?
 	name=QID
-	(annotations+=ShowNameAnnotation)?
+	(info+=ShowNameAnnotation)?
 	':' type=EntityTypeReference;
 
 Relationship:
-	annotations+=PrefixAnnotation*
+	info+=PrefixAnnotation*
 	left=[Entity|QID]
 	type=[RelationshipType|QID]
 	right=[Entity|QID];
 
 FunctionApplication:
-	annotations+=PrefixAnnotation*
+	info+=PrefixAnnotation*
 	function=[Entity|QID]
 	'(' input=[Entity|QID] ')' '|' '->' output=[Entity|QID];
 

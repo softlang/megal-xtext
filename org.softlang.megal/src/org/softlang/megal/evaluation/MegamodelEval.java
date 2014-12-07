@@ -50,8 +50,7 @@ public class MegamodelEval extends MegamodelImpl {
 						// Collect to EList
 						.collect(EcoreCollector.toEList());
 			else
-				return getVisibleDeclarations()
-						.stream()
+				return getVisibleDeclarations().stream()
 						// Filter relationship types
 						.filter(k -> k instanceof RelationshipType)
 						// Cast them all
@@ -59,18 +58,14 @@ public class MegamodelEval extends MegamodelImpl {
 						// Filter right assignable
 						.filter(k -> k.getRight() != null
 								&& k.getRight().getDefinition() != null
-								&& k.getRight()
-										.getDefinition()
-										.isAssignableFrom(
-												rightOrOpen.getType()
-														.getDefinition()))
+								&& k.getRight().isAssignableFrom(
+										rightOrOpen.getType()))
 						// Collect to EList
 						.collect(EcoreCollector.toEList());
 
 		} else {
 			if (rightOrOpen == null)
-				return getVisibleDeclarations()
-						.stream()
+				return getVisibleDeclarations().stream()
 						// Filter relationship types
 						.filter(k -> k instanceof RelationshipType)
 						// Cast them all
@@ -78,16 +73,12 @@ public class MegamodelEval extends MegamodelImpl {
 						// Filter left assignable
 						.filter(k -> k.getLeft() != null
 								&& k.getLeft().getDefinition() != null
-								&& k.getLeft()
-										.getDefinition()
-										.isAssignableFrom(
-												leftOrOpen.getType()
-														.getDefinition()))
+								&& k.getLeft().isAssignableFrom(
+										leftOrOpen.getType()))
 						// Collect to EList
 						.collect(EcoreCollector.toEList());
 			else
-				return getVisibleDeclarations()
-						.stream()
+				return getVisibleDeclarations().stream()
 						// Filter relationship types
 						.filter(k -> k instanceof RelationshipType)
 						// Cast them all
@@ -95,23 +86,16 @@ public class MegamodelEval extends MegamodelImpl {
 						// Filter right assignable
 						.filter(k -> k.getRight() != null
 								&& k.getRight().getDefinition() != null
-								&& k.getRight()
-										.getDefinition()
-										.isAssignableFrom(
-												rightOrOpen.getType()
-														.getDefinition()))
+								&& k.getRight().isAssignableFrom(
+										rightOrOpen.getType()))
 						// Filter left assignable
 						.filter(k -> k.getLeft() != null
 								&& k.getLeft().getDefinition() != null
-								&& k.getLeft()
-										.getDefinition()
-										.isAssignableFrom(
-												leftOrOpen.getType()
-														.getDefinition()))
+								&& k.getLeft().isAssignableFrom(
+										leftOrOpen.getType()))
 						// Collect to EList
 						.collect(EcoreCollector.toEList());
 		}
-		// getVisibleDeclarations().stream().filter()
 	}
 
 	@Override
