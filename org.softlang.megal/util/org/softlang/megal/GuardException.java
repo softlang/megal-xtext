@@ -2,7 +2,7 @@ package org.softlang.megal;
 
 import java.util.UUID;
 
-public class GuardException extends Exception {
+public class GuardException extends RuntimeException {
 	private static final long serialVersionUID = 8489902200561966312L;
 
 	private final UUID uuid;

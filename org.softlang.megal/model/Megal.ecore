@@ -12,6 +12,13 @@
         <eTypeArguments eClassifier="#//Link"/>
       </eGenericType>
     </eOperations>
+    <eOperations name="scopeRelationshipType" upperBound="-1" eType="#//RelationshipType">
+      <eParameters name="leftOrOpen" eType="#//Entity"/>
+      <eParameters name="rightOrOpen" eType="#//Entity"/>
+    </eOperations>
+    <eOperations name="fetchInfos" upperBound="-1" eType="#//Annotation">
+      <eParameters name="element" eType="#//Element"/>
+    </eOperations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="declarations" upperBound="-1"
         eType="#//Declaration" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="bindings" upperBound="-1"
@@ -20,14 +27,17 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="imports" upperBound="-1"
         eType="#//Megamodel"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Element" abstract="true" interface="true">
+    <eOperations name="getMegamodel" eType="#//Megamodel"/>
+    <eOperations name="isAssigned" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="info" upperBound="-1" eType="#//Annotation"
+        containment="true"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Declaration" abstract="true" eSuperTypes="#//Element"/>
   <eClassifiers xsi:type="ecore:EClass" name="NamedDeclaration" abstract="true" eSuperTypes="#//Declaration">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="EntityType" eSuperTypes="#//NamedDeclaration">
-    <eOperations name="isAssignableFrom" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
-      <eParameters name="type" eType="#//EntityType"/>
-    </eOperations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="supertype" eType="#//EntityTypeReference"
         containment="true"/>
   </eClassifiers>
@@ -75,6 +85,9 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="to" eType="#//URI"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="EntityTypeReference">
+    <eOperations name="isAssignableFrom" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eParameters name="type" eType="#//EntityTypeReference"/>
+    </eOperations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="many" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="definition" eType="#//EntityType"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="parameters" upperBound="-1"
@@ -92,10 +105,5 @@
   <eClassifiers xsi:type="ecore:EDataType" name="URI" instanceClassName="org.softlang.megal.api.URI"/>
   <eClassifiers xsi:type="ecore:EDataType" name="ESet" instanceClassName="java.util.Set">
     <eTypeParameters name="T"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Element" abstract="true" interface="true">
-    <eOperations name="getMegamodel" eType="#//Megamodel"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="annotations" upperBound="-1"
-        eType="#//Annotation" containment="true"/>
   </eClassifiers>
 </ecore:EPackage>

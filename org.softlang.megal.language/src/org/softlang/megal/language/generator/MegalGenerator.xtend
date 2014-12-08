@@ -14,10 +14,11 @@ import org.eclipse.emf.common.util.URI
 import java.io.ByteArrayOutputStream
 import org.eclipse.emf.ecore.resource.ResourceSet
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
-import org.softlang.megal.processing.FunAppDesugaring
 import org.softlang.megal.language.MegalRuntimeModule
 import org.eclipse.xtext.resource.XtextResourceFactory
 import com.google.inject.Inject
+import org.softlang.megal.processing.FunAppDesugaring
+import org.softlang.megal.processing.LanguageResolving
 
 /**
  * Generates code from your model files on save.
@@ -28,16 +29,19 @@ class MegalGenerator implements IGenerator {
 	override void doGenerate(Resource resource, IFileSystemAccess fsa) {
 
 		val funAppDesugaring = new FunAppDesugaring
+		val languageResolving = new LanguageResolving
 
 		for (m : resource.contents.filter(Megamodel)) {
+			m.name = m.name + '.Processed'
 			funAppDesugaring.apply(m)
+			languageResolving.apply(m)
 		}
 		EcoreUtil.resolveAll(resource)
 
 		val baos = new ByteArrayOutputStream
 		resource.save(baos, emptyMap)
 		val result = new String(baos.toByteArray)
-		fsa.generateFile('''«resource.URI.trimFileExtension.lastSegment».megal.gen''', result)
+		fsa.generateFile('''«resource.URI.trimFileExtension.lastSegment».Processed.megal''', result)
 
 	//		fsa.generateFile('greetings.txt', 'People to greet: ' + 
 	//			resource.allContents

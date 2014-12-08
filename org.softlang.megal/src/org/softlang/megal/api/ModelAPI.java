@@ -12,6 +12,8 @@ import java.util.Set;
 import org.softlang.megal.Link;
 import org.softlang.megal.Megamodel;
 import org.softlang.megal.NamedDeclaration;
+import org.softlang.megal.Relationship;
+import org.softlang.megal.RelationshipType;
 
 import com.google.common.base.CaseFormat;
 import com.google.common.collect.FluentIterable;
@@ -93,11 +95,15 @@ public class ModelAPI {
 		 *            The value to assign
 		 */
 		public void set(Object value) {
+			boolean wasAccessible = field.isAccessible();
 			try {
+				field.setAccessible(true);
 				field.set(ModelAPI.this, value);
 				open = value == null;
 			} catch (IllegalArgumentException | IllegalAccessException e) {
 				throw new RuntimeException(e);
+			} finally {
+				field.setAccessible(wasAccessible);
 			}
 		}
 
@@ -140,12 +146,88 @@ public class ModelAPI {
 		}
 	}
 
+	private static class SlotKey {
+		private final Class<?> type;
+
+		private final String name;
+
+		private final String leftOrNull;
+
+		private final String rightOrNull;
+
+		public SlotKey(Class<?> type, String name, String leftOrNull,
+				String rightOrNull) {
+			this.type = type;
+			this.name = name;
+			this.leftOrNull = leftOrNull;
+			this.rightOrNull = rightOrNull;
+		}
+
+		public SlotKey(Class<?> type, String name) {
+			this.type = type;
+			this.name = name;
+			this.leftOrNull = null;
+			this.rightOrNull = null;
+		}
+
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result
+					+ ((leftOrNull == null) ? 0 : leftOrNull.hashCode());
+			result = prime * result + ((name == null) ? 0 : name.hashCode());
+			result = prime * result
+					+ ((rightOrNull == null) ? 0 : rightOrNull.hashCode());
+			result = prime * result + ((type == null) ? 0 : type.hashCode());
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			SlotKey other = (SlotKey) obj;
+			if (leftOrNull == null) {
+				if (other.leftOrNull != null)
+					return false;
+			} else if (!leftOrNull.equals(other.leftOrNull))
+				return false;
+			if (name == null) {
+				if (other.name != null)
+					return false;
+			} else if (!name.equals(other.name))
+				return false;
+			if (rightOrNull == null) {
+				if (other.rightOrNull != null)
+					return false;
+			} else if (!rightOrNull.equals(other.rightOrNull))
+				return false;
+			if (type == null) {
+				if (other.type != null)
+					return false;
+			} else if (!type.equals(other.type))
+				return false;
+			return true;
+		}
+
+		@Override
+		public String toString() {
+			return "SlotKey [type=" + type + ", name=" + name + ", leftOrNull="
+					+ leftOrNull + ", rightOrNull=" + rightOrNull + "]";
+		}
+	}
+
 	/**
 	 * <p>
-	 * Map from class over name to resolved slot
+	 * Map from class over name over left/right requirements to resolved slot
 	 * </p>
 	 */
-	private final Map<Class<?>, Map<String, ResolvedSlot>> slots;
+	private final Map<SlotKey, ResolvedSlot> slots;
 
 	/**
 	 * <p>
@@ -181,15 +263,16 @@ public class ModelAPI {
 			Slot slot = field.getAnnotation(Slot.class);
 			In in = field.getAnnotation(In.class);
 
-			if (slot != null) {
-				// Compute a map from class to name to getter/setter pair
-				Map<String, ResolvedSlot> classToGetterMap = slots
-						.computeIfAbsent(field.getType(),
-								n -> Maps.newHashMap());
+			Left left = field.getAnnotation(Left.class);
+			Right right = field.getAnnotation(Right.class);
 
-				// Put a getter/setter pair to the index
-				classToGetterMap.put(field.getName(), new ResolvedSlot(field,
-						in != null ? in.value() : null, slot.mandatory()));
+			if (slot != null) {
+				SlotKey key = new SlotKey(field.getType(), field.getName(),
+						left != null ? left.value() : null,
+						right != null ? right.value() : null);
+				ResolvedSlot value = new ResolvedSlot(field,
+						in != null ? in.value() : null, slot.mandatory());
+				slots.put(key, value);
 			}
 		}
 	}
@@ -219,15 +302,14 @@ public class ModelAPI {
 	 */
 	public void apply(Megamodel megamodel) {
 		// Reset slots
-		for (ResolvedSlot slot : FluentIterable.from(slots.values())
-				.transformAndConcat(Map::values))
+		for (ResolvedSlot slot : slots.values())
 			slot.set(null);
 
 		// Map links by their associate entities
 		for (Link link : megamodel.getVisibleBindings()) {
 			// Get potential target
-			ResolvedSlot target = slots.getOrDefault(Link.class,
-					Collections.emptyMap()).get(link.getLink().getName());
+			ResolvedSlot target = slots.get(new SlotKey(Link.class, link
+					.getLink().getName()));
 
 			if (target != null)
 				target.set(link);
@@ -241,9 +323,25 @@ public class ModelAPI {
 			Class<?> instanceClass = declaration.eClass().getInstanceClass();
 			String name = normalizeName(instanceClass, declaration.getName());
 
+			String left = null;
+			String right = null;
+			if (declaration instanceof RelationshipType) {
+				RelationshipType relationshipType = (RelationshipType) declaration;
+				left = relationshipType.getLeft().getDefinition().getName()
+						+ (relationshipType.getLeft().isMany() ? "+" : "");
+				right = relationshipType.getRight().getDefinition().getName()
+						+ (relationshipType.getRight().isMany() ? "+" : "");
+			}
+
+			if (declaration instanceof Relationship) {
+				Relationship relationship = (Relationship) declaration;
+				left = relationship.getLeft().getName();
+				right = relationship.getRight().getName();
+			}
+
 			// Get potential target
-			ResolvedSlot target = slots.getOrDefault(instanceClass,
-					Collections.emptyMap()).get(name);
+			ResolvedSlot target = slots.get(new SlotKey(instanceClass, name,
+					left, right));
 
 			// Check if there is a target and its location requirements match
 			if (target != null)
@@ -255,8 +353,8 @@ public class ModelAPI {
 
 		// Find all open, mandatory setters
 		List<ResolvedSlot> openSetters = FluentIterable.from(slots.values())
-				.transformAndConcat(Map::values).filter(ResolvedSlot::isOpen)
-				.filter(ResolvedSlot::isMandatory).toList();
+				.filter(ResolvedSlot::isOpen).filter(ResolvedSlot::isMandatory)
+				.toList();
 
 		// If there are some throw an exception
 		if (!openSetters.isEmpty())

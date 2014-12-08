@@ -51,4 +51,14 @@ public class EntityEval extends EntityImpl {
 				.map(r -> ((Relationship) r).getLeft())
 				.collect(Collectors.toSet());
 	}
+
+	@Override
+	public boolean isAssigned() {
+		return getName() != null && getType() != null;
+	}
+
+	@Override
+	public String toString() {
+		return getName() + ":" + getType();
+	}
 }

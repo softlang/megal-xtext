@@ -34,7 +34,7 @@ class ListAnnotationsAction extends ExtenderAction {
 	override run() {
 		val e = infoControl.input?.inputElement as EntityType
 
-		navigateToHTML(e, '''<ul>«FOR a : e.annotations»<li>«a.key» := «a.value»</li>«ENDFOR»</ul>''')
+		navigateToHTML(e, '''<ul>«FOR a : e.info»<li>«a.key» := «a.value»</li>«ENDFOR»</ul>''')
 	}
 }
 

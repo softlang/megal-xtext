@@ -11,4 +11,14 @@ public class LinkEval extends LinkImpl {
 
 		return (Megamodel) eContainer();
 	}
+
+	@Override
+	public boolean isAssigned() {
+		return getLink() != null && getTo() != null;
+	}
+
+	@Override
+	public String toString() {
+		return getLink() + " = " + getTo();
+	}
 }

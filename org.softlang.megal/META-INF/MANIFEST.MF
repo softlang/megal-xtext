@@ -20,9 +20,7 @@ Require-Bundle: org.eclipse.core.runtime;visibility:=reexport,
  org.eclipse.emf.mwe2.lib,
  org.objectweb.asm,
  com.google.guava,
- org.eclipse.xtext.xbase.lib,
- org.eclipse.xtend.lib,
- org.eclipse.xtend.lib.macro
+ org.eclipse.emf.common
 Bundle-ActivationPolicy: lazy
 Import-Package: org.apache.commons.logging,
  org.apache.log4j
