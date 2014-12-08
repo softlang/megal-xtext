@@ -35,7 +35,7 @@ import org.softlang.megal.api.URI;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.softlang.megal.impl.LinkImpl#getAnnotations <em>Annotations</em>}</li>
+ *   <li>{@link org.softlang.megal.impl.LinkImpl#getInfo <em>Info</em>}</li>
  *   <li>{@link org.softlang.megal.impl.LinkImpl#getLink <em>Link</em>}</li>
  *   <li>{@link org.softlang.megal.impl.LinkImpl#getTo <em>To</em>}</li>
  * </ul>
@@ -46,14 +46,14 @@ import org.softlang.megal.api.URI;
 public class LinkImpl extends MinimalEObjectImpl.Container implements Link
 {
 	/**
-	 * The cached value of the '{@link #getAnnotations() <em>Annotations</em>}' containment reference list.
+	 * The cached value of the '{@link #getInfo() <em>Info</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getAnnotations()
+	 * @see #getInfo()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<Annotation> annotations;
+	protected EList<Annotation> info;
 
 	/**
 	 * The cached value of the '{@link #getLink() <em>Link</em>}' reference.
@@ -111,13 +111,13 @@ public class LinkImpl extends MinimalEObjectImpl.Container implements Link
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<Annotation> getAnnotations()
+	public EList<Annotation> getInfo()
 	{
-		if (annotations == null)
+		if (info == null)
 		{
-			annotations = new EObjectContainmentEList<Annotation>(Annotation.class, this, MegalPackage.LINK__ANNOTATIONS);
+			info = new EObjectContainmentEList<Annotation>(Annotation.class, this, MegalPackage.LINK__INFO);
 		}
-		return annotations;
+		return info;
 	}
 
 	/**
@@ -203,13 +203,25 @@ public class LinkImpl extends MinimalEObjectImpl.Container implements Link
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public boolean isAssigned()
+	{
+		// TODO: implement this method
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
 	{
 		switch (featureID)
 		{
-			case MegalPackage.LINK__ANNOTATIONS:
-				return ((InternalEList<?>)getAnnotations()).basicRemove(otherEnd, msgs);
+			case MegalPackage.LINK__INFO:
+				return ((InternalEList<?>)getInfo()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -224,8 +236,8 @@ public class LinkImpl extends MinimalEObjectImpl.Container implements Link
 	{
 		switch (featureID)
 		{
-			case MegalPackage.LINK__ANNOTATIONS:
-				return getAnnotations();
+			case MegalPackage.LINK__INFO:
+				return getInfo();
 			case MegalPackage.LINK__LINK:
 				if (resolve) return getLink();
 				return basicGetLink();
@@ -246,9 +258,9 @@ public class LinkImpl extends MinimalEObjectImpl.Container implements Link
 	{
 		switch (featureID)
 		{
-			case MegalPackage.LINK__ANNOTATIONS:
-				getAnnotations().clear();
-				getAnnotations().addAll((Collection<? extends Annotation>)newValue);
+			case MegalPackage.LINK__INFO:
+				getInfo().clear();
+				getInfo().addAll((Collection<? extends Annotation>)newValue);
 				return;
 			case MegalPackage.LINK__LINK:
 				setLink((Entity)newValue);
@@ -270,8 +282,8 @@ public class LinkImpl extends MinimalEObjectImpl.Container implements Link
 	{
 		switch (featureID)
 		{
-			case MegalPackage.LINK__ANNOTATIONS:
-				getAnnotations().clear();
+			case MegalPackage.LINK__INFO:
+				getInfo().clear();
 				return;
 			case MegalPackage.LINK__LINK:
 				setLink((Entity)null);
@@ -293,8 +305,8 @@ public class LinkImpl extends MinimalEObjectImpl.Container implements Link
 	{
 		switch (featureID)
 		{
-			case MegalPackage.LINK__ANNOTATIONS:
-				return annotations != null && !annotations.isEmpty();
+			case MegalPackage.LINK__INFO:
+				return info != null && !info.isEmpty();
 			case MegalPackage.LINK__LINK:
 				return link != null;
 			case MegalPackage.LINK__TO:
@@ -315,6 +327,8 @@ public class LinkImpl extends MinimalEObjectImpl.Container implements Link
 		{
 			case MegalPackage.LINK___GET_MEGAMODEL:
 				return getMegamodel();
+			case MegalPackage.LINK___IS_ASSIGNED:
+				return isAssigned();
 		}
 		return super.eInvoke(operationID, arguments);
 	}

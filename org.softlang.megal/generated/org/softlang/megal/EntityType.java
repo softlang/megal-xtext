@@ -47,12 +47,4 @@ public interface EntityType extends NamedDeclaration
 	 */
 	void setSupertype(EntityTypeReference value);
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @model
-	 * @generated
-	 */
-	boolean isAssignableFrom(EntityType type);
-
 } // EntityType

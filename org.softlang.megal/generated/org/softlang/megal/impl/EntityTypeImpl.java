@@ -2,12 +2,8 @@
  */
 package org.softlang.megal.impl;
 
-import java.lang.reflect.InvocationTargetException;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
-import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
@@ -117,18 +113,6 @@ public class EntityTypeImpl extends NamedDeclarationImpl implements EntityType
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean isAssignableFrom(EntityType type)
-	{
-		// TODO: implement this method
-		// Ensure that you remove @generated or mark it @generated NOT
-		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
 	{
@@ -204,22 +188,6 @@ public class EntityTypeImpl extends NamedDeclarationImpl implements EntityType
 				return supertype != null;
 		}
 		return super.eIsSet(featureID);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Object eInvoke(int operationID, EList<?> arguments) throws InvocationTargetException
-	{
-		switch (operationID)
-		{
-			case MegalPackage.ENTITY_TYPE___IS_ASSIGNABLE_FROM__ENTITYTYPE:
-				return isAssignableFrom((EntityType)arguments.get(0));
-		}
-		return super.eInvoke(operationID, arguments);
 	}
 
 } //EntityTypeImpl

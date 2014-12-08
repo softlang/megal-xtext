@@ -133,13 +133,31 @@ public interface MegalPackage extends EPackage
 	int MEGAMODEL___GET_VISIBLE_BINDINGS = 1;
 
 	/**
+	 * The operation id for the '<em>Scope Relationship Type</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MEGAMODEL___SCOPE_RELATIONSHIP_TYPE__ENTITY_ENTITY = 2;
+
+	/**
+	 * The operation id for the '<em>Fetch Infos</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MEGAMODEL___FETCH_INFOS__ELEMENT = 3;
+
+	/**
 	 * The number of operations of the '<em>Megamodel</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MEGAMODEL_OPERATION_COUNT = 2;
+	int MEGAMODEL_OPERATION_COUNT = 4;
 
 	/**
 	 * The meta object id for the '{@link org.softlang.megal.Element <em>Element</em>}' class.
@@ -149,16 +167,16 @@ public interface MegalPackage extends EPackage
 	 * @see org.softlang.megal.impl.MegalPackageImpl#getElement()
 	 * @generated
 	 */
-	int ELEMENT = 11;
+	int ELEMENT = 1;
 
 	/**
-	 * The feature id for the '<em><b>Annotations</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Info</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ELEMENT__ANNOTATIONS = 0;
+	int ELEMENT__INFO = 0;
 
 	/**
 	 * The number of structural features of the '<em>Element</em>' class.
@@ -179,13 +197,22 @@ public interface MegalPackage extends EPackage
 	int ELEMENT___GET_MEGAMODEL = 0;
 
 	/**
+	 * The operation id for the '<em>Is Assigned</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ELEMENT___IS_ASSIGNED = 1;
+
+	/**
 	 * The number of operations of the '<em>Element</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ELEMENT_OPERATION_COUNT = 1;
+	int ELEMENT_OPERATION_COUNT = 2;
 
 	/**
 	 * The meta object id for the '{@link org.softlang.megal.impl.DeclarationImpl <em>Declaration</em>}' class.
@@ -195,16 +222,16 @@ public interface MegalPackage extends EPackage
 	 * @see org.softlang.megal.impl.MegalPackageImpl#getDeclaration()
 	 * @generated
 	 */
-	int DECLARATION = 1;
+	int DECLARATION = 2;
 
 	/**
-	 * The feature id for the '<em><b>Annotations</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Info</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int DECLARATION__ANNOTATIONS = ELEMENT__ANNOTATIONS;
+	int DECLARATION__INFO = ELEMENT__INFO;
 
 	/**
 	 * The number of structural features of the '<em>Declaration</em>' class.
@@ -225,6 +252,15 @@ public interface MegalPackage extends EPackage
 	int DECLARATION___GET_MEGAMODEL = ELEMENT___GET_MEGAMODEL;
 
 	/**
+	 * The operation id for the '<em>Is Assigned</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DECLARATION___IS_ASSIGNED = ELEMENT___IS_ASSIGNED;
+
+	/**
 	 * The number of operations of the '<em>Declaration</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -241,16 +277,16 @@ public interface MegalPackage extends EPackage
 	 * @see org.softlang.megal.impl.MegalPackageImpl#getNamedDeclaration()
 	 * @generated
 	 */
-	int NAMED_DECLARATION = 2;
+	int NAMED_DECLARATION = 3;
 
 	/**
-	 * The feature id for the '<em><b>Annotations</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Info</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int NAMED_DECLARATION__ANNOTATIONS = DECLARATION__ANNOTATIONS;
+	int NAMED_DECLARATION__INFO = DECLARATION__INFO;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -280,6 +316,15 @@ public interface MegalPackage extends EPackage
 	int NAMED_DECLARATION___GET_MEGAMODEL = DECLARATION___GET_MEGAMODEL;
 
 	/**
+	 * The operation id for the '<em>Is Assigned</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NAMED_DECLARATION___IS_ASSIGNED = DECLARATION___IS_ASSIGNED;
+
+	/**
 	 * The number of operations of the '<em>Named Declaration</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -296,16 +341,16 @@ public interface MegalPackage extends EPackage
 	 * @see org.softlang.megal.impl.MegalPackageImpl#getEntityType()
 	 * @generated
 	 */
-	int ENTITY_TYPE = 3;
+	int ENTITY_TYPE = 4;
 
 	/**
-	 * The feature id for the '<em><b>Annotations</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Info</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ENTITY_TYPE__ANNOTATIONS = NAMED_DECLARATION__ANNOTATIONS;
+	int ENTITY_TYPE__INFO = NAMED_DECLARATION__INFO;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -344,13 +389,13 @@ public interface MegalPackage extends EPackage
 	int ENTITY_TYPE___GET_MEGAMODEL = NAMED_DECLARATION___GET_MEGAMODEL;
 
 	/**
-	 * The operation id for the '<em>Is Assignable From</em>' operation.
+	 * The operation id for the '<em>Is Assigned</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ENTITY_TYPE___IS_ASSIGNABLE_FROM__ENTITYTYPE = NAMED_DECLARATION_OPERATION_COUNT + 0;
+	int ENTITY_TYPE___IS_ASSIGNED = NAMED_DECLARATION___IS_ASSIGNED;
 
 	/**
 	 * The number of operations of the '<em>Entity Type</em>' class.
@@ -359,7 +404,7 @@ public interface MegalPackage extends EPackage
 	 * @generated
 	 * @ordered
 	 */
-	int ENTITY_TYPE_OPERATION_COUNT = NAMED_DECLARATION_OPERATION_COUNT + 1;
+	int ENTITY_TYPE_OPERATION_COUNT = NAMED_DECLARATION_OPERATION_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link org.softlang.megal.impl.RelationshipTypeImpl <em>Relationship Type</em>}' class.
@@ -369,16 +414,16 @@ public interface MegalPackage extends EPackage
 	 * @see org.softlang.megal.impl.MegalPackageImpl#getRelationshipType()
 	 * @generated
 	 */
-	int RELATIONSHIP_TYPE = 4;
+	int RELATIONSHIP_TYPE = 5;
 
 	/**
-	 * The feature id for the '<em><b>Annotations</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Info</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RELATIONSHIP_TYPE__ANNOTATIONS = NAMED_DECLARATION__ANNOTATIONS;
+	int RELATIONSHIP_TYPE__INFO = NAMED_DECLARATION__INFO;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -426,6 +471,15 @@ public interface MegalPackage extends EPackage
 	int RELATIONSHIP_TYPE___GET_MEGAMODEL = NAMED_DECLARATION___GET_MEGAMODEL;
 
 	/**
+	 * The operation id for the '<em>Is Assigned</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RELATIONSHIP_TYPE___IS_ASSIGNED = NAMED_DECLARATION___IS_ASSIGNED;
+
+	/**
 	 * The operation id for the '<em>Get Variants</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -451,16 +505,16 @@ public interface MegalPackage extends EPackage
 	 * @see org.softlang.megal.impl.MegalPackageImpl#getEntity()
 	 * @generated
 	 */
-	int ENTITY = 5;
+	int ENTITY = 6;
 
 	/**
-	 * The feature id for the '<em><b>Annotations</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Info</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ENTITY__ANNOTATIONS = NAMED_DECLARATION__ANNOTATIONS;
+	int ENTITY__INFO = NAMED_DECLARATION__INFO;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -517,6 +571,15 @@ public interface MegalPackage extends EPackage
 	int ENTITY___GET_MEGAMODEL = NAMED_DECLARATION___GET_MEGAMODEL;
 
 	/**
+	 * The operation id for the '<em>Is Assigned</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ENTITY___IS_ASSIGNED = NAMED_DECLARATION___IS_ASSIGNED;
+
+	/**
 	 * The operation id for the '<em>Get Links</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -560,16 +623,16 @@ public interface MegalPackage extends EPackage
 	 * @see org.softlang.megal.impl.MegalPackageImpl#getRelationship()
 	 * @generated
 	 */
-	int RELATIONSHIP = 6;
+	int RELATIONSHIP = 7;
 
 	/**
-	 * The feature id for the '<em><b>Annotations</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Info</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RELATIONSHIP__ANNOTATIONS = DECLARATION__ANNOTATIONS;
+	int RELATIONSHIP__INFO = DECLARATION__INFO;
 
 	/**
 	 * The feature id for the '<em><b>Type</b></em>' reference.
@@ -617,6 +680,15 @@ public interface MegalPackage extends EPackage
 	int RELATIONSHIP___GET_MEGAMODEL = DECLARATION___GET_MEGAMODEL;
 
 	/**
+	 * The operation id for the '<em>Is Assigned</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RELATIONSHIP___IS_ASSIGNED = DECLARATION___IS_ASSIGNED;
+
+	/**
 	 * The number of operations of the '<em>Relationship</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -633,16 +705,16 @@ public interface MegalPackage extends EPackage
 	 * @see org.softlang.megal.impl.MegalPackageImpl#getLink()
 	 * @generated
 	 */
-	int LINK = 7;
+	int LINK = 8;
 
 	/**
-	 * The feature id for the '<em><b>Annotations</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Info</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int LINK__ANNOTATIONS = ELEMENT__ANNOTATIONS;
+	int LINK__INFO = ELEMENT__INFO;
 
 	/**
 	 * The feature id for the '<em><b>Link</b></em>' reference.
@@ -681,6 +753,15 @@ public interface MegalPackage extends EPackage
 	int LINK___GET_MEGAMODEL = ELEMENT___GET_MEGAMODEL;
 
 	/**
+	 * The operation id for the '<em>Is Assigned</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LINK___IS_ASSIGNED = ELEMENT___IS_ASSIGNED;
+
+	/**
 	 * The number of operations of the '<em>Link</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -697,7 +778,7 @@ public interface MegalPackage extends EPackage
 	 * @see org.softlang.megal.impl.MegalPackageImpl#getEntityTypeReference()
 	 * @generated
 	 */
-	int ENTITY_TYPE_REFERENCE = 8;
+	int ENTITY_TYPE_REFERENCE = 9;
 
 	/**
 	 * The feature id for the '<em><b>Many</b></em>' attribute.
@@ -736,13 +817,22 @@ public interface MegalPackage extends EPackage
 	int ENTITY_TYPE_REFERENCE_FEATURE_COUNT = 3;
 
 	/**
+	 * The operation id for the '<em>Is Assignable From</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ENTITY_TYPE_REFERENCE___IS_ASSIGNABLE_FROM__ENTITYTYPEREFERENCE = 0;
+
+	/**
 	 * The number of operations of the '<em>Entity Type Reference</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ENTITY_TYPE_REFERENCE_OPERATION_COUNT = 0;
+	int ENTITY_TYPE_REFERENCE_OPERATION_COUNT = 1;
 
 	/**
 	 * The meta object id for the '{@link org.softlang.megal.impl.AnnotationImpl <em>Annotation</em>}' class.
@@ -752,7 +842,7 @@ public interface MegalPackage extends EPackage
 	 * @see org.softlang.megal.impl.MegalPackageImpl#getAnnotation()
 	 * @generated
 	 */
-	int ANNOTATION = 9;
+	int ANNOTATION = 10;
 
 	/**
 	 * The feature id for the '<em><b>Key</b></em>' attribute.
@@ -798,16 +888,16 @@ public interface MegalPackage extends EPackage
 	 * @see org.softlang.megal.impl.MegalPackageImpl#getFunctionApplication()
 	 * @generated
 	 */
-	int FUNCTION_APPLICATION = 10;
+	int FUNCTION_APPLICATION = 11;
 
 	/**
-	 * The feature id for the '<em><b>Annotations</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Info</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int FUNCTION_APPLICATION__ANNOTATIONS = DECLARATION__ANNOTATIONS;
+	int FUNCTION_APPLICATION__INFO = DECLARATION__INFO;
 
 	/**
 	 * The feature id for the '<em><b>Function</b></em>' reference.
@@ -853,6 +943,15 @@ public interface MegalPackage extends EPackage
 	 * @ordered
 	 */
 	int FUNCTION_APPLICATION___GET_MEGAMODEL = DECLARATION___GET_MEGAMODEL;
+
+	/**
+	 * The operation id for the '<em>Is Assigned</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FUNCTION_APPLICATION___IS_ASSIGNED = DECLARATION___IS_ASSIGNED;
 
 	/**
 	 * The number of operations of the '<em>Function Application</em>' class.
@@ -959,6 +1058,67 @@ public interface MegalPackage extends EPackage
 	EOperation getMegamodel__GetVisibleBindings();
 
 	/**
+	 * Returns the meta object for the '{@link org.softlang.megal.Megamodel#scopeRelationshipType(org.softlang.megal.Entity, org.softlang.megal.Entity) <em>Scope Relationship Type</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Scope Relationship Type</em>' operation.
+	 * @see org.softlang.megal.Megamodel#scopeRelationshipType(org.softlang.megal.Entity, org.softlang.megal.Entity)
+	 * @generated
+	 */
+	EOperation getMegamodel__ScopeRelationshipType__Entity_Entity();
+
+	/**
+	 * Returns the meta object for the '{@link org.softlang.megal.Megamodel#fetchInfos(org.softlang.megal.Element) <em>Fetch Infos</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Fetch Infos</em>' operation.
+	 * @see org.softlang.megal.Megamodel#fetchInfos(org.softlang.megal.Element)
+	 * @generated
+	 */
+	EOperation getMegamodel__FetchInfos__Element();
+
+	/**
+	 * Returns the meta object for class '{@link org.softlang.megal.Element <em>Element</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Element</em>'.
+	 * @see org.softlang.megal.Element
+	 * @generated
+	 */
+	EClass getElement();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link org.softlang.megal.Element#getInfo <em>Info</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Info</em>'.
+	 * @see org.softlang.megal.Element#getInfo()
+	 * @see #getElement()
+	 * @generated
+	 */
+	EReference getElement_Info();
+
+	/**
+	 * Returns the meta object for the '{@link org.softlang.megal.Element#getMegamodel() <em>Get Megamodel</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Get Megamodel</em>' operation.
+	 * @see org.softlang.megal.Element#getMegamodel()
+	 * @generated
+	 */
+	EOperation getElement__GetMegamodel();
+
+	/**
+	 * Returns the meta object for the '{@link org.softlang.megal.Element#isAssigned() <em>Is Assigned</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Is Assigned</em>' operation.
+	 * @see org.softlang.megal.Element#isAssigned()
+	 * @generated
+	 */
+	EOperation getElement__IsAssigned();
+
+	/**
 	 * Returns the meta object for class '{@link org.softlang.megal.Declaration <em>Declaration</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1009,16 +1169,6 @@ public interface MegalPackage extends EPackage
 	 * @generated
 	 */
 	EReference getEntityType_Supertype();
-
-	/**
-	 * Returns the meta object for the '{@link org.softlang.megal.EntityType#isAssignableFrom(org.softlang.megal.EntityType) <em>Is Assignable From</em>}' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the '<em>Is Assignable From</em>' operation.
-	 * @see org.softlang.megal.EntityType#isAssignableFrom(org.softlang.megal.EntityType)
-	 * @generated
-	 */
-	EOperation getEntityType__IsAssignableFrom__EntityType();
 
 	/**
 	 * Returns the meta object for class '{@link org.softlang.megal.RelationshipType <em>Relationship Type</em>}'.
@@ -1254,6 +1404,16 @@ public interface MegalPackage extends EPackage
 	EReference getEntityTypeReference_Parameters();
 
 	/**
+	 * Returns the meta object for the '{@link org.softlang.megal.EntityTypeReference#isAssignableFrom(org.softlang.megal.EntityTypeReference) <em>Is Assignable From</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Is Assignable From</em>' operation.
+	 * @see org.softlang.megal.EntityTypeReference#isAssignableFrom(org.softlang.megal.EntityTypeReference)
+	 * @generated
+	 */
+	EOperation getEntityTypeReference__IsAssignableFrom__EntityTypeReference();
+
+	/**
 	 * Returns the meta object for class '{@link org.softlang.megal.Annotation <em>Annotation</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1327,37 +1487,6 @@ public interface MegalPackage extends EPackage
 	 * @generated
 	 */
 	EReference getFunctionApplication_Output();
-
-	/**
-	 * Returns the meta object for class '{@link org.softlang.megal.Element <em>Element</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Element</em>'.
-	 * @see org.softlang.megal.Element
-	 * @generated
-	 */
-	EClass getElement();
-
-	/**
-	 * Returns the meta object for the containment reference list '{@link org.softlang.megal.Element#getAnnotations <em>Annotations</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Annotations</em>'.
-	 * @see org.softlang.megal.Element#getAnnotations()
-	 * @see #getElement()
-	 * @generated
-	 */
-	EReference getElement_Annotations();
-
-	/**
-	 * Returns the meta object for the '{@link org.softlang.megal.Element#getMegamodel() <em>Get Megamodel</em>}' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the '<em>Get Megamodel</em>' operation.
-	 * @see org.softlang.megal.Element#getMegamodel()
-	 * @generated
-	 */
-	EOperation getElement__GetMegamodel();
 
 	/**
 	 * Returns the meta object for data type '{@link org.softlang.megal.api.URI <em>URI</em>}'.
@@ -1464,6 +1593,56 @@ public interface MegalPackage extends EPackage
 		EOperation MEGAMODEL___GET_VISIBLE_BINDINGS = eINSTANCE.getMegamodel__GetVisibleBindings();
 
 		/**
+		 * The meta object literal for the '<em><b>Scope Relationship Type</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation MEGAMODEL___SCOPE_RELATIONSHIP_TYPE__ENTITY_ENTITY = eINSTANCE.getMegamodel__ScopeRelationshipType__Entity_Entity();
+
+		/**
+		 * The meta object literal for the '<em><b>Fetch Infos</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation MEGAMODEL___FETCH_INFOS__ELEMENT = eINSTANCE.getMegamodel__FetchInfos__Element();
+
+		/**
+		 * The meta object literal for the '{@link org.softlang.megal.Element <em>Element</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.softlang.megal.Element
+		 * @see org.softlang.megal.impl.MegalPackageImpl#getElement()
+		 * @generated
+		 */
+		EClass ELEMENT = eINSTANCE.getElement();
+
+		/**
+		 * The meta object literal for the '<em><b>Info</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ELEMENT__INFO = eINSTANCE.getElement_Info();
+
+		/**
+		 * The meta object literal for the '<em><b>Get Megamodel</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation ELEMENT___GET_MEGAMODEL = eINSTANCE.getElement__GetMegamodel();
+
+		/**
+		 * The meta object literal for the '<em><b>Is Assigned</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation ELEMENT___IS_ASSIGNED = eINSTANCE.getElement__IsAssigned();
+
+		/**
 		 * The meta object literal for the '{@link org.softlang.megal.impl.DeclarationImpl <em>Declaration</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1508,14 +1687,6 @@ public interface MegalPackage extends EPackage
 		 * @generated
 		 */
 		EReference ENTITY_TYPE__SUPERTYPE = eINSTANCE.getEntityType_Supertype();
-
-		/**
-		 * The meta object literal for the '<em><b>Is Assignable From</b></em>' operation.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EOperation ENTITY_TYPE___IS_ASSIGNABLE_FROM__ENTITYTYPE = eINSTANCE.getEntityType__IsAssignableFrom__EntityType();
 
 		/**
 		 * The meta object literal for the '{@link org.softlang.megal.impl.RelationshipTypeImpl <em>Relationship Type</em>}' class.
@@ -1704,6 +1875,14 @@ public interface MegalPackage extends EPackage
 		EReference ENTITY_TYPE_REFERENCE__PARAMETERS = eINSTANCE.getEntityTypeReference_Parameters();
 
 		/**
+		 * The meta object literal for the '<em><b>Is Assignable From</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation ENTITY_TYPE_REFERENCE___IS_ASSIGNABLE_FROM__ENTITYTYPEREFERENCE = eINSTANCE.getEntityTypeReference__IsAssignableFrom__EntityTypeReference();
+
+		/**
 		 * The meta object literal for the '{@link org.softlang.megal.impl.AnnotationImpl <em>Annotation</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1762,32 +1941,6 @@ public interface MegalPackage extends EPackage
 		 * @generated
 		 */
 		EReference FUNCTION_APPLICATION__OUTPUT = eINSTANCE.getFunctionApplication_Output();
-
-		/**
-		 * The meta object literal for the '{@link org.softlang.megal.Element <em>Element</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see org.softlang.megal.Element
-		 * @see org.softlang.megal.impl.MegalPackageImpl#getElement()
-		 * @generated
-		 */
-		EClass ELEMENT = eINSTANCE.getElement();
-
-		/**
-		 * The meta object literal for the '<em><b>Annotations</b></em>' containment reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference ELEMENT__ANNOTATIONS = eINSTANCE.getElement_Annotations();
-
-		/**
-		 * The meta object literal for the '<em><b>Get Megamodel</b></em>' operation.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EOperation ELEMENT___GET_MEGAMODEL = eINSTANCE.getElement__GetMegamodel();
 
 		/**
 		 * The meta object literal for the '<em>URI</em>' data type.

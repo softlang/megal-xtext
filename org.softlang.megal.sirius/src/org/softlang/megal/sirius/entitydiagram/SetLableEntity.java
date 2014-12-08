@@ -29,6 +29,7 @@ public class SetLableEntity implements IExternalJavaAction {
 
 		String[] fragments = lable.split(":");
 
+		// Set name of entity if name is not already used in scope.
 		if (fragments.length > 0) {
 			Entity resolved = MegalServices.INSTANCE.resolveEntity((Megamodel) entity.eContainer(),
 					fragments[0]);
@@ -37,10 +38,13 @@ public class SetLableEntity implements IExternalJavaAction {
 				entity.setName(fragments[0]);
 		}
 
+		// Change type if applicable to all relations that are in scope.
 		if (fragments.length > 1) {
 			EntityType resolved = MegalServices.INSTANCE.resolveEntityType(
 					(Megamodel) entity.eContainer(), fragments[1]);
-
+			
+			Megamodel megamodel = MegalServices.INSTANCE.getMegamodel(entity);
+			
 			if (resolved != null)
 				entity.getType().setDefinition(resolved);
 		}

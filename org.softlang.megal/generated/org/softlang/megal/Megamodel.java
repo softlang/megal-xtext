@@ -119,4 +119,20 @@ public interface Megamodel extends EObject
 	 */
 	Set<Link> getVisibleBindings();
 
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated
+	 */
+	EList<RelationshipType> scopeRelationshipType(Entity leftOrOpen, Entity rightOrOpen);
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated
+	 */
+	EList<Annotation> fetchInfos(Element element);
+
 } // Megamodel

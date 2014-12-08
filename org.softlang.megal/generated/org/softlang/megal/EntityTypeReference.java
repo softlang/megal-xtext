@@ -94,4 +94,12 @@ public interface EntityTypeReference extends EObject
 	 */
 	EList<Entity> getParameters();
 
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated
+	 */
+	boolean isAssignableFrom(EntityTypeReference type);
+
 } // EntityTypeReference

@@ -30,7 +30,7 @@ import org.softlang.megal.Megamodel;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.softlang.megal.impl.DeclarationImpl#getAnnotations <em>Annotations</em>}</li>
+ *   <li>{@link org.softlang.megal.impl.DeclarationImpl#getInfo <em>Info</em>}</li>
  * </ul>
  * </p>
  *
@@ -39,14 +39,14 @@ import org.softlang.megal.Megamodel;
 public abstract class DeclarationImpl extends MinimalEObjectImpl.Container implements Declaration
 {
 	/**
-	 * The cached value of the '{@link #getAnnotations() <em>Annotations</em>}' containment reference list.
+	 * The cached value of the '{@link #getInfo() <em>Info</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getAnnotations()
+	 * @see #getInfo()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<Annotation> annotations;
+	protected EList<Annotation> info;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -74,13 +74,13 @@ public abstract class DeclarationImpl extends MinimalEObjectImpl.Container imple
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<Annotation> getAnnotations()
+	public EList<Annotation> getInfo()
 	{
-		if (annotations == null)
+		if (info == null)
 		{
-			annotations = new EObjectContainmentEList<Annotation>(Annotation.class, this, MegalPackage.DECLARATION__ANNOTATIONS);
+			info = new EObjectContainmentEList<Annotation>(Annotation.class, this, MegalPackage.DECLARATION__INFO);
 		}
-		return annotations;
+		return info;
 	}
 
 	/**
@@ -100,13 +100,25 @@ public abstract class DeclarationImpl extends MinimalEObjectImpl.Container imple
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public boolean isAssigned()
+	{
+		// TODO: implement this method
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
 	{
 		switch (featureID)
 		{
-			case MegalPackage.DECLARATION__ANNOTATIONS:
-				return ((InternalEList<?>)getAnnotations()).basicRemove(otherEnd, msgs);
+			case MegalPackage.DECLARATION__INFO:
+				return ((InternalEList<?>)getInfo()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -121,8 +133,8 @@ public abstract class DeclarationImpl extends MinimalEObjectImpl.Container imple
 	{
 		switch (featureID)
 		{
-			case MegalPackage.DECLARATION__ANNOTATIONS:
-				return getAnnotations();
+			case MegalPackage.DECLARATION__INFO:
+				return getInfo();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -138,9 +150,9 @@ public abstract class DeclarationImpl extends MinimalEObjectImpl.Container imple
 	{
 		switch (featureID)
 		{
-			case MegalPackage.DECLARATION__ANNOTATIONS:
-				getAnnotations().clear();
-				getAnnotations().addAll((Collection<? extends Annotation>)newValue);
+			case MegalPackage.DECLARATION__INFO:
+				getInfo().clear();
+				getInfo().addAll((Collection<? extends Annotation>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -156,8 +168,8 @@ public abstract class DeclarationImpl extends MinimalEObjectImpl.Container imple
 	{
 		switch (featureID)
 		{
-			case MegalPackage.DECLARATION__ANNOTATIONS:
-				getAnnotations().clear();
+			case MegalPackage.DECLARATION__INFO:
+				getInfo().clear();
 				return;
 		}
 		super.eUnset(featureID);
@@ -173,8 +185,8 @@ public abstract class DeclarationImpl extends MinimalEObjectImpl.Container imple
 	{
 		switch (featureID)
 		{
-			case MegalPackage.DECLARATION__ANNOTATIONS:
-				return annotations != null && !annotations.isEmpty();
+			case MegalPackage.DECLARATION__INFO:
+				return info != null && !info.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
@@ -191,6 +203,8 @@ public abstract class DeclarationImpl extends MinimalEObjectImpl.Container imple
 		{
 			case MegalPackage.DECLARATION___GET_MEGAMODEL:
 				return getMegamodel();
+			case MegalPackage.DECLARATION___IS_ASSIGNED:
+				return isAssigned();
 		}
 		return super.eInvoke(operationID, arguments);
 	}

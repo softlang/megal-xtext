@@ -49,6 +49,13 @@ public class MegalPackageImpl extends EPackageImpl implements MegalPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	private EClass elementEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	private EClass declarationEClass = null;
 
 	/**
@@ -113,13 +120,6 @@ public class MegalPackageImpl extends EPackageImpl implements MegalPackage
 	 * @generated
 	 */
 	private EClass functionApplicationEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass elementEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -273,6 +273,66 @@ public class MegalPackageImpl extends EPackageImpl implements MegalPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EOperation getMegamodel__ScopeRelationshipType__Entity_Entity()
+	{
+		return megamodelEClass.getEOperations().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EOperation getMegamodel__FetchInfos__Element()
+	{
+		return megamodelEClass.getEOperations().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getElement()
+	{
+		return elementEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getElement_Info()
+	{
+		return (EReference)elementEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EOperation getElement__GetMegamodel()
+	{
+		return elementEClass.getEOperations().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EOperation getElement__IsAssigned()
+	{
+		return elementEClass.getEOperations().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getDeclaration()
 	{
 		return declarationEClass;
@@ -316,16 +376,6 @@ public class MegalPackageImpl extends EPackageImpl implements MegalPackage
 	public EReference getEntityType_Supertype()
 	{
 		return (EReference)entityTypeEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EOperation getEntityType__IsAssignableFrom__EntityType()
-	{
-		return entityTypeEClass.getEOperations().get(0);
 	}
 
 	/**
@@ -553,6 +603,16 @@ public class MegalPackageImpl extends EPackageImpl implements MegalPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EOperation getEntityTypeReference__IsAssignableFrom__EntityTypeReference()
+	{
+		return entityTypeReferenceEClass.getEOperations().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getAnnotation()
 	{
 		return annotationEClass;
@@ -623,36 +683,6 @@ public class MegalPackageImpl extends EPackageImpl implements MegalPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getElement()
-	{
-		return elementEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getElement_Annotations()
-	{
-		return (EReference)elementEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EOperation getElement__GetMegamodel()
-	{
-		return elementEClass.getEOperations().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EDataType getURI()
 	{
 		return uriEDataType;
@@ -705,6 +735,13 @@ public class MegalPackageImpl extends EPackageImpl implements MegalPackage
 		createEReference(megamodelEClass, MEGAMODEL__IMPORTS);
 		createEOperation(megamodelEClass, MEGAMODEL___GET_VISIBLE_DECLARATIONS);
 		createEOperation(megamodelEClass, MEGAMODEL___GET_VISIBLE_BINDINGS);
+		createEOperation(megamodelEClass, MEGAMODEL___SCOPE_RELATIONSHIP_TYPE__ENTITY_ENTITY);
+		createEOperation(megamodelEClass, MEGAMODEL___FETCH_INFOS__ELEMENT);
+
+		elementEClass = createEClass(ELEMENT);
+		createEReference(elementEClass, ELEMENT__INFO);
+		createEOperation(elementEClass, ELEMENT___GET_MEGAMODEL);
+		createEOperation(elementEClass, ELEMENT___IS_ASSIGNED);
 
 		declarationEClass = createEClass(DECLARATION);
 
@@ -713,7 +750,6 @@ public class MegalPackageImpl extends EPackageImpl implements MegalPackage
 
 		entityTypeEClass = createEClass(ENTITY_TYPE);
 		createEReference(entityTypeEClass, ENTITY_TYPE__SUPERTYPE);
-		createEOperation(entityTypeEClass, ENTITY_TYPE___IS_ASSIGNABLE_FROM__ENTITYTYPE);
 
 		relationshipTypeEClass = createEClass(RELATIONSHIP_TYPE);
 		createEReference(relationshipTypeEClass, RELATIONSHIP_TYPE__LEFT);
@@ -741,6 +777,7 @@ public class MegalPackageImpl extends EPackageImpl implements MegalPackage
 		createEAttribute(entityTypeReferenceEClass, ENTITY_TYPE_REFERENCE__MANY);
 		createEReference(entityTypeReferenceEClass, ENTITY_TYPE_REFERENCE__DEFINITION);
 		createEReference(entityTypeReferenceEClass, ENTITY_TYPE_REFERENCE__PARAMETERS);
+		createEOperation(entityTypeReferenceEClass, ENTITY_TYPE_REFERENCE___IS_ASSIGNABLE_FROM__ENTITYTYPEREFERENCE);
 
 		annotationEClass = createEClass(ANNOTATION);
 		createEAttribute(annotationEClass, ANNOTATION__KEY);
@@ -750,10 +787,6 @@ public class MegalPackageImpl extends EPackageImpl implements MegalPackage
 		createEReference(functionApplicationEClass, FUNCTION_APPLICATION__FUNCTION);
 		createEReference(functionApplicationEClass, FUNCTION_APPLICATION__INPUT);
 		createEReference(functionApplicationEClass, FUNCTION_APPLICATION__OUTPUT);
-
-		elementEClass = createEClass(ELEMENT);
-		createEReference(elementEClass, ELEMENT__ANNOTATIONS);
-		createEOperation(elementEClass, ELEMENT___GET_MEGAMODEL);
 
 		// Create data types
 		uriEDataType = createEDataType(URI);
@@ -818,6 +851,20 @@ public class MegalPackageImpl extends EPackageImpl implements MegalPackage
 		g1.getETypeArguments().add(g2);
 		initEOperation(op, g1);
 
+		op = initEOperation(getMegamodel__ScopeRelationshipType__Entity_Entity(), this.getRelationshipType(), "scopeRelationshipType", 0, -1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, this.getEntity(), "leftOrOpen", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, this.getEntity(), "rightOrOpen", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		op = initEOperation(getMegamodel__FetchInfos__Element(), this.getAnnotation(), "fetchInfos", 0, -1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, this.getElement(), "element", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		initEClass(elementEClass, Element.class, "Element", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getElement_Info(), this.getAnnotation(), null, "info", null, 0, -1, Element.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEOperation(getElement__GetMegamodel(), this.getMegamodel(), "getMegamodel", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		initEOperation(getElement__IsAssigned(), ecorePackage.getEBoolean(), "isAssigned", 0, 1, IS_UNIQUE, IS_ORDERED);
+
 		initEClass(declarationEClass, Declaration.class, "Declaration", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(namedDeclarationEClass, NamedDeclaration.class, "NamedDeclaration", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -825,9 +872,6 @@ public class MegalPackageImpl extends EPackageImpl implements MegalPackage
 
 		initEClass(entityTypeEClass, EntityType.class, "EntityType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getEntityType_Supertype(), this.getEntityTypeReference(), null, "supertype", null, 0, 1, EntityType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		op = initEOperation(getEntityType__IsAssignableFrom__EntityType(), ecorePackage.getEBoolean(), "isAssignableFrom", 0, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, this.getEntityType(), "type", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(relationshipTypeEClass, RelationshipType.class, "RelationshipType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getRelationshipType_Left(), this.getEntityTypeReference(), null, "left", null, 0, 1, RelationshipType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -878,6 +922,9 @@ public class MegalPackageImpl extends EPackageImpl implements MegalPackage
 		initEReference(getEntityTypeReference_Definition(), this.getEntityType(), null, "definition", null, 0, 1, EntityTypeReference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getEntityTypeReference_Parameters(), this.getEntity(), null, "parameters", null, 0, -1, EntityTypeReference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
+		op = initEOperation(getEntityTypeReference__IsAssignableFrom__EntityTypeReference(), ecorePackage.getEBoolean(), "isAssignableFrom", 0, 1, IS_UNIQUE, IS_ORDERED);
+		addEParameter(op, this.getEntityTypeReference(), "type", 0, 1, IS_UNIQUE, IS_ORDERED);
+
 		initEClass(annotationEClass, Annotation.class, "Annotation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getAnnotation_Key(), ecorePackage.getEString(), "key", null, 0, 1, Annotation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getAnnotation_Value(), ecorePackage.getEString(), "value", null, 0, 1, Annotation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -886,11 +933,6 @@ public class MegalPackageImpl extends EPackageImpl implements MegalPackage
 		initEReference(getFunctionApplication_Function(), this.getEntity(), null, "function", null, 0, 1, FunctionApplication.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getFunctionApplication_Input(), this.getEntity(), null, "input", null, 0, 1, FunctionApplication.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getFunctionApplication_Output(), this.getEntity(), null, "output", null, 0, 1, FunctionApplication.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(elementEClass, Element.class, "Element", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getElement_Annotations(), this.getAnnotation(), null, "annotations", null, 0, -1, Element.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEOperation(getElement__GetMegamodel(), this.getMegamodel(), "getMegamodel", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		// Initialize data types
 		initEDataType(uriEDataType, org.softlang.megal.api.URI.class, "URI", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);

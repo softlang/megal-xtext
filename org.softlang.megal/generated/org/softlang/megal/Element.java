@@ -14,7 +14,7 @@ import org.eclipse.emf.ecore.EObject;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.softlang.megal.Element#getAnnotations <em>Annotations</em>}</li>
+ *   <li>{@link org.softlang.megal.Element#getInfo <em>Info</em>}</li>
  * </ul>
  * </p>
  *
@@ -25,20 +25,20 @@ import org.eclipse.emf.ecore.EObject;
 public interface Element extends EObject
 {
 	/**
-	 * Returns the value of the '<em><b>Annotations</b></em>' containment reference list.
+	 * Returns the value of the '<em><b>Info</b></em>' containment reference list.
 	 * The list contents are of type {@link org.softlang.megal.Annotation}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Annotations</em>' containment reference list isn't clear,
+	 * If the meaning of the '<em>Info</em>' containment reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Annotations</em>' containment reference list.
-	 * @see org.softlang.megal.MegalPackage#getElement_Annotations()
+	 * @return the value of the '<em>Info</em>' containment reference list.
+	 * @see org.softlang.megal.MegalPackage#getElement_Info()
 	 * @model containment="true"
 	 * @generated
 	 */
-	EList<Annotation> getAnnotations();
+	EList<Annotation> getInfo();
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -47,5 +47,13 @@ public interface Element extends EObject
 	 * @generated
 	 */
 	Megamodel getMegamodel();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation"
+	 * @generated
+	 */
+	boolean isAssigned();
 
 } // Element

@@ -80,6 +80,11 @@ public class MegalAdapterFactory extends AdapterFactoryImpl
 				return createMegamodelAdapter();
 			}
 			@Override
+			public Adapter caseElement(Element object)
+			{
+				return createElementAdapter();
+			}
+			@Override
 			public Adapter caseDeclaration(Declaration object)
 			{
 				return createDeclarationAdapter();
@@ -130,11 +135,6 @@ public class MegalAdapterFactory extends AdapterFactoryImpl
 				return createFunctionApplicationAdapter();
 			}
 			@Override
-			public Adapter caseElement(Element object)
-			{
-				return createElementAdapter();
-			}
-			@Override
 			public Adapter defaultCase(EObject object)
 			{
 				return createEObjectAdapter();
@@ -167,6 +167,21 @@ public class MegalAdapterFactory extends AdapterFactoryImpl
 	 * @generated
 	 */
 	public Adapter createMegamodelAdapter()
+	{
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.softlang.megal.Element <em>Element</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.softlang.megal.Element
+	 * @generated
+	 */
+	public Adapter createElementAdapter()
 	{
 		return null;
 	}
@@ -317,21 +332,6 @@ public class MegalAdapterFactory extends AdapterFactoryImpl
 	 * @generated
 	 */
 	public Adapter createFunctionApplicationAdapter()
-	{
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link org.softlang.megal.Element <em>Element</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.softlang.megal.Element
-	 * @generated
-	 */
-	public Adapter createElementAdapter()
 	{
 		return null;
 	}
