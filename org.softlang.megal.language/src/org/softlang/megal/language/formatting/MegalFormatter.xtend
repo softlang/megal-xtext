@@ -29,7 +29,7 @@ public class MegalFormatter extends AbstractDeclarativeFormatter {
 		c.setLinewrap(0, 1, 2).after(megamodelAccess.importsAssignment_2_0_1)
 
 		// Prefix Annotation
-		c.setLinewrap(0, 1, 2).after(prefixAnnotationRule)
+		c.setLinewrap(0, 1, 2).around(prefixAnnotationRule)
 		c.setNoSpace.after(prefixAnnotationAccess.commercialAtKeyword_0)
 		c.setSpace(' ').between(prefixAnnotationAccess.keyAssignment_1, prefixAnnotationAccess.valueAssignment_2)
 
@@ -44,15 +44,13 @@ public class MegalFormatter extends AbstractDeclarativeFormatter {
 
 		// Entity Type
 		c.setLinewrap(0, 1, 2).around(entityTypeRule)
-		c.setNoSpace.before(entityTypeAccess.infoAssignment_2)
-		c.setNoSpace.after(entityTypeAccess.infoAssignment_2)
+		c.setNoSpace.around(entityTypeAccess.infoAssignment_2)
 		c.setSpace(' ').before(entityTypeAccess.lessThanSignKeyword_3_0_0)
 		c.setSpace(' ').after(entityTypeAccess.lessThanSignKeyword_3_0_0)
 
 		// Relationship Type
 		c.setLinewrap(0, 1, 2).around(relationshipTypeRule)
-		c.setNoSpace.before(relationshipTypeAccess.infoAssignment_2)
-		c.setNoSpace.after(relationshipTypeAccess.infoAssignment_2)
+		c.setNoSpace.around(relationshipTypeAccess.infoAssignment_2)
 		c.setSpace(' ').before(relationshipTypeAccess.lessThanSignKeyword_3)
 		c.setSpace(' ').after(relationshipTypeAccess.lessThanSignKeyword_3)
 		c.setSpace(' ').before(relationshipTypeAccess.asteriskKeyword_5)
@@ -73,8 +71,7 @@ public class MegalFormatter extends AbstractDeclarativeFormatter {
 
 		// FunctionApplication
 		c.setLinewrap(0, 1, 2).around(functionApplicationRule)
-		c.setNoSpace.before(functionApplicationAccess.leftParenthesisKeyword_2)
-		c.setNoSpace.after(functionApplicationAccess.leftParenthesisKeyword_2)
+		c.setNoSpace.around(functionApplicationAccess.leftParenthesisKeyword_2)
 		c.setNoSpace.before(functionApplicationAccess.rightParenthesisKeyword_4)
 		c.setSpace(' ').after(functionApplicationAccess.rightParenthesisKeyword_4)
 		c.setLinewrap(0, 0, 1).after(functionApplicationAccess.rightParenthesisKeyword_4)
