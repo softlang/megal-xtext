@@ -20,6 +20,9 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Megal.ecore#//Megamodel/imports"/>
       <genOperations ecoreOperation="Megal.ecore#//Megamodel/getVisibleDeclarations"/>
       <genOperations ecoreOperation="Megal.ecore#//Megamodel/getVisibleBindings"/>
+      <genOperations ecoreOperation="Megal.ecore#//Megamodel/scopeEntityType">
+        <genParameters ecoreParameter="Megal.ecore#//Megamodel/scopeEntityType/entityOrOpen"/>
+      </genOperations>
       <genOperations ecoreOperation="Megal.ecore#//Megamodel/scopeRelationshipType">
         <genParameters ecoreParameter="Megal.ecore#//Megamodel/scopeRelationshipType/leftOrOpen"/>
         <genParameters ecoreParameter="Megal.ecore#//Megamodel/scopeRelationshipType/rightOrOpen"/>
@@ -36,6 +39,7 @@
     <genClasses ecoreClass="Megal.ecore#//Declaration"/>
     <genClasses image="false" ecoreClass="Megal.ecore#//NamedDeclaration">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Megal.ecore#//NamedDeclaration/name"/>
+      <genOperations ecoreOperation="Megal.ecore#//NamedDeclaration/getShowName"/>
     </genClasses>
     <genClasses ecoreClass="Megal.ecore#//EntityType">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Megal.ecore#//EntityType/supertype"/>

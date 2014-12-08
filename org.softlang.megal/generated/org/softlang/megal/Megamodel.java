@@ -125,6 +125,14 @@ public interface Megamodel extends EObject
 	 * @model
 	 * @generated
 	 */
+	EList<EntityType> scopeEntityType(Entity entityOrOpen);
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated
+	 */
 	EList<RelationshipType> scopeRelationshipType(Entity leftOrOpen, Entity rightOrOpen);
 
 	/**

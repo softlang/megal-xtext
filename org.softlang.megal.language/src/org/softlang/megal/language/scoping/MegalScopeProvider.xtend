@@ -25,22 +25,22 @@ class MegalScopeProvider extends AbstractDeclarativeScopeProvider {
 	@Inject IQualifiedNameProvider qualifiedNameProvider
 
 	def scope_RelationshipType(Relationship x, EReference r) {
-		scopeFor(x.megamodel.scopeRelationshipType(x.left, x.right), qualifiedNameProvider, NULLSCOPE)
+		scopeFor(x.megamodel.scopeRelationshipType(x.left, x.right), qualifiedNameProvider, delegateGetScope(x, r))
 	}
 
 	def scope_Entity(Megamodel m, EReference r) {
-		scopeFor(m.visibleDeclarations.filter(Entity), qualifiedNameProvider, NULLSCOPE)
+		scopeFor(m.visibleDeclarations.filter(Entity), qualifiedNameProvider, delegateGetScope(m, r))
 	}
 
 	def scope_EntityType(Megamodel m, EReference r) {
-		scopeFor(m.visibleDeclarations.filter(EntityType), qualifiedNameProvider, NULLSCOPE)
+		scopeFor(m.visibleDeclarations.filter(EntityType), qualifiedNameProvider, delegateGetScope(m, r))
 	}
 
 	def scope_Relationship(Megamodel m, EReference r) {
-		scopeFor(m.visibleDeclarations.filter(Relationship), qualifiedNameProvider, NULLSCOPE)
+		scopeFor(m.visibleDeclarations.filter(Relationship), qualifiedNameProvider, delegateGetScope(m, r))
 	}
 
 	def scope_RelationshipType(Megamodel m, EReference r) {
-		scopeFor(m.visibleDeclarations.filter(RelationshipType), qualifiedNameProvider, NULLSCOPE)
+		scopeFor(m.visibleDeclarations.filter(RelationshipType), qualifiedNameProvider, delegateGetScope(m, r))
 	}
 }

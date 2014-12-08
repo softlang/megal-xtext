@@ -1,6 +1,8 @@
 package org.softlang.megal.evaluation;
 
+import java.util.List;
 import java.util.Set;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -11,11 +13,16 @@ import org.softlang.megal.Declaration;
 import org.softlang.megal.EcoreCollector;
 import org.softlang.megal.Element;
 import org.softlang.megal.Entity;
+import org.softlang.megal.EntityType;
+import org.softlang.megal.EntityTypeReference;
 import org.softlang.megal.Graph;
 import org.softlang.megal.Link;
 import org.softlang.megal.Megamodel;
+import org.softlang.megal.Relationship;
 import org.softlang.megal.RelationshipType;
 import org.softlang.megal.impl.MegamodelImpl;
+
+import com.google.common.collect.Lists;
 
 public class MegamodelEval extends MegamodelImpl {
 	@Override
@@ -33,6 +40,64 @@ public class MegamodelEval extends MegamodelImpl {
 		return Graph.<Megamodel> extendBy(this, m -> m.getImports()).stream()
 				.flatMap(m -> m.getDeclarations().stream())
 				.collect(Collectors.toSet());
+	}
+
+	@Override
+	public EList<EntityType> scopeEntityType(Entity entityOrOpen) {
+		Stream<EntityType> all = getVisibleDeclarations().stream()
+				.filter(k -> k instanceof EntityType).map(k -> (EntityType) k);
+
+		if (entityOrOpen == null)
+			return all.collect(EcoreCollector.toEList());
+
+		// TODO: Entity type reference contains many and parameters, not
+		// included yet
+
+		// Get where entity is target
+		Set<EntityType> ins = getVisibleDeclarations().stream()
+				.filter(k -> k instanceof Relationship)
+				.map(k -> (Relationship) k)
+				.filter(k -> k.getRight() == entityOrOpen)
+				.flatMap(k -> k.getType().getVariants().stream())
+				.map(k -> k.getRight().getDefinition())
+				.collect(Collectors.toSet());
+
+		// Get where entity is source
+		Set<EntityType> outs = getVisibleDeclarations().stream()
+				.filter(k -> k instanceof Relationship)
+				.map(k -> (Relationship) k)
+				.filter(k -> k.getLeft() == entityOrOpen)
+				.flatMap(k -> k.getType().getVariants().stream())
+				.map(k -> k.getLeft().getDefinition())
+				.collect(Collectors.toSet());
+
+		// // Add all subtypes in the declarations
+		// Consumer<Set<EntityType>> extendToAllSubtypes = s -> {
+		// boolean rerun;
+		// do {
+		// List<EntityType> add = Lists.newArrayList();
+		// for (EntityType k : s)
+		// for (Declaration d : getVisibleDeclarations())
+		// if (d instanceof EntityType) {
+		// EntityType l = (EntityType) d;
+		// if (l.getSupertype() != null
+		// && l.getSupertype().getDefinition() == k)
+		// add.add(l);
+		// }
+		//
+		// rerun = s.addAll(add);
+		//
+		// } while (rerun);
+		// };
+		//
+		// extendToAllSubtypes.accept(ins);
+		// extendToAllSubtypes.accept(outs);
+
+		// If either in or out is not empty, check for containment of type
+		return all.filter(
+				k -> (ins.isEmpty() || ins.contains(k))
+						&& (outs.isEmpty() || outs.contains(k))).collect(
+				EcoreCollector.toEList());
 	}
 
 	@Override

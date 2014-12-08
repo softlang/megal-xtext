@@ -47,4 +47,12 @@ public interface NamedDeclaration extends Declaration
 	 */
 	void setName(String value);
 
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation"
+	 * @generated
+	 */
+	String getShowName();
+
 } // NamedDeclaration

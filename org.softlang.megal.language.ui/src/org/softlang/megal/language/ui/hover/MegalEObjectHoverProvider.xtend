@@ -197,6 +197,12 @@ class MegalEObjectHoverProvider extends ExtenderEObjectHoverProvider {
 	def dispatch documentationFor(Entity it) '''
 		«IF dependent»<p>Entity is <a href="put a cool link to explain dependency">dependent</a></p>«ENDIF»
 		«IF parameter»<p>Entity is <a href="put a cool link to explain parametricity">a parameter</a></p>«ENDIF»
+		<p>
+		Substitute entity types:
+		<ul>
+		«FOR s : megamodel.scopeEntityType(it)»<li>«s.link»</li>«ENDFOR»
+		</ul>
+		</p>
 		«««		«IF dispatcher»
 «««			«IF masterDispatcher»Dispatcher is <a href="put a cool link to explain master dispatchers">master</a>«ENDIF»
 «««			<p>Dispatchers involved: <ul>«FOR c : buildDisp»<li>«c.link»</li>«ENDFOR»</ul></p>

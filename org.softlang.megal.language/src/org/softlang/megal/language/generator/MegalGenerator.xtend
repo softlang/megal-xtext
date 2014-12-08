@@ -32,7 +32,6 @@ class MegalGenerator implements IGenerator {
 		val languageResolving = new LanguageResolving
 
 		for (m : resource.contents.filter(Megamodel)) {
-			m.name = m.name + '.Processed'
 			funAppDesugaring.apply(m)
 			languageResolving.apply(m)
 		}
@@ -41,7 +40,7 @@ class MegalGenerator implements IGenerator {
 		val baos = new ByteArrayOutputStream
 		resource.save(baos, emptyMap)
 		val result = new String(baos.toByteArray)
-		fsa.generateFile('''«resource.URI.trimFileExtension.lastSegment».Processed.megal''', result)
+		fsa.generateFile('''«resource.URI.trimFileExtension.lastSegment».processed''', result)
 
 	//		fsa.generateFile('greetings.txt', 'People to greet: ' + 
 	//			resource.allContents

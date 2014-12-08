@@ -1,8 +1,9 @@
 package org.softlang.megal.evaluation;
 
-import org.softlang.megal.EntityType;
 import org.softlang.megal.Megamodel;
 import org.softlang.megal.impl.EntityTypeImpl;
+
+import com.google.common.collect.FluentIterable;
 
 public class EntityTypeEval extends EntityTypeImpl {
 	@Override
@@ -11,6 +12,13 @@ public class EntityTypeEval extends EntityTypeImpl {
 			throw new IllegalStateException("Dangeling declaration");
 
 		return (Megamodel) eContainer();
+	}
+
+	@Override
+	public String getShowName() {
+		return FluentIterable.from(getInfo())
+				.firstMatch(k -> k.getKey() == null)
+				.transform(k -> k.getValue()).or(() -> getName());
 	}
 
 	@Override

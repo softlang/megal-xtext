@@ -7,6 +7,8 @@ import org.softlang.megal.Megamodel;
 import org.softlang.megal.RelationshipType;
 import org.softlang.megal.impl.RelationshipTypeImpl;
 
+import com.google.common.collect.FluentIterable;
+
 public class RelationshipTypeEval extends RelationshipTypeImpl {
 	@Override
 	public Megamodel getMegamodel() {
@@ -26,6 +28,13 @@ public class RelationshipTypeEval extends RelationshipTypeImpl {
 				.filter(d -> d instanceof RelationshipType
 						&& ((RelationshipType) d).getName().equals(getName()))
 				.map(d -> (RelationshipType) d).collect(Collectors.toSet());
+	}
+
+	@Override
+	public String getShowName() {
+		return FluentIterable.from(getInfo())
+				.firstMatch(k -> k.getKey() == null)
+				.transform(k -> k.getValue()).or(() -> getName());
 	}
 
 	@Override

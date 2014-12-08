@@ -2,7 +2,11 @@
  */
 package org.softlang.megal.impl;
 
+import java.lang.reflect.InvocationTargetException;
+
 import org.eclipse.emf.common.notify.Notification;
+
+import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
 
@@ -95,6 +99,18 @@ public abstract class NamedDeclarationImpl extends DeclarationImpl implements Na
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public String getShowName()
+	{
+		// TODO: implement this method
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType)
 	{
@@ -154,6 +170,22 @@ public abstract class NamedDeclarationImpl extends DeclarationImpl implements Na
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 		}
 		return super.eIsSet(featureID);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Object eInvoke(int operationID, EList<?> arguments) throws InvocationTargetException
+	{
+		switch (operationID)
+		{
+			case MegalPackage.NAMED_DECLARATION___GET_SHOW_NAME:
+				return getShowName();
+		}
+		return super.eInvoke(operationID, arguments);
 	}
 
 	/**

@@ -12,6 +12,9 @@
         <eTypeArguments eClassifier="#//Link"/>
       </eGenericType>
     </eOperations>
+    <eOperations name="scopeEntityType" upperBound="-1" eType="#//EntityType">
+      <eParameters name="entityOrOpen" eType="#//Entity"/>
+    </eOperations>
     <eOperations name="scopeRelationshipType" upperBound="-1" eType="#//RelationshipType">
       <eParameters name="leftOrOpen" eType="#//Entity"/>
       <eParameters name="rightOrOpen" eType="#//Entity"/>
@@ -35,6 +38,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Declaration" abstract="true" eSuperTypes="#//Element"/>
   <eClassifiers xsi:type="ecore:EClass" name="NamedDeclaration" abstract="true" eSuperTypes="#//Declaration">
+    <eOperations name="getShowName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="EntityType" eSuperTypes="#//NamedDeclaration">

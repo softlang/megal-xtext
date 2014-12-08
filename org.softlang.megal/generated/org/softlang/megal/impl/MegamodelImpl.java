@@ -26,6 +26,7 @@ import org.softlang.megal.Annotation;
 import org.softlang.megal.Declaration;
 import org.softlang.megal.Element;
 import org.softlang.megal.Entity;
+import org.softlang.megal.EntityType;
 import org.softlang.megal.Link;
 import org.softlang.megal.MegalPackage;
 import org.softlang.megal.Megamodel;
@@ -214,6 +215,18 @@ public class MegamodelImpl extends MinimalEObjectImpl.Container implements Megam
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<EntityType> scopeEntityType(Entity entityOrOpen)
+	{
+		// TODO: implement this method
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EList<RelationshipType> scopeRelationshipType(Entity leftOrOpen, Entity rightOrOpen)
 	{
 		// TODO: implement this method
@@ -365,6 +378,8 @@ public class MegamodelImpl extends MinimalEObjectImpl.Container implements Megam
 				return getVisibleDeclarations();
 			case MegalPackage.MEGAMODEL___GET_VISIBLE_BINDINGS:
 				return getVisibleBindings();
+			case MegalPackage.MEGAMODEL___SCOPE_ENTITY_TYPE__ENTITY:
+				return scopeEntityType((Entity)arguments.get(0));
 			case MegalPackage.MEGAMODEL___SCOPE_RELATIONSHIP_TYPE__ENTITY_ENTITY:
 				return scopeRelationshipType((Entity)arguments.get(0), (Entity)arguments.get(1));
 			case MegalPackage.MEGAMODEL___FETCH_INFOS__ELEMENT:

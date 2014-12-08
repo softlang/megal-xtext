@@ -11,7 +11,6 @@ public class RelationshipEval extends RelationshipImpl {
 
 		return (Megamodel) eContainer();
 	}
-
 	@Override
 	public boolean isAssigned() {
 		return getLeft() != null && getType() != null && getRight() != null;

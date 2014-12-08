@@ -133,13 +133,22 @@ public interface MegalPackage extends EPackage
 	int MEGAMODEL___GET_VISIBLE_BINDINGS = 1;
 
 	/**
+	 * The operation id for the '<em>Scope Entity Type</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MEGAMODEL___SCOPE_ENTITY_TYPE__ENTITY = 2;
+
+	/**
 	 * The operation id for the '<em>Scope Relationship Type</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MEGAMODEL___SCOPE_RELATIONSHIP_TYPE__ENTITY_ENTITY = 2;
+	int MEGAMODEL___SCOPE_RELATIONSHIP_TYPE__ENTITY_ENTITY = 3;
 
 	/**
 	 * The operation id for the '<em>Fetch Infos</em>' operation.
@@ -148,7 +157,7 @@ public interface MegalPackage extends EPackage
 	 * @generated
 	 * @ordered
 	 */
-	int MEGAMODEL___FETCH_INFOS__ELEMENT = 3;
+	int MEGAMODEL___FETCH_INFOS__ELEMENT = 4;
 
 	/**
 	 * The number of operations of the '<em>Megamodel</em>' class.
@@ -157,7 +166,7 @@ public interface MegalPackage extends EPackage
 	 * @generated
 	 * @ordered
 	 */
-	int MEGAMODEL_OPERATION_COUNT = 4;
+	int MEGAMODEL_OPERATION_COUNT = 5;
 
 	/**
 	 * The meta object id for the '{@link org.softlang.megal.Element <em>Element</em>}' class.
@@ -325,13 +334,22 @@ public interface MegalPackage extends EPackage
 	int NAMED_DECLARATION___IS_ASSIGNED = DECLARATION___IS_ASSIGNED;
 
 	/**
+	 * The operation id for the '<em>Get Show Name</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NAMED_DECLARATION___GET_SHOW_NAME = DECLARATION_OPERATION_COUNT + 0;
+
+	/**
 	 * The number of operations of the '<em>Named Declaration</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int NAMED_DECLARATION_OPERATION_COUNT = DECLARATION_OPERATION_COUNT + 0;
+	int NAMED_DECLARATION_OPERATION_COUNT = DECLARATION_OPERATION_COUNT + 1;
 
 	/**
 	 * The meta object id for the '{@link org.softlang.megal.impl.EntityTypeImpl <em>Entity Type</em>}' class.
@@ -396,6 +414,15 @@ public interface MegalPackage extends EPackage
 	 * @ordered
 	 */
 	int ENTITY_TYPE___IS_ASSIGNED = NAMED_DECLARATION___IS_ASSIGNED;
+
+	/**
+	 * The operation id for the '<em>Get Show Name</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ENTITY_TYPE___GET_SHOW_NAME = NAMED_DECLARATION___GET_SHOW_NAME;
 
 	/**
 	 * The number of operations of the '<em>Entity Type</em>' class.
@@ -478,6 +505,15 @@ public interface MegalPackage extends EPackage
 	 * @ordered
 	 */
 	int RELATIONSHIP_TYPE___IS_ASSIGNED = NAMED_DECLARATION___IS_ASSIGNED;
+
+	/**
+	 * The operation id for the '<em>Get Show Name</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RELATIONSHIP_TYPE___GET_SHOW_NAME = NAMED_DECLARATION___GET_SHOW_NAME;
 
 	/**
 	 * The operation id for the '<em>Get Variants</em>' operation.
@@ -578,6 +614,15 @@ public interface MegalPackage extends EPackage
 	 * @ordered
 	 */
 	int ENTITY___IS_ASSIGNED = NAMED_DECLARATION___IS_ASSIGNED;
+
+	/**
+	 * The operation id for the '<em>Get Show Name</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ENTITY___GET_SHOW_NAME = NAMED_DECLARATION___GET_SHOW_NAME;
 
 	/**
 	 * The operation id for the '<em>Get Links</em>' operation.
@@ -1058,6 +1103,16 @@ public interface MegalPackage extends EPackage
 	EOperation getMegamodel__GetVisibleBindings();
 
 	/**
+	 * Returns the meta object for the '{@link org.softlang.megal.Megamodel#scopeEntityType(org.softlang.megal.Entity) <em>Scope Entity Type</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Scope Entity Type</em>' operation.
+	 * @see org.softlang.megal.Megamodel#scopeEntityType(org.softlang.megal.Entity)
+	 * @generated
+	 */
+	EOperation getMegamodel__ScopeEntityType__Entity();
+
+	/**
 	 * Returns the meta object for the '{@link org.softlang.megal.Megamodel#scopeRelationshipType(org.softlang.megal.Entity, org.softlang.megal.Entity) <em>Scope Relationship Type</em>}' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1148,6 +1203,16 @@ public interface MegalPackage extends EPackage
 	 * @generated
 	 */
 	EAttribute getNamedDeclaration_Name();
+
+	/**
+	 * Returns the meta object for the '{@link org.softlang.megal.NamedDeclaration#getShowName() <em>Get Show Name</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Get Show Name</em>' operation.
+	 * @see org.softlang.megal.NamedDeclaration#getShowName()
+	 * @generated
+	 */
+	EOperation getNamedDeclaration__GetShowName();
 
 	/**
 	 * Returns the meta object for class '{@link org.softlang.megal.EntityType <em>Entity Type</em>}'.
@@ -1593,6 +1658,14 @@ public interface MegalPackage extends EPackage
 		EOperation MEGAMODEL___GET_VISIBLE_BINDINGS = eINSTANCE.getMegamodel__GetVisibleBindings();
 
 		/**
+		 * The meta object literal for the '<em><b>Scope Entity Type</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation MEGAMODEL___SCOPE_ENTITY_TYPE__ENTITY = eINSTANCE.getMegamodel__ScopeEntityType__Entity();
+
+		/**
 		 * The meta object literal for the '<em><b>Scope Relationship Type</b></em>' operation.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1669,6 +1742,14 @@ public interface MegalPackage extends EPackage
 		 * @generated
 		 */
 		EAttribute NAMED_DECLARATION__NAME = eINSTANCE.getNamedDeclaration_Name();
+
+		/**
+		 * The meta object literal for the '<em><b>Get Show Name</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation NAMED_DECLARATION___GET_SHOW_NAME = eINSTANCE.getNamedDeclaration__GetShowName();
 
 		/**
 		 * The meta object literal for the '{@link org.softlang.megal.impl.EntityTypeImpl <em>Entity Type</em>}' class.

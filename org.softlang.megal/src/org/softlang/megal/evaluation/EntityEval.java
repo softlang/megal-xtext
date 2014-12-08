@@ -10,6 +10,8 @@ import org.softlang.megal.Relationship;
 import org.softlang.megal.RelationshipType;
 import org.softlang.megal.impl.EntityImpl;
 
+import com.google.common.collect.FluentIterable;
+
 public class EntityEval extends EntityImpl {
 	@Override
 	public Megamodel getMegamodel() {
@@ -50,6 +52,13 @@ public class EntityEval extends EntityImpl {
 						&& ((Relationship) d).getRight() == this)
 				.map(r -> ((Relationship) r).getLeft())
 				.collect(Collectors.toSet());
+	}
+
+	@Override
+	public String getShowName() {
+		return FluentIterable.from(getInfo())
+				.firstMatch(k -> k.getKey() == null)
+				.transform(k -> k.getValue()).or(() -> getName());
 	}
 
 	@Override
