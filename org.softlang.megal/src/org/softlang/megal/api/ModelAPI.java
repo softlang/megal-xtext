@@ -17,6 +17,7 @@ import org.softlang.megal.RelationshipType;
 
 import com.google.common.base.CaseFormat;
 import com.google.common.collect.FluentIterable;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
@@ -48,13 +49,6 @@ public class ModelAPI {
 
 		/**
 		 * <p>
-		 * Backing for the location
-		 * </p>
-		 */
-		private final String location;
-
-		/**
-		 * <p>
 		 * Backing for the mandatory state
 		 * </p>
 		 */
@@ -79,9 +73,8 @@ public class ModelAPI {
 		 * @param mandatory
 		 *            The mandatory state
 		 */
-		public ResolvedSlot(Field field, String location, boolean mandatory) {
+		public ResolvedSlot(Field field, boolean mandatory) {
 			this.field = field;
-			this.location = location;
 			this.mandatory = mandatory;
 			this.open = true;
 		}
@@ -105,17 +98,6 @@ public class ModelAPI {
 			} finally {
 				field.setAccessible(wasAccessible);
 			}
-		}
-
-		/**
-		 * <p>
-		 * Gets the location
-		 * </p>
-		 * 
-		 * @return Returns the value of the backing
-		 */
-		public String getLocation() {
-			return location;
 		}
 
 		/**
@@ -151,14 +133,17 @@ public class ModelAPI {
 
 		private final String name;
 
+		private final String inOrNull;
+
 		private final String leftOrNull;
 
 		private final String rightOrNull;
 
-		public SlotKey(Class<?> type, String name, String leftOrNull,
-				String rightOrNull) {
+		public SlotKey(Class<?> type, String name, String inOrNull,
+				String leftOrNull, String rightOrNull) {
 			this.type = type;
 			this.name = name;
+			this.inOrNull = inOrNull;
 			this.leftOrNull = leftOrNull;
 			this.rightOrNull = rightOrNull;
 		}
@@ -166,6 +151,7 @@ public class ModelAPI {
 		public SlotKey(Class<?> type, String name) {
 			this.type = type;
 			this.name = name;
+			this.inOrNull = null;
 			this.leftOrNull = null;
 			this.rightOrNull = null;
 		}
@@ -174,6 +160,8 @@ public class ModelAPI {
 		public int hashCode() {
 			final int prime = 31;
 			int result = 1;
+			result = prime * result
+					+ ((inOrNull == null) ? 0 : inOrNull.hashCode());
 			result = prime * result
 					+ ((leftOrNull == null) ? 0 : leftOrNull.hashCode());
 			result = prime * result + ((name == null) ? 0 : name.hashCode());
@@ -192,6 +180,11 @@ public class ModelAPI {
 			if (getClass() != obj.getClass())
 				return false;
 			SlotKey other = (SlotKey) obj;
+			if (inOrNull == null) {
+				if (other.inOrNull != null)
+					return false;
+			} else if (!inOrNull.equals(other.inOrNull))
+				return false;
 			if (leftOrNull == null) {
 				if (other.leftOrNull != null)
 					return false;
@@ -217,8 +210,9 @@ public class ModelAPI {
 
 		@Override
 		public String toString() {
-			return "SlotKey [type=" + type + ", name=" + name + ", leftOrNull="
-					+ leftOrNull + ", rightOrNull=" + rightOrNull + "]";
+			return "SlotKey [type=" + type + ", name=" + name + ", inOrNull="
+					+ inOrNull + ", leftOrNull=" + leftOrNull
+					+ ", rightOrNull=" + rightOrNull + "]";
 		}
 	}
 
@@ -266,12 +260,13 @@ public class ModelAPI {
 			Left left = field.getAnnotation(Left.class);
 			Right right = field.getAnnotation(Right.class);
 
-			if (slot != null) {
+			if (slot != null || in != null || left != null || right != null) {
 				SlotKey key = new SlotKey(field.getType(), field.getName(),
+						in != null ? in.value() : null,
 						left != null ? left.value() : null,
 						right != null ? right.value() : null);
-				ResolvedSlot value = new ResolvedSlot(field,
-						in != null ? in.value() : null, slot.mandatory());
+				ResolvedSlot value = new ResolvedSlot(field, slot != null
+						&& slot.mandatory());
 				slots.put(key, value);
 			}
 		}
@@ -300,7 +295,7 @@ public class ModelAPI {
 	 * @param megamodel
 	 *            The megamodel to analyze
 	 */
-	public void apply(Megamodel megamodel) {
+	public boolean apply(Megamodel megamodel) {
 		// Reset slots
 		for (ResolvedSlot slot : slots.values())
 			slot.set(null);
@@ -339,28 +334,43 @@ public class ModelAPI {
 				right = relationship.getRight().getName();
 			}
 
+			String in = declaration.getMegamodel().getName();
+
 			// Get potential target
-			ResolvedSlot target = slots.get(new SlotKey(instanceClass, name,
-					left, right));
+			ResolvedSlot target = null;
+
+			// Try all variations of assigned and unassigned, start with
+			// assigned because of stronger binding
+			for (String varIn : Arrays.asList(in, null))
+				for (String varLeft : Arrays.asList(left, null))
+					for (String varRight : Arrays.asList(right, null))
+						// If not already found
+						if (target == null)
+							target = slots.get(new SlotKey(instanceClass, name,
+									varIn, varLeft, varRight));
 
 			// Check if there is a target and its location requirements match
 			if (target != null)
-				if (target.getLocation() == null
-						|| target.getLocation().equals(
-								declaration.getMegamodel().getName()))
-					target.set(declaration);
+				target.set(declaration);
 		}
 
 		// Find all open, mandatory setters
-		List<ResolvedSlot> openSetters = FluentIterable.from(slots.values())
+		List<String> openSetters = FluentIterable.from(slots.values())
 				.filter(ResolvedSlot::isOpen).filter(ResolvedSlot::isMandatory)
-				.toList();
+				.transform(k -> k.toString()).toList();
 
 		// If there are some throw an exception
-		if (!openSetters.isEmpty())
-			throw new NoSuchElementException(
-					"Unassigned mandatory slots after initialization: "
-							+ openSetters);
+		if (!openSetters.isEmpty()) {
+			handleUnassignedSlot(openSetters);
+			return false;
+		}
 
+		return true;
+	}
+
+	protected void handleUnassignedSlot(List<String> openSetters) {
+		throw new NoSuchElementException(
+				"Unassigned mandatory slots after initialization: "
+						+ openSetters);
 	}
 }

@@ -7,6 +7,8 @@ import org.softlang.megal.impl.EntityTypeReferenceImpl;
 import com.google.common.base.Joiner;
 
 public class EntityTypeReferenceEval extends EntityTypeReferenceImpl {
+	// TODO: Not accounting "many" and "parameters" for now
+
 	@Override
 	public boolean isAssignableFrom(EntityTypeReference type) {
 		if (this == type)
@@ -14,23 +16,22 @@ public class EntityTypeReferenceEval extends EntityTypeReferenceImpl {
 		if (type == null)
 			return false;
 
-		if (isMany() != type.isMany())
+		return isAssignableFrom(type.getDefinition(), type.isMany());
+	}
+
+	@Override
+	public boolean isAssignableFrom(EntityType type, boolean isMany) {
+		if (type == null)
 			return false;
 
-		EntityType r = type.getDefinition();
-
 		while (true) {
-			if (getDefinition() == r)
+			if (getDefinition() == type)
 				return true;
 
-			if (r.getSupertype() != null) {
-				if (isMany() != r.getSupertype().isMany())
-					return false;
-
-				r = r.getSupertype().getDefinition();
-			} else {
+			if (type.getSupertype() != null)
+				type = type.getSupertype().getDefinition();
+			else
 				return false;
-			}
 		}
 	}
 

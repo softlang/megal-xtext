@@ -26,18 +26,19 @@ public class SetLableRelation implements IExternalJavaAction {
 	}
 
 	@Override
-	public void execute(Collection<? extends EObject> arg0, Map<String, Object> arg1) {
+	public void execute(Collection<? extends EObject> arg0,
+			Map<String, Object> arg1) {
 
 		String lable = (String) arg1.get("lable");
 		Relationship relation = (Relationship) arg0.iterator().next();
 
 		Megamodel megamodel = MegalServices.INSTANCE.getMegamodel(relation);
 
-		EList<RelationshipType> rts = megamodel.scopeRelationshipType(relation.getLeft(),
-				relation.getRight());
+		EList<RelationshipType> rts = megamodel.applicableRelationshipTypes(
+				relation.getLeft(), relation.getRight());
 
-		Optional<RelationshipType> rt = rts.stream().filter(x -> x.getName().equals(lable))
-				.findFirst();
+		Optional<RelationshipType> rt = rts.stream()
+				.filter(x -> x.getName().equals(lable)).findFirst();
 
 		if (!rt.isPresent())
 			return;

@@ -260,7 +260,7 @@ public class Typename {
 		try {
 			loaded = Optional.of(Class.forName(fqn));
 		} catch (ClassNotFoundException e) {
-			loaded = Optional.of(null);
+			loaded = Optional.empty();
 		}
 
 		return loaded.get();

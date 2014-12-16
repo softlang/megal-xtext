@@ -200,7 +200,7 @@ class MegalEObjectHoverProvider extends ExtenderEObjectHoverProvider {
 		<p>
 		Substitute entity types:
 		<ul>
-		«FOR s : megamodel.scopeEntityType(it)»<li>«s.link»</li>«ENDFOR»
+		«FOR s : megamodel.alternativeEntityTypes(it)»<li>«s.link»</li>«ENDFOR»
 		</ul>
 		</p>
 		«««		«IF dispatcher»
@@ -217,10 +217,10 @@ class MegalEObjectHoverProvider extends ExtenderEObjectHoverProvider {
 
 	def dispatch documentationFor(RelationshipType relationshipType) '''
 			«super.getDocumentation(relationshipType)»
-		«IF relationshipType.variants.size > 1»
+		«IF relationshipType.instances.size > 1»
 			<p>Other variants:
 			<ul>
-			«FOR variant : relationshipType.variants.filter[relationshipType != it]»
+			«FOR variant : relationshipType.instances.filter[relationshipType != it]»
 				<li><i>«variant.link»</i>: «variant.left.definition.link» &lowast; «variant.right.definition.link»</li>
 			«ENDFOR»
 			</ul>

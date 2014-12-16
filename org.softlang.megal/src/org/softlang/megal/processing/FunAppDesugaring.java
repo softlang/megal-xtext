@@ -28,7 +28,6 @@ public class FunAppDesugaring extends RefactoringAPI {
 	 * ModelAPI injected function application
 	 * </p>
 	 */
-	@Slot
 	@In("Prelude")
 	protected EntityType functionApplication;
 
@@ -37,7 +36,6 @@ public class FunAppDesugaring extends RefactoringAPI {
 	 * ModelAPI injected element of
 	 * </p>
 	 */
-	@Slot
 	@In("Prelude")
 	@Left("FunctionApplication")
 	@Right("Function")
@@ -48,7 +46,6 @@ public class FunAppDesugaring extends RefactoringAPI {
 	 * ModelAPI injected input of
 	 * </p>
 	 */
-	@Slot
 	@In("Prelude")
 	@Left("Artifact")
 	@Right("FunctionApplication")
@@ -59,7 +56,6 @@ public class FunAppDesugaring extends RefactoringAPI {
 	 * ModelAPI injected output of
 	 * </p>
 	 */
-	@Slot
 	@In("Prelude")
 	@Left("Artifact")
 	@Right("FunctionApplication")
@@ -118,5 +114,10 @@ public class FunAppDesugaring extends RefactoringAPI {
 		} else {
 			return true;
 		}
+	}
+
+	@Override
+	protected void handleUnassignedSlot(List<String> openSetters) {
+		// Do not abort here
 	}
 }

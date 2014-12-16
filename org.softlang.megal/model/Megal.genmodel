@@ -20,12 +20,12 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Megal.ecore#//Megamodel/imports"/>
       <genOperations ecoreOperation="Megal.ecore#//Megamodel/getVisibleDeclarations"/>
       <genOperations ecoreOperation="Megal.ecore#//Megamodel/getVisibleBindings"/>
-      <genOperations ecoreOperation="Megal.ecore#//Megamodel/scopeEntityType">
-        <genParameters ecoreParameter="Megal.ecore#//Megamodel/scopeEntityType/entityOrOpen"/>
+      <genOperations ecoreOperation="Megal.ecore#//Megamodel/alternativeEntityTypes">
+        <genParameters ecoreParameter="Megal.ecore#//Megamodel/alternativeEntityTypes/entity"/>
       </genOperations>
-      <genOperations ecoreOperation="Megal.ecore#//Megamodel/scopeRelationshipType">
-        <genParameters ecoreParameter="Megal.ecore#//Megamodel/scopeRelationshipType/leftOrOpen"/>
-        <genParameters ecoreParameter="Megal.ecore#//Megamodel/scopeRelationshipType/rightOrOpen"/>
+      <genOperations ecoreOperation="Megal.ecore#//Megamodel/applicableRelationshipTypes">
+        <genParameters ecoreParameter="Megal.ecore#//Megamodel/applicableRelationshipTypes/left"/>
+        <genParameters ecoreParameter="Megal.ecore#//Megamodel/applicableRelationshipTypes/right"/>
       </genOperations>
       <genOperations ecoreOperation="Megal.ecore#//Megamodel/fetchInfos">
         <genParameters ecoreParameter="Megal.ecore#//Megamodel/fetchInfos/element"/>
@@ -47,7 +47,7 @@
     <genClasses ecoreClass="Megal.ecore#//RelationshipType">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Megal.ecore#//RelationshipType/left"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Megal.ecore#//RelationshipType/right"/>
-      <genOperations ecoreOperation="Megal.ecore#//RelationshipType/getVariants"/>
+      <genOperations ecoreOperation="Megal.ecore#//RelationshipType/getInstances"/>
     </genClasses>
     <genClasses ecoreClass="Megal.ecore#//Entity">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Megal.ecore#//Entity/type"/>
@@ -76,6 +76,10 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Megal.ecore#//EntityTypeReference/parameters"/>
       <genOperations ecoreOperation="Megal.ecore#//EntityTypeReference/isAssignableFrom">
         <genParameters ecoreParameter="Megal.ecore#//EntityTypeReference/isAssignableFrom/type"/>
+      </genOperations>
+      <genOperations ecoreOperation="Megal.ecore#//EntityTypeReference/isAssignableFrom.1">
+        <genParameters ecoreParameter="Megal.ecore#//EntityTypeReference/isAssignableFrom.1/type"/>
+        <genParameters ecoreParameter="Megal.ecore#//EntityTypeReference/isAssignableFrom.1/isMany"/>
       </genOperations>
     </genClasses>
     <genClasses ecoreClass="Megal.ecore#//Annotation">

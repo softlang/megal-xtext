@@ -58,6 +58,18 @@ public abstract class RefactoringAPI extends ModelAPI {
 
 	/**
 	 * <p>
+	 * Prepares information for the refactoring step
+	 * </p>
+	 * 
+	 * @param megamodel
+	 *            The megamodel to analyze
+	 */
+	protected void prepare(Megamodel megamodel) {
+
+	}
+
+	/**
+	 * <p>
 	 * Processes a link, may create new links and new declarations by adding to
 	 * <code>newLinks</code> and <code>newDecls</code>.
 	 * </p>
@@ -109,94 +121,98 @@ public abstract class RefactoringAPI extends ModelAPI {
 	}
 
 	@Override
-	public void apply(Megamodel megamodel) {
-		super.apply(megamodel);
+	public boolean apply(Megamodel megamodel) {
+		if (super.apply(megamodel)) {
+			prepare(megamodel);
 
-		// Create modification tracker and user targets
-		boolean mod;
-		List<Link> newLinks = Lists.newArrayList();
-		List<Declaration> newDeclarations = Lists.newArrayList();
+			// Create modification tracker and user targets
+			boolean mod;
+			List<Link> newLinks = Lists.newArrayList();
+			List<Declaration> newDeclarations = Lists.newArrayList();
 
-		// Get Megal factory
-		MegalFactory factory = (MegalFactory) megamodel.eClass().getEPackage()
-				.getEFactoryInstance();
+			// Get Megal factory
+			MegalFactory factory = (MegalFactory) megamodel.eClass()
+					.getEPackage().getEFactoryInstance();
 
-		int loopNum = 0;
-		do {
-			// Reset modification tracker
-			mod = false;
-			// List-iterate the bindings
-			for (ListIterator<Link> it = megamodel.getBindings().listIterator(); it
-					.hasNext();) {
-				// Get current
-				Link current = it.next();
+			int loopNum = 0;
+			do {
+				// Reset modification tracker
+				mod = false;
+				// List-iterate the bindings
+				for (ListIterator<Link> it = megamodel.getBindings()
+						.listIterator(); it.hasNext();) {
+					// Get current
+					Link current = it.next();
 
-				// Reset user targets
-				newLinks.clear();
-				newDeclarations.clear();
+					// Reset user targets
+					newLinks.clear();
+					newDeclarations.clear();
 
-				// Process the binding and remove it if desired
-				if (!process(current, factory, newLinks, newDeclarations)) {
-					it.remove();
-					mod = true;
+					// Process the binding and remove it if desired
+					if (!process(current, factory, newLinks, newDeclarations)) {
+						it.remove();
+						mod = true;
+					}
+
+					// Add all new bindings
+					for (Link newLink : newLinks) {
+						newLink.getInfo().add(createOriginAnnotation(factory));
+						it.add(newLink);
+						mod = true;
+					}
+
+					// Add all new declarations
+					for (Declaration newDeclaration : newDeclarations) {
+						newDeclaration.getInfo().add(
+								createOriginAnnotation(factory));
+						megamodel.getDeclarations().add(newDeclaration);
+						mod = true;
+					}
 				}
 
-				// Add all new bindings
-				for (Link newLink : newLinks) {
-					newLink.getInfo().add(
-							createOriginAnnotation(factory));
-					it.add(newLink);
-					mod = true;
+				// List-iterate the declarations
+				for (ListIterator<Declaration> it = megamodel.getDeclarations()
+						.listIterator(); it.hasNext();) {
+					// Get current
+					Declaration current = it.next();
+
+					// Reset user targets
+					newLinks.clear();
+					newDeclarations.clear();
+
+					// Process the declaration and remove it if desired
+					if (!process(current, factory, newLinks, newDeclarations)) {
+						it.remove();
+						mod = true;
+					}
+
+					// Add all new declarations
+					for (Declaration newDeclaration : newDeclarations) {
+						newDeclaration.getInfo().add(
+								createOriginAnnotation(factory));
+						it.add(newDeclaration);
+						mod = true;
+					}
+
+					// Add all new bindings
+					for (Link newLink : newLinks) {
+						newLink.getInfo().add(createOriginAnnotation(factory));
+						megamodel.getBindings().add(newLink);
+						mod = true;
+					}
 				}
 
-				// Add all new declarations
-				for (Declaration newDeclaration : newDeclarations) {
-					newDeclaration.getInfo().add(
-							createOriginAnnotation(factory));
-					megamodel.getDeclarations().add(newDeclaration);
-					mod = true;
-				}
-			}
+				// Do not infinitely repeat
+				if (loopNum++ > LOOP_DETECTION)
+					throw new IllegalStateException(
+							"Excessing the maximum limit of " + LOOP_DETECTION
+									+ " loops");
+			} while (mod);
 
-			// List-iterate the declarations
-			for (ListIterator<Declaration> it = megamodel.getDeclarations()
-					.listIterator(); it.hasNext();) {
-				// Get current
-				Declaration current = it.next();
-
-				// Reset user targets
-				newLinks.clear();
-				newDeclarations.clear();
-
-				// Process the declaration and remove it if desired
-				if (!process(current, factory, newLinks, newDeclarations)) {
-					it.remove();
-					mod = true;
-				}
-
-				// Add all new declarations
-				for (Declaration newDeclaration : newDeclarations) {
-					newDeclaration.getInfo().add(
-							createOriginAnnotation(factory));
-					it.add(newDeclaration);
-					mod = true;
-				}
-
-				// Add all new bindings
-				for (Link newLink : newLinks) {
-					newLink.getInfo().add(
-							createOriginAnnotation(factory));
-					megamodel.getBindings().add(newLink);
-					mod = true;
-				}
-			}
-
-			// Do not infinitely repeat
-			if (loopNum++ > LOOP_DETECTION)
-				throw new IllegalStateException(
-						"Excessing the maximum limit of " + LOOP_DETECTION
-								+ " loops");
-		} while (mod);
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	private Annotation createOriginAnnotation(MegalFactory factory) {

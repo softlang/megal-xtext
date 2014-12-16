@@ -178,7 +178,7 @@ public class RelationshipTypeImpl extends NamedDeclarationImpl implements Relati
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Set<RelationshipType> getVariants()
+	public Set<RelationshipType> getInstances()
 	{
 		// TODO: implement this method
 		// Ensure that you remove @generated or mark it @generated NOT
@@ -289,8 +289,8 @@ public class RelationshipTypeImpl extends NamedDeclarationImpl implements Relati
 	{
 		switch (operationID)
 		{
-			case MegalPackage.RELATIONSHIP_TYPE___GET_VARIANTS:
-				return getVariants();
+			case MegalPackage.RELATIONSHIP_TYPE___GET_INSTANCES:
+				return getInstances();
 		}
 		return super.eInvoke(operationID, arguments);
 	}

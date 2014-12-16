@@ -3,6 +3,7 @@ package org.softlang.megal;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.softlang.megal.fragmentprovider.Evaluator;
+import org.softlang.sourcesupport.SourceSupportPlugin;
 
 public class MegalPlugin implements BundleActivator {
 	private static Evaluator evaluator;
@@ -14,6 +15,8 @@ public class MegalPlugin implements BundleActivator {
 	@Override
 	public void start(BundleContext context) throws Exception {
 		evaluator = new Evaluator();
+		
+		SourceSupportPlugin.getSupport();
 	}
 
 	@Override

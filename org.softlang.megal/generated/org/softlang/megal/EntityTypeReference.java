@@ -102,4 +102,12 @@ public interface EntityTypeReference extends EObject
 	 */
 	boolean isAssignableFrom(EntityTypeReference type);
 
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model
+	 * @generated
+	 */
+	boolean isAssignableFrom(EntityType type, boolean isMany);
+
 } // EntityTypeReference

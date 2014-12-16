@@ -22,6 +22,7 @@ import org.softlang.megal.Relationship;
 import org.softlang.megal.RelationshipType;
 import org.softlang.megal.impl.MegamodelImpl;
 
+import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Lists;
 
 public class MegamodelEval extends MegamodelImpl {
@@ -43,33 +44,28 @@ public class MegamodelEval extends MegamodelImpl {
 	}
 
 	@Override
-	public EList<EntityType> scopeEntityType(Entity entityOrOpen) {
+	public EList<EntityType> alternativeEntityTypes(Entity entity) {
 		Stream<EntityType> all = getVisibleDeclarations().stream()
 				.filter(k -> k instanceof EntityType).map(k -> (EntityType) k);
 
-		if (entityOrOpen == null)
+		if (entity == null)
 			return all.collect(EcoreCollector.toEList());
 
 		// TODO: Entity type reference contains many and parameters, not
 		// included yet
 
 		// Get where entity is target
-		Set<EntityType> ins = getVisibleDeclarations().stream()
-				.filter(k -> k instanceof Relationship)
-				.map(k -> (Relationship) k)
-				.filter(k -> k.getRight() == entityOrOpen)
-				.flatMap(k -> k.getType().getVariants().stream())
-				.map(k -> k.getRight().getDefinition())
-				.collect(Collectors.toSet());
+		Set<EntityType> ins = FluentIterable.from(getVisibleDeclarations())
+				.filter(Relationship.class).filter(k -> k.getRight() == entity)
+				.transformAndConcat(k -> k.getType().getInstances())
+				.transform(k -> k.getRight().getDefinition()).toSet();
 
 		// Get where entity is source
-		Set<EntityType> outs = getVisibleDeclarations().stream()
-				.filter(k -> k instanceof Relationship)
-				.map(k -> (Relationship) k)
-				.filter(k -> k.getLeft() == entityOrOpen)
-				.flatMap(k -> k.getType().getVariants().stream())
-				.map(k -> k.getLeft().getDefinition())
-				.collect(Collectors.toSet());
+
+		Set<EntityType> outs = FluentIterable.from(getVisibleDeclarations())
+				.filter(Relationship.class).filter(k -> k.getLeft() == entity)
+				.transformAndConcat(k -> k.getType().getInstances())
+				.transform(k -> k.getLeft().getDefinition()).toSet();
 
 		// // Add all subtypes in the declarations
 		// Consumer<Set<EntityType>> extendToAllSubtypes = s -> {
@@ -101,12 +97,12 @@ public class MegamodelEval extends MegamodelImpl {
 	}
 
 	@Override
-	public EList<RelationshipType> scopeRelationshipType(Entity leftOrOpen,
-			Entity rightOrOpen) {
+	public EList<RelationshipType> applicableRelationshipTypes(Entity left,
+			Entity right) {
 
 		// Decide on the four cases of input
-		if (leftOrOpen == null) {
-			if (rightOrOpen == null)
+		if (left == null) {
+			if (right == null)
 				return getVisibleDeclarations().stream()
 				// Filter only to relationship types
 						.filter(k -> k instanceof RelationshipType)
@@ -124,12 +120,12 @@ public class MegamodelEval extends MegamodelImpl {
 						.filter(k -> k.getRight() != null
 								&& k.getRight().getDefinition() != null
 								&& k.getRight().isAssignableFrom(
-										rightOrOpen.getType()))
+										right.getType()))
 						// Collect to EList
 						.collect(EcoreCollector.toEList());
 
 		} else {
-			if (rightOrOpen == null)
+			if (right == null)
 				return getVisibleDeclarations().stream()
 						// Filter relationship types
 						.filter(k -> k instanceof RelationshipType)
@@ -138,8 +134,7 @@ public class MegamodelEval extends MegamodelImpl {
 						// Filter left assignable
 						.filter(k -> k.getLeft() != null
 								&& k.getLeft().getDefinition() != null
-								&& k.getLeft().isAssignableFrom(
-										leftOrOpen.getType()))
+								&& k.getLeft().isAssignableFrom(left.getType()))
 						// Collect to EList
 						.collect(EcoreCollector.toEList());
 			else
@@ -152,12 +147,11 @@ public class MegamodelEval extends MegamodelImpl {
 						.filter(k -> k.getRight() != null
 								&& k.getRight().getDefinition() != null
 								&& k.getRight().isAssignableFrom(
-										rightOrOpen.getType()))
+										right.getType()))
 						// Filter left assignable
 						.filter(k -> k.getLeft() != null
 								&& k.getLeft().getDefinition() != null
-								&& k.getLeft().isAssignableFrom(
-										leftOrOpen.getType()))
+								&& k.getLeft().isAssignableFrom(left.getType()))
 						// Collect to EList
 						.collect(EcoreCollector.toEList());
 		}

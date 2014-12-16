@@ -12,12 +12,12 @@
         <eTypeArguments eClassifier="#//Link"/>
       </eGenericType>
     </eOperations>
-    <eOperations name="scopeEntityType" upperBound="-1" eType="#//EntityType">
-      <eParameters name="entityOrOpen" eType="#//Entity"/>
+    <eOperations name="alternativeEntityTypes" upperBound="-1" eType="#//EntityType">
+      <eParameters name="entity" eType="#//Entity"/>
     </eOperations>
-    <eOperations name="scopeRelationshipType" upperBound="-1" eType="#//RelationshipType">
-      <eParameters name="leftOrOpen" eType="#//Entity"/>
-      <eParameters name="rightOrOpen" eType="#//Entity"/>
+    <eOperations name="applicableRelationshipTypes" upperBound="-1" eType="#//RelationshipType">
+      <eParameters name="left" eType="#//Entity"/>
+      <eParameters name="right" eType="#//Entity"/>
     </eOperations>
     <eOperations name="fetchInfos" upperBound="-1" eType="#//Annotation">
       <eParameters name="element" eType="#//Element"/>
@@ -46,7 +46,7 @@
         containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="RelationshipType" eSuperTypes="#//NamedDeclaration">
-    <eOperations name="getVariants">
+    <eOperations name="getInstances">
       <eGenericType eClassifier="#//ESet">
         <eTypeArguments eClassifier="#//RelationshipType"/>
       </eGenericType>
@@ -91,6 +91,10 @@
   <eClassifiers xsi:type="ecore:EClass" name="EntityTypeReference">
     <eOperations name="isAssignableFrom" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
       <eParameters name="type" eType="#//EntityTypeReference"/>
+    </eOperations>
+    <eOperations name="isAssignableFrom" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
+      <eParameters name="type" eType="#//EntityType"/>
+      <eParameters name="isMany" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     </eOperations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="many" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="definition" eType="#//EntityType"/>

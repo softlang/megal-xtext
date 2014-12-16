@@ -198,6 +198,18 @@ public class EntityTypeReferenceImpl extends MinimalEObjectImpl.Container implem
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public boolean isAssignableFrom(EntityType type, boolean isMany)
+	{
+		// TODO: implement this method
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType)
 	{
@@ -294,6 +306,8 @@ public class EntityTypeReferenceImpl extends MinimalEObjectImpl.Container implem
 		{
 			case MegalPackage.ENTITY_TYPE_REFERENCE___IS_ASSIGNABLE_FROM__ENTITYTYPEREFERENCE:
 				return isAssignableFrom((EntityTypeReference)arguments.get(0));
+			case MegalPackage.ENTITY_TYPE_REFERENCE___IS_ASSIGNABLE_FROM__ENTITYTYPE_BOOLEAN:
+				return isAssignableFrom((EntityType)arguments.get(0), (Boolean)arguments.get(1));
 		}
 		return super.eInvoke(operationID, arguments);
 	}

@@ -19,7 +19,7 @@ public class RelationshipTypeEval extends RelationshipTypeImpl {
 	}
 
 	@Override
-	public Set<RelationshipType> getVariants() {
+	public Set<RelationshipType> getInstances() {
 		// Get all visible declarations and filter all relationship types that
 		// have the same names
 		return getMegamodel()

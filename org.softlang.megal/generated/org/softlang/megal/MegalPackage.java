@@ -133,22 +133,22 @@ public interface MegalPackage extends EPackage
 	int MEGAMODEL___GET_VISIBLE_BINDINGS = 1;
 
 	/**
-	 * The operation id for the '<em>Scope Entity Type</em>' operation.
+	 * The operation id for the '<em>Alternative Entity Types</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MEGAMODEL___SCOPE_ENTITY_TYPE__ENTITY = 2;
+	int MEGAMODEL___ALTERNATIVE_ENTITY_TYPES__ENTITY = 2;
 
 	/**
-	 * The operation id for the '<em>Scope Relationship Type</em>' operation.
+	 * The operation id for the '<em>Applicable Relationship Types</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MEGAMODEL___SCOPE_RELATIONSHIP_TYPE__ENTITY_ENTITY = 3;
+	int MEGAMODEL___APPLICABLE_RELATIONSHIP_TYPES__ENTITY_ENTITY = 3;
 
 	/**
 	 * The operation id for the '<em>Fetch Infos</em>' operation.
@@ -516,13 +516,13 @@ public interface MegalPackage extends EPackage
 	int RELATIONSHIP_TYPE___GET_SHOW_NAME = NAMED_DECLARATION___GET_SHOW_NAME;
 
 	/**
-	 * The operation id for the '<em>Get Variants</em>' operation.
+	 * The operation id for the '<em>Get Instances</em>' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RELATIONSHIP_TYPE___GET_VARIANTS = NAMED_DECLARATION_OPERATION_COUNT + 0;
+	int RELATIONSHIP_TYPE___GET_INSTANCES = NAMED_DECLARATION_OPERATION_COUNT + 0;
 
 	/**
 	 * The number of operations of the '<em>Relationship Type</em>' class.
@@ -871,13 +871,22 @@ public interface MegalPackage extends EPackage
 	int ENTITY_TYPE_REFERENCE___IS_ASSIGNABLE_FROM__ENTITYTYPEREFERENCE = 0;
 
 	/**
+	 * The operation id for the '<em>Is Assignable From</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ENTITY_TYPE_REFERENCE___IS_ASSIGNABLE_FROM__ENTITYTYPE_BOOLEAN = 1;
+
+	/**
 	 * The number of operations of the '<em>Entity Type Reference</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ENTITY_TYPE_REFERENCE_OPERATION_COUNT = 1;
+	int ENTITY_TYPE_REFERENCE_OPERATION_COUNT = 2;
 
 	/**
 	 * The meta object id for the '{@link org.softlang.megal.impl.AnnotationImpl <em>Annotation</em>}' class.
@@ -1103,24 +1112,24 @@ public interface MegalPackage extends EPackage
 	EOperation getMegamodel__GetVisibleBindings();
 
 	/**
-	 * Returns the meta object for the '{@link org.softlang.megal.Megamodel#scopeEntityType(org.softlang.megal.Entity) <em>Scope Entity Type</em>}' operation.
+	 * Returns the meta object for the '{@link org.softlang.megal.Megamodel#alternativeEntityTypes(org.softlang.megal.Entity) <em>Alternative Entity Types</em>}' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the '<em>Scope Entity Type</em>' operation.
-	 * @see org.softlang.megal.Megamodel#scopeEntityType(org.softlang.megal.Entity)
+	 * @return the meta object for the '<em>Alternative Entity Types</em>' operation.
+	 * @see org.softlang.megal.Megamodel#alternativeEntityTypes(org.softlang.megal.Entity)
 	 * @generated
 	 */
-	EOperation getMegamodel__ScopeEntityType__Entity();
+	EOperation getMegamodel__AlternativeEntityTypes__Entity();
 
 	/**
-	 * Returns the meta object for the '{@link org.softlang.megal.Megamodel#scopeRelationshipType(org.softlang.megal.Entity, org.softlang.megal.Entity) <em>Scope Relationship Type</em>}' operation.
+	 * Returns the meta object for the '{@link org.softlang.megal.Megamodel#applicableRelationshipTypes(org.softlang.megal.Entity, org.softlang.megal.Entity) <em>Applicable Relationship Types</em>}' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the '<em>Scope Relationship Type</em>' operation.
-	 * @see org.softlang.megal.Megamodel#scopeRelationshipType(org.softlang.megal.Entity, org.softlang.megal.Entity)
+	 * @return the meta object for the '<em>Applicable Relationship Types</em>' operation.
+	 * @see org.softlang.megal.Megamodel#applicableRelationshipTypes(org.softlang.megal.Entity, org.softlang.megal.Entity)
 	 * @generated
 	 */
-	EOperation getMegamodel__ScopeRelationshipType__Entity_Entity();
+	EOperation getMegamodel__ApplicableRelationshipTypes__Entity_Entity();
 
 	/**
 	 * Returns the meta object for the '{@link org.softlang.megal.Megamodel#fetchInfos(org.softlang.megal.Element) <em>Fetch Infos</em>}' operation.
@@ -1268,14 +1277,14 @@ public interface MegalPackage extends EPackage
 	EReference getRelationshipType_Right();
 
 	/**
-	 * Returns the meta object for the '{@link org.softlang.megal.RelationshipType#getVariants() <em>Get Variants</em>}' operation.
+	 * Returns the meta object for the '{@link org.softlang.megal.RelationshipType#getInstances() <em>Get Instances</em>}' operation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the '<em>Get Variants</em>' operation.
-	 * @see org.softlang.megal.RelationshipType#getVariants()
+	 * @return the meta object for the '<em>Get Instances</em>' operation.
+	 * @see org.softlang.megal.RelationshipType#getInstances()
 	 * @generated
 	 */
-	EOperation getRelationshipType__GetVariants();
+	EOperation getRelationshipType__GetInstances();
 
 	/**
 	 * Returns the meta object for class '{@link org.softlang.megal.Entity <em>Entity</em>}'.
@@ -1479,6 +1488,16 @@ public interface MegalPackage extends EPackage
 	EOperation getEntityTypeReference__IsAssignableFrom__EntityTypeReference();
 
 	/**
+	 * Returns the meta object for the '{@link org.softlang.megal.EntityTypeReference#isAssignableFrom(org.softlang.megal.EntityType, boolean) <em>Is Assignable From</em>}' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the '<em>Is Assignable From</em>' operation.
+	 * @see org.softlang.megal.EntityTypeReference#isAssignableFrom(org.softlang.megal.EntityType, boolean)
+	 * @generated
+	 */
+	EOperation getEntityTypeReference__IsAssignableFrom__EntityType_boolean();
+
+	/**
 	 * Returns the meta object for class '{@link org.softlang.megal.Annotation <em>Annotation</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1658,20 +1677,20 @@ public interface MegalPackage extends EPackage
 		EOperation MEGAMODEL___GET_VISIBLE_BINDINGS = eINSTANCE.getMegamodel__GetVisibleBindings();
 
 		/**
-		 * The meta object literal for the '<em><b>Scope Entity Type</b></em>' operation.
+		 * The meta object literal for the '<em><b>Alternative Entity Types</b></em>' operation.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EOperation MEGAMODEL___SCOPE_ENTITY_TYPE__ENTITY = eINSTANCE.getMegamodel__ScopeEntityType__Entity();
+		EOperation MEGAMODEL___ALTERNATIVE_ENTITY_TYPES__ENTITY = eINSTANCE.getMegamodel__AlternativeEntityTypes__Entity();
 
 		/**
-		 * The meta object literal for the '<em><b>Scope Relationship Type</b></em>' operation.
+		 * The meta object literal for the '<em><b>Applicable Relationship Types</b></em>' operation.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EOperation MEGAMODEL___SCOPE_RELATIONSHIP_TYPE__ENTITY_ENTITY = eINSTANCE.getMegamodel__ScopeRelationshipType__Entity_Entity();
+		EOperation MEGAMODEL___APPLICABLE_RELATIONSHIP_TYPES__ENTITY_ENTITY = eINSTANCE.getMegamodel__ApplicableRelationshipTypes__Entity_Entity();
 
 		/**
 		 * The meta object literal for the '<em><b>Fetch Infos</b></em>' operation.
@@ -1796,12 +1815,12 @@ public interface MegalPackage extends EPackage
 		EReference RELATIONSHIP_TYPE__RIGHT = eINSTANCE.getRelationshipType_Right();
 
 		/**
-		 * The meta object literal for the '<em><b>Get Variants</b></em>' operation.
+		 * The meta object literal for the '<em><b>Get Instances</b></em>' operation.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EOperation RELATIONSHIP_TYPE___GET_VARIANTS = eINSTANCE.getRelationshipType__GetVariants();
+		EOperation RELATIONSHIP_TYPE___GET_INSTANCES = eINSTANCE.getRelationshipType__GetInstances();
 
 		/**
 		 * The meta object literal for the '{@link org.softlang.megal.impl.EntityImpl <em>Entity</em>}' class.
@@ -1962,6 +1981,14 @@ public interface MegalPackage extends EPackage
 		 * @generated
 		 */
 		EOperation ENTITY_TYPE_REFERENCE___IS_ASSIGNABLE_FROM__ENTITYTYPEREFERENCE = eINSTANCE.getEntityTypeReference__IsAssignableFrom__EntityTypeReference();
+
+		/**
+		 * The meta object literal for the '<em><b>Is Assignable From</b></em>' operation.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EOperation ENTITY_TYPE_REFERENCE___IS_ASSIGNABLE_FROM__ENTITYTYPE_BOOLEAN = eINSTANCE.getEntityTypeReference__IsAssignableFrom__EntityType_boolean();
 
 		/**
 		 * The meta object literal for the '{@link org.softlang.megal.impl.AnnotationImpl <em>Annotation</em>}' class.

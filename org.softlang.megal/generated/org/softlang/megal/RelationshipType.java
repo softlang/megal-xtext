@@ -81,6 +81,6 @@ public interface RelationshipType extends NamedDeclaration
 	 * @model kind="operation" dataType="org.softlang.megal.ESet<org.softlang.megal.RelationshipType>"
 	 * @generated
 	 */
-	Set<RelationshipType> getVariants();
+	Set<RelationshipType> getInstances();
 
 } // RelationshipType
