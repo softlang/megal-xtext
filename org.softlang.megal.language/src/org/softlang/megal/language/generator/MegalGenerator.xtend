@@ -28,19 +28,19 @@ import org.softlang.megal.processing.LanguageResolving
 class MegalGenerator implements IGenerator {
 	override void doGenerate(Resource resource, IFileSystemAccess fsa) {
 
-		val funAppDesugaring = new FunAppDesugaring
-		val languageResolving = new LanguageResolving
-
-		for (m : resource.contents.filter(Megamodel)) {
-			m.name = m.name + ".Processed"
-			funAppDesugaring.apply(m)
-			languageResolving.apply(m)
-		}
-		EcoreUtil.resolveAll(resource)
-
-		val baos = new ByteArrayOutputStream
-		resource.save(baos, emptyMap)
-		val result = new String(baos.toByteArray)
-		fsa.generateFile('''«resource.URI.trimFileExtension.lastSegment».Processed.megal''', result)
+//		val funAppDesugaring = new FunAppDesugaring
+//		val languageResolving = new LanguageResolving
+//
+//		for (m : resource.contents.filter(Megamodel)) {
+//			m.name = m.name + ".Processed"
+//			funAppDesugaring.apply(m)
+//			languageResolving.apply(m)
+//		}
+//		EcoreUtil.resolveAll(resource)
+//
+//		val baos = new ByteArrayOutputStream
+//		resource.save(baos, emptyMap)
+//		val result = new String(baos.toByteArray)
+//		fsa.generateFile('''«resource.URI.trimFileExtension.lastSegment».Processed.megal''', result)
 	}
 }

@@ -42,18 +42,17 @@ public class LanguageResolving extends RefactoringAPI {
 				.filter(k -> k.getType().isAssignableFrom(resolver, false))
 				.transformAndConcat(k -> k.getLinks()).toList();
 
-		SourceSupport ss = getSupport().analyze("superball");
-
-		for (String c : ss.getClasses())
-			System.out.println(c);
-
-		for (Link l : resovlerLinks) {
-
-			Class<?> c = ss.loadClass(Object.class, "superball.sasa.Koralle");
-			System.out.println("From: " + l.getLink().getName());
-
-			System.out.println();
-		}
+//		SourceSupport ss = getSupport().analyze("superball");
+//
+//		for (String c : ss.getClasses())
+//			System.out.println(c);
+//
+//		for (Link l : resovlerLinks) {
+//			Class<?> c = ss.loadClass(Object.class, "superball.sasa.Koralle");
+//			System.out.println("From: " + l.getLink().getName());
+//
+//			System.out.println();
+//		}
 	}
 
 	@Override
