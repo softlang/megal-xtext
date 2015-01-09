@@ -44,11 +44,6 @@ public class MegalServices {
 		}
 	}
 
-	public Set<RelationshipType> getApplicableTypes(Relationship relationship) {
-		// TODO: Call function on model class.
-		return null;// relationship.
-	}
-
 	public String getLable(Entity entity) {
 
 		String name = entity.getName();
@@ -91,7 +86,7 @@ public class MegalServices {
 		return megamodel.getDeclarations().stream().filter(x -> (x instanceof EntityType))
 				.map(x -> (EntityType) x).collect(Collectors.toList());
 	}
-
+	
 	public EntityType resolveEntityType(Megamodel megamodel, String name) {
 		return megamodel.getVisibleDeclarations().stream().filter(x -> x instanceof EntityType)
 				.map(x -> (EntityType) x).filter(x -> name.equals(x.getName())).findFirst()

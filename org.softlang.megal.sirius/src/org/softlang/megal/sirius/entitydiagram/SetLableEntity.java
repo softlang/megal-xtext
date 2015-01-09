@@ -42,10 +42,10 @@ public class SetLableEntity implements IExternalJavaAction {
 		if (fragments.length > 1) {
 			EntityType resolved = MegalServices.INSTANCE.resolveEntityType(
 					(Megamodel) entity.eContainer(), fragments[1]);
-			
+
 			Megamodel megamodel = MegalServices.INSTANCE.getMegamodel(entity);
-			
-			if (resolved != null)
+
+			if (resolved != null && megamodel.alternativeEntityTypes(entity).contains(resolved))
 				entity.getType().setDefinition(resolved);
 		}
 	}

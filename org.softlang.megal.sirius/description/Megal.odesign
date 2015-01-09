@@ -71,6 +71,23 @@
               <firstModelOperations xsi:type="tool_1:RemoveElement"/>
             </initialOperation>
           </ownedTools>
+          <ownedTools xsi:type="tool_1:SelectionWizardDescription" name="org.softlang.megal.sirius.entitydiagram.tools.changetype" label="Change type" precondition="[thisEObject.oclIsTypeOf(Relationship)._or(thisEObject.oclIsTypeOf(Entity))/]" candidatesExpression="[if thisEObject.oclIsTypeOf(Relationship) then thisEObject.eContainer().oclAsType(Megamodel).applicableRelationshipTypes(thisEObject.oclAsType(Relationship).left,thisEObject.oclAsType(Relationship).right) else thisEObject.eContainer().oclAsType(Megamodel).alternativeEntityTypes(thisEObject.oclAsType(Entity)) endif/]" message="Select a new type for the Entity or the Relationship." iconPath="/org.softlang.megal.sirius/icons/change.gif" windowTitle="Selection Wizard for new type.">
+            <element name="element"/>
+            <containerView name="containerView"/>
+            <container name="container"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="[thisEObject/]">
+                <subModelOperations xsi:type="tool_1:If" conditionExpression="[thisEObject.oclIsTypeOf(Relationship)/]">
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="type" valueExpression="var:element"/>
+                </subModelOperations>
+                <subModelOperations xsi:type="tool_1:If" conditionExpression="[thisEObject.oclIsTypeOf(Entity)/]">
+                  <subModelOperations xsi:type="tool_1:ChangeContext" browseExpression="[type/]">
+                    <subModelOperations xsi:type="tool_1:SetValue" featureName="definition" valueExpression="var:element"/>
+                  </subModelOperations>
+                </subModelOperations>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
         </toolSections>
       </defaultLayer>
     </ownedRepresentations>
@@ -90,8 +107,8 @@
           </style>
         </nodeMappings>
         <edgeMappings name="org.softlang.megal.sirius.entitydiagram.supertype" sourceMapping="//@ownedViewpoints[name='org.softlang.megal.sirius']/@ownedRepresentations[name='org.softlang.megal.sirius.entitytypediagram']/@defaultLayer/@nodeMappings[name='org.softlang.megal.sirius.entitydiagram.entitytype']" targetMapping="//@ownedViewpoints[name='org.softlang.megal.sirius']/@ownedRepresentations[name='org.softlang.megal.sirius.entitytypediagram']/@defaultLayer/@nodeMappings[name='org.softlang.megal.sirius.entitydiagram.entitytype'] //@ownedViewpoints[name='org.softlang.megal.sirius']/@ownedRepresentations[name='org.softlang.megal.sirius.entitytypediagram']/@defaultLayer/@nodeMappings[name='org.softlang.megal.sirius.entitydiagram.entitytype.import']" targetFinderExpression="[thisEObject.supertype.definition/]">
-          <style targetArrow="InputClosedArrow" sizeComputationExpression="2">
-            <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
+          <style targetArrow="InputClosedArrow" sizeComputationExpression="2" routingStyle="tree">
+            <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             <centerLabelStyleDescription showIcon="false">
               <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             </centerLabelStyleDescription>
