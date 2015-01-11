@@ -18,7 +18,7 @@ ShowNameAnnotation returns Annotation:
 
 Link:
 	info+=PrefixAnnotation*
-	link=[Entity|QID] '=' to=URI;
+	link=[Entity|QID] '=' to=STRING;
 
 EntityType:
 	info+=PrefixAnnotation*
@@ -57,7 +57,7 @@ EntityTypeReference:
 	(many?='+')?;
 
 QID:
-	NAME (QNS NAME)*;
+	NAME ('::' NAME)*;
 
 NAME:
 	ID ('.' ID)*;
@@ -98,12 +98,3 @@ terminal WS:
 terminal fragment SEGMENT:
 	('A'..'Z' | 'a'..'z' | '0'..'9' | '-' | '.' | '_' | '~' | ':' | '?' | '#' | '[' | ']' | '@' | '!' | '$' | '&' | "'" |
 	'(' | ')' | '*' | '+' | ',' | ';' | '=')+;
-
-terminal QNS:
-	'::';
-
-	/**
-	 * An URI
-	 */
-terminal URI returns URI:
-	('a'..'z')+ ':/' '/'? SEGMENT ('/' SEGMENT)* '/'?;
