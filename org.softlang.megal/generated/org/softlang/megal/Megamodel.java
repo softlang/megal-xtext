@@ -6,8 +6,6 @@ import java.util.Set;
 
 import org.eclipse.emf.common.util.EList;
 
-import org.eclipse.emf.ecore.EObject;
-
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Megamodel</b></em>'.
@@ -27,7 +25,7 @@ import org.eclipse.emf.ecore.EObject;
  * @model
  * @generated
  */
-public interface Megamodel extends EObject
+public interface Megamodel extends Element
 {
 	/**
 	 * Returns the value of the '<em><b>Declarations</b></em>' containment reference list.

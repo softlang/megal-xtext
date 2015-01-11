@@ -24,9 +24,9 @@ public class MegalFormatter extends AbstractDeclarativeFormatter {
 		c.autoLinewrap = 120
 
 		// Megamodel
-		c.setLinewrap(0, 1, 2).before(megamodelAccess.importKeyword_2_0_0)
-		c.setLinewrap(0, 1, 2).after(megamodelAccess.nameAssignment_1)
-		c.setLinewrap(0, 1, 2).after(megamodelAccess.importsAssignment_2_0_1)
+		c.setLinewrap(0, 1, 2).before(megamodelAccess.importKeyword_3_0_0)
+		c.setLinewrap(0, 1, 2).after(megamodelAccess.nameAssignment_2)
+		c.setLinewrap(0, 1, 2).after(megamodelAccess.importsAssignment_3_0_1)
 
 		// Prefix Annotation
 		c.setLinewrap(0, 1, 2).around(prefixAnnotationRule)

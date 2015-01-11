@@ -19,6 +19,7 @@ import org.eclipse.xtext.resource.XtextResourceFactory
 import com.google.inject.Inject
 import org.softlang.megal.processing.FunAppDesugaring
 import org.softlang.megal.processing.LanguageResolving
+import org.softlang.megal.MegalFactory
 
 /**
  * Generates code from your model files on save.
@@ -26,21 +27,27 @@ import org.softlang.megal.processing.LanguageResolving
  * see http://www.eclipse.org/Xtext/documentation.html#TutorialCodeGeneration
  */
 class MegalGenerator implements IGenerator {
-	override void doGenerate(Resource resource, IFileSystemAccess fsa) {
+	extension val MegalFactory f = MegalFactory.eINSTANCE
 
-//		val funAppDesugaring = new FunAppDesugaring
-//		val languageResolving = new LanguageResolving
-//
-//		for (m : resource.contents.filter(Megamodel)) {
-//			m.name = m.name + ".Processed"
-//			funAppDesugaring.apply(m)
-//			languageResolving.apply(m)
-//		}
-//		EcoreUtil.resolveAll(resource)
-//
-//		val baos = new ByteArrayOutputStream
-//		resource.save(baos, emptyMap)
-//		val result = new String(baos.toByteArray)
-//		fsa.generateFile('''«resource.URI.trimFileExtension.lastSegment».Processed.megal''', result)
+	override void doGenerate(Resource resource, IFileSystemAccess fsa) {
+		if (resource.contents.filter(Megamodel).exists[info.exists[key == "Generated"]])
+			return
+
+		val funAppDesugaring = new FunAppDesugaring
+		val languageResolving = new LanguageResolving
+
+		for (m : resource.contents.filter(Megamodel)) {
+			if (!m.info.exists[key == "Generated"])
+				m.info += createAnnotation => [key = "Generated"]
+				
+			m.name = m.name + ".Processed"
+			funAppDesugaring.apply(m)
+			languageResolving.apply(m)
+		}
+
+		val baos = new ByteArrayOutputStream
+		resource.save(baos, emptyMap)
+		val result = new String(baos.toByteArray)
+		fsa.generateFile('''«resource.URI.trimFileExtension.lastSegment».Processed.megal''', result)
 	}
 }

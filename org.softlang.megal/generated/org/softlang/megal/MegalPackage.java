@@ -60,115 +60,6 @@ public interface MegalPackage extends EPackage
 	MegalPackage eINSTANCE = org.softlang.megal.impl.MegalPackageImpl.init();
 
 	/**
-	 * The meta object id for the '{@link org.softlang.megal.impl.MegamodelImpl <em>Megamodel</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.softlang.megal.impl.MegamodelImpl
-	 * @see org.softlang.megal.impl.MegalPackageImpl#getMegamodel()
-	 * @generated
-	 */
-	int MEGAMODEL = 0;
-
-	/**
-	 * The feature id for the '<em><b>Declarations</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MEGAMODEL__DECLARATIONS = 0;
-
-	/**
-	 * The feature id for the '<em><b>Bindings</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MEGAMODEL__BINDINGS = 1;
-
-	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MEGAMODEL__NAME = 2;
-
-	/**
-	 * The feature id for the '<em><b>Imports</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MEGAMODEL__IMPORTS = 3;
-
-	/**
-	 * The number of structural features of the '<em>Megamodel</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MEGAMODEL_FEATURE_COUNT = 4;
-
-	/**
-	 * The operation id for the '<em>Get Visible Declarations</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MEGAMODEL___GET_VISIBLE_DECLARATIONS = 0;
-
-	/**
-	 * The operation id for the '<em>Get Visible Bindings</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MEGAMODEL___GET_VISIBLE_BINDINGS = 1;
-
-	/**
-	 * The operation id for the '<em>Alternative Entity Types</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MEGAMODEL___ALTERNATIVE_ENTITY_TYPES__ENTITY = 2;
-
-	/**
-	 * The operation id for the '<em>Applicable Relationship Types</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MEGAMODEL___APPLICABLE_RELATIONSHIP_TYPES__ENTITY_ENTITY = 3;
-
-	/**
-	 * The operation id for the '<em>Fetch Infos</em>' operation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MEGAMODEL___FETCH_INFOS__ELEMENT = 4;
-
-	/**
-	 * The number of operations of the '<em>Megamodel</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MEGAMODEL_OPERATION_COUNT = 5;
-
-	/**
 	 * The meta object id for the '{@link org.softlang.megal.Element <em>Element</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -222,6 +113,142 @@ public interface MegalPackage extends EPackage
 	 * @ordered
 	 */
 	int ELEMENT_OPERATION_COUNT = 2;
+
+	/**
+	 * The meta object id for the '{@link org.softlang.megal.impl.MegamodelImpl <em>Megamodel</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.softlang.megal.impl.MegamodelImpl
+	 * @see org.softlang.megal.impl.MegalPackageImpl#getMegamodel()
+	 * @generated
+	 */
+	int MEGAMODEL = 0;
+
+	/**
+	 * The feature id for the '<em><b>Info</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MEGAMODEL__INFO = ELEMENT__INFO;
+
+	/**
+	 * The feature id for the '<em><b>Declarations</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MEGAMODEL__DECLARATIONS = ELEMENT_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Bindings</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MEGAMODEL__BINDINGS = ELEMENT_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MEGAMODEL__NAME = ELEMENT_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Imports</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MEGAMODEL__IMPORTS = ELEMENT_FEATURE_COUNT + 3;
+
+	/**
+	 * The number of structural features of the '<em>Megamodel</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MEGAMODEL_FEATURE_COUNT = ELEMENT_FEATURE_COUNT + 4;
+
+	/**
+	 * The operation id for the '<em>Get Megamodel</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MEGAMODEL___GET_MEGAMODEL = ELEMENT___GET_MEGAMODEL;
+
+	/**
+	 * The operation id for the '<em>Is Assigned</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MEGAMODEL___IS_ASSIGNED = ELEMENT___IS_ASSIGNED;
+
+	/**
+	 * The operation id for the '<em>Get Visible Declarations</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MEGAMODEL___GET_VISIBLE_DECLARATIONS = ELEMENT_OPERATION_COUNT + 0;
+
+	/**
+	 * The operation id for the '<em>Get Visible Bindings</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MEGAMODEL___GET_VISIBLE_BINDINGS = ELEMENT_OPERATION_COUNT + 1;
+
+	/**
+	 * The operation id for the '<em>Alternative Entity Types</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MEGAMODEL___ALTERNATIVE_ENTITY_TYPES__ENTITY = ELEMENT_OPERATION_COUNT + 2;
+
+	/**
+	 * The operation id for the '<em>Applicable Relationship Types</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MEGAMODEL___APPLICABLE_RELATIONSHIP_TYPES__ENTITY_ENTITY = ELEMENT_OPERATION_COUNT + 3;
+
+	/**
+	 * The operation id for the '<em>Fetch Infos</em>' operation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MEGAMODEL___FETCH_INFOS__ELEMENT = ELEMENT_OPERATION_COUNT + 4;
+
+	/**
+	 * The number of operations of the '<em>Megamodel</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MEGAMODEL_OPERATION_COUNT = ELEMENT_OPERATION_COUNT + 5;
 
 	/**
 	 * The meta object id for the '{@link org.softlang.megal.impl.DeclarationImpl <em>Declaration</em>}' class.

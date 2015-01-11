@@ -856,6 +856,7 @@ public class MegalPackageImpl extends EPackageImpl implements MegalPackage
 		// Set bounds for type parameters
 
 		// Add supertypes to classes
+		megamodelEClass.getESuperTypes().add(this.getElement());
 		declarationEClass.getESuperTypes().add(this.getElement());
 		namedDeclarationEClass.getESuperTypes().add(this.getDeclaration());
 		entityTypeEClass.getESuperTypes().add(this.getNamedDeclaration());

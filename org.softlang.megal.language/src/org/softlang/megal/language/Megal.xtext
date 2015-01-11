@@ -4,7 +4,7 @@ import "http://softlang.wikidot.com/megal"
 import "http://www.eclipse.org/emf/2002/Ecore" as ecore
 
 Megamodel:
-	'model' name=QID
+	info+=PrefixAnnotation* 'model' name=QID
 	('import' imports+=[Megamodel|QID] | declarations+=Declaration | bindings+=Link)*;
 
 Declaration:
@@ -57,7 +57,7 @@ EntityTypeReference:
 	(many?='+')?;
 
 QID:
-	NAME ('::' NAME)*;
+	NAME (QNS NAME)*;
 
 NAME:
 	ID ('.' ID)*;
@@ -98,6 +98,9 @@ terminal WS:
 terminal fragment SEGMENT:
 	('A'..'Z' | 'a'..'z' | '0'..'9' | '-' | '.' | '_' | '~' | ':' | '?' | '#' | '[' | ']' | '@' | '!' | '$' | '&' | "'" |
 	'(' | ')' | '*' | '+' | ',' | ';' | '=')+;
+
+terminal QNS:
+	'::';
 
 	/**
 	 * An URI

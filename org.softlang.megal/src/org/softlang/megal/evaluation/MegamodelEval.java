@@ -27,6 +27,16 @@ import com.google.common.collect.Lists;
 
 public class MegamodelEval extends MegamodelImpl {
 	@Override
+	public Megamodel getMegamodel() {
+		return this;
+	}
+
+	@Override
+	public boolean isAssigned() {
+		return getName() != null;
+	}
+
+	@Override
 	public Set<Link> getVisibleBindings() {
 		// Extend by imports and then collect all bindings
 		return Graph.<Megamodel> extendBy(this, m -> m.getImports()).stream()

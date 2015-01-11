@@ -39,6 +39,7 @@ import org.softlang.megal.RelationshipType;
  * <p>
  * The following features are implemented:
  * <ul>
+ *   <li>{@link org.softlang.megal.impl.MegamodelImpl#getInfo <em>Info</em>}</li>
  *   <li>{@link org.softlang.megal.impl.MegamodelImpl#getDeclarations <em>Declarations</em>}</li>
  *   <li>{@link org.softlang.megal.impl.MegamodelImpl#getBindings <em>Bindings</em>}</li>
  *   <li>{@link org.softlang.megal.impl.MegamodelImpl#getName <em>Name</em>}</li>
@@ -50,6 +51,16 @@ import org.softlang.megal.RelationshipType;
  */
 public class MegamodelImpl extends MinimalEObjectImpl.Container implements Megamodel
 {
+	/**
+	 * The cached value of the '{@link #getInfo() <em>Info</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getInfo()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<Annotation> info;
+
 	/**
 	 * The cached value of the '{@link #getDeclarations() <em>Declarations</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
@@ -119,6 +130,20 @@ public class MegamodelImpl extends MinimalEObjectImpl.Container implements Megam
 	protected EClass eStaticClass()
 	{
 		return MegalPackage.Literals.MEGAMODEL;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<Annotation> getInfo()
+	{
+		if (info == null)
+		{
+			info = new EObjectContainmentEList<Annotation>(Annotation.class, this, MegalPackage.MEGAMODEL__INFO);
+		}
+		return info;
 	}
 
 	/**
@@ -251,11 +276,37 @@ public class MegamodelImpl extends MinimalEObjectImpl.Container implements Megam
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public Megamodel getMegamodel()
+	{
+		// TODO: implement this method
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isAssigned()
+	{
+		// TODO: implement this method
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
 	{
 		switch (featureID)
 		{
+			case MegalPackage.MEGAMODEL__INFO:
+				return ((InternalEList<?>)getInfo()).basicRemove(otherEnd, msgs);
 			case MegalPackage.MEGAMODEL__DECLARATIONS:
 				return ((InternalEList<?>)getDeclarations()).basicRemove(otherEnd, msgs);
 			case MegalPackage.MEGAMODEL__BINDINGS:
@@ -274,6 +325,8 @@ public class MegamodelImpl extends MinimalEObjectImpl.Container implements Megam
 	{
 		switch (featureID)
 		{
+			case MegalPackage.MEGAMODEL__INFO:
+				return getInfo();
 			case MegalPackage.MEGAMODEL__DECLARATIONS:
 				return getDeclarations();
 			case MegalPackage.MEGAMODEL__BINDINGS:
@@ -297,6 +350,10 @@ public class MegamodelImpl extends MinimalEObjectImpl.Container implements Megam
 	{
 		switch (featureID)
 		{
+			case MegalPackage.MEGAMODEL__INFO:
+				getInfo().clear();
+				getInfo().addAll((Collection<? extends Annotation>)newValue);
+				return;
 			case MegalPackage.MEGAMODEL__DECLARATIONS:
 				getDeclarations().clear();
 				getDeclarations().addAll((Collection<? extends Declaration>)newValue);
@@ -326,6 +383,9 @@ public class MegamodelImpl extends MinimalEObjectImpl.Container implements Megam
 	{
 		switch (featureID)
 		{
+			case MegalPackage.MEGAMODEL__INFO:
+				getInfo().clear();
+				return;
 			case MegalPackage.MEGAMODEL__DECLARATIONS:
 				getDeclarations().clear();
 				return;
@@ -352,6 +412,8 @@ public class MegamodelImpl extends MinimalEObjectImpl.Container implements Megam
 	{
 		switch (featureID)
 		{
+			case MegalPackage.MEGAMODEL__INFO:
+				return info != null && !info.isEmpty();
 			case MegalPackage.MEGAMODEL__DECLARATIONS:
 				return declarations != null && !declarations.isEmpty();
 			case MegalPackage.MEGAMODEL__BINDINGS:
@@ -384,6 +446,10 @@ public class MegamodelImpl extends MinimalEObjectImpl.Container implements Megam
 				return applicableRelationshipTypes((Entity)arguments.get(0), (Entity)arguments.get(1));
 			case MegalPackage.MEGAMODEL___FETCH_INFOS__ELEMENT:
 				return fetchInfos((Element)arguments.get(0));
+			case MegalPackage.MEGAMODEL___GET_MEGAMODEL:
+				return getMegamodel();
+			case MegalPackage.MEGAMODEL___IS_ASSIGNED:
+				return isAssigned();
 		}
 		return super.eInvoke(operationID, arguments);
 	}

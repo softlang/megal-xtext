@@ -76,6 +76,7 @@ public class MegalSwitch<T> extends Switch<T>
 			{
 				Megamodel megamodel = (Megamodel)theEObject;
 				T result = caseMegamodel(megamodel);
+				if (result == null) result = caseElement(megamodel);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
