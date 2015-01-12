@@ -122,7 +122,7 @@
             </centerLabelStyleDescription>
           </style>
         </edgeMappings>
-        <toolSections>
+        <toolSections name="org.softlang.megal.sirius.entitytypediagram.tools" label="Megal Tools">
           <ownedTools xsi:type="tool:DirectEditLabel" name="org.softlang.megal.sirius.entitytypediagram.tools.editlable" inputLabelExpression="[thisEObject.getLable()/]">
             <mask mask="{0}"/>
             <initialOperation>
@@ -171,7 +171,7 @@
               </firstModelOperations>
             </initialOperation>
           </ownedTools>
-          <ownedTools xsi:type="tool_1:SelectionWizardDescription" name="org.softlang.megal.sirius.entitytypediagram.tools.changesupertype" label="Change Supertype" precondition="[thisEObject.oclIsTypeOf(EntityType)/]" candidatesExpression="[thisEObject.getMegamodel().getVisibleDeclarations() -> filter(EntityType)/]" message="Select a new supertype for this EntityType." iconPath="/org.softlang.megal.sirius/icons/change.gif" windowTitle="Select new supertype for EntityType">
+          <ownedTools xsi:type="tool_1:SelectionWizardDescription" name="org.softlang.megal.sirius.entitytypediagram.tools.changesupertype" label="Change supertype" precondition="[thisEObject.oclIsTypeOf(EntityType)/]" candidatesExpression="[thisEObject.getMegamodel().getVisibleDeclarations() -> filter(EntityType)/]" message="Select a new supertype for this EntityType." iconPath="/org.softlang.megal.sirius/icons/change.gif" windowTitle="Select new supertype for EntityType">
             <element name="element"/>
             <containerView name="containerView"/>
             <container name="container"/>
