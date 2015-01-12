@@ -3,10 +3,13 @@ package org.softlang.megal.evaluation;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.softlang.megal.Element;
+import org.softlang.megal.Elements;
 import org.softlang.megal.Megamodel;
 import org.softlang.megal.RelationshipType;
 import org.softlang.megal.impl.RelationshipTypeImpl;
 
+import com.google.common.base.Objects;
 import com.google.common.collect.FluentIterable;
 
 public class RelationshipTypeEval extends RelationshipTypeImpl {
@@ -45,5 +48,21 @@ public class RelationshipTypeEval extends RelationshipTypeImpl {
 	@Override
 	public String toString() {
 		return getName() + " < " + getLeft() + " * " + getRight();
+	}
+
+	@Override
+	public boolean equalBase(Element other) {
+		if (!(other instanceof RelationshipType))
+			return false;
+		RelationshipType rtother = (RelationshipType) other;
+
+		if (!Elements.equalBaseVia(getLeft(), rtother.getLeft()))
+			return false;
+		if (!Elements.equalBaseVia(getRight(), rtother.getRight()))
+			return false;
+		if (!Objects.equal(getName(), rtother.getName()))
+			return false;
+
+		return true;
 	}
 }

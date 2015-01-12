@@ -1,5 +1,6 @@
 package org.softlang.megal.evaluation;
 
+import org.softlang.megal.Elements;
 import org.softlang.megal.EntityType;
 import org.softlang.megal.EntityTypeReference;
 import org.softlang.megal.impl.EntityTypeReferenceImpl;
@@ -42,5 +43,12 @@ public class EntityTypeReferenceEval extends EntityTypeReferenceImpl {
 
 		return getDefinition() + "[" + Joiner.on(" -> ").join(getParameters())
 				+ "]" + (isMany() ? "+" : "");
+	}
+
+	@Override
+	public boolean equalBaseVia(EntityTypeReference other) {
+		return other != null && isMany() == other.isMany()
+				&& Elements.equalBase(getParameters(), other.getParameters())
+				&& getDefinition().equalBase(other.getDefinition());
 	}
 }

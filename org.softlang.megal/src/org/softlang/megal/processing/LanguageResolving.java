@@ -69,9 +69,9 @@ public class LanguageResolving extends RefactoringAPI {
 				// Create a link pointing to DBpedia
 				Link link = f.createLink();
 				link.setLink(decl);
-				link.setTo(URI.valueOf("http://dbpedia.org/page/"
+				link.setTo("http://dbpedia.org/page/"
 						+ decl.getShowName().replace(' ', '_')
-						+ "_(programming_language)"));
+						+ "_(programming_language)");
 
 				newLinks.add(link);
 			}

@@ -92,4 +92,4 @@ bin
 
 src-gen/
 xtend-gen/
-
+generated/

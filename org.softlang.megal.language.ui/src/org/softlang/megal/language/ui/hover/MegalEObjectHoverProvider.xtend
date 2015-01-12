@@ -20,6 +20,7 @@ import org.softlang.megal.MegalPlugin
 import org.eclipse.jdt.core.IMember
 import org.eclipse.jdt.ui.JavaUI
 import org.eclipse.jdt.core.IJavaElement
+import org.softlang.megal.api.URI
 
 class ListAnnotationsAction extends ExtenderAction {
 
@@ -51,7 +52,7 @@ class ScopeToAction extends ExtenderAction {
 
 	override run() {
 		val e = infoControl.input?.inputElement as Link
-		val ns = MegalPlugin.evaluator.evaluate(e.to)
+		val ns = MegalPlugin.evaluator.evaluate(URI.valueOf(e.to))
 
 		for (n : ns)
 			switch n {
@@ -185,7 +186,7 @@ class MegalEObjectHoverProvider extends ExtenderEObjectHoverProvider {
 
 	def dispatch firstLineFor(RelationshipType it) '''«left.definition.link» <i>«name»</i> «right.definition.link»'''
 
-	def dispatch firstLineFor(Link it) '''Link, «IF MegalPlugin.evaluator.evaluate(to).empty»unresolvable«ELSE»resolvable«ENDIF»'''
+	def dispatch firstLineFor(Link it) '''Link, «IF MegalPlugin.evaluator.evaluate(URI.valueOf(to)).empty»unresolvable«ELSE»resolvable«ENDIF»'''
 
 	/**
 	 * Calculates the documentation for an EObject or null if no documentation
@@ -228,5 +229,5 @@ class MegalEObjectHoverProvider extends ExtenderEObjectHoverProvider {
 		«ENDIF»
 	'''
 
-	def dispatch documentationFor(Link it) '''<ul>«FOR n : MegalPlugin.evaluator.evaluate(to)»<li>«n»</li>«ENDFOR»</ul>'''
+	def dispatch documentationFor(Link it) '''<ul>«FOR n : MegalPlugin.evaluator.evaluate(URI.valueOf(to))»<li>«n»</li>«ENDFOR»</ul>'''
 }

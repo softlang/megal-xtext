@@ -3,6 +3,8 @@ package org.softlang.megal.evaluation;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.softlang.megal.Element;
+import org.softlang.megal.Elements;
 import org.softlang.megal.Entity;
 import org.softlang.megal.Link;
 import org.softlang.megal.Megamodel;
@@ -10,6 +12,7 @@ import org.softlang.megal.Relationship;
 import org.softlang.megal.RelationshipType;
 import org.softlang.megal.impl.EntityImpl;
 
+import com.google.common.base.Objects;
 import com.google.common.collect.FluentIterable;
 
 public class EntityEval extends EntityImpl {
@@ -69,5 +72,20 @@ public class EntityEval extends EntityImpl {
 	@Override
 	public String toString() {
 		return getName() + ":" + getType();
+	}
+
+	@Override
+	public boolean equalBase(Element other) {
+		if (!(other instanceof Entity))
+			return false;
+		Entity eother = (Entity) other;
+
+		if (!Objects.equal(getName(), eother.getName()))
+			return false;
+
+		if (!Elements.equalBaseVia(getType(), eother.getType()))
+			return false;
+
+		return true;
 	}
 }

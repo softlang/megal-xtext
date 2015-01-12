@@ -16,42 +16,41 @@ import org.softlang.megal.fragmentprovider.Evaluator
  * see http://www.eclipse.org/Xtext/documentation.html#contentAssist on how to customize content assistant
  */
 class MegalProposalProvider extends AbstractMegalProposalProvider {
-	@Inject Evaluator evaluator
-
-	override complete_URI(EObject model, RuleCall ruleCall, ContentAssistContext context,
-		ICompletionProposalAcceptor acceptor) {
-
-		switch model {
-			Link:
-				try {
-					val pf = URI.valueOf(context.prefix)
-
-					// Evaluate and propose for
-					if (!proposeForAll(pf, acceptor, context) && pf.hasParent)
-						proposeForAll(pf.parent, acceptor, context)
-
-				} catch (IllegalArgumentException e) {
-				}
-		}
-	}
-
-	def proposeForAll(URI uri, ICompletionProposalAcceptor acceptor, ContentAssistContext context) {
-		val pfe = evaluator.evaluate(uri)
-		for (c : pfe)
-			proposeFor(c, uri, acceptor, context)
-		!pfe.empty
-	}
-
-	def proposeFor(Object item, URI uri, ICompletionProposalAcceptor acceptor, ContentAssistContext context) {
-		for (n : evaluator.next(item)) {
-			val c = uri.append(n);
-
-			// TODO: better terminality
-//			if (!evaluator.evaluate(c).empty)
-//				c.folder = true
-
-			acceptor.accept(createCompletionProposal(c.toString, n, null, context))
-		}
-	}
+//	@Inject Evaluator evaluator
+//
+//	override complete_STRING(EObject model, RuleCall ruleCall, ContentAssistContext context,
+//		ICompletionProposalAcceptor acceptor) {
+//
+//		switch model {
+//			Link:
+//				try {
+//					val pf = URI.valueOf(context.prefix.substring(1))
+//
+//					// Evaluate and propose for
+//					if (!proposeForAll(pf, acceptor, context) && pf.hasParent)
+//						proposeForAll(pf.parent, acceptor, context)
+//
+//				} catch (IllegalArgumentException e) {
+//				}
+//		}
+//	}
+//
+//	def proposeForAll(URI uri, ICompletionProposalAcceptor acceptor, ContentAssistContext context) {
+//		val pfe = evaluator.evaluate(uri)
+//		for (c : pfe)
+//			proposeFor(c, uri, acceptor, context)
+//		!pfe.empty
+//	}
+//
+//	def proposeFor(Object item, URI uri, ICompletionProposalAcceptor acceptor, ContentAssistContext context) {
+//		for (n : evaluator.next(item)) {
+//			val c = uri.append(n);
+//
+//			// TODO: better terminality
+//			//			if (!evaluator.evaluate(c).empty)
+//			//				c.folder = true
+//			acceptor.accept(createCompletionProposal(c.toString, n, null, context))
+//		}
+//	}
 
 }

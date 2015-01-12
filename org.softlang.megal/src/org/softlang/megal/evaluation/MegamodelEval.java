@@ -12,6 +12,7 @@ import org.softlang.megal.Annotation;
 import org.softlang.megal.Declaration;
 import org.softlang.megal.EcoreCollector;
 import org.softlang.megal.Element;
+import org.softlang.megal.Elements;
 import org.softlang.megal.Entity;
 import org.softlang.megal.EntityType;
 import org.softlang.megal.EntityTypeReference;
@@ -22,6 +23,7 @@ import org.softlang.megal.Relationship;
 import org.softlang.megal.RelationshipType;
 import org.softlang.megal.impl.MegamodelImpl;
 
+import com.google.common.base.Objects;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Lists;
 
@@ -66,14 +68,16 @@ public class MegamodelEval extends MegamodelImpl {
 
 		// Get where entity is target
 		Set<EntityType> ins = FluentIterable.from(getVisibleDeclarations())
-				.filter(Relationship.class).filter(k -> k.getRight() == entity)
+				.filter(Relationship.class)
+				.filter(k -> k.getRight().equalBase(entity))
 				.transformAndConcat(k -> k.getType().getInstances())
 				.transform(k -> k.getRight().getDefinition()).toSet();
 
 		// Get where entity is source
 
 		Set<EntityType> outs = FluentIterable.from(getVisibleDeclarations())
-				.filter(Relationship.class).filter(k -> k.getLeft() == entity)
+				.filter(Relationship.class)
+				.filter(k -> k.getLeft().equalBase(entity))
 				.transformAndConcat(k -> k.getType().getInstances())
 				.transform(k -> k.getLeft().getDefinition()).toSet();
 
@@ -176,5 +180,27 @@ public class MegamodelEval extends MegamodelImpl {
 				.filter(k -> EcoreUtil.equals(k, element))
 				.flatMap(k -> k.getInfo().stream())
 				.collect(EcoreCollector.toEList());
+	}
+
+	@Override
+	public boolean equalBase(Element other) {
+		if (!(other instanceof Megamodel))
+			return false;
+
+		Megamodel mother = (Megamodel) other;
+
+		if (!Elements.equalBase(getBindings(), mother.getBindings()))
+			return false;
+
+		if (!Elements.equalBase(getDeclarations(), mother.getDeclarations()))
+			return false;
+
+		if (!EcoreUtil.equals(getImports(), mother.getImports()))
+			return false;
+
+		if (!Objects.equal(getName(), mother.getName()))
+			return false;
+
+		return true;
 	}
 }

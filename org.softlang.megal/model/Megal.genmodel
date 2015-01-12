@@ -9,7 +9,6 @@
   <foreignModel>Megal.ecore</foreignModel>
   <genPackages prefix="Megal" basePackage="org.softlang" disposableProviderFactory="true"
       fileExtensions="megal" ecorePackage="Megal.ecore#/" publicationLocation="">
-    <genDataTypes ecoreDataType="Megal.ecore#//URI"/>
     <genDataTypes ecoreDataType="Megal.ecore#//ESet">
       <genTypeParameters ecoreTypeParameter="Megal.ecore#//ESet/T"/>
     </genDataTypes>
@@ -35,6 +34,9 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Megal.ecore#//Element/info"/>
       <genOperations ecoreOperation="Megal.ecore#//Element/getMegamodel"/>
       <genOperations ecoreOperation="Megal.ecore#//Element/isAssigned"/>
+      <genOperations ecoreOperation="Megal.ecore#//Element/equalBase">
+        <genParameters ecoreParameter="Megal.ecore#//Element/equalBase/other"/>
+      </genOperations>
     </genClasses>
     <genClasses ecoreClass="Megal.ecore#//Declaration"/>
     <genClasses image="false" ecoreClass="Megal.ecore#//NamedDeclaration">
@@ -80,6 +82,9 @@
       <genOperations ecoreOperation="Megal.ecore#//EntityTypeReference/isAssignableFrom.1">
         <genParameters ecoreParameter="Megal.ecore#//EntityTypeReference/isAssignableFrom.1/type"/>
         <genParameters ecoreParameter="Megal.ecore#//EntityTypeReference/isAssignableFrom.1/isMany"/>
+      </genOperations>
+      <genOperations ecoreOperation="Megal.ecore#//EntityTypeReference/equalBaseVia">
+        <genParameters ecoreParameter="Megal.ecore#//EntityTypeReference/equalBaseVia/other"/>
       </genOperations>
     </genClasses>
     <genClasses ecoreClass="Megal.ecore#//Annotation">
