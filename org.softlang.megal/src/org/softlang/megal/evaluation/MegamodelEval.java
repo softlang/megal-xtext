@@ -1,5 +1,6 @@
 package org.softlang.megal.evaluation;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Consumer;
@@ -81,33 +82,34 @@ public class MegamodelEval extends MegamodelImpl {
 				.transformAndConcat(k -> k.getType().getInstances())
 				.transform(k -> k.getLeft().getDefinition()).toSet();
 
-		// // Add all subtypes in the declarations
-		// Consumer<Set<EntityType>> extendToAllSubtypes = s -> {
-		// boolean rerun;
-		// do {
-		// List<EntityType> add = Lists.newArrayList();
-		// for (EntityType k : s)
-		// for (Declaration d : getVisibleDeclarations())
-		// if (d instanceof EntityType) {
-		// EntityType l = (EntityType) d;
-		// if (l.getSupertype() != null
-		// && l.getSupertype().getDefinition() == k)
-		// add.add(l);
-		// }
-		//
-		// rerun = s.addAll(add);
-		//
-		// } while (rerun);
-		// };
-		//
-		// extendToAllSubtypes.accept(ins);
-		// extendToAllSubtypes.accept(outs);
+		// Add all subtypes in the declarations
+		extendToAllSubtypes(ins);
+		extendToAllSubtypes(outs);
 
 		// If either in or out is not empty, check for containment of type
 		return all.filter(
 				k -> (ins.isEmpty() || ins.contains(k))
 						&& (outs.isEmpty() || outs.contains(k))).collect(
 				EcoreCollector.toEList());
+	}
+
+	private void extendToAllSubtypes(Set<EntityType> s) {
+		System.out.println(s);
+		s = new HashSet<EntityType>(s);
+		List<EntityType> add = Lists.newArrayList();
+		do {
+			add.clear();
+
+			for (EntityType k : s)
+				for (Declaration d : getVisibleDeclarations())
+					if (d instanceof EntityType) {
+						EntityType l = (EntityType) d;
+						if (l.getSupertype() != null
+								&& l.getSupertype().getDefinition() == k)
+							add.add(l);
+					}
+		} while (s.addAll(add));
+		System.out.println(s);
 	}
 
 	@Override
