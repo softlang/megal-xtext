@@ -93,20 +93,20 @@
     </ownedRepresentations>
     <ownedRepresentations xsi:type="description_1:DiagramDescription" name="org.softlang.megal.sirius.entitytypediagram" label="EntityTypeDiagram" titleExpression="[thisEObject.name + ' Types'/]" domainClass="Megamodel">
       <defaultLayer name="org.softlang.megal.sirius.entitytypediagram.default">
-        <nodeMappings name="org.softlang.megal.sirius.entitydiagram.entitytype" labelDirectEdit="//@ownedViewpoints[name='org.softlang.megal.sirius']/@ownedRepresentations[name='org.softlang.megal.sirius.entitytypediagram']/@defaultLayer/@toolSections.0/@ownedTools[name='org.softlang.megal.sirius.entitytypediagram.tools.editlable']" semanticCandidatesExpression="[thisEObject.getEntityTypes()/]" domainClass="megal.EntityType">
+        <nodeMappings name="org.softlang.megal.sirius.entitytypediagram.entitytype" labelDirectEdit="//@ownedViewpoints[name='org.softlang.megal.sirius']/@ownedRepresentations[name='org.softlang.megal.sirius.entitytypediagram']/@defaultLayer/@toolSections.0/@ownedTools[name='org.softlang.megal.sirius.entitytypediagram.tools.editlable']" semanticCandidatesExpression="[thisEObject.getEntityTypes()/]" domainClass="megal.EntityType">
           <style xsi:type="style:EllipseNodeDescription" borderSizeComputationExpression="1" labelSize="12" showIcon="false" labelExpression="[thisEObject.getLable()/]" labelPosition="node" resizeKind="NSEW" color="//@userColorsPalettes[name='org.softlang.megal.sirius.colors']/@entries[name='entityTypeColor']" horizontalDiameterComputationExpression="13" verticalDiameterComputationExpression="5">
             <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
           </style>
         </nodeMappings>
-        <nodeMappings xsi:type="description_1:NodeMappingImport" name="org.softlang.megal.sirius.entitydiagram.entitytype.import" semanticCandidatesExpression="[thisEObject.getVisibleEntityTypesWithoutContaining()/]" domainClass="megal.EntityType">
+        <nodeMappings xsi:type="description_1:NodeMappingImport" name="org.softlang.megal.sirius.entitytypediagram.entitytype.import" semanticCandidatesExpression="[thisEObject.getVisibleEntityTypesWithoutContaining()/]" domainClass="megal.EntityType">
           <style xsi:type="style:EllipseNodeDescription" borderSizeComputationExpression="1" labelSize="12" showIcon="false" labelExpression="[thisEObject.getLable()/]" labelPosition="node" resizeKind="NSEW" horizontalDiameterComputationExpression="13" verticalDiameterComputationExpression="5">
             <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
             <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_gray']"/>
           </style>
         </nodeMappings>
-        <edgeMappings name="org.softlang.megal.sirius.entitydiagram.supertype" sourceMapping="//@ownedViewpoints[name='org.softlang.megal.sirius']/@ownedRepresentations[name='org.softlang.megal.sirius.entitytypediagram']/@defaultLayer/@nodeMappings[name='org.softlang.megal.sirius.entitydiagram.entitytype']" targetMapping="//@ownedViewpoints[name='org.softlang.megal.sirius']/@ownedRepresentations[name='org.softlang.megal.sirius.entitytypediagram']/@defaultLayer/@nodeMappings[name='org.softlang.megal.sirius.entitydiagram.entitytype'] //@ownedViewpoints[name='org.softlang.megal.sirius']/@ownedRepresentations[name='org.softlang.megal.sirius.entitytypediagram']/@defaultLayer/@nodeMappings[name='org.softlang.megal.sirius.entitydiagram.entitytype.import']" targetFinderExpression="[thisEObject.supertype.definition/]">
+        <edgeMappings name="org.softlang.megal.sirius.entitytypediagram.supertype" sourceMapping="//@ownedViewpoints[name='org.softlang.megal.sirius']/@ownedRepresentations[name='org.softlang.megal.sirius.entitytypediagram']/@defaultLayer/@nodeMappings[name='org.softlang.megal.sirius.entitytypediagram.entitytype']" targetMapping="//@ownedViewpoints[name='org.softlang.megal.sirius']/@ownedRepresentations[name='org.softlang.megal.sirius.entitytypediagram']/@defaultLayer/@nodeMappings[name='org.softlang.megal.sirius.entitytypediagram.entitytype'] //@ownedViewpoints[name='org.softlang.megal.sirius']/@ownedRepresentations[name='org.softlang.megal.sirius.entitytypediagram']/@defaultLayer/@nodeMappings[name='org.softlang.megal.sirius.entitytypediagram.entitytype.import']" targetFinderExpression="[thisEObject.supertype.definition/]">
           <style targetArrow="InputClosedArrow" sizeComputationExpression="2" routingStyle="tree">
             <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             <centerLabelStyleDescription showIcon="false">
@@ -114,7 +114,7 @@
             </centerLabelStyleDescription>
           </style>
         </edgeMappings>
-        <edgeMappings name="org.softlang.megal.sirius.entitydiagram.relationtype" semanticCandidatesExpression="[thisEObject.declarations/]" sourceMapping="//@ownedViewpoints[name='org.softlang.megal.sirius']/@ownedRepresentations[name='org.softlang.megal.sirius.entitytypediagram']/@defaultLayer/@nodeMappings[name='org.softlang.megal.sirius.entitydiagram.entitytype'] //@ownedViewpoints[name='org.softlang.megal.sirius']/@ownedRepresentations[name='org.softlang.megal.sirius.entitytypediagram']/@defaultLayer/@nodeMappings[name='org.softlang.megal.sirius.entitydiagram.entitytype.import']" targetMapping="//@ownedViewpoints[name='org.softlang.megal.sirius']/@ownedRepresentations[name='org.softlang.megal.sirius.entitytypediagram']/@defaultLayer/@nodeMappings[name='org.softlang.megal.sirius.entitydiagram.entitytype'] //@ownedViewpoints[name='org.softlang.megal.sirius']/@ownedRepresentations[name='org.softlang.megal.sirius.entitytypediagram']/@defaultLayer/@nodeMappings[name='org.softlang.megal.sirius.entitydiagram.entitytype.import']" targetFinderExpression="[thisEObject.right.definition/]" sourceFinderExpression="[thisEObject.left.definition/]" domainClass="megal.RelationshipType" useDomainElement="true">
+        <edgeMappings name="org.softlang.megal.sirius.entitytypediagram.relationshiptype" labelDirectEdit="//@ownedViewpoints[name='org.softlang.megal.sirius']/@ownedRepresentations[name='org.softlang.megal.sirius.entitytypediagram']/@defaultLayer/@toolSections.0/@ownedTools[name='org.softlang.megal.sirius.entitytypediagram.tools.editlablerelationshiptype']" semanticCandidatesExpression="[thisEObject.declarations/]" sourceMapping="//@ownedViewpoints[name='org.softlang.megal.sirius']/@ownedRepresentations[name='org.softlang.megal.sirius.entitytypediagram']/@defaultLayer/@nodeMappings[name='org.softlang.megal.sirius.entitytypediagram.entitytype'] //@ownedViewpoints[name='org.softlang.megal.sirius']/@ownedRepresentations[name='org.softlang.megal.sirius.entitytypediagram']/@defaultLayer/@nodeMappings[name='org.softlang.megal.sirius.entitytypediagram.entitytype.import']" targetMapping="//@ownedViewpoints[name='org.softlang.megal.sirius']/@ownedRepresentations[name='org.softlang.megal.sirius.entitytypediagram']/@defaultLayer/@nodeMappings[name='org.softlang.megal.sirius.entitytypediagram.entitytype'] //@ownedViewpoints[name='org.softlang.megal.sirius']/@ownedRepresentations[name='org.softlang.megal.sirius.entitytypediagram']/@defaultLayer/@nodeMappings[name='org.softlang.megal.sirius.entitytypediagram.entitytype.import']" targetFinderExpression="[thisEObject.right.definition/]" sourceFinderExpression="[thisEObject.left.definition/]" domainClass="megal.RelationshipType" useDomainElement="true">
           <style sizeComputationExpression="2">
             <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
             <centerLabelStyleDescription showIcon="false" labelExpression="[thisEObject.name/]">
@@ -122,13 +122,67 @@
             </centerLabelStyleDescription>
           </style>
         </edgeMappings>
-        <toolSections>
+        <toolSections name="org.softlang.megal.sirius.entitytypediagram.tools" label="Megal Tools">
           <ownedTools xsi:type="tool:DirectEditLabel" name="org.softlang.megal.sirius.entitytypediagram.tools.editlable" inputLabelExpression="[thisEObject.getLable()/]">
             <mask mask="{0}"/>
             <initialOperation>
               <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="[thisEObject/]">
                 <subModelOperations xsi:type="tool_1:If" conditionExpression="[thisEObject.eContainer().oclAsType(Megamodel).resolveEntityType(arg0).oclIsUndefined()/]">
                   <subModelOperations xsi:type="tool_1:SetValue" featureName="name" valueExpression="[arg0/]"/>
+                </subModelOperations>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:DirectEditLabel" name="org.softlang.megal.sirius.entitytypediagram.tools.editlablerelationshiptype" inputLabelExpression="[thisEObject.name/]">
+            <mask mask="{0}"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:If" conditionExpression="[thisEObject.getMegamodel().resolveRelationshipType(arg0,thisEObject.left.definition).oclIsUndefined()/]">
+                <subModelOperations xsi:type="tool_1:SetValue" featureName="name" valueExpression="[arg0/]"/>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:NodeCreationDescription" name="org.softlang.megal.sirius.entitytypediagram.tools.createentitytype" label="EntityType" nodeMappings="//@ownedViewpoints[name='org.softlang.megal.sirius']/@ownedRepresentations[name='org.softlang.megal.sirius.entitytypediagram']/@defaultLayer/@nodeMappings[name='org.softlang.megal.sirius.entitytypediagram.entitytype']" iconPath="/org.softlang.megal.language.ui/icons/entity_type.gif">
+            <variable name="container"/>
+            <viewVariable name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="[container/]">
+                <subModelOperations xsi:type="tool_1:CreateInstance" typeName="megal.EntityType" referenceName="declarations">
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="name" valueExpression="[instance.getMegamodel().getUnusedEntityTypeName()/]"/>
+                </subModelOperations>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:EdgeCreationDescription" name="org.softlang.megal.sirius.entitytypediagram.tools.createrelationtype" label="RelationshipType" edgeMappings="//@ownedViewpoints[name='org.softlang.megal.sirius']/@ownedRepresentations[name='org.softlang.megal.sirius.entitytypediagram']/@defaultLayer/@edgeMappings[name='org.softlang.megal.sirius.entitytypediagram.relationshiptype']" iconPath="/org.softlang.megal.language.ui/icons/relationship_type.gif">
+            <sourceVariable name="source"/>
+            <targetVariable name="target"/>
+            <sourceViewVariable name="sourceView"/>
+            <targetViewVariable name="targetView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="[source.eContainer()/]">
+                <subModelOperations xsi:type="tool_1:CreateInstance" typeName="RelationshipType" referenceName="declarations">
+                  <subModelOperations xsi:type="tool_1:CreateInstance" typeName="megal.EntityTypeReference" referenceName="left" variableName="instanceLeft">
+                    <subModelOperations xsi:type="tool_1:SetValue" featureName="definition" valueExpression="[source/]"/>
+                  </subModelOperations>
+                  <subModelOperations xsi:type="tool_1:CreateInstance" typeName="megal.EntityTypeReference" referenceName="right" variableName="instanceRight">
+                    <subModelOperations xsi:type="tool_1:SetValue" featureName="definition" valueExpression="[target/]"/>
+                  </subModelOperations>
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="name" valueExpression="[thisEObject.getMegamodel().getUnusedRelationshipTypeName(source)/]"/>
+                </subModelOperations>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool_1:SelectionWizardDescription" name="org.softlang.megal.sirius.entitytypediagram.tools.changesupertype" label="Change supertype" precondition="[thisEObject.oclIsTypeOf(EntityType)/]" candidatesExpression="[thisEObject.getMegamodel().getVisibleDeclarations() -> filter(EntityType)/]" message="Select a new supertype for this EntityType." iconPath="/org.softlang.megal.sirius/icons/change.gif" windowTitle="Select new supertype for EntityType">
+            <element name="element"/>
+            <containerView name="containerView"/>
+            <container name="container"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="[thisEObject/]">
+                <subModelOperations xsi:type="tool_1:Unset" featureName="supertype">
+                  <subModelOperations xsi:type="tool_1:If" conditionExpression="[element.oclIsUndefined()._not()/]">
+                    <subModelOperations xsi:type="tool_1:CreateInstance" typeName="EntityTypeReference" referenceName="supertype" variableName="instanceReference">
+                      <subModelOperations xsi:type="tool_1:SetValue" featureName="definition" valueExpression="[element/]"/>
+                    </subModelOperations>
+                  </subModelOperations>
                 </subModelOperations>
               </firstModelOperations>
             </initialOperation>

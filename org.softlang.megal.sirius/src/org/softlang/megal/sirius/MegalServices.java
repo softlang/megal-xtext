@@ -44,6 +44,36 @@ public class MegalServices {
 		}
 	}
 
+	public String getUnusedEntityTypeName(Megamodel megamodel) {
+
+		int number = 1;
+		while (true) {
+			String name = "EntityType" + String.valueOf(number);
+
+			EntityType resolved = resolveEntityType(megamodel, name);
+
+			if (resolved == null)
+				return name;
+
+			number++;
+		}
+	}
+
+	public String getUnusedRelationshipTypeName(Megamodel megamodel, EntityType from) {
+
+		int number = 1;
+		while (true) {
+			String name = "RelationshipType" + String.valueOf(number);
+
+			RelationshipType resolved = resolveRelationshipType(megamodel, name, from);
+
+			if (resolved == null)
+				return name;
+
+			number++;
+		}
+	}
+
 	public String getLable(Entity entity) {
 
 		String name = entity.getName();
@@ -86,7 +116,7 @@ public class MegalServices {
 		return megamodel.getDeclarations().stream().filter(x -> (x instanceof EntityType))
 				.map(x -> (EntityType) x).collect(Collectors.toList());
 	}
-	
+
 	public EntityType resolveEntityType(Megamodel megamodel, String name) {
 		return megamodel.getVisibleDeclarations().stream().filter(x -> x instanceof EntityType)
 				.map(x -> (EntityType) x).filter(x -> name.equals(x.getName())).findFirst()
@@ -97,6 +127,15 @@ public class MegalServices {
 		return megamodel.getVisibleDeclarations().stream().filter(x -> x instanceof Entity)
 				.map(x -> (Entity) x).filter(x -> name.equals(x.getName())).findFirst()
 				.orElse(null);
+	}
+
+	public RelationshipType resolveRelationshipType(Megamodel megamodel, String name,
+			EntityType from) {
+
+		return megamodel.getVisibleDeclarations().stream()
+				.filter(x -> x instanceof RelationshipType).map(x -> (RelationshipType) x)
+				.filter(x -> from.equals(x.getLeft().getDefinition()) && name.equals(x.getName()))
+				.findFirst().orElse(null);
 	}
 
 	public Annotation getAnnotation(Declaration entity, String name) {
