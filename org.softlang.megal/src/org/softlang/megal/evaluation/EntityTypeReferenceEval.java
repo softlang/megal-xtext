@@ -47,6 +47,11 @@ public class EntityTypeReferenceEval extends EntityTypeReferenceImpl {
 
 	@Override
 	public boolean equalBaseVia(EntityTypeReference other) {
+		if (this == other)
+			return true;
+		if (other == null)
+			return false;
+
 		return other != null && isMany() == other.isMany()
 				&& Elements.equalBase(getParameters(), other.getParameters())
 				&& getDefinition().equalBase(other.getDefinition());

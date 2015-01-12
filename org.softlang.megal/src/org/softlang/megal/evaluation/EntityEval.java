@@ -76,6 +76,11 @@ public class EntityEval extends EntityImpl {
 
 	@Override
 	public boolean equalBase(Element other) {
+		if (this == other)
+			return true;
+		if (other == null)
+			return false;
+		
 		if (!(other instanceof Entity))
 			return false;
 		Entity eother = (Entity) other;

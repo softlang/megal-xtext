@@ -40,6 +40,11 @@ public class EntityTypeEval extends EntityTypeImpl {
 
 	@Override
 	public boolean equalBase(Element other) {
+		if (this == other)
+			return true;
+		if (other == null)
+			return false;
+		
 		if (!(other instanceof EntityType))
 			return false;
 		EntityType etother = (EntityType) other;

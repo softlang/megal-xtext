@@ -1,11 +1,13 @@
 package org.softlang.megal.evaluation;
 
+import java.util.Deque;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.softlang.megal.Annotation;
@@ -24,7 +26,10 @@ import org.softlang.megal.impl.MegamodelImpl;
 
 import com.google.common.base.Objects;
 import com.google.common.collect.FluentIterable;
+import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Multimap;
+import com.google.common.collect.Sets;
 
 public class MegamodelEval extends MegamodelImpl {
 	@Override
@@ -56,11 +61,11 @@ public class MegamodelEval extends MegamodelImpl {
 
 	@Override
 	public EList<EntityType> alternativeEntityTypes(Entity entity) {
-		Stream<EntityType> all = getVisibleDeclarations().stream()
-				.filter(k -> k instanceof EntityType).map(k -> (EntityType) k);
+		Set<EntityType> all = FluentIterable.from(getVisibleDeclarations())
+				.filter(EntityType.class).toSet();
 
 		if (entity == null)
-			return all.collect(EcoreCollector.toEList());
+			return new BasicEList<EntityType>(all);
 
 		// TODO: Entity type reference contains many and parameters, not
 		// included yet
@@ -70,44 +75,47 @@ public class MegamodelEval extends MegamodelImpl {
 				.filter(Relationship.class)
 				.filter(k -> k.getRight().equalBase(entity))
 				.transformAndConcat(k -> k.getType().getInstances())
-				.transform(k -> k.getRight().getDefinition()).toSet();
+				.transform(k -> k.getRight().getDefinition())
+				.transformAndConcat(this::extendToSubtypes).toSet();
 
 		// Get where entity is source
-
 		Set<EntityType> outs = FluentIterable.from(getVisibleDeclarations())
 				.filter(Relationship.class)
 				.filter(k -> k.getLeft().equalBase(entity))
 				.transformAndConcat(k -> k.getType().getInstances())
-				.transform(k -> k.getLeft().getDefinition()).toSet();
+				.transform(k -> k.getLeft().getDefinition())
+				.transformAndConcat(this::extendToSubtypes).toSet();
 
-		// Add all subtypes in the declarations
-		extendToAllSubtypes(ins);
-		extendToAllSubtypes(outs);
+		if (!ins.isEmpty())
+			all = Sets.intersection(all, ins);
+
+		if (!outs.isEmpty())
+			all = Sets.intersection(all, outs);
 
 		// If either in or out is not empty, check for containment of type
-		return all.filter(
-				k -> (ins.isEmpty() || ins.contains(k))
-						&& (outs.isEmpty() || outs.contains(k))).collect(
-				EcoreCollector.toEList());
+		return new BasicEList<EntityType>(all);
 	}
 
-	private void extendToAllSubtypes(Set<EntityType> s) {
-		System.out.println(s);
-		s = new HashSet<EntityType>(s);
-		List<EntityType> add = Lists.newArrayList();
-		do {
-			add.clear();
+	private Set<EntityType> extendToSubtypes(EntityType s) {
+		Set<EntityType> r = Sets.newHashSet();
+		Deque<EntityType> f = Lists.newLinkedList();
 
-			for (EntityType k : s)
+		f.add(s);
+		while (!f.isEmpty()) {
+			EntityType a = f.removeFirst();
+			if (r.add(a)) {
 				for (Declaration d : getVisibleDeclarations())
 					if (d instanceof EntityType) {
 						EntityType l = (EntityType) d;
 						if (l.getSupertype() != null
-								&& l.getSupertype().getDefinition() == k)
-							add.add(l);
+								&& l.getSupertype().getDefinition()
+										.equalBase(a))
+							f.add(l);
 					}
-		} while (s.addAll(add));
-		System.out.println(s);
+			}
+		}
+
+		return r;
 	}
 
 	@Override
@@ -184,6 +192,11 @@ public class MegamodelEval extends MegamodelImpl {
 
 	@Override
 	public boolean equalBase(Element other) {
+		if (this == other)
+			return true;
+		if (other == null)
+			return false;
+
 		if (!(other instanceof Megamodel))
 			return false;
 
