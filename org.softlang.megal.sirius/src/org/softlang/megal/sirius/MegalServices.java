@@ -10,6 +10,7 @@ import org.softlang.megal.Declaration;
 import org.softlang.megal.Entity;
 import org.softlang.megal.EntityType;
 import org.softlang.megal.Megamodel;
+import org.softlang.megal.Megamodels;
 import org.softlang.megal.Relationship;
 import org.softlang.megal.RelationshipType;
 
@@ -86,7 +87,7 @@ public class MegalServices {
 	}
 
 	public List<Entity> getEntities(Megamodel megamodel) {
-		return megamodel.getVisibleDeclarations().stream().filter(x -> (x instanceof Entity))
+		return Megamodels.allDeclarations(megamodel).stream().filter(x -> (x instanceof Entity))
 				.map(x -> (Entity) x).collect(Collectors.toList());
 	}
 
@@ -105,11 +106,12 @@ public class MegalServices {
 	}
 
 	public List<Declaration> getVisibleEntityTypesWithoutContaining(Megamodel megamodel) {
-		return megamodel
-				.getVisibleDeclarations()
-				.stream()
-				.filter(x -> ((x instanceof EntityType) && !megamodel.getDeclarations().contains(x)))
-				.map(x -> (EntityType) x).collect(Collectors.toList());
+		return megamodel.importedDeclarations();
+//		return megamodel
+//				.allDeclarations()
+//				.stream()
+//				.filter(x -> ((x instanceof EntityType) && !megamodel.getDeclarations().contains(x)))
+//				.map(x -> (EntityType) x).collect(Collectors.toList());
 	}
 
 	public List<EntityType> getEntityTypes(Megamodel megamodel) {
@@ -118,13 +120,13 @@ public class MegalServices {
 	}
 
 	public EntityType resolveEntityType(Megamodel megamodel, String name) {
-		return megamodel.getVisibleDeclarations().stream().filter(x -> x instanceof EntityType)
+		return Megamodels.allDeclarations(megamodel).stream().filter(x -> x instanceof EntityType)
 				.map(x -> (EntityType) x).filter(x -> name.equals(x.getName())).findFirst()
 				.orElse(null);
 	}
 
 	public Entity resolveEntity(Megamodel megamodel, String name) {
-		return megamodel.getVisibleDeclarations().stream().filter(x -> x instanceof Entity)
+		return Megamodels.allDeclarations(megamodel).stream().filter(x -> x instanceof Entity)
 				.map(x -> (Entity) x).filter(x -> name.equals(x.getName())).findFirst()
 				.orElse(null);
 	}
@@ -132,14 +134,14 @@ public class MegalServices {
 	public RelationshipType resolveRelationshipType(Megamodel megamodel, String name,
 			EntityType from) {
 
-		return megamodel.getVisibleDeclarations().stream()
+		return Megamodels.allDeclarations(megamodel).stream()
 				.filter(x -> x instanceof RelationshipType).map(x -> (RelationshipType) x)
-				.filter(x -> from.equals(x.getLeft().getDefinition()) && name.equals(x.getName()))
+				.filter(x -> from.equals(x.instanceLeft().getDefinition()) && name.equals(x.getName()))
 				.findFirst().orElse(null);
 	}
 
 	public Annotation getAnnotation(Declaration entity, String name) {
-		Optional<Annotation> color = entity.getInfo().stream().filter(x -> name.equals(x.getKey()))
+		Optional<Annotation> color = entity.getAnnotations().stream().filter(x -> name.equals(x.getKey()))
 				.findAny();
 		return color.orElse(null);
 	}

@@ -8,9 +8,9 @@ import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider
 import org.eclipse.xtext.ui.label.DefaultEObjectLabelProvider
 import org.softlang.megal.Entity
 import org.softlang.megal.EntityType
-import org.softlang.megal.NamedDeclaration
-import org.softlang.megal.Relationship
+import org.softlang.megal.Named
 import org.softlang.megal.RelationshipType
+import org.softlang.megal.Relationship
 
 /**
  * Provides labels for a EObjects.
@@ -24,7 +24,7 @@ class MegalLabelProvider extends DefaultEObjectLabelProvider {
 		super(delegate);
 	}
 
-	def String text(NamedDeclaration it) '''«name»'''
+	def String text(Named it) '''«name»'''
 
 	def String text(Relationship it) '''«left.name» «type.name» «right.name»'''
 

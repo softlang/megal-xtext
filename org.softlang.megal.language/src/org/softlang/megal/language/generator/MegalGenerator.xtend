@@ -17,9 +17,15 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 import org.softlang.megal.language.MegalRuntimeModule
 import org.eclipse.xtext.resource.XtextResourceFactory
 import com.google.inject.Inject
-import org.softlang.megal.processing.FunAppDesugaring
-import org.softlang.megal.processing.LanguageResolving
+
+//import org.softlang.megal.processing.FunAppDesugaring
+//import org.softlang.megal.processing.LanguageResolving
 import org.softlang.megal.MegalFactory
+import org.softlang.megal.Megamodels
+import org.eclipse.xtext.resource.XtextResource
+import com.google.inject.Provider
+import org.softlang.megal.language.MegalStandaloneSetup
+import org.softlang.megal.language.MegalStandaloneSetupGenerated
 
 /**
  * Generates code from your model files on save.
@@ -29,25 +35,42 @@ import org.softlang.megal.MegalFactory
 class MegalGenerator implements IGenerator {
 	extension val MegalFactory f = MegalFactory.eINSTANCE
 
-	override void doGenerate(Resource resource, IFileSystemAccess fsa) {
-		if (resource.contents.filter(Megamodel).exists[info.exists[key == "Generated"]])
-			return
+	def toText(EObject e) {
+		val rs = new ResourceSetImpl
+		val re = rs.createResource(URI.createURI("inmem/target.megal"))
 
-		val funAppDesugaring = new FunAppDesugaring
-		val languageResolving = new LanguageResolving
-
-		for (m : resource.contents.filter(Megamodel)) {
-			if (!m.info.exists[key == "Generated"])
-				m.info += createAnnotation => [key = "Generated"]
-				
-			m.name = m.name + ".Processed"
-			funAppDesugaring.apply(m)
-			languageResolving.apply(m)
-		}
+		re.contents += e
 
 		val baos = new ByteArrayOutputStream
-		resource.save(baos, emptyMap)
-		val result = new String(baos.toByteArray)
-		fsa.generateFile('''«resource.URI.trimFileExtension.lastSegment».Processed.megal''', result)
+		re.save(baos, emptyMap)
+
+		return baos.toString
+	}
+
+	override void doGenerate(Resource resource, IFileSystemAccess fsa) {
+//		for (m : resource.contents.filter(Megamodel)) {
+//			val merge = Megamodels.createMerge(m)
+//			println(merge.toText)
+//		}
+
+	//		if (resource.contents.filter(Megamodel).exists[info.exists[key == "Generated"]])
+	//			return
+	//
+	//		val funAppDesugaring = new FunAppDesugaring
+	//		val languageResolving = new LanguageResolving
+	//
+	//		for (m : resource.contents.filter(Megamodel)) {
+	//			if (!m.info.exists[key == "Generated"])
+	//				m.info += createAnnotation => [key = "Generated"]
+	//				
+	//			m.name = m.name + ".Processed"
+	//			funAppDesugaring.apply(m)
+	//			languageResolving.apply(m)
+	//		}
+	//
+	//		val baos = new ByteArrayOutputStream
+	//		resource.save(baos, emptyMap)
+	//		val result = new String(baos.toByteArray)
+	//		fsa.generateFile('''«resource.URI.trimFileExtension.lastSegment».Processed.megal''', result)
 	}
 }

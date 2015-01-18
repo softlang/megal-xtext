@@ -9,92 +9,84 @@
   <foreignModel>Megal.ecore</foreignModel>
   <genPackages prefix="Megal" basePackage="org.softlang" disposableProviderFactory="true"
       fileExtensions="megal" ecorePackage="Megal.ecore#/" publicationLocation="">
-    <genDataTypes ecoreDataType="Megal.ecore#//ESet">
-      <genTypeParameters ecoreTypeParameter="Megal.ecore#//ESet/T"/>
-    </genDataTypes>
+    <genClasses ecoreClass="Megal.ecore#//Annotation">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Megal.ecore#//Annotation/key"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Megal.ecore#//Annotation/value"/>
+    </genClasses>
+    <genClasses ecoreClass="Megal.ecore#//Element">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Megal.ecore#//Element/annotations"/>
+    </genClasses>
     <genClasses ecoreClass="Megal.ecore#//Megamodel">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Megal.ecore#//Megamodel/declarations"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Megal.ecore#//Megamodel/bindings"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Megal.ecore#//Megamodel/name"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Megal.ecore#//Megamodel/imports"/>
-      <genOperations ecoreOperation="Megal.ecore#//Megamodel/getVisibleDeclarations"/>
-      <genOperations ecoreOperation="Megal.ecore#//Megamodel/getVisibleBindings"/>
-      <genOperations ecoreOperation="Megal.ecore#//Megamodel/alternativeEntityTypes">
-        <genParameters ecoreParameter="Megal.ecore#//Megamodel/alternativeEntityTypes/entity"/>
-      </genOperations>
-      <genOperations ecoreOperation="Megal.ecore#//Megamodel/applicableRelationshipTypes">
-        <genParameters ecoreParameter="Megal.ecore#//Megamodel/applicableRelationshipTypes/left"/>
-        <genParameters ecoreParameter="Megal.ecore#//Megamodel/applicableRelationshipTypes/right"/>
-      </genOperations>
-      <genOperations ecoreOperation="Megal.ecore#//Megamodel/fetchInfos">
-        <genParameters ecoreParameter="Megal.ecore#//Megamodel/fetchInfos/element"/>
-      </genOperations>
-    </genClasses>
-    <genClasses ecoreClass="Megal.ecore#//Element">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Megal.ecore#//Element/info"/>
-      <genOperations ecoreOperation="Megal.ecore#//Element/getMegamodel"/>
-      <genOperations ecoreOperation="Megal.ecore#//Element/isAssigned"/>
-      <genOperations ecoreOperation="Megal.ecore#//Element/equalBase">
-        <genParameters ecoreParameter="Megal.ecore#//Element/equalBase/other"/>
-      </genOperations>
-    </genClasses>
-    <genClasses ecoreClass="Megal.ecore#//Declaration"/>
-    <genClasses image="false" ecoreClass="Megal.ecore#//NamedDeclaration">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Megal.ecore#//NamedDeclaration/name"/>
-      <genOperations ecoreOperation="Megal.ecore#//NamedDeclaration/getShowName"/>
-    </genClasses>
-    <genClasses ecoreClass="Megal.ecore#//EntityType">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Megal.ecore#//EntityType/supertype"/>
-    </genClasses>
-    <genClasses ecoreClass="Megal.ecore#//RelationshipType">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Megal.ecore#//RelationshipType/left"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Megal.ecore#//RelationshipType/right"/>
-      <genOperations ecoreOperation="Megal.ecore#//RelationshipType/getInstances"/>
-    </genClasses>
-    <genClasses ecoreClass="Megal.ecore#//Entity">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Megal.ecore#//Entity/type"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Megal.ecore#//Entity/dependent"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Megal.ecore#//Entity/parameter"/>
-      <genOperations ecoreOperation="Megal.ecore#//Entity/getLinks"/>
-      <genOperations ecoreOperation="Megal.ecore#//Entity/followOutgoing">
-        <genParameters ecoreParameter="Megal.ecore#//Entity/followOutgoing/type"/>
-      </genOperations>
-      <genOperations ecoreOperation="Megal.ecore#//Entity/followIncoming">
-        <genParameters ecoreParameter="Megal.ecore#//Entity/followIncoming/type"/>
-      </genOperations>
-    </genClasses>
-    <genClasses ecoreClass="Megal.ecore#//Relationship">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Megal.ecore#//Relationship/type"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Megal.ecore#//Relationship/left"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Megal.ecore#//Relationship/right"/>
+      <genOperations ecoreOperation="Megal.ecore#//Megamodel/importedDeclarations"/>
+      <genOperations ecoreOperation="Megal.ecore#//Megamodel/importedBindings"/>
+      <genOperations ecoreOperation="Megal.ecore#//Megamodel/chaseImports"/>
     </genClasses>
     <genClasses ecoreClass="Megal.ecore#//Link">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Megal.ecore#//Link/link"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Megal.ecore#//Link/to"/>
     </genClasses>
-    <genClasses ecoreClass="Megal.ecore#//EntityTypeReference">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Megal.ecore#//EntityTypeReference/many"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Megal.ecore#//EntityTypeReference/definition"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Megal.ecore#//EntityTypeReference/parameters"/>
-      <genOperations ecoreOperation="Megal.ecore#//EntityTypeReference/isAssignableFrom">
-        <genParameters ecoreParameter="Megal.ecore#//EntityTypeReference/isAssignableFrom/type"/>
-      </genOperations>
-      <genOperations ecoreOperation="Megal.ecore#//EntityTypeReference/isAssignableFrom.1">
-        <genParameters ecoreParameter="Megal.ecore#//EntityTypeReference/isAssignableFrom.1/type"/>
-        <genParameters ecoreParameter="Megal.ecore#//EntityTypeReference/isAssignableFrom.1/isMany"/>
-      </genOperations>
-      <genOperations ecoreOperation="Megal.ecore#//EntityTypeReference/equalBaseVia">
-        <genParameters ecoreParameter="Megal.ecore#//EntityTypeReference/equalBaseVia/other"/>
-      </genOperations>
+    <genClasses ecoreClass="Megal.ecore#//Declaration">
+      <genOperations ecoreOperation="Megal.ecore#//Declaration/megamodel"/>
     </genClasses>
-    <genClasses ecoreClass="Megal.ecore#//Annotation">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Megal.ecore#//Annotation/key"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Megal.ecore#//Annotation/value"/>
+    <genClasses ecoreClass="Megal.ecore#//Relationship">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Megal.ecore#//Relationship/type"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Megal.ecore#//Relationship/left"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Megal.ecore#//Relationship/right"/>
+      <genOperations ecoreOperation="Megal.ecore#//Relationship/appliedInstance"/>
     </genClasses>
     <genClasses ecoreClass="Megal.ecore#//FunctionApplication">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Megal.ecore#//FunctionApplication/function"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Megal.ecore#//FunctionApplication/input"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Megal.ecore#//FunctionApplication/output"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="Megal.ecore#//Named">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Megal.ecore#//Named/name"/>
+    </genClasses>
+    <genClasses ecoreClass="Megal.ecore#//EntityType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Megal.ecore#//EntityType/supertype"/>
+    </genClasses>
+    <genClasses ecoreClass="Megal.ecore#//RelationshipType">
+      <genFeatures children="true" createChild="true" propertySortChoices="true" ecoreFeature="ecore:EReference Megal.ecore#//RelationshipType/instances"/>
+      <genOperations ecoreOperation="Megal.ecore#//RelationshipType/instanceLeft"/>
+      <genOperations ecoreOperation="Megal.ecore#//RelationshipType/instanceRight"/>
+    </genClasses>
+    <genClasses ecoreClass="Megal.ecore#//RelationshipTypeInstance">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Megal.ecore#//RelationshipTypeInstance/left"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Megal.ecore#//RelationshipTypeInstance/right"/>
+      <genOperations ecoreOperation="Megal.ecore#//RelationshipTypeInstance/aggregatorName"/>
+    </genClasses>
+    <genClasses ecoreClass="Megal.ecore#//Entity">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Megal.ecore#//Entity/type"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Megal.ecore#//Entity/dependent"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Megal.ecore#//Entity/parameter"/>
+      <genOperations ecoreOperation="Megal.ecore#//Entity/applicableOutgoing">
+        <genParameters ecoreParameter="Megal.ecore#//Entity/applicableOutgoing/to"/>
+      </genOperations>
+      <genOperations ecoreOperation="Megal.ecore#//Entity/applicableIncoming">
+        <genParameters ecoreParameter="Megal.ecore#//Entity/applicableIncoming/from"/>
+      </genOperations>
+    </genClasses>
+    <genClasses ecoreClass="Megal.ecore#//TypeReference">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Megal.ecore#//TypeReference/definition"/>
+      <genOperations ecoreOperation="Megal.ecore#//TypeReference/latticeAbove">
+        <genParameters ecoreParameter="Megal.ecore#//TypeReference/latticeAbove/other"/>
+      </genOperations>
+      <genOperations ecoreOperation="Megal.ecore#//TypeReference/latticeAbove.1"/>
+      <genOperations ecoreOperation="Megal.ecore#//TypeReference/latticeBelow"/>
+      <genOperations ecoreOperation="Megal.ecore#//TypeReference/latticeBelow.1">
+        <genParameters ecoreParameter="Megal.ecore#//TypeReference/latticeBelow.1/other"/>
+      </genOperations>
+    </genClasses>
+    <genClasses ecoreClass="Megal.ecore#//FunctionTypeReference">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Megal.ecore#//FunctionTypeReference/domain"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Megal.ecore#//FunctionTypeReference/codomain"/>
+    </genClasses>
+    <genClasses ecoreClass="Megal.ecore#//EntityTypeReference">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Megal.ecore#//EntityTypeReference/many"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

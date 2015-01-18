@@ -4,11 +4,11 @@ import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
-import org.softlang.megal.EntityTypeReference;
+import org.softlang.megal.FunctionTypeReference;
 import org.softlang.megal.TypeReference;
-import org.softlang.megal.impl.EntityTypeReferenceImpl;
+import org.softlang.megal.impl.FunctionTypeReferenceImpl;
 
-public class EntityTypeReferenceEval extends EntityTypeReferenceImpl {
+public class FunctionTypeReferenceEval extends FunctionTypeReferenceImpl {
 	@Override
 	public boolean latticeAbove(TypeReference other) {
 		if (other == null)
@@ -37,8 +37,8 @@ public class EntityTypeReferenceEval extends EntityTypeReferenceImpl {
 		for (TreeIterator<EObject> it = getDefinition().megamodel().eAllContents(); it.hasNext();) {
 			EObject c = it.next();
 
-			if (c instanceof EntityTypeReference) {
-				EntityTypeReference r = (EntityTypeReference) c;
+			if (c instanceof FunctionTypeReference) {
+				FunctionTypeReference r = (FunctionTypeReference) c;
 				if (latticeBelow(r))
 					result.add(r);
 			}
@@ -61,11 +61,12 @@ public class EntityTypeReferenceEval extends EntityTypeReferenceImpl {
 		if (obj == null)
 			return false;
 
-		if (!(obj instanceof EntityTypeReference))
+		if (!(obj instanceof FunctionTypeReference))
 			return false;
 
-		EntityTypeReference or = (EntityTypeReference) obj;
+		FunctionTypeReference or = (FunctionTypeReference) obj;
 
-		return isMany() == or.isMany() && getDefinition() == or.getDefinition();
+		return getDomain() == or.getDomain() && getCodomain() == or.getCodomain()
+				&& getDefinition() == or.getDefinition();
 	}
 }

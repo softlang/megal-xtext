@@ -4,7 +4,7 @@ import "http://softlang.wikidot.com/megal"
 import "http://www.eclipse.org/emf/2002/Ecore" as ecore
 
 Megamodel:
-	info+=PrefixAnnotation* 'model' name=QID
+	annotations+=PrefixAnnotation* 'model' name=QID
 	('import' imports+=[Megamodel|QID] | declarations+=Declaration | bindings+=Link)*;
 
 Declaration:
@@ -17,44 +17,50 @@ ShowNameAnnotation returns Annotation:
 	'[' value=STRING ']';
 
 Link:
-	info+=PrefixAnnotation*
+	annotations+=PrefixAnnotation*
 	link=[Entity|QID] '=' to=STRING;
 
 EntityType:
-	info+=PrefixAnnotation*
+	annotations+=PrefixAnnotation*
 	name=QID
-	(info+=ShowNameAnnotation)?
-	('<' supertype=EntityTypeReference | 'as' 'entity');
+	(annotations+=ShowNameAnnotation)?
+	('<' supertype=TypeReference | 'as' 'entity');
 
 RelationshipType:
-	info+=PrefixAnnotation*
+	annotations+=PrefixAnnotation*
 	name=QID
-	(info+=ShowNameAnnotation)?
-	'<' left=EntityTypeReference
-	'*' right=EntityTypeReference;
+	(annotations+=ShowNameAnnotation)?
+	'<' instances+=RelationshipTypeInstance (',' instances+=RelationshipTypeInstance)*;
+
+RelationshipTypeInstance:
+	left=TypeReference '*' right=TypeReference;
 
 Entity:
-	info+=PrefixAnnotation*
+	annotations+=PrefixAnnotation*
 	(dependent?='?' | parameter?='!')?
 	name=QID
-	(info+=ShowNameAnnotation)?
+	(annotations+=ShowNameAnnotation)?
 	':' type=EntityTypeReference;
 
 Relationship:
-	info+=PrefixAnnotation*
+	annotations+=PrefixAnnotation*
 	left=[Entity|QID]
 	type=[RelationshipType|QID]
 	right=[Entity|QID];
 
 FunctionApplication:
-	info+=PrefixAnnotation*
+	annotations+=PrefixAnnotation*
 	function=[Entity|QID]
 	'(' input=[Entity|QID] ')' '|' '->' output=[Entity|QID];
 
+TypeReference:
+	FunctionTypeReference | EntityTypeReference;
+
+FunctionTypeReference:
+	definition=[EntityType|QID] '[' domain=[Entity|QID] '->' codomain=[Entity|QID] ']';
+
 EntityTypeReference:
-	definition=[EntityType|QID]
-	('[' parameters+=[Entity|QID] ('->' parameters+=[Entity|QID])* ']')?
-	(many?='+')?;
+	definition=[EntityType|QID] many?='+'?;
 
 QID:
 	NAME ('::' NAME)*;

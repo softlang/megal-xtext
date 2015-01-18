@@ -44,23 +44,25 @@ public class MegalFormatter extends AbstractDeclarativeFormatter {
 
 		// Entity Type
 		c.setLinewrap(0, 1, 2).around(entityTypeRule)
-		c.setNoSpace.around(entityTypeAccess.infoAssignment_2)
+		c.setNoSpace.around(entityTypeAccess.annotationsAssignment_2)
 		c.setSpace(' ').before(entityTypeAccess.lessThanSignKeyword_3_0_0)
 		c.setSpace(' ').after(entityTypeAccess.lessThanSignKeyword_3_0_0)
 
 		// Relationship Type
 		c.setLinewrap(0, 1, 2).around(relationshipTypeRule)
-		c.setNoSpace.around(relationshipTypeAccess.infoAssignment_2)
+		c.setNoSpace.around(relationshipTypeAccess.annotationsAssignment_2)
 		c.setSpace(' ').before(relationshipTypeAccess.lessThanSignKeyword_3)
 		c.setSpace(' ').after(relationshipTypeAccess.lessThanSignKeyword_3)
-		c.setSpace(' ').before(relationshipTypeAccess.asteriskKeyword_5)
-		c.setSpace(' ').after(relationshipTypeAccess.asteriskKeyword_5)
+
+		// Relationship Type instance
+		c.setSpace(' ').before(relationshipTypeInstanceAccess.asteriskKeyword_1)
+		c.setSpace(' ').after(relationshipTypeInstanceAccess.asteriskKeyword_1)
 
 		// Entity
 		c.setLinewrap(0, 1, 2).around(entityRule)
 		c.setNoSpace.after(entityAccess.dependentAssignment_1_0)
 		c.setNoSpace.after(entityAccess.parameterAssignment_1_1)
-		c.setNoSpace.after(entityAccess.infoAssignment_3)
+		c.setNoSpace.after(entityAccess.annotationsAssignment_3)
 		c.setNoSpace.before(entityAccess.colonKeyword_4)
 		c.setSpace(' ').after(entityAccess.colonKeyword_4)
 
@@ -80,11 +82,7 @@ public class MegalFormatter extends AbstractDeclarativeFormatter {
 		c.setSpace(' ').after(functionApplicationAccess.hyphenMinusGreaterThanSignKeyword_6)
 
 		// Entity Type Reference
-		c.setNoSpace.before(entityTypeReferenceAccess.leftSquareBracketKeyword_1_0)
-		c.setSpace(' ').before(entityTypeReferenceAccess.hyphenMinusGreaterThanSignKeyword_1_2_0)
-		c.setSpace(' ').after(entityTypeReferenceAccess.hyphenMinusGreaterThanSignKeyword_1_2_0)
-		c.setNoSpace.before(entityTypeReferenceAccess.rightSquareBracketKeyword_1_3)
-		c.setNoSpace.before(entityTypeReferenceAccess.manyAssignment_2)
+		c.setNoSpace.before(entityTypeReferenceAccess.manyAssignment_1)
 
 		// Formatting for Comments 
 		c.setLinewrap(0, 1, 2).before(SL_COMMENTRule)

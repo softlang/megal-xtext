@@ -8,7 +8,6 @@ import org.eclipse.xtext.ui.editor.hover.html.DefaultEObjectHoverProvider
 import org.eclipse.xtext.ui.editor.hover.html.IXtextBrowserInformationControl
 import org.softlang.megal.Entity
 import org.softlang.megal.EntityType
-import org.softlang.megal.Relationship
 import org.softlang.megal.RelationshipType
 import org.softlang.megal.Graph
 import org.softlang.megal.Megamodel
@@ -21,6 +20,7 @@ import org.eclipse.jdt.core.IMember
 import org.eclipse.jdt.ui.JavaUI
 import org.eclipse.jdt.core.IJavaElement
 import org.softlang.megal.api.URI
+import org.softlang.megal.Relationship
 
 class ListAnnotationsAction extends ExtenderAction {
 
@@ -35,7 +35,7 @@ class ListAnnotationsAction extends ExtenderAction {
 	override run() {
 		val e = infoControl.input?.inputElement as EntityType
 
-		navigateToHTML(e, '''<ul>«FOR a : e.info»<li>«a.key» := «a.value»</li>«ENDFOR»</ul>''')
+		navigateToHTML(e, '''<ul>«FOR a : e.annotations»<li>«a.key» := «a.value»</li>«ENDFOR»</ul>''')
 	}
 }
 
@@ -184,7 +184,7 @@ class MegalEObjectHoverProvider extends ExtenderEObjectHoverProvider {
 
 	def dispatch firstLineFor(Relationship it) '''«left.link» <i>«type.link»</i> «right.link»'''
 
-	def dispatch firstLineFor(RelationshipType it) '''«left.definition.link» <i>«name»</i> «right.definition.link»'''
+	def dispatch firstLineFor(RelationshipType it) '''«instances.head.left.definition.link» <i>«name»</i> «instances.head.right.definition.link»'''
 
 	def dispatch firstLineFor(Link it) '''Link, «IF MegalPlugin.evaluator.evaluate(URI.valueOf(to)).empty»unresolvable«ELSE»resolvable«ENDIF»'''
 
@@ -198,12 +198,7 @@ class MegalEObjectHoverProvider extends ExtenderEObjectHoverProvider {
 	def dispatch documentationFor(Entity it) '''
 		«IF dependent»<p>Entity is <a href="put a cool link to explain dependency">dependent</a></p>«ENDIF»
 		«IF parameter»<p>Entity is <a href="put a cool link to explain parametricity">a parameter</a></p>«ENDIF»
-		<p>
-		Substitute entity types:
-		<ul>
-		«FOR s : megamodel.alternativeEntityTypes(it)»<li>«s.link»</li>«ENDFOR»
-		</ul>
-		</p>
+		
 		«««		«IF dispatcher»
 «««			«IF masterDispatcher»Dispatcher is <a href="put a cool link to explain master dispatchers">master</a>«ENDIF»
 «««			<p>Dispatchers involved: <ul>«FOR c : buildDisp»<li>«c.link»</li>«ENDFOR»</ul></p>

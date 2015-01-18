@@ -7,13 +7,14 @@ import org.eclipse.xtext.ui.editor.utils.TextStyle
 import org.softlang.megal.Annotation
 import org.softlang.megal.Entity
 import org.softlang.megal.EntityType
-import org.softlang.megal.Relationship
 import org.softlang.megal.RelationshipType
 import org.softlang.megal.language.MegalEnvironment
 import org.softlang.megal.language.ui.swt.SWTUtil
 
 import static org.softlang.megal.Guard.*
 import org.eclipse.swt.graphics.RGB
+import org.softlang.megal.RelationshipTypeInstance
+import org.softlang.megal.Relationship
 
 class MegalHighlightingConfiguration extends DefaultHighlightingConfiguration {
 
@@ -81,10 +82,10 @@ class MegalHighlightingConfiguration extends DefaultHighlightingConfiguration {
 		guarded(null) [
 			// Guards	
 			ifAssigned(o)
-			ifAssigned(o.left)
-			ifAssigned(o.right)
+			ifAssigned(o.instanceLeft)
+			ifAssigned(o.instanceRight)
 			// Value
-			o.left.definition.name + '_' + o.name + '_' + o.right.definition.name
+			o.instanceLeft.definition.name + '_' + o.name + '_' + o.instanceRight.definition.name
 		]
 	}
 
@@ -101,10 +102,10 @@ class MegalHighlightingConfiguration extends DefaultHighlightingConfiguration {
 		guarded('''Invalid object''') [
 			// Guards	
 			ifAssigned(o)
-			ifAssigned(o.left)
-			ifAssigned(o.right)
+			ifAssigned(o.instanceLeft)
+			ifAssigned(o.instanceRight)
 			// Value
-			o.name + " between " + o.left.definition.name + " and " + o.right.definition.name
+			o.name + " between " + o.instanceLeft.definition.name + " and " + o.instanceRight.definition.name
 		]
 
 	}
@@ -113,9 +114,9 @@ class MegalHighlightingConfiguration extends DefaultHighlightingConfiguration {
 		guarded(relationshipTextStyle) [
 			// Guards	
 			ifAssigned(o)
-			ifAssigned(o.info)
+			ifAssigned(o.annotations)
 			// Value
-			readTextStyle(relationshipTextStyle, o.info)
+			readTextStyle(relationshipTextStyle, o.annotations)
 		]
 	}
 
@@ -123,9 +124,9 @@ class MegalHighlightingConfiguration extends DefaultHighlightingConfiguration {
 		guarded(entityTextStyle) [
 			// Guards	
 			ifAssigned(o)
-			ifAssigned(o.info)
+			ifAssigned(o.annotations)
 			// Value
-			readTextStyle(entityTextStyle, o.info)
+			readTextStyle(entityTextStyle, o.annotations)
 		]
 	}
 

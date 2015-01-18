@@ -12,6 +12,7 @@ import org.softlang.megal.EntityType;
 import org.softlang.megal.Megamodel;
 import org.softlang.megal.Relationship;
 import org.softlang.megal.RelationshipType;
+import org.softlang.megal.RelationshipTypeInstance;
 import org.softlang.megal.sirius.MegalServices;
 
 public class SetLableRelation implements IExternalJavaAction {
@@ -26,24 +27,24 @@ public class SetLableRelation implements IExternalJavaAction {
 	}
 
 	@Override
-	public void execute(Collection<? extends EObject> arg0,
-			Map<String, Object> arg1) {
+	public void execute(Collection<? extends EObject> arg0, Map<String, Object> arg1) {
 
 		String lable = (String) arg1.get("lable");
 		Relationship relation = (Relationship) arg0.iterator().next();
 
 		Megamodel megamodel = MegalServices.INSTANCE.getMegamodel(relation);
 
-		EList<RelationshipType> rts = megamodel.applicableRelationshipTypes(
-				relation.getLeft(), relation.getRight());
+		EList<RelationshipTypeInstance> rtis = relation.getLeft().applicableOutgoing(relation.getRight());
 
-		Optional<RelationshipType> rt = rts.stream()
-				.filter(x -> x.getName().equals(lable)).findFirst();
+		// EList<RelationshipType> rts = megamodel.applicableRelationshipTypes(
+		// relation.getLeft(), relation.getRight());
+
+		Optional<RelationshipTypeInstance> rt = rtis.stream().filter(x -> x.aggregatorName().equals(lable)).findFirst();
 
 		if (!rt.isPresent())
 			return;
 
-		relation.setType(rt.get());
+		relation.setType((RelationshipType) rt.get().eContainer());
 	}
 
 }
