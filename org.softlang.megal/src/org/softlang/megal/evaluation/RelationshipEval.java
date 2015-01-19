@@ -1,15 +1,10 @@
 package org.softlang.megal.evaluation;
 
-import java.util.Collections;
-import java.util.List;
-
 import org.softlang.megal.Megamodel;
+import org.softlang.megal.RelationshipType;
 import org.softlang.megal.RelationshipTypeInstance;
+import org.softlang.megal.RelationshipTypes;
 import org.softlang.megal.impl.RelationshipImpl;
-
-import com.google.common.collect.ComparisonChain;
-import com.google.common.collect.FluentIterable;
-import com.google.common.collect.Lists;
 
 public class RelationshipEval extends RelationshipImpl {
 	@Override
@@ -22,12 +17,14 @@ public class RelationshipEval extends RelationshipImpl {
 		if (getType() == null)
 			return null;
 
+		RelationshipType mergedType = RelationshipTypes.createMerge(getType());
+
 		RelationshipTypeInstance prv = null;
 		int mc = Integer.MAX_VALUE;
-		for (RelationshipTypeInstance i : getType().getInstances()) {
+		for (RelationshipTypeInstance i : mergedType.getInstances()) {
 			int dl = i.getLeft().equals(getLeft().getType()) ? 0 : i.getLeft().latticeBelow(getLeft().getType()) ? 1
 					: -1;
-			int dr = i.getLeft().equals(getLeft().getType()) ? 0 : i.getLeft().latticeBelow(getLeft().getType()) ? 1
+			int dr = i.getRight().equals(getRight().getType()) ? 0 : i.getRight().latticeBelow(getRight().getType()) ? 1
 					: -1;
 
 			// Prefer exact matches for both, then for one of each, then don't
@@ -41,4 +38,10 @@ public class RelationshipEval extends RelationshipImpl {
 
 		return prv;
 	}
+
+	@Override
+	public String toString() {
+		return getLeft().getName() + " " + getType().getName() + " " + getRight().getName();
+	}
+
 }

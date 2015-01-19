@@ -21,6 +21,7 @@ import org.eclipse.jdt.ui.JavaUI
 import org.eclipse.jdt.core.IJavaElement
 import org.softlang.megal.api.URI
 import org.softlang.megal.Relationship
+import org.softlang.megal.RelationshipTypes
 
 class ListAnnotationsAction extends ExtenderAction {
 
@@ -182,9 +183,9 @@ class MegalEObjectHoverProvider extends ExtenderEObjectHoverProvider {
 
 	def dispatch firstLineFor(EntityType it) '''<b>«name»</b> «IF supertype != null»  &lt; «supertype.definition.link»«ENDIF»'''
 
-	def dispatch firstLineFor(Relationship it) '''«left.link» <i>«type.link»</i> «right.link»'''
-
-	def dispatch firstLineFor(RelationshipType it) '''«instances.head.left.definition.link» <i>«name»</i> «instances.head.right.definition.link»'''
+	def dispatch firstLineFor(RelationshipType it) {
+		'''<b>«name»</b>'''
+	}
 
 	def dispatch firstLineFor(Link it) '''Link, «IF MegalPlugin.evaluator.evaluate(URI.valueOf(to)).empty»unresolvable«ELSE»resolvable«ENDIF»'''
 
@@ -209,20 +210,19 @@ class MegalEObjectHoverProvider extends ExtenderEObjectHoverProvider {
 
 	def dispatch documentationFor(EntityType it) '''«super.getDocumentation(it)»'''
 
-	def dispatch documentationFor(Relationship it) '''«super.getDocumentation(it)»'''
-
-	def dispatch documentationFor(RelationshipType relationshipType) '''
-			«super.getDocumentation(relationshipType)»
-		«IF relationshipType.instances.size > 1»
-			<p>Other variants:
-			<ul>
-			«FOR variant : relationshipType.instances.filter[relationshipType != it]»
-				<li><i>«variant.link»</i>: «variant.left.definition.link» &lowast; «variant.right.definition.link»</li>
-			«ENDFOR»
-			</ul>
+	def dispatch documentationFor(RelationshipType relationshipType) {
+		val x = RelationshipTypes.createMerge(relationshipType)
+		'''
+			<p>
+				Defined for the following domains and codomains:
+				<ul>
+				«FOR i : x.instances»
+					<li>«i.left.definition.link» &lowast; «i.right.definition.link»</li>
+				«ENDFOR»
+				</ul>
 			</p>
-		«ENDIF»
-	'''
+		'''
+	}
 
 	def dispatch documentationFor(Link it) '''<ul>«FOR n : MegalPlugin.evaluator.evaluate(URI.valueOf(to))»<li>«n»</li>«ENDFOR»</ul>'''
 }

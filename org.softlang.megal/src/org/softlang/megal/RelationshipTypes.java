@@ -4,6 +4,8 @@ import static com.google.common.base.Objects.equal;
 
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
+import static org.softlang.megal.Megamodels.*;
+
 public class RelationshipTypes {
 	/**
 	 * Returns true if the relationship types specify the same objects in a
@@ -55,7 +57,7 @@ public class RelationshipTypes {
 		RelationshipType r = EcoreUtil.copy(a);
 
 		// Iterate all possible merge targets
-		for (Declaration d : a.megamodel().getDeclarations()) {
+		for (Declaration d : allDeclarations(a.megamodel())) {
 			// Skip non-relationship types
 			if (!(d instanceof RelationshipType))
 				continue;

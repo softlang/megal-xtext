@@ -69,4 +69,9 @@ public class FunctionTypeReferenceEval extends FunctionTypeReferenceImpl {
 		return getDomain() == or.getDomain() && getCodomain() == or.getCodomain()
 				&& getDefinition() == or.getDefinition();
 	}
+
+	@Override
+	public String toString() {
+		return getDefinition().getName() + "[" + getDomain() + "->" + getCodomain() + "]";
+	}
 }

@@ -3,6 +3,7 @@ package org.softlang.megal;
 import static com.google.common.base.Objects.equal;
 
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import static org.softlang.megal.Megamodels.*;
 
 public class Relationships {
 	/**
@@ -55,7 +56,7 @@ public class Relationships {
 		Relationship r = EcoreUtil.copy(a);
 
 		// Iterate all possible merge targets
-		for (Declaration d : a.megamodel().getDeclarations()) {
+		for (Declaration d : allDeclarations(a.megamodel())) {
 			// Skip non-relationships
 			if (!(d instanceof Relationship))
 				continue;
@@ -72,7 +73,7 @@ public class Relationships {
 		return r;
 	}
 
-	public static void wire(Relationship x) {
+	private static void wire(Relationship x) {
 		// If type assigned to a different megamodel
 		if (x.getType().megamodel() != x.megamodel()) {
 

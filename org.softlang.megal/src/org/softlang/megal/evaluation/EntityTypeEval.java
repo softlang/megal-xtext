@@ -8,4 +8,10 @@ public class EntityTypeEval extends EntityTypeImpl {
 	public Megamodel megamodel() {
 		return (Megamodel) eContainer();
 	}
+
+	@Override
+	public String toString() {
+		return getName() + (getSupertype() == null ? " as entity" : " < " + getSupertype());
+	}
+
 }

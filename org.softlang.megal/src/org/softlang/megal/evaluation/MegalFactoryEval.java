@@ -7,7 +7,6 @@ import org.softlang.megal.FunctionTypeReference;
 import org.softlang.megal.Link;
 import org.softlang.megal.Megamodel;
 import org.softlang.megal.Relationship;
-import org.softlang.megal.Relationships;
 import org.softlang.megal.RelationshipType;
 import org.softlang.megal.RelationshipTypeInstance;
 import org.softlang.megal.impl.MegalFactoryImpl;

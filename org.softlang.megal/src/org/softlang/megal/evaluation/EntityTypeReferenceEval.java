@@ -68,4 +68,10 @@ public class EntityTypeReferenceEval extends EntityTypeReferenceImpl {
 
 		return isMany() == or.isMany() && getDefinition() == or.getDefinition();
 	}
+
+	@Override
+	public String toString() {
+		return getDefinition().getName() + (isMany() ? "+" : "");
+	}
+
 }

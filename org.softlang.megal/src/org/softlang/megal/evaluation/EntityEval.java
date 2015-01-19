@@ -1,12 +1,12 @@
 package org.softlang.megal.evaluation;
 
 import static com.google.common.collect.FluentIterable.from;
+import static org.softlang.megal.Megamodels.allDeclarations;
 
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.softlang.megal.Entity;
 import org.softlang.megal.Megamodel;
-import static org.softlang.megal.Megamodels.allDeclarations;
 import org.softlang.megal.RelationshipType;
 import org.softlang.megal.RelationshipTypeInstance;
 import org.softlang.megal.TypeReference;
@@ -48,5 +48,10 @@ public class EntityEval extends EntityImpl {
 					result.add(i);
 
 		return result;
+	}
+
+	@Override
+	public String toString() {
+		return (isParameter() ? "!" : isDependent() ? "?" : "") + getName() + ":" + getType();
 	}
 }

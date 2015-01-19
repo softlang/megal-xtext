@@ -4,6 +4,8 @@ import static com.google.common.base.Objects.equal;
 
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
+import static org.softlang.megal.Megamodels.*;
+
 public class Entities {
 	/**
 	 * Returns true if the entities specify the same objects in a different
@@ -50,12 +52,12 @@ public class Entities {
 	 *            The entity to merge with it's group
 	 * @return Returns a newly created entity
 	 */
-	public static Entity createMerge(Entity a) {
+	private  static Entity createMerge(Entity a) {
 		// Copy the base
 		Entity r = EcoreUtil.copy(a);
 
 		// Iterate all possible merge targets
-		for (Declaration d : a.megamodel().getDeclarations()) {
+		for (Declaration d : allDeclarations(a.megamodel())) {
 			// Skip non-entities
 			if (!(d instanceof Entity))
 				continue;
