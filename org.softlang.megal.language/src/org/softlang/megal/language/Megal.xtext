@@ -40,7 +40,7 @@ Entity:
 	(dependent?='?' | parameter?='!')?
 	name=QID
 	(annotations+=ShowNameAnnotation)?
-	':' type=EntityTypeReference;
+	':' type=TypeReference;
 
 Relationship:
 	annotations+=PrefixAnnotation*

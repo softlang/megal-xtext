@@ -4,10 +4,12 @@
 package org.softlang.megal.language.validation
 
 import org.eclipse.xtext.validation.Check
-import org.softlang.megal.RelationshipTypeInstance
-import org.softlang.megal.Relationship
+import org.softlang.megal.Entity
+import org.softlang.megal.EntityType
 import org.softlang.megal.MegalPackage
-import org.softlang.megal.Relationships
+import org.softlang.megal.Relationship
+
+import static extension org.softlang.megal.Megamodels.*
 
 /**
  * Custom validation rules. 
@@ -26,9 +28,28 @@ class MegalValidator extends AbstractMegalValidator {
 	//					INVALID_NAME)
 	//		}
 	//	}
+	public static val NO_APPLICABLE_INSTANCE = 'noApplicableInstance'
+	public static val ENTITY_MISOVERLOAD = 'entityMisoverload'
+	public static val ENTITY_TYPE_MISOVERLOAD = 'entityTypeMisoverload'
+
 	@Check
-	def checkRelationshipTypeApplicable(Relationship it) {
-		if (appliedInstance == null)
-			error('''No instance applicable for «type?.name»''', MegalPackage.Literals.RELATIONSHIP__TYPE)
+	def checkRelationshipTypeApplicable(Relationship x) {
+		if (x.appliedInstance == null)
+			error('''No instance applicable for «x.type?.name» from «x.left.type» to «x.right.type»''',
+				MegalPackage.Literals.RELATIONSHIP__TYPE, NO_APPLICABLE_INSTANCE)
+	}
+
+	@Check
+	def checkUniqueName(Entity x) {
+		if (x.megamodel.allDeclarations.filter(Entity).exists[name == x.name && type != x.type])
+			error('''The entity '«x.name»' does not overload it's correspondent entities''',
+				MegalPackage.Literals.NAMED__NAME, ENTITY_MISOVERLOAD)
+	}
+
+	@Check
+	def checkUniqueName(EntityType x) {
+		if (x.megamodel.allDeclarations.filter(EntityType).exists[name == x.name && supertype != x.supertype])
+			error('''The entity type '«x.name»' does not overload it's correspondent entity types''',
+				MegalPackage.Literals.NAMED__NAME, ENTITY_TYPE_MISOVERLOAD)
 	}
 }

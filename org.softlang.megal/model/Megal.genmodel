@@ -15,6 +15,7 @@
     </genClasses>
     <genClasses ecoreClass="Megal.ecore#//Element">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Megal.ecore#//Element/annotations"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Megal.ecore#//Element/origin"/>
     </genClasses>
     <genClasses ecoreClass="Megal.ecore#//Megamodel">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Megal.ecore#//Megamodel/declarations"/>

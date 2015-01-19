@@ -8,6 +8,7 @@ import org.softlang.megal.Declaration
 import org.softlang.megal.Megamodel
 
 import static org.eclipse.xtext.scoping.Scopes.*
+import static org.eclipse.xtext.scoping.IScope.NULLSCOPE
 
 /**
  * This scope provider uses declarative mechanisms to determine local scopes for MegaL objects
@@ -26,12 +27,12 @@ class MegalScopeProvider extends AbstractDeclarativeScopeProvider {
 		// 'Cast' the instance class to match
 		val instanceClass = r.EType.instanceClass.asSubclass(Declaration)
 
-		// Scope own elements first, then the imported, then the delegation
+		// Scope own elements first, then the imported
 		scopeFor(m.declarations.filter(instanceClass), qualifiedNameProvider,
 			scopeFor(
 				m.importedDeclarations.filter(instanceClass),
 				qualifiedNameProvider,
-				delegateGetScope(m, r)
+				NULLSCOPE
 			))
 	}
 

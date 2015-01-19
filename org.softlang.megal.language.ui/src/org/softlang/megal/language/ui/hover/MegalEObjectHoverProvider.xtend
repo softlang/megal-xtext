@@ -179,7 +179,9 @@ class MegalEObjectHoverProvider extends ExtenderEObjectHoverProvider {
 		null
 	}
 
-	def dispatch firstLineFor(Entity it) '''<b>«name»</b> : «type.definition.link»'''
+	def dispatch firstLineFor(Entity it) {
+		return '''<b>«name»</b> : «type.definition.link»'''
+	}
 
 	def dispatch firstLineFor(EntityType it) '''<b>«name»</b> «IF supertype != null»  &lt; «supertype.definition.link»«ENDIF»'''
 

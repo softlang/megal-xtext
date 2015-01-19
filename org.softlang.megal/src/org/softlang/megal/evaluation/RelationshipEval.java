@@ -1,5 +1,6 @@
 package org.softlang.megal.evaluation;
 
+import org.softlang.megal.Declaration;
 import org.softlang.megal.Megamodel;
 import org.softlang.megal.RelationshipType;
 import org.softlang.megal.RelationshipTypeInstance;
@@ -9,8 +10,17 @@ import org.softlang.megal.impl.RelationshipImpl;
 public class RelationshipEval extends RelationshipImpl {
 	@Override
 	public Megamodel megamodel() {
+		if (getOrigin() != null) {
+			if (getOrigin() instanceof Megamodel)
+				return (Megamodel) getOrigin();
+
+			if (getOrigin() instanceof Declaration)
+				return ((Declaration) getOrigin()).megamodel();
+		}
+
 		return (Megamodel) eContainer();
 	}
+
 
 	@Override
 	public RelationshipTypeInstance appliedInstance() {
