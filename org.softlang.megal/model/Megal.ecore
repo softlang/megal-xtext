@@ -24,8 +24,11 @@
         eType="#//Megamodel"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Link" eSuperTypes="#//Element">
+    <eOperations name="megamodel" lowerBound="1" eType="#//Megamodel"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="link" lowerBound="1" eType="#//Entity"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="to" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="input" eType="#//Entity"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="output" eType="#//Entity"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Declaration" abstract="true" eSuperTypes="#//Element">
     <eOperations name="megamodel" lowerBound="1" eType="#//Megamodel"/>

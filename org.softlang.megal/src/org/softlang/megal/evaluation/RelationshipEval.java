@@ -27,7 +27,7 @@ public class RelationshipEval extends RelationshipImpl {
 		if (getType() == null)
 			return null;
 
-		RelationshipType mergedType = RelationshipTypes.createMerge(getType());
+		RelationshipType mergedType = RelationshipTypes.createRelationshipTypeMerge(getType());
 
 		RelationshipTypeInstance prv = null;
 		int mc = Integer.MAX_VALUE;

@@ -3,6 +3,8 @@ package org.softlang.megal;
 import static com.google.common.base.Objects.equal;
 
 import org.eclipse.emf.ecore.util.EcoreUtil;
+
+import static org.softlang.megal.Declarations.match;
 import static org.softlang.megal.Megamodels.*;
 
 public class Relationships {
@@ -16,8 +18,8 @@ public class Relationships {
 	 *            The second relationship
 	 * @return Returns true if merge is possible
 	 */
-	public static boolean isMergable(Relationship a, Relationship b) {
-		return equal(a.getLeft(), b.getLeft()) && equal(a.getType(), b.getType()) && equal(a.getRight(), b.getRight());
+	public static boolean isRelationshipMergable(Relationship a, Relationship b) {
+		return a == null ? b == null : b != null && equal(a.getLeft(), b.getLeft()) && equal(a.getType(), b.getType()) && equal(a.getRight(), b.getRight());
 	}
 
 	/**
@@ -27,13 +29,13 @@ public class Relationships {
 	 *            The relationship to merge with it's group
 	 * @return Returns a newly created relationship
 	 */
-	public static Relationship createMerge(Relationship a) {
+	public static Relationship createRelationshipMerge(Relationship a) {
 		// Copy the base
 		Relationship r = EcoreUtil.copy(a);
 		r.setOrigin(a);
 
 		// Iterate all possible merge targets
-		for (Declaration d : allDeclarations(a.megamodel())) {
+		for (Declaration d : transitiveDeclarations(a.megamodel())) {
 			// Skip non-relationships
 			if (!(d instanceof Relationship))
 				continue;
@@ -42,11 +44,31 @@ public class Relationships {
 			Relationship b = (Relationship) d;
 
 			// If not the source and equal, do the merge
-			if (a != b && isMergable(a, b)) {
+			if (a != b && isRelationshipMergable(a, b)) {
 				// Merge the annotations
 				r.getAnnotations().addAll(EcoreUtil.copyAll(b.getAnnotations()));
 			}
 		}
 		return r;
+	}
+
+	public static Relationship resolveToMergedRelationship(Megamodel m, String name) {
+		for (Declaration d : m.getDeclarations()) {
+			if (!(d instanceof Relationship))
+				continue;
+
+			Relationship e = (Relationship) d;
+
+			if (match(e, name))
+				return createRelationshipMerge(e);
+		}
+
+		for (Megamodel i : m.getImports()) {
+			Relationship pr = resolveToMergedRelationship(i, name);
+			if (pr != null)
+				return pr;
+		}
+
+		return null;
 	}
 }

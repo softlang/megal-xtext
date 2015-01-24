@@ -9,6 +9,7 @@ import org.softlang.megal.EntityType
 import org.softlang.megal.RelationshipType
 import org.softlang.megal.RelationshipTypeInstance
 import org.softlang.megal.Relationship
+import org.softlang.megal.Link
 
 class MegalSemanticHighlightingCalculator extends DefaultSemanticHighlightingCalculator {
 
@@ -34,6 +35,10 @@ class MegalSemanticHighlightingCalculator extends DefaultSemanticHighlightingCal
 	 */
 	def dispatch stylesFor(EObject object) {
 		null
+	}
+
+	def dispatch stylesFor(Link object) {
+		#[MegalPackage.Literals.LINK__LINK -> MegalHighlightingConfiguration.idFor(object)]
 	}
 
 	def dispatch stylesFor(Entity object) {

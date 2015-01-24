@@ -15,6 +15,7 @@ import static org.softlang.megal.Guard.*
 import org.eclipse.swt.graphics.RGB
 import org.softlang.megal.RelationshipTypeInstance
 import org.softlang.megal.Relationship
+import org.softlang.megal.Link
 
 class MegalHighlightingConfiguration extends DefaultHighlightingConfiguration {
 
@@ -148,6 +149,17 @@ class MegalHighlightingConfiguration extends DefaultHighlightingConfiguration {
 			ifAssigned(o.type)
 			// Value and out-guard
 			return ifContained(o.type.definition.ID, available)
+		]
+	}
+
+	static def idFor(Link o) {
+		guarded(ENTITY_ID) [
+			// Guards
+			ifAssigned(o)
+			ifAssigned(o.link)
+			ifAssigned(o.link.type)
+			// Value and out-guard
+			return ifContained(o.link.type.definition.ID, available)
 		]
 	}
 

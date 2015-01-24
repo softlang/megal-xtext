@@ -87,7 +87,7 @@ public class MegalServices {
 	}
 
 	public List<Entity> getEntities(Megamodel megamodel) {
-		return Megamodels.allDeclarations(megamodel).stream().filter(x -> (x instanceof Entity))
+		return Megamodels.transitiveDeclarations(megamodel).stream().filter(x -> (x instanceof Entity))
 				.map(x -> (Entity) x).collect(Collectors.toList());
 	}
 
@@ -120,13 +120,13 @@ public class MegalServices {
 	}
 
 	public EntityType resolveEntityType(Megamodel megamodel, String name) {
-		return Megamodels.allDeclarations(megamodel).stream().filter(x -> x instanceof EntityType)
+		return Megamodels.transitiveDeclarations(megamodel).stream().filter(x -> x instanceof EntityType)
 				.map(x -> (EntityType) x).filter(x -> name.equals(x.getName())).findFirst()
 				.orElse(null);
 	}
 
 	public Entity resolveEntity(Megamodel megamodel, String name) {
-		return Megamodels.allDeclarations(megamodel).stream().filter(x -> x instanceof Entity)
+		return Megamodels.transitiveDeclarations(megamodel).stream().filter(x -> x instanceof Entity)
 				.map(x -> (Entity) x).filter(x -> name.equals(x.getName())).findFirst()
 				.orElse(null);
 	}
@@ -134,7 +134,7 @@ public class MegalServices {
 	public RelationshipType resolveRelationshipType(Megamodel megamodel, String name,
 			EntityType from) {
 
-		return Megamodels.allDeclarations(megamodel).stream()
+		return Megamodels.transitiveDeclarations(megamodel).stream()
 				.filter(x -> x instanceof RelationshipType).map(x -> (RelationshipType) x)
 				.filter(x -> from.equals(x.instanceLeft().getDefinition()) && name.equals(x.getName()))
 				.findFirst().orElse(null);

@@ -21,11 +21,13 @@ import com.google.inject.Inject
 //import org.softlang.megal.processing.FunAppDesugaring
 //import org.softlang.megal.processing.LanguageResolving
 import org.softlang.megal.MegalFactory
-import org.softlang.megal.Megamodels
+import static extension org.softlang.megal.Megamodels.*
 import org.eclipse.xtext.resource.XtextResource
 import com.google.inject.Provider
 import org.softlang.megal.language.MegalStandaloneSetup
 import org.softlang.megal.language.MegalStandaloneSetupGenerated
+import org.softlang.megal.Resolvers
+import org.softlang.megal.Entity
 
 /**
  * Generates code from your model files on save.
@@ -48,10 +50,13 @@ class MegalGenerator implements IGenerator {
 	}
 
 	override void doGenerate(Resource resource, IFileSystemAccess fsa) {
-//		for (m : resource.contents.filter(Megamodel)) {
-//			val merge = Megamodels.createMerge(m)
-//			println(merge.toText)
-//		}
+		for (m : resource.contents.filter(Megamodel)) {
+			val resolvers = Resolvers.allResolvers(m)
+
+			for (e : m.declarations.filter(Entity))
+				for (r : resolvers.filter[resolves(e)])
+					println('''«r» resolves «e», value: «r.resolve(e)»''')
+		}
 
 	//		if (resource.contents.filter(Megamodel).exists[info.exists[key == "Generated"]])
 	//			return

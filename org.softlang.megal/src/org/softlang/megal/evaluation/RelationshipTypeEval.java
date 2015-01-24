@@ -2,7 +2,7 @@ package org.softlang.megal.evaluation;
 
 import org.softlang.megal.Declaration;
 import org.softlang.megal.Megamodel;
-import org.softlang.megal.Nameds;
+import org.softlang.megal.Declarations;
 import org.softlang.megal.TypeReference;
 import org.softlang.megal.impl.RelationshipTypeImpl;
 
@@ -38,7 +38,7 @@ public class RelationshipTypeEval extends RelationshipTypeImpl {
 	 * {@inheritDoc}
 	 * <p>
 	 * The representation is descriptive for
-	 * {@link Nameds#match(org.softlang.megal.Named, String)}
+	 * {@link Declarations#match(org.softlang.megal.Named, String)}
 	 * </p>
 	 * 
 	 * <code>

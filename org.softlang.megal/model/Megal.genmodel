@@ -29,6 +29,9 @@
     <genClasses ecoreClass="Megal.ecore#//Link">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Megal.ecore#//Link/link"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Megal.ecore#//Link/to"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Megal.ecore#//Link/input"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Megal.ecore#//Link/output"/>
+      <genOperations ecoreOperation="Megal.ecore#//Link/megamodel"/>
     </genClasses>
     <genClasses ecoreClass="Megal.ecore#//Declaration">
       <genOperations ecoreOperation="Megal.ecore#//Declaration/megamodel"/>

@@ -18,7 +18,7 @@ ShowNameAnnotation returns Annotation:
 
 Link:
 	annotations+=PrefixAnnotation*
-	link=[Entity|QID] '=' to=STRING;
+	link=[Entity|QID] ('(' input=[Entity|QID] ')' '|' '->' output=[Entity|QID])? '=' to=STRING;
 
 EntityType:
 	annotations+=PrefixAnnotation*

@@ -5,6 +5,7 @@ import static org.eclipse.core.resources.ResourcesPlugin.getWorkspace;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
@@ -20,14 +21,13 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
-import org.eclipse.jdt.core.search.IJavaSearchConstants;
 import org.eclipse.jdt.core.search.IJavaSearchScope;
 import org.eclipse.jdt.core.search.SearchEngine;
-import org.eclipse.jdt.core.search.TypeNameMatch;
-import org.eclipse.jdt.core.search.TypeNameMatchRequestor;
 import org.eclipse.jdt.launching.JavaRuntime;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
@@ -85,8 +85,7 @@ public class SourceSupportPlugin implements BundleActivator {
 	 */
 	private void rebuildDatabase() {
 		// Invalidate all the projects
-		for (IProject invalidatedProject : getWorkspace().getRoot()
-				.getProjects())
+		for (IProject invalidatedProject : getWorkspace().getRoot().getProjects())
 			invalidateDatabase(invalidatedProject);
 	}
 
@@ -100,8 +99,7 @@ public class SourceSupportPlugin implements BundleActivator {
 	 */
 	private void invalidateDatabase(String invalidatedProjectName) {
 		// Resolve the project name
-		IProject invalidatedProject = getWorkspace().getRoot().getProject(
-				invalidatedProjectName);
+		IProject invalidatedProject = getWorkspace().getRoot().getProject(invalidatedProjectName);
 
 		invalidateDatabase(invalidatedProject);
 	}
@@ -127,32 +125,23 @@ public class SourceSupportPlugin implements BundleActivator {
 			IJavaProject javaProject = JavaCore.create(invalidatedProject);
 
 			// Get all classpath entries required to run this thing
-			String[] classpathEntries = JavaRuntime
-					.computeDefaultRuntimeClassPath(javaProject);
+			String[] classpathEntries = JavaRuntime.computeDefaultRuntimeClassPath(javaProject);
 
 			// Convert those to URLs, assume no malformed
 			URL[] urls = new URL[classpathEntries.length];
 			for (int i = 0; i < classpathEntries.length; i++)
 				try {
-					urls[i] = new Path(classpathEntries[i]).toFile().toURI()
-							.toURL();
+					urls[i] = new Path(classpathEntries[i]).toFile().toURI().toURL();
 				} catch (MalformedURLException e) {
 					throw new RuntimeException(e);
 				}
 
-			// Compute class loader for resolving class names
-			ClassLoader classLoader = new URLClassLoader(urls, Thread
-					.currentThread().getContextClassLoader());
-
 			// Create the scoped elements and the java search scope
 			IJavaProject[] scopeElements = { javaProject };
-			IJavaSearchScope scope = SearchEngine.createJavaSearchScope(
-					scopeElements, IJavaSearchScope.SOURCES
-							| IJavaSearchScope.REFERENCED_PROJECTS
-							| IJavaSearchScope.APPLICATION_LIBRARIES);
+			IJavaSearchScope scope = SearchEngine.createJavaSearchScope(scopeElements, IJavaSearchScope.SOURCES
+					| IJavaSearchScope.REFERENCED_PROJECTS | IJavaSearchScope.APPLICATION_LIBRARIES);
 
-			Set<String> packages = new SearchScopePackageSet(searchEngine,
-					scope);
+			Set<String> packages = new SearchScopePackageSet(searchEngine, scope);
 			Set<String> classes = new SearchScopeTypeSet(searchEngine, scope);
 
 			// Assign a calculated model
@@ -168,12 +157,11 @@ public class SourceSupportPlugin implements BundleActivator {
 				}
 
 				@Override
-				public <T> Class<? extends T> loadClass(Class<T> deriving,
-						String name) {
+				public <T> Class<? extends T> loadClass(Class<T> deriving, String name) {
 
 					try {
 						// Try to load and subclass the class for this name
-						Class<?> c = Class.forName(name, false, classLoader);
+						Class<?> c = Class.forName(name, false, new URLClassLoader(urls, deriving.getClassLoader()));
 						if (deriving.isAssignableFrom(c))
 							return c.asSubclass(deriving);
 
@@ -199,11 +187,10 @@ public class SourceSupportPlugin implements BundleActivator {
 				}
 
 				@Override
-				public <T> Class<? extends T> loadClass(Class<T> deriving,
-						String name) {
+				public <T> Class<? extends T> loadClass(Class<T> deriving, String name) {
 					try {
 						// Try to load and subclass the class for this name
-						Class<?> c = Class.forName(name);
+						Class<?> c = Class.forName(name, false, deriving.getClassLoader());
 						if (deriving.isAssignableFrom(c))
 							return c.asSubclass(deriving);
 
@@ -232,6 +219,23 @@ public class SourceSupportPlugin implements BundleActivator {
 		return database.get(project.getName());
 	}
 
+	public SourceSupport analyzeContaining(EObject eObject) {
+		if (eObject.eResource() == null)
+			throw new IllegalArgumentException("No containing resource fo the EObject");
+
+		URI uri = eObject.eResource().getURI();
+		if (uri.segmentCount() < 2)
+			throw new IllegalArgumentException("Invalid uri: " + uri);
+
+		String seg0 = uri.segment(0);
+		String seg1 = uri.segment(1);
+
+		if ("resource".equals(seg0))
+			return analyze(seg1);
+
+		throw new IllegalArgumentException("Can not resolve to non-resource URI");
+	}
+
 	/**
 	 * <p>
 	 * This listener handles the invalidation of changed projects
@@ -248,8 +252,7 @@ public class SourceSupportPlugin implements BundleActivator {
 				// Visit the delta
 				event.getDelta().accept(new IResourceDeltaVisitor() {
 					@Override
-					public boolean visit(IResourceDelta delta)
-							throws CoreException {
+					public boolean visit(IResourceDelta delta) throws CoreException {
 						// Get the project name for the changed resource
 						String projectName = delta.getFullPath().segment(0);
 

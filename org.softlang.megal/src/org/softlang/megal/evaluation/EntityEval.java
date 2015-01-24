@@ -1,7 +1,7 @@
 package org.softlang.megal.evaluation;
 
 import static com.google.common.collect.FluentIterable.from;
-import static org.softlang.megal.Megamodels.allDeclarations;
+import static org.softlang.megal.Megamodels.transitiveDeclarations;
 
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
@@ -9,7 +9,7 @@ import org.softlang.megal.Declaration;
 import org.softlang.megal.Element;
 import org.softlang.megal.Entity;
 import org.softlang.megal.Megamodel;
-import org.softlang.megal.Nameds;
+import org.softlang.megal.Declarations;
 import org.softlang.megal.RelationshipType;
 import org.softlang.megal.RelationshipTypeInstance;
 import org.softlang.megal.TypeReference;
@@ -37,7 +37,7 @@ public class EntityEval extends EntityImpl {
 
 		// For all relationship type, check if in lattice and add if so
 		EList<RelationshipTypeInstance> result = new BasicEList<>();
-		for (RelationshipType r : from(allDeclarations(megamodel())).filter(RelationshipType.class))
+		for (RelationshipType r : from(transitiveDeclarations(megamodel())).filter(RelationshipType.class))
 			for (RelationshipTypeInstance i : r.getInstances())
 				if (fl.contains(i.getLeft()) && sl.contains(i.getRight()))
 					result.add(i);
@@ -53,7 +53,7 @@ public class EntityEval extends EntityImpl {
 
 		// For all relationship type, check if in lattice and add if so
 		EList<RelationshipTypeInstance> result = new BasicEList<>();
-		for (RelationshipType r : from(allDeclarations(megamodel())).filter(RelationshipType.class))
+		for (RelationshipType r : from(transitiveDeclarations(megamodel())).filter(RelationshipType.class))
 			for (RelationshipTypeInstance i : r.getInstances())
 				if (sl.contains(i.getLeft()) && tl.contains(i.getRight()))
 					result.add(i);
@@ -65,15 +65,14 @@ public class EntityEval extends EntityImpl {
 	 * {@inheritDoc}
 	 * <p>
 	 * The representation is descriptive for
-	 * {@link Nameds#match(org.softlang.megal.Named, String)}
+	 * {@link Declarations#match(org.softlang.megal.Named, String)}
 	 * </p>
 	 * <code>
-	 * (isParameter() ? "!" : isDependent() ? "?" : "") + getName() + ":" +
-	 * getType();
+	 * getName();
 	 * </code>
 	 */
 	@Override
 	public String toString() {
-		return (isParameter() ? "!" : isDependent() ? "?" : "") + getName() + ":" + getType();
+		return getName();
 	}
 }

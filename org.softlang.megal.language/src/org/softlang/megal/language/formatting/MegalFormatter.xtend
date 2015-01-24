@@ -39,8 +39,15 @@ public class MegalFormatter extends AbstractDeclarativeFormatter {
 
 		// Link
 		c.setLinewrap(0, 1, 2).around(linkRule)
-		c.setSpace(' ').before(linkAccess.equalsSignKeyword_2)
-		c.setSpace(' ').after(linkAccess.equalsSignKeyword_2)
+		c.setNoSpace.around(linkAccess.leftParenthesisKeyword_2_0)
+		c.setNoSpace.before(linkAccess.rightParenthesisKeyword_2_2)
+		c.setSpace(' ').after(linkAccess.rightParenthesisKeyword_2_2)
+		c.setLinewrap(0, 0, 1).after(linkAccess.rightParenthesisKeyword_2_2)
+		c.setNoSpace.after(linkAccess.verticalLineKeyword_2_3)
+		c.setSpace(' ').before(linkAccess.hyphenMinusGreaterThanSignKeyword_2_4)
+		c.setSpace(' ').after(linkAccess.hyphenMinusGreaterThanSignKeyword_2_4)
+		c.setSpace(' ').before(linkAccess.equalsSignKeyword_3)
+		c.setSpace(' ').after(linkAccess.equalsSignKeyword_3)
 
 		// Entity Type
 		c.setLinewrap(0, 1, 2).around(entityTypeRule)

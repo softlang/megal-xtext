@@ -1,12 +1,18 @@
 package org.softlang.megal;
 
 import static com.google.common.base.Objects.equal;
+import static org.softlang.megal.TypeReferences.*;
+
+import java.util.Collection;
+import java.util.List;
 
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
-import static org.softlang.megal.Megamodels.*;
+import com.google.common.collect.ImmutableList;
 
-import static org.softlang.megal.Nameds.*;
+import static org.softlang.megal.Megamodels.*;
+import static org.softlang.megal.Declarations.*;
+
 public class EntityTypes {
 	/**
 	 * Returns true if the entity types specify the same objects in a different
@@ -18,8 +24,8 @@ public class EntityTypes {
 	 *            The second entity type
 	 * @return Returns true if merge is possible
 	 */
-	public static boolean isMergable(EntityType a, EntityType b) {
-		return equal(a.getName(), b.getName()) && equal(a.getSupertype(), b.getSupertype());
+	public static boolean isEntityTypeMergable(EntityType a, EntityType b) {
+		return a == null ? b == null : b != null && equal(a.getName(), b.getName()) && equal(a.getSupertype(), b.getSupertype());
 	}
 
 	/**
@@ -29,13 +35,13 @@ public class EntityTypes {
 	 *            The entity type to merge with it's group
 	 * @return Returns a newly created entity type
 	 */
-	public static EntityType createMerge(EntityType a) {
+	public static EntityType createEntityTypeMerge(EntityType a) {
 		// Copy the base
 		EntityType r = EcoreUtil.copy(a);
 		r.setOrigin(a);
 
 		// Iterate all possible merge targets
-		for (Declaration d : allDeclarations(a.megamodel())) {
+		for (Declaration d : transitiveDeclarations(a.megamodel())) {
 			// Skip non-entity types
 			if (!(d instanceof EntityType))
 				continue;
@@ -44,7 +50,7 @@ public class EntityTypes {
 			EntityType b = (EntityType) d;
 
 			// If not the source and equal, do the merge
-			if (a != b && isMergable(a, b)) {
+			if (a != b && isEntityTypeMergable(a, b)) {
 				// Merge the annotations
 				r.getAnnotations().addAll(EcoreUtil.copyAll(b.getAnnotations()));
 			}
@@ -52,7 +58,7 @@ public class EntityTypes {
 		return r;
 	}
 
-	public static EntityType resolveToMerged(Megamodel m, String name) {
+	public static EntityType resolveToMergedEntityType(Megamodel m, String name) {
 		for (Declaration d : m.getDeclarations()) {
 			if (!(d instanceof EntityType))
 				continue;
@@ -60,15 +66,41 @@ public class EntityTypes {
 			EntityType e = (EntityType) d;
 
 			if (match(e, name))
-				return createMerge(e);
+				return createEntityTypeMerge(e);
 		}
 
 		for (Megamodel i : m.getImports()) {
-			EntityType pr = resolveToMerged(i, name);
+			EntityType pr = resolveToMergedEntityType(i, name);
 			if (pr != null)
 				return pr;
 		}
 
 		return null;
+	}
+
+	public static List<Entity> filterInstances(Collection<Declaration> declarations, TypeReference ref) {
+		ImmutableList.Builder<Entity> resultBuilder = ImmutableList.builder();
+
+		for (Declaration d : declarations) {
+			// Skip non-entities
+			if (!(d instanceof Entity))
+				continue;
+
+			// Cast to entity
+			Entity b = (Entity) d;
+
+			if (b.getType().equals(ref) || b.getType().latticeAbove(ref))
+				resultBuilder.add(b);
+		}
+
+		return resultBuilder.build();
+	}
+
+	public static List<Entity> instances(Megamodel m, TypeReference ref) {
+		return filterInstances(m.getDeclarations(), ref);
+	}
+
+	public static List<Entity> allInstances(Megamodel m, TypeReference ref) {
+		return filterInstances(transitiveDeclarations(m), ref);
 	}
 }
