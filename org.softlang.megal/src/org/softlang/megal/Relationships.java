@@ -2,7 +2,14 @@ package org.softlang.megal;
 
 import static com.google.common.base.Objects.equal;
 
+import java.awt.BufferCapabilities.FlipContents;
+import java.util.Collection;
+import java.util.List;
+
 import org.eclipse.emf.ecore.util.EcoreUtil;
+
+import com.google.common.collect.FluentIterable;
+import com.google.common.collect.ImmutableList;
 
 import static org.softlang.megal.Declarations.match;
 import static org.softlang.megal.Megamodels.*;
@@ -19,7 +26,8 @@ public class Relationships {
 	 * @return Returns true if merge is possible
 	 */
 	public static boolean isRelationshipMergable(Relationship a, Relationship b) {
-		return a == null ? b == null : b != null && equal(a.getLeft(), b.getLeft()) && equal(a.getType(), b.getType()) && equal(a.getRight(), b.getRight());
+		return a == null ? b == null : b != null && equal(a.getLeft(), b.getLeft()) && equal(a.getType(), b.getType())
+				&& equal(a.getRight(), b.getRight());
 	}
 
 	/**
@@ -71,4 +79,23 @@ public class Relationships {
 
 		return null;
 	}
+
+	public static Iterable<Relationship> filterInvolved(Iterable<Declaration> declarations, Entity left,
+			RelationshipType type, Entity right) {
+		return FluentIterable
+				.from(declarations)
+				.filter(Relationship.class)
+				.filter(r -> (left == null || Entities.isEntityMergable(r.getLeft(), left))
+						&& (type == null || RelationshipTypes.isRelationshipTypeMergable(r.getType(), type))
+						&& (right == null || Entities.isEntityMergable(r.getRight(), right)));
+	}
+
+	public static Iterable<Relationship> involved(Megamodel m, Entity left, RelationshipType type, Entity right) {
+		return filterInvolved(m.getDeclarations(), left, type, right);
+	}
+
+	public static Iterable<Relationship> allInvolved(Megamodel m, Entity left, RelationshipType type, Entity right) {
+		return filterInvolved(transitiveDeclarations(m), left, type, right);
+	}
+
 }

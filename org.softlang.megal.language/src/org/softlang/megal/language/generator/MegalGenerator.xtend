@@ -28,6 +28,7 @@ import org.softlang.megal.language.MegalStandaloneSetup
 import org.softlang.megal.language.MegalStandaloneSetupGenerated
 import org.softlang.megal.Resolvers
 import org.softlang.megal.Entity
+import org.softlang.megal.Evaluators
 
 /**
  * Generates code from your model files on save.
@@ -51,11 +52,16 @@ class MegalGenerator implements IGenerator {
 
 	override void doGenerate(Resource resource, IFileSystemAccess fsa) {
 		for (m : resource.contents.filter(Megamodel)) {
-			val resolvers = Resolvers.allResolvers(m)
+			val resolvers = Resolvers.loadResolvers(m)
+			val evaluators = Evaluators.loadEvaluators(m)
+			val mappings = Evaluators.loadMappings(m)
 
 			for (e : m.declarations.filter(Entity))
-				for (r : resolvers.filter[resolves(e)])
+				for (r : resolvers.values.filter[resolves(e)])
 					println('''«r» resolves «e», value: «r.resolve(e)»''')
+
+			println(evaluators)
+			println(mappings)
 		}
 
 	//		if (resource.contents.filter(Megamodel).exists[info.exists[key == "Generated"]])

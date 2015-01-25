@@ -4,14 +4,11 @@ import static org.softlang.megal.Entities.allBindings;
 import static org.softlang.megal.EntityTypes.allInstances;
 import static org.softlang.megal.TypeReferences.singleRef;
 
-import java.util.List;
-
 import org.eclipse.core.runtime.Status;
 import org.softlang.megal.api.Resolver;
 import org.softlang.sourcesupport.SourceSupport;
 import org.softlang.sourcesupport.SourceSupportPlugin;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMultimap;
 
 public class Resolvers {
@@ -22,7 +19,7 @@ public class Resolvers {
 	 *            The megamodel to analyze
 	 * @return Returns an immutable list
 	 */
-	public static List<Resolver> allResolvers(Megamodel m) {
+	public static ImmutableMultimap<Entity, Resolver> loadResolvers(Megamodel m) {
 		// Get the type
 		EntityType resolverType = EntityTypes.resolveToMergedEntityType(m, "Resolver");
 
@@ -30,7 +27,7 @@ public class Resolvers {
 		SourceSupport s = SourceSupportPlugin.getSupport().analyzeContaining(m);
 
 		// Make result and error builder
-		ImmutableList.Builder<Resolver> resultBuilder = ImmutableList.builder();
+		ImmutableMultimap.Builder<Entity, Resolver> resultBuilder = ImmutableMultimap.builder();
 		ImmutableMultimap.Builder<Class<? extends Resolver>, Throwable> errorsBuilder = ImmutableMultimap.builder();
 
 		// Iterate all resolver entities
@@ -38,7 +35,7 @@ public class Resolvers {
 			// Make a store for a potential merge
 			Entity merged = null;
 
-			// Iterate all the binding s for the resolver
+			// Iterate all the bindings for the resolver
 			for (Link l : allBindings(m, r, null, null)) {
 				// Try to load the attached class
 				Class<? extends Resolver> v = s.loadClass(Resolver.class, l.getTo());
@@ -55,7 +52,7 @@ public class Resolvers {
 						vi.load(merged);
 
 						// Put result
-						resultBuilder.add(vi);
+						resultBuilder.put(r, vi);
 					} catch (InstantiationException | IllegalAccessException | Error e) {
 						// On exception, put to the errors
 						errorsBuilder.put(v, e);
@@ -68,7 +65,7 @@ public class Resolvers {
 		if (!errors.isEmpty())
 			MegalPlugin.log(Status.WARNING, "Some of the resolvers could not be instantiated, namely " + errors);
 
-		// Build the
+		// Build and return the result vector
 		return resultBuilder.build();
 	}
 }

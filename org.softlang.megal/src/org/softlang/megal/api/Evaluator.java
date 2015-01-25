@@ -14,23 +14,38 @@ import com.google.common.collect.Multimap;
  */
 public abstract class Evaluator {
 	/**
+	 * Loads the evaluator from the specifying entity
+	 * 
+	 * @param resolver
+	 *            The evaluator entity
+	 */
+	public void load(Entity evaluator) {
+	}
+
+	/**
 	 * Adds a evaluator part, a plugin
 	 * 
+	 * @param via
+	 *            The relationship that is responsible for the linkage from
+	 *            <code>this</code> evaluator to the one given
 	 * @param evaluator
 	 *            The plugin to add, i.e. the left hand side of the
 	 *            <code>partOf</code> relationship
 	 */
-	public void addPart(Evaluator evaluator) {
+	public void addPart(Relationship via, Evaluator evaluator) {
 	}
 
 	/**
 	 * Adds a realized entity, used for plugins
 	 * 
+	 * @param via
+	 *            The relationship that is responsible for the linkage from
+	 *            <code>this</code> evaluator to the one given
 	 * @param entity
 	 *            The realized entity, i.e. the right hand side of the
 	 *            <code>realizationOf</code> relationship
 	 */
-	public void addRealized(Entity entity) {
+	public void addRealized(Relationship via, Entity entity) {
 	}
 
 	/**

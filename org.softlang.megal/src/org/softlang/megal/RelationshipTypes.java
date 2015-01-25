@@ -56,7 +56,7 @@ public class RelationshipTypes {
 
 	public static RelationshipType resolveToMergedRelationshipType(Megamodel m, String name) {
 		for (Declaration d : m.getDeclarations()) {
-			if (!(d instanceof EntityType))
+			if (!(d instanceof RelationshipType))
 				continue;
 
 			RelationshipType e = (RelationshipType) d;

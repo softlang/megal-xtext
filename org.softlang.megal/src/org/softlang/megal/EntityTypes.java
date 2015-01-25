@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
+import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 
 import static org.softlang.megal.Megamodels.*;
@@ -25,7 +26,8 @@ public class EntityTypes {
 	 * @return Returns true if merge is possible
 	 */
 	public static boolean isEntityTypeMergable(EntityType a, EntityType b) {
-		return a == null ? b == null : b != null && equal(a.getName(), b.getName()) && equal(a.getSupertype(), b.getSupertype());
+		return a == null ? b == null : b != null && equal(a.getName(), b.getName())
+				&& equal(a.getSupertype(), b.getSupertype());
 	}
 
 	/**
@@ -78,29 +80,16 @@ public class EntityTypes {
 		return null;
 	}
 
-	public static List<Entity> filterInstances(Collection<Declaration> declarations, TypeReference ref) {
-		ImmutableList.Builder<Entity> resultBuilder = ImmutableList.builder();
-
-		for (Declaration d : declarations) {
-			// Skip non-entities
-			if (!(d instanceof Entity))
-				continue;
-
-			// Cast to entity
-			Entity b = (Entity) d;
-
-			if (b.getType().equals(ref) || b.getType().latticeAbove(ref))
-				resultBuilder.add(b);
-		}
-
-		return resultBuilder.build();
+	public static Iterable<Entity> filterInstances(Iterable<Declaration> declarations, TypeReference ref) {
+		return FluentIterable.from(declarations).filter(Entity.class)
+				.filter(r -> r.getType().equals(ref) || r.getType().latticeAbove(ref));
 	}
 
-	public static List<Entity> instances(Megamodel m, TypeReference ref) {
+	public static Iterable<Entity> instances(Megamodel m, TypeReference ref) {
 		return filterInstances(m.getDeclarations(), ref);
 	}
 
-	public static List<Entity> allInstances(Megamodel m, TypeReference ref) {
+	public static Iterable<Entity> allInstances(Megamodel m, TypeReference ref) {
 		return filterInstances(transitiveDeclarations(m), ref);
 	}
 }
