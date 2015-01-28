@@ -1,21 +1,25 @@
 package org.softlang.megal;
 
-import static org.softlang.megal.Megamodels.*;
-import static org.softlang.megal.Entities.*;
+import static org.softlang.megal.Elements.*;
 import static org.softlang.megal.EntityTypes.*;
-import static org.softlang.megal.RelationshipTypes.*;
+import static org.softlang.megal.Links.*;
 import static org.softlang.megal.TypeReferences.singleRef;
 import static org.softlang.megal.Relationships.*;
 import static org.softlang.megal.Annotations.*;
 
 import java.util.Map.Entry;
 
+import static com.google.common.collect.FluentIterable.*;
+
 import org.eclipse.core.runtime.Status;
+import org.softlang.megal.api.ElementMap;
 import org.softlang.megal.api.Evaluator;
 import org.softlang.sourcesupport.SourceSupport;
 import org.softlang.sourcesupport.SourceSupportPlugin;
 
 import com.google.common.collect.ImmutableMultimap;
+import com.google.common.collect.Multimap;
+import com.google.common.collect.Multimaps;
 
 public class Evaluators {
 	/**
@@ -25,23 +29,24 @@ public class Evaluators {
 	 *            The megamodel to analyze
 	 * @return Returns an immutable list
 	 */
-	public static ImmutableMultimap<Entity, Evaluator> loadEvaluators(Megamodel m) {
+	public static Multimap<Entity, Evaluator> loadEvaluators(Megamodel m) {
+
 		// Get the types
-		EntityType evaluatorType = resolveToMergedEntityType(m, "Evaluator");
-		RelationshipType realizationOfType = resolveToMergedRelationshipType(m, "realizationOf");
-		RelationshipType partOfType = resolveToMergedRelationshipType(m, "partOf");
+		EntityType evaluatorType = resolve(m, EntityType.class, "Evaluator");
+		RelationshipType realizationOfType = resolve(m, RelationshipType.class, "realizationOf");
+		RelationshipType partOfType = resolve(m, RelationshipType.class, "partOf");
 
 		// Get support for code
 		SourceSupport s = SourceSupportPlugin.getSupport().analyzeContaining(m);
 
 		// Make result and error builder
-		ImmutableMultimap.Builder<Entity, Evaluator> resultBuilder = ImmutableMultimap.builder();
+		// ImmutableMultimap.Builder<Entity, Evaluator> resultBuilder =
+		// ImmutableMultimap.builder();
+		Multimap<Entity, Evaluator> resultMultimap = ElementMap.newSetMultimap(Entity.class);
 		ImmutableMultimap.Builder<Class<? extends Evaluator>, Throwable> errorsBuilder = ImmutableMultimap.builder();
 
 		// Iterate all evaluator entities
 		for (Entity r : allInstances(m, singleRef(evaluatorType))) {
-			// Make a store for a potential merge
-			Entity merged = null;
 
 			// Iterate all the bindings for the resolver
 			for (Link l : allBindings(m, r, null, null)) {
@@ -51,16 +56,13 @@ public class Evaluators {
 				// If class is loadable
 				if (v != null)
 					try {
-						// Create merge if not already merged
-						if (merged == null)
-							merged = createEntityMerge(r);
 
 						Evaluator vi = v.newInstance();
 
-						vi.load(merged);
+						vi.load(r);
 
 						// Put result
-						resultBuilder.put(r, vi);
+						resultMultimap.put(r, vi);
 					} catch (InstantiationException | IllegalAccessException | Error e) {
 						// On exception, put to the errors
 						errorsBuilder.put(v, e);
@@ -73,22 +75,18 @@ public class Evaluators {
 		if (!errors.isEmpty())
 			MegalPlugin.log(Status.WARNING, "Some of the evaluators could not be instantiated, namely " + errors);
 
-		// Build the result vector that will be linked hereafter
-		ImmutableMultimap<Entity, Evaluator> unconnected = resultBuilder.build();
-
 		// Evaluator plugin part of relationship
-		for (Entry<Entity, Evaluator> from : unconnected.entries())
-			for (Entry<Entity, Evaluator> to : unconnected.entries())
+		for (Entry<Entity, Evaluator> from : resultMultimap.entries())
+			for (Entry<Entity, Evaluator> to : resultMultimap.entries())
 				for (Relationship r : allInvolved(m, from.getKey(), partOfType, to.getKey()))
 					to.getValue().addPart(r, from.getValue());
 
 		// Evaluator realizes entity
-		for (Entry<Entity, Evaluator> it : unconnected.entries())
+		for (Entry<Entity, Evaluator> it : resultMultimap.entries())
 			for (Relationship r : allInvolved(m, null, realizationOfType, it.getKey()))
-				it.getValue().addRealized(r, createEntityMerge(r.getLeft()));
-
+				it.getValue().addRealized(r, r.getLeft());
 		// Those are actually connected now!
-		return unconnected;
+		return Multimaps.unmodifiableMultimap(resultMultimap);
 	}
 
 	/**
@@ -97,12 +95,12 @@ public class Evaluators {
 	 * @param m
 	 * @return
 	 */
-	public static ImmutableMultimap<RelationshipType, Entity> loadMappings(Megamodel m) {
+	public static Multimap<RelationshipType, Entity> loadMappings(Megamodel m) {
 		// TODO: isMergable maps instead of self testing everything, will boost
 		// performance because of less merge OPs
-		ImmutableMultimap.Builder<RelationshipType, Entity> resultBuilder = ImmutableMultimap.builder();
+		Multimap<RelationshipType, Entity> resultMultimap = ElementMap.newSetMultimap(RelationshipType.class);
 
-		for (Declaration d : transitiveDeclarations(m)) {
+		for (Declaration d : from(m.allModels()).transformAndConcat(Megamodel::getDeclarations)) {
 			if (!(d instanceof RelationshipType))
 				continue;
 
@@ -110,9 +108,9 @@ public class Evaluators {
 			String plugin = getAnnotation(b, "Plugin", null);
 
 			if (plugin != null)
-				resultBuilder.put(b, resolveToMergedEntity(m, plugin));
+				resultMultimap.put(b, resolve(m, Entity.class, plugin));
 		}
 
-		return resultBuilder.build();
+		return Multimaps.unmodifiableMultimap(resultMultimap);
 	}
 }

@@ -9,8 +9,6 @@ import org.softlang.megal.EntityType
 import org.softlang.megal.MegalPackage
 import org.softlang.megal.Relationship
 
-import static extension org.softlang.megal.Megamodels.*
-
 /**
  * Custom validation rules. 
  *
@@ -41,14 +39,15 @@ class MegalValidator extends AbstractMegalValidator {
 
 	@Check
 	def checkUniqueName(Entity x) {
-		if (x.megamodel.transitiveDeclarations.filter(Entity).exists[name == x.name && type != x.type])
+		if (x.megamodel.allModels.map[declarations].flatten.filter(Entity).exists[name == x.name && type != x.type])
 			error('''The entity '«x.name»' does not overload it's correspondent entities''',
 				MegalPackage.Literals.NAMED__NAME, ENTITY_MISOVERLOAD)
 	}
 
 	@Check
 	def checkUniqueName(EntityType x) {
-		if (x.megamodel.transitiveDeclarations.filter(EntityType).exists[name == x.name && supertype != x.supertype])
+		if (x.megamodel.allModels.map[declarations].flatten.filter(EntityType).exists[
+			name == x.name && supertype != x.supertype])
 			error('''The entity type '«x.name»' does not overload it's correspondent entity types''',
 				MegalPackage.Literals.NAMED__NAME, ENTITY_TYPE_MISOVERLOAD)
 	}

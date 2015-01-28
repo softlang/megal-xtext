@@ -213,13 +213,14 @@ class MegalEObjectHoverProvider extends ExtenderEObjectHoverProvider {
 	def dispatch documentationFor(EntityType it) '''«super.getDocumentation(it)»'''
 
 	def dispatch documentationFor(RelationshipType relationshipType) {
-		val x = RelationshipTypes.createRelationshipTypeMerge(relationshipType)
 		'''
 			<p>
 				Defined for the following domains and codomains:
 				<ul>
-				«FOR i : x.instances»
-					<li>«i.left.definition.link» &lowast; «i.right.definition.link»</li>
+				«FOR x : RelationshipTypes.allOverloads(relationshipType.megamodel, relationshipType)»
+					«FOR i : x.instances»
+						<li>«i.left.definition.link» &lowast; «i.right.definition.link»</li>
+					«ENDFOR»
 				«ENDFOR»
 				</ul>
 			</p>

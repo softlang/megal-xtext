@@ -4,8 +4,8 @@ import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
+import static org.softlang.megal.Elements.*;
 import org.softlang.megal.EntityTypeReference;
-import org.softlang.megal.EntityTypes;
 import org.softlang.megal.TypeReference;
 import org.softlang.megal.impl.EntityTypeReferenceImpl;
 
@@ -67,7 +67,7 @@ public class EntityTypeReferenceEval extends EntityTypeReferenceImpl {
 
 		EntityTypeReference or = (EntityTypeReference) obj;
 
-		return isMany() == or.isMany() && EntityTypes.isEntityTypeMergable(getDefinition(), or.getDefinition());
+		return isMany() == or.isMany() && logicEq(getDefinition(), or.getDefinition());
 	}
 
 	@Override

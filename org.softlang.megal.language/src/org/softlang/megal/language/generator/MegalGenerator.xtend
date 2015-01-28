@@ -21,7 +21,6 @@ import com.google.inject.Inject
 //import org.softlang.megal.processing.FunAppDesugaring
 //import org.softlang.megal.processing.LanguageResolving
 import org.softlang.megal.MegalFactory
-import static extension org.softlang.megal.Megamodels.*
 import org.eclipse.xtext.resource.XtextResource
 import com.google.inject.Provider
 import org.softlang.megal.language.MegalStandaloneSetup
@@ -62,6 +61,10 @@ class MegalGenerator implements IGenerator {
 
 			println(evaluators)
 			println(mappings)
+
+			for (e : mappings.entries)
+				for (f : evaluators.get(e.value))
+					println('''«e.key» -> «e.value» -> «f»''')
 		}
 
 	//		if (resource.contents.filter(Megamodel).exists[info.exists[key == "Generated"]])

@@ -1,14 +1,13 @@
 package org.softlang.megal;
 
 import static com.google.common.base.Objects.*;
-import static org.softlang.megal.Annotations.getAnnotation;
 
 public class Annotations {
 	public static String getAnnotation(Element element, String key, String defaultTo) {
 		if (element == null)
 			return defaultTo;
 
-		for (Annotation a : element.getAnnotations())
+		for (Annotation a : element.allAnnotations())
 			if (equal(a.getKey(), key))
 				return a.getValue();
 

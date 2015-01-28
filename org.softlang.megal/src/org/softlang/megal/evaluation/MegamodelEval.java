@@ -1,54 +1,59 @@
 package org.softlang.megal.evaluation;
 
-import java.util.Deque;
+import static com.google.common.collect.FluentIterable.from;
+import static com.google.common.collect.Iterables.concat;
+import static java.util.Collections.singleton;
 
-import org.eclipse.emf.common.util.BasicEList;
-import org.eclipse.emf.common.util.EList;
-import org.softlang.megal.Declaration;
-import org.softlang.megal.Link;
+import org.eclipse.emf.ecore.EObject;
+import org.softlang.megal.Annotation;
 import org.softlang.megal.Megamodel;
 import org.softlang.megal.impl.MegamodelImpl;
 
-import com.google.common.collect.Lists;
+import static com.google.common.base.Objects.*;
 
 public class MegamodelEval extends MegamodelImpl {
 	@Override
-	public EList<Megamodel> chaseImports() {
-		EList<Megamodel> result = new BasicEList<>();
-		Deque<Megamodel> next = Lists.newLinkedList();
-
-		next.addAll(getImports());
-		while (!next.isEmpty()) {
-			Megamodel candidate = next.removeFirst();
-
-			if (!result.contains(candidate)) {
-				result.add(candidate);
-
-				for (Megamodel i : getImports())
-					next.addAll(i.getImports());
-			}
-		}
-
-		return result;
+	public Megamodel megamodel() {
+		return this;
 	}
 
 	@Override
-	public EList<Declaration> importedDeclarations() {
-		EList<Declaration> result = new BasicEList<>();
-
-		for (Megamodel m : chaseImports())
-			result.addAll(m.getDeclarations());
-
-		return result;
+	public Iterable<Annotation> allAnnotations() {
+		return getAnnotations();
 	}
 
 	@Override
-	public EList<Link> importedBindings() {
-		EList<Link> result = new BasicEList<>();
+	public Iterable<Megamodel> allImports() {
+		return concat(getImports(), from(getImports()).transformAndConcat(Megamodel::allImports));
+	}
 
-		for (Megamodel m : chaseImports())
-			result.addAll(m.getBindings());
+	@Override
+	public Iterable<Megamodel> allModels() {
+		return concat(singleton(this), getImports(), from(getImports()).transformAndConcat(Megamodel::allImports));
+	}
 
-		return result;
+	@Override
+	public boolean logicEq(EObject o) {
+		if (this == o)
+			return true;
+		if (o == null)
+			return false;
+
+		if (!(o instanceof Megamodel))
+			return false;
+
+		Megamodel e = (Megamodel) o;
+		return equal(getName(), e.getName());
+	}
+
+	@Override
+	public String identity() {
+		// Name is fully representative
+		return getName();
+	}
+
+	@Override
+	public String toString() {
+		return identity();
 	}
 }

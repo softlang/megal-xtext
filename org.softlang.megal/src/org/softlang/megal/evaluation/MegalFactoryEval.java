@@ -3,6 +3,7 @@ package org.softlang.megal.evaluation;
 import org.softlang.megal.Entity;
 import org.softlang.megal.EntityType;
 import org.softlang.megal.EntityTypeReference;
+import org.softlang.megal.FunctionApplication;
 import org.softlang.megal.FunctionTypeReference;
 import org.softlang.megal.Link;
 import org.softlang.megal.Megamodel;
@@ -31,6 +32,10 @@ public class MegalFactoryEval extends MegalFactoryImpl {
 	@Override
 	public FunctionTypeReference createFunctionTypeReference() {
 		return new FunctionTypeReferenceEval();
+	}
+	@Override
+	public FunctionApplication createFunctionApplication() {
+		return new FunctionApplicationEval();
 	}
 
 	@Override

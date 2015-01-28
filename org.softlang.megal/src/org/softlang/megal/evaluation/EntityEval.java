@@ -1,19 +1,22 @@
 package org.softlang.megal.evaluation;
 
+import static com.google.common.base.Objects.equal;
 import static com.google.common.collect.FluentIterable.from;
-import static org.softlang.megal.Megamodels.transitiveDeclarations;
 
-import org.eclipse.emf.common.util.BasicEList;
-import org.eclipse.emf.common.util.EList;
+import java.util.Set;
+
+import org.eclipse.emf.ecore.EObject;
+import org.softlang.megal.Annotation;
 import org.softlang.megal.Declaration;
 import org.softlang.megal.Element;
 import org.softlang.megal.Entity;
 import org.softlang.megal.Megamodel;
-import org.softlang.megal.Declarations;
 import org.softlang.megal.RelationshipType;
 import org.softlang.megal.RelationshipTypeInstance;
 import org.softlang.megal.TypeReference;
 import org.softlang.megal.impl.EntityImpl;
+
+import com.google.common.collect.FluentIterable;
 
 public class EntityEval extends EntityImpl {
 	@Override
@@ -30,49 +33,59 @@ public class EntityEval extends EntityImpl {
 	}
 
 	@Override
-	public EList<RelationshipTypeInstance> applicableIncoming(Entity from) {
-		// Get lattices for the types
-		EList<TypeReference> sl = getType().latticeAbove();
-		EList<TypeReference> fl = from.getType().latticeAbove();
-
-		// For all relationship type, check if in lattice and add if so
-		EList<RelationshipTypeInstance> result = new BasicEList<>();
-		for (RelationshipType r : from(transitiveDeclarations(megamodel())).filter(RelationshipType.class))
-			for (RelationshipTypeInstance i : r.getInstances())
-				if (fl.contains(i.getLeft()) && sl.contains(i.getRight()))
-					result.add(i);
-
-		return result;
+	public Iterable<Annotation> allAnnotations() {
+		return FluentIterable.from(megamodel().allModels()).transformAndConcat(Megamodel::getDeclarations)
+				.filter(this::logicEq).transformAndConcat(Element::getAnnotations);
 	}
 
 	@Override
-	public EList<RelationshipTypeInstance> applicableOutgoing(Entity to) {
+	public Iterable<RelationshipTypeInstance> applicableIncoming(Entity from) {
 		// Get lattices for the types
-		EList<TypeReference> sl = getType().latticeAbove();
-		EList<TypeReference> tl = to.getType().latticeAbove();
+		Set<TypeReference> tl = from(from.getType().latticeAbove()).toSet();
+		Set<TypeReference> tr = from(getType().latticeAbove()).toSet();
 
-		// For all relationship type, check if in lattice and add if so
-		EList<RelationshipTypeInstance> result = new BasicEList<>();
-		for (RelationshipType r : from(transitiveDeclarations(megamodel())).filter(RelationshipType.class))
-			for (RelationshipTypeInstance i : r.getInstances())
-				if (sl.contains(i.getLeft()) && tl.contains(i.getRight()))
-					result.add(i);
-
-		return result;
+		// For all relationship type, check if in lattice and add if so return
+		// it
+		return from(megamodel().allModels()).transformAndConcat(Megamodel::getDeclarations)
+				.filter(RelationshipType.class).transformAndConcat(RelationshipType::getInstances)
+				.filter(i -> tl.contains(i.getLeft())).filter(i -> tr.contains(i.getRight()));
 	}
 
-	/**
-	 * {@inheritDoc}
-	 * <p>
-	 * The representation is descriptive for
-	 * {@link Declarations#match(org.softlang.megal.Named, String)}
-	 * </p>
-	 * <code>
-	 * getName();
-	 * </code>
-	 */
+	@Override
+	public Iterable<RelationshipTypeInstance> applicableOutgoing(Entity to) {
+		// Get lattices for the types
+		Set<TypeReference> tl = from(getType().latticeAbove()).toSet();
+		Set<TypeReference> tr = from(to.getType().latticeAbove()).toSet();
+
+		// For all relationship type, check if in lattice and add if so return
+		// it
+		return from(megamodel().allModels()).transformAndConcat(Megamodel::getDeclarations)
+				.filter(RelationshipType.class).transformAndConcat(RelationshipType::getInstances)
+				.filter(i -> tl.contains(i.getLeft())).filter(i -> tr.contains(i.getRight()));
+	}
+
+	@Override
+	public boolean logicEq(EObject o) {
+		if (this == o)
+			return true;
+		if (o == null)
+			return false;
+		if (!(o instanceof Entity))
+			return false;
+
+		Entity e = (Entity) o;
+		return equal(getName(), e.getName()) && equal(getType(), e.getType());
+	}
+
+	
+	@Override
+	public String identity() {
+		// Name is fully representative
+		return getName();
+	}
+	
 	@Override
 	public String toString() {
-		return getName();
+		return identity();
 	}
 }

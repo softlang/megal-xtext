@@ -1,45 +1,20 @@
 package org.softlang.megal;
 
-import static com.google.common.base.Objects.equal;
-import static org.softlang.megal.Megamodels.transitiveBindings;
-
-import org.eclipse.emf.ecore.util.EcoreUtil;
+import static com.google.common.collect.FluentIterable.from;
+import static org.softlang.megal.Elements.logicEq;
 
 public class Links {
-	/**
-	 * Returns true if the links specify the same objects in a different
-	 * location
-	 * 
-	 * @param a
-	 *            The first link
-	 * @param b
-	 *            The second link
-	 * @return Returns true if merge is possible
-	 */
-	public static boolean isLinkMergable(Link a, Link b) {
-		return a == null ? b == null : b != null && equal(a.getLink(), b.getLink());
+
+	public static Iterable<Link> filterBindings(Iterable<Link> bindings, Entity link, Entity input, Entity output) {
+		return from(bindings).filter(Link.class).filter(
+				r -> logicEq(r.getLink(), link) && logicEq(r.getInput(), input) && logicEq(r.getOutput(), output));
 	}
 
-	/**
-	 * Creates a merged link
-	 * 
-	 * @param a
-	 *            The link to merge with it's group
-	 * @return Returns a newly created link
-	 */
-	public static Link createLinkMerge(Link a) {
-		// Copy the base
-		Link r = EcoreUtil.copy(a);
-		r.setOrigin(a);
+	public static Iterable<Link> bindings(Megamodel m, Entity link, Entity input, Entity output) {
+		return filterBindings(m.getBindings(), link, input, output);
+	}
 
-		// Iterate all possible merge targets
-		for (Link b : transitiveBindings(a.megamodel())) {
-			// If not the source and equal, do the merge
-			if (a != b && isLinkMergable(a, b)) {
-				// Merge the annotations
-				r.getAnnotations().addAll(EcoreUtil.copyAll(b.getAnnotations()));
-			}
-		}
-		return r;
+	public static Iterable<Link> allBindings(Megamodel m, Entity link, Entity input, Entity output) {
+		return filterBindings(from(m.allModels()).transformAndConcat(Megamodel::getBindings), link, input, output);
 	}
 }

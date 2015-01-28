@@ -30,7 +30,7 @@ class MegalScopeProvider extends AbstractDeclarativeScopeProvider {
 		// Scope own elements first, then the imported
 		scopeFor(m.declarations.filter(instanceClass), qualifiedNameProvider,
 			scopeFor(
-				m.importedDeclarations.filter(instanceClass),
+				m.allImports.map[declarations].flatten.filter(instanceClass),
 				qualifiedNameProvider,
 				NULLSCOPE
 			))

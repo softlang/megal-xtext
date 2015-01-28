@@ -4,6 +4,7 @@ import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
+import org.softlang.megal.Elements;
 import org.softlang.megal.FunctionTypeReference;
 import org.softlang.megal.TypeReference;
 import org.softlang.megal.impl.FunctionTypeReferenceImpl;
@@ -66,8 +67,8 @@ public class FunctionTypeReferenceEval extends FunctionTypeReferenceImpl {
 
 		FunctionTypeReference or = (FunctionTypeReference) obj;
 
-		return getDomain() == or.getDomain() && getCodomain() == or.getCodomain()
-				&& getDefinition() == or.getDefinition();
+		return Elements.logicEq(getDomain(), or.getDomain()) && Elements.logicEq(getCodomain(), or.getCodomain())
+				&& Elements.logicEq(getDefinition(), or.getDefinition());
 	}
 
 	@Override

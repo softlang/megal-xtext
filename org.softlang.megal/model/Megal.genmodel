@@ -9,6 +9,9 @@
   <foreignModel>Megal.ecore</foreignModel>
   <genPackages prefix="Megal" basePackage="org.softlang" disposableProviderFactory="true"
       fileExtensions="megal" ecorePackage="Megal.ecore#/" publicationLocation="">
+    <genDataTypes ecoreDataType="Megal.ecore#//EIterable">
+      <genTypeParameters ecoreTypeParameter="Megal.ecore#//EIterable/T"/>
+    </genDataTypes>
     <genClasses ecoreClass="Megal.ecore#//Annotation">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Megal.ecore#//Annotation/key"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Megal.ecore#//Annotation/value"/>
@@ -16,26 +19,28 @@
     <genClasses ecoreClass="Megal.ecore#//Element">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Megal.ecore#//Element/annotations"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Megal.ecore#//Element/origin"/>
+      <genOperations ecoreOperation="Megal.ecore#//Element/allAnnotations"/>
+      <genOperations ecoreOperation="Megal.ecore#//Element/megamodel"/>
+      <genOperations ecoreOperation="Megal.ecore#//Element/logicEq">
+        <genParameters ecoreParameter="Megal.ecore#//Element/logicEq/o"/>
+      </genOperations>
+      <genOperations ecoreOperation="Megal.ecore#//Element/identity"/>
     </genClasses>
     <genClasses ecoreClass="Megal.ecore#//Megamodel">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Megal.ecore#//Megamodel/declarations"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Megal.ecore#//Megamodel/bindings"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Megal.ecore#//Megamodel/name"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Megal.ecore#//Megamodel/imports"/>
-      <genOperations ecoreOperation="Megal.ecore#//Megamodel/importedDeclarations"/>
-      <genOperations ecoreOperation="Megal.ecore#//Megamodel/importedBindings"/>
-      <genOperations ecoreOperation="Megal.ecore#//Megamodel/chaseImports"/>
+      <genOperations ecoreOperation="Megal.ecore#//Megamodel/allImports"/>
+      <genOperations ecoreOperation="Megal.ecore#//Megamodel/allModels"/>
     </genClasses>
     <genClasses ecoreClass="Megal.ecore#//Link">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Megal.ecore#//Link/link"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Megal.ecore#//Link/to"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Megal.ecore#//Link/input"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Megal.ecore#//Link/output"/>
-      <genOperations ecoreOperation="Megal.ecore#//Link/megamodel"/>
     </genClasses>
-    <genClasses ecoreClass="Megal.ecore#//Declaration">
-      <genOperations ecoreOperation="Megal.ecore#//Declaration/megamodel"/>
-    </genClasses>
+    <genClasses ecoreClass="Megal.ecore#//Declaration"/>
     <genClasses ecoreClass="Megal.ecore#//Relationship">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Megal.ecore#//Relationship/type"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Megal.ecore#//Relationship/left"/>
