@@ -1,11 +1,12 @@
 package org.softlang.megal;
 
-import static org.softlang.megal.Elements.*;
-import static org.softlang.megal.EntityTypes.*;
-import static org.softlang.megal.Links.*;
+import static com.google.common.collect.FluentIterable.from;
+import static org.softlang.megal.Annotations.getAnnotation;
+import static org.softlang.megal.Elements.resolve;
+import static org.softlang.megal.EntityTypes.allInstances;
+import static org.softlang.megal.Links.allBindings;
+import static org.softlang.megal.Relationships.allInvolved;
 import static org.softlang.megal.TypeReferences.singleRef;
-import static org.softlang.megal.Relationships.*;
-import static org.softlang.megal.Annotations.*;
 
 import java.util.Collection;
 import java.util.List;
@@ -13,9 +14,6 @@ import java.util.Map.Entry;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.ForkJoinTask;
-import java.util.concurrent.RecursiveTask;
-
-import static com.google.common.collect.FluentIterable.*;
 
 import org.eclipse.core.runtime.Status;
 import org.softlang.megal.api.ElementMap;
@@ -23,7 +21,6 @@ import org.softlang.megal.api.Evaluator;
 import org.softlang.sourcesupport.SourceSupport;
 import org.softlang.sourcesupport.SourceSupportPlugin;
 
-import com.google.common.collect.FluentIterable;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Lists;
@@ -157,22 +154,22 @@ public class Evaluators {
 			@Override
 			public Multimap<String, String> call() throws Exception {
 				// Load all mappings in one task
-				ForkJoinTask<Multimap<RelationshipType, Entity>> loadMappingsTaks = pool
-						.submit(new Callable<Multimap<RelationshipType, Entity>>() {
+				ForkJoinTask<Multimap<RelationshipType, Entity>> loadMappingsTaks = ForkJoinTask.adapt(
+						new Callable<Multimap<RelationshipType, Entity>>() {
 							@Override
 							public Multimap<RelationshipType, Entity> call() throws Exception {
 								return loadMappings(m);
 							}
-						});
+						}).fork();
 
 				// Load all evaluators in one task
-				ForkJoinTask<Multimap<Entity, Evaluator>> loadEvaluatorsTask = pool
-						.submit(new Callable<Multimap<Entity, Evaluator>>() {
+				ForkJoinTask<Multimap<Entity, Evaluator>> loadEvaluatorsTask = ForkJoinTask.adapt(
+						new Callable<Multimap<Entity, Evaluator>>() {
 							@Override
 							public Multimap<Entity, Evaluator> call() throws Exception {
 								return loadEvaluators(m);
 							}
-						});
+						}).fork();
 
 				// Join the tasks
 				Multimap<RelationshipType, Entity> alpha = loadMappingsTaks.join();
@@ -187,7 +184,7 @@ public class Evaluators {
 				for (Relationship rel : from(m.allModels()).transformAndConcat(Megamodel::getDeclarations).filter(
 						Relationship.class))
 					// First tier: Subtask for each relationship
-					subtasks.add(pool.submit(new Callable<Multimap<String, String>>() {
+					subtasks.add(ForkJoinTask.adapt(new Callable<Multimap<String, String>>() {
 						@Override
 						public Multimap<String, String> call() throws Exception {
 							List<ForkJoinTask<Multimap<String, String>>> subtasks = Lists.newArrayList();
@@ -195,7 +192,7 @@ public class Evaluators {
 							for (Entity ent : alpha.get(rel.getType()))
 								for (Evaluator eval : beta.get(ent))
 									// Second tier: Subtask for each evaluator
-									subtasks.add(pool.submit(new Callable<Multimap<String, String>>() {
+									subtasks.add(ForkJoinTask.adapt(new Callable<Multimap<String, String>>() {
 										@Override
 										public Multimap<String, String> call() throws Exception {
 											switch (eval.evaluate(rel)) {
@@ -205,14 +202,14 @@ public class Evaluators {
 												return ImmutableMultimap.of();
 											}
 										}
-									}));
+									}).fork());
 
 							// Join and add all results from the subtasks
 							for (ForkJoinTask<Multimap<String, String>> subtask : subtasks)
 								result.putAll(subtask.join());
 							return result;
 						}
-					}));
+					}).fork());
 
 				// Join and add all results from the subtasks
 				for (ForkJoinTask<Multimap<String, String>> subtask : subtasks)
