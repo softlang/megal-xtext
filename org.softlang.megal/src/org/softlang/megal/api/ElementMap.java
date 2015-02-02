@@ -8,8 +8,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.softlang.megal.Element;
-import org.softlang.megal.Entity;
-import org.softlang.megal.evaluation.EntityEval;
 
 import com.google.common.base.Objects;
 import com.google.common.collect.ListMultimap;
@@ -18,7 +16,6 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Multimaps;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
-import com.google.common.reflect.TypeToken;
 
 /**
  * <p>

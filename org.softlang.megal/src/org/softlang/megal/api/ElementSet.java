@@ -82,6 +82,6 @@ public class ElementSet<E extends Element> extends AbstractSet<E> {
 	}
 
 	public static <E extends Element> ElementSet<E> newElementSet(Class<E> type) {
-		return new ElementSet(type);
+		return new ElementSet<E>(type);
 	}
 }

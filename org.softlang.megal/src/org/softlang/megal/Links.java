@@ -17,4 +17,16 @@ public class Links {
 	public static Iterable<Link> allBindings(Megamodel m, Entity link, Entity input, Entity output) {
 		return filterBindings(from(m.allModels()).transformAndConcat(Megamodel::getBindings), link, input, output);
 	}
+
+	public static Iterable<Link> filterBindings(Iterable<Link> bindings, Entity link) {
+		return filterBindings(bindings, link, null, null);
+	}
+
+	public static Iterable<Link> bindings(Megamodel m, Entity link) {
+		return bindings(m, link, null, null);
+	}
+
+	public static Iterable<Link> allBindings(Megamodel m, Entity link) {
+		return allBindings(m, link, null, null);
+	}
 }

@@ -1,6 +1,7 @@
 package org.softlang.megal.api;
 
 import org.softlang.megal.Entity;
+import org.softlang.megal.Megamodel;
 import org.softlang.megal.Relationship;
 
 import com.google.common.collect.ImmutableMultimap;
@@ -13,13 +14,21 @@ import com.google.common.collect.Multimap;
  *
  */
 public abstract class Evaluator {
+	// TODO: Error-messages
+	public static enum EvaluationResult {
+		NOT_HANDLED, INVALID, VALID
+	}
+
 	/**
 	 * Loads the evaluator from the specifying entity
 	 * 
-	 * @param resolver
+	 * @param m
+	 *            The megamodel this evaluator is initialized from
+	 * @param evaluator
 	 *            The evaluator entity
 	 */
-	public void load(Entity evaluator) {
+	public void initialize(Megamodel m, Entity evaluator) {
+
 	}
 
 	/**
@@ -48,37 +57,38 @@ public abstract class Evaluator {
 	public void addRealized(Relationship via, Entity entity) {
 	}
 
-	/**
-	 * Checks if this evaluator is responsible for the specified entity
-	 * 
-	 * @param entity
-	 *            The entity to check
-	 * @return True if responsible
-	 */
-	public boolean evaluates(Entity entity) {
-		return false;
-	}
-
-	/**
-	 * Checks if this evaluator is responsible for the specified relationship
-	 * 
-	 * @param relationship
-	 *            The relationship to check
-	 * @return True if responsible
-	 */
-	public boolean evaluates(Relationship relationship) {
-		return false;
-	}
+	// /**
+	// * Checks if this evaluator is responsible for the specified entity
+	// *
+	// * @param entity
+	// * The entity to check
+	// * @return True if responsible
+	// */
+	// public boolean evaluates(Entity entity) {
+	// return false;
+	// }
+	//
+	// /**
+	// * Checks if this evaluator is responsible for the specified relationship
+	// *
+	// * @param relationship
+	// * The relationship to check
+	// * @return True if responsible
+	// */
+	// public boolean evaluates(Relationship relationship) {
+	// return false;
+	// }
 
 	/**
 	 * Evaluates the entity
 	 * 
 	 * @param entity
 	 *            The entity to evaluate
-	 * @return Returns true if the entity is valid at its place
+	 * @return Returns the result of evaluation as an element of
+	 *         {@link EvaluationResult}
 	 */
-	public boolean evaluate(Entity entity) {
-		return false;
+	public EvaluationResult evaluate(Entity entity) {
+		return EvaluationResult.NOT_HANDLED;
 	}
 
 	/**
@@ -86,11 +96,11 @@ public abstract class Evaluator {
 	 * 
 	 * @param relationship
 	 *            The relationship to evaluate
-	 * @return Returns true if the relationship is valid with the given source
-	 *         and target
+	 * @return Returns the result of evaluation as an element of
+	 *         {@link EvaluationResult}
 	 */
-	public boolean evaluate(Relationship relationship) {
-		return false;
+	public EvaluationResult evaluate(Relationship relationship) {
+		return EvaluationResult.NOT_HANDLED;
 	}
 
 	/**
