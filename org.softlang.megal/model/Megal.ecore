@@ -48,7 +48,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Declaration" abstract="true" eSuperTypes="#//Element"/>
   <eClassifiers xsi:type="ecore:EClass" name="Relationship" eSuperTypes="#//Declaration">
-    <eOperations name="appliedInstance" eType="#//RelationshipTypeInstance"/>
+    <eOperations name="appliedInstance" eType="#//RelationshipType"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="#//RelationshipType"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="left" lowerBound="1" eType="#//Entity"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="right" lowerBound="1" eType="#//Entity"/>
@@ -68,13 +68,6 @@
         containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="RelationshipType" eSuperTypes="#//Named">
-    <eOperations name="instanceLeft" eType="#//TypeReference"/>
-    <eOperations name="instanceRight" eType="#//TypeReference"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="instances" lowerBound="1"
-        upperBound="-1" eType="#//RelationshipTypeInstance" containment="true"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="RelationshipTypeInstance">
-    <eOperations name="aggregatorName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="left" lowerBound="1" eType="#//TypeReference"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="right" lowerBound="1" eType="#//TypeReference"
@@ -83,13 +76,13 @@
   <eClassifiers xsi:type="ecore:EClass" name="Entity" eSuperTypes="#//Named">
     <eOperations name="applicableOutgoing" lowerBound="1">
       <eGenericType eClassifier="#//EIterable">
-        <eTypeArguments eClassifier="#//RelationshipTypeInstance"/>
+        <eTypeArguments eClassifier="#//RelationshipType"/>
       </eGenericType>
       <eParameters name="to" eType="#//Entity"/>
     </eOperations>
     <eOperations name="applicableIncoming" lowerBound="1">
       <eGenericType eClassifier="#//EIterable">
-        <eTypeArguments eClassifier="#//RelationshipTypeInstance"/>
+        <eTypeArguments eClassifier="#//RelationshipType"/>
       </eGenericType>
       <eParameters name="from" eType="#//Entity"/>
     </eOperations>

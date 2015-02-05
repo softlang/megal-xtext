@@ -8,7 +8,6 @@ import org.softlang.megal.Declaration;
 import org.softlang.megal.Element;
 import org.softlang.megal.Megamodel;
 import org.softlang.megal.RelationshipType;
-import org.softlang.megal.TypeReference;
 import org.softlang.megal.impl.RelationshipTypeImpl;
 
 import com.google.common.collect.FluentIterable;
@@ -44,32 +43,18 @@ public class RelationshipTypeEval extends RelationshipTypeImpl {
 
 		RelationshipType e = (RelationshipType) o;
 
-		return equal(getName(), e.getName());
-
-	}
-
-	@Override
-	public TypeReference instanceLeft() {
-		if (getInstances().size() == 1)
-			return getInstances().get(0).getLeft();
-		return null;
-	}
-
-	@Override
-	public TypeReference instanceRight() {
-		if (getInstances().size() == 1)
-			return getInstances().get(0).getRight();
-		return null;
+		return equal(getName(), e.getName()) && equal(getLeft(), e.getLeft()) && equal(getRight(), e.getRight());
 	}
 
 	@Override
 	public String identity() {
 		// Name is fully representative
-		return getName();
+		return getName() + " < " + getLeft() + " * " + getRight();
 	}
 
 	@Override
 	public String toString() {
 		return identity();
 	}
+
 }

@@ -9,7 +9,6 @@ import org.softlang.megal.Link;
 import org.softlang.megal.Megamodel;
 import org.softlang.megal.Relationship;
 import org.softlang.megal.RelationshipType;
-import org.softlang.megal.RelationshipTypeInstance;
 import org.softlang.megal.impl.MegalFactoryImpl;
 
 public class MegalFactoryEval extends MegalFactoryImpl {
@@ -33,6 +32,7 @@ public class MegalFactoryEval extends MegalFactoryImpl {
 	public FunctionTypeReference createFunctionTypeReference() {
 		return new FunctionTypeReferenceEval();
 	}
+
 	@Override
 	public FunctionApplication createFunctionApplication() {
 		return new FunctionApplicationEval();
@@ -56,10 +56,5 @@ public class MegalFactoryEval extends MegalFactoryImpl {
 	@Override
 	public RelationshipType createRelationshipType() {
 		return new RelationshipTypeEval();
-	}
-
-	@Override
-	public RelationshipTypeInstance createRelationshipTypeInstance() {
-		return new RelationshipTypeInstanceEval();
 	}
 }

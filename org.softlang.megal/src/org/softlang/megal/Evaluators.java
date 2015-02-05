@@ -101,8 +101,6 @@ public class Evaluators {
 	 * @return
 	 */
 	public static Multimap<RelationshipType, Entity> loadMappings(Megamodel m) {
-		// TODO: isMergable maps instead of self testing everything, will boost
-		// performance because of less merge OPs
 		Multimap<RelationshipType, Entity> resultMultimap = ElementMap.newSetMultimap(RelationshipType.class);
 
 		for (RelationshipType b : from(m.allModels()).transformAndConcat(Megamodel::getDeclarations).filter(

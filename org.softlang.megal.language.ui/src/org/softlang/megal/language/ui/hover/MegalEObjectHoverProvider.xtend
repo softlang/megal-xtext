@@ -217,10 +217,8 @@ class MegalEObjectHoverProvider extends ExtenderEObjectHoverProvider {
 			<p>
 				Defined for the following domains and codomains:
 				<ul>
-				«FOR x : RelationshipTypes.allOverloads(relationshipType.megamodel, relationshipType)»
-					«FOR i : x.instances»
-						<li>«i.left.definition.link» &lowast; «i.right.definition.link»</li>
-					«ENDFOR»
+				«FOR i : RelationshipTypes.allOverloads(relationshipType.megamodel, relationshipType)»
+					<li>«i.left.definition.link» &lowast; «i.right.definition.link»</li>
 				«ENDFOR»
 				</ul>
 			</p>

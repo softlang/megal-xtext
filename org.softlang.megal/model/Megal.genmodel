@@ -59,14 +59,8 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Megal.ecore#//EntityType/supertype"/>
     </genClasses>
     <genClasses ecoreClass="Megal.ecore#//RelationshipType">
-      <genFeatures children="true" createChild="true" propertySortChoices="true" ecoreFeature="ecore:EReference Megal.ecore#//RelationshipType/instances"/>
-      <genOperations ecoreOperation="Megal.ecore#//RelationshipType/instanceLeft"/>
-      <genOperations ecoreOperation="Megal.ecore#//RelationshipType/instanceRight"/>
-    </genClasses>
-    <genClasses ecoreClass="Megal.ecore#//RelationshipTypeInstance">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Megal.ecore#//RelationshipTypeInstance/left"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Megal.ecore#//RelationshipTypeInstance/right"/>
-      <genOperations ecoreOperation="Megal.ecore#//RelationshipTypeInstance/aggregatorName"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Megal.ecore#//RelationshipType/left"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Megal.ecore#//RelationshipType/right"/>
     </genClasses>
     <genClasses ecoreClass="Megal.ecore#//Entity">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Megal.ecore#//Entity/type"/>

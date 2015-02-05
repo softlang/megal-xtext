@@ -13,7 +13,6 @@ import org.softlang.megal.language.ui.swt.SWTUtil
 
 import static org.softlang.megal.Guard.*
 import org.eclipse.swt.graphics.RGB
-import org.softlang.megal.RelationshipTypeInstance
 import org.softlang.megal.Relationship
 import org.softlang.megal.Link
 
@@ -83,10 +82,8 @@ class MegalHighlightingConfiguration extends DefaultHighlightingConfiguration {
 		guarded(null) [
 			// Guards	
 			ifAssigned(o)
-			ifAssigned(o.instanceLeft)
-			ifAssigned(o.instanceRight)
 			// Value
-			o.instanceLeft.definition.name + '_' + o.name + '_' + o.instanceRight.definition.name
+			o.left.definition.name + '_' + o.name + '_' + o.right.definition.name
 		]
 	}
 
@@ -103,10 +100,10 @@ class MegalHighlightingConfiguration extends DefaultHighlightingConfiguration {
 		guarded('''Invalid object''') [
 			// Guards	
 			ifAssigned(o)
-			ifAssigned(o.instanceLeft)
-			ifAssigned(o.instanceRight)
+			ifAssigned(o.left)
+			ifAssigned(o.right)
 			// Value
-			o.name + " between " + o.instanceLeft.definition.name + " and " + o.instanceRight.definition.name
+			o.name + " between " + o.left.definition.name + " and " + o.right.definition.name
 		]
 
 	}

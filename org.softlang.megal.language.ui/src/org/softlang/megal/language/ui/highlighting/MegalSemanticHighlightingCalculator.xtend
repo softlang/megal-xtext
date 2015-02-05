@@ -7,7 +7,6 @@ import org.softlang.megal.Entity
 import org.softlang.megal.MegalPackage
 import org.softlang.megal.EntityType
 import org.softlang.megal.RelationshipType
-import org.softlang.megal.RelationshipTypeInstance
 import org.softlang.megal.Relationship
 import org.softlang.megal.Link
 
