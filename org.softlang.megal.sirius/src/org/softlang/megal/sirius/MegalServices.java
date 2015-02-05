@@ -2,19 +2,16 @@ package org.softlang.megal.sirius;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.softlang.megal.Annotation;
 import org.softlang.megal.Declaration;
 import org.softlang.megal.Entity;
 import org.softlang.megal.EntityType;
 import org.softlang.megal.Megamodel;
-import org.softlang.megal.Megamodels;
 import org.softlang.megal.Relationship;
 import org.softlang.megal.RelationshipType;
 
-import com.sun.xml.internal.ws.wsdl.writer.document.Definitions;
+import com.google.common.collect.FluentIterable;
 
 public class MegalServices {
 
@@ -60,13 +57,13 @@ public class MegalServices {
 		}
 	}
 
-	public String getUnusedRelationshipTypeName(Megamodel megamodel, EntityType from) {
+	public String getUnusedRelationshipTypeName(Megamodel megamodel) {
 
 		int number = 1;
 		while (true) {
 			String name = "RelationshipType" + String.valueOf(number);
 
-			RelationshipType resolved = resolveRelationshipType(megamodel, name, from);
+			RelationshipType resolved = resolveRelationshipType(megamodel, name);
 
 			if (resolved == null)
 				return name;
@@ -86,11 +83,6 @@ public class MegalServices {
 		return name;
 	}
 
-	public List<Entity> getEntities(Megamodel megamodel) {
-		return Megamodels.transitiveDeclarations(megamodel).stream().filter(x -> (x instanceof Entity))
-				.map(x -> (Entity) x).collect(Collectors.toList());
-	}
-
 	public String getLable(Relationship relationship) {
 
 		RelationshipType type = relationship.getType();
@@ -105,44 +97,70 @@ public class MegalServices {
 		return entityType.getName();
 	}
 
-	public List<Declaration> getVisibleEntityTypesWithoutContaining(Megamodel megamodel) {
-		return megamodel.importedDeclarations();
-//		return megamodel
-//				.allDeclarations()
-//				.stream()
-//				.filter(x -> ((x instanceof EntityType) && !megamodel.getDeclarations().contains(x)))
-//				.map(x -> (EntityType) x).collect(Collectors.toList());
+	public List<Entity> getEntities(Megamodel megamodel) {
+		return FluentIterable.from(megamodel.allModels())
+				.transformAndConcat(x -> x.getDeclarations()).filter(Entity.class).toList();
+	}
+
+	public List<Entity> getLocalEntities(Megamodel megamodel) {
+		return FluentIterable.from(megamodel.getDeclarations()).filter(Entity.class).toList();
+	}
+
+	public List<Entity> getImportedEntities(Megamodel megamodel) {
+		return FluentIterable.from(megamodel.allImports())
+				.transformAndConcat(x -> x.getDeclarations()).filter(Entity.class).toList();
 	}
 
 	public List<EntityType> getEntityTypes(Megamodel megamodel) {
-		return megamodel.getDeclarations().stream().filter(x -> (x instanceof EntityType))
-				.map(x -> (EntityType) x).collect(Collectors.toList());
+		return FluentIterable.from(megamodel.allModels())
+				.transformAndConcat(x -> x.getDeclarations()).filter(EntityType.class).toList();
+	}
+
+	public List<EntityType> getLocalEntityTypes(Megamodel megamodel) {
+		return FluentIterable.from(megamodel.getDeclarations()).filter(EntityType.class).toList();
+	}
+
+	public List<EntityType> getImportedEntityTypes(Megamodel megamodel) {
+		return FluentIterable.from(megamodel.allImports())
+				.transformAndConcat(x -> x.getDeclarations()).filter(EntityType.class).toList();
+	}
+
+	public List<RelationshipType> getRelationshipTypes(Megamodel megamodel) {
+		return FluentIterable.from(megamodel.allModels())
+				.transformAndConcat(x -> x.getDeclarations()).filter(RelationshipType.class)
+				.toList();
+	}
+
+	public List<RelationshipType> getImportedRelationshipTypes(Megamodel megamodel) {
+		return FluentIterable.from(megamodel.allImports())
+				.transformAndConcat(x -> x.getDeclarations()).filter(RelationshipType.class)
+				.toList();
+	}
+
+	public List<RelationshipType> getLocalRelationshipTypes(Megamodel megamodel) {
+		return FluentIterable.from(megamodel.getDeclarations()).filter(RelationshipType.class)
+				.toList();
 	}
 
 	public EntityType resolveEntityType(Megamodel megamodel, String name) {
-		return Megamodels.transitiveDeclarations(megamodel).stream().filter(x -> x instanceof EntityType)
-				.map(x -> (EntityType) x).filter(x -> name.equals(x.getName())).findFirst()
+		return getEntityTypes(megamodel).stream().filter(x -> name.equals(x.getName())).findFirst()
 				.orElse(null);
 	}
 
 	public Entity resolveEntity(Megamodel megamodel, String name) {
-		return Megamodels.transitiveDeclarations(megamodel).stream().filter(x -> x instanceof Entity)
-				.map(x -> (Entity) x).filter(x -> name.equals(x.getName())).findFirst()
+		return getEntities(megamodel).stream().filter(x -> name.equals(x.getName())).findFirst()
 				.orElse(null);
 	}
 
-	public RelationshipType resolveRelationshipType(Megamodel megamodel, String name,
-			EntityType from) {
+	public RelationshipType resolveRelationshipType(Megamodel megamodel, String name) {
 
-		return Megamodels.transitiveDeclarations(megamodel).stream()
-				.filter(x -> x instanceof RelationshipType).map(x -> (RelationshipType) x)
-				.filter(x -> from.equals(x.instanceLeft().getDefinition()) && name.equals(x.getName()))
-				.findFirst().orElse(null);
+		return getRelationshipTypes(megamodel).stream().filter(x -> name.equals(x.getName()))
+				.findAny().orElse(null);
 	}
 
 	public Annotation getAnnotation(Declaration entity, String name) {
-		Optional<Annotation> color = entity.getAnnotations().stream().filter(x -> name.equals(x.getKey()))
-				.findAny();
+		Optional<Annotation> color = entity.getAnnotations().stream()
+				.filter(x -> name.equals(x.getKey())).findAny();
 		return color.orElse(null);
 	}
 

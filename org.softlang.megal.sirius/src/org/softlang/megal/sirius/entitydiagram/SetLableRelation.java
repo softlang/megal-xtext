@@ -1,6 +1,7 @@
 package org.softlang.megal.sirius.entitydiagram;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -12,7 +13,6 @@ import org.softlang.megal.EntityType;
 import org.softlang.megal.Megamodel;
 import org.softlang.megal.Relationship;
 import org.softlang.megal.RelationshipType;
-import org.softlang.megal.RelationshipTypeInstance;
 import org.softlang.megal.sirius.MegalServices;
 
 public class SetLableRelation implements IExternalJavaAction {
@@ -34,12 +34,12 @@ public class SetLableRelation implements IExternalJavaAction {
 
 		Megamodel megamodel = MegalServices.INSTANCE.getMegamodel(relation);
 
-		EList<RelationshipTypeInstance> rtis = relation.getLeft().applicableOutgoing(relation.getRight());
+		List<RelationshipType> rtis = MegalServices.INSTANCE.getRelationshipTypes(megamodel);
 
 		// EList<RelationshipType> rts = megamodel.applicableRelationshipTypes(
 		// relation.getLeft(), relation.getRight());
 
-		Optional<RelationshipTypeInstance> rt = rtis.stream().filter(x -> x.aggregatorName().equals(lable)).findFirst();
+		Optional<RelationshipType> rt = rtis.stream().filter(x -> lable.equals(x.getName())).findFirst();
 
 		if (!rt.isPresent())
 			return;
