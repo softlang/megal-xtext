@@ -3,6 +3,8 @@ package org.softlang.megal.sirius;
 import java.util.List;
 import java.util.Optional;
 
+import org.eclipse.emf.common.util.Diagnostic;
+import org.eclipse.emf.ecore.util.Diagnostician;
 import org.softlang.megal.Annotation;
 import org.softlang.megal.Declaration;
 import org.softlang.megal.Entity;
@@ -262,6 +264,43 @@ public class MegalServices {
 		}
 
 		return true;
+	}
+
+	public int getLineRed(Declaration declaration) {
+		if (error(declaration) != null)
+			return 255;
+
+		if (warning(declaration) != null)
+			return 255;
+
+		return 0;
+	}
+
+	public int getLineGreen(Declaration declaration) {
+		if (warning(declaration) != null)
+			return 255;
+
+		return 0;
+	}
+
+	public int getLineBlue(Declaration declaration) {
+		return 0;
+	}
+
+	public String error(Declaration declaration) {
+		Diagnostic diagnostic = Diagnostician.INSTANCE.validate(declaration);
+		if (diagnostic.getSeverity() == Diagnostic.ERROR) {
+			return diagnostic.getMessage();
+		}
+		return null;
+	}
+
+	public String warning(Declaration declaration) {
+		Diagnostic diagnostic = Diagnostician.INSTANCE.validate(declaration);
+		if (diagnostic.getSeverity() == Diagnostic.WARNING) {
+			return diagnostic.getMessage();
+		}
+		return null;
 	}
 
 }

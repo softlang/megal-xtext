@@ -39,12 +39,13 @@ public class SetLableRelation implements IExternalJavaAction {
 		// EList<RelationshipType> rts = megamodel.applicableRelationshipTypes(
 		// relation.getLeft(), relation.getRight());
 
-		Optional<RelationshipType> rt = rtis.stream().filter(x -> lable.equals(x.getName())).findFirst();
+		Optional<RelationshipType> rt = rtis.stream().filter(x -> lable.equals(x.getName()))
+				.findFirst();
 
 		if (!rt.isPresent())
 			return;
 
-		relation.setType((RelationshipType) rt.get().eContainer());
+		relation.setType(rt.get());
 	}
 
 }
