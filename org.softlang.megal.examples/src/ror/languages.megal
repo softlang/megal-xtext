@@ -1,0 +1,38 @@
+/*
+ * This model describes the languages involved in a typical Rails project.
+ */
+model Rails.Languages 
+
+import Prelude
+import Rails.Technologies
+
+// A bunch of languages, typically used in Web frameworks
+// Not surprisingly, Ruby on Rails also uses them
+XML : Language
+XHTML : Language
+HTML : Language
+XHTML subsetOf XHTML
+
+XHTML variantOf HTML
+
+Ruby : Language
+Ruby1.9 versionOf Ruby
+
+// Views in Rails are programmed using a template engine language
+TemplateLanguage < Language
+
+eRubyLanguage : TemplateLanguage
+// eRuby template engine uses a designated DSL, mixture of Ruby and HTML
+eRubyLanguage partOf eRuby
+
+Ruby partOf eRubyLanguage
+XHTML partOf eRubyLanguage
+
+// This language is rendered as XHTML by Rails
+// and eventually displayed as web page
+eRubyLanguage transformableIn XHTML
+
+
+
+
+

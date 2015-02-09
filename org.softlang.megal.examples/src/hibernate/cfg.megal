@@ -1,0 +1,17 @@
+model Cfg
+import Prelude
+
+RDBMS : Technology
+DatabaseDriver : Technology
+SQL : Language
+SQLOR : Language
+SQLOR subsetOf SQL
+
+theConfiguration : File
+theMapping : File
+theConfiguration linksTo theMapping
+
+dependsOn < Technology * File
+
+Hibernate : Technology
+Hibernate dependsOn theConfiguration

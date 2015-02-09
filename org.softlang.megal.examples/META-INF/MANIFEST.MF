@@ -1,0 +1,6 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: examples
+Bundle-SymbolicName: org.softlang.megal.examples
+Bundle-Version: 1.0.0.qualifier
+Require-Bundle: org.softlang.megal.language;bundle-version="1.0.0"

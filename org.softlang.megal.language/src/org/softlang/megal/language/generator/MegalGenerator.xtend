@@ -52,13 +52,17 @@ class MegalGenerator implements IGenerator {
 
 	override void doGenerate(Resource resource, IFileSystemAccess fsa) {
 		for (m : resource.contents.filter(Megamodel)) {
-			val resolvers = Resolvers.loadResolvers(m)
-			val psk = Evaluators.evaluateParallel(ForkJoinPool.commonPool, m)
+			try {
+				val psk = Evaluators.evaluateParallel(ForkJoinPool.commonPool, m)
 
-			//			for (e : m.declarations.filter(Entity))
-			//				for (r : resolvers.values.filter[resolves(e)])
-			//					println('''«r» resolves «e», value: «r.resolve(e)»''')
-			println(psk.join)
+				//			for (e : m.declarations.filter(Entity))
+				//				for (r : resolvers.values.filter[resolves(e)])
+				//					println('''«r» resolves «e», value: «r.resolve(e)»''')
+				println(psk.join)
+
+			} catch (Exception e) {
+				e.printStackTrace
+			}
 		}
 
 	//		if (resource.contents.filter(Megamodel).exists[info.exists[key == "Generated"]])
