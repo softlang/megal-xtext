@@ -1,9 +1,12 @@
 package org.softlang.megal.sirius;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
 import org.eclipse.emf.common.util.Diagnostic;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.Diagnostician;
 import org.softlang.megal.Annotation;
 import org.softlang.megal.Declaration;
@@ -301,6 +304,34 @@ public class MegalServices {
 			return diagnostic.getMessage();
 		}
 		return null;
+	}
+
+	/**
+	 * Associated elements serve as source for the graphical mapping. Changes
+	 * update on associated elements lead to update of mapping.
+	 * 
+	 * @param entity
+	 * @return
+	 */
+	public Collection<EObject> associatedElements(Entity entity) {
+		Collection<EObject> associated = new ArrayList<>();
+
+		associated.add(entity);
+		associated.add(entity.getType().getDefinition());
+
+		return associated;
+	}
+
+	public Collection<EObject> associatedElements(Relationship relationship) {
+		Collection<EObject> associated = new ArrayList<>();
+
+		associated.add(relationship);
+		associated.add(relationship.getType());
+		associated.add(relationship.getLeft().getType());
+		associated.add(relationship.getLeft());
+		associated.add(relationship.getRight().getType());
+	
+		return associated;
 	}
 
 }
