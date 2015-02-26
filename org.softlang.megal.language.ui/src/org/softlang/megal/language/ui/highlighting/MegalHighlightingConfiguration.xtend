@@ -201,23 +201,23 @@ class MegalHighlightingConfiguration extends DefaultHighlightingConfiguration {
 		acceptor.acceptDefaultHighlighting(RELATIONSHIP_TYPE_ID, "Relationship type", relationshipTypeTextStyle)
 
 		// Load the prelude, runtime relation highlighting is probably not doable as this configuration is on init
-		val px = MegalEnvironment.loadPreludeMegamodel
+//		val px = MegalEnvironment.loadPreludeMegamodel
 
 		available.clear
 
 		// Register all stylable entity types
-		for (it : px.declarations.filter(EntityType))
-			if (!available.contains(ID)) {
-				available += ID
-				acceptor.acceptDefaultHighlighting(ID, description, style)
-			}
-
-		// Register all stylable relationship types
-		for (it : px.declarations.filter(RelationshipType))
-			if (!available.contains(ID)) {
-				available += ID
-				acceptor.acceptDefaultHighlighting(ID, description, style)
-			}
+//		for (it : px.declarations.filter(EntityType))
+//			if (!available.contains(ID)) {
+//				available += ID
+//				acceptor.acceptDefaultHighlighting(ID, description, style)
+//			}
+//
+//		// Register all stylable relationship types
+//		for (it : px.declarations.filter(RelationshipType))
+//			if (!available.contains(ID)) {
+//				available += ID
+//				acceptor.acceptDefaultHighlighting(ID, description, style)
+//			}
 	}
 
 	def uriTextStyle() {

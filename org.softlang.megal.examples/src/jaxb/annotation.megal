@@ -1,0 +1,21 @@
+/*
+ * Object/XML mapping may be customized by some annotation mechanism such that schema
+ * derived or authored OO types and their members are annotated with hints regarding de-serialization.
+ */
+model Annotation
+
+import Prelude
+import Serialization
+import DeSerialization
+
+Annotation : Language
+Annotation partOf OoLanguage
+OxAnnotation : Language
+OxAnnotation subsetOf Annotation
+
+anno : Fragment+
+anno partOf ooTypes
+
+OxAnnotation partOf OxMapper
+JAXB.Serialize dependsOn anno
+JAXB.Deserialize dependsOn anno

@@ -1,0 +1,56 @@
+/*
+ * This model provides a structural artifact-based view on the Rails project. 
+ * That it, it illustrates how conceptual entities
+ * are actually layed-out on the file system.
+ */
+model Rails 
+
+import Prelude
+import Rails.Technologies
+import Rails.Languages
+import Rails.Patterns
+
+// Technology and Language dependencies within Rails
+BuildSystem < Technology
+Rake : BuildSystem
+aTemplateLanguage : TemplateLanguage
+
+Rails dependsOn Rake
+Rails dependsOn Ruby
+Rails dependsOn MVC
+Rails dependsOn ActiveRecord
+
+// Folder structure for MVC source code
+app : Folder
+assets : Folder
+assets partOf app
+
+models : Folder
+models partOf app
+models elementOf Ruby
+models realizationOf MVC.Model
+
+views : Folder
+views partOf app
+views elementOf aTemplateLanguage
+views realizationOf MVC.View
+
+controllers : Folder
+controllers partOf app
+controllers elementOf Ruby
+controllers realizationOf MVC.Controller 
+
+helpers : Folder
+helpers partOf app
+
+mailers : Folder
+mailers partOf app
+
+// Runtime correspondence between HTTP requests and Rails controllers
+HTTP : Protocol
+requests : Artifact+
+requests supports HTTP
+requests correspondsTo controllers
+
+
+

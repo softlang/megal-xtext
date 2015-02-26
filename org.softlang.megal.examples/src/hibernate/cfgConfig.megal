@@ -1,0 +1,14 @@
+model CfgConfig
+import Cfg
+
+RDBMS = "http://en.wikipedia.org/wiki/Relational_database_management_system"
+DatabaseDriver = ""
+SQL = "http://101companies.org/wiki/Language:SQL"
+SQLOR = ""
+
+theConfiguration = "https://github.com/avaranovich/101repo/blob/master/contributions/hibernate/hibernate.cfg.xml"
+theMapping = "https://github.com/avaranovich/101repo/blob/master/contributions/hibernate/org/softlang/company/Company.hbm.xml"
+
+// Technologies
+Hibernate = "http://101companies.org/wiki/Technology:Hibernate"
+

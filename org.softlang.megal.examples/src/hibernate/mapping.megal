@@ -1,0 +1,9 @@
+model Mapping
+import Prelude
+import XML
+import SQL
+
+schema : File
+mapping transformedIn schema
+schema elementOf SQL
+schema correspondsTo persistentClasses

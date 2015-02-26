@@ -1,15 +1,14 @@
 package org.softlang.megal.evaluation;
 
-import static com.google.common.collect.FluentIterable.from;
-import static com.google.common.collect.Iterables.concat;
+import static com.google.common.base.Objects.equal;
+import static com.google.common.collect.Sets.difference;
 import static java.util.Collections.singleton;
+import static org.softlang.megal.Graph.extendBy;
 
 import org.eclipse.emf.ecore.EObject;
 import org.softlang.megal.Annotation;
 import org.softlang.megal.Megamodel;
 import org.softlang.megal.impl.MegamodelImpl;
-
-import static com.google.common.base.Objects.*;
 
 public class MegamodelEval extends MegamodelImpl {
 	@Override
@@ -24,12 +23,12 @@ public class MegamodelEval extends MegamodelImpl {
 
 	@Override
 	public Iterable<Megamodel> allImports() {
-		return concat(getImports(), from(getImports()).transformAndConcat(Megamodel::allImports));
+		return difference(extendBy(this, Megamodel::getImports), singleton(this));
 	}
 
 	@Override
 	public Iterable<Megamodel> allModels() {
-		return concat(singleton(this), getImports(), from(getImports()).transformAndConcat(Megamodel::allImports));
+		return extendBy(this, Megamodel::getImports);
 	}
 
 	@Override

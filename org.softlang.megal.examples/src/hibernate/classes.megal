@@ -1,0 +1,23 @@
+model Classes
+
+import Prelude
+
+Java : Language
+HibernatePOJO : Language
+HibernatePOJO subsetOf Java
+
+Program < File
+
+application : Program
+application elementOf Java
+
+apiCall : Fragment
+apiCall partOf application
+
+persistentClasses : File+
+
+Library < Artifact
+HibernateLib : Library
+apiCall dependsOn HibernateLib
+
+application dependsOn persistentClasses
