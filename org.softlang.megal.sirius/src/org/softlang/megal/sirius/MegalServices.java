@@ -8,6 +8,8 @@ import java.util.Optional;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.Diagnostician;
+import org.eclipse.sirius.diagram.DNode;
+import org.eclipse.sirius.viewpoint.DSemanticDecorator;
 import org.softlang.megal.Annotation;
 import org.softlang.megal.Declaration;
 import org.softlang.megal.Entity;
@@ -268,6 +270,18 @@ public class MegalServices {
 
 		return true;
 	}
+	
+	public boolean canRemove(EntityType entityType) {
+		for (Declaration declaration : getMegamodel(entityType).getDeclarations()) {
+			if (declaration instanceof RelationshipType) {
+				RelationshipType relationshipType = (RelationshipType) declaration;
+				if (relationshipType.getLeft().getDefinition().equals(entityType) || relationshipType.getRight().getDefinition().equals(entityType))
+					return false;
+			}
+		}
+
+		return true;
+	}
 
 	public int getLineRed(Declaration declaration) {
 		if (error(declaration) != null)
@@ -330,8 +344,12 @@ public class MegalServices {
 		associated.add(relationship.getLeft().getType());
 		associated.add(relationship.getLeft());
 		associated.add(relationship.getRight().getType());
-	
+
 		return associated;
 	}
 
+	public EObject getMegamodelOverView(Declaration declaration, DNode dnode) {
+		return ((DSemanticDecorator)dnode.eContainer()).getTarget();
+	}
+	
 }
