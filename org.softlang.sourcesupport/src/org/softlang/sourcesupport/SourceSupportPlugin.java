@@ -7,6 +7,7 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -146,6 +147,17 @@ public class SourceSupportPlugin implements BundleActivator {
 
 			// Assign a calculated model
 			model = new SourceSupport() {
+				private final Map<ClassLoader, ClassLoader> masterDerived = new HashMap<ClassLoader, ClassLoader>();
+
+				private ClassLoader derived(ClassLoader master) {
+					ClassLoader res = masterDerived.get(master);
+
+					if (res == null)
+						masterDerived.put(master, res = new URLClassLoader(urls, master));
+
+					return res;
+				}
+
 				@Override
 				public Set<String> getPackages() {
 					return packages;
@@ -161,7 +173,7 @@ public class SourceSupportPlugin implements BundleActivator {
 
 					try {
 						// Try to load and subclass the class for this name
-						Class<?> c = Class.forName(name, false, new URLClassLoader(urls, deriving.getClassLoader()));
+						Class<?> c = Class.forName(name, false, derived(deriving.getClassLoader()));
 						if (deriving.isAssignableFrom(c))
 							return c.asSubclass(deriving);
 

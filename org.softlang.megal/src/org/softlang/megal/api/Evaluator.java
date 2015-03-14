@@ -1,11 +1,15 @@
 package org.softlang.megal.api;
 
+import java.util.Collection;
+
 import org.softlang.megal.Entity;
 import org.softlang.megal.Megamodel;
 import org.softlang.megal.Relationship;
 
+import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
+import com.google.common.collect.Multiset;
 
 /**
  * Semantic authority for entities and relationships
@@ -14,9 +18,76 @@ import com.google.common.collect.Multimap;
  *
  */
 public abstract class Evaluator {
-	// TODO: Error-messages
-	public static enum EvaluationResult {
-		NOT_HANDLED, INVALID, VALID
+	private API api;
+
+	private final Multimap<Evaluator, Relationship> parts;
+
+	private final Multimap<Entity, Relationship> realizations;
+
+	protected Evaluator() {
+		this.api = null;
+		this.parts = HashMultimap.create();
+		this.realizations = ElementMap.newSetMultimap(Entity.class);
+	}
+
+	public void setAPI(API api) {
+		this.api = api;
+	}
+
+	public API getAPI() {
+		return api;
+	}
+
+	/**
+	 * Adds a evaluator part, a plugin
+	 * 
+	 * @param evaluator
+	 *            The plugin to add, i.e. the left hand side of the
+	 *            <code>partOf</code> relationship
+	 * @param via
+	 *            The relationship that is responsible for the linkage from
+	 *            <code>this</code> evaluator to the one given
+	 */
+	public boolean add(Evaluator evaluator, Relationship via) {
+		return parts.put(evaluator, via);
+	}
+
+	public Multiset<Evaluator> getParts() {
+		return parts.keys();
+	}
+
+	public Collection<Relationship> getAll(Evaluator evaluator) {
+		return parts.get(evaluator);
+	}
+
+	public boolean remove(Evaluator evaluator, Relationship via) {
+		return parts.remove(evaluator, via);
+	}
+
+	/**
+	 * Adds a realized entity, used for plugins
+	 * 
+	 * @param entity
+	 *            The realized entity, i.e. the right hand side of the
+	 *            <code>realizationOf</code> relationship
+	 * @param via
+	 *            The relationship that is responsible for the linkage from
+	 *            <code>this</code> evaluator to the one given
+	 */
+	public boolean add(Entity entity, Relationship via) {
+		return realizations.put(entity, via);
+	}
+
+	public Multiset<Entity> getRealized() {
+		return realizations.keys();
+	}
+
+	public Collection<Relationship> getAll(Entity entity) {
+		return realizations.get(entity);
+	}
+
+	public boolean remove(Entity entity, Relationship via) {
+		return realizations.remove(entity, via);
 	}
 
 	/**
@@ -32,63 +103,14 @@ public abstract class Evaluator {
 	}
 
 	/**
-	 * Adds a evaluator part, a plugin
-	 * 
-	 * @param via
-	 *            The relationship that is responsible for the linkage from
-	 *            <code>this</code> evaluator to the one given
-	 * @param evaluator
-	 *            The plugin to add, i.e. the left hand side of the
-	 *            <code>partOf</code> relationship
-	 */
-	public void addPart(Relationship via, Evaluator evaluator) {
-	}
-
-	/**
-	 * Adds a realized entity, used for plugins
-	 * 
-	 * @param via
-	 *            The relationship that is responsible for the linkage from
-	 *            <code>this</code> evaluator to the one given
-	 * @param entity
-	 *            The realized entity, i.e. the right hand side of the
-	 *            <code>realizationOf</code> relationship
-	 */
-	public void addRealized(Relationship via, Entity entity) {
-	}
-
-	// /**
-	// * Checks if this evaluator is responsible for the specified entity
-	// *
-	// * @param entity
-	// * The entity to check
-	// * @return True if responsible
-	// */
-	// public boolean evaluates(Entity entity) {
-	// return false;
-	// }
-	//
-	// /**
-	// * Checks if this evaluator is responsible for the specified relationship
-	// *
-	// * @param relationship
-	// * The relationship to check
-	// * @return True if responsible
-	// */
-	// public boolean evaluates(Relationship relationship) {
-	// return false;
-	// }
-
-	/**
 	 * Evaluates the entity
 	 * 
 	 * @param entity
 	 *            The entity to evaluate
-	 * @return Returns the result of evaluation as an element of
-	 *         {@link EvaluationResult}
+	 * @return Returns the result of evaluation as an element of {@link Result}
 	 */
-	public EvaluationResult evaluate(Entity entity) {
-		return EvaluationResult.NOT_HANDLED;
+	public Result evaluate(Entity entity) {
+		return Result.NOT_HANDLED;
 	}
 
 	/**
@@ -96,11 +118,10 @@ public abstract class Evaluator {
 	 * 
 	 * @param relationship
 	 *            The relationship to evaluate
-	 * @return Returns the result of evaluation as an element of
-	 *         {@link EvaluationResult}
+	 * @return Returns the result of evaluation as an element of {@link Result}
 	 */
-	public EvaluationResult evaluate(Relationship relationship) {
-		return EvaluationResult.NOT_HANDLED;
+	public Result evaluate(Relationship relationship) {
+		return Result.NOT_HANDLED;
 	}
 
 	/**

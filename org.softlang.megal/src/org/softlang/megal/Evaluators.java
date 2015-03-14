@@ -10,22 +10,31 @@ import static org.softlang.megal.TypeReferences.singleRef;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.WeakHashMap;
 import java.util.Map.Entry;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.ForkJoinTask;
 
 import org.eclipse.core.runtime.Status;
+import org.softlang.megal.api.API;
 import org.softlang.megal.api.ElementMap;
+import org.softlang.megal.api.Result;
 import org.softlang.megal.api.Evaluator;
+import org.softlang.megal.api.Resolver;
 import org.softlang.sourcesupport.SourceSupport;
 import org.softlang.sourcesupport.SourceSupportPlugin;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableMultimap;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Multimaps;
+import com.google.common.collect.Ordering;
+
+import static org.softlang.megal.APIs.*;
+import static org.softlang.megal.Resolvers.*;
 
 public class Evaluators {
 	/**
@@ -84,12 +93,13 @@ public class Evaluators {
 		for (Entry<Entity, Evaluator> from : resultMultimap.entries())
 			for (Entry<Entity, Evaluator> to : resultMultimap.entries())
 				for (Relationship r : allInvolved(m, from.getKey(), partOfType, to.getKey()))
-					to.getValue().addPart(r, from.getValue());
+					to.getValue().add(from.getValue(), r);
 
 		// Evaluator realizes entity
 		for (Entry<Entity, Evaluator> it : resultMultimap.entries())
-			for (Relationship r : allInvolved(m, null, realizationOfType, it.getKey()))
-				it.getValue().addRealized(r, r.getLeft());
+			for (Relationship r : allInvolved(m, it.getKey(), realizationOfType, null))
+				it.getValue().add(r.getRight(), r);
+
 		// Those are actually connected now!
 		return Multimaps.unmodifiableMultimap(resultMultimap);
 	}
@@ -115,26 +125,29 @@ public class Evaluators {
 	}
 
 	public static Multimap<String, String> evaluate(Megamodel m) {
-		Multimap<Entity, Evaluator> xxak = loadEvaluators(m);
-		Multimap<RelationshipType, Entity> xxay = loadMappings(m);
 
+		// Load all evaluators
+		Multimap<Entity, Resolver> resolvers = loadResolvers(m);
+		Multimap<Entity, Evaluator> entToEval = loadEvaluators(m);
+		Multimap<RelationshipType, Entity> rstToEnt = loadMappings(m);
+
+		// Get the API
+		API api = createAPI(m, resolvers);
 		Multimap<String, String> resultMultimap = HashMultimap.create();
 
 		for (Relationship b : from(m.allModels()).transformAndConcat(Megamodel::getDeclarations).filter(
 				Relationship.class)) {
-			Collection<Entity> evaluators = xxay.get(b.getType());
+			Collection<Entity> evaluators = rstToEnt.get(b.getType());
 
 			for (Entity x : evaluators)
-				for (Evaluator y : xxak.get(x))
-					switch (y.evaluate(b)) {
-					case NOT_HANDLED:
-					case INVALID:
-						break;
+				for (Evaluator y : entToEval.get(x)) {
+					y.setAPI(api);
 
-					case VALID:
+					Result result = y.evaluate(b);
+
+					if (result.isValid())
 						resultMultimap.putAll(y.calculateTrace(b));
-						break;
-					}
+				}
 		}
 
 		return Multimaps.unmodifiableMultimap(resultMultimap);
@@ -151,6 +164,16 @@ public class Evaluators {
 		return pool.submit(new Callable<Multimap<String, String>>() {
 			@Override
 			public Multimap<String, String> call() throws Exception {
+				// Load all resolvers in one task
+				ForkJoinTask<Multimap<Entity, Resolver>> loadResolversTask = ForkJoinTask.adapt(
+						new Callable<Multimap<Entity, Resolver>>() {
+
+							@Override
+							public Multimap<Entity, Resolver> call() throws Exception {
+								return loadResolvers(m);
+							}
+						}).fork();
+
 				// Load all mappings in one task
 				ForkJoinTask<Multimap<RelationshipType, Entity>> loadMappingsTaks = ForkJoinTask.adapt(
 						new Callable<Multimap<RelationshipType, Entity>>() {
@@ -170,8 +193,12 @@ public class Evaluators {
 						}).fork();
 
 				// Join the tasks
-				Multimap<RelationshipType, Entity> alpha = loadMappingsTaks.join();
-				Multimap<Entity, Evaluator> beta = loadEvaluatorsTask.join();
+				Multimap<Entity, Resolver> resolvers = loadResolversTask.join();
+				Multimap<Entity, Evaluator> entToEval = loadEvaluatorsTask.join();
+				Multimap<RelationshipType, Entity> rstToEnt = loadMappingsTaks.join();
+
+				// Get the API
+				API api = createAPI(m, resolvers);
 
 				// Badass motherforker
 				Multimap<String, String> result = HashMultimap.create();
@@ -187,18 +214,18 @@ public class Evaluators {
 						public Multimap<String, String> call() throws Exception {
 							List<ForkJoinTask<Multimap<String, String>>> subtasks = Lists.newArrayList();
 
-							for (Entity ent : alpha.get(rel.getType()))
-								for (Evaluator eval : beta.get(ent))
+							for (Entity ent : rstToEnt.get(rel.getType()))
+								for (Evaluator eval : entToEval.get(ent))
 									// Second tier: Subtask for each evaluator
 									subtasks.add(ForkJoinTask.adapt(new Callable<Multimap<String, String>>() {
 										@Override
 										public Multimap<String, String> call() throws Exception {
-											switch (eval.evaluate(rel)) {
-											case VALID:
+											// Assign the API before evaluation
+											eval.setAPI(api);
+											Result result = eval.evaluate(rel);
+											if (result.isValid())
 												return eval.calculateTrace(rel);
-											default:
-												return ImmutableMultimap.of();
-											}
+											return ImmutableMultimap.of();
 										}
 									}).fork());
 
@@ -215,5 +242,22 @@ public class Evaluators {
 				return result;
 			}
 		});
+	}
+
+	/**
+	 * <p>
+	 * Creates the standard issue API for reading a megamodels links and
+	 * applying the appropriate resolvers to an entity.
+	 * </p>
+	 * <p>
+	 * The result is cached using a {@link WeakHashMap}.
+	 * </p>
+	 * 
+	 * @param m
+	 * @param resolvers
+	 * @return
+	 */
+	private static API createAPI(Megamodel m, Multimap<Entity, Resolver> resolvers) {
+		return cache(compose(applier(resolvers.values()), modelReader(m)));
 	}
 }

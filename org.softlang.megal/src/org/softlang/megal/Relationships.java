@@ -8,7 +8,8 @@ public class Relationships {
 	public static Iterable<Relationship> filterInvolved(Iterable<Declaration> declarations, Entity left,
 			RelationshipType type, Entity right) {
 		return from(declarations).filter(Relationship.class).filter(
-				r -> logicEq(r.getLeft(), left) && logicEq(r.getType(), type) && logicEq(r.getRight(), right));
+				r -> (left == null || logicEq(r.getLeft(), left)) && (type == null || logicEq(r.getType(), type))
+						&& (right == null || logicEq(r.getRight(), right)));
 	}
 
 	public static Iterable<Relationship> involved(Megamodel m, Entity left, RelationshipType type, Entity right) {
