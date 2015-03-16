@@ -39,6 +39,7 @@ conformsTo < Artifact * Artifact
 dependsOn < Artifact * Artifact
 dependsOn < Technology * Language
 dependsOn < Technology * Technology
+// VERMUTLICH FALSCH
 dependsOn < Function * Technology
 
 transformableIn < Language * Language
@@ -48,6 +49,7 @@ transformedIn < Artifact * Artifact
 correspondsTo < File * File
 
 defines < Artifact * Language
+defines < Artifact * Function // Ohne typenparameter universell
 
 linksTo < File * File
 
@@ -61,3 +63,32 @@ versionOf < Language * Language
 deploysTo < Technology * Technology
 
 Program: Entity
+
+// NEW
+correspondsTo < File * File+
+
+partOf < Language * Language
+
+
+// EVEN NEWER
+
+// New entity types
+Evaluator < Entity
+Resolver < Entity
+
+// Binding an evaluator specific to an entity
+realizationOf < Evaluator * Entity
+
+// Specifying plug-in relationship of evaluators
+partOf < Evaluator * Evaluator
+
+
+// Defining an evaluator for the relationship elementOf between File and language
+@Plugin 'FileElementOfLanguage'
+elementOf < File * Language
+
+// Dispatcher with master as link and parameter dependence
+FileElementOfLanguage: Evaluator
+FileElementOfLanguage = "pluginroot.elementof.FileElementOfLanguage"
+
+

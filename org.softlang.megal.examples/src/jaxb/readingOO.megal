@@ -15,6 +15,6 @@
  
  deserialization : Fragment
  deserialization partOf problemProgram
- deserialization realizationOf JAXB.Deserialize
+ deserialization defines JAXB.Deserialize
  deserialization dependsOn OxLibrary
  

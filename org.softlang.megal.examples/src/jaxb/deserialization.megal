@@ -14,8 +14,10 @@ JAXB.Deserialize : Function[XML -> ObjectGraphs]
 xmlInputDoc : File
 xmlInputDoc elementOf XML
 
-initialObj : File
-initialObj: ObjectGraph 
+RuntimeThing < Artifact
+
+initialObj : RuntimeThing
+initialObj elementOf ObjectGraphs 
 
 JAXB.Deserialize dependsOn OxMapper
 JAXB.Deserialize dependsOn ooTypes
@@ -26,4 +28,4 @@ finalObj : ObjectGraph
 finalObj conformsTo ooTypes
 finalObj correspondsTo xmlInputDoc
 
-deserialize(xmlInputDoc) |-> initialObj
+JAXB.Deserialize(xmlInputDoc) |-> initialObj

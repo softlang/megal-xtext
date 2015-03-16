@@ -6,3 +6,8 @@ javaProgram : File
 
 elementOf < File * Language
 javaProgram elementOf Java
+
+JavaAcceptor : Evaluator
+JavaAcceptor partOf FileElementOfLanguage
+JavaAcceptor realizationOf Java
+JavaAcceptor = "pluginroot.elementof.AcceptAll"
