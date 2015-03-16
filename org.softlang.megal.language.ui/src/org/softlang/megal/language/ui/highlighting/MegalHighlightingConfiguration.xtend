@@ -82,6 +82,10 @@ class MegalHighlightingConfiguration extends DefaultHighlightingConfiguration {
 		guarded(null) [
 			// Guards	
 			ifAssigned(o)
+			ifAssigned(o.left)
+			ifAssigned(o.left.definition)
+			ifAssigned(o.right)
+			ifAssigned(o.right.definition)
 			// Value
 			o.left.definition.name + '_' + o.name + '_' + o.right.definition.name
 		]

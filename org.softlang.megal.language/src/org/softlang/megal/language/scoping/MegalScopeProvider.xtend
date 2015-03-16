@@ -29,17 +29,17 @@ class MegalScopeProvider extends AbstractDeclarativeScopeProvider {
 		val instanceClass = r.EType.instanceClass.asSubclass(Named)
 
 		// Scope own elements first, then the imported
-		scopeFor(m.declarations.filter(instanceClass).distinctBy[name], qualifiedNameProvider,
+		scopeFor(m.declarations.filter(instanceClass), qualifiedNameProvider,
 			scopeFor(
-				m.allImports.map[declarations].flatten.filter(instanceClass).distinctBy[name],
+				m.allImports.map[declarations].flatten.filter(instanceClass),
 				qualifiedNameProvider,
 				NULLSCOPE
 			))
 	}
 
-	private static def <T, U> distinctBy(Iterable<T> source, (T)=>U by) {
-		source.groupBy(by).mapValues[head].values
-	}
+//	private static def <T, U> distinctBy(Iterable<T> source, (T)=>U by) {
+//		source.groupBy(by).mapValues[head].values
+//	}
 
 	def scope_Entity(Megamodel m, EReference r) {
 		return scope_Named(m, r)

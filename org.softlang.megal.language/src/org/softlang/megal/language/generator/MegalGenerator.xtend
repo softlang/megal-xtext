@@ -29,6 +29,7 @@ import org.softlang.megal.Resolvers
 import org.softlang.megal.Entity
 import org.softlang.megal.Evaluators
 import java.util.concurrent.ForkJoinPool
+import java.io.PrintStream
 
 /**
  * Generates code from your model files on save.
@@ -52,14 +53,16 @@ class MegalGenerator implements IGenerator {
 
 	override void doGenerate(Resource resource, IFileSystemAccess fsa) {
 		for (m : resource.contents.filter(Megamodel)) {
+			val dxb = new ByteArrayOutputStream
+			val dxp = new PrintStream(dxb)
 			try {
 				val psk = Evaluators.evaluateParallel(ForkJoinPool.commonPool, m)
 
 				//			for (e : m.declarations.filter(Entity))
 				//				for (r : resolvers.values.filter[resolves(e)])
 				//					println('''«r» resolves «e», value: «r.resolve(e)»''')
-				println(psk.join)
-
+				dxp.println(psk.join)
+				fsa.generateFile('''«m.name».report.txt''', '''«dxb.toString»''')
 			} catch (Exception e) {
 				e.printStackTrace
 			}

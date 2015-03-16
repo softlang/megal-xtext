@@ -137,7 +137,7 @@ public class Evaluators {
 
 		for (Relationship b : from(m.allModels()).transformAndConcat(Megamodel::getDeclarations).filter(
 				Relationship.class)) {
-			Collection<Entity> evaluators = rstToEnt.get(b.getType());
+			Collection<Entity> evaluators = rstToEnt.get(b.appliedInstance());
 
 			for (Entity x : evaluators)
 				for (Evaluator y : entToEval.get(x)) {
@@ -214,7 +214,7 @@ public class Evaluators {
 						public Multimap<String, String> call() throws Exception {
 							List<ForkJoinTask<Multimap<String, String>>> subtasks = Lists.newArrayList();
 
-							for (Entity ent : rstToEnt.get(rel.getType()))
+							for (Entity ent : rstToEnt.get(rel.appliedInstance()))
 								for (Evaluator eval : entToEval.get(ent))
 									// Second tier: Subtask for each evaluator
 									subtasks.add(ForkJoinTask.adapt(new Callable<Multimap<String, String>>() {
