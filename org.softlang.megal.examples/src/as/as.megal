@@ -12,15 +12,15 @@ OnlyAsAcceptor = "pluginroot.elementof.AcceptOnlyAs"
 
 // Nothing is always element of only As
 nothing : File
-nothing = "workspace:/org.softlang.megal.examples/src/basic/ex/em"
+nothing = "workspace:/org.softlang.megal.examples/src/as/ex/em"
 nothing elementOf OnlyAs
 
 // This is element of only As, look at the content you fool!
 something : File
-something = "workspace:/org.softlang.megal.examples/src/basic/ex/ar"
+something = "workspace:/org.softlang.megal.examples/src/as/ex/ar"
 something elementOf OnlyAs
 
 // This isn't
 otherthing : File
-otherthing = "workspace:/org.softlang.megal.examples/src/basic/ex/nr"
+otherthing = "workspace:/org.softlang.megal.examples/src/as/ex/nr"
 otherthing elementOf OnlyAs
