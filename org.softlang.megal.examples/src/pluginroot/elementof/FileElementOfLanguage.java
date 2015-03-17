@@ -1,5 +1,9 @@
 package pluginroot.elementof;
 
+import static com.google.common.collect.Iterables.filter;
+import static com.google.common.collect.Iterables.getOnlyElement;
+import static com.google.common.collect.Lists.newArrayList;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
@@ -14,11 +18,9 @@ import org.softlang.megal.api.Result;
 import org.softlang.megal.api.URI;
 
 import com.google.common.base.Charsets;
+import com.google.common.base.Optional;
 import com.google.common.io.ByteSource;
 import com.google.common.io.CharSource;
-
-import static com.google.common.collect.Lists.*;
-import static com.google.common.collect.Iterables.*;
 
 /**
  * <p>
@@ -31,27 +33,30 @@ import static com.google.common.collect.Iterables.*;
 public class FileElementOfLanguage extends Evaluator {
 
 	@Override
-	public Result evaluate(Relationship relationship) {
+	public Optional<Boolean> evaluate(Relationship relationship) {
+		// Collect all the links for the entity that to be checked for
+		// containment in language
 		Collection<String> nr = newArrayList();
 		for (String link : getAPI().getLinks(relationship.getLeft()))
 			nr.add(link);
 
+		// Find a character source from these links, usually there's just one
+		// link for this entity
 		CharSource s = findASource(nr);
 
-		for (Evaluator y : getParts()) {
-			if (y instanceof Acceptor) {
-				Acceptor a = (Acceptor) y;
+		// Get all parts of the FileElementOfLanguage evaluator, these are the
+		// language acceptor plugins
+		for (Acceptor a : filter(getParts(), Acceptor.class))
+			// If a realizes the entity in question, use it
+			if (a.getRealized().contains(relationship.getRight())) {
+				// If the character source, i.e. the language artifact, is
+				// accepted, return a fine result
+				if (a.accept(s))
+					return Optional.of(true);
 
-				if (y.getRealized().contains(relationship.getRight()))
-					if (a.accept(s)) {
-						System.out.println("I WIN IT");
-						return new Result("YES", true);
-					}
 			}
-		}
 
-		System.out.println("I LOSE IT");
-		return new Result("NO", false);
+		return Optional.of(false);
 	}
 
 	private static CharSource wrap(final IFile file) {

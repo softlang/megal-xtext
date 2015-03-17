@@ -3,17 +3,15 @@ package pluginroot.elementof;
 import java.io.IOException;
 import java.io.Reader;
 
-import org.softlang.megal.api.Evaluator;
-
 import com.google.common.io.CharSource;
 
-public class AcceptOnlyAs extends Evaluator implements Acceptor {
+public class AcceptOnlyAs extends Acceptor {
 
 	@Override
 	public boolean accept(CharSource source) {
-		if(source == null)
+		if (source == null)
 			return false;
-		
+
 		try {
 			Reader x = source.openStream();
 			int i;

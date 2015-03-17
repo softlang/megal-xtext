@@ -1,7 +1,9 @@
 package pluginroot.elementof;
 
+import org.softlang.megal.api.Evaluator;
+
 import com.google.common.io.CharSource;
 
-public interface Acceptor {
-	boolean accept(CharSource source);
+public abstract class Acceptor extends Evaluator {
+	public abstract boolean accept(CharSource source);
 }
