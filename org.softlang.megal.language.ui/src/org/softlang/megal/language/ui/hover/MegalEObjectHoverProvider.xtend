@@ -1,27 +1,24 @@
 package org.softlang.megal.language.ui.hover
 
 import org.eclipse.emf.ecore.EObject
-import org.eclipse.jface.internal.text.html.BrowserInformationControl
-import org.eclipse.swt.widgets.MessageBox
 import org.eclipse.ui.ISharedImages
-import org.eclipse.xtext.ui.editor.hover.html.DefaultEObjectHoverProvider
 import org.eclipse.xtext.ui.editor.hover.html.IXtextBrowserInformationControl
 import org.softlang.megal.Entity
 import org.softlang.megal.EntityType
 import org.softlang.megal.RelationshipType
-import org.softlang.megal.Graph
 import org.softlang.megal.Megamodel
-import org.eclipse.emf.ecore.util.EcoreUtil
-import org.eclipse.xtext.EcoreUtil2
 import org.softlang.megal.Link
-import org.eclipse.xtext.ui.codetemplates.ui.evaluator.EvaluatedTemplate
 import org.softlang.megal.MegalPlugin
 import org.eclipse.jdt.core.IMember
 import org.eclipse.jdt.ui.JavaUI
 import org.eclipse.jdt.core.IJavaElement
 import org.softlang.megal.api.URI
-import org.softlang.megal.Relationship
 import org.softlang.megal.RelationshipTypes
+import org.eclipse.ui.ide.IDE
+import org.eclipse.ui.PlatformUI
+import org.eclipse.core.resources.IFile
+import static org.softlang.megal.TypeReferences.singleRef
+import org.softlang.megal.api.ElementSet
 
 class ListAnnotationsAction extends ExtenderAction {
 
@@ -59,15 +56,13 @@ class ScopeToAction extends ExtenderAction {
 			switch n {
 				IMember:
 					JavaUI.revealInEditor(JavaUI.openInEditor(n.compilationUnit), n as IJavaElement)
+				IFile:
+					IDE.openEditor(PlatformUI.workbench.activeWorkbenchWindow.activePage, n)
 			}
 	}
 }
 
 class ListSubtypesAction extends ExtenderAction {
-	def static boolean isSubType(EntityType a, EntityType of) {
-		a.supertype != null && (a.supertype.definition == of || isSubType(a.supertype.definition, of))
-	}
-
 	new(ExtenderEObjectHoverProvider p, IXtextBrowserInformationControl c) {
 		super(p, c, "List subtypes", ISharedImages.IMG_ELCL_COLLAPSEALL)
 	}
@@ -78,15 +73,11 @@ class ListSubtypesAction extends ExtenderAction {
 
 	override run() {
 		val e = infoControl.input?.inputElement as EntityType
-
-		// Resolve all megamodels
-		val resolved = e.eResource.resourceSet.resources.map[contents.filter(Megamodel)].flatten
-
-		// Find all direct subtypes
-		val subtypes = resolved.map[declarations.filter(EntityType).filter[isSubType(e)]].flatten
+		val q =  new ElementSet(EntityType)
+		q.addAll(singleRef(e).latticeBelow.map[definition])
 
 		navigateToHTML(e,
-			'''List of subtypes of «extender.elementLinks.createLink(e)»: <ul>«FOR a : subtypes»<li>«extender.
+			'''List of subtypes of «extender.elementLinks.createLink(e)»: <ul>«FOR a : q»<li>«extender.
 				elementLinks.createLink(a)»«IF a.supertype.definition != e» <a title="Transitive subtype">...</a>«ENDIF»</li>«ENDFOR»</ul>''')
 	}
 }

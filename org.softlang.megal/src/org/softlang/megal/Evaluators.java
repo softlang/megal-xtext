@@ -10,6 +10,7 @@ import static org.softlang.megal.TypeReferences.singleRef;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import java.util.WeakHashMap;
 import java.util.Map.Entry;
 import java.util.concurrent.Callable;
@@ -19,14 +20,17 @@ import java.util.concurrent.ForkJoinTask;
 import org.eclipse.core.runtime.Status;
 import org.softlang.megal.api.API;
 import org.softlang.megal.api.ElementMap;
+import org.softlang.megal.api.ElementSet;
 import org.softlang.megal.api.Result;
 import org.softlang.megal.api.Evaluator;
 import org.softlang.megal.api.Resolver;
 import org.softlang.sourcesupport.SourceSupport;
 import org.softlang.sourcesupport.SourceSupportPlugin;
 
+import com.google.common.base.Optional;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableMultimap;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
@@ -124,7 +128,7 @@ public class Evaluators {
 		return Multimaps.unmodifiableMultimap(resultMultimap);
 	}
 
-	public static Multimap<String, String> evaluate(Megamodel m) {
+	public static Result evaluate(Megamodel m) {
 
 		// Load all evaluators
 		Multimap<Entity, Resolver> resolvers = loadResolvers(m);
@@ -133,7 +137,9 @@ public class Evaluators {
 
 		// Get the API
 		API api = createAPI(m, resolvers);
-		Multimap<String, String> resultMultimap = HashMultimap.create();
+		Multimap<String, String> trace = HashMultimap.create();
+		Set<Element> invalid = new ElementSet<Element>(Element.class);
+		Set<Element> valid = new ElementSet<Element>(Element.class);
 
 		for (Relationship b : from(m.allModels()).transformAndConcat(Megamodel::getDeclarations).filter(
 				Relationship.class)) {
@@ -142,15 +148,19 @@ public class Evaluators {
 			for (Entity x : evaluators)
 				for (Evaluator y : entToEval.get(x)) {
 					y.setAPI(api);
+					Optional<Boolean> result = y.evaluate(b);
 
-					Result result = y.evaluate(b);
-
-					if (result.isValid())
-						resultMultimap.putAll(y.calculateTrace(b));
+					if (result.isPresent()) {
+						if (result.get()) {
+							valid.add(b);
+							trace.putAll(y.calculateTrace(b));
+						} else
+							invalid.add(b);
+					}
 				}
 		}
 
-		return Multimaps.unmodifiableMultimap(resultMultimap);
+		return new Result(invalid, valid, trace);
 	}
 
 	/**
@@ -159,11 +169,11 @@ public class Evaluators {
 	 * @param m
 	 * @return
 	 */
-	public static ForkJoinTask<Multimap<String, String>> evaluateParallel(ForkJoinPool pool, Megamodel m) {
+	public static ForkJoinTask<Result> evaluateParallel(ForkJoinPool pool, Megamodel m) {
 
-		return pool.submit(new Callable<Multimap<String, String>>() {
+		return pool.submit(new Callable<Result>() {
 			@Override
-			public Multimap<String, String> call() throws Exception {
+			public Result call() throws Exception {
 				// Load all resolvers in one task
 				ForkJoinTask<Multimap<Entity, Resolver>> loadResolversTask = ForkJoinTask.adapt(
 						new Callable<Multimap<Entity, Resolver>>() {
@@ -200,45 +210,56 @@ public class Evaluators {
 				// Get the API
 				API api = createAPI(m, resolvers);
 
-				// Badass motherforker
-				Multimap<String, String> result = HashMultimap.create();
+				Result result = new Result(ImmutableSet.of(), ImmutableSet.of(), ImmutableMultimap.of());
 
 				// Make a list of all subtasks so we may join them afterwards
-				List<ForkJoinTask<Multimap<String, String>>> subtasks = Lists.newArrayList();
+				List<ForkJoinTask<Result>> subtasks = Lists.newArrayList();
 
 				for (Relationship rel : from(m.allModels()).transformAndConcat(Megamodel::getDeclarations).filter(
 						Relationship.class))
 					// First tier: Subtask for each relationship
-					subtasks.add(ForkJoinTask.adapt(new Callable<Multimap<String, String>>() {
+					subtasks.add(ForkJoinTask.adapt(new Callable<Result>() {
 						@Override
-						public Multimap<String, String> call() throws Exception {
-							List<ForkJoinTask<Multimap<String, String>>> subtasks = Lists.newArrayList();
+						public Result call() throws Exception {
+							Result result = new Result(ImmutableSet.of(), ImmutableSet.of(), ImmutableMultimap.of());
+
+							List<ForkJoinTask<Result>> subtasks = Lists.newArrayList();
 
 							for (Entity ent : rstToEnt.get(rel.appliedInstance()))
 								for (Evaluator eval : entToEval.get(ent))
 									// Second tier: Subtask for each evaluator
-									subtasks.add(ForkJoinTask.adapt(new Callable<Multimap<String, String>>() {
+									subtasks.add(ForkJoinTask.adapt(new Callable<Result>() {
 										@Override
-										public Multimap<String, String> call() throws Exception {
+										public Result call() throws Exception {
 											// Assign the API before evaluation
 											eval.setAPI(api);
-											Result result = eval.evaluate(rel);
-											if (result.isValid())
-												return eval.calculateTrace(rel);
-											return ImmutableMultimap.of();
+											Optional<Boolean> result = eval.evaluate(rel);
+
+											if (result.isPresent()) {
+												if (result.get()) {
+													return new Result(ImmutableSet.of(), ImmutableSet.of(rel), eval
+															.calculateTrace(rel));
+												} else
+													return new Result(ImmutableSet.of(rel), ImmutableSet.of(),
+															ImmutableMultimap.of());
+											}
+											return new Result(ImmutableSet.of(), ImmutableSet.of(), ImmutableMultimap
+													.of());
 										}
 									}).fork());
 
 							// Join and add all results from the subtasks
-							for (ForkJoinTask<Multimap<String, String>> subtask : subtasks)
-								result.putAll(subtask.join());
+							for (ForkJoinTask<Result> subtask : subtasks)
+								result = Result.concatenate(result, subtask.join());
+
 							return result;
 						}
 					}).fork());
 
 				// Join and add all results from the subtasks
-				for (ForkJoinTask<Multimap<String, String>> subtask : subtasks)
-					result.putAll(subtask.join());
+				for (ForkJoinTask<Result> subtask : subtasks)
+					result = Result.concatenate(result, subtask.join());
+
 				return result;
 			}
 		});

@@ -8,6 +8,10 @@ import org.softlang.megal.Entity
 import org.softlang.megal.EntityType
 import org.softlang.megal.MegalPackage
 import org.softlang.megal.Relationship
+import org.softlang.megal.Megamodel
+import org.softlang.megal.Evaluators
+import java.util.concurrent.ForkJoinPool
+import org.eclipse.xtext.validation.CheckType
 
 /**
  * Custom validation rules. 
@@ -50,5 +54,20 @@ class MegalValidator extends AbstractMegalValidator {
 			name == x.name && supertype != x.supertype])
 			error('''The entity type '«x.name»' does not overload it's correspondent entity types''',
 				MegalPackage.Literals.NAMED__NAME, ENTITY_TYPE_MISOVERLOAD)
+	}
+
+	/**
+	 * This check requires expensive megamodel evaluation
+	 */
+		@Check(CheckType.EXPENSIVE)
+	def checkValidate(Megamodel m) {
+
+		// Evaluate parallel, join immediately
+		val r = Evaluators.evaluate(m)
+
+		// Look the relations in this model up, if they are invalid, mark them 
+		for (e : m.declarations.filter(Relationship))
+			if (r.invalid.contains(e))
+				error('''The relationship '«e»' is invalid in this place''', e, MegalPackage.Literals.RELATIONSHIP__TYPE)
 	}
 }

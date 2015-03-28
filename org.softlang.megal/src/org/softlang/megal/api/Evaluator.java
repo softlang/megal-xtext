@@ -6,6 +6,7 @@ import org.softlang.megal.Entity;
 import org.softlang.megal.Megamodel;
 import org.softlang.megal.Relationship;
 
+import com.google.common.base.Optional;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
@@ -109,8 +110,8 @@ public abstract class Evaluator {
 	 *            The entity to evaluate
 	 * @return Returns the result of evaluation as an element of {@link Result}
 	 */
-	public Result evaluate(Entity entity) {
-		return Result.NOT_HANDLED;
+	public Optional<Boolean> evaluate(Entity entity) {
+		return Optional.absent();
 	}
 
 	/**
@@ -120,8 +121,8 @@ public abstract class Evaluator {
 	 *            The relationship to evaluate
 	 * @return Returns the result of evaluation as an element of {@link Result}
 	 */
-	public Result evaluate(Relationship relationship) {
-		return Result.NOT_HANDLED;
+	public Optional<Boolean> evaluate(Relationship relationship) {
+		return Optional.absent();
 	}
 
 	/**

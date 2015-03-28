@@ -34,7 +34,7 @@ public class ElementSet<E extends Element> extends AbstractSet<E> {
 
 		E e = type.cast(o);
 
-		return backing.contains(e);
+		return backing.contains(new ElementKey<Element>(e));
 	}
 
 	@Override

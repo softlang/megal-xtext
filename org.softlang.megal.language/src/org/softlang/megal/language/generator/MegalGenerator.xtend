@@ -53,19 +53,19 @@ class MegalGenerator implements IGenerator {
 
 	override void doGenerate(Resource resource, IFileSystemAccess fsa) {
 		for (m : resource.contents.filter(Megamodel)) {
-			val dxb = new ByteArrayOutputStream
-			val dxp = new PrintStream(dxb)
-			try {
-				val psk = Evaluators.evaluateParallel(ForkJoinPool.commonPool, m)
-
-				//			for (e : m.declarations.filter(Entity))
-				//				for (r : resolvers.values.filter[resolves(e)])
-				//					println('''«r» resolves «e», value: «r.resolve(e)»''')
-				dxp.println(psk.join)
-				fsa.generateFile('''«m.name».report.txt''', '''«dxb.toString»''')
-			} catch (Exception e) {
-				e.printStackTrace
-			}
+//			val dxb = new ByteArrayOutputStream
+//			val dxp = new PrintStream(dxb)
+//			try {
+//				val psk = Evaluators.evaluateParallel(ForkJoinPool.commonPool, m)
+//
+//				//			for (e : m.declarations.filter(Entity))
+//				//				for (r : resolvers.values.filter[resolves(e)])
+//				//					println('''«r» resolves «e», value: «r.resolve(e)»''')
+//				dxp.println(psk.join)
+//				fsa.generateFile('''«m.name».report.txt''', '''«dxb.toString»''')
+//			} catch (Exception e) {
+//				e.printStackTrace
+//			}
 		}
 
 	//		if (resource.contents.filter(Megamodel).exists[info.exists[key == "Generated"]])
