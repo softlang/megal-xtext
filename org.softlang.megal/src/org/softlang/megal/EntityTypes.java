@@ -3,6 +3,9 @@ package org.softlang.megal;
 import static com.google.common.collect.FluentIterable.from;
 
 public class EntityTypes {
+	public static Iterable<EntityType> allEntityTypes(Megamodel m) {
+		return from(m.allModels()).transformAndConcat(Megamodel::getDeclarations).filter(EntityType.class);
+	}
 
 	public static Iterable<Entity> filterInstances(Iterable<Declaration> declarations, TypeReference ref) {
 		return from(declarations).filter(Entity.class).filter(

@@ -4,6 +4,9 @@ import static com.google.common.collect.FluentIterable.from;
 import static org.softlang.megal.Elements.logicEq;
 
 public class Relationships {
+	public static Iterable<Relationship> allRelationships(Megamodel m) {
+		return from(m.allModels()).transformAndConcat(Megamodel::getDeclarations).filter(Relationship.class);
+	}
 
 	public static Iterable<Relationship> filterInvolved(Iterable<Declaration> declarations, Entity left,
 			RelationshipType type, Entity right) {

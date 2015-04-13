@@ -1,4 +1,4 @@
-package org.softlang.megal;
+package org.softlang.megal.util;
 
 import java.util.Collection;
 import java.util.Objects;

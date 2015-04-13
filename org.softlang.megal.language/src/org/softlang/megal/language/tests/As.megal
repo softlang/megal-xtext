@@ -1,0 +1,40 @@
+model As
+import Prelude
+
+// Language of all As (small or capital)
+OnlyAs: Language
+
+// Evaluator for this trick
+OnlyAsAcceptor: Evaluator
+OnlyAsAcceptor partOf FileElementOfLanguage
+OnlyAsAcceptor realizationOf OnlyAs
+// TODO:::::::::: classpath:/
+OnlyAsAcceptor = "pluginroot.elementof.AcceptOnlyAs"
+
+OnlyBs: Language
+
+
+// Nothing is always element of only As
+nothing: File
+nothing = "workspace:/org.softlang.megal.examples/src/as/ex/em"
+nothing elementOf OnlyAs
+
+stuff: File
+stuff = "workspace:/org.softlang.megal.examples/src/as/ex/Sasa.java/ast/types/fields"
+stuff elementOf OnlyAs
+
+
+// As test suite
+//@IsInvalid
+//nothing elementOf OnlyBs
+
+// This is element of only As, look at the content you fool!
+something: File
+something = "workspace:/org.softlang.megal.examples/src/as/ex/ar"
+something elementOf OnlyAs
+//
+//// This isn't
+//otherthing : File
+//otherthing = "workspace:/org.softlang.megal.examples/src/as/ex/nr"
+//otherthing elementOf OnlyAs
+

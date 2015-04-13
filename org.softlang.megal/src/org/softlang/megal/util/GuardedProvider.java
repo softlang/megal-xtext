@@ -1,4 +1,4 @@
-package org.softlang.megal;
+package org.softlang.megal.util;
 
 @FunctionalInterface
 public interface GuardedProvider<R> {

@@ -3,7 +3,7 @@ package org.softlang.megal.evaluation;
 import static com.google.common.base.Objects.equal;
 import static com.google.common.collect.Sets.difference;
 import static java.util.Collections.singleton;
-import static org.softlang.megal.Graph.extendBy;
+import static org.softlang.megal.util.Graph.extendBy;
 
 import org.eclipse.emf.ecore.EObject;
 import org.softlang.megal.Annotation;
