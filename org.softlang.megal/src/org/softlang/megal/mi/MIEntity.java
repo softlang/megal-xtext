@@ -5,7 +5,23 @@ import static com.google.common.collect.FluentIterable.from;
 import java.net.URI;
 import java.util.Collection;
 
+import org.softlang.megal.mi.util.IdBuilder;
+
+/**
+ * <p>
+ * There must be no entity with the same {@link #getName()} in the containing
+ * megamodel.
+ * </p>
+ * 
+ * @author Pazuzu
+ *
+ */
 public abstract class MIEntity extends MINamed {
+	@Override
+	public String getId() {
+		return IdBuilder.of("entity").add(getName()).toString();
+	}
+
 	public abstract MIEntityTypeReference getType();
 
 	public abstract Collection<URI> getLinks();

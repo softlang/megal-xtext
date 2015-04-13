@@ -22,7 +22,7 @@ class WrappedRelationshipType extends MIRelationshipType {
 		this.container = container;
 
 		// Get annotation based properties
-		name = Annotations.getEffectiveName(source);
+		name = source.getName();
 		annotations = Annotations.getAnnotationMap(source);
 
 		left = container.wrap(source.getLeft());

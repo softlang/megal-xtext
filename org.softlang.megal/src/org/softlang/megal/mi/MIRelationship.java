@@ -2,9 +2,25 @@ package org.softlang.megal.mi;
 
 import static com.google.common.base.Objects.equal;
 
+import org.softlang.megal.mi.util.IdBuilder;
+
 import com.google.common.base.Objects;
 
+/**
+ * <p>
+ * There must be no relationship with the same {@link #getType()} and the same
+ * {@link #getLeft()} and {@link #getRight()} in the containing megamodel.
+ * </p>
+ * 
+ * @author Pazuzu
+ *
+ */
 public abstract class MIRelationship extends MIAnnotated {
+	@Override
+	public String getId() {
+		return IdBuilder.of("relationship").add(getLeft()).add(getType()).add(getRight()).toString();
+	}
+
 	public abstract MIEntity getLeft();
 
 	public abstract MIRelationshipType getType();

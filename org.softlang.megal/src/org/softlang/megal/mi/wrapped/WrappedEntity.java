@@ -37,7 +37,7 @@ class WrappedEntity extends MIEntity {
 		this.container = container;
 
 		// Get annotation based properties
-		name = Annotations.getEffectiveName(source);
+		name = source.getName();
 		annotations = Annotations.getAnnotationMap(source);
 
 		// Wrap the type of the input entity

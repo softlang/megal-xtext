@@ -1,5 +1,6 @@
 package org.softlang.megal.mi.wrapped;
 
+import java.net.URI;
 import java.util.Collection;
 import java.util.Map;
 
@@ -21,11 +22,6 @@ import org.softlang.megal.mi.MIEntityTypeReference;
 import org.softlang.megal.mi.MIMegamodel;
 import org.softlang.megal.mi.MIRelationship;
 import org.softlang.megal.mi.MIRelationshipType;
-import org.softlang.megal.mi.placeholder.ProxyEntity;
-import org.softlang.megal.mi.placeholder.ProxyEntityType;
-import org.softlang.megal.mi.placeholder.ProxyEntityTypeReference;
-import org.softlang.megal.mi.placeholder.ProxyRelationship;
-import org.softlang.megal.mi.placeholder.ProxyRelationshipType;
 
 import com.google.common.collect.Multimap;
 
@@ -47,7 +43,7 @@ public class WrappedMegamodel extends MIMegamodel {
 		this.source = source;
 
 		// Get annotation based properties
-		name = Annotations.getEffectiveName(source);
+		name = source.getName();
 		annotations = Annotations.getAnnotationMap(source);
 
 		existingEntityTypes = new ElementMap<>(EntityType.class);
@@ -72,47 +68,193 @@ public class WrappedMegamodel extends MIMegamodel {
 		return source;
 	}
 
-	private MIEntityType compute(EntityType source) {
-		return new ProxyEntityType() {
+	private MIEntityType delay(EntityType source) {
+		return new MIEntityType() {
+			private WrappedEntityType instance = null;
+
+			private void initialize() {
+				if (instance == null)
+					instance = new WrappedEntityType(WrappedMegamodel.this, source);
+			}
+
 			@Override
-			protected MIEntityType compute() {
-				return new WrappedEntityType(WrappedMegamodel.this, source);
+			public MIEntityTypeReference getSupertype() {
+				initialize();
+
+				return instance.getSupertype();
+			}
+
+			@Override
+			public String getDefinedName() {
+				initialize();
+
+				return instance.getDefinedName();
+			}
+
+			@Override
+			public Multimap<String, String> getAnnotations() {
+				initialize();
+
+				return instance.getAnnotations();
+			}
+
+			@Override
+			public MIMegamodel getMegamodel() {
+				initialize();
+
+				return instance.getMegamodel();
 			}
 		};
 	}
 
-	private MIEntityTypeReference compute(TypeReference source) {
-		return new ProxyEntityTypeReference() {
+	private MIRelationshipType delay(RelationshipType source) {
+		return new MIRelationshipType() {
+			private WrappedRelationshipType instance = null;
+
+			private void initialize() {
+				if (instance == null)
+					instance = new WrappedRelationshipType(WrappedMegamodel.this, source);
+			}
+
 			@Override
-			protected MIEntityTypeReference compute() {
-				return new WrappedEntityTypeReference(WrappedMegamodel.this, source);
+			public MIEntityTypeReference getLeft() {
+				initialize();
+
+				return instance.getLeft();
+			}
+
+			@Override
+			public MIEntityTypeReference getRight() {
+				initialize();
+
+				return instance.getRight();
+			}
+
+			@Override
+			public String getDefinedName() {
+				initialize();
+
+				return instance.getDefinedName();
+			}
+
+			@Override
+			public Multimap<String, String> getAnnotations() {
+				initialize();
+
+				return instance.getAnnotations();
+			}
+
+			@Override
+			public MIMegamodel getMegamodel() {
+				initialize();
+
+				return instance.getMegamodel();
 			}
 		};
 	}
 
-	private MIRelationshipType compute(RelationshipType source) {
-		return new ProxyRelationshipType() {
+	private MIEntity delay(Entity source) {
+		return new MIEntity() {
+			private WrappedEntity instance = null;
+
+			private void initialize() {
+				if (instance == null)
+					instance = new WrappedEntity(WrappedMegamodel.this, source);
+			}
+
 			@Override
-			protected MIRelationshipType compute() {
-				return new WrappedRelationshipType(WrappedMegamodel.this, source);
+			public MIEntityTypeReference getType() {
+				initialize();
+
+				return instance.getType();
+			}
+
+			@Override
+			public Collection<URI> getLinks() {
+				initialize();
+
+				return instance.getLinks();
+			}
+
+			@Override
+			public Collection<? extends MIRelationship> getIncoming() {
+				initialize();
+
+				return instance.getIncoming();
+			}
+
+			@Override
+			public Collection<? extends MIRelationship> getOutgoing() {
+				initialize();
+
+				return instance.getOutgoing();
+			}
+
+			@Override
+			public String getDefinedName() {
+				initialize();
+
+				return instance.getDefinedName();
+			}
+
+			@Override
+			public MIMegamodel getMegamodel() {
+				initialize();
+
+				return instance.getMegamodel();
+			}
+
+			@Override
+			public Multimap<String, String> getAnnotations() {
+				initialize();
+
+				return instance.getAnnotations();
 			}
 		};
 	}
 
-	private MIEntity compute(Entity source) {
-		return new ProxyEntity() {
-			@Override
-			protected MIEntity compute() {
-				return new WrappedEntity(WrappedMegamodel.this, source);
-			}
-		};
-	}
+	private MIRelationship delay(Relationship source) {
+		return new MIRelationship() {
+			private WrappedRelationship instance = null;
 
-	private MIRelationship compute(Relationship source) {
-		return new ProxyRelationship() {
+			private void initialize() {
+				if (instance == null)
+					instance = new WrappedRelationship(WrappedMegamodel.this, source);
+			}
+
 			@Override
-			protected MIRelationship compute() {
-				return new WrappedRelationship(WrappedMegamodel.this, source);
+			public MIMegamodel getMegamodel() {
+				initialize();
+
+				return instance.getMegamodel();
+			}
+
+			@Override
+			public Multimap<String, String> getAnnotations() {
+				initialize();
+
+				return instance.getAnnotations();
+			}
+
+			@Override
+			public MIRelationshipType getType() {
+				initialize();
+
+				return instance.getType();
+			}
+
+			@Override
+			public MIEntity getRight() {
+				initialize();
+
+				return instance.getRight();
+			}
+
+			@Override
+			public MIEntity getLeft() {
+				initialize();
+
+				return instance.getLeft();
 			}
 		};
 	}
@@ -121,35 +263,35 @@ public class WrappedMegamodel extends MIMegamodel {
 		if (source == null)
 			return null;
 
-		return existingEntityTypes.computeIfAbsent(source, this::compute);
+		return existingEntityTypes.computeIfAbsent(source, this::delay);
 	}
 
 	public MIEntityTypeReference wrap(TypeReference source) {
 		if (source == null)
 			return null;
 
-		return compute(source);
+		return new WrappedEntityTypeReference(this, source);
 	}
 
 	public MIRelationshipType wrap(RelationshipType source) {
 		if (source == null)
 			return null;
 
-		return existingRelationshipTypes.computeIfAbsent(source, this::compute);
+		return existingRelationshipTypes.computeIfAbsent(source, this::delay);
 	}
 
 	public MIEntity wrap(Entity source) {
 		if (source == null)
 			return null;
 
-		return existingEntities.computeIfAbsent(source, this::compute);
+		return existingEntities.computeIfAbsent(source, this::delay);
 	}
 
 	public MIRelationship wrap(Relationship source) {
 		if (source == null)
 			return null;
 
-		return existingRelationships.computeIfAbsent(source, this::compute);
+		return existingRelationships.computeIfAbsent(source, this::delay);
 	}
 
 	@Override
@@ -158,7 +300,7 @@ public class WrappedMegamodel extends MIMegamodel {
 	}
 
 	@Override
-	public String getDefinedName() {
+	public String getTitle() {
 		return name;
 	}
 

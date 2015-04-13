@@ -20,7 +20,7 @@ class WrappedEntityType extends MIEntityType {
 		this.container = container;
 
 		// Get annotation based properties
-		name = Annotations.getEffectiveName(source);
+		name = source.getName();
 		annotations = Annotations.getAnnotationMap(source);
 
 		// Wrap the supertype reference

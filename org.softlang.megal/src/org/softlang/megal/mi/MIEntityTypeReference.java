@@ -2,9 +2,15 @@ package org.softlang.megal.mi;
 
 import java.util.List;
 
-import com.google.common.base.Joiner;
+import org.softlang.megal.mi.util.IdBuilder;
 
-public abstract class MIEntityTypeReference {
+public abstract class MIEntityTypeReference extends MIElement {
+
+	@Override
+	public String getId() {
+		return IdBuilder.of("entityTypeReference").add(getDefinition()).add(isMany()).add(getParameters()).toString();
+	}
+
 	public abstract MIEntityType getDefinition();
 
 	public abstract boolean isMany();

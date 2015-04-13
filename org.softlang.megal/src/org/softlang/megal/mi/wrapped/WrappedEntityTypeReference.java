@@ -1,6 +1,7 @@
 package org.softlang.megal.mi.wrapped;
 
 import static java.util.Collections.emptyList;
+import static java.util.Collections.emptyMap;
 
 import java.util.List;
 
@@ -10,10 +11,16 @@ import org.softlang.megal.TypeReference;
 import org.softlang.megal.mi.MIEntity;
 import org.softlang.megal.mi.MIEntityType;
 import org.softlang.megal.mi.MIEntityTypeReference;
+import org.softlang.megal.mi.MIMegamodel;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMultimap;
+import com.google.common.collect.Multimap;
+import com.google.common.collect.Multimaps;
 
 public class WrappedEntityTypeReference extends MIEntityTypeReference {
+
+	private final WrappedMegamodel container;
 
 	private final MIEntityType definition;
 
@@ -22,6 +29,7 @@ public class WrappedEntityTypeReference extends MIEntityTypeReference {
 	private final List<MIEntity> parameters;
 
 	public WrappedEntityTypeReference(WrappedMegamodel container, TypeReference source) {
+		this.container = container;
 		// Translate the definition
 		definition = container.wrap(source.getDefinition());
 
@@ -46,6 +54,11 @@ public class WrappedEntityTypeReference extends MIEntityTypeReference {
 	}
 
 	@Override
+	public MIMegamodel getMegamodel() {
+		return container;
+	}
+
+	@Override
 	public MIEntityType getDefinition() {
 		return definition;
 	}
@@ -58,6 +71,11 @@ public class WrappedEntityTypeReference extends MIEntityTypeReference {
 	@Override
 	public List<MIEntity> getParameters() {
 		return parameters;
+	}
+
+	@Override
+	public Multimap<String, String> getAnnotations() {
+		return ImmutableMultimap.of();
 	}
 
 }
