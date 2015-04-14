@@ -91,9 +91,12 @@ public class FileElementOfLanguage extends Evaluator {
 
 		// Find the first IFile in the resolved items
 		for (Object o : MegalPlugin.getEvaluator().evaluate(
-				URI.valueOf(getOnlyElement(nr))))
+				URI.valueOf(getOnlyElement(nr)))){
+			System.out.println(o);
+			System.out.println(o.getClass());
 			if (o instanceof IFile)
 				return wrap((IFile) o);
+		}
 
 		// Otherwise return null
 		return null;

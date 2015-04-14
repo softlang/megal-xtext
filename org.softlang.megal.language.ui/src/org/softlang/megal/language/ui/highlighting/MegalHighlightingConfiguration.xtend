@@ -11,7 +11,7 @@ import org.softlang.megal.RelationshipType
 import org.softlang.megal.language.MegalEnvironment
 import org.softlang.megal.language.ui.swt.SWTUtil
 
-import static org.softlang.megal.Guard.*
+import static org.softlang.megal.util.Guard.*
 import org.eclipse.swt.graphics.RGB
 import org.softlang.megal.Relationship
 import org.softlang.megal.Link

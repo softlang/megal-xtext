@@ -4,32 +4,9 @@
 package org.softlang.megal.language.generator
 
 import org.eclipse.emf.ecore.resource.Resource
-import org.eclipse.xtext.generator.IGenerator
 import org.eclipse.xtext.generator.IFileSystemAccess
+import org.eclipse.xtext.generator.IGenerator
 import org.softlang.megal.Megamodel
-import org.eclipse.emf.ecore.util.EcoreUtil
-import org.eclipse.emf.ecore.EObject
-import org.eclipse.xtext.resource.XtextResourceSet
-import org.eclipse.emf.common.util.URI
-import java.io.ByteArrayOutputStream
-import org.eclipse.emf.ecore.resource.ResourceSet
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
-import org.softlang.megal.language.MegalRuntimeModule
-import org.eclipse.xtext.resource.XtextResourceFactory
-import com.google.inject.Inject
-
-//import org.softlang.megal.processing.FunAppDesugaring
-//import org.softlang.megal.processing.LanguageResolving
-import org.softlang.megal.MegalFactory
-import org.eclipse.xtext.resource.XtextResource
-import com.google.inject.Provider
-import org.softlang.megal.language.MegalStandaloneSetup
-import org.softlang.megal.language.MegalStandaloneSetupGenerated
-import org.softlang.megal.Resolvers
-import org.softlang.megal.Entity
-import org.softlang.megal.Evaluators
-import java.util.concurrent.ForkJoinPool
-import java.io.PrintStream
 
 /**
  * Generates code from your model files on save.
@@ -37,35 +14,21 @@ import java.io.PrintStream
  * see http://www.eclipse.org/Xtext/documentation.html#TutorialCodeGeneration
  */
 class MegalGenerator implements IGenerator {
-	extension val MegalFactory f = MegalFactory.eINSTANCE
-
-	def toText(EObject e) {
-		val rs = new ResourceSetImpl
-		val re = rs.createResource(URI.createURI("inmem/target.megal"))
-
-		re.contents += e
-
-		val baos = new ByteArrayOutputStream
-		re.save(baos, emptyMap)
-
-		return baos.toString
-	}
-
 	override void doGenerate(Resource resource, IFileSystemAccess fsa) {
 		for (m : resource.contents.filter(Megamodel)) {
-//			val dxb = new ByteArrayOutputStream
-//			val dxp = new PrintStream(dxb)
-//			try {
-//				val psk = Evaluators.evaluateParallel(ForkJoinPool.commonPool, m)
-//
-//				//			for (e : m.declarations.filter(Entity))
-//				//				for (r : resolvers.values.filter[resolves(e)])
-//				//					println('''«r» resolves «e», value: «r.resolve(e)»''')
-//				dxp.println(psk.join)
-//				fsa.generateFile('''«m.name».report.txt''', '''«dxb.toString»''')
-//			} catch (Exception e) {
-//				e.printStackTrace
-//			}
+			//			val dxb = new ByteArrayOutputStream
+			//			val dxp = new PrintStream(dxb)
+			//			try {
+			//				val psk = Evaluators.evaluateParallel(ForkJoinPool.commonPool, m)
+			//
+			//				//			for (e : m.declarations.filter(Entity))
+			//				//				for (r : resolvers.values.filter[resolves(e)])
+			//				//					println('''«r» resolves «e», value: «r.resolve(e)»''')
+			//				dxp.println(psk.join)
+			//				fsa.generateFile('''«m.name».report.txt''', '''«dxb.toString»''')
+			//			} catch (Exception e) {
+			//				e.printStackTrace
+			//			}
 		}
 
 	//		if (resource.contents.filter(Megamodel).exists[info.exists[key == "Generated"]])

@@ -12,7 +12,7 @@ Export-Package: org.softlang.megal,
  org.softlang.megal.evaluation,
  org.softlang.megal.fragmentprovider,
  org.softlang.megal.impl,
- org.softlang.megal.mi,
+ org.softlang.megal.mi2,
  org.softlang.megal.util
 Require-Bundle: org.eclipse.core.runtime;visibility:=reexport,
  org.eclipse.emf.ecore;visibility:=reexport,
