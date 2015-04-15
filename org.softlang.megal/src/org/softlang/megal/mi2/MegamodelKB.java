@@ -40,14 +40,14 @@ public class MegamodelKB implements KB {
 
 	private static final String ELEMENT_OF = "elementOf";
 
-	private static final String INPUT_OF = "inputOf";
+	private static final String FIRST_OF = "firstOf";
 
-	private static final String OUTPUT_OF = "outputOf";
+	private static final String SECOND_OF = "secondOf";
 
-	private static final String FUNCTION_APPLICATION = "FunctionApplication";
+	private static final String PAIR = "Pair";
 
-	private static String applicationName(FunctionApplication a) {
-		return a.getFunction().getName() + "(" + a.getInput().getName() + ")|->" + a.getOutput().getName();
+	private static String entityName(FunctionApplication a) {
+		return "(" + a.getInput().getName() + ", " + a.getOutput().getName() + ") in " + a.getFunction().getName();
 	}
 
 	/**
@@ -229,24 +229,24 @@ public class MegamodelKB implements KB {
 					String input = functionApplication.getInput().getName();
 					String output = functionApplication.getOutput().getName();
 
-					String appname = applicationName(functionApplication);
-					Ref apptype = Ref.to(FUNCTION_APPLICATION, false);
+					String name = entityName(functionApplication);
+					Ref type = Ref.to(PAIR, false);
 
-					// Put the application entity
-					entities.put(appname, apptype);
+					// Put the entity
+					entities.put(name, type);
 
 					// Put all relationships
-					relationships.put(appname, function, ELEMENT_OF);
-					relationships.put(input, appname, INPUT_OF);
-					relationships.put(output, appname, OUTPUT_OF);
+					relationships.put(name, function, ELEMENT_OF);
+					relationships.put(input, name, FIRST_OF);
+					relationships.put(output, name, SECOND_OF);
 
 					// Put the bindings
 					for (Link link : Links.allBindings(megamodel, functionApplication.getFunction(),
 							functionApplication.getInput(), functionApplication.getOutput()))
-						bindings.put(appname, link.getTo());
+						bindings.put(name, link.getTo());
 
 					// Put the annotations
-					entityAnnotations.putAll(immutableEntry(appname, apptype),
+					entityAnnotations.putAll(immutableEntry(name, type),
 							Annotations.getAnnotationMap(functionApplication).entries());
 				}
 			}
