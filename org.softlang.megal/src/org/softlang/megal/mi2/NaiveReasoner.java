@@ -4,6 +4,7 @@ import static com.google.common.collect.FluentIterable.from;
 import static com.google.common.collect.Iterables.filter;
 import static com.google.common.collect.Iterables.transform;
 import static com.google.common.collect.Lists.transform;
+import static com.google.common.collect.Maps.filterValues;
 import static com.google.common.collect.Maps.immutableEntry;
 import static com.google.common.collect.Multimaps.index;
 import static com.google.common.collect.Multimaps.transformValues;
@@ -112,6 +113,12 @@ public class NaiveReasoner implements Reasoner {
 			@Override
 			public Iterable<? extends Entity> getInstances() {
 				return filter(getEntities(), x -> equals(x.getType()));
+			}
+
+			@Override
+			public Iterable<? extends EntityType> getSubtypes() {
+				return transform(filterValues(kb.getEntityTypes(), x -> from.getKey().equals(x.getType())).keySet(),
+						x -> getEntityType(x));
 			}
 		};
 	}
@@ -308,6 +315,12 @@ public class NaiveReasoner implements Reasoner {
 			@Override
 			public Iterable<? extends Entity> getInstances() {
 				return filter(getEntities(), x -> equals(x.getType()));
+			}
+
+			@Override
+			public Iterable<? extends EntityType> getSubtypes() {
+				return transform(filterValues(kb.getEntityTypes(), x -> KB.ENTITY.equals(x.getType())).keySet(),
+						x -> getEntityType(x));
 			}
 		};
 	}

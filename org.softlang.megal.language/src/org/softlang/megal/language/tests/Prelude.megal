@@ -16,6 +16,8 @@ File < Artifact
 Folder < Artifact
 Fragment < Artifact
 
+Filelocation < File
+
 // Relationship types
 elementOf < Entity * Set
 

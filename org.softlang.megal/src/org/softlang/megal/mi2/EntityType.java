@@ -2,9 +2,13 @@ package org.softlang.megal.mi2;
 
 import static com.google.common.base.Objects.equal;
 import static com.google.common.collect.Lists.newArrayList;
+import static com.google.common.collect.Lists.newLinkedList;
 
+import java.util.Deque;
 import java.util.List;
+import java.util.ListIterator;
 
+import com.google.common.collect.AbstractIterator;
 import com.google.common.collect.ImmutableList;
 
 /**
@@ -51,6 +55,91 @@ public abstract class EntityType extends Named {
 	 * @return Iterates over the instances
 	 */
 	public abstract Iterable<? extends Entity> getInstances();
+
+	/**
+	 * <p>
+	 * Gets all direct and transitive instances of this entity type.
+	 * </p>
+	 * 
+	 * @return Iterates over all the instances
+	 */
+	public Iterable<? extends Entity> getAllInstances() {
+		return () -> new AbstractIterator<Entity>() {
+			List<EntityType> tier = newArrayList(EntityType.this);
+
+			Deque<Entity> sequence = newLinkedList(getInstances());
+
+			@Override
+			protected Entity computeNext() {
+				if (!sequence.isEmpty())
+					return sequence.poll();
+
+				for (ListIterator<EntityType> it = tier.listIterator(); it.hasNext();) {
+					EntityType v = it.next();
+
+					it.remove();
+
+					for (EntityType s : v.getSubtypes()) {
+						it.add(s);
+
+						for (Entity i : s.getInstances())
+							sequence.add(i);
+					}
+				}
+
+				if (sequence.isEmpty())
+					return endOfData();
+
+				return sequence.poll();
+			}
+		};
+	}
+
+	/**
+	 * <p>
+	 * Gets all direct instances of this entity type.
+	 * </p>
+	 * 
+	 * @return Iterates over the instances
+	 */
+	public abstract Iterable<? extends EntityType> getSubtypes();
+
+	/**
+	 * <p>
+	 * Gets all direct and transitive subtypes of this entity type.
+	 * </p>
+	 * 
+	 * @return Iterates over all the instances
+	 */
+	public Iterable<? extends EntityType> getAllSubtypes() {
+		return () -> new AbstractIterator<EntityType>() {
+			List<EntityType> tier = newArrayList(getSubtypes());
+
+			Deque<EntityType> sequence = newLinkedList(tier);
+
+			@Override
+			protected EntityType computeNext() {
+				if (!sequence.isEmpty())
+					return sequence.poll();
+
+				for (ListIterator<EntityType> it = tier.listIterator(); it.hasNext();) {
+					EntityType v = it.next();
+
+					it.remove();
+
+					for (EntityType s : v.getSubtypes()) {
+						it.add(s);
+						sequence.add(s);
+					}
+				}
+
+				if (sequence.isEmpty())
+					return endOfData();
+
+				return sequence.poll();
+			}
+		};
+	}
 
 	@Override
 	public int hashCode() {

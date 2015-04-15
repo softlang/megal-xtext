@@ -38,3 +38,11 @@ something elementOf OnlyAs
 //otherthing = "workspace:/org.softlang.megal.examples/src/as/ex/nr"
 //otherthing elementOf OnlyAs
 
+wierdStuff: Filelocation
+
+Java : Language
+Java.Versions : Entity
+
+coolStuff : Function
+coolStuff(something)|->wierdStuff
+
