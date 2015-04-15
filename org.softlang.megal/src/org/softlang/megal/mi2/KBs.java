@@ -3,6 +3,8 @@ package org.softlang.megal.mi2;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.softlang.megal.mi2.util.SetOperations;
+
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.ImmutableSetMultimap;
@@ -12,20 +14,131 @@ import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Table;
 import com.google.common.collect.Table.Cell;
 
+/**
+ * <p>
+ * Utility methods on knowledge bases.
+ * </p>
+ * 
+ * @author Pazuzu
+ *
+ */
 public class KBs {
+	/**
+	 * <p>
+	 * The builder class initializes a knowledge base on the given static return
+	 * values. It may be supplied to other consumers, as every operation makes a
+	 * copy of the builder.
+	 * </p>
+	 * 
+	 * @author Pazuzu
+	 *
+	 */
 	public static class Builder {
+		/**
+		 * <p>
+		 * Internal backing field.
+		 * </p>
+		 */
 		private final String title;
+
+		/**
+		 * <p>
+		 * Internal backing field.
+		 * </p>
+		 */
 		private final Table<String, String, String> relationships;
+
+		/**
+		 * <p>
+		 * Internal backing field.
+		 * </p>
+		 */
 		private final Multimap<String, Entry<Ref, Ref>> relationshipTypes;
+
+		/**
+		 * <p>
+		 * Internal backing field.
+		 * </p>
+		 */
 		private final Multimap<Entry<String, Entry<Ref, Ref>>, Entry<String, String>> relationshipTypeAnnotations;
+
+		/**
+		 * <p>
+		 * Internal backing field.
+		 * </p>
+		 */
 		private final Multimap<Cell<String, String, String>, Entry<String, String>> relationshipAnnotations;
+
+		/**
+		 * <p>
+		 * Internal backing field.
+		 * </p>
+		 */
 		private final Map<String, Ref> entityTypes;
+
+		/**
+		 * <p>
+		 * Internal backing field.
+		 * </p>
+		 */
 		private final Multimap<Entry<String, Ref>, Entry<String, String>> entityTypeAnnotations;
+
+		/**
+		 * <p>
+		 * Internal backing field.
+		 * </p>
+		 */
 		private final Multimap<Entry<String, Ref>, Entry<String, String>> entityAnnotations;
+
+		/**
+		 * <p>
+		 * Internal backing field.
+		 * </p>
+		 */
 		private final Map<String, Ref> entities;
+
+		/**
+		 * <p>
+		 * Internal backing field.
+		 * </p>
+		 */
 		private final SetMultimap<String, String> bindings;
+
+		/**
+		 * <p>
+		 * Internal backing field.
+		 * </p>
+		 */
 		private final Multimap<String, String> annotations;
 
+		/**
+		 * <p>
+		 * Creates the builder on the given parameters
+		 * </p>
+		 * 
+		 * @param title
+		 *            The title
+		 * @param relationships
+		 *            The relationships
+		 * @param relationshipTypes
+		 *            The relationship types
+		 * @param relationshipTypeAnnotations
+		 *            The relationship type annotations
+		 * @param relationshipAnnotations
+		 *            The relationship annotations
+		 * @param entityTypes
+		 *            The entity types
+		 * @param entityTypeAnnotations
+		 *            The entity type annotations
+		 * @param entityAnnotations
+		 *            The entity annotations
+		 * @param entities
+		 *            The entities
+		 * @param bindings
+		 *            The bindings
+		 * @param annotations
+		 *            The annotations
+		 */
 		public Builder(String title, Table<String, String, String> relationships,
 				Multimap<String, Entry<Ref, Ref>> relationshipTypes,
 				Multimap<Entry<String, Entry<Ref, Ref>>, Entry<String, String>> relationshipTypeAnnotations,
@@ -47,18 +160,45 @@ public class KBs {
 			this.annotations = annotations;
 		}
 
+		/**
+		 * <p>
+		 * Assigns the title, copies the builder
+		 * </p>
+		 * 
+		 * @param title
+		 *            The desired title
+		 * @return Returns a copied builder
+		 */
 		public Builder setTitle(String title) {
 			return new Builder(title, relationships, relationshipTypes, relationshipTypeAnnotations,
 					relationshipAnnotations, entityTypes, entityTypeAnnotations, entityAnnotations, entities, bindings,
 					annotations);
 		}
 
+		/**
+		 * <p>
+		 * Assigns the relationships, copies the builder
+		 * </p>
+		 * 
+		 * @param relationships
+		 *            The desired relationships
+		 * @return Returns a copied builder
+		 */
 		public Builder setRelationships(Table<String, String, String> relationships) {
 			return new Builder(title, relationships, relationshipTypes, relationshipTypeAnnotations,
 					relationshipAnnotations, entityTypes, entityTypeAnnotations, entityAnnotations, entities, bindings,
 					annotations);
 		}
 
+		/**
+		 * <p>
+		 * Assigns the relationship types, copies the builder
+		 * </p>
+		 * 
+		 * @param relationshipTypes
+		 *            The relationship types
+		 * @return Returns a copied builder
+		 */
 		public Builder setRelationshipTypes(Multimap<String, Entry<Ref, Ref>> relationshipTypes) {
 			return new Builder(title, relationships, relationshipTypes, relationshipTypeAnnotations,
 					relationshipAnnotations, entityTypes, entityTypeAnnotations, entityAnnotations, entities, bindings,
@@ -72,6 +212,15 @@ public class KBs {
 					annotations);
 		}
 
+		/**
+		 * <p>
+		 * Assigns the relationship type annotations, copies the builder
+		 * </p>
+		 * 
+		 * @param relationshipAnnotations
+		 *            The relationship type annotations
+		 * @return Returns a copied builder
+		 */
 		public Builder setRelationshipAnnotations(
 				Multimap<Cell<String, String, String>, Entry<String, String>> relationshipAnnotations) {
 			return new Builder(title, relationships, relationshipTypes, relationshipTypeAnnotations,
@@ -79,12 +228,30 @@ public class KBs {
 					annotations);
 		}
 
+		/**
+		 * <p>
+		 * Assigns the entity types, copies the builder
+		 * </p>
+		 * 
+		 * @param entityTypes
+		 *            The entity types
+		 * @return Returns a copied builder
+		 */
 		public Builder setEntityTypes(Map<String, Ref> entityTypes) {
 			return new Builder(title, relationships, relationshipTypes, relationshipTypeAnnotations,
 					relationshipAnnotations, entityTypes, entityTypeAnnotations, entityAnnotations, entities, bindings,
 					annotations);
 		}
 
+		/**
+		 * <p>
+		 * Assigns the entity type annotations, copies the builder
+		 * </p>
+		 * 
+		 * @param entityTypeAnnotations
+		 *            The entity type annotations
+		 * @return Returns a copied builder
+		 */
 		public Builder setEntityTypeAnnotations(
 				Multimap<Entry<String, Ref>, Entry<String, String>> entityTypeAnnotations) {
 			return new Builder(title, relationships, relationshipTypes, relationshipTypeAnnotations,
@@ -92,30 +259,73 @@ public class KBs {
 					annotations);
 		}
 
+		/**
+		 * <p>
+		 * Assigns the entity annotations, copies the builder
+		 * </p>
+		 * 
+		 * @param entityAnnotations
+		 *            The entity annotations
+		 * @return Returns a copied builder
+		 */
 		public Builder setEntityAnnotations(Multimap<Entry<String, Ref>, Entry<String, String>> entityAnnotations) {
 			return new Builder(title, relationships, relationshipTypes, relationshipTypeAnnotations,
 					relationshipAnnotations, entityTypes, entityTypeAnnotations, entityAnnotations, entities, bindings,
 					annotations);
 		}
 
+		/**
+		 * <p>
+		 * Assigns the entities, copies the builder
+		 * </p>
+		 * 
+		 * @param entities
+		 *            The entities
+		 * @return Returns a copied builder
+		 */
 		public Builder setEntities(Map<String, Ref> entities) {
 			return new Builder(title, relationships, relationshipTypes, relationshipTypeAnnotations,
 					relationshipAnnotations, entityTypes, entityTypeAnnotations, entityAnnotations, entities, bindings,
 					annotations);
 		}
 
+		/**
+		 * <p>
+		 * Assigns the bindings, copies the builder
+		 * </p>
+		 * 
+		 * @param bindings
+		 *            The bindings
+		 * @return Returns a copied builder
+		 */
 		public Builder setBindings(SetMultimap<String, String> bindings) {
 			return new Builder(title, relationships, relationshipTypes, relationshipTypeAnnotations,
 					relationshipAnnotations, entityTypes, entityTypeAnnotations, entityAnnotations, entities, bindings,
 					annotations);
 		}
 
+		/**
+		 * <p>
+		 * Assigns the annotations, copies the builder
+		 * </p>
+		 * 
+		 * @param annotations
+		 *            The annotations
+		 * @return Returns a copied builder
+		 */
 		public Builder setAnnotations(Multimap<String, String> annotations) {
 			return new Builder(title, relationships, relationshipTypes, relationshipTypeAnnotations,
 					relationshipAnnotations, entityTypes, entityTypeAnnotations, entityAnnotations, entities, bindings,
 					annotations);
 		}
 
+		/**
+		 * <p>
+		 * Manifests the current builder into a knowledge base.
+		 * </p>
+		 * 
+		 * @return Returns a knowledge base backed by the current state
+		 */
 		public KB build() {
 			return new KB() {
 				@Override
@@ -232,7 +442,7 @@ public class KBs {
 
 				@Override
 				public String toString() {
-					return "KB "+title+" [relationships=" + relationships + ", relationshipTypes="
+					return "KB " + title + " [relationships=" + relationships + ", relationshipTypes="
 							+ relationshipTypes + ", relationshipTypeAnnotations=" + relationshipTypeAnnotations
 							+ ", relationshipAnnotations=" + relationshipAnnotations + ", entityTypes=" + entityTypes
 							+ ", entityTypeAnnotations=" + entityTypeAnnotations + ", entityAnnotations="
@@ -305,72 +515,77 @@ public class KBs {
 		}
 	}
 
+	/**
+	 * <p>
+	 * Starts a builder on empty values.
+	 * </p>
+	 * 
+	 * @return Returns a builder
+	 */
 	public static Builder builder() {
 		return new Builder(null, ImmutableTable.of(), ImmutableMultimap.of(), ImmutableMultimap.of(),
 				ImmutableMultimap.of(), ImmutableMap.of(), ImmutableMultimap.of(), ImmutableMultimap.of(),
 				ImmutableMap.of(), ImmutableSetMultimap.of(), ImmutableMultimap.of());
 	}
 
-	private static <R, C, V> ImmutableTable<R, C, V> union(Table<R, C, V> a, Table<R, C, V> b) {
-		ImmutableTable.Builder<R, C, V> builder = ImmutableTable.builder();
-
-		builder.putAll(a);
-		for (Cell<R, C, V> cell : b.cellSet())
-			if (!a.contains(cell.getRowKey(), cell.getColumnKey()))
-				builder.put(cell);
-
-		return builder.build();
-	}
-
-	private static <K, V> ImmutableMultimap<K, V> union(Multimap<K, V> a, Multimap<K, V> b) {
-		ImmutableMultimap.Builder<K, V> builder = ImmutableMultimap.builder();
-
-		builder.putAll(a);
-		builder.putAll(b);
-
-		return builder.build();
-	}
-
-	private static <K, V> ImmutableMap<K, V> union(Map<K, V> a, Map<K, V> b) {
-		ImmutableMap.Builder<K, V> builder = ImmutableMap.builder();
-
-		builder.putAll(a);
-		for (Entry<K, V> entry : b.entrySet())
-			if (!a.containsKey(entry.getKey()))
-				builder.put(entry);
-
-		return builder.build();
-	}
-
-	private static <K, V> ImmutableSetMultimap<K, V> union(SetMultimap<K, V> a, SetMultimap<K, V> b) {
-		ImmutableSetMultimap.Builder<K, V> builder = ImmutableSetMultimap.builder();
-
-		builder.putAll(a);
-		builder.putAll(b);
-
-		return builder.build();
-	}
-
+	/**
+	 * <p>
+	 * Applies the union on the values of <code>a</code> and <code>b</code>.
+	 * Uses the first knowledge bases title.
+	 * </p>
+	 * 
+	 * @param a
+	 *            The first knowledge base
+	 * @param b
+	 *            The second knowledge base
+	 * @return Returns a new knowledge base
+	 */
 	public static KB union(KB a, KB b) {
 		return builder()
 				.setTitle(a.getTitle())
-				.setRelationships(union(a.getRelationships(), b.getRelationships()))
-				.setRelationshipTypes(union(a.getRelationshipTypes(), b.getRelationshipTypes()))
+				.setRelationships(SetOperations.union(a.getRelationships(), b.getRelationships()))
+				.setRelationshipTypes(SetOperations.union(a.getRelationshipTypes(), b.getRelationshipTypes()))
 				.setRelationshipTypeAnnotations(
-						union(a.getRelationshipTypeAnnotations(), b.getRelationshipTypeAnnotations()))
-				.setRelationshipAnnotations(union(a.getRelationshipAnnotations(), b.getRelationshipAnnotations()))
-				.setEntityTypes(union(a.getEntityTypes(), b.getEntityTypes()))
-				.setEntityTypeAnnotations(union(a.getEntityTypeAnnotations(), b.getEntityTypeAnnotations()))
-				.setEntityAnnotations(union(a.getEntityAnnotations(), b.getEntityAnnotations()))
-				.setEntities(union(a.getEntities(), b.getEntities()))
-				.setBindings(union(a.getBindings(), b.getBindings()))
-				.setAnnotations(union(a.getAnnotations(), b.getAnnotations())).build();
+						SetOperations.union(a.getRelationshipTypeAnnotations(), b.getRelationshipTypeAnnotations()))
+				.setRelationshipAnnotations(
+						SetOperations.union(a.getRelationshipAnnotations(), b.getRelationshipAnnotations()))
+				.setEntityTypes(SetOperations.union(a.getEntityTypes(), b.getEntityTypes()))
+				.setEntityTypeAnnotations(
+						SetOperations.union(a.getEntityTypeAnnotations(), b.getEntityTypeAnnotations()))
+				.setEntityAnnotations(SetOperations.union(a.getEntityAnnotations(), b.getEntityAnnotations()))
+				.setEntities(SetOperations.union(a.getEntities(), b.getEntities()))
+				.setBindings(SetOperations.union(a.getBindings(), b.getBindings()))
+				.setAnnotations(SetOperations.union(a.getAnnotations(), b.getAnnotations())).build();
 	}
 
+	/**
+	 * <p>
+	 * Applies the intersection on the values of <code>a</code> and
+	 * <code>b</code>. Uses the first knowledge bases title.
+	 * </p>
+	 * 
+	 * @param a
+	 *            The first knowledge base
+	 * @param b
+	 *            The second knowledge base
+	 * @return Returns a new knowledge base
+	 */
 	public static KB intersection(KB a, KB b) {
 		throw new UnsupportedOperationException();
 	}
 
+	/**
+	 * <p>
+	 * Applies the difference on the values of <code>a</code> and <code>b</code>
+	 * . Uses the first knowledge bases title.
+	 * </p>
+	 * 
+	 * @param a
+	 *            The first knowledge base
+	 * @param b
+	 *            The second knowledge base
+	 * @return Returns a new knowledge base
+	 */
 	public static KB difference(KB a, KB b) {
 		throw new UnsupportedOperationException();
 	}

@@ -230,7 +230,7 @@ public class MegamodelKB implements KB {
 					String output = functionApplication.getOutput().getName();
 
 					String appname = applicationName(functionApplication);
-					Ref apptype = Ref.ref(FUNCTION_APPLICATION, false);
+					Ref apptype = Ref.to(FUNCTION_APPLICATION, false);
 
 					// Put the application entity
 					entities.put(appname, apptype);
@@ -265,13 +265,13 @@ public class MegamodelKB implements KB {
 		// If type reference is null, reference is to the entity supertype,
 		// which itself is the entity type
 		if (typeReference == null)
-			return Ref.ref(ENTITY, false);
+			return Ref.to(ENTITY, false);
 
 		if (typeReference instanceof EntityTypeReference) {
 			// If type reference is basic, carry it's many value
 			EntityTypeReference entityTypeReference = (EntityTypeReference) typeReference;
 
-			return Ref.ref(typeReference.getDefinition().getName(), entityTypeReference.isMany());
+			return Ref.to(typeReference.getDefinition().getName(), entityTypeReference.isMany());
 		} else if (typeReference instanceof FunctionTypeReference) {
 			// If type reference is a function type reference, carry it's domain
 			// and codomain
@@ -280,7 +280,7 @@ public class MegamodelKB implements KB {
 			String domain = functionTypeReference.getDomain().getName();
 			String codomain = functionTypeReference.getCodomain().getName();
 
-			return Ref.ref(typeReference.getDefinition().getName(), false, domain, codomain);
+			return Ref.to(typeReference.getDefinition().getName(), false, domain, codomain);
 		} else {
 			throw new UnsupportedOperationException("Cannot translate type reference, unknown type");
 		}

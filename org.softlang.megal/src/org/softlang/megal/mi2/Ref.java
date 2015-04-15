@@ -58,7 +58,7 @@ public final class Ref {
 	 *            The parameters of the type
 	 * @return Returns a new {@link Ref}
 	 */
-	public static Ref ref(String type, boolean many, List<String> params) {
+	public static Ref to(String type, boolean many, List<String> params) {
 		return new Ref(type, many, params);
 	}
 
@@ -75,7 +75,7 @@ public final class Ref {
 	 *            The parameters of the type
 	 * @return Returns a new {@link Ref}
 	 */
-	public static Ref ref(String type, boolean many, String... params) {
+	public static Ref to(String type, boolean many, String... params) {
 		return new Ref(type, many, asList(params));
 	}
 
