@@ -2,9 +2,9 @@ package org.softlang.megal.api;
 
 import java.util.Collection;
 
-import org.softlang.megal.Entity;
-import org.softlang.megal.Megamodel;
-import org.softlang.megal.Relationship;
+import org.softlang.megal.mi2.Entity;
+import org.softlang.megal.mi2.Reasoner;
+import org.softlang.megal.mi2.Relationship;
 
 import com.google.common.base.Optional;
 import com.google.common.collect.HashMultimap;
@@ -19,24 +19,14 @@ import com.google.common.collect.Multiset;
  *
  */
 public abstract class Evaluator {
-	private API api;
 
 	private final Multimap<Evaluator, Relationship> parts;
 
 	private final Multimap<Entity, Relationship> realizations;
 
 	protected Evaluator() {
-		this.api = null;
 		this.parts = HashMultimap.create();
-		this.realizations = ElementMap.newSetMultimap(Entity.class);
-	}
-
-	public void setAPI(API api) {
-		this.api = api;
-	}
-
-	public API getAPI() {
-		return api;
+		this.realizations = HashMultimap.create();
 	}
 
 	/**
@@ -99,7 +89,7 @@ public abstract class Evaluator {
 	 * @param evaluator
 	 *            The evaluator entity
 	 */
-	public void initialize(Megamodel m, Entity evaluator) {
+	public void initialize(Reasoner m, Entity evaluator) {
 
 	}
 

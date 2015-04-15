@@ -8,14 +8,10 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EFactory;
-import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.softlang.megal.MegalPackage;
 import org.softlang.megal.Megamodel;
-import org.softlang.megal.evaluation.MegalFactoryEval;
 import org.softlang.megal.language.util.ReaderInputStream;
 
 import com.google.common.io.CharSource;
@@ -47,18 +43,6 @@ public class Megals {
 	}
 
 	public static Megamodel load(CharSource source, CharSource... imports) throws IOException {
-		EPackage.Registry.INSTANCE.computeIfAbsent(MegalPackage.eNS_URI, _1 -> new EPackage.Descriptor() {
-			@Override
-			public EPackage getEPackage() {
-				return MegalPackage.eINSTANCE;
-			}
-
-			@Override
-			public EFactory getEFactory() {
-				return new MegalFactoryEval();
-			}
-		});
-
 		MegalStandaloneSetup.doSetup();
 
 		ResourceSet set = new ResourceSetImpl();

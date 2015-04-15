@@ -18,7 +18,6 @@ import org.softlang.megal.EntityTypeReference;
 import org.softlang.megal.FunctionApplication;
 import org.softlang.megal.FunctionTypeReference;
 import org.softlang.megal.Link;
-import org.softlang.megal.Links;
 //import org.softlang.megal.Links;
 import org.softlang.megal.Megamodel;
 import org.softlang.megal.Relationship;

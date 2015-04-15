@@ -6,32 +6,12 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Element" abstract="true" interface="true">
-    <eOperations name="allAnnotations" lowerBound="1">
-      <eGenericType eClassifier="#//EIterable">
-        <eTypeArguments eClassifier="#//Annotation"/>
-      </eGenericType>
-    </eOperations>
-    <eOperations name="megamodel" lowerBound="1" eType="#//Megamodel"/>
-    <eOperations name="logicEq" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
-      <eParameters name="o" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
-    </eOperations>
-    <eOperations name="identity" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="annotations" upperBound="-1"
         eType="#//Annotation" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="origin" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"
         transient="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Megamodel" eSuperTypes="#//Element">
-    <eOperations name="allImports">
-      <eGenericType eClassifier="#//EIterable">
-        <eTypeArguments eClassifier="#//Megamodel"/>
-      </eGenericType>
-    </eOperations>
-    <eOperations name="allModels">
-      <eGenericType eClassifier="#//EIterable">
-        <eTypeArguments eClassifier="#//Megamodel"/>
-      </eGenericType>
-    </eOperations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="declarations" upperBound="-1"
         eType="#//Declaration" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="bindings" upperBound="-1"
@@ -48,7 +28,6 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Declaration" abstract="true" eSuperTypes="#//Element"/>
   <eClassifiers xsi:type="ecore:EClass" name="Relationship" eSuperTypes="#//Declaration">
-    <eOperations name="appliedInstance" eType="#//RelationshipType"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="#//RelationshipType"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="left" lowerBound="1" eType="#//Entity"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="right" lowerBound="1" eType="#//Entity"/>
@@ -74,18 +53,6 @@
         containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Entity" eSuperTypes="#//Named">
-    <eOperations name="applicableOutgoing" lowerBound="1">
-      <eGenericType eClassifier="#//EIterable">
-        <eTypeArguments eClassifier="#//RelationshipType"/>
-      </eGenericType>
-      <eParameters name="to" eType="#//Entity"/>
-    </eOperations>
-    <eOperations name="applicableIncoming" lowerBound="1">
-      <eGenericType eClassifier="#//EIterable">
-        <eTypeArguments eClassifier="#//RelationshipType"/>
-      </eGenericType>
-      <eParameters name="from" eType="#//Entity"/>
-    </eOperations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="#//TypeReference"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="dependent" lowerBound="1"
@@ -94,22 +61,6 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="TypeReference" abstract="true" interface="true">
-    <eOperations name="latticeAbove" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
-      <eParameters name="other" eType="#//TypeReference"/>
-    </eOperations>
-    <eOperations name="latticeAbove" lowerBound="1">
-      <eGenericType eClassifier="#//EIterable">
-        <eTypeArguments eClassifier="#//TypeReference"/>
-      </eGenericType>
-    </eOperations>
-    <eOperations name="latticeBelow" lowerBound="1">
-      <eGenericType eClassifier="#//EIterable">
-        <eTypeArguments eClassifier="#//TypeReference"/>
-      </eGenericType>
-    </eOperations>
-    <eOperations name="latticeBelow" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
-      <eParameters name="other" eType="#//TypeReference"/>
-    </eOperations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="definition" lowerBound="1"
         eType="#//EntityType"/>
   </eClassifiers>
@@ -121,8 +72,5 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="EntityTypeReference" eSuperTypes="#//TypeReference">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="many" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EDataType" name="EIterable" instanceClassName="java.lang.Iterable">
-    <eTypeParameters name="T"/>
   </eClassifiers>
 </ecore:EPackage>

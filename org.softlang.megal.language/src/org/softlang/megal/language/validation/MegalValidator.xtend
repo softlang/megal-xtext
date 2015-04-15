@@ -4,14 +4,11 @@
 package org.softlang.megal.language.validation
 
 import org.eclipse.xtext.validation.Check
+import org.eclipse.xtext.validation.CheckType
 import org.softlang.megal.Entity
 import org.softlang.megal.EntityType
-import org.softlang.megal.MegalPackage
-import org.softlang.megal.Relationship
 import org.softlang.megal.Megamodel
-import org.softlang.megal.Evaluators
-import java.util.concurrent.ForkJoinPool
-import org.eclipse.xtext.validation.CheckType
+import org.softlang.megal.Relationship
 
 /**
  * Custom validation rules. 
@@ -36,38 +33,42 @@ class MegalValidator extends AbstractMegalValidator {
 
 	@Check
 	def checkRelationshipTypeApplicable(Relationship x) {
-		if (x.appliedInstance == null)
-			error('''No instance applicable for «x.type?.name» from «x.left.type» to «x.right.type»''',
-				MegalPackage.Literals.RELATIONSHIP__TYPE, NO_APPLICABLE_INSTANCE)
+		//TODO MI2
+		//		if (x.appliedInstance == null)
+		//			error('''No instance applicable for «x.type?.name» from «x.left.type» to «x.right.type»''',
+		//				MegalPackage.Literals.RELATIONSHIP__TYPE, NO_APPLICABLE_INSTANCE)
 	}
 
 	@Check
 	def checkUniqueName(Entity x) {
-		if (x.megamodel.allModels.map[declarations].flatten.filter(Entity).exists[name == x.name && type != x.type])
-			error('''The entity '«x.name»' does not overload it's correspondent entities''',
-				MegalPackage.Literals.NAMED__NAME, ENTITY_MISOVERLOAD)
+		//TODO MI2
+		//		if (x.megamodel.allModels.map[declarations].flatten.filter(Entity).exists[name == x.name && type != x.type])
+		//			error('''The entity '«x.name»' does not overload it's correspondent entities''',
+		//				MegalPackage.Literals.NAMED__NAME, ENTITY_MISOVERLOAD)
 	}
 
 	@Check
 	def checkUniqueName(EntityType x) {
-		if (x.megamodel.allModels.map[declarations].flatten.filter(EntityType).exists[
-			name == x.name && supertype != x.supertype])
-			error('''The entity type '«x.name»' does not overload it's correspondent entity types''',
-				MegalPackage.Literals.NAMED__NAME, ENTITY_TYPE_MISOVERLOAD)
+		//TODO MI2
+		//		if (x.megamodel.allModels.map[declarations].flatten.filter(EntityType).exists[
+		//			name == x.name && supertype != x.supertype])
+		//			error('''The entity type '«x.name»' does not overload it's correspondent entity types''',
+		//				MegalPackage.Literals.NAMED__NAME, ENTITY_TYPE_MISOVERLOAD)
 	}
 
 	/**
 	 * This check requires expensive megamodel evaluation
 	 */
-		@Check(CheckType.EXPENSIVE)
+	@Check(CheckType.EXPENSIVE)
 	def checkValidate(Megamodel m) {
-
-		// Evaluate parallel, join immediately
-		val r = Evaluators.evaluate(m)
-
-		// Look the relations in this model up, if they are invalid, mark them 
-		for (e : m.declarations.filter(Relationship))
-			if (r.invalid.contains(e))
-				error('''The relationship '«e»' is invalid in this place''', e, MegalPackage.Literals.RELATIONSHIP__TYPE)
+//TODO MI2
+		
+//		// Evaluate parallel, join immediately
+//		val r = Evaluators.evaluate(m)
+//
+//		// Look the relations in this model up, if they are invalid, mark them 
+//		for (e : m.declarations.filter(Relationship))
+//			if (r.invalid.contains(e))
+//				error('''The relationship '«e»' is invalid in this place''', e, MegalPackage.Literals.RELATIONSHIP__TYPE)
 	}
 }

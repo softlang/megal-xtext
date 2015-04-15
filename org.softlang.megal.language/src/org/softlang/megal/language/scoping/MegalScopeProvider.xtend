@@ -19,6 +19,10 @@ class MegalScopeProvider extends AbstractDeclarativeScopeProvider {
 	// TODO: SimpleLocalScopeProvider is capable of the dot names, copy its behavior for import resolving
 	@Inject IQualifiedNameProvider qualifiedNameProvider
 
+	private def Iterable<Megamodel> allImports(Megamodel m) {
+		m.imports + m.imports.map[allImports].flatten
+	}
+
 	private def scope_Named(Megamodel m, EReference r) {
 
 		// Declaration scope only for items that are declarations
@@ -37,10 +41,9 @@ class MegalScopeProvider extends AbstractDeclarativeScopeProvider {
 			))
 	}
 
-//	private static def <T, U> distinctBy(Iterable<T> source, (T)=>U by) {
-//		source.groupBy(by).mapValues[head].values
-//	}
-
+	//	private static def <T, U> distinctBy(Iterable<T> source, (T)=>U by) {
+	//		source.groupBy(by).mapValues[head].values
+	//	}
 	def scope_Entity(Megamodel m, EReference r) {
 		return scope_Named(m, r)
 	}

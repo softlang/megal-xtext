@@ -1,16 +1,13 @@
-package org.softlang.megal;
-
-import static org.softlang.megal.Elements.resolve;
-import static org.softlang.megal.EntityTypes.allInstances;
-import static org.softlang.megal.Links.allBindings;
-import static org.softlang.megal.TypeReferences.singleRef;
+package org.softlang.megal.api;
 
 import org.eclipse.core.runtime.Status;
-import org.softlang.megal.api.ElementMap;
-import org.softlang.megal.api.Resolver;
+import org.softlang.megal.MegalPlugin;
+import org.softlang.megal.mi2.Entity;
+import org.softlang.megal.mi2.EntityType;
+import org.softlang.megal.mi2.Reasoner;
 import org.softlang.sourcesupport.SourceSupport;
-import org.softlang.sourcesupport.SourceSupportPlugin;
 
+import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Multimaps;
@@ -19,35 +16,32 @@ public class Resolvers {
 	/**
 	 * Gets a list of all initialized resolvers
 	 * 
-	 * @param m
+	 * @param reasoner
 	 *            The megamodel to analyze
 	 * @return Returns an immutable list
 	 */
-	public static Multimap<Entity, Resolver> loadResolvers(Megamodel m) {
+	public static Multimap<Entity, Resolver> loadResolvers(SourceSupport sourceSupport, Reasoner reasoner) {
 
 		// Get the type
-		EntityType resolverType = resolve(m, "Resolver");
-
-		// Get support for code
-		SourceSupport s = SourceSupportPlugin.getSupport().analyzeContaining(m);
+		EntityType resolverType = reasoner.getEntityType("Resolver");
 
 		// Make result and error builder
-		Multimap<Entity, Resolver> resultMultimap = ElementMap.newSetMultimap(Entity.class);
+		Multimap<Entity, Resolver> resultMultimap = HashMultimap.create();
 		ImmutableMultimap.Builder<Class<? extends Resolver>, Throwable> errorsBuilder = ImmutableMultimap.builder();
 
 		// Iterate all resolver entities
-		for (Entity r : allInstances(m, singleRef(resolverType))) {
+		for (Entity r : resolverType.getAllInstances()) {
 			// Iterate all the bindings for the resolver
-			for (Link l : allBindings(m, r, null, null)) {
+			for (String l : r.getBindings()) {
 				// Try to load the attached class
-				Class<? extends Resolver> v = s.loadClass(Resolver.class, l.getTo());
+				Class<? extends Resolver> v = sourceSupport.loadClass(Resolver.class, l);
 
 				// If class is loadable
 				if (v != null)
 					try {
 						Resolver vi = v.newInstance();
 
-						vi.load(r);
+						vi.load(reasoner, r);
 
 						// Put result
 						resultMultimap.put(r, vi);

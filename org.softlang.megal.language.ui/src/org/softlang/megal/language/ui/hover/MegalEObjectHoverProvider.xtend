@@ -1,24 +1,21 @@
 package org.softlang.megal.language.ui.hover
 
+import org.eclipse.core.resources.IFile
 import org.eclipse.emf.ecore.EObject
+import org.eclipse.jdt.core.IJavaElement
+import org.eclipse.jdt.core.IMember
+import org.eclipse.jdt.ui.JavaUI
 import org.eclipse.ui.ISharedImages
+import org.eclipse.ui.PlatformUI
+import org.eclipse.ui.ide.IDE
 import org.eclipse.xtext.ui.editor.hover.html.IXtextBrowserInformationControl
 import org.softlang.megal.Entity
 import org.softlang.megal.EntityType
-import org.softlang.megal.RelationshipType
-import org.softlang.megal.Megamodel
 import org.softlang.megal.Link
 import org.softlang.megal.MegalPlugin
-import org.eclipse.jdt.core.IMember
-import org.eclipse.jdt.ui.JavaUI
-import org.eclipse.jdt.core.IJavaElement
+import org.softlang.megal.Megamodel
+import org.softlang.megal.RelationshipType
 import org.softlang.megal.api.URI
-import org.softlang.megal.RelationshipTypes
-import org.eclipse.ui.ide.IDE
-import org.eclipse.ui.PlatformUI
-import org.eclipse.core.resources.IFile
-import static org.softlang.megal.TypeReferences.singleRef
-import org.softlang.megal.api.ElementSet
 
 class ListAnnotationsAction extends ExtenderAction {
 
@@ -59,26 +56,6 @@ class ScopeToAction extends ExtenderAction {
 				IFile:
 					IDE.openEditor(PlatformUI.workbench.activeWorkbenchWindow.activePage, n)
 			}
-	}
-}
-
-class ListSubtypesAction extends ExtenderAction {
-	new(ExtenderEObjectHoverProvider p, IXtextBrowserInformationControl c) {
-		super(p, c, "List subtypes", ISharedImages.IMG_ELCL_COLLAPSEALL)
-	}
-
-	override update() {
-		enabled = infoControl.input?.inputElement instanceof EntityType
-	}
-
-	override run() {
-		val e = infoControl.input?.inputElement as EntityType
-		val q =  new ElementSet(EntityType)
-		q.addAll(singleRef(e).latticeBelow.map[definition])
-
-		navigateToHTML(e,
-			'''List of subtypes of «extender.elementLinks.createLink(e)»: <ul>«FOR a : q»<li>«extender.
-				elementLinks.createLink(a)»«IF a.supertype.definition != e» <a title="Transitive subtype">...</a>«ENDIF»</li>«ENDFOR»</ul>''')
 	}
 }
 
@@ -127,7 +104,6 @@ class MegalEObjectHoverProvider extends ExtenderEObjectHoverProvider {
 
 	override protected addActions(ExtenderPresentationControlCreator p) {
 		p.constructors += [new ListAnnotationsAction(MegalEObjectHoverProvider.this, it)]
-		p.constructors += [new ListSubtypesAction(MegalEObjectHoverProvider.this, it)]
 		p.constructors += [new ScopeToAction(MegalEObjectHoverProvider.this, it)]
 		p.constructors += [new ListInstancesAction(MegalEObjectHoverProvider.this, it)]
 	}
@@ -203,18 +179,7 @@ class MegalEObjectHoverProvider extends ExtenderEObjectHoverProvider {
 
 	def dispatch documentationFor(EntityType it) '''«super.getDocumentation(it)»'''
 
-	def dispatch documentationFor(RelationshipType relationshipType) {
-		'''
-			<p>
-				Defined for the following domains and codomains:
-				<ul>
-				«FOR i : RelationshipTypes.allOverloads(relationshipType.megamodel, relationshipType)»
-					<li>«i.left.definition.link» &lowast; «i.right.definition.link»</li>
-				«ENDFOR»
-				</ul>
-			</p>
-		'''
-	}
+	def dispatch documentationFor(RelationshipType relationshipType) '''xxxx'''
 
 	def dispatch documentationFor(Link it) '''<ul>«FOR n : MegalPlugin.evaluator.evaluate(URI.valueOf(to))»<li>«n»</li>«ENDFOR»</ul>'''
 }

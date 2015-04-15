@@ -1,6 +1,7 @@
 package org.softlang.megal.api;
 
-import org.softlang.megal.Entity;
+import org.softlang.megal.mi2.Entity;
+import org.softlang.megal.mi2.Reasoner;
 
 /**
  * Dynamic resolution authority for entities, e.g. mapping to dbpedia or SCMs
@@ -15,7 +16,7 @@ public abstract class Resolver {
 	 * @param resolver
 	 *            The resolver entity
 	 */
-	public void load(Entity resolver) {
+	public void load(Reasoner reasoner, Entity resolver) {
 	}
 
 	/**

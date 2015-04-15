@@ -14,6 +14,7 @@ import static org.eclipse.emf.ecore.util.EcoreUtil.copy
 import org.softlang.megal.MegalFactory
 import org.eclipse.xtext.linking.impl.LinkingDiagnosticMessageProvider
 import org.eclipse.xtext.diagnostics.Diagnostic
+import org.softlang.megal.Megamodel
 
 /**
  * Custom quickfixes.
@@ -43,4 +44,9 @@ class MegalQuickfixProvider extends org.eclipse.xtext.ui.editor.quickfix.Default
 		]
 		acceptor.accept(issue, label, text, image, fixByCreation)
 	}
+
+	def getMegamodel(Relationship relationship) {
+		return relationship.eContainer as Megamodel
+	}
+
 }

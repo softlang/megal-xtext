@@ -1,33 +1,34 @@
 package org.softlang.megal.api;
 
-import static java.util.Collections.unmodifiableSet;
 import static com.google.common.collect.Multimaps.unmodifiableMultimap;
+import static com.google.common.collect.Sets.newHashSet;
+import static java.util.Collections.unmodifiableSet;
 
 import java.util.Set;
 
-import org.softlang.megal.Element;
+import org.softlang.megal.mi2.Relationship;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 
 public class Result {
-	private final Set<Element> invalid;
+	private final Set<Relationship> invalid;
 
-	private final Set<Element> valid;
+	private final Set<Relationship> valid;
 
 	private final Multimap<String, String> trace;
 
-	public Result(Set<Element> invalid, Set<Element> valid, Multimap<String, String> trace) {
+	public Result(Set<Relationship> invalid, Set<Relationship> valid, Multimap<String, String> trace) {
 		this.invalid = invalid;
 		this.valid = valid;
 		this.trace = trace;
 	}
 
-	public Set<Element> getInvalid() {
+	public Set<Relationship> getInvalid() {
 		return unmodifiableSet(invalid);
 	}
 
-	public Set<Element> getValid() {
+	public Set<Relationship> getValid() {
 		return unmodifiableSet(valid);
 	}
 
@@ -78,8 +79,8 @@ public class Result {
 	}
 
 	public static Result concatenate(Result... rs) {
-		Set<Element> invalid = new ElementSet<Element>(Element.class);
-		Set<Element> valid = new ElementSet<Element>(Element.class);
+		Set<Relationship> invalid = newHashSet();
+		Set<Relationship> valid = newHashSet();
 		Multimap<String, String> trace = HashMultimap.create();
 
 		for (Result r : rs) {
