@@ -31,31 +31,31 @@ public class ModelInterface {
 		System.out.println(kb1.getTitle());
 		System.out.println(kb2.getTitle());
 
-		System.out.println("======= A =======");
-		for (Entry<String, Ref> e : kb1.getEntityTypes().entrySet())
-			System.out.println(e);
-
-		System.out.println("======= B =======");
-		for (Entry<String, Ref> e : kb2.getEntityTypes().entrySet())
-			System.out.println(e);
+		// System.out.println("======= A =======");
+		// for (Entry<String, Ref> e : kb1.getEntityTypes().entrySet())
+		// System.out.println(e);
+		//
+		// System.out.println("======= B =======");
+		// for (Entry<String, Ref> e : kb2.getEntityTypes().entrySet())
+		// System.out.println(e);
 
 		NaiveReasoner mi = new NaiveReasoner(kb2);
 
 		dump(mi);
-
-		testInOut(mi);
-
-		testGCD(mi);
-
-		testFindEvaluators(mi);
-
-		testSubtypes(mi);
-
-		testAllSubtypes(mi);
-
-		testInstances(mi);
-
-		testComputations(mi);
+		//
+		// testInOut(mi);
+		//
+		// testGCD(mi);
+		//
+		// testFindEvaluators(mi);
+		//
+		// testSubtypes(mi);
+		//
+		// testAllSubtypes(mi);
+		//
+		// testInstances(mi);
+		//
+		// testComputations(mi);
 	}
 
 	private static Megamodel load() throws IOException {
@@ -79,8 +79,11 @@ public class ModelInterface {
 		System.out.println();
 
 		System.out.println("Entities");
-		for (Entity x : mi.getEntities())
+		for (Entity x : mi.getEntities()) {
 			System.out.println("  " + x);
+			for (String s : x.getBindings())
+				System.out.println("  ~ " + s);
+		}
 		System.out.println();
 
 		System.out.println("Relationships");

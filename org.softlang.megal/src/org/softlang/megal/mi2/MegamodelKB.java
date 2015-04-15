@@ -50,8 +50,8 @@ public class MegamodelKB extends AbstractKB {
 
 	private static final String PAIR = "Pair";
 
-	private static String entityName(FunctionApplication a) {
-		return "(" + a.getInput().getName() + ", " + a.getOutput().getName() + ") in " + a.getFunction().getName();
+	private static String entityName(String function, String input, String output) {
+		return "(" + input + ", " + output + ") in " + function;
 	}
 
 	/**
@@ -206,10 +206,6 @@ public class MegamodelKB extends AbstractKB {
 				// Put the data
 				entities.put(name, ref);
 
-				// Put the bindings
-				for (Link link : Links.bindings(megamodel, entity))
-					bindings.put(name, link.getTo());
-
 				// Put the annotations
 				entityAnnotations.putAll(immutableEntry(name, ref), getAnnotationMap(entity).entries());
 
@@ -235,7 +231,7 @@ public class MegamodelKB extends AbstractKB {
 				String input = functionApplication.getInput().getName();
 				String output = functionApplication.getOutput().getName();
 
-				String name = entityName(functionApplication);
+				String name = entityName(function, input, output);
 				Ref type = Ref.to(PAIR, false);
 
 				// Put the entity
@@ -246,13 +242,32 @@ public class MegamodelKB extends AbstractKB {
 				relationships.put(input, name, FIRST_OF);
 				relationships.put(output, name, SECOND_OF);
 
-				// Put the bindings
-				for (Link link : Links.bindings(megamodel, functionApplication.getFunction(),
-						functionApplication.getInput(), functionApplication.getOutput()))
-					bindings.put(name, link.getTo());
-
 				// Put the annotations
 				entityAnnotations.putAll(immutableEntry(name, type), getAnnotationMap(functionApplication).entries());
+			}
+
+		// Continue with bindings
+		for (Link link : megamodel.getBindings())
+			if (link.getInput() != null && link.getOutput() != null) {
+				// Linking a function application, so restore the target
+				String function = link.getLink().getName();
+				String input = link.getInput().getName();
+				String output = link.getOutput().getName();
+
+				// Compute data
+				String name = entityName(function, input, output);
+				String to = link.getTo();
+
+				// Put binding
+				bindings.put(name, to);
+
+			} else {
+				// Get data
+				String name = link.getLink().getName();
+				String to = link.getTo();
+
+				// Put binding
+				bindings.put(name, to);
 			}
 	}
 
