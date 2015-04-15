@@ -11,6 +11,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.softlang.megal.MegalPackage;
 import org.softlang.megal.Megamodel;
 import org.softlang.megal.language.util.ReaderInputStream;
 
@@ -43,6 +44,8 @@ public class Megals {
 	}
 
 	public static Megamodel load(CharSource source, CharSource... imports) throws IOException {
+		MegalPackage.eINSTANCE.eClass();
+		
 		MegalStandaloneSetup.doSetup();
 
 		ResourceSet set = new ResourceSetImpl();

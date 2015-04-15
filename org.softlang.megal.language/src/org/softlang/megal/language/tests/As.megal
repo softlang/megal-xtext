@@ -47,6 +47,7 @@ JavaCompiler.Parser : ParserSystem
 
 coolStuff : Function
 coolStuff(something)|->wierdStuff
+coolStuff(something)|->wierdStuff = "A really wierd correlation that is defined by some obscure mapping"
 wierdStuff correspondsTo something
 
 FileElementOfLanguage = "pluginroot.elementof.Wingman"
