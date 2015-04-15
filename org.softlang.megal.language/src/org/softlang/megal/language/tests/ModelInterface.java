@@ -2,6 +2,7 @@ package org.softlang.megal.language.tests;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Map.Entry;
 
 import org.softlang.megal.Megamodel;
 import org.softlang.megal.language.Megals;
@@ -11,6 +12,7 @@ import org.softlang.megal.mi2.KB;
 import org.softlang.megal.mi2.KBs;
 import org.softlang.megal.mi2.MegamodelKB;
 import org.softlang.megal.mi2.NaiveReasoner;
+import org.softlang.megal.mi2.Ref;
 import org.softlang.megal.mi2.Relationship;
 import org.softlang.megal.mi2.RelationshipType;
 import org.softlang.megal.mi2.instances.MakePartOfs;
@@ -23,10 +25,21 @@ public class ModelInterface {
 	public static void main(String[] args) throws IOException {
 
 		Megamodel mm = load();
+		KB kb1 = new MegamodelKB(mm);
+		KB kb2 = MegamodelKB.loadAll(mm);
 
-		MegamodelKB kb = new MegamodelKB(mm);
+		System.out.println(kb1.getTitle());
+		System.out.println(kb2.getTitle());
 
-		NaiveReasoner mi = new NaiveReasoner(kb);
+		System.out.println("======= A =======");
+		for (Entry<String, Ref> e : kb1.getEntityTypes().entrySet())
+			System.out.println(e);
+
+		System.out.println("======= B =======");
+		for (Entry<String, Ref> e : kb2.getEntityTypes().entrySet())
+			System.out.println(e);
+
+		NaiveReasoner mi = new NaiveReasoner(kb2);
 
 		dump(mi);
 
@@ -79,7 +92,7 @@ public class ModelInterface {
 	private static void testInOut(NaiveReasoner mi) {
 		System.out.println("TEST IN OUT");
 
-		Entity entity = mi.getEntity("OnlyAs");
+		Entity entity = mi.getEntity("something");
 		for (Relationship part : entity.incoming())
 			System.out.println("->: " + part);
 		for (Relationship part : entity.outgoing())

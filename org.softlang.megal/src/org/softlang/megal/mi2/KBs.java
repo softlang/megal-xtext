@@ -327,7 +327,7 @@ public class KBs {
 		 * @return Returns a knowledge base backed by the current state
 		 */
 		public KB build() {
-			return new KB() {
+			return new AbstractKB() {
 				@Override
 				public String getTitle() {
 					return title;
@@ -382,73 +382,6 @@ public class KBs {
 				public Multimap<String, String> getAnnotations() {
 					return annotations;
 				}
-
-				@Override
-				public int hashCode() {
-					final int prime = 31;
-					int result = 1;
-					result = prime * result + ((annotations == null) ? 0 : annotations.hashCode());
-					result = prime * result + ((bindings == null) ? 0 : bindings.hashCode());
-					result = prime * result + ((entities == null) ? 0 : entities.hashCode());
-					result = prime * result + ((entityAnnotations == null) ? 0 : entityAnnotations.hashCode());
-					result = prime * result + ((entityTypeAnnotations == null) ? 0 : entityTypeAnnotations.hashCode());
-					result = prime * result + ((entityTypes == null) ? 0 : entityTypes.hashCode());
-					result = prime * result
-							+ ((relationshipAnnotations == null) ? 0 : relationshipAnnotations.hashCode());
-					result = prime * result
-							+ ((relationshipTypeAnnotations == null) ? 0 : relationshipTypeAnnotations.hashCode());
-					result = prime * result + ((relationshipTypes == null) ? 0 : relationshipTypes.hashCode());
-					result = prime * result + ((relationships == null) ? 0 : relationships.hashCode());
-					result = prime * result + ((title == null) ? 0 : title.hashCode());
-					return result;
-				}
-
-				@Override
-				public boolean equals(Object obj) {
-					if (this == obj)
-						return true;
-					if (obj == null)
-						return false;
-					if (getClass() != obj.getClass())
-						return false;
-					KB other = (KB) obj;
-					if (!annotations.equals(other.getAnnotations()))
-						return false;
-					if (!bindings.equals(other.getBindings()))
-						return false;
-					if (!entities.equals(other.getEntities()))
-						return false;
-					if (!entityAnnotations.equals(other.getEntityAnnotations()))
-						return false;
-					if (!entityTypeAnnotations.equals(other.getEntityTypeAnnotations()))
-						return false;
-					if (!entityTypes.equals(other.getEntityTypes()))
-						return false;
-					if (!relationshipAnnotations.equals(other.getRelationshipAnnotations()))
-						return false;
-					if (!relationshipTypeAnnotations.equals(other.getRelationshipTypeAnnotations()))
-						return false;
-					if (!relationshipTypes.equals(other.getRelationshipTypes()))
-						return false;
-					if (!relationships.equals(other.getRelationships()))
-						return false;
-					if (title == null) {
-						if (other.getTitle() != null)
-							return false;
-					} else if (!title.equals(other.getTitle()))
-						return false;
-					return true;
-				}
-
-				@Override
-				public String toString() {
-					return "KB " + title + " [relationships=" + relationships + ", relationshipTypes="
-							+ relationshipTypes + ", relationshipTypeAnnotations=" + relationshipTypeAnnotations
-							+ ", relationshipAnnotations=" + relationshipAnnotations + ", entityTypes=" + entityTypes
-							+ ", entityTypeAnnotations=" + entityTypeAnnotations + ", entityAnnotations="
-							+ entityAnnotations + ", entities=" + entities + ", bindings=" + bindings
-							+ ", annotations=" + annotations + "]";
-				}
 			};
 		}
 
@@ -456,18 +389,17 @@ public class KBs {
 		public int hashCode() {
 			final int prime = 31;
 			int result = 1;
-			result = prime * result + ((annotations == null) ? 0 : annotations.hashCode());
-			result = prime * result + ((bindings == null) ? 0 : bindings.hashCode());
-			result = prime * result + ((entities == null) ? 0 : entities.hashCode());
-			result = prime * result + ((entityAnnotations == null) ? 0 : entityAnnotations.hashCode());
-			result = prime * result + ((entityTypeAnnotations == null) ? 0 : entityTypeAnnotations.hashCode());
-			result = prime * result + ((entityTypes == null) ? 0 : entityTypes.hashCode());
-			result = prime * result + ((relationshipAnnotations == null) ? 0 : relationshipAnnotations.hashCode());
-			result = prime * result
-					+ ((relationshipTypeAnnotations == null) ? 0 : relationshipTypeAnnotations.hashCode());
-			result = prime * result + ((relationshipTypes == null) ? 0 : relationshipTypes.hashCode());
-			result = prime * result + ((relationships == null) ? 0 : relationships.hashCode());
-			result = prime * result + ((title == null) ? 0 : title.hashCode());
+			result = prime * result + annotations.hashCode();
+			result = prime * result + bindings.hashCode();
+			result = prime * result + entities.hashCode();
+			result = prime * result + entityAnnotations.hashCode();
+			result = prime * result + entityTypeAnnotations.hashCode();
+			result = prime * result + entityTypes.hashCode();
+			result = prime * result + relationshipAnnotations.hashCode();
+			result = prime * result + relationshipTypeAnnotations.hashCode();
+			result = prime * result + relationshipTypes.hashCode();
+			result = prime * result + relationships.hashCode();
+			result = prime * result + title.hashCode();
 			return result;
 		}
 

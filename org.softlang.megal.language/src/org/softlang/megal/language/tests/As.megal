@@ -47,4 +47,4 @@ JavaCompiler.Parser : ParserSystem
 
 coolStuff : Function
 coolStuff(something)|->wierdStuff
-
+wierdStuff correspondsTo something

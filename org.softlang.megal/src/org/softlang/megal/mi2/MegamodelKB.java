@@ -2,13 +2,16 @@ package org.softlang.megal.mi2;
 
 import static com.google.common.collect.Maps.immutableEntry;
 import static com.google.common.collect.Maps.newHashMap;
+import static com.google.common.collect.Multimaps.index;
+import static com.google.common.collect.Multimaps.transformValues;
 import static com.google.common.collect.Tables.immutableCell;
 
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.softlang.megal.Annotations;
+import org.softlang.megal.Annotation;
 import org.softlang.megal.Declaration;
+import org.softlang.megal.Element;
 import org.softlang.megal.Entity;
 import org.softlang.megal.EntityType;
 import org.softlang.megal.EntityTypeReference;
@@ -16,6 +19,7 @@ import org.softlang.megal.FunctionApplication;
 import org.softlang.megal.FunctionTypeReference;
 import org.softlang.megal.Link;
 import org.softlang.megal.Links;
+//import org.softlang.megal.Links;
 import org.softlang.megal.Megamodel;
 import org.softlang.megal.Relationship;
 import org.softlang.megal.RelationshipType;
@@ -36,7 +40,7 @@ import com.google.common.collect.Table.Cell;
  * @author Pazuzu
  *
  */
-public class MegamodelKB implements KB {
+public class MegamodelKB extends AbstractKB {
 
 	private static final String ELEMENT_OF = "elementOf";
 
@@ -134,6 +138,10 @@ public class MegamodelKB implements KB {
 	 */
 	private final Multimap<Cell<String, String, String>, Entry<String, String>> relationshipAnnotations;
 
+	private static Multimap<String, String> getAnnotationMap(Element element) {
+		return transformValues(index(element.getAnnotations(), Annotation::getKey), Annotation::getValue);
+	}
+
 	/**
 	 * <p>
 	 * Initialized and analyzes the given megamodel.
@@ -147,7 +155,7 @@ public class MegamodelKB implements KB {
 
 		// Create database
 		title = megamodel.getName();
-		annotations = Annotations.getAnnotationMap(megamodel);
+		annotations = getAnnotationMap(megamodel);
 		entityTypes = newHashMap();
 		relationshipTypes = HashMultimap.create();
 		entities = newHashMap();
@@ -159,97 +167,112 @@ public class MegamodelKB implements KB {
 		relationshipAnnotations = HashMultimap.create();
 
 		// Initialize database
-		for (Megamodel model : megamodel.allModels())
-			for (Declaration declaration : model.getDeclarations()) {
-				if (declaration instanceof EntityType) {
-					EntityType entityType = (EntityType) declaration;
+		for (Declaration declaration : megamodel.getDeclarations())
+			if (declaration instanceof EntityType) {
+				EntityType entityType = (EntityType) declaration;
 
-					// Translate the entity type
-					String name = entityType.getName();
-					Ref ref = translate(entityType.getSupertype());
+				// Translate the entity type
+				String name = entityType.getName();
+				Ref ref = translate(entityType.getSupertype());
 
-					// Put the data
-					entityTypes.put(name, ref);
+				// Put the data
+				entityTypes.put(name, ref);
 
-					// Put the annotations
-					entityTypeAnnotations.putAll(immutableEntry(name, ref), Annotations.getAnnotationMap(entityType)
-							.entries());
+				// Put the annotations
+				entityTypeAnnotations.putAll(immutableEntry(name, ref), getAnnotationMap(entityType).entries());
 
-				} else if (declaration instanceof RelationshipType) {
-					RelationshipType relationshipType = (RelationshipType) declaration;
+			} else if (declaration instanceof RelationshipType) {
+				RelationshipType relationshipType = (RelationshipType) declaration;
 
-					// Translate the relationship type
-					String name = relationshipType.getName();
-					Ref left = translate(relationshipType.getLeft());
-					Ref right = translate(relationshipType.getRight());
+				// Translate the relationship type
+				String name = relationshipType.getName();
+				Ref left = translate(relationshipType.getLeft());
+				Ref right = translate(relationshipType.getRight());
 
-					// Put the data
-					relationshipTypes.put(name, immutableEntry(left, right));
+				// Put the data
+				relationshipTypes.put(name, immutableEntry(left, right));
 
-					// Put the annotations
-					relationshipTypeAnnotations.putAll(immutableEntry(name, immutableEntry(left, right)), Annotations
-							.getAnnotationMap(relationshipType).entries());
+				// Put the annotations
+				relationshipTypeAnnotations.putAll(immutableEntry(name, immutableEntry(left, right)),
+						getAnnotationMap(relationshipType).entries());
 
-				} else if (declaration instanceof Entity) {
-					Entity entity = (Entity) declaration;
+			} else if (declaration instanceof Entity) {
+				Entity entity = (Entity) declaration;
 
-					// Translate the entity
-					String name = entity.getName();
-					Ref ref = translate(entity.getType());
+				// Translate the entity
+				String name = entity.getName();
+				Ref ref = translate(entity.getType());
 
-					// Put the data
-					entities.put(name, ref);
+				// Put the data
+				entities.put(name, ref);
 
-					// Put the bindings
-					for (Link link : Links.allBindings(megamodel, entity))
-						bindings.put(name, link.getTo());
+				// Put the bindings
+				for (Link link : Links.bindings(megamodel, entity))
+					bindings.put(name, link.getTo());
 
-					// Put the annotations
-					entityAnnotations.putAll(immutableEntry(name, ref), Annotations.getAnnotationMap(entity).entries());
+				// Put the annotations
+				entityAnnotations.putAll(immutableEntry(name, ref), getAnnotationMap(entity).entries());
 
-				} else if (declaration instanceof Relationship) {
-					Relationship relationship = (Relationship) declaration;
+			} else if (declaration instanceof Relationship) {
+				Relationship relationship = (Relationship) declaration;
 
-					// Translate the relationship
-					String name = relationship.getType().getName();
-					String left = relationship.getLeft().getName();
-					String right = relationship.getRight().getName();
+				// Translate the relationship
+				String name = relationship.getType().getName();
+				String left = relationship.getLeft().getName();
+				String right = relationship.getRight().getName();
 
-					// Put the data
-					relationships.put(left, right, name);
+				// Put the data
+				relationships.put(left, right, name);
 
-					// Put the annotations
-					relationshipAnnotations.putAll(immutableCell(left, right, name),
-							Annotations.getAnnotationMap(relationship).entries());
-				} else if (declaration instanceof FunctionApplication) {
-					FunctionApplication functionApplication = (FunctionApplication) declaration;
+				// Put the annotations
+				relationshipAnnotations.putAll(immutableCell(left, right, name), getAnnotationMap(relationship)
+						.entries());
+			} else if (declaration instanceof FunctionApplication) {
+				FunctionApplication functionApplication = (FunctionApplication) declaration;
 
-					// Translate the function application
-					String function = functionApplication.getFunction().getName();
-					String input = functionApplication.getInput().getName();
-					String output = functionApplication.getOutput().getName();
+				// Translate the function application
+				String function = functionApplication.getFunction().getName();
+				String input = functionApplication.getInput().getName();
+				String output = functionApplication.getOutput().getName();
 
-					String name = entityName(functionApplication);
-					Ref type = Ref.to(PAIR, false);
+				String name = entityName(functionApplication);
+				Ref type = Ref.to(PAIR, false);
 
-					// Put the entity
-					entities.put(name, type);
+				// Put the entity
+				entities.put(name, type);
 
-					// Put all relationships
-					relationships.put(name, function, ELEMENT_OF);
-					relationships.put(input, name, FIRST_OF);
-					relationships.put(output, name, SECOND_OF);
+				// Put all relationships
+				relationships.put(name, function, ELEMENT_OF);
+				relationships.put(input, name, FIRST_OF);
+				relationships.put(output, name, SECOND_OF);
 
-					// Put the bindings
-					for (Link link : Links.allBindings(megamodel, functionApplication.getFunction(),
-							functionApplication.getInput(), functionApplication.getOutput()))
-						bindings.put(name, link.getTo());
+				// Put the bindings
+				for (Link link : Links.bindings(megamodel, functionApplication.getFunction(),
+						functionApplication.getInput(), functionApplication.getOutput()))
+					bindings.put(name, link.getTo());
 
-					// Put the annotations
-					entityAnnotations.putAll(immutableEntry(name, type),
-							Annotations.getAnnotationMap(functionApplication).entries());
-				}
+				// Put the annotations
+				entityAnnotations.putAll(immutableEntry(name, type), getAnnotationMap(functionApplication).entries());
 			}
+	}
+
+	public static KB loadAll(Megamodel m) {
+		// Simple model, most likely the prelude
+		if (m.getImports().size() == 0)
+			return new MegamodelKB(m);
+
+		// Translate all imported megamodels recursively
+		KB[] imports = new KB[m.getImports().size()];
+		for (int i = 0; i < m.getImports().size(); i++)
+			imports[i] = loadAll(m.getImports().get(i));
+
+		// Reduce with union
+		KB rh = imports[0];
+		for (int i = 1; i < imports.length; i++)
+			rh = KBs.union(imports[i], rh);
+
+		// Union with the main model
+		return KBs.union(new MegamodelKB(m), rh);
 	}
 
 	/**
@@ -351,5 +374,4 @@ public class MegamodelKB implements KB {
 	public Multimap<Cell<String, String, String>, Entry<String, String>> getRelationshipAnnotations() {
 		return relationshipAnnotations;
 	}
-
 }
