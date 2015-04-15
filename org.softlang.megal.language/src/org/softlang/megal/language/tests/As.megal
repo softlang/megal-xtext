@@ -40,8 +40,10 @@ something elementOf OnlyAs
 
 wierdStuff: Filelocation
 
-Java : Language
-Java.Versions : Entity
+ParserSystem < Technology
+
+JavaCompiler : Technology
+JavaCompiler.Parser : ParserSystem
 
 coolStuff : Function
 coolStuff(something)|->wierdStuff

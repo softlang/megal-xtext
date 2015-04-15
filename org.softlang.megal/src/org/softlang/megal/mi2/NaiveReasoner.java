@@ -17,6 +17,7 @@ import java.util.Map.Entry;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
+import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Table.Cell;
@@ -256,9 +257,51 @@ public class NaiveReasoner implements Reasoner {
 				Ref fe = kb.getEntities().get(from.getRowKey());
 				Ref te = kb.getEntities().get(from.getColumnKey());
 
-				// TODO Inheritance substitution
+				Collection<Entry<Ref, Ref>> candidates = kb.getRelationshipTypes().get(from.getValue());
 
-				return relationshipType(immutableEntry(from.getValue(), immutableEntry(fe, te)));
+				Optional<RelationshipType> potential = loadOrSubstitute(fe, te, candidates);
+				if (!potential.isPresent())
+					throw new NoSuchElementException("No relationship type for " + from.getRowKey() + " "
+							+ from.getValue() + " " + from.getColumnKey());
+
+				return potential.get();
+			}
+
+			private Optional<RelationshipType> loadOrSubstitute(Ref fromType, Ref toType,
+					Collection<Entry<Ref, Ref>> candidates) {
+
+				// If candidates contains an entry for the given pair, use it
+				if (candidates.contains(immutableEntry(fromType, toType)))
+					return Optional.of(relationshipType(immutableEntry(from.getValue(),
+							immutableEntry(fromType, toType))));
+
+				// Try to find supertype for from
+				Ref fromTypeSupertype = kb.getEntityTypes().get(fromType.getType());
+
+				// If there is a supertype, try substituting
+				if (!KB.ENTITY.equals(fromType.getType())) {
+					Optional<RelationshipType> potential = loadOrSubstitute(fromTypeSupertype, toType, candidates);
+					if (potential.isPresent())
+						return potential;
+				}
+
+				// Try to find supertype for to
+				Ref toTypeSupertype = kb.getEntityTypes().get(toType.getType());
+
+				// If there is a supertype, try substituting
+				if (!KB.ENTITY.equals(toType.getType())) {
+					Optional<RelationshipType> potential = loadOrSubstitute(fromType, toTypeSupertype, candidates);
+					if (potential.isPresent())
+						return potential;
+				}
+
+				// If none of the inputs has a supertype, we cannot substitute
+				// any further, abort with failure
+				if (KB.ENTITY.equals(fromType.getType()) && KB.ENTITY.equals(toType.getType()))
+					return Optional.absent();
+
+				// Else try with both substituted
+				return loadOrSubstitute(fromTypeSupertype, toTypeSupertype, candidates);
 			}
 
 			@Override
