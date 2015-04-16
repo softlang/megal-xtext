@@ -12,10 +12,10 @@ import java.util.Collection;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.softlang.megal.MegalPlugin;
-import org.softlang.megal.Relationship;
 import org.softlang.megal.api.Evaluator;
-import org.softlang.megal.api.Result;
+import org.softlang.megal.api.Output;
 import org.softlang.megal.api.URI;
+import org.softlang.megal.mi2.Relationship;
 
 import com.google.common.base.Charsets;
 import com.google.common.base.Optional;
@@ -33,11 +33,11 @@ import com.google.common.io.CharSource;
 public class FileElementOfLanguage extends Evaluator {
 
 	@Override
-	public Optional<Boolean> evaluate(Relationship relationship) {
+	public Output evaluate(Relationship relationship) {
 		// Collect all the links for the entity that to be checked for
 		// containment in language
 		Collection<String> nr = newArrayList();
-		for (String link : getAPI().getLinks(relationship.getLeft()))
+		for (String link : relationship.getLeft().getBindings())
 			nr.add(link);
 
 		// Find a character source from these links, usually there's just one
@@ -52,11 +52,12 @@ public class FileElementOfLanguage extends Evaluator {
 				// If the character source, i.e. the language artifact, is
 				// accepted, return a fine result
 				if (a.accept(s))
-					return Optional.of(true);
+					return Output.valid();
 
 			}
 
-		return Optional.of(false);
+		return Output.error(relationship.getLeft().getName() + " is not an element of "
+				+ relationship.getRight().getName());
 	}
 
 	private static CharSource wrap(final IFile file) {
@@ -91,9 +92,8 @@ public class FileElementOfLanguage extends Evaluator {
 
 		// Find the first IFile in the resolved items
 		for (Object o : MegalPlugin.getEvaluator().evaluate(
-				URI.valueOf(getOnlyElement(nr)))){
-			System.out.println(o);
-			System.out.println(o.getClass());
+				URI.valueOf(getOnlyElement(nr)))) {
+
 			if (o instanceof IFile)
 				return wrap((IFile) o);
 		}

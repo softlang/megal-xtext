@@ -20,7 +20,6 @@ import org.softlang.megal.mi2.Relationship;
 import org.softlang.megal.mi2.RelationshipType;
 import org.softlang.sourcesupport.SourceSupport;
 
-import com.google.common.base.Optional;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.ImmutableSet;
@@ -118,13 +117,13 @@ public class Evaluators {
 	public static Result evaluate(SourceSupport s, Reasoner m) {
 
 		// Load all evaluators
-//		Multimap<Entity, Resolver> resolvers = loadResolvers(s, m);
+		// Multimap<Entity, Resolver> resolvers = loadResolvers(s, m);
 		Multimap<Entity, Evaluator> entToEval = loadEvaluators(s, m);
 		Multimap<RelationshipType, Entity> rstToEnt = loadMappings(m);
 
 		// Get the API
 		Multimap<String, String> trace = HashMultimap.create();
-		Set<Relationship> invalid = newHashSet();
+		Multimap<Relationship, String> invalid = HashMultimap.create();
 		Set<Relationship> valid = newHashSet();
 
 		for (Relationship b : m.getRelationships()) {
@@ -132,14 +131,15 @@ public class Evaluators {
 
 			for (Entity x : evaluators)
 				for (Evaluator y : entToEval.get(x)) {
-					Optional<Boolean> result = y.evaluate(b);
+					Output result = y.evaluate(b);
 
-					if (result.isPresent()) {
-						if (result.get()) {
+					if (result.isApplicable()) {
+						if (result.isError())
+							invalid.put(b, result.getError());
+						else {
 							valid.add(b);
 							trace.putAll(y.calculateTrace(b));
-						} else
-							invalid.add(b);
+						}
 					}
 				}
 		}
@@ -159,14 +159,15 @@ public class Evaluators {
 			@Override
 			public Result call() throws Exception {
 				// Load all resolvers in one task
-//				ForkJoinTask<Multimap<Entity, Resolver>> loadResolversTask = ForkJoinTask.adapt(
-//						new Callable<Multimap<Entity, Resolver>>() {
-//
-//							@Override
-//							public Multimap<Entity, Resolver> call() throws Exception {
-//								return loadResolvers(s, m);
-//							}
-//						}).fork();
+				// ForkJoinTask<Multimap<Entity, Resolver>> loadResolversTask =
+				// ForkJoinTask.adapt(
+				// new Callable<Multimap<Entity, Resolver>>() {
+				//
+				// @Override
+				// public Multimap<Entity, Resolver> call() throws Exception {
+				// return loadResolvers(s, m);
+				// }
+				// }).fork();
 
 				// Load all mappings in one task
 				ForkJoinTask<Multimap<RelationshipType, Entity>> loadMappingsTaks = ForkJoinTask.adapt(
@@ -187,11 +188,12 @@ public class Evaluators {
 						}).fork();
 
 				// Join the tasks
-//				Multimap<Entity, Resolver> resolvers = loadResolversTask.join();
+				// Multimap<Entity, Resolver> resolvers =
+				// loadResolversTask.join();
 				Multimap<Entity, Evaluator> entToEval = loadEvaluatorsTask.join();
 				Multimap<RelationshipType, Entity> rstToEnt = loadMappingsTaks.join();
 
-				Result result = new Result(ImmutableSet.of(), ImmutableSet.of(), ImmutableMultimap.of());
+				Result result = new Result(ImmutableMultimap.of(), ImmutableSet.of(), ImmutableMultimap.of());
 
 				// Make a list of all subtasks so we may join them afterwards
 				List<ForkJoinTask<Result>> subtasks = newArrayList();
@@ -201,7 +203,8 @@ public class Evaluators {
 					subtasks.add(ForkJoinTask.adapt(new Callable<Result>() {
 						@Override
 						public Result call() throws Exception {
-							Result result = new Result(ImmutableSet.of(), ImmutableSet.of(), ImmutableMultimap.of());
+							Result result = new Result(ImmutableMultimap.of(), ImmutableSet.of(), ImmutableMultimap
+									.of());
 
 							List<ForkJoinTask<Result>> subtasks = newArrayList();
 
@@ -212,18 +215,20 @@ public class Evaluators {
 										@Override
 										public Result call() throws Exception {
 											// Assign the API before evaluation
-											Optional<Boolean> result = eval.evaluate(rel);
+											Output result = eval.evaluate(rel);
 
-											if (result.isPresent()) {
-												if (result.get()) {
-													return new Result(ImmutableSet.of(), ImmutableSet.of(rel), eval
-															.calculateTrace(rel));
-												} else
-													return new Result(ImmutableSet.of(rel), ImmutableSet.of(),
-															ImmutableMultimap.of());
+											if (result.isApplicable()) {
+												if (result.isError())
+													return new Result(ImmutableMultimap.of(rel, result.getError()),
+															ImmutableSet.of(), ImmutableMultimap.of());
+												else
+													return new Result(ImmutableMultimap.of(), ImmutableSet.of(rel),
+															eval.calculateTrace(rel));
+
 											}
-											return new Result(ImmutableSet.of(), ImmutableSet.of(), ImmutableMultimap
-													.of());
+
+											return new Result(ImmutableMultimap.of(), ImmutableSet.of(),
+													ImmutableMultimap.of());
 										}
 									}).fork());
 

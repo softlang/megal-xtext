@@ -23,7 +23,7 @@ Require-Bundle: org.eclipse.core.runtime;visibility:=reexport,
  org.eclipse.emf.mwe2.lib,
  org.objectweb.asm,
  com.google.guava,
- org.softlang.sourcesupport;bundle-version="1.0.0"
+ org.softlang.sourcesupport;bundle-version="1.0.0";visibility:=reexport
 Bundle-ActivationPolicy: lazy
 Import-Package: org.apache.commons.logging,
  org.apache.log4j

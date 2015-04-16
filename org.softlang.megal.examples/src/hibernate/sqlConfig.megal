@@ -1,7 +1,0 @@
-model SqlConfig
-import SQL
-
-//jar "/technomodels/plugins/megal-0.0.1-SNAPSHOT.jar"
-
-SQL = "http://101companies.org/wiki/Language:SQL"
-HQL = "http://101companies.org/wiki/Language:HQL"

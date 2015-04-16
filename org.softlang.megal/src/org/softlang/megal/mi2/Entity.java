@@ -92,7 +92,7 @@ public abstract class Entity extends Named {
 	public String toString() {
 		String type = getType().getName() + (isTypeMany() ? "+" : "")
 				+ (getTypeParams().isEmpty() ? "" : getTypeParams());
-		return getName() + " " + type;
+		return getName() + ": " + type;
 	}
 
 	/**

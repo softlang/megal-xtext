@@ -100,8 +100,8 @@ public abstract class Evaluator {
 	 *            The entity to evaluate
 	 * @return Returns the result of evaluation as an element of {@link Result}
 	 */
-	public Optional<Boolean> evaluate(Entity entity) {
-		return Optional.absent();
+	public Output evaluate(Entity entity) {
+		return Output.notApplicable();
 	}
 
 	/**
@@ -111,8 +111,8 @@ public abstract class Evaluator {
 	 *            The relationship to evaluate
 	 * @return Returns the result of evaluation as an element of {@link Result}
 	 */
-	public Optional<Boolean> evaluate(Relationship relationship) {
-		return Optional.absent();
+	public Output evaluate(Relationship relationship) {
+		return Output.notApplicable();
 	}
 
 	/**

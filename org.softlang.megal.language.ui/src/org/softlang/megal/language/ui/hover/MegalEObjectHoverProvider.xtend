@@ -17,79 +17,79 @@ import org.softlang.megal.Megamodel
 import org.softlang.megal.RelationshipType
 import org.softlang.megal.api.URI
 
-class ListAnnotationsAction extends ExtenderAction {
-
-	new(ExtenderEObjectHoverProvider p, IXtextBrowserInformationControl c) {
-		super(p, c, "List annotations", ISharedImages.IMG_ELCL_SYNCED)
-	}
-
-	override update() {
-		enabled = infoControl.input?.inputElement instanceof EntityType
-	}
-
-	override run() {
-		val e = infoControl.input?.inputElement as EntityType
-
-		navigateToHTML(e, '''<ul>«FOR a : e.annotations»<li>«a.key» := «a.value»</li>«ENDFOR»</ul>''')
-	}
-}
-
-class ScopeToAction extends ExtenderAction {
-
-	// TODO: Custom link listener
-	new(ExtenderEObjectHoverProvider p, IXtextBrowserInformationControl c) {
-		super(p, c, "Navigate to link", ISharedImages.IMG_ETOOL_HOME_NAV)
-	}
-
-	override update() {
-		enabled = infoControl.input?.inputElement instanceof Link
-	}
-
-	override run() {
-		val e = infoControl.input?.inputElement as Link
-		val ns = MegalPlugin.evaluator.evaluate(URI.valueOf(e.to))
-
-		for (n : ns)
-			switch n {
-				IMember:
-					JavaUI.revealInEditor(JavaUI.openInEditor(n.compilationUnit), n as IJavaElement)
-				IFile:
-					IDE.openEditor(PlatformUI.workbench.activeWorkbenchWindow.activePage, n)
-			}
-	}
-}
-
-class ListInstancesAction extends ExtenderAction {
-	def static boolean isSubType(EntityType a, EntityType of) {
-		a.supertype != null && (a.supertype.definition == of || isSubType(a.supertype.definition, of))
-	}
-
-	def static boolean isInstance(Entity a, EntityType of) {
-		a.type.definition == of || a.type.definition.isSubType(of)
-	}
-
-	new(ExtenderEObjectHoverProvider p, IXtextBrowserInformationControl c) {
-		super(p, c, "List instances", ISharedImages.IMG_ELCL_REMOVEALL)
-	}
-
-	override update() {
-		enabled = infoControl.input?.inputElement instanceof EntityType
-	}
-
-	override run() {
-		val e = infoControl.input?.inputElement as EntityType
-
-		// Resolve all megamodels
-		val resolved = e.eResource.resourceSet.resources.map[contents.filter(Megamodel)].flatten
-
-		// Find all direct subtypes
-		val subtypes = resolved.map[declarations.filter(Entity).filter[isInstance(e)]].flatten
-
-		navigateToHTML(e,
-			'''List of instances of «extender.elementLinks.createLink(e)»: <ul>«FOR a : subtypes»<li>«extender.
-				elementLinks.createLink(a)»«IF a.type.definition != e» <a title="Transitive instance">...</a>«ENDIF»</li>«ENDFOR»</ul>''')
-	}
-}
+//class ListAnnotationsAction extends ExtenderAction {
+//
+//	new(ExtenderEObjectHoverProvider p, IXtextBrowserInformationControl c) {
+//		super(p, c, "List annotations", ISharedImages.IMG_ELCL_SYNCED)
+//	}
+//
+//	override update() {
+//		enabled = infoControl.input?.inputElement instanceof EntityType
+//	}
+//
+//	override run() {
+//		val e = infoControl.input?.inputElement as EntityType
+//
+//		navigateToHTML(e, '''<ul>«FOR a : e.annotations»<li>«a.key» := «a.value»</li>«ENDFOR»</ul>''')
+//	}
+//}
+//
+//class ScopeToAction extends ExtenderAction {
+//
+//	// TODO: Custom link listener
+//	new(ExtenderEObjectHoverProvider p, IXtextBrowserInformationControl c) {
+//		super(p, c, "Navigate to link", ISharedImages.IMG_ETOOL_HOME_NAV)
+//	}
+//
+//	override update() {
+//		enabled = infoControl.input?.inputElement instanceof Link
+//	}
+//
+//	override run() {
+//		val e = infoControl.input?.inputElement as Link
+//		val ns = MegalPlugin.evaluator.evaluate(URI.valueOf(e.to))
+//
+//		for (n : ns)
+//			switch n {
+//				IMember:
+//					JavaUI.revealInEditor(JavaUI.openInEditor(n.compilationUnit), n as IJavaElement)
+//				IFile:
+//					IDE.openEditor(PlatformUI.workbench.activeWorkbenchWindow.activePage, n)
+//			}
+//	}
+//}
+//
+//class ListInstancesAction extends ExtenderAction {
+//	def static boolean isSubType(EntityType a, EntityType of) {
+//		a.supertype != null && (a.supertype.definition == of || isSubType(a.supertype.definition, of))
+//	}
+//
+//	def static boolean isInstance(Entity a, EntityType of) {
+//		a.type.definition == of || a.type.definition.isSubType(of)
+//	}
+//
+//	new(ExtenderEObjectHoverProvider p, IXtextBrowserInformationControl c) {
+//		super(p, c, "List instances", ISharedImages.IMG_ELCL_REMOVEALL)
+//	}
+//
+//	override update() {
+//		enabled = infoControl.input?.inputElement instanceof EntityType
+//	}
+//
+//	override run() {
+//		val e = infoControl.input?.inputElement as EntityType
+//
+//		// Resolve all megamodels
+//		val resolved = e.eResource.resourceSet.resources.map[contents.filter(Megamodel)].flatten
+//
+//		// Find all direct subtypes
+//		val subtypes = resolved.map[declarations.filter(Entity).filter[isInstance(e)]].flatten
+//
+//		navigateToHTML(e,
+//			'''List of instances of «extender.elementLinks.createLink(e)»: <ul>«FOR a : subtypes»<li>«extender.
+//				elementLinks.createLink(a)»«IF a.type.definition != e» <a title="Transitive instance">...</a>«ENDIF»</li>«ENDFOR»</ul>''')
+//	}
+//}
 
 class MegalEObjectHoverProvider extends ExtenderEObjectHoverProvider {
 
@@ -102,11 +102,11 @@ class MegalEObjectHoverProvider extends ExtenderEObjectHoverProvider {
 		}
 	}
 
-	override protected addActions(ExtenderPresentationControlCreator p) {
-		p.constructors += [new ListAnnotationsAction(MegalEObjectHoverProvider.this, it)]
-		p.constructors += [new ScopeToAction(MegalEObjectHoverProvider.this, it)]
-		p.constructors += [new ListInstancesAction(MegalEObjectHoverProvider.this, it)]
-	}
+//	override protected addActions(ExtenderPresentationControlCreator p) {
+//		p.constructors += [new ListAnnotationsAction(MegalEObjectHoverProvider.this, it)]
+//		p.constructors += [new ScopeToAction(MegalEObjectHoverProvider.this, it)]
+//		p.constructors += [new ListInstancesAction(MegalEObjectHoverProvider.this, it)]
+//	}
 
 	override protected getFirstLine(EObject object) {
 

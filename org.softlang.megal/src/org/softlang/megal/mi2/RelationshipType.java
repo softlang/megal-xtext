@@ -1,8 +1,13 @@
 package org.softlang.megal.mi2;
 
 import static com.google.common.base.Objects.equal;
+import static com.google.common.collect.FluentIterable.from;
+import static com.google.common.collect.Iterables.concat;
+import static java.util.Collections.singleton;
 
 import java.util.List;
+
+import org.softlang.megal.mi2.util.PostOrderDeepeningIterable;
 
 /**
  * <p>
@@ -63,6 +68,78 @@ public abstract class RelationshipType extends Named {
 	 * @return Returns a list of entities
 	 */
 	public abstract List<? extends Entity> getRightParams();
+
+	/**
+	 * <p>
+	 * Gets all direct instances of this relationship type.
+	 * </p>
+	 * 
+	 * @return Iterates over the instances
+	 */
+	public abstract Iterable<? extends Relationship> getInstances();
+
+	/**
+	 * <p>
+	 * Gets all direct and transitive instances of this relationship type.
+	 * </p>
+	 * 
+	 * @return Iterates over all the instances
+	 */
+	public Iterable<? extends Relationship> getAllInstances() {
+		return from(concat(singleton(this), getAllSubtypes())).transformAndConcat(RelationshipType::getInstances);
+	}
+
+	/**
+	 * <p>
+	 * Gets all direct subtypes of this relationship type.
+	 * </p>
+	 * 
+	 * @return Iterates over the instances
+	 */
+	public abstract Iterable<? extends RelationshipType> getSubtypes();
+
+	/**
+	 * <p>
+	 * Gets all direct and transitive subtypes of this relationship type.
+	 * </p>
+	 * 
+	 * @return Iterates over all the instances
+	 */
+	public Iterable<? extends RelationshipType> getAllSubtypes() {
+		return new PostOrderDeepeningIterable<RelationshipType>(getSubtypes()) {
+			@Override
+			protected Iterable<? extends RelationshipType> getNext(RelationshipType e) {
+				return e.getSubtypes();
+			}
+		};
+	}
+
+	public boolean isApplicable(Entity left, Entity right) {
+		return isApplicable(left.getType(), right.getType());
+	}
+
+	public boolean isApplicable(EntityType left, EntityType right) {
+		if (getLeft().equals(left) && getRight().equals(right))
+			return true;
+
+		EntityType leftSupertype = left.getSupertype();
+
+		if (!leftSupertype.equals(left))
+			if (isApplicable(leftSupertype, right))
+				return true;
+
+		EntityType rightSupertype = left.getSupertype();
+
+		if (!rightSupertype.equals(right))
+			if (isApplicable(left, rightSupertype))
+				return true;
+
+		if (!leftSupertype.equals(left) && rightSupertype.equals(right))
+			if (isApplicable(leftSupertype, rightSupertype))
+				return true;
+
+		return false;
+	}
 
 	@Override
 	public int hashCode() {

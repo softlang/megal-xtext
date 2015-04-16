@@ -1,5 +1,7 @@
 package org.softlang.megal.language.tests;
 
+import static com.google.common.collect.Iterables.getFirst;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.Map.Entry;
@@ -41,7 +43,10 @@ public class ModelInterface {
 
 		NaiveReasoner mi = new NaiveReasoner(kb2);
 
-		dump(mi);
+		// dump(mi);
+
+		testRelSubtypes(mi);
+
 		//
 		// testInOut(mi);
 		//
@@ -56,6 +61,29 @@ public class ModelInterface {
 		// testInstances(mi);
 		//
 		// testComputations(mi);
+	}
+
+	private static void testRelSubtypes(NaiveReasoner mi) {
+		Entity a = mi.getEntity("a");
+		Relationship ab = getFirst(a.outgoing(), null);
+		RelationshipType rel = ab.getType();
+		System.out.println(rel);
+
+		System.out.println("Subtypes:");
+		for (RelationshipType r : rel.getSubtypes())
+			System.out.println("  " + r);
+
+		System.out.println("All subtypes:");
+		for (RelationshipType r : rel.getAllSubtypes())
+			System.out.println("  " + r);
+
+		System.out.println("Instances");
+		for (Relationship r : rel.getInstances())
+			System.out.println("  " + r);
+
+		System.out.println("All instances");
+		for (Relationship r : rel.getAllInstances())
+			System.out.println("  " + r);
 	}
 
 	private static Megamodel load() throws IOException {

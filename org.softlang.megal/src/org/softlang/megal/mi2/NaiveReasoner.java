@@ -175,6 +175,33 @@ public class NaiveReasoner implements Reasoner {
 			public List<? extends Entity> getRightParams() {
 				return transform(from.getValue().getValue().getParams(), x -> getEntity(x));
 			}
+
+			@Override
+			public Iterable<? extends Relationship> getInstances() {
+				// TODO Maybe some lookup on the KB might help?
+				return filter(getRelationships(), x -> equals(x.getType()));
+			}
+
+			@Override
+			public Iterable<? extends RelationshipType> getSubtypes() {
+				// Get all overloads of this relationship type
+				return from(kb.getRelationshipTypes().get(from.getKey())).filter(x -> {
+					// Get the supertypes of the left side and the supertype of
+					// the right side
+						Ref lt = x.getKey();
+						Ref lst = kb.getEntityTypes().get(lt.getType());
+						Ref rt = x.getValue();
+						Ref rst = kb.getEntityTypes().get(rt.getType());
+
+						boolean lte = lt.equals(from.getValue().getKey());
+						boolean rte = rt.equals(from.getValue().getValue());
+						boolean lste = !KB.ENTITY.equals(lt.getType()) && lst.equals(from.getValue().getKey());
+						boolean rste = !KB.ENTITY.equals(rt.getType()) && rst.equals(from.getValue().getValue());
+
+						return (lte && rste) || (lste && rte) || (lste && rste);
+
+					}).transform(x -> relationshipType(immutableEntry(from.getKey(), x)));
+			}
 		};
 	}
 
@@ -387,6 +414,11 @@ public class NaiveReasoner implements Reasoner {
 			throw new NoSuchElementException(name);
 
 		return entity(immutableEntry(name, q));
+	}
+
+	@Override
+	public Iterable<? extends RelationshipType> getRelationshipTypes(String name) {
+		return from(kb.getRelationshipTypes().get(name)).transform(x -> relationshipType(immutableEntry(name, x)));
 	}
 
 	@Override

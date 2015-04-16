@@ -16,6 +16,8 @@ File < Artifact
 Folder < Artifact
 Fragment < Artifact
 
+Filelocation < File
+
 // Relationship types
 elementOf < Entity * Set
 
@@ -91,4 +93,9 @@ elementOf < File * Language
 FileElementOfLanguage: Evaluator
 FileElementOfLanguage = "pluginroot.elementof.FileElementOfLanguage"
 
+// Replacement for the function application
+Pair < Entity
+firstOf < Entity * Pair
+secondOf < Entity * Pair
 
+elementOf < Pair * Function

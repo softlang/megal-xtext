@@ -1,14 +1,15 @@
 package org.softlang.megal.mi2;
 
 import static com.google.common.base.Objects.equal;
+import static com.google.common.collect.FluentIterable.from;
+import static com.google.common.collect.Iterables.concat;
 import static com.google.common.collect.Lists.newArrayList;
-import static com.google.common.collect.Lists.newLinkedList;
+import static java.util.Collections.singleton;
 
-import java.util.Deque;
 import java.util.List;
-import java.util.ListIterator;
 
-import com.google.common.collect.AbstractIterator;
+import org.softlang.megal.mi2.util.PostOrderDeepeningIterable;
+
 import com.google.common.collect.ImmutableList;
 
 /**
@@ -64,40 +65,12 @@ public abstract class EntityType extends Named {
 	 * @return Iterates over all the instances
 	 */
 	public Iterable<? extends Entity> getAllInstances() {
-		return () -> new AbstractIterator<Entity>() {
-			List<EntityType> tier = newArrayList(EntityType.this);
-
-			Deque<Entity> sequence = newLinkedList(getInstances());
-
-			@Override
-			protected Entity computeNext() {
-				if (!sequence.isEmpty())
-					return sequence.poll();
-
-				for (ListIterator<EntityType> it = tier.listIterator(); it.hasNext();) {
-					EntityType v = it.next();
-
-					it.remove();
-
-					for (EntityType s : v.getSubtypes()) {
-						it.add(s);
-
-						for (Entity i : s.getInstances())
-							sequence.add(i);
-					}
-				}
-
-				if (sequence.isEmpty())
-					return endOfData();
-
-				return sequence.poll();
-			}
-		};
+		return from(concat(singleton(this), getAllSubtypes())).transformAndConcat(EntityType::getInstances);
 	}
 
 	/**
 	 * <p>
-	 * Gets all direct instances of this entity type.
+	 * Gets all direct subtypes of this entity type.
 	 * </p>
 	 * 
 	 * @return Iterates over the instances
@@ -112,31 +85,10 @@ public abstract class EntityType extends Named {
 	 * @return Iterates over all the instances
 	 */
 	public Iterable<? extends EntityType> getAllSubtypes() {
-		return () -> new AbstractIterator<EntityType>() {
-			List<EntityType> tier = newArrayList(getSubtypes());
-
-			Deque<EntityType> sequence = newLinkedList(tier);
-
+		return new PostOrderDeepeningIterable<EntityType>(getSubtypes()) {
 			@Override
-			protected EntityType computeNext() {
-				if (!sequence.isEmpty())
-					return sequence.poll();
-
-				for (ListIterator<EntityType> it = tier.listIterator(); it.hasNext();) {
-					EntityType v = it.next();
-
-					it.remove();
-
-					for (EntityType s : v.getSubtypes()) {
-						it.add(s);
-						sequence.add(s);
-					}
-				}
-
-				if (sequence.isEmpty())
-					return endOfData();
-
-				return sequence.poll();
+			protected Iterable<? extends EntityType> getNext(EntityType e) {
+				return e.getSubtypes();
 			}
 		};
 	}

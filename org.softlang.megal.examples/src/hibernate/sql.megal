@@ -1,7 +1,0 @@
-model SQL
-import Prelude
-
-SQL : Language
-HQL : Language
-
-HQL transformableIn SQL

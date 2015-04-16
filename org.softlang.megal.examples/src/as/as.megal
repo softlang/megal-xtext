@@ -19,10 +19,10 @@ nothing: File
 nothing = "workspace:/org.softlang.megal.examples/src/as/ex/em"
 nothing elementOf OnlyAs
 
-stuff: File
-stuff = "workspace:/org.softlang.megal.examples/src/as/ex/Sasa.java/ast/types/fields"
-stuff elementOf OnlyAs
-
+//
+//stuff: File
+//stuff = "workspace:/org.softlang.megal.examples/src/as/ex/Sasa.java/ast/types/fields"
+//stuff elementOf OnlyAs
 
 // As test suite
 //@IsInvalid
@@ -32,9 +32,37 @@ stuff elementOf OnlyAs
 something: File
 something = "workspace:/org.softlang.megal.examples/src/as/ex/ar"
 something elementOf OnlyAs
-//
-//// This isn't
-//otherthing : File
-//otherthing = "workspace:/org.softlang.megal.examples/src/as/ex/nr"
-//otherthing elementOf OnlyAs
 
+//// This isn't
+otherthing : File
+otherthing = "workspace:/org.softlang.megal.examples/src/as/ex/nr"
+otherthing elementOf OnlyAs
+
+
+wierdStuff: Filelocation
+
+ParserSystem < Technology
+
+JavaCompiler : Technology
+JavaCompiler.Parser : ParserSystem
+
+coolStuff : Function
+coolStuff(something)|->wierdStuff
+coolStuff(something)|->wierdStuff = "A really wierd correlation that is defined by some obscure mapping"
+wierdStuff correspondsTo something
+
+//FileElementOfLanguage = "pluginroot.elementof.Wingman"
+
+X < Entity
+Y < X
+
+rel < Entity * Entity
+rel < X * Entity
+rel < Entity * X
+rel < Y * Entity
+
+a : Entity
+b : Entity
+c : Y
+a rel b
+c rel b

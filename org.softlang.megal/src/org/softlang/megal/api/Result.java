@@ -12,20 +12,20 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 
 public class Result {
-	private final Set<Relationship> invalid;
+	private final Multimap<Relationship, String> invalid;
 
 	private final Set<Relationship> valid;
 
 	private final Multimap<String, String> trace;
 
-	public Result(Set<Relationship> invalid, Set<Relationship> valid, Multimap<String, String> trace) {
+	public Result(Multimap<Relationship, String> invalid, Set<Relationship> valid, Multimap<String, String> trace) {
 		this.invalid = invalid;
 		this.valid = valid;
 		this.trace = trace;
 	}
 
-	public Set<Relationship> getInvalid() {
-		return unmodifiableSet(invalid);
+	public Multimap<Relationship, String> getInvalid() {
+		return unmodifiableMultimap(invalid);
 	}
 
 	public Set<Relationship> getValid() {
@@ -79,12 +79,12 @@ public class Result {
 	}
 
 	public static Result concatenate(Result... rs) {
-		Set<Relationship> invalid = newHashSet();
+		Multimap<Relationship, String> invalid = HashMultimap.create();
 		Set<Relationship> valid = newHashSet();
 		Multimap<String, String> trace = HashMultimap.create();
 
 		for (Result r : rs) {
-			invalid.addAll(r.getInvalid());
+			invalid.putAll(r.getInvalid());
 			valid.addAll(r.getValid());
 			trace.putAll(r.getTrace());
 		}

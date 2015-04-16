@@ -60,6 +60,8 @@ public interface Reasoner {
 	 */
 	Entity getEntity(String name);
 
+	Iterable<? extends RelationshipType> getRelationshipTypes(String name);
+
 	/**
 	 * <p>
 	 * Gets all entity types.

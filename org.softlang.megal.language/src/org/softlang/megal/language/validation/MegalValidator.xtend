@@ -9,66 +9,58 @@ import org.softlang.megal.Entity
 import org.softlang.megal.EntityType
 import org.softlang.megal.Megamodel
 import org.softlang.megal.Relationship
+import org.softlang.megal.mi2.MegamodelKB
+import org.softlang.megal.mi2.NaiveReasoner
+import java.util.NoSuchElementException
+import org.softlang.megal.MegalPackage
+import org.softlang.sourcesupport.SourceSupportPlugin
+import org.softlang.megal.api.Evaluators
 
 /**
  * Custom validation rules. 
- *
+ * 
  * see http://www.eclipse.org/Xtext/documentation.html#validation
  */
 class MegalValidator extends AbstractMegalValidator {
 
-	//  public static val INVALID_NAME = 'invalidName'
-	//
-	//	@Check
-	//	def checkGreetingStartsWithCapital(Greeting greeting) {
-	//		if (!Character.isUpperCase(greeting.name.charAt(0))) {
-	//			warning('Name should start with a capital', 
-	//					MyDslPackage.Literals.GREETING__NAME,
-	//					INVALID_NAME)
-	//		}
-	//	}
 	public static val NO_APPLICABLE_INSTANCE = 'noApplicableInstance'
-	public static val ENTITY_MISOVERLOAD = 'entityMisoverload'
-	public static val ENTITY_TYPE_MISOVERLOAD = 'entityTypeMisoverload'
 
 	@Check
 	def checkRelationshipTypeApplicable(Relationship x) {
-		//TODO MI2
-		//		if (x.appliedInstance == null)
-		//			error('''No instance applicable for «x.type?.name» from «x.left.type» to «x.right.type»''',
-		//				MegalPackage.Literals.RELATIONSHIP__TYPE, NO_APPLICABLE_INSTANCE)
-	}
+		val kb = MegamodelKB.loadAll(x.eContainer as Megamodel)
+		val rs = new NaiveReasoner(kb)
 
-	@Check
-	def checkUniqueName(Entity x) {
-		//TODO MI2
-		//		if (x.megamodel.allModels.map[declarations].flatten.filter(Entity).exists[name == x.name && type != x.type])
-		//			error('''The entity '«x.name»' does not overload it's correspondent entities''',
-		//				MegalPackage.Literals.NAMED__NAME, ENTITY_MISOVERLOAD)
-	}
+		val left = rs.getEntity(x.left.name)
+		val right = rs.getEntity(x.right.name)
+		val types = rs.getRelationshipTypes(x.type.name)
 
-	@Check
-	def checkUniqueName(EntityType x) {
-		//TODO MI2
-		//		if (x.megamodel.allModels.map[declarations].flatten.filter(EntityType).exists[
-		//			name == x.name && supertype != x.supertype])
-		//			error('''The entity type '«x.name»' does not overload it's correspondent entity types''',
-		//				MegalPackage.Literals.NAMED__NAME, ENTITY_TYPE_MISOVERLOAD)
+		if (!types.exists[isApplicable(left, right)])
+			error('''No instance applicable for «x.type?.name» from «left» to «right»''',
+				MegalPackage.Literals.RELATIONSHIP__TYPE, NO_APPLICABLE_INSTANCE)
+
 	}
 
 	/**
 	 * This check requires expensive megamodel evaluation
 	 */
-	@Check(CheckType.EXPENSIVE)
+//	@Check(CheckType.EXPENSIVE)
+	def matches(Relationship a, org.softlang.megal.mi2.Relationship b) {
+		a.type.name == b.type.name && a.left.name == b.left.name && a.right.name == b.right.name
+	}
+
+	@Check
 	def checkValidate(Megamodel m) {
-//TODO MI2
-		
-//		// Evaluate parallel, join immediately
-//		val r = Evaluators.evaluate(m)
-//
-//		// Look the relations in this model up, if they are invalid, mark them 
-//		for (e : m.declarations.filter(Relationship))
-//			if (r.invalid.contains(e))
-//				error('''The relationship '«e»' is invalid in this place''', e, MegalPackage.Literals.RELATIONSHIP__TYPE)
+		val kb = MegamodelKB.loadAll(m)
+		val rs = new NaiveReasoner(kb)
+
+		val ss = SourceSupportPlugin.support.analyzeContaining(m)
+
+		// Evaluate parallel, join immediately
+		val r = Evaluators.evaluate(ss, rs)
+
+		// Look the relations in this model up, if they are invalid, mark them 
+		for (e : m.declarations.filter(Relationship))
+			for (String error : r.invalid.entries.filter[i|e.matches(i.key)].map[value])
+				error(error, e, MegalPackage.Literals.RELATIONSHIP__TYPE)
 	}
 }

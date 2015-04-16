@@ -18,6 +18,7 @@ public class AcceptOnlyAs extends Acceptor {
 			while ((i = x.read()) != -1)
 				if (!(i == 'A' || i == 'a'))
 					return false;
+
 			return true;
 		} catch (IOException e) {
 			return false;
