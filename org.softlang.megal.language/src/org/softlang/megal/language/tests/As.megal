@@ -70,3 +70,10 @@ a rel b
 c rel b
 
 a rel2 b
+
+YAF < Function
+someFunction : YAF[OnlyAs->OnlyAs]
+fixPointOf < File * Function[OnlyAs->OnlyAs]
+
+stuff fixPointOf someFunction 
+

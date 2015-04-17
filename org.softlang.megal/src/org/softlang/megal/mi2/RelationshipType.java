@@ -83,27 +83,41 @@ public abstract class RelationshipType extends Named {
 	public abstract Iterable<? extends RelationshipType> getSpecializations();
 
 	public boolean isApplicable(Entity left, Entity right) {
-		return isApplicable(left.getType(), right.getType());
+		return isApplicable(left.getType(), left.isTypeMany(), left.getTypeParams(), right.getType(),
+				right.isTypeMany(), right.getTypeParams());
 	}
 
-	public boolean isApplicable(EntityType left, EntityType right) {
+	public boolean isApplicable(EntityType left, boolean leftMany, List<? extends Entity> leftParams, EntityType right,
+			boolean rightMany, List<? extends Entity> rightParams) {
+		if (leftMany != isLeftMany())
+			return false;
+
+		if (rightMany != isRightMany())
+			return false;
+
+		if (!equal(leftParams, getLeftParams()))
+			return false;
+
+		if (!equal(rightParams, getRightParams()))
+			return false;
+
 		if (getLeft().equals(left) && getRight().equals(right))
 			return true;
 
 		EntityType leftSupertype = left.getSupertype();
 
 		if (!leftSupertype.equals(left))
-			if (isApplicable(leftSupertype, right))
+			if (isApplicable(leftSupertype, leftMany, leftParams, right, rightMany, rightParams))
 				return true;
 
 		EntityType rightSupertype = left.getSupertype();
 
 		if (!rightSupertype.equals(right))
-			if (isApplicable(left, rightSupertype))
+			if (isApplicable(left, leftMany, leftParams, rightSupertype, rightMany, rightParams))
 				return true;
 
 		if (!leftSupertype.equals(left) && rightSupertype.equals(right))
-			if (isApplicable(leftSupertype, rightSupertype))
+			if (isApplicable(leftSupertype, leftMany, leftParams, rightSupertype, rightMany, rightParams))
 				return true;
 
 		return false;

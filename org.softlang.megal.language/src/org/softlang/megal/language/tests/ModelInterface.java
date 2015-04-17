@@ -24,22 +24,29 @@ public class ModelInterface {
 
 	public static void main(String[] args) throws IOException {
 		Megamodel mm = load();
-//		KB kb1 = new MegamodelKB(mm);
+		// KB kb1 = new MegamodelKB(mm);
 
-//		NaiveReasoner mi0 = new NaiveReasoner(kb1);
-		
+		// NaiveReasoner mi0 = new NaiveReasoner(kb1);
+
 		KB kb2 = MegamodelKB.loadAll(mm);
 
-//		System.out.println(kb1.getTitle());
+		// System.out.println(kb1.getTitle());
 		System.out.println(kb2.getTitle());
 
 		NaiveReasoner mi = new NaiveReasoner(kb2);
 
 		// dump(mi);
 
-		testComputations(mi);
+		// testComputations(mi);
+		//
+		// testRelSubtypes(mi);
 
-		testRelSubtypes(mi);
+		Entity iAmTired = mi.getEntity("someFunction");
+		System.out.println(iAmTired);
+		for (Relationship r : iAmTired.incoming()) {
+			System.out.println(r);
+			System.out.println(r.getType());
+		}
 
 		//
 		// testInOut(mi);
