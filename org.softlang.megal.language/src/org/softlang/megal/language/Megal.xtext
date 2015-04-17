@@ -24,7 +24,7 @@ EntityType:
 	annotations+=PrefixAnnotation*
 	name=QID
 	(annotations+=ShowNameAnnotation)?
-	('<' supertype=TypeReference | 'as' 'entity');
+	('<' supertype=[EntityType|QID] | 'as' 'entity');
 
 RelationshipType:
 	annotations+=PrefixAnnotation*

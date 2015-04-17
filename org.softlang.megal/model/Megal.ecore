@@ -43,8 +43,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="EntityType" eSuperTypes="#//Named">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="supertype" eType="#//TypeReference"
-        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="supertype" eType="#//EntityType"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="RelationshipType" eSuperTypes="#//Named">
     <eStructuralFeatures xsi:type="ecore:EReference" name="left" lowerBound="1" eType="#//TypeReference"

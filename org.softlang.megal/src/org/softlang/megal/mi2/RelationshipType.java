@@ -1,13 +1,8 @@
 package org.softlang.megal.mi2;
 
 import static com.google.common.base.Objects.equal;
-import static com.google.common.collect.FluentIterable.from;
-import static com.google.common.collect.Iterables.concat;
-import static java.util.Collections.singleton;
 
 import java.util.List;
-
-import org.softlang.megal.mi2.util.PostOrderDeepeningIterable;
 
 /**
  * <p>
@@ -71,7 +66,7 @@ public abstract class RelationshipType extends Named {
 
 	/**
 	 * <p>
-	 * Gets all direct instances of this relationship type.
+	 * Gets all instances of this relationship type.
 	 * </p>
 	 * 
 	 * @return Iterates over the instances
@@ -80,39 +75,12 @@ public abstract class RelationshipType extends Named {
 
 	/**
 	 * <p>
-	 * Gets all direct and transitive instances of this relationship type.
-	 * </p>
-	 * 
-	 * @return Iterates over all the instances
-	 */
-	public Iterable<? extends Relationship> getAllInstances() {
-		return from(concat(singleton(this), getAllSubtypes())).transformAndConcat(RelationshipType::getInstances);
-	}
-
-	/**
-	 * <p>
-	 * Gets all direct subtypes of this relationship type.
+	 * Gets all subtypes of this relationship type.
 	 * </p>
 	 * 
 	 * @return Iterates over the instances
 	 */
-	public abstract Iterable<? extends RelationshipType> getSubtypes();
-
-	/**
-	 * <p>
-	 * Gets all direct and transitive subtypes of this relationship type.
-	 * </p>
-	 * 
-	 * @return Iterates over all the instances
-	 */
-	public Iterable<? extends RelationshipType> getAllSubtypes() {
-		return new PostOrderDeepeningIterable<RelationshipType>(getSubtypes()) {
-			@Override
-			protected Iterable<? extends RelationshipType> getNext(RelationshipType e) {
-				return e.getSubtypes();
-			}
-		};
-	}
+	public abstract Iterable<? extends RelationshipType> getSpecializations();
 
 	public boolean isApplicable(Entity left, Entity right) {
 		return isApplicable(left.getType(), right.getType());
@@ -192,5 +160,36 @@ public abstract class RelationshipType extends Named {
 				+ (getRightParams().isEmpty() ? "" : getRightParams());
 
 		return getName() + " < " + left + " * " + right;
+	}
+
+	public boolean isSpecializationOf(RelationshipType x) {
+		// Check left many is equal
+		if (!equal(getName(), x.getName()))
+			return false;
+
+		// Check left many is equal
+		if (isLeftMany() != x.isLeftMany())
+			return false;
+
+		// Check right many is equal
+		if (isRightMany() != x.isRightMany())
+			return false;
+
+		// Check left parameters are equal
+		if (!equal(getLeftParams(), getRightParams()))
+			return false;
+
+		// Check right parameters are equal
+		if (!equal(getRightParams(), getRightParams()))
+			return false;
+
+		// Get equals and true subtype values
+		boolean le = equal(getLeft(), x.getLeft());
+		boolean re = equal(getRight(), x.getRight());
+		boolean las = getLeft().isSpecializationOf(x.getLeft());
+		boolean ras = getRight().isSpecializationOf(x.getRight());
+
+		// Check matrix
+		return le && ras || las && re || las && ras;
 	}
 }

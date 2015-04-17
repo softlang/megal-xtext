@@ -1,15 +1,23 @@
 package org.softlang.megal.mi2;
 
+import static com.google.common.base.Objects.equal;
+import static com.google.common.base.Predicates.equalTo;
+import static com.google.common.base.Predicates.not;
 import static com.google.common.collect.FluentIterable.from;
+import static com.google.common.collect.Iterables.concat;
 import static com.google.common.collect.Iterables.filter;
 import static com.google.common.collect.Iterables.transform;
 import static com.google.common.collect.Lists.transform;
-import static com.google.common.collect.Maps.filterValues;
 import static com.google.common.collect.Maps.immutableEntry;
 import static com.google.common.collect.Multimaps.index;
 import static com.google.common.collect.Multimaps.transformValues;
 import static com.google.common.collect.Tables.immutableCell;
-import static java.util.Collections.emptyList;
+import static java.util.Collections.singleton;
+import static org.softlang.megal.mi2.util.Multitables.multiContains;
+import static org.softlang.megal.mi2.util.Multitables.multiFlatCells;
+import static org.softlang.megal.mi2.util.Multitables.multiFlatColumn;
+import static org.softlang.megal.mi2.util.Multitables.multiFlatRow;
+import static org.softlang.megal.mi2.util.Multitables.multiFlatValue;
 
 import java.util.Collection;
 import java.util.List;
@@ -18,7 +26,6 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 
 import com.google.common.base.Optional;
-import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Table.Cell;
 
@@ -30,7 +37,7 @@ import com.google.common.collect.Table.Cell;
  * @author Pazuzu
  *
  */
-public class NaiveReasoner implements Reasoner {
+public class NaiveReasoner extends AbstractReasoner {
 	/**
 	 * <p>
 	 * Internal backing field.
@@ -71,6 +78,7 @@ public class NaiveReasoner implements Reasoner {
 	 * @return Returns a multimap
 	 */
 	private static Multimap<String, String> translate(Collection<Entry<String, String>> entries) {
+		// Index by map entry key and map the value by entry value
 		return transformValues(index(entries, Entry::getKey), Entry::getValue);
 	}
 
@@ -83,43 +91,52 @@ public class NaiveReasoner implements Reasoner {
 	 *            The entry to map
 	 * @return Returns the corresponding high level element
 	 */
-	private EntityType entityType(Entry<String, Ref> from) {
+	private EntityType entityType(Entry<String, String> from) {
 		return new EntityType() {
 
 			@Override
 			public Multimap<String, String> getAnnotations() {
+				// Translate the unstructured annotations
 				return translate(kb.getEntityTypeAnnotations().get(from));
 			}
 
 			@Override
 			public String getName() {
+				// Name is specified by key
 				return from.getKey();
 			}
 
 			@Override
 			public EntityType getSupertype() {
-				return getEntityType(from.getValue().getType());
-			}
-
-			@Override
-			public boolean isSupertypeMany() {
-				return from.getValue().isMany();
-			}
-
-			@Override
-			public List<? extends Entity> getSupertypeParams() {
-				return transform(from.getValue().getParams(), x -> getEntity(x));
+				// Entity type is specified by the value
+				return getEntityType(from.getValue());
 			}
 
 			@Override
 			public Iterable<? extends Entity> getInstances() {
-				return filter(getEntities(), x -> equals(x.getType()));
+				// TODO Post order deepening iterator on KB supertypes
+
+				// All entities that are of this type or thats type is a
+				// specialization of this type
+				return filter(getEntities(), x -> equal(x.getType(), this) || x.getType().isSpecializationOf(this));
 			}
 
 			@Override
-			public Iterable<? extends EntityType> getSubtypes() {
-				return transform(filterValues(kb.getEntityTypes(), x -> from.getKey().equals(x.getType())).keySet(),
-						x -> getEntityType(x));
+			public Iterable<? extends EntityType> getSpecializations() {
+				// TODO Post order deepening iterator on KB supertypes
+
+				// All entity types that are specializations of this type
+				return filter(getEntityTypes(), x -> x.isSpecializationOf(this));
+			}
+
+			@Override
+			public int hashCode() {
+				return from.hashCode();
+			}
+
+			@Override
+			public String toString() {
+				return from.getKey() + " < " + from.getValue();
 			}
 		};
 	}
@@ -133,74 +150,80 @@ public class NaiveReasoner implements Reasoner {
 	 *            The entry to map
 	 * @return Returns the corresponding high level element
 	 */
-	private RelationshipType relationshipType(Entry<String, Entry<Ref, Ref>> from) {
+	private RelationshipType relationshipType(Cell<Ref, Ref, String> from) {
 		return new RelationshipType() {
 
 			@Override
 			public Multimap<String, String> getAnnotations() {
+				// Translate the unstructured annotations
 				return translate(kb.getRelationshipTypeAnnotations().get(from));
 			}
 
 			@Override
 			public String getName() {
-				return from.getKey();
+				// Name is specified by key
+				return from.getValue();
 			}
 
 			@Override
 			public EntityType getLeft() {
-				return getEntityType(from.getValue().getKey().getType());
+				// Left type is specified values key
+				return getEntityType(from.getRowKey().getType());
 			}
 
 			@Override
 			public boolean isLeftMany() {
-				return from.getValue().getKey().isMany();
+				// Left many is specified values key
+				return from.getRowKey().isMany();
 			}
 
 			@Override
 			public List<? extends Entity> getLeftParams() {
-				return transform(from.getValue().getKey().getParams(), x -> getEntity(x));
+				// Left params are specified values key
+				return transform(from.getRowKey().getParams(), x -> getEntity(x));
 			}
 
 			@Override
 			public EntityType getRight() {
-				return getEntityType(from.getValue().getValue().getType());
+				// Right type is specified values key
+				return getEntityType(from.getColumnKey().getType());
 			}
 
 			@Override
 			public boolean isRightMany() {
-				return from.getValue().getValue().isMany();
+				// Right many is specified values key
+				return from.getColumnKey().isMany();
 			}
 
 			@Override
 			public List<? extends Entity> getRightParams() {
-				return transform(from.getValue().getValue().getParams(), x -> getEntity(x));
+				// Right params are specified values key
+				return transform(from.getColumnKey().getParams(), x -> getEntity(x));
 			}
 
 			@Override
 			public Iterable<? extends Relationship> getInstances() {
-				// TODO Maybe some lookup on the KB might help?
-				return filter(getRelationships(), x -> equals(x.getType()));
+
+				// All relationships that are of this type or thats type is a
+				// specialization of this type
+				return from(getRelationships()).filter(
+						x -> equal(x.getType(), this) || x.getType().isSpecializationOf(this));
 			}
 
 			@Override
-			public Iterable<? extends RelationshipType> getSubtypes() {
-				// Get all overloads of this relationship type
-				return from(kb.getRelationshipTypes().get(from.getKey())).filter(x -> {
-					// Get the supertypes of the left side and the supertype of
-					// the right side
-						Ref lt = x.getKey();
-						Ref lst = kb.getEntityTypes().get(lt.getType());
-						Ref rt = x.getValue();
-						Ref rst = kb.getEntityTypes().get(rt.getType());
+			public Iterable<? extends RelationshipType> getSpecializations() {
+				// All relationship types that are specializations of this type
+				return from(getRelationshipTypes(from.getValue())).filter(x -> x.isSpecializationOf(this));
+			}
 
-						boolean lte = lt.equals(from.getValue().getKey());
-						boolean rte = rt.equals(from.getValue().getValue());
-						boolean lste = !KB.ENTITY.equals(lt.getType()) && lst.equals(from.getValue().getKey());
-						boolean rste = !KB.ENTITY.equals(rt.getType()) && rst.equals(from.getValue().getValue());
+			@Override
+			public int hashCode() {
+				return from.hashCode();
+			}
 
-						return (lte && rste) || (lste && rte) || (lste && rste);
-
-					}).transform(x -> relationshipType(immutableEntry(from.getKey(), x)));
+			@Override
+			public String toString() {
+				return from.getValue() + "< " + from.getRowKey() + " * " + from.getColumnKey();
 			}
 		};
 	}
@@ -219,45 +242,61 @@ public class NaiveReasoner implements Reasoner {
 
 			@Override
 			public Multimap<String, String> getAnnotations() {
-
+				// Translate the unstructured annotations
 				return translate(kb.getEntityAnnotations().get(from));
 			}
 
 			@Override
 			public String getName() {
+				// Name is specified by key
 				return from.getKey();
 			}
 
 			@Override
 			public Set<String> getBindings() {
+				// Bindings are mapped from the key
 				return kb.getBindings().get(from.getKey());
 			}
 
 			@Override
 			public EntityType getType() {
+				// Type is specified by value
 				return getEntityType(from.getValue().getType());
 			}
 
 			@Override
 			public boolean isTypeMany() {
+				// Many is specified by value
 				return from.getValue().isMany();
 			}
 
 			@Override
 			public List<? extends Entity> getTypeParams() {
+				// Params are specified by value
 				return transform(from.getValue().getParams(), x -> getEntity(x));
 			}
 
 			@Override
 			public Iterable<? extends Relationship> incoming() {
-				return transform(kb.getRelationships().column(from.getKey()).entrySet(),
-						r -> relationship(immutableCell(r.getKey(), from.getKey(), r.getValue())));
+
+				// Incoming are in the relationship column of this entity
+				return transform(multiFlatColumn(kb.getRelationships(), from.getKey()), x -> relationship(x));
 			}
 
 			@Override
 			public Iterable<? extends Relationship> outgoing() {
-				return transform(kb.getRelationships().row(from.getKey()).entrySet(),
-						r -> relationship(immutableCell(from.getKey(), r.getKey(), r.getValue())));
+				// Outgoing are in the relationship column of this entity
+				return transform(multiFlatRow(kb.getRelationships(), from.getKey()), x -> relationship(x));
+			}
+
+			@Override
+			public int hashCode() {
+				return from.hashCode();
+			}
+
+			@Override
+			public String toString() {
+				return from.getKey() + ": " + from.getValue();
 			}
 		};
 	}
@@ -276,168 +315,243 @@ public class NaiveReasoner implements Reasoner {
 
 			@Override
 			public Multimap<String, String> getAnnotations() {
+				// Translate the unstructured annotations
 				return translate(kb.getRelationshipAnnotations().get(from));
 			}
 
 			@Override
 			public RelationshipType getType() {
+				// Type is obtained by substitution lookup
 				Ref fe = kb.getEntities().get(from.getRowKey());
 				Ref te = kb.getEntities().get(from.getColumnKey());
 
-				Collection<Entry<Ref, Ref>> candidates = kb.getRelationshipTypes().get(from.getValue());
+				// Find an applicable relationship type
+				Optional<RelationshipType> potential = loadOrSubstitute(fe, te);
 
-				Optional<RelationshipType> potential = loadOrSubstitute(fe, te, candidates);
+				// If none present, throw an exception
 				if (!potential.isPresent())
 					throw new NoSuchElementException("No relationship type for " + from.getRowKey() + " "
 							+ from.getValue() + " " + from.getColumnKey());
 
+				// TODO Maybe null instead
+
+				// Return the result
 				return potential.get();
 			}
 
-			private Optional<RelationshipType> loadOrSubstitute(Ref fromType, Ref toType,
-					Collection<Entry<Ref, Ref>> candidates) {
+			/**
+			 * <p>
+			 * Loads by substitution.
+			 * </p>
+			 * 
+			 * @param fromType
+			 *            The from type
+			 * @param toType
+			 *            The to type
+			 * @param candidates
+			 *            The candidate relationships
+			 * @return Returns the found relationship or absent if failed
+			 */
+			private Optional<RelationshipType> loadOrSubstitute(Ref fromType, Ref toType) {
 
 				// If candidates contains an entry for the given pair, use it
-				if (candidates.contains(immutableEntry(fromType, toType)))
-					return Optional.of(relationshipType(immutableEntry(from.getValue(),
-							immutableEntry(fromType, toType))));
+				if (multiContains(kb.getRelationshipTypes(), fromType, toType, from.getValue()))
+					return Optional.of(relationshipType(immutableCell(fromType, toType, from.getValue())));
 
-				// Try to find supertype for from
-				Ref fromTypeSupertype = kb.getEntityTypes().get(fromType.getType());
+				// Make supertype for the left side
+				Ref fromTypeSupertype = Ref.to(kb.getEntityTypes().get(fromType.getType()), fromType.isMany(),
+						fromType.getParams());
 
-				// If there is a supertype, try substituting
-				if (!KB.ENTITY.equals(fromType.getType())) {
-					Optional<RelationshipType> potential = loadOrSubstitute(fromTypeSupertype, toType, candidates);
+				// Make supertype for the right side
+				Ref toTypeSupertype = Ref.to(kb.getEntityTypes().get(toType.getType()), toType.isMany(),
+						toType.getParams());
+
+				// If left was not Entity
+				if (fromTypeSupertype.getType() != null) {
+					// Try left supertype
+					Optional<RelationshipType> potential = loadOrSubstitute(fromTypeSupertype, toType);
 					if (potential.isPresent())
 						return potential;
 				}
 
-				// Try to find supertype for to
-				Ref toTypeSupertype = kb.getEntityTypes().get(toType.getType());
-
-				// If there is a supertype, try substituting
-				if (!KB.ENTITY.equals(toType.getType())) {
-					Optional<RelationshipType> potential = loadOrSubstitute(fromType, toTypeSupertype, candidates);
+				// If right was not Entity
+				if (toTypeSupertype.getType() != null) {
+					// Try right supertype
+					Optional<RelationshipType> potential = loadOrSubstitute(fromType, toTypeSupertype);
 					if (potential.isPresent())
 						return potential;
 				}
 
-				// If none of the inputs has a supertype, we cannot substitute
-				// any further, abort with failure
-				if (KB.ENTITY.equals(fromType.getType()) && KB.ENTITY.equals(toType.getType()))
-					return Optional.absent();
+				// If both were not Entity
+				if (fromTypeSupertype.getType() != null && toTypeSupertype.getType() != null) {
+					// Try both supertypes
+					Optional<RelationshipType> potential = loadOrSubstitute(fromTypeSupertype, toTypeSupertype);
+					if (potential.isPresent())
+						return potential;
+				}
 
-				// Else try with both substituted
-				return loadOrSubstitute(fromTypeSupertype, toTypeSupertype, candidates);
+				// Else, no chance to substitute
+				return Optional.absent();
 			}
 
 			@Override
 			public Entity getLeft() {
+				// Left entity is specified in row key
 				return getEntity(from.getRowKey());
 			}
 
 			@Override
 			public Entity getRight() {
+				// Left entity is specified in column key
 				return getEntity(from.getColumnKey());
+			}
+
+			@Override
+			public int hashCode() {
+				return from.hashCode();
+			}
+
+			@Override
+			public String toString() {
+				return from.getRowKey() + " " + from.getValue() + " " + from.getColumnKey();
 			}
 		};
 	}
 
 	@Override
 	public String getTitle() {
+		// Title is carried in the KB
 		return kb.getTitle();
 	}
 
 	@Override
 	public Multimap<String, String> getAnnotations() {
+		// Annotations are carried in the KB
 		return kb.getAnnotations();
 	}
 
 	@Override
 	public EntityType getTheEntityType() {
 		return new EntityType() {
-
 			@Override
 			public Multimap<String, String> getAnnotations() {
-				return ImmutableMultimap.of();
+				// Annotations are carried in the KB
+				return kb.getTheEntityTypeAnnotations();
 			}
 
 			@Override
 			public String getName() {
+				// Name is the name given in the KB constants
 				return KB.ENTITY;
 			}
 
 			@Override
-			public boolean isSupertypeMany() {
-				return false;
-			}
-
-			@Override
-			public List<? extends Entity> getSupertypeParams() {
-				return emptyList();
-			}
-
-			@Override
 			public EntityType getSupertype() {
-				return this;
+				// Entity has no supertype (same as for
+				// Object.class.getSuperclass())
+				return null;
 			}
 
 			@Override
 			public Iterable<? extends Entity> getInstances() {
-				return filter(getEntities(), x -> equals(x.getType()));
+				// All entities are instances of Entity
+				return getEntities();
 			}
 
 			@Override
-			public Iterable<? extends EntityType> getSubtypes() {
-				return transform(filterValues(kb.getEntityTypes(), x -> KB.ENTITY.equals(x.getType())).keySet(),
-						x -> getEntityType(x));
+			public Iterable<? extends EntityType> getSpecializations() {
+				// All entity types that are not Entity itself are
+				// specializations of Entity
+				return filter(getEntityTypes(), not(equalTo(this)));
+			}
+
+			@Override
+			public int hashCode() {
+				return KB.ENTITY.hashCode();
+			}
+
+			@Override
+			public String toString() {
+				return KB.ENTITY;
 			}
 		};
 	}
 
 	@Override
 	public EntityType getEntityType(String name) {
+		// If name is Entity as defined by KB constants, return the Entity type
 		if (KB.ENTITY.equals(name))
 			return getTheEntityType();
 
-		Ref q = kb.getEntityTypes().get(name);
-		if (q == null)
+		// Get the supertype by KB lookup
+		String supertype = kb.getEntityTypes().get(name);
+
+		// If null, then there was no mapping
+		if (supertype == null)
 			throw new NoSuchElementException(name);
 
-		return entityType(immutableEntry(name, q));
+		// Wrap the pair
+		return entityType(immutableEntry(name, supertype));
+	}
+
+	@Override
+	public RelationshipType getRelationshipType(String name, String left, boolean leftMany, List<String> leftParams,
+			String right, boolean rightMany, List<String> rightParams) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
 	public Entity getEntity(String name) {
-		Ref q = kb.getEntities().get(name);
-		if (q == null)
+		// Get the type by KB lookup
+		Ref type = kb.getEntities().get(name);
+
+		// If null, then there was no mapping
+		if (type == null)
 			throw new NoSuchElementException(name);
 
-		return entity(immutableEntry(name, q));
+		// Wrap the pair
+		return entity(immutableEntry(name, type));
+	}
+
+	@Override
+	public Relationship getRelationship(String left, String relationship, String right) {
+		Cell<String, String, String> cell = immutableCell(left, right, relationship);
+
+		if (!kb.getRelationships().cellSet().contains(cell))
+			throw new NoSuchElementException(left + ", " + relationship + ", " + right);
+
+		return relationship(cell);
 	}
 
 	@Override
 	public Iterable<? extends RelationshipType> getRelationshipTypes(String name) {
-		return from(kb.getRelationshipTypes().get(name)).transform(x -> relationshipType(immutableEntry(name, x)));
+		// Lookup relationship type multimap by name and wrap the triples
+		return from(multiFlatValue(kb.getRelationshipTypes(), name)).transform(x -> relationshipType(x));
 	}
 
 	@Override
 	public Iterable<? extends EntityType> getEntityTypes() {
-		return from(kb.getEntityTypes().entrySet()).transform(this::entityType);
+		// Get all newly defined entity types after the Entity type
+		return concat(singleton(getTheEntityType()), from(kb.getEntityTypes().entrySet()).transform(this::entityType));
 	}
 
 	@Override
 	public Iterable<? extends RelationshipType> getRelationshipTypes() {
-		return from(kb.getRelationshipTypes().entries()).transform(this::relationshipType);
+		// Transform all entries of the relationship types in the KB
+		return from(multiFlatCells(kb.getRelationshipTypes())).transform(x -> relationshipType(x));
 	}
 
 	@Override
 	public Iterable<? extends Entity> getEntities() {
-		return from(kb.getEntities().entrySet()).transform(this::entity);
+		// Transform all entries of the entities in the KB
+		return from(kb.getEntities().entrySet()).transform(x -> entity(x));
 	}
 
 	@Override
 	public Iterable<? extends Relationship> getRelationships() {
-		return from(kb.getRelationships().cellSet()).transform(this::relationship);
+		// Transform all entries of the relationships in the KB
+		return from(multiFlatCells(kb.getRelationships())).transform(x -> relationship(x));
 	}
+
 }

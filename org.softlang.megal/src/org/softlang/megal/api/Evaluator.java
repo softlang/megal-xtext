@@ -6,7 +6,6 @@ import org.softlang.megal.mi2.Entity;
 import org.softlang.megal.mi2.Reasoner;
 import org.softlang.megal.mi2.Relationship;
 
-import com.google.common.base.Optional;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;

@@ -117,8 +117,8 @@ public final class Ref {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + (many ? 1231 : 1237);
-		result = prime * result + ((params == null) ? 0 : params.hashCode());
-		result = prime * result + ((type == null) ? 0 : type.hashCode());
+		result = prime * result + params.hashCode();
+		result = prime * result + type.hashCode();
 		return result;
 	}
 
@@ -130,19 +130,16 @@ public final class Ref {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
+
 		Ref other = (Ref) obj;
+
 		if (many != other.many)
 			return false;
-		if (params == null) {
-			if (other.params != null)
-				return false;
-		} else if (!params.equals(other.params))
+		if (!params.equals(other.params))
 			return false;
-		if (type == null) {
-			if (other.type != null)
-				return false;
-		} else if (!type.equals(other.type))
+		if (!type.equals(other.type))
 			return false;
+
 		return true;
 	}
 

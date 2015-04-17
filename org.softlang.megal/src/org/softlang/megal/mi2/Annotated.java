@@ -1,7 +1,6 @@
 package org.softlang.megal.mi2;
 
 import static com.google.common.collect.Iterables.getFirst;
-import static com.google.common.collect.Iterables.getOnlyElement;
 
 import java.util.Collection;
 

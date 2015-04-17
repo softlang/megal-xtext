@@ -50,7 +50,7 @@ public class Evaluators {
 		ImmutableMultimap.Builder<Class<? extends Evaluator>, Throwable> errorsBuilder = ImmutableMultimap.builder();
 
 		// Iterate all evaluator entities
-		for (Entity r : evaluatorType.getAllInstances()) {
+		for (Entity r : evaluatorType.getInstances()) {
 
 			// Iterate all the bindings for the resolver
 			for (String l : r.getBindings()) {

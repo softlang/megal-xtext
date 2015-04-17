@@ -105,6 +105,6 @@ public abstract class Entity extends Named {
 	 * @return Returns true if assignable to
 	 */
 	public boolean isInstance(EntityType of) {
-		return getType().isAssignableTo(of);
+		return equal(getType(), of) || getType().isSpecializationOf(of);
 	}
 }

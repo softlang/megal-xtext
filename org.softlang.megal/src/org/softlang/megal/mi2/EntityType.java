@@ -1,14 +1,11 @@
 package org.softlang.megal.mi2;
 
 import static com.google.common.base.Objects.equal;
-import static com.google.common.collect.FluentIterable.from;
-import static com.google.common.collect.Iterables.concat;
 import static com.google.common.collect.Lists.newArrayList;
-import static java.util.Collections.singleton;
 
 import java.util.List;
 
-import org.softlang.megal.mi2.util.PostOrderDeepeningIterable;
+import org.softlang.megal.util.Persistent;
 
 import com.google.common.collect.ImmutableList;
 
@@ -34,23 +31,7 @@ public abstract class EntityType extends Named {
 
 	/**
 	 * <p>
-	 * Returns true if the supertype is a many reference.
-	 * </p>
-	 */
-	public abstract boolean isSupertypeMany();
-
-	/**
-	 * <p>
-	 * Gets the parameters of the supertype.
-	 * </p>
-	 * 
-	 * @return Returns a list of entities
-	 */
-	public abstract List<? extends Entity> getSupertypeParams();
-
-	/**
-	 * <p>
-	 * Gets all direct instances of this entity type.
+	 * Gets all instances of this entity type.
 	 * </p>
 	 * 
 	 * @return Iterates over the instances
@@ -59,39 +40,12 @@ public abstract class EntityType extends Named {
 
 	/**
 	 * <p>
-	 * Gets all direct and transitive instances of this entity type.
-	 * </p>
-	 * 
-	 * @return Iterates over all the instances
-	 */
-	public Iterable<? extends Entity> getAllInstances() {
-		return from(concat(singleton(this), getAllSubtypes())).transformAndConcat(EntityType::getInstances);
-	}
-
-	/**
-	 * <p>
-	 * Gets all direct subtypes of this entity type.
+	 * Gets all subtypes of this entity type.
 	 * </p>
 	 * 
 	 * @return Iterates over the instances
 	 */
-	public abstract Iterable<? extends EntityType> getSubtypes();
-
-	/**
-	 * <p>
-	 * Gets all direct and transitive subtypes of this entity type.
-	 * </p>
-	 * 
-	 * @return Iterates over all the instances
-	 */
-	public Iterable<? extends EntityType> getAllSubtypes() {
-		return new PostOrderDeepeningIterable<EntityType>(getSubtypes()) {
-			@Override
-			protected Iterable<? extends EntityType> getNext(EntityType e) {
-				return e.getSubtypes();
-			}
-		};
-	}
+	public abstract Iterable<? extends EntityType> getSpecializations();
 
 	@Override
 	public int hashCode() {
@@ -116,7 +70,7 @@ public abstract class EntityType extends Named {
 
 	@Override
 	public String toString() {
-		if (getSupertype() == this)
+		if (getSupertype() == null)
 			return getName();
 
 		return getName() + " < " + getSupertype().getName();
@@ -129,49 +83,64 @@ public abstract class EntityType extends Named {
 	 * 
 	 * @return Returns a sequence of supertypes
 	 */
-	public ImmutableList<EntityType> hierarchy(boolean includeThis) {
+	public ImmutableList<EntityType> getSupertypeHierarchy() {
 		ImmutableList.Builder<EntityType> builder = ImmutableList.builder();
 
 		EntityType x = this;
-
-		if (includeThis)
+		while ((x = x.getSupertype()) != null)
 			builder.add(x);
-
-		do {
-			x = x.getSupertype();
-			builder.add(x);
-		} while (x.getSupertype() != x);
 
 		return builder.build();
 	}
 
 	/**
 	 * <p>
-	 * Gets the supertypes of this entity type.
+	 * Tests if this is assignable to a store of the given type.
 	 * </p>
 	 * 
-	 * @return Returns a sequence of supertypes
+	 * @param other
+	 *            The type to check
+	 * @return True if assignable
 	 */
-	public boolean isAssignableTo(EntityType other) {
-		return hierarchy(true).contains(other);
+	public boolean isSpecializationOf(EntityType other) {
+		EntityType x = this;
+		while ((x = x.getSupertype()) != null) {
+			if (equal(x, other))
+				return true;
+		}
+
+		return false;
 	}
 
 	/**
 	 * <p>
-	 * Returns the first common supertype of this and the parameter entity type.
+	 * Returns the first common supertype of the inputs.
 	 * </p>
 	 * 
-	 * @param with
-	 *            The other entity type
+	 * @param x
+	 *            The first entity type
+	 * @param y
+	 *            The second entity type
+	 * @param zs
+	 *            The remaining entity types
 	 * @return Returns the first common entity type
 	 */
-	public EntityType gcd(EntityType with) {
-		ImmutableList<EntityType> aSupertypes = hierarchy(true);
-		ImmutableList<EntityType> bSupertypes = with.hierarchy(true);
+	public static EntityType gcd(EntityType x, EntityType y, EntityType... zs) {
+		// Get supertype hierarchies
+		List<EntityType> aSupertypes = Persistent.prepend(x, x.getSupertypeHierarchy());
+		List<EntityType> bSupertypes = Persistent.prepend(y, y.getSupertypeHierarchy());
 
+		// Make a common list
 		List<EntityType> common = newArrayList(aSupertypes);
 		common.retainAll(bSupertypes);
 
-		return common.get(0);
+		// First common element is the greatest common divisor
+		EntityType result = common.get(0);
+
+		// Apply to remaining
+		for (EntityType z : zs)
+			result = gcd(result, z);
+
+		return result;
 	}
 }

@@ -2,8 +2,8 @@ package org.softlang.megal.mi2;
 
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
-import com.google.common.collect.Multimap;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Table;
 import com.google.common.collect.Table.Cell;
@@ -42,7 +42,16 @@ public interface KB {
 	 * 
 	 * @return Returns the annotations
 	 */
-	Multimap<String, String> getAnnotations();
+	SetMultimap<String, String> getAnnotations();
+
+	/**
+	 * <p>
+	 * Gets the annotations to the root entity type.
+	 * </p>
+	 * 
+	 * @return Returns the annotations
+	 */
+	SetMultimap<String, String> getTheEntityTypeAnnotations();
 
 	/**
 	 * <p>
@@ -51,7 +60,7 @@ public interface KB {
 	 * 
 	 * @return Returns the data
 	 */
-	Map<String, Ref> getEntityTypes();
+	Map<String, String> getEntityTypes();
 
 	/**
 	 * <p>
@@ -60,7 +69,7 @@ public interface KB {
 	 * 
 	 * @return Returns the data
 	 */
-	Multimap<String, Entry<Ref, Ref>> getRelationshipTypes();
+	Table<Ref, Ref, Set<String>> getRelationshipTypes();
 
 	/**
 	 * <p>
@@ -82,13 +91,12 @@ public interface KB {
 
 	/**
 	 * <p>
-	 * Maps from entity name via entity name to the relationship type name that
-	 * applies.
+	 * Maps from relationship name to all their instances.
 	 * </p>
 	 * 
 	 * @return Returns the data
 	 */
-	Table<String, String, String> getRelationships();
+	Table<String, String, Set<String>> getRelationships();
 
 	/**
 	 * <p>
@@ -97,7 +105,7 @@ public interface KB {
 	 * 
 	 * @return Returns the data
 	 */
-	Multimap<Entry<String, Ref>, Entry<String, String>> getEntityTypeAnnotations();
+	SetMultimap<Entry<String, String>, Entry<String, String>> getEntityTypeAnnotations();
 
 	/**
 	 * <p>
@@ -106,7 +114,7 @@ public interface KB {
 	 * 
 	 * @return Returns the data
 	 */
-	Multimap<Entry<String, Entry<Ref, Ref>>, Entry<String, String>> getRelationshipTypeAnnotations();
+	SetMultimap<Cell<Ref, Ref, String>, Entry<String, String>> getRelationshipTypeAnnotations();
 
 	/**
 	 * <p>
@@ -115,7 +123,7 @@ public interface KB {
 	 * 
 	 * @return Returns the data
 	 */
-	Multimap<Entry<String, Ref>, Entry<String, String>> getEntityAnnotations();
+	SetMultimap<Entry<String, Ref>, Entry<String, String>> getEntityAnnotations();
 
 	/**
 	 * <p>
@@ -124,5 +132,5 @@ public interface KB {
 	 * 
 	 * @return Returns the data
 	 */
-	Multimap<Cell<String, String, String>, Entry<String, String>> getRelationshipAnnotations();
+	SetMultimap<Cell<String, String, String>, Entry<String, String>> getRelationshipAnnotations();
 }

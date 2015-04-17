@@ -25,25 +25,21 @@ public class ModelInterface {
 	private static String AS = "./src/org/softlang/megal/language/tests/As.megal";
 
 	public static void main(String[] args) throws IOException {
-
 		Megamodel mm = load();
-		KB kb1 = new MegamodelKB(mm);
+//		KB kb1 = new MegamodelKB(mm);
+
+//		NaiveReasoner mi0 = new NaiveReasoner(kb1);
+		
 		KB kb2 = MegamodelKB.loadAll(mm);
 
-		System.out.println(kb1.getTitle());
+//		System.out.println(kb1.getTitle());
 		System.out.println(kb2.getTitle());
-
-		// System.out.println("======= A =======");
-		// for (Entry<String, Ref> e : kb1.getEntityTypes().entrySet())
-		// System.out.println(e);
-		//
-		// System.out.println("======= B =======");
-		// for (Entry<String, Ref> e : kb2.getEntityTypes().entrySet())
-		// System.out.println(e);
 
 		NaiveReasoner mi = new NaiveReasoner(kb2);
 
 		// dump(mi);
+
+		testComputations(mi);
 
 		testRelSubtypes(mi);
 
@@ -69,20 +65,12 @@ public class ModelInterface {
 		RelationshipType rel = ab.getType();
 		System.out.println(rel);
 
-		System.out.println("Subtypes:");
-		for (RelationshipType r : rel.getSubtypes())
-			System.out.println("  " + r);
-
-		System.out.println("All subtypes:");
-		for (RelationshipType r : rel.getAllSubtypes())
-			System.out.println("  " + r);
-
-		System.out.println("Instances");
-		for (Relationship r : rel.getInstances())
+		System.out.println("All specializations:");
+		for (RelationshipType r : rel.getSpecializations())
 			System.out.println("  " + r);
 
 		System.out.println("All instances");
-		for (Relationship r : rel.getAllInstances())
+		for (Relationship r : rel.getInstances())
 			System.out.println("  " + r);
 	}
 
@@ -120,17 +108,6 @@ public class ModelInterface {
 		System.out.println();
 	}
 
-	private static void testInOut(NaiveReasoner mi) {
-		System.out.println("TEST IN OUT");
-
-		Entity entity = mi.getEntity("something");
-		for (Relationship part : entity.incoming())
-			System.out.println("->: " + part);
-		for (Relationship part : entity.outgoing())
-			System.out.println("<-: " + part);
-		System.out.println();
-	}
-
 	private static void testGCD(NaiveReasoner mi) {
 		System.out.println("TEST GCD");
 
@@ -138,9 +115,9 @@ public class ModelInterface {
 		EntityType b = mi.getEntityType("Fragment");
 		EntityType c = mi.getEntityType("Language");
 
-		EntityType x = a.gcd(b);
-		EntityType y = a.gcd(c);
-		EntityType z = a.gcd(a);
+		EntityType x = EntityType.gcd(a, b);
+		EntityType y = EntityType.gcd(a, c);
+		EntityType z = EntityType.gcd(a, a);
 		System.out.println("gcd(Folder, Fragment)=" + x.getName());
 		System.out.println("gcd(Folder, Language)=" + y.getName());
 		System.out.println("gcd(Folder, Folder)=" + z.getName());
@@ -153,44 +130,6 @@ public class ModelInterface {
 		EntityType ev = mi.getEntityType("Evaluator");
 		System.out.println("Evaluators:");
 		for (Entity e : ev.getInstances())
-			System.out.println("  " + e);
-		System.out.println();
-	}
-
-	private static void testSubtypes(NaiveReasoner mi) {
-		System.out.println("TEST SUBTYPES");
-
-		EntityType a = mi.getEntityType("Artifact");
-
-		System.out.println("Subtypes of artifact:");
-		for (EntityType e : a.getSubtypes())
-			System.out.println("  " + e);
-		System.out.println();
-	}
-
-	private static void testAllSubtypes(NaiveReasoner mi) {
-		System.out.println("TEST ALL SUBTYPES");
-
-		EntityType a = mi.getEntityType("Artifact");
-
-		System.out.println("All subtypes of artifact:");
-		for (EntityType e : a.getAllSubtypes())
-			System.out.println("  " + e);
-		System.out.println();
-	}
-
-	private static void testInstances(NaiveReasoner mi) {
-		System.out.println("TEST INSTANCES");
-
-		EntityType a = mi.getEntityType("File");
-		EntityType b = mi.getEntityType("File");
-
-		System.out.println("Instances of file:");
-		for (Entity e : a.getInstances())
-			System.out.println("  " + e);
-
-		System.out.println("All instances of file:");
-		for (Entity e : b.getAllInstances())
 			System.out.println("  " + e);
 		System.out.println();
 	}

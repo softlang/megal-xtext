@@ -30,7 +30,7 @@ public class Resolvers {
 		ImmutableMultimap.Builder<Class<? extends Resolver>, Throwable> errorsBuilder = ImmutableMultimap.builder();
 
 		// Iterate all resolver entities
-		for (Entity r : resolverType.getAllInstances()) {
+		for (Entity r : resolverType.getInstances()) {
 			// Iterate all the bindings for the resolver
 			for (String l : r.getBindings()) {
 				// Try to load the attached class

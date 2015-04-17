@@ -4,17 +4,15 @@
 package org.softlang.megal.language.validation
 
 import org.eclipse.xtext.validation.Check
-import org.eclipse.xtext.validation.CheckType
-import org.softlang.megal.Entity
 import org.softlang.megal.EntityType
+import org.softlang.megal.MegalPackage
 import org.softlang.megal.Megamodel
 import org.softlang.megal.Relationship
+import org.softlang.megal.api.Evaluators
+import org.softlang.megal.mi2.KB
 import org.softlang.megal.mi2.MegamodelKB
 import org.softlang.megal.mi2.NaiveReasoner
-import java.util.NoSuchElementException
-import org.softlang.megal.MegalPackage
 import org.softlang.sourcesupport.SourceSupportPlugin
-import org.softlang.megal.api.Evaluators
 
 /**
  * Custom validation rules. 
@@ -24,21 +22,29 @@ import org.softlang.megal.api.Evaluators
 class MegalValidator extends AbstractMegalValidator {
 
 	public static val NO_APPLICABLE_INSTANCE = 'noApplicableInstance'
+	public static val ENTITY_NOT_CALLED_ENTITY = 'entityNotCalledEntity'
 
 	@Check
-	def checkRelationshipTypeApplicable(Relationship x) {
-		val kb = MegamodelKB.loadAll(x.eContainer as Megamodel)
-		val rs = new NaiveReasoner(kb)
-
-		val left = rs.getEntity(x.left.name)
-		val right = rs.getEntity(x.right.name)
-		val types = rs.getRelationshipTypes(x.type.name)
-
-		if (!types.exists[isApplicable(left, right)])
-			error('''No instance applicable for «x.type?.name» from «left» to «right»''',
-				MegalPackage.Literals.RELATIONSHIP__TYPE, NO_APPLICABLE_INSTANCE)
-
+	def checkEntityCalledEntity(EntityType x) {
+		if (x.supertype == null && x.name != KB.ENTITY)
+			error('''Root entity type must be called «KB.ENTITY».''', MegalPackage.Literals.NAMED__NAME,
+				ENTITY_NOT_CALLED_ENTITY)
 	}
+
+//	@Check
+//	def checkRelationshipTypeApplicable(Relationship x) {
+//		val kb = MegamodelKB.loadAll(x.eContainer as Megamodel)
+//		val rs = new NaiveReasoner(kb)
+//
+//		val left = rs.getEntity(x.left.name)
+//		val right = rs.getEntity(x.right.name)
+//		val types = rs.getRelationshipTypes(x.type.name)
+//
+//		if (!types.exists[isApplicable(left, right)])
+//			error('''No instance applicable for «x.type?.name» from «left» to «right»''',
+//				MegalPackage.Literals.RELATIONSHIP__TYPE, NO_APPLICABLE_INSTANCE)
+//
+//	}
 
 	/**
 	 * This check requires expensive megamodel evaluation

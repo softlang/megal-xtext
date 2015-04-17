@@ -1,6 +1,5 @@
 package org.softlang.megal.mi2;
 
-
 public abstract class AbstractKB implements KB {
 
 	@Override
@@ -8,6 +7,7 @@ public abstract class AbstractKB implements KB {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + getAnnotations().hashCode();
+		result = prime * result + getTheEntityTypeAnnotations().hashCode();
 		result = prime * result + getBindings().hashCode();
 		result = prime * result + getEntities().hashCode();
 		result = prime * result + getEntityAnnotations().hashCode();
@@ -31,6 +31,8 @@ public abstract class AbstractKB implements KB {
 			return false;
 		KB other = (KB) obj;
 		if (!getAnnotations().equals(other.getAnnotations()))
+			return false;
+		if (!getTheEntityTypeAnnotations().equals(other.getTheEntityTypeAnnotations()))
 			return false;
 		if (!getBindings().equals(other.getBindings()))
 			return false;
@@ -65,6 +67,7 @@ public abstract class AbstractKB implements KB {
 				+ ", relationshipAnnotations=" + getRelationshipAnnotations() + ", entityTypes=" + getEntityTypes()
 				+ ", entityTypeAnnotations=" + getEntityTypeAnnotations() + ", entityAnnotations="
 				+ getEntityAnnotations() + ", entities=" + getEntities() + ", bindings=" + getBindings()
-				+ ", annotations=" + getAnnotations() + "]";
+				+ ", annotations=" + getAnnotations() + ", theEntityTypeAnnotations" + getTheEntityTypeAnnotations()
+				+ "]";
 	}
 }

@@ -5,9 +5,11 @@ import static com.google.common.collect.Maps.newHashMap;
 import static com.google.common.collect.Multimaps.index;
 import static com.google.common.collect.Multimaps.transformValues;
 import static com.google.common.collect.Tables.immutableCell;
+import static org.softlang.megal.mi2.util.Multitables.multiPut;
 
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import org.softlang.megal.Annotation;
 import org.softlang.megal.Declaration;
@@ -72,21 +74,28 @@ public class MegamodelKB extends AbstractKB {
 	 * Internal backing field.
 	 * </p>
 	 */
-	private final Multimap<String, String> annotations;
+	private final SetMultimap<String, String> annotations;
 
 	/**
 	 * <p>
 	 * Internal backing field.
 	 * </p>
 	 */
-	private final Map<String, Ref> entityTypes;
+	private final SetMultimap<String, String> theEntityTypeAnnotations;
 
 	/**
 	 * <p>
 	 * Internal backing field.
 	 * </p>
 	 */
-	private final Multimap<String, Entry<Ref, Ref>> relationshipTypes;
+	private final Map<String, String> entityTypes;
+
+	/**
+	 * <p>
+	 * Internal backing field.
+	 * </p>
+	 */
+	private final Table<Ref, Ref, Set<String>> relationshipTypes;
 
 	/**
 	 * <p>
@@ -107,35 +116,35 @@ public class MegamodelKB extends AbstractKB {
 	 * Internal backing field.
 	 * </p>
 	 */
-	private final Table<String, String, String> relationships;
+	private final Table<String, String, Set<String>> relationships;
 
 	/**
 	 * <p>
 	 * Internal backing field.
 	 * </p>
 	 */
-	private final Multimap<Entry<String, Ref>, Entry<String, String>> entityTypeAnnotations;
+	private final SetMultimap<Entry<String, String>, Entry<String, String>> entityTypeAnnotations;
 
 	/**
 	 * <p>
 	 * Internal backing field.
 	 * </p>
 	 */
-	private final Multimap<Entry<String, Entry<Ref, Ref>>, Entry<String, String>> relationshipTypeAnnotations;
+	private final SetMultimap<Cell<Ref, Ref, String>, Entry<String, String>> relationshipTypeAnnotations;
 
 	/**
 	 * <p>
 	 * Internal backing field.
 	 * </p>
 	 */
-	private final Multimap<Entry<String, Ref>, Entry<String, String>> entityAnnotations;
+	private final SetMultimap<Entry<String, Ref>, Entry<String, String>> entityAnnotations;
 
 	/**
 	 * <p>
 	 * Internal backing field.
 	 * </p>
 	 */
-	private final Multimap<Cell<String, String, String>, Entry<String, String>> relationshipAnnotations;
+	private final SetMultimap<Cell<String, String, String>, Entry<String, String>> relationshipAnnotations;
 
 	private static Multimap<String, String> getAnnotationMap(Element element) {
 		return transformValues(index(element.getAnnotations(), Annotation::getKey), Annotation::getValue);
@@ -154,9 +163,10 @@ public class MegamodelKB extends AbstractKB {
 
 		// Create database
 		title = megamodel.getName();
-		annotations = getAnnotationMap(megamodel);
+		annotations = HashMultimap.create(getAnnotationMap(megamodel));
+		theEntityTypeAnnotations = HashMultimap.create();
 		entityTypes = newHashMap();
-		relationshipTypes = HashMultimap.create();
+		relationshipTypes = HashBasedTable.create();
 		entities = newHashMap();
 		bindings = HashMultimap.create();
 		relationships = HashBasedTable.create();
@@ -170,15 +180,21 @@ public class MegamodelKB extends AbstractKB {
 			if (declaration instanceof EntityType) {
 				EntityType entityType = (EntityType) declaration;
 
-				// Translate the entity type
-				String name = entityType.getName();
-				Ref ref = translate(entityType.getSupertype());
+				if (entityType.getSupertype() == null)
+					// Put the entity type annotations
+					theEntityTypeAnnotations.putAll(getAnnotationMap(entityType));
+				else {
+					// Translate the entity type
+					String name = entityType.getName();
+					String supertype = entityType.getSupertype().getName();
 
-				// Put the data
-				entityTypes.put(name, ref);
+					// Put the data
+					entityTypes.put(name, supertype);
 
-				// Put the annotations
-				entityTypeAnnotations.putAll(immutableEntry(name, ref), getAnnotationMap(entityType).entries());
+					// Put the annotations
+					entityTypeAnnotations.putAll(immutableEntry(name, supertype), getAnnotationMap(entityType)
+							.entries());
+				}
 
 			} else if (declaration instanceof RelationshipType) {
 				RelationshipType relationshipType = (RelationshipType) declaration;
@@ -189,11 +205,11 @@ public class MegamodelKB extends AbstractKB {
 				Ref right = translate(relationshipType.getRight());
 
 				// Put the data
-				relationshipTypes.put(name, immutableEntry(left, right));
+				multiPut(relationshipTypes, left, right, name);
 
 				// Put the annotations
-				relationshipTypeAnnotations.putAll(immutableEntry(name, immutableEntry(left, right)),
-						getAnnotationMap(relationshipType).entries());
+				relationshipTypeAnnotations.putAll(immutableCell(left, right, name), getAnnotationMap(relationshipType)
+						.entries());
 
 			} else if (declaration instanceof Entity) {
 				Entity entity = (Entity) declaration;
@@ -217,7 +233,7 @@ public class MegamodelKB extends AbstractKB {
 				String right = relationship.getRight().getName();
 
 				// Put the data
-				relationships.put(left, right, name);
+				multiPut(relationships, left, right, name);
 
 				// Put the annotations
 				relationshipAnnotations.putAll(immutableCell(left, right, name), getAnnotationMap(relationship)
@@ -227,19 +243,19 @@ public class MegamodelKB extends AbstractKB {
 
 				// Translate the function application
 				String function = functionApplication.getFunction().getName();
-				String input = functionApplication.getInput().getName();
-				String output = functionApplication.getOutput().getName();
+				String first = functionApplication.getInput().getName();
+				String second = functionApplication.getOutput().getName();
 
-				String name = entityName(function, input, output);
+				String name = entityName(function, first, second);
 				Ref type = Ref.to(PAIR, false);
 
 				// Put the entity
 				entities.put(name, type);
 
 				// Put all relationships
-				relationships.put(name, function, ELEMENT_OF);
-				relationships.put(input, name, FIRST_OF);
-				relationships.put(output, name, SECOND_OF);
+				multiPut(relationships, name, function, ELEMENT_OF);
+				multiPut(relationships, first, name, FIRST_OF);
+				multiPut(relationships, second, name, SECOND_OF);
 
 				// Put the annotations
 				entityAnnotations.putAll(immutableEntry(name, type), getAnnotationMap(functionApplication).entries());
@@ -299,11 +315,6 @@ public class MegamodelKB extends AbstractKB {
 	 * @return Returns a reference
 	 */
 	private static Ref translate(TypeReference typeReference) {
-		// If type reference is null, reference is to the entity supertype,
-		// which itself is the entity type
-		if (typeReference == null)
-			return Ref.to(ENTITY, false);
-
 		if (typeReference instanceof EntityTypeReference) {
 			// If type reference is basic, carry it's many value
 			EntityTypeReference entityTypeReference = (EntityTypeReference) typeReference;
@@ -340,17 +351,22 @@ public class MegamodelKB extends AbstractKB {
 	}
 
 	@Override
-	public Multimap<String, String> getAnnotations() {
+	public SetMultimap<String, String> getAnnotations() {
 		return annotations;
 	}
 
 	@Override
-	public Map<String, Ref> getEntityTypes() {
+	public SetMultimap<String, String> getTheEntityTypeAnnotations() {
+		return theEntityTypeAnnotations;
+	}
+
+	@Override
+	public Map<String, String> getEntityTypes() {
 		return entityTypes;
 	}
 
 	@Override
-	public Multimap<String, Entry<Ref, Ref>> getRelationshipTypes() {
+	public Table<Ref, Ref, Set<String>> getRelationshipTypes() {
 		return relationshipTypes;
 	}
 
@@ -365,27 +381,27 @@ public class MegamodelKB extends AbstractKB {
 	}
 
 	@Override
-	public Table<String, String, String> getRelationships() {
+	public Table<String, String, Set<String>> getRelationships() {
 		return relationships;
 	}
 
 	@Override
-	public Multimap<Entry<String, Ref>, Entry<String, String>> getEntityTypeAnnotations() {
+	public SetMultimap<Entry<String, String>, Entry<String, String>> getEntityTypeAnnotations() {
 		return entityTypeAnnotations;
 	}
 
 	@Override
-	public Multimap<Entry<String, Entry<Ref, Ref>>, Entry<String, String>> getRelationshipTypeAnnotations() {
+	public SetMultimap<Cell<Ref, Ref, String>, Entry<String, String>> getRelationshipTypeAnnotations() {
 		return relationshipTypeAnnotations;
 	}
 
 	@Override
-	public Multimap<Entry<String, Ref>, Entry<String, String>> getEntityAnnotations() {
+	public SetMultimap<Entry<String, Ref>, Entry<String, String>> getEntityAnnotations() {
 		return entityAnnotations;
 	}
 
 	@Override
-	public Multimap<Cell<String, String, String>, Entry<String, String>> getRelationshipAnnotations() {
+	public SetMultimap<Cell<String, String, String>, Entry<String, String>> getRelationshipAnnotations() {
 		return relationshipAnnotations;
 	}
 }
