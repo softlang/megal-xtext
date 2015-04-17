@@ -5,11 +5,9 @@ import static com.google.common.collect.Maps.newHashMap;
 import static com.google.common.collect.Multimaps.index;
 import static com.google.common.collect.Multimaps.transformValues;
 import static com.google.common.collect.Tables.immutableCell;
-import static org.softlang.megal.mi2.util.Multitables.multiPut;
 
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 
 import org.softlang.megal.Annotation;
 import org.softlang.megal.Declaration;
@@ -20,17 +18,16 @@ import org.softlang.megal.EntityTypeReference;
 import org.softlang.megal.FunctionApplication;
 import org.softlang.megal.FunctionTypeReference;
 import org.softlang.megal.Link;
-//import org.softlang.megal.Links;
 import org.softlang.megal.Megamodel;
 import org.softlang.megal.Relationship;
 import org.softlang.megal.RelationshipType;
 import org.softlang.megal.TypeReference;
+import org.softlang.megal.mi2.util.HashMultitable;
+import org.softlang.megal.mi2.util.Multitable;
 
-import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.SetMultimap;
-import com.google.common.collect.Table;
 import com.google.common.collect.Table.Cell;
 
 /**
@@ -95,7 +92,7 @@ public class MegamodelKB extends AbstractKB {
 	 * Internal backing field.
 	 * </p>
 	 */
-	private final Table<Ref, Ref, Set<String>> relationshipTypes;
+	private final Multitable<Ref, Ref, String> relationshipTypes;
 
 	/**
 	 * <p>
@@ -116,7 +113,7 @@ public class MegamodelKB extends AbstractKB {
 	 * Internal backing field.
 	 * </p>
 	 */
-	private final Table<String, String, Set<String>> relationships;
+	private final Multitable<String, String, String> relationships;
 
 	/**
 	 * <p>
@@ -166,10 +163,10 @@ public class MegamodelKB extends AbstractKB {
 		annotations = HashMultimap.create(getAnnotationMap(megamodel));
 		theEntityTypeAnnotations = HashMultimap.create();
 		entityTypes = newHashMap();
-		relationshipTypes = HashBasedTable.create();
+		relationshipTypes = HashMultitable.create();
 		entities = newHashMap();
 		bindings = HashMultimap.create();
-		relationships = HashBasedTable.create();
+		relationships = HashMultitable.create();
 		entityTypeAnnotations = HashMultimap.create();
 		relationshipTypeAnnotations = HashMultimap.create();
 		entityAnnotations = HashMultimap.create();
@@ -205,7 +202,7 @@ public class MegamodelKB extends AbstractKB {
 				Ref right = translate(relationshipType.getRight());
 
 				// Put the data
-				multiPut(relationshipTypes, left, right, name);
+				relationshipTypes.put(left, right, name);
 
 				// Put the annotations
 				relationshipTypeAnnotations.putAll(immutableCell(left, right, name), getAnnotationMap(relationshipType)
@@ -233,7 +230,7 @@ public class MegamodelKB extends AbstractKB {
 				String right = relationship.getRight().getName();
 
 				// Put the data
-				multiPut(relationships, left, right, name);
+				relationships.put(left, right, name);
 
 				// Put the annotations
 				relationshipAnnotations.putAll(immutableCell(left, right, name), getAnnotationMap(relationship)
@@ -253,9 +250,9 @@ public class MegamodelKB extends AbstractKB {
 				entities.put(name, type);
 
 				// Put all relationships
-				multiPut(relationships, name, function, ELEMENT_OF);
-				multiPut(relationships, first, name, FIRST_OF);
-				multiPut(relationships, second, name, SECOND_OF);
+				relationships.put(name, function, ELEMENT_OF);
+				relationships.put(first, name, FIRST_OF);
+				relationships.put(second, name, SECOND_OF);
 
 				// Put the annotations
 				entityAnnotations.putAll(immutableEntry(name, type), getAnnotationMap(functionApplication).entries());
@@ -366,7 +363,7 @@ public class MegamodelKB extends AbstractKB {
 	}
 
 	@Override
-	public Table<Ref, Ref, Set<String>> getRelationshipTypes() {
+	public Multitable<Ref, Ref, String> getRelationshipTypes() {
 		return relationshipTypes;
 	}
 
@@ -381,7 +378,7 @@ public class MegamodelKB extends AbstractKB {
 	}
 
 	@Override
-	public Table<String, String, Set<String>> getRelationships() {
+	public Multitable<String, String, String> getRelationships() {
 		return relationships;
 	}
 

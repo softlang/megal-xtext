@@ -60,8 +60,13 @@ rel < X * Entity
 rel < Entity * X
 rel < Y * Entity
 
+rel2 < Entity * Entity
+
+
 a : Entity
 b : Entity
 c : Y
 a rel b
 c rel b
+
+a rel2 b

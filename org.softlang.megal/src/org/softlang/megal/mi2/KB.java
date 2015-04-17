@@ -2,10 +2,10 @@ package org.softlang.megal.mi2;
 
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
+
+import org.softlang.megal.mi2.util.Multitable;
 
 import com.google.common.collect.SetMultimap;
-import com.google.common.collect.Table;
 import com.google.common.collect.Table.Cell;
 
 /**
@@ -69,7 +69,7 @@ public interface KB {
 	 * 
 	 * @return Returns the data
 	 */
-	Table<Ref, Ref, Set<String>> getRelationshipTypes();
+	Multitable<Ref, Ref, String> getRelationshipTypes();
 
 	/**
 	 * <p>
@@ -96,7 +96,7 @@ public interface KB {
 	 * 
 	 * @return Returns the data
 	 */
-	Table<String, String, Set<String>> getRelationships();
+	Multitable<String, String, String> getRelationships();
 
 	/**
 	 * <p>

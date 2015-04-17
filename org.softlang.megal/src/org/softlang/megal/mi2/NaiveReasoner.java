@@ -13,11 +13,6 @@ import static com.google.common.collect.Multimaps.index;
 import static com.google.common.collect.Multimaps.transformValues;
 import static com.google.common.collect.Tables.immutableCell;
 import static java.util.Collections.singleton;
-import static org.softlang.megal.mi2.util.Multitables.multiContains;
-import static org.softlang.megal.mi2.util.Multitables.multiFlatCells;
-import static org.softlang.megal.mi2.util.Multitables.multiFlatColumn;
-import static org.softlang.megal.mi2.util.Multitables.multiFlatRow;
-import static org.softlang.megal.mi2.util.Multitables.multiFlatValue;
 
 import java.util.Collection;
 import java.util.List;
@@ -203,7 +198,6 @@ public class NaiveReasoner extends AbstractReasoner {
 
 			@Override
 			public Iterable<? extends Relationship> getInstances() {
-
 				// All relationships that are of this type or thats type is a
 				// specialization of this type
 				return from(getRelationships()).filter(
@@ -280,13 +274,13 @@ public class NaiveReasoner extends AbstractReasoner {
 			public Iterable<? extends Relationship> incoming() {
 
 				// Incoming are in the relationship column of this entity
-				return transform(multiFlatColumn(kb.getRelationships(), from.getKey()), x -> relationship(x));
+				return transform(kb.getRelationships().whereColumn(from.getKey()), x -> relationship(x));
 			}
 
 			@Override
 			public Iterable<? extends Relationship> outgoing() {
 				// Outgoing are in the relationship column of this entity
-				return transform(multiFlatRow(kb.getRelationships(), from.getKey()), x -> relationship(x));
+				return transform(kb.getRelationships().whereRow(from.getKey()), x -> relationship(x));
 			}
 
 			@Override
@@ -355,7 +349,7 @@ public class NaiveReasoner extends AbstractReasoner {
 			private Optional<RelationshipType> loadOrSubstitute(Ref fromType, Ref toType) {
 
 				// If candidates contains an entry for the given pair, use it
-				if (multiContains(kb.getRelationshipTypes(), fromType, toType, from.getValue()))
+				if (kb.getRelationshipTypes().contains(fromType, toType, from.getValue()))
 					return Optional.of(relationshipType(immutableCell(fromType, toType, from.getValue())));
 
 				// Make supertype for the left side
@@ -516,18 +510,16 @@ public class NaiveReasoner extends AbstractReasoner {
 
 	@Override
 	public Relationship getRelationship(String left, String relationship, String right) {
-		Cell<String, String, String> cell = immutableCell(left, right, relationship);
-
-		if (!kb.getRelationships().cellSet().contains(cell))
+		if (!kb.getRelationships().contains(left, right, relationship))
 			throw new NoSuchElementException(left + ", " + relationship + ", " + right);
 
-		return relationship(cell);
+		return relationship(immutableCell(left, right, relationship));
 	}
 
 	@Override
 	public Iterable<? extends RelationshipType> getRelationshipTypes(String name) {
 		// Lookup relationship type multimap by name and wrap the triples
-		return from(multiFlatValue(kb.getRelationshipTypes(), name)).transform(x -> relationshipType(x));
+		return from(kb.getRelationshipTypes().whereValue(name)).transform(x -> relationshipType(x));
 	}
 
 	@Override
@@ -539,7 +531,7 @@ public class NaiveReasoner extends AbstractReasoner {
 	@Override
 	public Iterable<? extends RelationshipType> getRelationshipTypes() {
 		// Transform all entries of the relationship types in the KB
-		return from(multiFlatCells(kb.getRelationshipTypes())).transform(x -> relationshipType(x));
+		return from(kb.getRelationshipTypes().cells()).transform(x -> relationshipType(x));
 	}
 
 	@Override
@@ -551,7 +543,7 @@ public class NaiveReasoner extends AbstractReasoner {
 	@Override
 	public Iterable<? extends Relationship> getRelationships() {
 		// Transform all entries of the relationships in the KB
-		return from(multiFlatCells(kb.getRelationships())).transform(x -> relationship(x));
+		return from(kb.getRelationships().cells()).transform(x -> relationship(x));
 	}
 
 }

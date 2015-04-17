@@ -4,7 +4,6 @@ import static com.google.common.collect.Iterables.getFirst;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Map.Entry;
 
 import org.softlang.megal.Megamodel;
 import org.softlang.megal.language.Megals;
@@ -14,7 +13,6 @@ import org.softlang.megal.mi2.KB;
 import org.softlang.megal.mi2.KBs;
 import org.softlang.megal.mi2.MegamodelKB;
 import org.softlang.megal.mi2.NaiveReasoner;
-import org.softlang.megal.mi2.Ref;
 import org.softlang.megal.mi2.Relationship;
 import org.softlang.megal.mi2.RelationshipType;
 import org.softlang.megal.mi2.instances.MakePartOfs;

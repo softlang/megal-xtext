@@ -5,7 +5,6 @@ package org.softlang.megal.language;
 
 import org.eclipse.xtext.conversion.IValueConverterService;
 import org.eclipse.xtext.naming.IQualifiedNameConverter;
-import org.eclipse.xtext.validation.CheckMode;
 import org.softlang.megal.language.scoping.MegalQualifiedNameConverter;
 import org.softlang.megal.language.values.MegalValueConverterService;
 

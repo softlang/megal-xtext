@@ -2,15 +2,14 @@ package org.softlang.megal.mi2;
 
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 
+import org.softlang.megal.mi2.util.ImmutableMultitable;
+import org.softlang.megal.mi2.util.Multitable;
 import org.softlang.megal.mi2.util.SetOperations;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSetMultimap;
-import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.SetMultimap;
-import com.google.common.collect.Table;
 import com.google.common.collect.Table.Cell;
 
 /**
@@ -45,14 +44,14 @@ public class KBs {
 		 * Internal backing field.
 		 * </p>
 		 */
-		private final Table<String, String, Set<String>> relationships;
+		private final Multitable<String, String, String> relationships;
 
 		/**
 		 * <p>
 		 * Internal backing field.
 		 * </p>
 		 */
-		private final Table<Ref, Ref, Set<String>> relationshipTypes;
+		private final Multitable<Ref, Ref, String> relationshipTypes;
 
 		/**
 		 * <p>
@@ -145,8 +144,8 @@ public class KBs {
 		 * @param annotations
 		 *            The annotations
 		 */
-		public Builder(String title, Table<String, String, Set<String>> relationships,
-				Table<Ref, Ref, Set<String>> relationshipTypes,
+		public Builder(String title, Multitable<String, String, String> relationships,
+				Multitable<Ref, Ref, String> relationshipTypes,
 				SetMultimap<Cell<Ref, Ref, String>, Entry<String, String>> relationshipTypeAnnotations,
 				SetMultimap<Cell<String, String, String>, Entry<String, String>> relationshipAnnotations,
 				Map<String, String> entityTypes,
@@ -192,7 +191,7 @@ public class KBs {
 		 *            The desired relationships
 		 * @return Returns a copied builder
 		 */
-		public Builder setRelationships(Table<String, String, Set<String>> relationships) {
+		public Builder setRelationships(Multitable<String, String, String> relationships) {
 			return new Builder(title, relationships, relationshipTypes, relationshipTypeAnnotations,
 					relationshipAnnotations, entityTypes, entityTypeAnnotations, entityAnnotations, entities, bindings,
 					theEntityTypeAnnotations, annotations);
@@ -207,7 +206,7 @@ public class KBs {
 		 *            The relationship types
 		 * @return Returns a copied builder
 		 */
-		public Builder setRelationshipTypes(Table<Ref, Ref, Set<String>> relationshipTypes) {
+		public Builder setRelationshipTypes(Multitable<Ref, Ref, String> relationshipTypes) {
 			return new Builder(title, relationships, relationshipTypes, relationshipTypeAnnotations,
 					relationshipAnnotations, entityTypes, entityTypeAnnotations, entityAnnotations, entities, bindings,
 					theEntityTypeAnnotations, annotations);
@@ -357,12 +356,12 @@ public class KBs {
 				}
 
 				@Override
-				public Table<String, String, Set<String>> getRelationships() {
+				public Multitable<String, String, String> getRelationships() {
 					return relationships;
 				}
 
 				@Override
-				public Table<Ref, Ref, Set<String>> getRelationshipTypes() {
+				public Multitable<Ref, Ref, String> getRelationshipTypes() {
 					return relationshipTypes;
 				}
 
@@ -487,7 +486,7 @@ public class KBs {
 	 * @return Returns a builder
 	 */
 	public static Builder builder() {
-		return new Builder(null, ImmutableTable.of(), ImmutableTable.of(), ImmutableSetMultimap.of(),
+		return new Builder(null, ImmutableMultitable.of(), ImmutableMultitable.of(), ImmutableSetMultimap.of(),
 				ImmutableSetMultimap.of(), ImmutableMap.of(), ImmutableSetMultimap.of(), ImmutableSetMultimap.of(),
 				ImmutableMap.of(), ImmutableSetMultimap.of(), ImmutableSetMultimap.of(), ImmutableSetMultimap.of());
 	}
@@ -507,8 +506,8 @@ public class KBs {
 	public static KB union(KB a, KB b) {
 		return builder()
 				.setTitle(a.getTitle())
-				.setRelationships(SetOperations.unionInner(a.getRelationships(), b.getRelationships()))
-				.setRelationshipTypes(SetOperations.unionInner(a.getRelationshipTypes(), b.getRelationshipTypes()))
+				.setRelationships(SetOperations.union(a.getRelationships(), b.getRelationships()))
+				.setRelationshipTypes(SetOperations.union(a.getRelationshipTypes(), b.getRelationshipTypes()))
 				.setRelationshipTypeAnnotations(
 						SetOperations.union(a.getRelationshipTypeAnnotations(), b.getRelationshipTypeAnnotations()))
 				.setRelationshipAnnotations(

@@ -1,12 +1,8 @@
 package org.softlang.megal.mi2.util;
 
-import static org.softlang.megal.mi2.util.Multitables.multiPutAll;
-
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 
-import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.ImmutableSetMultimap;
@@ -58,17 +54,10 @@ public class SetOperations {
 	 *            The right side
 	 * @return Returns the result
 	 */
-	public static <R, C, E> Table<R, C, Set<E>> unionInner(Table<R, C, Set<E>> a, Table<R, C, Set<E>> b) {
-		Table<R, C, Set<E>> result = HashBasedTable.create(a);
-
-		// Put all from left
-		for (Cell<R, C, Set<E>> cell : a.cellSet())
-			multiPutAll(result, cell.getRowKey(), cell.getColumnKey(), cell.getValue());
-
-		// Put all from right
-		for (Cell<R, C, Set<E>> cell : b.cellSet())
-			multiPutAll(result, cell.getRowKey(), cell.getColumnKey(), cell.getValue());
-
+	public static <R, C, E> Multitable<R, C, E> union(Multitable<R, C, E> a, Multitable<R, C, E> b) {
+		Multitable<R, C, E> result = HashMultitable.create();
+		result.putAll(a);
+		result.putAll(b);
 		return result;
 	}
 
