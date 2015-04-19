@@ -10,11 +10,9 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: org.softlang.megal,
  org.softlang.megal.api,
  org.softlang.megal.fragmentprovider,
- org.softlang.megal.impl,
  org.softlang.megal.mi2,
- org.softlang.megal.mi2.instances,
- org.softlang.megal.mi2.util,
- org.softlang.megal.util
+ org.softlang.megal.mi2.processing,
+ org.softlang.megal.mi2.reasoning
 Require-Bundle: org.eclipse.core.runtime;visibility:=reexport,
  org.eclipse.emf.ecore;visibility:=reexport,
  org.eclipse.emf.common;visibility:=reexport,

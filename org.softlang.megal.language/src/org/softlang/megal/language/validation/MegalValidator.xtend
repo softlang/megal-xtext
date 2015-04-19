@@ -11,7 +11,7 @@ import org.softlang.megal.Relationship
 import org.softlang.megal.api.Evaluators
 import org.softlang.megal.mi2.KB
 import org.softlang.megal.mi2.MegamodelKB
-import org.softlang.megal.mi2.NaiveReasoner
+import org.softlang.megal.mi2.reasoning.NaiveReasoner
 import org.softlang.sourcesupport.SourceSupportPlugin
 
 /**

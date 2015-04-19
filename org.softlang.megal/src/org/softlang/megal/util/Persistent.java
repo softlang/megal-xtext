@@ -121,6 +121,7 @@ public class Persistent {
 
 		if (list.isEmpty())
 			throw new NoSuchElementException();
+		
 		return list.subList(1, list.size());
 	}
 

@@ -15,9 +15,9 @@ import org.eclipse.core.runtime.Status;
 import org.softlang.megal.MegalPlugin;
 import org.softlang.megal.mi2.Entity;
 import org.softlang.megal.mi2.EntityType;
-import org.softlang.megal.mi2.Reasoner;
 import org.softlang.megal.mi2.Relationship;
 import org.softlang.megal.mi2.RelationshipType;
+import org.softlang.megal.mi2.reasoning.Reasoner;
 import org.softlang.sourcesupport.SourceSupport;
 
 import com.google.common.collect.HashMultimap;

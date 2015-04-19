@@ -1,7 +1,7 @@
 package org.softlang.megal.api;
 
 import org.softlang.megal.mi2.Entity;
-import org.softlang.megal.mi2.Reasoner;
+import org.softlang.megal.mi2.reasoning.Reasoner;
 
 /**
  * Dynamic resolution authority for entities, e.g. mapping to dbpedia or SCMs

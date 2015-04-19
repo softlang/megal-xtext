@@ -1,7 +1,15 @@
-package org.softlang.megal.mi2;
+package org.softlang.megal.mi2.reasoning;
 
 import java.util.List;
+import java.util.Set;
 
+import org.softlang.megal.mi2.Entity;
+import org.softlang.megal.mi2.EntityType;
+import org.softlang.megal.mi2.KB;
+import org.softlang.megal.mi2.Relationship;
+import org.softlang.megal.mi2.RelationshipType;
+
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Multimap;
 
 /**
@@ -15,12 +23,86 @@ import com.google.common.collect.Multimap;
 public interface Reasoner {
 	/**
 	 * <p>
+	 * Enumeration of simple performance capabilities of reasoners.
+	 * </p>
+	 * 
+	 * @author Pazuzu
+	 *
+	 */
+	public static enum PerformanceCaps {
+		/**
+		 * <p>
+		 * Performant in finding instances of entity types and relationship
+		 * types.
+		 * </p>
+		 */
+		INSTANCE_FINDING,
+
+		/**
+		 * <p>
+		 * Performant in finding specializations of entity types and
+		 * relationship types.
+		 * </p>
+		 */
+		SPECIALIZATION_FINDING,
+
+		/**
+		 * <p>
+		 * Performant in finding the applied relationship type for a
+		 * relationship.
+		 * </p>
+		 */
+		APPLICABLE_RELATIONSHIP_TYPE_FINDING,
+
+		/**
+		 * <p>
+		 * Performant in navigation of relationships based on entities.
+		 * </p>
+		 */
+		RELATIONSHIP_NAVIGATION,
+
+		/**
+		 * <p>
+		 * Low overhead memory consumption by the reasoner itself, i.e. without
+		 * the memory of the knowledge base.
+		 * </p>
+		 */
+		MEMORY_SAVING;
+
+		/**
+		 * <p>
+		 * Gets all performance caps.
+		 * </p>
+		 */
+		public static final Set<PerformanceCaps> ALL = ImmutableSet.copyOf(PerformanceCaps.values());
+	}
+
+	/**
+	 * <p>
+	 * Gets the knowledge base this reasoner is build upon.
+	 * </p>
+	 * 
+	 * @return Returns the knowledge base
+	 */
+	KB getKB();
+
+	/**
+	 * <p>
 	 * Gets the title of the model.
 	 * </p>
 	 * 
 	 * @return Returns the title
 	 */
 	String getTitle();
+
+	/**
+	 * <p>
+	 * Gets the capabilities of this reasoner.
+	 * </p>
+	 * 
+	 * @return Returns a set of caps
+	 */
+	Set<PerformanceCaps> getCaps();
 
 	/**
 	 * <p>

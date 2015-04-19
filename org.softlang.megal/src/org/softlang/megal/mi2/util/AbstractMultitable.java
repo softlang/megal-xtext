@@ -107,6 +107,11 @@ public abstract class AbstractMultitable<R, C, E> implements Multitable<R, C, E>
 	}
 
 	@Override
+	public Set<E> get(Object rowKey, Object columnKey) {
+		return asTable().get(rowKey, columnKey);
+	}
+
+	@Override
 	public Iterable<Cell<R, C, E>> whereValue(E value) {
 		return from(cells()).filter(x -> equal(x.getValue(), value));
 	}

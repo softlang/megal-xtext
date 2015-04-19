@@ -3,8 +3,8 @@ package org.softlang.megal.api;
 import java.util.Collection;
 
 import org.softlang.megal.mi2.Entity;
-import org.softlang.megal.mi2.Reasoner;
 import org.softlang.megal.mi2.Relationship;
+import org.softlang.megal.mi2.reasoning.Reasoner;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableMultimap;

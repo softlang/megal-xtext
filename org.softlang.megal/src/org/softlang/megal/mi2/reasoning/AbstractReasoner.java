@@ -1,4 +1,6 @@
-package org.softlang.megal.mi2;
+package org.softlang.megal.mi2.reasoning;
+
+import org.softlang.megal.mi2.RelationshipType;
 
 import com.google.common.collect.ImmutableList;
 

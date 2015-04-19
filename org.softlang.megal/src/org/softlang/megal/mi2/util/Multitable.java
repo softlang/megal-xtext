@@ -32,6 +32,8 @@ public interface Multitable<R, C, E> {
 
 	boolean containsAll(Object rowKey, Object columnKey, Collection<?> values);
 
+	Set<E> get(Object rowKey, Object columnKey);
+
 	Table<R, C, Set<E>> asTable();
 
 	Iterable<Cell<R, C, E>> whereValue(E value);

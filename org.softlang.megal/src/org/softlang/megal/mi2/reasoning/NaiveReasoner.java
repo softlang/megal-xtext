@@ -1,4 +1,4 @@
-package org.softlang.megal.mi2;
+package org.softlang.megal.mi2.reasoning;
 
 import static com.google.common.base.Objects.equal;
 import static com.google.common.base.Predicates.equalTo;
@@ -20,7 +20,15 @@ import java.util.Map.Entry;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
+import org.softlang.megal.mi2.Entity;
+import org.softlang.megal.mi2.EntityType;
+import org.softlang.megal.mi2.KB;
+import org.softlang.megal.mi2.Ref;
+import org.softlang.megal.mi2.Relationship;
+import org.softlang.megal.mi2.RelationshipType;
+
 import com.google.common.base.Optional;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Table.Cell;
 
@@ -33,6 +41,20 @@ import com.google.common.collect.Table.Cell;
  *
  */
 public class NaiveReasoner extends AbstractReasoner {
+	/**
+	 * <p>
+	 * The capabilities of the naive reasoner.
+	 * </p>
+	 * <p>
+	 * <ul>
+	 * <li>{@link PerformanceCaps#RELATIONSHIP_NAVIGATION}</li>
+	 * <li>{@link PerformanceCaps#MEMORY_SAVING}</li>
+	 * </ul>
+	 * </p>
+	 */
+	public static final ImmutableSet<PerformanceCaps> CAPS = ImmutableSet.of(PerformanceCaps.RELATIONSHIP_NAVIGATION,
+			PerformanceCaps.MEMORY_SAVING);
+
 	/**
 	 * <p>
 	 * Internal backing field.
@@ -50,17 +72,6 @@ public class NaiveReasoner extends AbstractReasoner {
 	 */
 	public NaiveReasoner(KB kb) {
 		this.kb = kb;
-	}
-
-	/**
-	 * <p>
-	 * Gets the knowledge base operated on.
-	 * </p>
-	 * 
-	 * @return Returns the input
-	 */
-	public KB getKB() {
-		return kb;
 	}
 
 	/**
@@ -412,10 +423,27 @@ public class NaiveReasoner extends AbstractReasoner {
 		};
 	}
 
+	/**
+	 * <p>
+	 * Gets the knowledge base operated on.
+	 * </p>
+	 * 
+	 * @return Returns the input
+	 */
+	@Override
+	public KB getKB() {
+		return kb;
+	}
+
 	@Override
 	public String getTitle() {
 		// Title is carried in the KB
 		return kb.getTitle();
+	}
+
+	@Override
+	public Set<PerformanceCaps> getCaps() {
+		return CAPS;
 	}
 
 	@Override
@@ -491,8 +519,15 @@ public class NaiveReasoner extends AbstractReasoner {
 	@Override
 	public RelationshipType getRelationshipType(String name, String left, boolean leftMany, List<String> leftParams,
 			String right, boolean rightMany, List<String> rightParams) {
-		// TODO Auto-generated method stub
-		return null;
+		Ref leftType = Ref.to(left, leftMany, leftParams);
+		Ref rightType = Ref.to(right, rightMany, rightParams);
+		Set<String> names = kb.getRelationshipTypes().get(leftType, rightType);
+
+		if (names.contains(name))
+			return relationshipType(immutableCell(leftType, rightType, name));
+
+		throw new NoSuchElementException(name + ", " + left + ", " + leftMany + ", " + leftParams + ", " + right + ", "
+				+ rightMany + ", " + rightParams);
 	}
 
 	@Override
