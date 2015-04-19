@@ -38,14 +38,8 @@ public class Evaluators {
 
 		// Get the types
 		EntityType evaluatorType = m.getEntityType("Evaluator");
-		// RelationshipType realizationOfType = resolve(m,
-		// RelationshipType.class, "realizationOf");
-		// RelationshipType partOfType = resolve(m, RelationshipType.class,
-		// "partOf");
 
 		// Make result and error builder
-		// ImmutableMultimap.Builder<Entity, Evaluator> resultBuilder =
-		// ImmutableMultimap.builder();
 		Multimap<Entity, Evaluator> resultMultimap = HashMultimap.create();
 		ImmutableMultimap.Builder<Class<? extends Evaluator>, Throwable> errorsBuilder = ImmutableMultimap.builder();
 
@@ -117,7 +111,6 @@ public class Evaluators {
 	public static Result evaluate(SourceSupport s, Reasoner m) {
 
 		// Load all evaluators
-		// Multimap<Entity, Resolver> resolvers = loadResolvers(s, m);
 		Multimap<Entity, Evaluator> entToEval = loadEvaluators(s, m);
 		Multimap<RelationshipType, Entity> rstToEnt = loadMappings(m);
 

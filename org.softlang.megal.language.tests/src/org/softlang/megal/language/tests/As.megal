@@ -16,12 +16,8 @@ OnlyBs: Language
 
 // Nothing is always element of only As
 nothing: File
-nothing = "workspace:/org.softlang.megal.examples/src/as/ex/em"
+nothing = "ex/em"
 nothing elementOf OnlyAs
-
-stuff: File
-stuff = "workspace:/org.softlang.megal.examples/src/as/ex/Sasa.java/ast/types/fields"
-stuff elementOf OnlyAs
 
 
 // As test suite
@@ -30,13 +26,13 @@ stuff elementOf OnlyAs
 
 // This is element of only As, look at the content you fool!
 something: File
-something = "workspace:/org.softlang.megal.examples/src/as/ex/ar"
+something = "ex/ar"
 something elementOf OnlyAs
 //
 //// This isn't
-//otherthing : File
-//otherthing = "workspace:/org.softlang.megal.examples/src/as/ex/nr"
-//otherthing elementOf OnlyAs
+otherthing : File
+otherthing = "ex/nr"
+otherthing elementOf OnlyAs
 
 wierdStuff: Filelocation
 
@@ -50,7 +46,6 @@ coolStuff(something)|->wierdStuff
 coolStuff(something)|->wierdStuff = "A really wierd correlation that is defined by some obscure mapping"
 wierdStuff correspondsTo something
 
-FileElementOfLanguage = "pluginroot.elementof.Wingman"
 
 X < Entity
 Y < X
@@ -70,12 +65,6 @@ a rel b
 c rel b
 
 a rel2 b
-
-YAF < Function
-someFunction : YAF[OnlyAs->OnlyAs]
-fixPointOf < File * Function[OnlyAs->OnlyAs]
-
-stuff fixPointOf someFunction 
 
 xaxaxa : Resolver
 xaxaxa = "org.softlang.megal.language.tests.SampleResolver"

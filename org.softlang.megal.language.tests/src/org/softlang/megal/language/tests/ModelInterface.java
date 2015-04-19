@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 
 import org.softlang.megal.Megamodel;
+import org.softlang.megal.api.Evaluators;
+import org.softlang.megal.api.Result;
 import org.softlang.megal.language.Megals;
 import org.softlang.megal.mi2.Entity;
 import org.softlang.megal.mi2.EntityType;
@@ -17,6 +19,7 @@ import org.softlang.megal.mi2.processing.ResolutionProcessor;
 import org.softlang.megal.mi2.processing.UnionProcessor;
 import org.softlang.megal.mi2.reasoning.Providers;
 import org.softlang.megal.mi2.reasoning.Reasoner;
+import org.softlang.sourcesupport.LocalSourceSupport;
 
 public class ModelInterface {
 	private static String PRELUDE = "./src/org/softlang/megal/language/tests/Prelude.megal";
@@ -30,13 +33,12 @@ public class ModelInterface {
 
 		Megamodel mm = load();
 		KB a = MegamodelKB.loadAll(mm);
-		long t1 = System.nanoTime();
 		KB b = processChain.applyWith(a);
-		long t2 = System.nanoTime();
-
-		System.out.println(t2 - t1);
 
 		dump(b);
+
+		Result result = Evaluators.evaluate(LocalSourceSupport.INSTANCE, Providers.obtain(b));
+		System.out.println(result);
 	}
 
 	private static Megamodel load() throws IOException {
