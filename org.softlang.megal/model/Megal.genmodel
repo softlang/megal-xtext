@@ -9,9 +9,6 @@
   <foreignModel>Megal.ecore</foreignModel>
   <genPackages prefix="Megal" basePackage="org.softlang" disposableProviderFactory="true"
       fileExtensions="megal" ecorePackage="Megal.ecore#/" publicationLocation="">
-    <genDataTypes ecoreDataType="Megal.ecore#//EIterable">
-      <genTypeParameters ecoreTypeParameter="Megal.ecore#//EIterable/T"/>
-    </genDataTypes>
     <genClasses ecoreClass="Megal.ecore#//Annotation">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Megal.ecore#//Annotation/key"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Megal.ecore#//Annotation/value"/>
@@ -19,20 +16,12 @@
     <genClasses ecoreClass="Megal.ecore#//Element">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Megal.ecore#//Element/annotations"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Megal.ecore#//Element/origin"/>
-      <genOperations ecoreOperation="Megal.ecore#//Element/allAnnotations"/>
-      <genOperations ecoreOperation="Megal.ecore#//Element/megamodel"/>
-      <genOperations ecoreOperation="Megal.ecore#//Element/logicEq">
-        <genParameters ecoreParameter="Megal.ecore#//Element/logicEq/o"/>
-      </genOperations>
-      <genOperations ecoreOperation="Megal.ecore#//Element/identity"/>
     </genClasses>
     <genClasses ecoreClass="Megal.ecore#//Megamodel">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Megal.ecore#//Megamodel/declarations"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Megal.ecore#//Megamodel/bindings"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Megal.ecore#//Megamodel/name"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Megal.ecore#//Megamodel/imports"/>
-      <genOperations ecoreOperation="Megal.ecore#//Megamodel/allImports"/>
-      <genOperations ecoreOperation="Megal.ecore#//Megamodel/allModels"/>
     </genClasses>
     <genClasses ecoreClass="Megal.ecore#//Link">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Megal.ecore#//Link/link"/>
@@ -45,7 +34,6 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Megal.ecore#//Relationship/type"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Megal.ecore#//Relationship/left"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Megal.ecore#//Relationship/right"/>
-      <genOperations ecoreOperation="Megal.ecore#//Relationship/appliedInstance"/>
     </genClasses>
     <genClasses ecoreClass="Megal.ecore#//FunctionApplication">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Megal.ecore#//FunctionApplication/function"/>
@@ -59,37 +47,21 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Megal.ecore#//EntityType/supertype"/>
     </genClasses>
     <genClasses ecoreClass="Megal.ecore#//RelationshipType">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Megal.ecore#//RelationshipType/left"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Megal.ecore#//RelationshipType/right"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Megal.ecore#//RelationshipType/typeLeft"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Megal.ecore#//RelationshipType/typeRight"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Megal.ecore#//RelationshipType/typeLeftArb"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Megal.ecore#//RelationshipType/typeRightArb"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Megal.ecore#//RelationshipType/typeLeftMany"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Megal.ecore#//RelationshipType/typeRightMany"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Megal.ecore#//RelationshipType/typeLeftParameters"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Megal.ecore#//RelationshipType/typeRightParameters"/>
     </genClasses>
     <genClasses ecoreClass="Megal.ecore#//Entity">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Megal.ecore#//Entity/type"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Megal.ecore#//Entity/type"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Megal.ecore#//Entity/dependent"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Megal.ecore#//Entity/parameter"/>
-      <genOperations ecoreOperation="Megal.ecore#//Entity/applicableOutgoing">
-        <genParameters ecoreParameter="Megal.ecore#//Entity/applicableOutgoing/to"/>
-      </genOperations>
-      <genOperations ecoreOperation="Megal.ecore#//Entity/applicableIncoming">
-        <genParameters ecoreParameter="Megal.ecore#//Entity/applicableIncoming/from"/>
-      </genOperations>
-    </genClasses>
-    <genClasses ecoreClass="Megal.ecore#//TypeReference">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Megal.ecore#//TypeReference/definition"/>
-      <genOperations ecoreOperation="Megal.ecore#//TypeReference/latticeAbove">
-        <genParameters ecoreParameter="Megal.ecore#//TypeReference/latticeAbove/other"/>
-      </genOperations>
-      <genOperations ecoreOperation="Megal.ecore#//TypeReference/latticeAbove.1"/>
-      <genOperations ecoreOperation="Megal.ecore#//TypeReference/latticeBelow"/>
-      <genOperations ecoreOperation="Megal.ecore#//TypeReference/latticeBelow.1">
-        <genParameters ecoreParameter="Megal.ecore#//TypeReference/latticeBelow.1/other"/>
-      </genOperations>
-    </genClasses>
-    <genClasses ecoreClass="Megal.ecore#//FunctionTypeReference">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Megal.ecore#//FunctionTypeReference/domain"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Megal.ecore#//FunctionTypeReference/codomain"/>
-    </genClasses>
-    <genClasses ecoreClass="Megal.ecore#//EntityTypeReference">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Megal.ecore#//EntityTypeReference/many"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Megal.ecore#//Entity/typeParameters"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Megal.ecore#//Entity/typeMany"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

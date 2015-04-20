@@ -1,0 +1,48 @@
+model XML
+
+import Prelude
+ 	
+XMLs: Language+
+// This part could go into an “XML” MegaL module	 	 	
+XML: Language
+XSD: Language
+XSD subsetOf XML
+xsdFiles: File+ // Several files because of possible imports
+xsdFiles elementOf XSD
+xmlFile: File
+xmlFile elementOf XML
+xmlFile conformsTo xsdFiles
+// TODO: plugin needed for conformsTo evaluator for XML and XSD
+
+@Plugin 'XSDConformance'
+conformsTo < Artifact(+) * Artifact(+)
+
+XSDConformance : Evaluator
+XSDConformance = 'jaxb.XSDConformance'
+
+
+XMLAcceptor : Evaluator
+XMLAcceptor realizationOf XML
+XMLAcceptor = 'jaxb.AcceptXML'
+XMLAcceptor partOf FileElementOfLanguage
+
+XSDAcceptor : Evaluator
+XSDAcceptor realizationOf XSD
+XSDAcceptor = 'jaxb.AcceptXSD'
+XSDAcceptor partOf FileElementOfLanguage
+
+schema: File
+schema elementOf XSD
+schema = "workspace:/org.softlang.megal.examples/src/jaxb/data/Schema.xsd"
+
+scf: File
+scf elementOf XML
+scf = "workspace:/org.softlang.megal.examples/src/jaxb/data/SchemaConformant.xml"
+
+sncf: File
+sncf elementOf XML
+sncf = "workspace:/org.softlang.megal.examples/src/jaxb/data/SchemaNonConformant.xml"
+
+scf conformsTo schema
+@IsInvalid
+sncf conformsTo schema

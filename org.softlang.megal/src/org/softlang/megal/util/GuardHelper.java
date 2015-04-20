@@ -27,52 +27,47 @@ public final class GuardHelper {
 
 	public <T> T ifAssigned(T expectNotNull) {
 		if (expectNotNull == null)
-			throw new GuardException("Value was not expected to be null",
-					getUUID());
+			throw new GuardException("Value was not expected to be null", getUUID());
 		return expectNotNull;
 	}
 
 	public <T> T ifUnassigned(T expectNull) {
 		if (expectNull != null)
-			throw new GuardException("Value was expected to be null, was "
-					+ expectNull, getUUID());
+			throw new GuardException("Value was expected to be null, was " + expectNull, getUUID());
 		return expectNull;
 	}
 
 	public <T> T ifEqual(T actual, T expected) {
 		if (!Objects.equals(actual, expected))
-			throw new GuardException("Value was expected to be " + expected
-					+ ", was " + actual, getUUID());
+			throw new GuardException("Value was expected to be " + expected + ", was " + actual, getUUID());
 		return actual;
 	}
 
 	public <T> Iterable<T> ifEmpty(Iterable<T> items) {
 		if (items.iterator().hasNext())
-			throw new GuardException("Value was expected to be empty, was"
-					+ items, getUUID());
+			throw new GuardException("Value was expected to be empty, was" + items, getUUID());
 
 		return items;
 	}
 
 	public <T> Iterable<T> ifNotEmpty(Iterable<T> items) {
 		if (!items.iterator().hasNext())
-			throw new GuardException(
-					"Value was expected to be non-empty but were", getUUID());
+			throw new GuardException("Value was expected to be non-empty but were", getUUID());
 
 		return items;
 	}
 
 	public <T> T ifContained(T item, Collection<?> items) {
 		if (!items.contains(item))
-			throw new GuardException("The collection " + items
-					+ " did not contain the expected value " + item, getUUID());
+			throw new GuardException("The collection " + items + " did not contain the expected value " + item,
+					getUUID());
 		return item;
 	}
 
 	public <T> T ifNotContained(T item, Collection<?> items) {
 		if (items.contains(item))
-			throw new GuardException("The collection " + items
-					+ " did contain the non-expected value " + item, getUUID());
+			throw new GuardException("The collection " + items + " did contain the non-expected value " + item,
+					getUUID());
 		return item;
 	}
 

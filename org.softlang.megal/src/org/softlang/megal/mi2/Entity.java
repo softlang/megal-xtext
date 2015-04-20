@@ -1,8 +1,8 @@
 package org.softlang.megal.mi2;
 
 import static com.google.common.base.Objects.equal;
+import static com.google.common.collect.Iterables.filter;
 
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -42,15 +42,6 @@ public abstract class Entity extends Named {
 
 	/**
 	 * <p>
-	 * Gets the parameters of the entities type.
-	 * </p>
-	 * 
-	 * @return Returns a list of entities
-	 */
-	public abstract List<? extends Entity> getTypeParams();
-
-	/**
-	 * <p>
 	 * Gets a sequence of incoming relationships.
 	 * </p>
 	 * 
@@ -66,6 +57,28 @@ public abstract class Entity extends Named {
 	 * @return Returns a transformed network sequence of relationships
 	 */
 	public abstract Iterable<? extends Relationship> outgoing();
+
+	/**
+	 * <p>
+	 * Gets a sequence of incoming relationships.
+	 * </p>
+	 * 
+	 * @return Returns a transformed network sequence of relationships
+	 */
+	public Iterable<? extends Relationship> incoming(String relationship) {
+		return filter(incoming(), x -> equal(relationship, x.getType().getName()));
+	}
+
+	/**
+	 * <p>
+	 * Gets a sequence of outgoing relationships.
+	 * </p>
+	 * 
+	 * @return Returns a transformed network sequence of relationships
+	 */
+	public Iterable<? extends Relationship> outgoing(String relationship) {
+		return filter(outgoing(), x -> equal(relationship, x.getType().getName()));
+	}
 
 	@Override
 	public int hashCode() {
@@ -90,9 +103,7 @@ public abstract class Entity extends Named {
 
 	@Override
 	public String toString() {
-		String type = getType().getName() + (isTypeMany() ? "+" : "")
-				+ (getTypeParams().isEmpty() ? "" : getTypeParams());
-		return getName() + ": " + type;
+		return getName() + ": " + (getType().getName() + (isTypeMany() ? "+" : ""));
 	}
 
 	/**

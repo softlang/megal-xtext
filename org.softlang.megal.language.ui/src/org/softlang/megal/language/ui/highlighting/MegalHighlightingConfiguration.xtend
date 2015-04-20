@@ -82,12 +82,10 @@ class MegalHighlightingConfiguration extends DefaultHighlightingConfiguration {
 		guarded(null) [
 			// Guards	
 			ifAssigned(o)
-			ifAssigned(o.left)
-			ifAssigned(o.left.definition)
-			ifAssigned(o.right)
-			ifAssigned(o.right.definition)
+			ifAssigned(o.typeLeft)
+			ifAssigned(o.typeRight)
 			// Value
-			o.left.definition.name + '_' + o.name + '_' + o.right.definition.name
+			o.typeLeft.name + '_' + o.name + '_' + o.typeRight.name
 		]
 	}
 
@@ -104,10 +102,10 @@ class MegalHighlightingConfiguration extends DefaultHighlightingConfiguration {
 		guarded('''Invalid object''') [
 			// Guards	
 			ifAssigned(o)
-			ifAssigned(o.left)
-			ifAssigned(o.right)
+			ifAssigned(o.typeLeft)
+			ifAssigned(o.typeRight)
 			// Value
-			o.name + " between " + o.left.definition.name + " and " + o.right.definition.name
+			o.name + " between " + o.typeLeft.name + " and " + o.typeRight.name
 		]
 
 	}
@@ -149,7 +147,7 @@ class MegalHighlightingConfiguration extends DefaultHighlightingConfiguration {
 			ifAssigned(o)
 			ifAssigned(o.type)
 			// Value and out-guard
-			return ifContained(o.type.definition.ID, available)
+			return ifContained(o.type.ID, available)
 		]
 	}
 
@@ -160,7 +158,7 @@ class MegalHighlightingConfiguration extends DefaultHighlightingConfiguration {
 			ifAssigned(o.link)
 			ifAssigned(o.link.type)
 			// Value and out-guard
-			return ifContained(o.link.type.definition.ID, available)
+			return ifContained(o.link.type.ID, available)
 		]
 	}
 

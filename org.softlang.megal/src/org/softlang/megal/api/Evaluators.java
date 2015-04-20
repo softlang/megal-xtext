@@ -124,15 +124,19 @@ public class Evaluators {
 
 			for (Entity x : evaluators)
 				for (Evaluator y : entToEval.get(x)) {
-					Output result = y.evaluate(b);
+					try {
+						Output result = y.evaluate(b);
 
-					if (result.isApplicable()) {
-						if (result.isError())
-							invalid.put(b, result.getError());
-						else {
-							valid.add(b);
-							trace.putAll(y.calculateTrace(b));
+						if (result.isApplicable()) {
+							if (result.isError())
+								invalid.put(b, result.getError());
+							else {
+								valid.add(b);
+								trace.putAll(y.calculateTrace(b));
+							}
 						}
+					} catch (RuntimeException e) {
+						invalid.put(b, e.getLocalizedMessage());
 					}
 				}
 		}
@@ -208,20 +212,25 @@ public class Evaluators {
 										@Override
 										public Result call() throws Exception {
 											// Assign the API before evaluation
-											Output result = eval.evaluate(rel);
+											try {
+												Output result = eval.evaluate(rel);
 
-											if (result.isApplicable()) {
-												if (result.isError())
-													return new Result(ImmutableMultimap.of(rel, result.getError()),
-															ImmutableSet.of(), ImmutableMultimap.of());
-												else
-													return new Result(ImmutableMultimap.of(), ImmutableSet.of(rel),
-															eval.calculateTrace(rel));
+												if (result.isApplicable()) {
+													if (result.isError())
+														return new Result(ImmutableMultimap.of(rel, result.getError()),
+																ImmutableSet.of(), ImmutableMultimap.of());
+													else
+														return new Result(ImmutableMultimap.of(), ImmutableSet.of(rel),
+																eval.calculateTrace(rel));
 
+												}
+
+												return new Result(ImmutableMultimap.of(), ImmutableSet.of(),
+														ImmutableMultimap.of());
+											} catch (RuntimeException e) {
+												return new Result(ImmutableMultimap.of(rel, e.getLocalizedMessage()),
+														ImmutableSet.of(), ImmutableMultimap.of());
 											}
-
-											return new Result(ImmutableMultimap.of(), ImmutableSet.of(),
-													ImmutableMultimap.of());
 										}
 									}).fork());
 

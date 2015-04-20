@@ -2,6 +2,7 @@ package org.softlang.megal.language.tests;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Map.Entry;
 
 import org.softlang.megal.Megamodel;
 import org.softlang.megal.api.Evaluators;
@@ -29,7 +30,8 @@ public class ModelInterface {
 	public static void main(String[] args) throws IOException {
 		// Make the processor chain of first partOf materialization and then
 		// application of resolvers
-		Processor processChain = UnionProcessor.of(PartOfProcessor.INSTANCE, ResolutionProcessor.INSTANCE);
+		Processor processChain = UnionProcessor.of(PartOfProcessor.INSTANCE, new ResolutionProcessor(
+				LocalSourceSupport.INSTANCE));
 
 		Megamodel mm = load();
 		KB a = MegamodelKB.loadAll(mm);
@@ -38,6 +40,15 @@ public class ModelInterface {
 		dump(b);
 
 		Result result = Evaluators.evaluate(LocalSourceSupport.INSTANCE, Providers.obtain(b));
+
+		for (Entry<Relationship, String> x : result.getInvalid().entries()) {
+			if (x.getKey().getAnnotations().containsKey("IsInvalid"))
+				continue;
+
+			System.err.println(x.getKey());
+			System.err.println(x.getValue());
+		}
+
 		System.out.println(result);
 	}
 
@@ -56,17 +67,25 @@ public class ModelInterface {
 		System.out.println("Megamodel " + mi.getTitle());
 
 		System.out.println("Entity types");
-		for (EntityType x : mi.getEntityTypes())
+		for (EntityType x : mi.getEntityTypes()) {
+			for (Entry<String, String> annotation : x.getAnnotations().entries())
+				System.out.println("  @" + annotation.getKey() + " " + annotation.getValue());
 			System.out.println("  " + x);
+		}
 		System.out.println();
 
 		System.out.println("Relationship types");
-		for (RelationshipType x : mi.getRelationshipTypes())
+		for (RelationshipType x : mi.getRelationshipTypes()) {
+			for (Entry<String, String> annotation : x.getAnnotations().entries())
+				System.out.println("  @" + annotation.getKey() + " " + annotation.getValue());
 			System.out.println("  " + x);
+		}
 		System.out.println();
 
 		System.out.println("Entities");
 		for (Entity x : mi.getEntities()) {
+			for (Entry<String, String> annotation : x.getAnnotations().entries())
+				System.out.println("  @" + annotation.getKey() + " " + annotation.getValue());
 			System.out.println("  " + x);
 			for (String s : x.getBindings())
 				System.out.println("  ~ " + s);
@@ -74,8 +93,11 @@ public class ModelInterface {
 		System.out.println();
 
 		System.out.println("Relationships");
-		for (Relationship x : mi.getRelationships())
+		for (Relationship x : mi.getRelationships()) {
+			for (Entry<String, String> annotation : x.getAnnotations().entries())
+				System.out.println("  @" + annotation.getKey() + " " + annotation.getValue());
 			System.out.println("  " + x);
+		}
 		System.out.println();
 	}
 }

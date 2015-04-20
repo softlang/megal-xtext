@@ -62,8 +62,8 @@ public class MegalFormatter extends AbstractDeclarativeFormatter {
 		c.setSpace(' ').after(relationshipTypeAccess.lessThanSignKeyword_3)
 
 		// Relationship Type instance
-		c.setSpace(' ').before(relationshipTypeAccess.asteriskKeyword_5)
-		c.setSpace(' ').after(relationshipTypeAccess.asteriskKeyword_5)
+		c.setSpace(' ').before(relationshipTypeAccess.asteriskKeyword_7)
+		c.setSpace(' ').after(relationshipTypeAccess.asteriskKeyword_7)
 
 		// Entity
 		c.setLinewrap(0, 1, 2).around(entityRule)
@@ -87,9 +87,6 @@ public class MegalFormatter extends AbstractDeclarativeFormatter {
 		c.setNoSpace.after(functionApplicationAccess.verticalLineKeyword_5)
 		c.setSpace(' ').before(functionApplicationAccess.hyphenMinusGreaterThanSignKeyword_6)
 		c.setSpace(' ').after(functionApplicationAccess.hyphenMinusGreaterThanSignKeyword_6)
-
-		// Entity Type Reference
-		c.setNoSpace.before(entityTypeReferenceAccess.manyAssignment_1)
 
 		// Formatting for Comments 
 		c.setLinewrap(0, 1, 2).before(SL_COMMENTRule)

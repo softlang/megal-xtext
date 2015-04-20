@@ -96,8 +96,8 @@ public class Evaluator {
 	}
 
 	private List<FragmentProvider> getApplicableFragmentProviders(Object current) {
-		List<FragmentProvider> allFragmentProviders = fragmentProviders.stream()
-				.filter(x -> x.accept(current)).collect(Collectors.toList());
+		List<FragmentProvider> allFragmentProviders = fragmentProviders.stream().filter(x -> x.accept(current))
+				.collect(Collectors.toList());
 
 		List<FragmentProvider> applicableFragmentProvider = new ArrayList<FragmentProvider>();
 

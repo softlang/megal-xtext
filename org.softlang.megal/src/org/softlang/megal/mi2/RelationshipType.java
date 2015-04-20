@@ -2,8 +2,6 @@ package org.softlang.megal.mi2;
 
 import static com.google.common.base.Objects.equal;
 
-import java.util.List;
-
 /**
  * <p>
  * Base class for relationship types in the model interface that supports a
@@ -32,15 +30,6 @@ public abstract class RelationshipType extends Named {
 
 	/**
 	 * <p>
-	 * Gets the parameters of the left input type.
-	 * </p>
-	 * 
-	 * @return Returns a list of entities
-	 */
-	public abstract List<? extends Entity> getLeftParams();
-
-	/**
-	 * <p>
 	 * Gets the right input type.
 	 * </p>
 	 * 
@@ -54,15 +43,6 @@ public abstract class RelationshipType extends Named {
 	 * </p>
 	 */
 	public abstract boolean isRightMany();
-
-	/**
-	 * <p>
-	 * Gets the parameters of the right input type.
-	 * </p>
-	 * 
-	 * @return Returns a list of entities
-	 */
-	public abstract List<? extends Entity> getRightParams();
 
 	/**
 	 * <p>
@@ -83,41 +63,18 @@ public abstract class RelationshipType extends Named {
 	public abstract Iterable<? extends RelationshipType> getSpecializations();
 
 	public boolean isApplicable(Entity left, Entity right) {
-		return isApplicable(left.getType(), left.isTypeMany(), left.getTypeParams(), right.getType(),
-				right.isTypeMany(), right.getTypeParams());
+		return isApplicable(left.getType(), left.isTypeMany(), right.getType(), right.isTypeMany());
 	}
 
-	public boolean isApplicable(EntityType left, boolean leftMany, List<? extends Entity> leftParams, EntityType right,
-			boolean rightMany, List<? extends Entity> rightParams) {
+	public boolean isApplicable(EntityType left, boolean leftMany, EntityType right, boolean rightMany) {
 		if (leftMany != isLeftMany())
 			return false;
 
 		if (rightMany != isRightMany())
 			return false;
 
-		if (!equal(leftParams, getLeftParams()))
-			return false;
-
-		if (!equal(rightParams, getRightParams()))
-			return false;
-
-		if (getLeft().equals(left) && getRight().equals(right))
-			return true;
-
-		EntityType leftSupertype = left.getSupertype();
-
-		if (!leftSupertype.equals(left))
-			if (isApplicable(leftSupertype, leftMany, leftParams, right, rightMany, rightParams))
-				return true;
-
-		EntityType rightSupertype = left.getSupertype();
-
-		if (!rightSupertype.equals(right))
-			if (isApplicable(left, leftMany, leftParams, rightSupertype, rightMany, rightParams))
-				return true;
-
-		if (!leftSupertype.equals(left) && rightSupertype.equals(right))
-			if (isApplicable(leftSupertype, leftMany, leftParams, rightSupertype, rightMany, rightParams))
+		if (equal(left, getLeft()) || left.isSpecializationOf(getLeft()))
+			if (equal(right, getRight()) || right.isSpecializationOf(getRight()))
 				return true;
 
 		return false;
@@ -150,16 +107,10 @@ public abstract class RelationshipType extends Named {
 		if (!equal(isLeftMany(), other.isLeftMany()))
 			return false;
 
-		if (!equal(getLeftParams(), other.getLeftParams()))
-			return false;
-
 		if (!equal(getRight(), other.getRight()))
 			return false;
 
 		if (!equal(isRightMany(), other.isRightMany()))
-			return false;
-
-		if (!equal(getRightParams(), other.getRightParams()))
 			return false;
 
 		return true;
@@ -167,13 +118,8 @@ public abstract class RelationshipType extends Named {
 
 	@Override
 	public String toString() {
-		String left = getLeft().getName() + (isLeftMany() ? "+" : "")
-				+ (getLeftParams().isEmpty() ? "" : getLeftParams());
-
-		String right = getRight().getName() + (isRightMany() ? "+" : "")
-				+ (getRightParams().isEmpty() ? "" : getRightParams());
-
-		return getName() + " < " + left + " * " + right;
+		return getName() + " < " + (getLeft().getName() + (isLeftMany() ? "+" : "")) + " * "
+				+ (getRight().getName() + (isRightMany() ? "+" : ""));
 	}
 
 	public boolean isSpecializationOf(RelationshipType x) {
@@ -187,14 +133,6 @@ public abstract class RelationshipType extends Named {
 
 		// Check right many is equal
 		if (isRightMany() != x.isRightMany())
-			return false;
-
-		// Check left parameters are equal
-		if (!equal(getLeftParams(), getRightParams()))
-			return false;
-
-		// Check right parameters are equal
-		if (!equal(getRightParams(), getRightParams()))
 			return false;
 
 		// Get equals and true subtype values

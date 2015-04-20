@@ -26,8 +26,8 @@ public class GuardException extends RuntimeException {
 		this.uuid = uuid;
 	}
 
-	protected GuardException(String message, Throwable cause,
-			boolean enableSuppression, boolean writableStackTrace, UUID uuid) {
+	protected GuardException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace,
+			UUID uuid) {
 		super(message, cause, enableSuppression, writableStackTrace);
 		this.uuid = uuid;
 	}

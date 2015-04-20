@@ -13,8 +13,7 @@ public class URI {
 	/**
 	 * Pattern for matching an URI
 	 */
-	private static final Pattern URI_PATTERN = Pattern
-			.compile("([^:]+):\\/(\\/)?(?:([^\\/]+(?:\\/[^\\/]+)*)(\\/)?)?");
+	private static final Pattern URI_PATTERN = Pattern.compile("([^:]+):\\/(\\/)?(?:([^\\/]+(?:\\/[^\\/]+)*)(\\/)?)?");
 
 	/**
 	 * <p>
@@ -69,8 +68,7 @@ public class URI {
 	public URI() {
 	}
 
-	public URI(String protocol, boolean net, Collection<String> segments,
-			boolean folder) {
+	public URI(String protocol, boolean net, Collection<String> segments, boolean folder) {
 		this.protocol = protocol;
 		this.net = net;
 		this.segments.addAll(segments);
@@ -151,10 +149,8 @@ public class URI {
 		int result = 1;
 		result = prime * result + (folder ? 1231 : 1237);
 		result = prime * result + (net ? 1231 : 1237);
-		result = prime * result
-				+ ((protocol == null) ? 0 : protocol.hashCode());
-		result = prime * result
-				+ ((segments == null) ? 0 : segments.hashCode());
+		result = prime * result + ((protocol == null) ? 0 : protocol.hashCode());
+		result = prime * result + ((segments == null) ? 0 : segments.hashCode());
 		return result;
 	}
 
@@ -211,7 +207,6 @@ public class URI {
 
 	@Override
 	public String toString() {
-		return protocol + ":" + (net ? "//" : "/")
-				+ Joiner.on("/").join(segments) + (folder ? "/" : "");
+		return protocol + ":" + (net ? "//" : "/") + Joiner.on("/").join(segments) + (folder ? "/" : "");
 	}
 }

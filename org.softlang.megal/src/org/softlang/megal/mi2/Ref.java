@@ -1,9 +1,5 @@
 package org.softlang.megal.mi2;
 
-import static java.util.Arrays.asList;
-
-import java.util.List;
-
 /**
  * <p>
  * Reference to a defined entity type.
@@ -29,20 +25,12 @@ public final class Ref {
 
 	/**
 	 * <p>
-	 * Internal backing field.
-	 * </p>
-	 */
-	private final List<String> params;
-
-	/**
-	 * <p>
 	 * Internal field assigning constructor.
 	 * </p>
 	 */
-	private Ref(String type, boolean many, List<String> params) {
+	private Ref(String type, boolean many) {
 		this.type = type;
 		this.many = many;
-		this.params = params;
 	}
 
 	/**
@@ -54,29 +42,10 @@ public final class Ref {
 	 *            The type to refer to
 	 * @param many
 	 *            True if this is a many type
-	 * @param params
-	 *            The parameters of the type
 	 * @return Returns a new {@link Ref}
 	 */
-	public static Ref to(String type, boolean many, List<String> params) {
-		return new Ref(type, many, params);
-	}
-
-	/**
-	 * <p>
-	 * Constructs a reference on the given parameters.
-	 * </p>
-	 * 
-	 * @param type
-	 *            The type to refer to
-	 * @param many
-	 *            True if this is a many type
-	 * @param params
-	 *            The parameters of the type
-	 * @return Returns a new {@link Ref}
-	 */
-	public static Ref to(String type, boolean many, String... params) {
-		return new Ref(type, many, asList(params));
+	public static Ref to(String type, boolean many) {
+		return new Ref(type, many);
 	}
 
 	/**
@@ -101,23 +70,11 @@ public final class Ref {
 		return many;
 	}
 
-	/**
-	 * <p>
-	 * Gets the names of all parameter entities.
-	 * </p>
-	 * 
-	 * @return Returns the field
-	 */
-	public List<String> getParams() {
-		return params;
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + (many ? 1231 : 1237);
-		result = prime * result + params.hashCode();
 		result = prime * result + type.hashCode();
 		return result;
 	}
@@ -135,8 +92,6 @@ public final class Ref {
 
 		if (many != other.many)
 			return false;
-		if (!params.equals(other.params))
-			return false;
 		if (!type.equals(other.type))
 			return false;
 
@@ -145,6 +100,6 @@ public final class Ref {
 
 	@Override
 	public String toString() {
-		return getType() + (isMany() ? "+" : "") + (getParams().isEmpty() ? "" : getParams());
+		return getType() + (isMany() ? "+" : "");
 	}
 }

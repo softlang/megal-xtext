@@ -1,6 +1,5 @@
 package org.softlang.megal.api;
 
-
 public final class Output {
 	private static enum Type {
 		NOT_APPLICABLE, ERROR, VALID

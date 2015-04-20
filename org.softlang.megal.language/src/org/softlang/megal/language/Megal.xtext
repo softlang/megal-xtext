@@ -30,14 +30,25 @@ RelationshipType:
 	annotations+=PrefixAnnotation*
 	name=QID
 	(annotations+=ShowNameAnnotation)?
-	'<' left=TypeReference '*' right=TypeReference;
+	'<'
+	// Part of left type assignment
+	typeLeft=[EntityType|QID] ('[' typeLeftParameters+=[Entity|QID] ('->' typeLeftParameters+=[Entity|QID])* ']')?
+	(typeLeftArb?='(' typeLeftMany?='+' ')' | typeLeftMany?='+')?
+	// Operator
+	'*'
+	// Part of right type assignment
+	typeRight=[EntityType|QID] ('[' typeRightParameters+=[Entity|QID] ('->' typeRightParameters+=[Entity|QID])* ']')?
+	(typeRightArb?='(' typeRightMany?='+' ')' | typeRightMany?='+')?;
 
 Entity:
 	annotations+=PrefixAnnotation*
 	(dependent?='?' | parameter?='!')?
 	name=QID
 	(annotations+=ShowNameAnnotation)?
-	':' type=TypeReference;
+	':'
+	// Part of type assignment
+	type=[EntityType|QID] ('[' typeParameters+=[Entity|QID] ('->' typeParameters+=[Entity|QID])* ']')?
+	typeMany?='+'?;
 
 Relationship:
 	annotations+=PrefixAnnotation*
@@ -49,15 +60,6 @@ FunctionApplication:
 	annotations+=PrefixAnnotation*
 	function=[Entity|QID]
 	'(' input=[Entity|QID] ')' '|' '->' output=[Entity|QID];
-
-TypeReference:
-	FunctionTypeReference | EntityTypeReference;
-
-FunctionTypeReference:
-	definition=[EntityType|QID] '[' domain=[Entity|QID] '->' codomain=[Entity|QID] ']';
-
-EntityTypeReference:
-	definition=[EntityType|QID] many?='+'?;
 
 QID:
 	NAME ('::' NAME)*;

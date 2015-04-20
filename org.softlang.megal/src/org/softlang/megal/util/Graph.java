@@ -21,8 +21,7 @@ public class Graph {
 	 *            The edge function
 	 * @return Returns a set of all seen symbols
 	 */
-	public static <T> Set<T> extendBy(T start,
-			Function<T, ? extends Iterable<? extends T>> more) {
+	public static <T> Set<T> extendBy(T start, Function<T, ? extends Iterable<? extends T>> more) {
 		Set<T> result = Sets.newLinkedHashSet();
 		Deque<T> next = Lists.newLinkedList(Collections.singleton(start));
 

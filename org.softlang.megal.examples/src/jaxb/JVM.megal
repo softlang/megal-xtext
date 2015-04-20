@@ -1,0 +1,10 @@
+model JVM
+import Mapping
+
+JVM : Technology
+JVM.Bytecode : Language
+JVM.ObjectGraphs : Language
+
+@Computed
+objectGraph : Transient
+objectGraph elementOf JVM.ObjectGraphs

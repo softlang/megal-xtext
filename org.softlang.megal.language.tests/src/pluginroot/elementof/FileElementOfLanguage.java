@@ -27,6 +27,9 @@ public class FileElementOfLanguage extends Evaluator {
 
 	@Override
 	public Output evaluate(Relationship relationship) {
+		if (relationship.getLeft().getBindings().isEmpty())
+			return Output.notApplicable();
+
 		// Collect all the links for the entity that to be checked for
 		// containment in language
 		Collection<String> nr = newArrayList();

@@ -7,7 +7,6 @@ import static com.google.common.collect.FluentIterable.from;
 import static com.google.common.collect.Iterables.concat;
 import static com.google.common.collect.Iterables.filter;
 import static com.google.common.collect.Iterables.transform;
-import static com.google.common.collect.Lists.transform;
 import static com.google.common.collect.Maps.immutableEntry;
 import static com.google.common.collect.Multimaps.index;
 import static com.google.common.collect.Multimaps.transformValues;
@@ -15,9 +14,7 @@ import static com.google.common.collect.Tables.immutableCell;
 import static java.util.Collections.singleton;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Map.Entry;
-import java.util.NoSuchElementException;
 import java.util.Set;
 
 import org.softlang.megal.mi2.Entity;
@@ -184,12 +181,6 @@ public class NaiveReasoner extends AbstractReasoner {
 			}
 
 			@Override
-			public List<? extends Entity> getLeftParams() {
-				// Left params are specified values key
-				return transform(from.getRowKey().getParams(), x -> getEntity(x));
-			}
-
-			@Override
 			public EntityType getRight() {
 				// Right type is specified values key
 				return getEntityType(from.getColumnKey().getType());
@@ -199,12 +190,6 @@ public class NaiveReasoner extends AbstractReasoner {
 			public boolean isRightMany() {
 				// Right many is specified values key
 				return from.getColumnKey().isMany();
-			}
-
-			@Override
-			public List<? extends Entity> getRightParams() {
-				// Right params are specified values key
-				return transform(from.getColumnKey().getParams(), x -> getEntity(x));
 			}
 
 			@Override
@@ -276,12 +261,6 @@ public class NaiveReasoner extends AbstractReasoner {
 			}
 
 			@Override
-			public List<? extends Entity> getTypeParams() {
-				// Params are specified by value
-				return transform(from.getValue().getParams(), x -> getEntity(x));
-			}
-
-			@Override
 			public Iterable<? extends Relationship> incoming() {
 
 				// Incoming are in the relationship column of this entity
@@ -331,17 +310,7 @@ public class NaiveReasoner extends AbstractReasoner {
 				Ref te = kb.getEntities().get(from.getColumnKey());
 
 				// Find an applicable relationship type
-				Optional<RelationshipType> potential = loadOrSubstitute(fe, te);
-
-				// If none present, throw an exception
-				if (!potential.isPresent())
-					throw new NoSuchElementException("No relationship type for " + from.getRowKey() + " "
-							+ from.getValue() + " " + from.getColumnKey());
-
-				// TODO Maybe null instead
-
-				// Return the result
-				return potential.get();
+				return loadOrSubstitute(fe, te).orNull();
 			}
 
 			/**
@@ -364,12 +333,10 @@ public class NaiveReasoner extends AbstractReasoner {
 					return Optional.of(relationshipType(immutableCell(fromType, toType, from.getValue())));
 
 				// Make supertype for the left side
-				Ref fromTypeSupertype = Ref.to(kb.getEntityTypes().get(fromType.getType()), fromType.isMany(),
-						fromType.getParams());
+				Ref fromTypeSupertype = Ref.to(kb.getEntityTypes().get(fromType.getType()), fromType.isMany());
 
 				// Make supertype for the right side
-				Ref toTypeSupertype = Ref.to(kb.getEntityTypes().get(toType.getType()), toType.isMany(),
-						toType.getParams());
+				Ref toTypeSupertype = Ref.to(kb.getEntityTypes().get(toType.getType()), toType.isMany());
 
 				// If left was not Entity
 				if (fromTypeSupertype.getType() != null) {
@@ -510,24 +477,23 @@ public class NaiveReasoner extends AbstractReasoner {
 
 		// If null, then there was no mapping
 		if (supertype == null)
-			throw new NoSuchElementException(name);
+			return null;
 
 		// Wrap the pair
 		return entityType(immutableEntry(name, supertype));
 	}
 
 	@Override
-	public RelationshipType getRelationshipType(String name, String left, boolean leftMany, List<String> leftParams,
-			String right, boolean rightMany, List<String> rightParams) {
-		Ref leftType = Ref.to(left, leftMany, leftParams);
-		Ref rightType = Ref.to(right, rightMany, rightParams);
+	public RelationshipType getRelationshipType(String name, String left, boolean leftMany, String right,
+			boolean rightMany) {
+		Ref leftType = Ref.to(left, leftMany);
+		Ref rightType = Ref.to(right, rightMany);
 		Set<String> names = kb.getRelationshipTypes().get(leftType, rightType);
 
 		if (names.contains(name))
 			return relationshipType(immutableCell(leftType, rightType, name));
 
-		throw new NoSuchElementException(name + ", " + left + ", " + leftMany + ", " + leftParams + ", " + right + ", "
-				+ rightMany + ", " + rightParams);
+		return null;
 	}
 
 	@Override
@@ -537,7 +503,7 @@ public class NaiveReasoner extends AbstractReasoner {
 
 		// If null, then there was no mapping
 		if (type == null)
-			throw new NoSuchElementException(name);
+			return null;
 
 		// Wrap the pair
 		return entity(immutableEntry(name, type));
@@ -546,7 +512,7 @@ public class NaiveReasoner extends AbstractReasoner {
 	@Override
 	public Relationship getRelationship(String left, String relationship, String right) {
 		if (!kb.getRelationships().contains(left, right, relationship))
-			throw new NoSuchElementException(left + ", " + relationship + ", " + right);
+			return null;
 
 		return relationship(immutableCell(left, right, relationship));
 	}

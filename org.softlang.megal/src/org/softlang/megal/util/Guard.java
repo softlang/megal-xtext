@@ -3,8 +3,7 @@ package org.softlang.megal.util;
 import java.util.UUID;
 
 public class Guard {
-	public static <T> T guarded(T otherwise, GuardedProvider<T> expression)
-			throws GuardException {
+	public static <T> T guarded(T otherwise, GuardedProvider<T> expression) throws GuardException {
 		// Keep track of self
 		UUID identity = UUID.randomUUID();
 
@@ -24,8 +23,7 @@ public class Guard {
 		}
 	}
 
-	public static void guarded(GuardedRunnable expression)
-			throws GuardException {
+	public static void guarded(GuardedRunnable expression) throws GuardException {
 		// Keep track of self
 		UUID identity = UUID.randomUUID();
 

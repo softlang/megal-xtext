@@ -1,6 +1,5 @@
 package org.softlang.megal.mi2.reasoning;
 
-import java.util.List;
 import java.util.Set;
 
 import org.softlang.megal.mi2.Entity;
@@ -132,31 +131,6 @@ public interface Reasoner {
 	 * @return Returns the entity type
 	 */
 	EntityType getEntityType(String name);
-
-	/**
-	 * <p>
-	 * Gets the relationship type for the name.
-	 * </p>
-	 * 
-	 * @param name
-	 *            The name of the relationship type
-	 * @param left
-	 *            The definition of the left side
-	 * @param leftMany
-	 *            True if left is many
-	 * @param leftParams
-	 *            The left params
-	 * @param right
-	 *            The definition of the right side
-	 * @param rightMany
-	 *            True if right is many
-	 * @param rightParams
-	 *            The right params
-	 * 
-	 * @return Returns the relationship type
-	 */
-	RelationshipType getRelationshipType(String name, String left, boolean leftMany, List<String> leftParams,
-			String right, boolean rightMany, List<String> rightParams);
 
 	/**
 	 * <p>

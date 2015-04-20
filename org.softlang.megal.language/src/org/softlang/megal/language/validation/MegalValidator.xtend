@@ -11,8 +11,14 @@ import org.softlang.megal.Relationship
 import org.softlang.megal.api.Evaluators
 import org.softlang.megal.mi2.KB
 import org.softlang.megal.mi2.MegamodelKB
-import org.softlang.megal.mi2.reasoning.NaiveReasoner
+import org.softlang.megal.mi2.processing.PartOfProcessor
+import org.softlang.megal.mi2.processing.ResolutionProcessor
+import org.softlang.megal.mi2.processing.UnionProcessor
+import org.softlang.megal.mi2.reasoning.Providers
+import org.softlang.sourcesupport.LocalSourceSupport
 import org.softlang.sourcesupport.SourceSupportPlugin
+import java.util.NoSuchElementException
+import org.softlang.megal.FunctionApplication
 
 /**
  * Custom validation rules. 
@@ -31,20 +37,20 @@ class MegalValidator extends AbstractMegalValidator {
 				ENTITY_NOT_CALLED_ENTITY)
 	}
 
-//	@Check
-//	def checkRelationshipTypeApplicable(Relationship x) {
-//		val kb = MegamodelKB.loadAll(x.eContainer as Megamodel)
-//		val rs = new NaiveReasoner(kb)
-//
-//		val left = rs.getEntity(x.left.name)
-//		val right = rs.getEntity(x.right.name)
-//		val types = rs.getRelationshipTypes(x.type.name)
-//
-//		if (!types.exists[isApplicable(left, right)])
-//			error('''No instance applicable for «x.type?.name» from «left» to «right»''',
-//				MegalPackage.Literals.RELATIONSHIP__TYPE, NO_APPLICABLE_INSTANCE)
-//
-//	}
+	@Check
+	def checkRelationshipTypeApplicable(Relationship x) {
+		val kb = MegamodelKB.loadAll(x.eContainer as Megamodel)
+		val rs = Providers.obtain(kb)
+
+		val left = rs.getEntity(x.left.name)
+		val right = rs.getEntity(x.right.name)
+		val types = rs.getRelationshipTypes(x.type.name)
+
+		if (!types.exists[isApplicable(left, right)])
+			error('''No instance applicable for «x.type?.name» from «left» to «right»''',
+				MegalPackage.Literals.RELATIONSHIP__TYPE, NO_APPLICABLE_INSTANCE)
+
+	}
 
 	/**
 	 * This check requires expensive megamodel evaluation
@@ -56,17 +62,38 @@ class MegalValidator extends AbstractMegalValidator {
 
 	@Check
 	def checkValidate(Megamodel m) {
-		val kb = MegamodelKB.loadAll(m)
-		val rs = new NaiveReasoner(kb)
+		try {
+			val ss = SourceSupportPlugin.support.analyzeContaining(m)
+			val processChain = UnionProcessor.of(new ResolutionProcessor(ss));
 
-		val ss = SourceSupportPlugin.support.analyzeContaining(m)
+			val a = MegamodelKB.loadAll(m);
+			val b = processChain.applyWith(a);
+			val rs = Providers.obtain(b)
 
-		// Evaluate parallel, join immediately
-		val r = Evaluators.evaluate(ss, rs)
+			// Evaluate parallel, join immediately
+			val r = Evaluators.evaluate(ss, rs)
 
-		// Look the relations in this model up, if they are invalid, mark them 
-		for (e : m.declarations.filter(Relationship))
-			for (String error : r.invalid.entries.filter[i|e.matches(i.key)].map[value])
-				error(error, e, MegalPackage.Literals.RELATIONSHIP__TYPE)
+			// Look the relations in this model up, if they are invalid, mark them 
+			for (e : m.declarations.filter(Relationship))
+				for (error : r.invalid.entries.filter[i|e.matches(i.key)])
+					if (error.key.annotations.containsKey("IsInvalid"))
+						info('''Failed as expected: "«error.value»"''', e, MegalPackage.Literals.RELATIONSHIP__TYPE)
+					else
+						error(error.value, e, MegalPackage.Literals.RELATIONSHIP__TYPE)
+
+			// Look the function applications generated relationships in this model up, if they are invalid, mark them 
+			for (f : m.declarations.filter(FunctionApplication))
+				for (e : MegamodelKB.findFor(rs, f))
+					for (error : r.invalid.entries.filter[i|e == i.key])
+						if (error.key.annotations.containsKey("IsInvalid"))
+							info('''Failed as expected: "«error.value»"''', f,
+								MegalPackage.Literals.FUNCTION_APPLICATION__FUNCTION)
+						else
+							error(error.value, f, MegalPackage.Literals.FUNCTION_APPLICATION__FUNCTION)
+
+		} catch (NoSuchElementException e) {
+			info('''Unresolvable items, can not validate megamodel: "«e.message»"''', m,
+				MegalPackage.Literals.MEGAMODEL__NAME)
+		}
 	}
 }

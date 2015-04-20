@@ -35,13 +35,14 @@ otherthing = "ex/nr"
 otherthing elementOf OnlyAs
 
 wierdStuff: Filelocation
+wierdStuff elementOf OnlyBs
 
 ParserSystem < Technology
 
 JavaCompiler : Technology
 JavaCompiler.Parser : ParserSystem
 
-coolStuff : Function
+coolStuff : Function[OnlyAs->OnlyBs]
 coolStuff(something)|->wierdStuff
 coolStuff(something)|->wierdStuff = "A really wierd correlation that is defined by some obscure mapping"
 wierdStuff correspondsTo something
