@@ -31,6 +31,11 @@ XSDAcceptor realizationOf XSD
 XSDAcceptor = 'jaxb.AcceptXSD'
 XSDAcceptor partOf FileElementOfLanguage
 
+nxf: File
+@IsInvalid
+nxf elementOf XML
+nxf = "workspace:/org.softlang.megal.examples/src/jaxb/data/NotXML.xml"
+
 schema: File
 schema elementOf XSD
 schema = "workspace:/org.softlang.megal.examples/src/jaxb/data/Schema.xsd"
