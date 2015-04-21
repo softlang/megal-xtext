@@ -87,7 +87,7 @@ public class ModelInterface {
 			for (Entry<String, String> annotation : x.getAnnotations().entries())
 				System.out.println("  @" + annotation.getKey() + " " + annotation.getValue());
 			System.out.println("  " + x);
-			for (String s : x.getBindings())
+			for (Object s : x.getBindings())
 				System.out.println("  ~ " + s);
 		}
 		System.out.println();

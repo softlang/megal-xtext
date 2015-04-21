@@ -100,7 +100,7 @@ public class KBs {
 		 * Internal backing field.
 		 * </p>
 		 */
-		private final SetMultimap<String, String> bindings;
+		private final SetMultimap<String, Object> bindings;
 
 		/**
 		 * <p>
@@ -151,7 +151,7 @@ public class KBs {
 				Map<String, String> entityTypes,
 				SetMultimap<Entry<String, String>, Entry<String, String>> entityTypeAnnotations,
 				SetMultimap<Entry<String, Ref>, Entry<String, String>> entityAnnotations, Map<String, Ref> entities,
-				SetMultimap<String, String> bindings, SetMultimap<String, String> theEntityTypeAnnotations,
+				SetMultimap<String, Object> bindings, SetMultimap<String, String> theEntityTypeAnnotations,
 				SetMultimap<String, String> annotations) {
 			this.title = title;
 			this.relationships = relationships;
@@ -305,7 +305,7 @@ public class KBs {
 		 *            The bindings
 		 * @return Returns a copied builder
 		 */
-		public Builder setBindings(SetMultimap<String, String> bindings) {
+		public Builder setBindings(SetMultimap<String, Object> bindings) {
 			return new Builder(title, relationships, relationshipTypes, relationshipTypeAnnotations,
 					relationshipAnnotations, entityTypes, entityTypeAnnotations, entityAnnotations, entities, bindings,
 					theEntityTypeAnnotations, annotations);
@@ -396,7 +396,7 @@ public class KBs {
 				}
 
 				@Override
-				public SetMultimap<String, String> getBindings() {
+				public SetMultimap<String, Object> getBindings() {
 					return bindings;
 				}
 

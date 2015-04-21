@@ -33,8 +33,8 @@ public class FileElementOfLanguage extends Evaluator {
 		// Collect all the links for the entity that to be checked for
 		// containment in language
 		Collection<String> nr = newArrayList();
-		for (String link : relationship.getLeft().getBindings())
-			nr.add(link);
+		for (Object link : relationship.getLeft().getBindings())
+			nr.add((String)link);
 
 		// Find a character source from these links, usually there's just one
 		// link for this entity

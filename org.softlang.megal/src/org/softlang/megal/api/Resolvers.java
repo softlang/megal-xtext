@@ -32,9 +32,9 @@ public class Resolvers {
 		// Iterate all resolver entities
 		for (Entity r : resolverType.getInstances()) {
 			// Iterate all the bindings for the resolver
-			for (String l : r.getBindings()) {
+			for (Object l : r.getBindings()) {
 				// Try to load the attached class
-				Class<? extends Resolver> v = sourceSupport.loadClass(Resolver.class, l);
+				Class<? extends Resolver> v = sourceSupport.loadClass(Resolver.class, (String) l);
 
 				// If class is loadable
 				if (v != null)

@@ -39,7 +39,7 @@ public class ResolutionProcessor implements Processor {
 
 		Multimap<Entity, Resolver> resolvers = Resolvers.loadResolvers(sourceSupport, input);
 
-		SetMultimap<String, String> bindings = HashMultimap.create();
+		SetMultimap<String, Object> bindings = HashMultimap.create();
 
 		for (Entity entity : input.getEntities())
 			for (Resolver resolver : resolvers.values())

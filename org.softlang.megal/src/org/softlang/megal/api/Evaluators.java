@@ -47,9 +47,9 @@ public class Evaluators {
 		for (Entity r : evaluatorType.getInstances()) {
 
 			// Iterate all the bindings for the resolver
-			for (String l : r.getBindings()) {
+			for (Object l : r.getBindings()) {
 				// Try to load the attached class
-				Class<? extends Evaluator> v = s.loadClass(Evaluator.class, l);
+				Class<? extends Evaluator> v = s.loadClass(Evaluator.class, (String)l);
 
 				// If class is loadable
 				if (v != null)

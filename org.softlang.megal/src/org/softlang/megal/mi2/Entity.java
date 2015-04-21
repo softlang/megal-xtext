@@ -22,7 +22,7 @@ public abstract class Entity extends Named {
 	 * 
 	 * @return Returns a set of the link targets
 	 */
-	public abstract Set<String> getBindings();
+	public abstract Set<Object> getBindings();
 
 	/**
 	 * <p>

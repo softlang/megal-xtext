@@ -243,7 +243,7 @@ public class NaiveReasoner extends AbstractReasoner {
 			}
 
 			@Override
-			public Set<String> getBindings() {
+			public Set<Object> getBindings() {
 				// Bindings are mapped from the key
 				return kb.getBindings().get(from.getKey());
 			}

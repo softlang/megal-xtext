@@ -87,7 +87,7 @@ public interface KB {
 	 * 
 	 * @return Returns the data
 	 */
-	SetMultimap<String, String> getBindings();
+	SetMultimap<String, Object> getBindings();
 
 	/**
 	 * <p>

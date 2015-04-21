@@ -146,7 +146,7 @@ public class MegamodelKB extends AbstractKB {
 	 * Internal backing field.
 	 * </p>
 	 */
-	private final SetMultimap<String, String> bindings;
+	private final SetMultimap<String, Object> bindings;
 
 	/**
 	 * <p>
@@ -433,7 +433,7 @@ public class MegamodelKB extends AbstractKB {
 	}
 
 	@Override
-	public SetMultimap<String, String> getBindings() {
+	public SetMultimap<String, Object> getBindings() {
 		return bindings;
 	}
 
