@@ -106,9 +106,3 @@ PairElementOfFunction = "pluginroot.elementof.PairElementOfFunction"
 // From model
 refersTo < Artifact(+) * Technology
 refersTo < Artifact(+) * Artifact(+)
-
-// TODO Discuss this, i think this is a good abstraction
-// for evaluators parameterized on binary instances. Conforms 
-// with the function application notation for element of speicifcation.
-
-realizationOf < Evaluator * Pair

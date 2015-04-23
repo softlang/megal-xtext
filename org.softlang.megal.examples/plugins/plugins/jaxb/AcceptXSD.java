@@ -1,4 +1,4 @@
-package jaxb;
+package plugins.jaxb;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -10,7 +10,7 @@ import javax.xml.validation.SchemaFactory;
 import org.softlang.megal.api.Output;
 import org.xml.sax.SAXException;
 
-import pluginroot.elementof.Acceptor;
+import plugins.root.elementof.Acceptor;
 
 public class AcceptXSD extends Acceptor {
 	@Override

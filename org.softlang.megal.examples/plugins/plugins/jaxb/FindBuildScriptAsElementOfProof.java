@@ -1,4 +1,4 @@
-package jaxb;
+package plugins.jaxb;
 
 import org.softlang.megal.api.Evaluator;
 import org.softlang.megal.api.Output;

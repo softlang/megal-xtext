@@ -1,4 +1,4 @@
-package pluginroot;
+package plugins.root;
 
 import static com.google.common.collect.Iterables.getOnlyElement;
 

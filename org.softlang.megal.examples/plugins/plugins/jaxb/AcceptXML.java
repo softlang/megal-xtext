@@ -1,4 +1,4 @@
-package jaxb;
+package plugins.jaxb;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -13,7 +13,7 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
-import pluginroot.elementof.Acceptor;
+import plugins.root.elementof.Acceptor;
 
 public class AcceptXML extends Acceptor {
 	@Override

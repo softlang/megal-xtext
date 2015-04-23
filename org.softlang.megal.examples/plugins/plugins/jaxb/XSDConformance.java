@@ -1,4 +1,4 @@
-package jaxb;
+package plugins.jaxb;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -15,7 +15,7 @@ import org.softlang.megal.api.Output;
 import org.softlang.megal.mi2.Relationship;
 import org.xml.sax.SAXException;
 
-import pluginroot.Bindings;
+import plugins.root.Bindings;
 
 public class XSDConformance extends Evaluator {
 

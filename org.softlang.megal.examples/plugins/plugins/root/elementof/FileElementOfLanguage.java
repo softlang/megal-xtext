@@ -1,17 +1,15 @@
-package pluginroot.elementof;
+package plugins.root.elementof;
 
 import static com.google.common.collect.Iterables.filter;
-import static com.google.common.collect.Lists.newArrayList;
 
 import java.io.IOException;
-import java.util.Collection;
 
 import org.eclipse.core.runtime.CoreException;
 import org.softlang.megal.api.Evaluator;
 import org.softlang.megal.api.Output;
 import org.softlang.megal.mi2.Relationship;
 
-import pluginroot.Bindings;
+import plugins.root.Bindings;
 
 /**
  * <p>

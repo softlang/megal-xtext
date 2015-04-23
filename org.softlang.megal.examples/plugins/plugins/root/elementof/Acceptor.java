@@ -1,4 +1,4 @@
-package pluginroot.elementof;
+package plugins.root.elementof;
 
 import org.softlang.megal.api.Evaluator;
 import org.softlang.megal.api.Output;
