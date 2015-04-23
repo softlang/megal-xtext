@@ -18,35 +18,35 @@ xmlFile conformsTo xsdFiles
 conformsTo < Artifact(+) * Artifact(+)
 
 XSDConformance : Evaluator
-XSDConformance = 'jaxb.XSDConformance'
+XSDConformance = 'plugins.jaxb.XSDConformance'
 
 
 XMLAcceptor : Evaluator
 XMLAcceptor realizationOf XML
-XMLAcceptor = 'jaxb.AcceptXML'
+XMLAcceptor = 'plugins.jaxb.AcceptXML'
 XMLAcceptor partOf FileElementOfLanguage
 
 XSDAcceptor : Evaluator
 XSDAcceptor realizationOf XSD
-XSDAcceptor = 'jaxb.AcceptXSD'
+XSDAcceptor = 'plugins.jaxb.AcceptXSD'
 XSDAcceptor partOf FileElementOfLanguage
 
 nxf: File
 @IsInvalid
 nxf elementOf XML
-nxf = "workspace:/org.softlang.megal.examples/src/jaxb/data/NotXML.xml"
+//nxf = "workspace:/org.softlang.megal.examples/src/jaxb/data/NotXML.xml"
 
 schema: File
 schema elementOf XSD
-schema = "workspace:/org.softlang.megal.examples/src/jaxb/data/Schema.xsd"
+//schema = "workspace:/org.softlang.megal.examples/src/jaxb/data/Schema.xsd"
 
 scf: File
 scf elementOf XML
-scf = "workspace:/org.softlang.megal.examples/src/jaxb/data/SchemaConformant.xml"
+//scf = "workspace:/org.softlang.megal.examples/src/jaxb/data/SchemaConformant.xml"
 
 sncf: File
 sncf elementOf XML
-sncf = "workspace:/org.softlang.megal.examples/src/jaxb/data/SchemaNonConformant.xml"
+//sncf = "workspace:/org.softlang.megal.examples/src/jaxb/data/SchemaNonConformant.xml"
 
 scf conformsTo schema
 @IsInvalid

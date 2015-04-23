@@ -1,11 +1,4 @@
 <project name="JAXB" default="compile" basedir=".">
-	<!-- Make XJC available as a task -->
-	<taskdef name="xjc" classname="com.sun.tools.xjc.XJCTask">
-		<classpath>
-			<fileset dir="libs/" includes="*.jar" />
-		</classpath>
-	</taskdef>
-
 	<!-- Define the variables -->
 	<property name="xjcfiles" location="src/org/softlang/company/xjc" />
 	<property name="src" location="src/" />
@@ -18,8 +11,14 @@
 		<mkdir dir="${xjcfiles}" />
 		
 		<!-- Generates the model classes from the schema -->
-		<xjc schema="inputs/Company.xsd" target="${src}" package="org.softlang.company.xjc" />
-
+		<exec executable="xjc">
+		    <arg value="inputs/Company.xsd"/>
+		    <arg value="-d"/>
+		    <arg path="${src}"/>
+		    <arg value="-p"/>
+		    <arg value="org.softlang.company.xjc"/>
+		  </exec>
+		
 		<!-- Compile all the classes -->
 		<javac srcdir="${src}" destdir="${bin}" />
 	</target>

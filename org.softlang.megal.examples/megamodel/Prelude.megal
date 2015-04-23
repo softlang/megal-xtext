@@ -89,7 +89,7 @@ elementOf < File * Language
 
 // Dispatcher with master as link and parameter dependence
 FileElementOfLanguage: Evaluator
-FileElementOfLanguage = "pluginroot.elementof.FileElementOfLanguage"
+FileElementOfLanguage = "plugins.root.elementof.FileElementOfLanguage"
 
 // Replacement for the function application
 Pair < Entity
@@ -100,7 +100,7 @@ secondOf < Entity(+) * Pair
 elementOf < Pair * Function
 
 PairElementOfFunction: Evaluator
-PairElementOfFunction = "pluginroot.elementof.PairElementOfFunction"
+PairElementOfFunction = "plugins.root.PairElementOfFunction"
 
 
 // From model

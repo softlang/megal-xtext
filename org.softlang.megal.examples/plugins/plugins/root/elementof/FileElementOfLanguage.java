@@ -20,7 +20,6 @@ import plugins.root.Bindings;
  *
  */
 public class FileElementOfLanguage extends Evaluator {
-
 	@Override
 	public Output evaluate(Relationship relationship) {
 		if (relationship.getLeft().getBindings().isEmpty())

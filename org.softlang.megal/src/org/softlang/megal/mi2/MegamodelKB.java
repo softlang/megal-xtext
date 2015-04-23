@@ -1,7 +1,10 @@
 package org.softlang.megal.mi2;
 
+import static com.google.common.base.Objects.equal;
 import static com.google.common.base.Predicates.notNull;
 import static com.google.common.collect.FluentIterable.from;
+import static com.google.common.collect.Iterables.elementsEqual;
+import static com.google.common.collect.Lists.reverse;
 import static com.google.common.collect.Lists.transform;
 import static com.google.common.collect.Maps.immutableEntry;
 import static com.google.common.collect.Maps.newHashMap;
@@ -30,6 +33,7 @@ import org.softlang.megal.mi2.util.HashMultitable;
 import org.softlang.megal.mi2.util.Multitable;
 
 import com.google.common.base.Joiner;
+import com.google.common.base.Splitter;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
@@ -74,6 +78,149 @@ public class MegamodelKB extends AbstractKB {
 	public static final String SECOND_OF = "secondOf";
 
 	public static final String PAIR = "Pair";
+
+	/**
+	 * <p>
+	 * Resolves to the corresponding entity type in the MegaL notation.
+	 * </p>
+	 * 
+	 * @param megamodel
+	 *            The megamodel in MegaL notation
+	 * @param entityType
+	 *            The item to resolve
+	 * @return The resolved item
+	 */
+	public static EntityType resolve(Megamodel megamodel, org.softlang.megal.mi2.EntityType entityType) {
+		for (EntityType item : from(megamodel.getDeclarations()).filter(EntityType.class))
+			if (equal(item.getName(), entityType.getName()))
+				return item;
+
+		for (Megamodel imported : reverse(megamodel.getImports())) {
+			EntityType potential = resolve(imported, entityType);
+			if (potential != null)
+				return potential;
+		}
+
+		return null;
+	}
+
+	/**
+	 * <p>
+	 * Resolves to the corresponding entity in the MegaL notation.
+	 * </p>
+	 * 
+	 * @param megamodel
+	 *            The megamodel in MegaL notation
+	 * @param entity
+	 *            The item to resolve
+	 * @return The resolved item
+	 */
+	public static Entity resolve(Megamodel megamodel, org.softlang.megal.mi2.Entity entity) {
+		for (Entity item : from(megamodel.getDeclarations()).filter(Entity.class)) {
+			// Not equal name, no match
+			if (!equal(item.getName(), entity.getName()))
+				continue;
+
+			// Parameters not element equal, no match
+			if (!elementsEqual(transform(item.getTypeParameters(), Entity::getName),
+					Splitter.on(',').split(entity.getAnnotation(PARAMS))))
+				continue;
+
+			return item;
+		}
+
+		for (Megamodel imported : reverse(megamodel.getImports())) {
+			Entity potential = resolve(imported, entity);
+			if (potential != null)
+				return potential;
+		}
+
+		return null;
+	}
+
+	/**
+	 * <p>
+	 * Resolves to the corresponding relationship type in the MegaL notation
+	 * </p>
+	 * 
+	 * @param megamodel
+	 *            The megamodel in MegaL notation
+	 * @param relationshipType
+	 *            The item to resolve
+	 * @return The resolved item
+	 */
+	public static RelationshipType resolve(Megamodel megamodel, org.softlang.megal.mi2.RelationshipType relationshipType) {
+		for (RelationshipType item : from(megamodel.getDeclarations()).filter(RelationshipType.class)) {
+			// Not equal name, no match
+			if (!equal(item.getName(), relationshipType.getName()))
+				continue;
+
+			// Left type not equal, no match
+			if (!equal(item.getTypeLeft().getName(), relationshipType.getLeft().getName()))
+				continue;
+
+			// Left parameters not element equal, no match
+			if (!elementsEqual(transform(item.getTypeLeftParameters(), Entity::getName),
+					Splitter.on(',').split(relationshipType.getAnnotation(PARAMS_LEFT))))
+				continue;
+
+			// Right type not equal, no match
+			if (!equal(item.getTypeRight().getName(), relationshipType.getRight().getName()))
+				continue;
+
+			// Right parameters not element equal, no match
+			if (!elementsEqual(transform(item.getTypeRightParameters(), Entity::getName),
+					Splitter.on(',').split(relationshipType.getAnnotation(PARAMS_RIGHT))))
+				continue;
+
+			return item;
+		}
+
+		for (Megamodel imported : reverse(megamodel.getImports())) {
+			RelationshipType potential = resolve(imported, relationshipType);
+			if (potential != null)
+				return potential;
+		}
+
+		return null;
+	}
+
+	/**
+	 * <p>
+	 * Resolves to the corresponding relationship in the MegaL notation
+	 * </p>
+	 * 
+	 * @param megamodel
+	 *            The megamodel in MegaL notation
+	 * @param relationship
+	 *            The item to resolve
+	 * @return The resolved item
+	 */
+	public static Relationship resolve(Megamodel megamodel, org.softlang.megal.mi2.Relationship relationship) {
+		for (Relationship item : from(megamodel.getDeclarations()).filter(Relationship.class)) {
+			// Left entity not equal, no match
+			if (!equal(item.getLeft().getName(), relationship.getLeft().getName()))
+				continue;
+
+			// Relationship type not equal, no match
+			if (!equal(item.getType().getName(), relationship.getType().getName()))
+				continue;
+
+			// Right entity not equal, no match
+			if (!equal(item.getRight().getName(), relationship.getRight().getName()))
+				continue;
+
+			return item;
+		}
+
+		for (Megamodel imported : reverse(megamodel.getImports())) {
+			Relationship potential = resolve(imported, relationship);
+			if (potential != null)
+				return potential;
+		}
+
+		return null;
+	}
 
 	public static Set<org.softlang.megal.mi2.Relationship> findFor(Reasoner r, FunctionApplication pair) {
 		String function = pair.getFunction().getName();

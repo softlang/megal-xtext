@@ -73,6 +73,7 @@ class MegalValidator extends AbstractMegalValidator {
 			// Evaluate parallel, join immediately
 			val r = Evaluators.evaluate(ss, rs)
 
+println(r)
 			// Look the relations in this model up, if they are invalid, mark them 
 			for (e : m.declarations.filter(Relationship))
 				for (error : r.invalid.entries.filter[i|e.matches(i.key)])

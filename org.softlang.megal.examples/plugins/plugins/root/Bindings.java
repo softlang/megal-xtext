@@ -16,7 +16,6 @@ import com.google.common.io.CharStreams;
 import static com.google.common.collect.Iterables.filter;
 
 public class Bindings {
-
 	public static String read(final IFile file) throws IOException,
 			CoreException {
 		try (InputStream stream = file.getContents()) {
