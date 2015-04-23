@@ -13,6 +13,7 @@ import org.softlang.megal.MegalPlugin;
 import org.softlang.megal.api.URI;
 
 import com.google.common.io.CharStreams;
+import static com.google.common.collect.Iterables.filter;
 
 public class Bindings {
 
@@ -26,14 +27,14 @@ public class Bindings {
 		}
 	}
 
-	public static String read(Collection<String> nr) throws IOException,
+	public static String read(Collection<Object> nr) throws IOException,
 			CoreException {
 		if (nr.size() != 1)
 			return null;
 
 		// Find the first IFile in the resolved items
 		for (Object o : MegalPlugin.getEvaluator().evaluate(
-				URI.valueOf(getOnlyElement(nr)))) {
+				URI.valueOf(getOnlyElement(filter(nr, String.class))))) {
 
 			if (o instanceof IFile)
 				return read((IFile) o);

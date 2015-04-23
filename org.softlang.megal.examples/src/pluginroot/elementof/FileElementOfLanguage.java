@@ -28,17 +28,11 @@ public class FileElementOfLanguage extends Evaluator {
 		if (relationship.getLeft().getBindings().isEmpty())
 			return Output.notApplicable();
 
-		// Collect all the links for the entity that to be checked for
-		// containment in language
-		Collection<String> nr = newArrayList();
-		for (String link : relationship.getLeft().getBindings())
-			nr.add(link);
-
 		// Find a character source from these links, usually there's just one
 		// link for this entity
 		String text;
 		try {
-			text = Bindings.read(nr);
+			text = Bindings.read(relationship.getLeft().getBindings());
 		} catch (IOException | CoreException e) {
 			return Output.error(e.getLocalizedMessage());
 		}
