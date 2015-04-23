@@ -3,6 +3,7 @@ package org.softlang.megal.api;
 import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.Sets.newHashSet;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map.Entry;
@@ -49,7 +50,7 @@ public class Evaluators {
 			// Iterate all the bindings for the resolver
 			for (Object l : r.getBindings()) {
 				// Try to load the attached class
-				Class<? extends Evaluator> v = s.loadClass(Evaluator.class, (String)l);
+				Class<? extends Evaluator> v = s.loadClass(Evaluator.class, (String) l);
 
 				// If class is loadable
 				if (v != null)
@@ -108,6 +109,13 @@ public class Evaluators {
 		return Multimaps.unmodifiableMultimap(resultMultimap);
 	}
 
+	public static String getExceptionMessage(Throwable t) {
+		if (t.getMessage() == null)
+			return t.getClass().getSimpleName() + " at " + t.getStackTrace()[0];
+
+		return t.getMessage();
+	}
+
 	public static Result evaluate(SourceSupport s, Reasoner m) {
 
 		// Load all evaluators
@@ -135,8 +143,8 @@ public class Evaluators {
 								trace.putAll(y.calculateTrace(b));
 							}
 						}
-					} catch (RuntimeException e) {
-						invalid.put(b, e.getLocalizedMessage());
+					} catch (RuntimeException | IOException e) {
+						invalid.put(b, getExceptionMessage(e));
 					}
 				}
 		}
@@ -170,7 +178,7 @@ public class Evaluators {
 				ForkJoinTask<Multimap<RelationshipType, Entity>> loadMappingsTaks = ForkJoinTask.adapt(
 						new Callable<Multimap<RelationshipType, Entity>>() {
 							@Override
-							public Multimap<RelationshipType, Entity> call() throws Exception {
+							public Multimap<RelationshipType, Entity> call() {
 								return loadMappings(m);
 							}
 						}).fork();
@@ -179,7 +187,7 @@ public class Evaluators {
 				ForkJoinTask<Multimap<Entity, Evaluator>> loadEvaluatorsTask = ForkJoinTask.adapt(
 						new Callable<Multimap<Entity, Evaluator>>() {
 							@Override
-							public Multimap<Entity, Evaluator> call() throws Exception {
+							public Multimap<Entity, Evaluator> call() {
 								return loadEvaluators(s, m);
 							}
 						}).fork();
@@ -199,7 +207,7 @@ public class Evaluators {
 					// First tier: Subtask for each relationship
 					subtasks.add(ForkJoinTask.adapt(new Callable<Result>() {
 						@Override
-						public Result call() throws Exception {
+						public Result call() {
 							Result result = new Result(ImmutableMultimap.of(), ImmutableSet.of(), ImmutableMultimap
 									.of());
 
@@ -210,7 +218,7 @@ public class Evaluators {
 									// Second tier: Subtask for each evaluator
 									subtasks.add(ForkJoinTask.adapt(new Callable<Result>() {
 										@Override
-										public Result call() throws Exception {
+										public Result call() {
 											// Assign the API before evaluation
 											try {
 												Output result = eval.evaluate(rel);
@@ -227,8 +235,8 @@ public class Evaluators {
 
 												return new Result(ImmutableMultimap.of(), ImmutableSet.of(),
 														ImmutableMultimap.of());
-											} catch (RuntimeException e) {
-												return new Result(ImmutableMultimap.of(rel, e.getLocalizedMessage()),
+											} catch (RuntimeException | IOException e) {
+												return new Result(ImmutableMultimap.of(rel, getExceptionMessage(e)),
 														ImmutableSet.of(), ImmutableMultimap.of());
 											}
 										}

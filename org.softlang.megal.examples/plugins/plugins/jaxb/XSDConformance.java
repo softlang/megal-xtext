@@ -48,7 +48,7 @@ public class XSDConformance extends Evaluator {
 	}
 
 	@Override
-	public Output evaluate(Relationship relationship) {
+	public Output evaluate(Relationship relationship) throws IOException {
 		for (Relationship r : relationship.getRight().outgoing("elementOf")) {
 			if ("XSD".equals(r.getRight().getName())) {
 				try {

@@ -1,5 +1,6 @@
 package org.softlang.megal.api;
 
+import java.io.IOException;
 import java.util.Collection;
 
 import org.softlang.megal.mi2.Entity;
@@ -99,7 +100,7 @@ public abstract class Evaluator {
 	 *            The entity to evaluate
 	 * @return Returns the result of evaluation as an element of {@link Result}
 	 */
-	public Output evaluate(Entity entity) {
+	public Output evaluate(Entity entity) throws IOException {
 		return Output.notApplicable();
 	}
 
@@ -110,7 +111,7 @@ public abstract class Evaluator {
 	 *            The relationship to evaluate
 	 * @return Returns the result of evaluation as an element of {@link Result}
 	 */
-	public Output evaluate(Relationship relationship) {
+	public Output evaluate(Relationship relationship) throws IOException {
 		return Output.notApplicable();
 	}
 
