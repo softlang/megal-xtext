@@ -2,27 +2,22 @@ package org.softlang.megal.mi2.mmp;
 
 import static com.google.common.base.Objects.equal;
 import static com.google.common.collect.Iterables.concat;
-import static com.google.common.collect.Lists.newLinkedList;
 import static com.google.common.collect.Maps.newHashMap;
 import static com.google.common.collect.Sets.newHashSet;
-import static java.util.Collections.singleton;
+import static org.softlang.megal.util.Persistent.append;
 
-import java.io.IOException;
-import java.util.Deque;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
-import static org.softlang.megal.util.Persistent.*;
-
-import org.softlang.megal.mi2.Entity;
 import org.softlang.megal.mi2.Annotated;
+import org.softlang.megal.mi2.Entity;
 import org.softlang.megal.mi2.EntityType;
 import org.softlang.megal.mi2.KB;
 import org.softlang.megal.mi2.KBs;
 import org.softlang.megal.mi2.Relationship;
 import org.softlang.megal.mi2.RelationshipType;
+import org.softlang.megal.mi2.mmp.data.Application;
 import org.softlang.megal.mi2.mmp.data.Message;
 import org.softlang.megal.mi2.mmp.data.MessageLocation;
 import org.softlang.megal.mi2.mmp.data.Result;
@@ -90,7 +85,7 @@ public class Evaluator {
 	 * @return Returns the evaluation resolut
 	 */
 	public Result evaluate(final Resolution resolution, final Reasoner input) {
-		class LayeredAlgorithm {
+		class RecursiveAlgorithm {
 			final Set<MessageLocation> messageLocations;
 
 			final Map<Entity, Plugin> plugins;
@@ -99,7 +94,7 @@ public class Evaluator {
 
 			final Multimap<RelationshipType, Plugin> pluginsByRelationshipType;
 
-			LayeredAlgorithm() {
+			RecursiveAlgorithm() {
 				messageLocations = newHashSet();
 				plugins = newHashMap();
 				pluginsByEntityType = HashMultimap.create();
@@ -186,7 +181,7 @@ public class Evaluator {
 				return concat(plugins.values(), pluginsByRelationshipType.get(type));
 			}
 
-			Context contextFor(List<Plugin> stackTrace, Annotated element) {
+			Context contextFor(List<Application> stackTrace, Annotated element) {
 				return new ComposedContext(input, resolution, new Emission() {
 					@Override
 					public void emit(Message message) {
@@ -195,7 +190,8 @@ public class Evaluator {
 				});
 			}
 
-			KB runLayer(List<Plugin> stackTrace, Reasoner input) {
+			// TODO This is most likely wrong
+			KB runLayer(List<Application> stackTrace, Reasoner input) {
 				// Make the new residue KB
 				KB residue = KBs.emptyKB();
 
@@ -203,6 +199,13 @@ public class Evaluator {
 				for (Entity entity : input.getEntities())
 					// Get appropriate plugins
 					for (Plugin plugin : select(entity)) {
+						// Make the application
+						Application application = Application.of(plugin, entity);
+
+						// Skip if already applied
+						if (stackTrace.contains(application))
+							continue;
+
 						// Make the residue for the plugin and compose it for
 						// the next level
 						KB subResidue = plugin.evaluate(contextFor(stackTrace, entity), entity);
@@ -211,7 +214,7 @@ public class Evaluator {
 						// If the current plugin created an output
 						if (!equal(input.getKB(), subAvailable)) {
 							// Apply to the new available KB
-							KB subSubResidue = runLayer(append(stackTrace, plugin), Reasoners.create(subAvailable));
+							KB subSubResidue = runLayer(append(stackTrace, application), Reasoners.create(subAvailable));
 
 							// Unify all
 							residue = KBs.union(residue, subResidue);
@@ -223,6 +226,13 @@ public class Evaluator {
 				for (Relationship relationship : input.getRelationships())
 					// Get appropriate plugins
 					for (Plugin plugin : select(relationship)) {
+						// Make the application
+						Application application = Application.of(plugin, relationship);
+
+						// Skip if already applied
+						if (stackTrace.contains(application))
+							continue;
+
 						// Make the residue for the plugin and compose it for
 						// the next level
 						KB subResidue = plugin.evaluate(contextFor(stackTrace, relationship), relationship);
@@ -231,7 +241,7 @@ public class Evaluator {
 						// If the current plugin created an output
 						if (!equal(input.getKB(), subAvailable)) {
 							// Apply to the new available KB
-							KB subSubResidue = runLayer(append(stackTrace, plugin), Reasoners.create(subAvailable));
+							KB subSubResidue = runLayer(append(stackTrace, application), Reasoners.create(subAvailable));
 
 							// Unify all
 							residue = KBs.union(residue, subResidue);
@@ -249,6 +259,6 @@ public class Evaluator {
 
 		}
 
-		return new LayeredAlgorithm().run();
+		return new RecursiveAlgorithm().run();
 	}
 }

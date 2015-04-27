@@ -3,7 +3,6 @@ package org.softlang.megal.mi2.mmp.data;
 import java.util.List;
 
 import org.softlang.megal.mi2.Annotated;
-import org.softlang.megal.mi2.mmp.Plugin;
 
 import com.google.common.collect.ImmutableList;
 
@@ -22,7 +21,7 @@ public final class MessageLocation {
 	 * Internal backing field.
 	 * </p>
 	 */
-	private final List<? extends Plugin> stackTrace;
+	private final List<Application> stackTrace;
 
 	/**
 	 * <p>
@@ -50,7 +49,7 @@ public final class MessageLocation {
 	 * @param message
 	 *            The message value
 	 */
-	private MessageLocation(List<? extends Plugin> stackTrace, Annotated element, Message message) {
+	private MessageLocation(List<Application> stackTrace, Annotated element, Message message) {
 		this.stackTrace = stackTrace;
 		this.element = element;
 		this.message = message;
@@ -69,7 +68,7 @@ public final class MessageLocation {
 	 *            The message value
 	 * @return Returns a new message location
 	 */
-	public static MessageLocation of(List<? extends Plugin> stackTrace, Annotated element, Message message) {
+	public static MessageLocation of(List<Application> stackTrace, Annotated element, Message message) {
 		return new MessageLocation(stackTrace, element, message);
 	}
 
@@ -96,7 +95,7 @@ public final class MessageLocation {
 	 * 
 	 * @return Returns the sequence of plugins.
 	 */
-	public List<? extends Plugin> getStackTrace() {
+	public List<Application> getStackTrace() {
 		return stackTrace;
 	}
 
@@ -156,10 +155,10 @@ public final class MessageLocation {
 		builder.append("  at ").append(element).append("\r\n");
 
 		if (!stackTrace.isEmpty()) {
-			builder.append("  emitted by ").append(stackTrace.get(0)).append("\r\n");
+			builder.append("  emitted by ").append(stackTrace.get(stackTrace.size() - 1)).append("\r\n");
 
-			for (int i = 1; i < stackTrace.size(); i++)
-				builder.append("  in ").append(stackTrace.get(0)).append("\r\n");
+			for (int i = stackTrace.size() - 2; i >= 0; i--)
+				builder.append("  in ").append(stackTrace.get(i)).append("\r\n");
 		}
 
 		return builder.toString();

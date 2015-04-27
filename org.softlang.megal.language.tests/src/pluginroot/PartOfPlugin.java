@@ -25,6 +25,6 @@ public class PartOfPlugin extends Plugin {
 
 	@Override
 	public String toString() {
-		return "'.' to 'partOf' expansion";
+		return "PartOfPlugin['.' to 'partOf' expansion]";
 	}
 }
