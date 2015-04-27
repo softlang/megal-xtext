@@ -70,3 +70,10 @@ a rel b
 c rel b
 
 a rel2 b
+
+@Plugin 'ErrorOnPartOf'
+partOf < Technology * Technology
+
+// Part of evaluator, evaluates dot names to part of relationships
+ErrorOnPartOf: Evaluator
+ErrorOnPartOf = "classpath:org.softlang.megal.language.tests.ErrorOnPartOf"

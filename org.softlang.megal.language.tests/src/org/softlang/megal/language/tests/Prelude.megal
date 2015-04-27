@@ -1,12 +1,6 @@
 model Prelude
 
-// Part of applies to all entities
-@Plugin 'PartOf'
 Entity as entity
-
-// Part of evaluator, evaluates dot names to part of relationships
-PartOf: Evaluator
-PartOf = "classpath:pluginroot.PartOfPlugin"
 
 // Entity types
 Artifact < Entity
@@ -105,3 +99,9 @@ firstOf < Entity * Pair
 secondOf < Entity * Pair
 
 elementOf < Pair * Function
+
+
+
+// Part of evaluator, evaluates dot names to part of relationships
+PartOf: Evaluator
+PartOf = "classpath:pluginroot.PartOfPlugin"

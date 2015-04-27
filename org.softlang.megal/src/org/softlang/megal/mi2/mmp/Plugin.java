@@ -9,7 +9,6 @@ import org.softlang.megal.mi2.Entity;
 import org.softlang.megal.mi2.KB;
 import org.softlang.megal.mi2.KBs;
 import org.softlang.megal.mi2.Relationship;
-import org.softlang.megal.mi2.reasoning.Reasoner.PerformanceCaps;
 
 /**
  * <p>
@@ -36,10 +35,6 @@ public abstract class Plugin {
 
 	public Set<Entity> getRealization() {
 		return realization;
-	}
-
-	public Set<PerformanceCaps> getCaps() {
-		return PerformanceCaps.ALL;
 	}
 
 	/**
@@ -80,7 +75,7 @@ public abstract class Plugin {
 	 * @param entity
 	 *            The evaluation item
 	 */
-	public KB evaluate(Context context, Entity entity) throws IOException {
+	public KB evaluate(Context context, Entity entity) {
 		return KBs.emptyKB();
 	}
 
@@ -95,7 +90,7 @@ public abstract class Plugin {
 	 * @param relationship
 	 *            The evaluation item
 	 */
-	public KB evaluate(Context context, Relationship relationship) throws IOException {
+	public KB evaluate(Context context, Relationship relationship) {
 		return KBs.emptyKB();
 	}
 }

@@ -4,8 +4,8 @@ import org.eclipse.xtext.resource.XtextResource;
 import org.softlang.megal.Megamodel;
 import org.softlang.megal.mi2.KB;
 import org.softlang.megal.mi2.MegamodelKB;
-import org.softlang.megal.mi2.reasoning.Providers;
 import org.softlang.megal.mi2.reasoning.Reasoner;
+import org.softlang.megal.mi2.reasoning.Reasoners;
 
 import com.google.inject.Provider;
 
@@ -58,11 +58,11 @@ public class MegalReasoning {
 					new Provider<Reasoner>() {
 						@Override
 						public Reasoner get() {
-							return Providers.obtain(getKB(megamodel));
+							return Reasoners.create(getKB(megamodel));
 						}
 					});
 		else
 			// Else use reevaluation and reasoner generation
-			return Providers.obtain(getKB(megamodel));
+			return Reasoners.create(getKB(megamodel));
 	}
 }

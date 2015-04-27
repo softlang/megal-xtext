@@ -2,8 +2,6 @@ package pluginroot.elementof;
 
 import static com.google.common.collect.Iterables.filter;
 
-import java.io.IOException;
-
 import org.softlang.megal.mi2.KB;
 import org.softlang.megal.mi2.KBs;
 import org.softlang.megal.mi2.Relationship;
@@ -23,7 +21,7 @@ import com.google.common.io.CharSource;
  */
 public class FileElementOfLanguage extends Plugin {
 	@Override
-	public KB evaluate(Context context, Relationship relationship) throws IOException {
+	public KB evaluate(Context context, Relationship relationship) {
 		for (Object binding : relationship.getLeft().getBindings()) {
 			CharSource s = context.getChars(binding);
 

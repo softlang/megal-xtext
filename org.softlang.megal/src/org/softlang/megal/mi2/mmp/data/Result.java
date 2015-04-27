@@ -4,13 +4,14 @@ import java.util.Set;
 
 import org.softlang.megal.mi2.KB;
 import org.softlang.megal.mi2.KBs;
+import org.softlang.megal.mi2.reasoning.Reasoner;
 
 import com.google.common.base.Joiner;
 
 /**
  * <p>
- * Result of a model evaluation, consists of the input KB, the generated residue
- * KB containing all emitted items and all emitted messages.
+ * Result of a model evaluation, consists of the input reasoner, the generated
+ * residue KB containing all emitted items and all emitted messages.
  * </p>
  * 
  * @author Pazuzu
@@ -22,7 +23,7 @@ public final class Result {
 	 * Internal backing field.
 	 * </p>
 	 */
-	private final KB input;
+	private final Reasoner input;
 
 	/**
 	 * <p>
@@ -44,13 +45,13 @@ public final class Result {
 	 * </p>
 	 * 
 	 * @param input
-	 *            The input KB
+	 *            The input reasoner
 	 * @param residue
 	 *            The residue KB
 	 * @param messageLocations
 	 *            The message locations
 	 */
-	private Result(KB input, KB residue, Set<MessageLocation> messageLocations) {
+	private Result(Reasoner input, KB residue, Set<MessageLocation> messageLocations) {
 		this.input = input;
 		this.residue = residue;
 		this.messageLocations = messageLocations;
@@ -62,26 +63,26 @@ public final class Result {
 	 * </p>
 	 * 
 	 * @param input
-	 *            The input KB
+	 *            The input reasoner
 	 * @param residue
 	 *            The residue KB
 	 * @param messageLocations
 	 *            The message locations
 	 * @return Returns a new result
 	 */
-	public static Result of(KB input, KB residue, Set<MessageLocation> messageLocations) {
+	public static Result of(Reasoner input, KB residue, Set<MessageLocation> messageLocations) {
 		return new Result(input, residue, messageLocations);
 	}
 
 	/**
 	 * <p>
-	 * Gets the input KB, which is the input of the corresponding evaluation
-	 * processor.
+	 * Gets the input reasoner, which is the input of the corresponding
+	 * evaluation processor.
 	 * </p>
 	 * 
-	 * @return Returns the KB
+	 * @return Returns the reasoner
 	 */
-	public KB getInput() {
+	public Reasoner getInput() {
 		return input;
 	}
 
@@ -115,7 +116,7 @@ public final class Result {
 	 * @return Returns the union
 	 */
 	public KB getKB() {
-		return KBs.union(input, residue);
+		return KBs.union(input.getKB(), residue);
 	}
 
 	@Override

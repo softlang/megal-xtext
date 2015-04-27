@@ -14,12 +14,12 @@ import org.softlang.megal.mi2.MegamodelKB;
 import org.softlang.megal.mi2.Relationship;
 import org.softlang.megal.mi2.RelationshipType;
 import org.softlang.megal.mi2.mmp.Evaluator;
+import org.softlang.megal.mi2.mmp.data.Message.Level;
 import org.softlang.megal.mi2.mmp.data.MessageLocation;
 import org.softlang.megal.mi2.mmp.data.Result;
-import org.softlang.megal.mi2.mmp.data.Message.Level;
 import org.softlang.megal.mi2.mmp.variants.LocalResolution;
-import org.softlang.megal.mi2.reasoning.Providers;
 import org.softlang.megal.mi2.reasoning.Reasoner;
+import org.softlang.megal.mi2.reasoning.Reasoners;
 
 public class ModelInterface {
 	private static String PRELUDE = "./src/org/softlang/megal/language/tests/Prelude.megal";
@@ -29,19 +29,21 @@ public class ModelInterface {
 	public static void main(String[] args) throws IOException {
 
 		Megamodel mm = load();
-		Reasoner reasoner = Providers.obtain(MegamodelKB.loadAll(mm));
+		Reasoner reasoner = Reasoners.create(MegamodelKB.loadAll(mm));
 
 		Evaluator sequencer = new Evaluator();
 		Result result = sequencer.evaluate(new LocalResolution(), reasoner);
 
-		dump(result.getKB());
-
+		dump(result.getInput());
+		System.out.println("_______________________________________");
+		dump(result.getResidue());
 		System.out.println("_______________________________________");
 		for (MessageLocation messageLocation : result.getMessageLocations()) {
-			PrintStream target = messageLocation.getMessage().getLevel() == Level.ERROR ? System.err : System.out;
-
-			target.println(messageLocation);
-			target.println();
+			if (messageLocation.getMessage().getLevel() == Level.ERROR)
+				System.err.println(messageLocation);
+			else
+				System.out.println(messageLocation);
+			System.out.println();
 		}
 
 	}
@@ -54,7 +56,7 @@ public class ModelInterface {
 	}
 
 	private static void dump(KB kb) {
-		dump(Providers.obtain(kb));
+		dump(Reasoners.create(kb));
 	}
 
 	private static void dump(Reasoner mi) {

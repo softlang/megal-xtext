@@ -1,4 +1,4 @@
-package org.softlang.megal.mi2.reasoning;
+package org.softlang.megal.mi2.reasoning.variants;
 
 import static com.google.common.base.Objects.equal;
 import static com.google.common.base.Predicates.equalTo;
@@ -25,7 +25,6 @@ import org.softlang.megal.mi2.Relationship;
 import org.softlang.megal.mi2.RelationshipType;
 
 import com.google.common.base.Optional;
-import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Table.Cell;
 
@@ -38,20 +37,6 @@ import com.google.common.collect.Table.Cell;
  *
  */
 public class NaiveReasoner extends AbstractReasoner {
-	/**
-	 * <p>
-	 * The capabilities of the naive reasoner.
-	 * </p>
-	 * <p>
-	 * <ul>
-	 * <li>{@link PerformanceCaps#RELATIONSHIP_NAVIGATION}</li>
-	 * <li>{@link PerformanceCaps#MEMORY_SAVING}</li>
-	 * </ul>
-	 * </p>
-	 */
-	public static final ImmutableSet<PerformanceCaps> CAPS = ImmutableSet.of(PerformanceCaps.RELATIONSHIP_NAVIGATION,
-			PerformanceCaps.MEMORY_SAVING);
-
 	/**
 	 * <p>
 	 * Internal backing field.
@@ -406,11 +391,6 @@ public class NaiveReasoner extends AbstractReasoner {
 	public String getTitle() {
 		// Title is carried in the KB
 		return kb.getTitle();
-	}
-
-	@Override
-	public Set<PerformanceCaps> getCaps() {
-		return CAPS;
 	}
 
 	@Override

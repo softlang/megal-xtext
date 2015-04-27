@@ -2,7 +2,6 @@ package org.softlang.megal.mi2.mmp.variants;
 
 import org.softlang.megal.mi2.mmp.Context;
 import org.softlang.megal.mi2.mmp.Emission;
-import org.softlang.megal.mi2.mmp.Input;
 import org.softlang.megal.mi2.mmp.Resolution;
 import org.softlang.megal.mi2.mmp.data.Message;
 import org.softlang.megal.mi2.reasoning.Reasoner;
@@ -12,16 +11,21 @@ import com.google.common.io.ByteSource;
 import com.google.common.io.CharSource;
 
 public final class ComposedContext implements Context {
-	private final Input inputDelegate;
+	private final Reasoner reasoner;
 
 	private final Resolution resolutionDelegate;
 
 	private final Emission emissionDelegate;
 
-	public ComposedContext(Input inputDelegate, Resolution resolutionDelegate, Emission emissionDelegate) {
-		this.inputDelegate = inputDelegate;
+	public ComposedContext(Reasoner reasoner, Resolution resolutionDelegate, Emission emissionDelegate) {
+		this.reasoner = reasoner;
 		this.resolutionDelegate = resolutionDelegate;
 		this.emissionDelegate = emissionDelegate;
+	}
+
+	@Override
+	public Reasoner getReasoner() {
+		return reasoner;
 	}
 
 	@Override
@@ -50,16 +54,11 @@ public final class ComposedContext implements Context {
 	}
 
 	@Override
-	public Reasoner getReasoner() {
-		return inputDelegate.getReasoner();
-	}
-
-	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + reasoner.hashCode();
 		result = prime * result + emissionDelegate.hashCode();
-		result = prime * result + inputDelegate.hashCode();
 		result = prime * result + resolutionDelegate.hashCode();
 		return result;
 	}
@@ -73,9 +72,9 @@ public final class ComposedContext implements Context {
 		if (getClass() != obj.getClass())
 			return false;
 		ComposedContext other = (ComposedContext) obj;
-		if (!emissionDelegate.equals(other.emissionDelegate))
+		if (!reasoner.equals(other.reasoner))
 			return false;
-		if (!inputDelegate.equals(other.inputDelegate))
+		if (!emissionDelegate.equals(other.emissionDelegate))
 			return false;
 		if (!resolutionDelegate.equals(other.resolutionDelegate))
 			return false;
@@ -84,7 +83,7 @@ public final class ComposedContext implements Context {
 
 	@Override
 	public String toString() {
-		return "ComposedContext [inputDelegate=" + inputDelegate + ", resolutionDelegate=" + resolutionDelegate
+		return "ComposedContext [reasoner=" + reasoner + ", resolutionDelegate=" + resolutionDelegate
 				+ ", emissionDelegate=" + emissionDelegate + "]";
 	}
 

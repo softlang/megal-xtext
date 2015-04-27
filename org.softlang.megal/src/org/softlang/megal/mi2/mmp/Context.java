@@ -1,5 +1,7 @@
 package org.softlang.megal.mi2.mmp;
 
+import org.softlang.megal.mi2.reasoning.Reasoner;
+
 /**
  * <p>
  * Context for plugin execution, sustains resolver input, binding resolution and
@@ -9,5 +11,6 @@ package org.softlang.megal.mi2.mmp;
  * @author Pazuzu
  *
  */
-public interface Context extends Input, Resolution, Emission {
+public interface Context extends Resolution, Emission {
+	public Reasoner getReasoner();
 }

@@ -1,7 +1,6 @@
 package org.softlang.megal.mi2.mmp.data;
 
 import java.util.List;
-import java.util.Set;
 
 import org.softlang.megal.mi2.Annotated;
 import org.softlang.megal.mi2.mmp.Plugin;
@@ -30,7 +29,7 @@ public final class MessageLocation {
 	 * Internal backing field.
 	 * </p>
 	 */
-	private final Set<? extends Annotated> elements;
+	private final Annotated element;
 
 	/**
 	 * <p>
@@ -46,14 +45,14 @@ public final class MessageLocation {
 	 * 
 	 * @param stackTrace
 	 *            The current stack trace of plugins
-	 * @param elements
-	 *            The associated elements
+	 * @param element
+	 *            The associated element
 	 * @param message
 	 *            The message value
 	 */
-	private MessageLocation(List<? extends Plugin> stackTrace, Set<? extends Annotated> elements, Message message) {
+	private MessageLocation(List<? extends Plugin> stackTrace, Annotated element, Message message) {
 		this.stackTrace = stackTrace;
-		this.elements = elements;
+		this.element = element;
 		this.message = message;
 	}
 
@@ -65,14 +64,13 @@ public final class MessageLocation {
 	 * @param stackTrace
 	 *            The stack of plugins
 	 * @param elements
-	 *            The associated elements
+	 *            The associated element
 	 * @param message
 	 *            The message value
 	 * @return Returns a new message location
 	 */
-	public static MessageLocation of(List<? extends Plugin> stackTrace, Set<? extends Annotated> elements,
-			Message message) {
-		return new MessageLocation(stackTrace, elements, message);
+	public static MessageLocation of(List<? extends Plugin> stackTrace, Annotated element, Message message) {
+		return new MessageLocation(stackTrace, element, message);
 	}
 
 	/**
@@ -80,14 +78,14 @@ public final class MessageLocation {
 	 * Constructs a message location on the given parameters.
 	 * </p>
 	 * 
-	 * @param elements
-	 *            The associated elements
+	 * @param element
+	 *            The associated element
 	 * @param message
 	 *            The message value
 	 * @return Returns a new message location
 	 */
-	public static MessageLocation of(Set<? extends Annotated> elements, Message message) {
-		return new MessageLocation(ImmutableList.of(), elements, message);
+	public static MessageLocation of(Annotated element, Message message) {
+		return new MessageLocation(ImmutableList.of(), element, message);
 	}
 
 	/**
@@ -104,13 +102,13 @@ public final class MessageLocation {
 
 	/**
 	 * <p>
-	 * The elements that contributed the message.
+	 * The element that contributed the message.
 	 * </p>
 	 * 
-	 * @return Returns a set of elements
+	 * @return Returns the element
 	 */
-	public Set<? extends Annotated> getElements() {
-		return elements;
+	public Annotated getElement() {
+		return element;
 	}
 
 	/**
@@ -128,7 +126,7 @@ public final class MessageLocation {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + elements.hashCode();
+		result = prime * result + element.hashCode();
 		result = prime * result + message.hashCode();
 		result = prime * result + stackTrace.hashCode();
 		return result;
@@ -143,7 +141,7 @@ public final class MessageLocation {
 		if (getClass() != obj.getClass())
 			return false;
 		MessageLocation other = (MessageLocation) obj;
-		if (!elements.equals(other.elements))
+		if (!element.equals(other.element))
 			return false;
 		if (!message.equals(other.message))
 			return false;
@@ -155,8 +153,7 @@ public final class MessageLocation {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder(message.toString()).append("\r\n");
-		for (Annotated a : elements)
-			builder.append("  at ").append(a).append("\r\n");
+		builder.append("  at ").append(element).append("\r\n");
 
 		if (!stackTrace.isEmpty()) {
 			builder.append("  emitted by ").append(stackTrace.get(0)).append("\r\n");

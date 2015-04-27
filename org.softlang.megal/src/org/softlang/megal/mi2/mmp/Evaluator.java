@@ -1,26 +1,37 @@
 package org.softlang.megal.mi2.mmp;
 
+import static com.google.common.base.Objects.equal;
 import static com.google.common.collect.Iterables.concat;
+import static com.google.common.collect.Lists.newLinkedList;
 import static com.google.common.collect.Maps.newHashMap;
 import static com.google.common.collect.Sets.newHashSet;
 import static java.util.Collections.singleton;
 
+import java.io.IOException;
+import java.util.Deque;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
+import static org.softlang.megal.util.Persistent.*;
+
 import org.softlang.megal.mi2.Entity;
+import org.softlang.megal.mi2.Annotated;
 import org.softlang.megal.mi2.EntityType;
+import org.softlang.megal.mi2.KB;
 import org.softlang.megal.mi2.KBs;
 import org.softlang.megal.mi2.Relationship;
 import org.softlang.megal.mi2.RelationshipType;
 import org.softlang.megal.mi2.mmp.data.Message;
 import org.softlang.megal.mi2.mmp.data.MessageLocation;
 import org.softlang.megal.mi2.mmp.data.Result;
-import org.softlang.megal.mi2.reasoning.Provider;
-import org.softlang.megal.mi2.reasoning.Providers;
+import org.softlang.megal.mi2.mmp.variants.ComposedContext;
 import org.softlang.megal.mi2.reasoning.Reasoner;
+import org.softlang.megal.mi2.reasoning.Reasoners;
 
 import com.google.common.collect.HashMultimap;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Multimap;
 
 public class Evaluator {
@@ -32,8 +43,6 @@ public class Evaluator {
 
 	public static final String DEFAULT_REALIZATION_NAME = "realizationOf";
 
-	private final Provider provider;
-
 	private final String pluginName;
 
 	private final String pluginAnnotationName;
@@ -42,25 +51,15 @@ public class Evaluator {
 
 	private final String realizationName;
 
-	public Evaluator(Provider provider, String pluginName, String pluginAnnotationName, String partName,
-			String realizationName) {
-		this.provider = provider;
+	public Evaluator(String pluginName, String pluginAnnotationName, String partName, String realizationName) {
 		this.pluginName = pluginName;
 		this.pluginAnnotationName = pluginAnnotationName;
 		this.partName = partName;
 		this.realizationName = realizationName;
 	}
 
-	public Evaluator(Provider provider) {
-		this(provider, DEFAULT_PLUGIN_NAME, DEFAULT_PLUGIN_ANNOTATION_NAME, DEFAULT_PART_NAME, DEFAULT_REALIZATION_NAME);
-	}
-
 	public Evaluator() {
-		this(Providers.DEFAULT);
-	}
-
-	public Provider getProvider() {
-		return provider;
+		this(DEFAULT_PLUGIN_NAME, DEFAULT_PLUGIN_ANNOTATION_NAME, DEFAULT_PART_NAME, DEFAULT_REALIZATION_NAME);
 	}
 
 	public String getPluginName() {
@@ -142,11 +141,10 @@ public class Evaluator {
 								if (!hasSpecificAssociation)
 									plugins.put(entity, plugin);
 							} catch (InstantiationException | IllegalAccessException e) {
-								messageLocations
-										.add(MessageLocation.of(singleton(entity), Message.createWarningFor(e)));
+								messageLocations.add(MessageLocation.of(entity, Message.createWarningFor(e)));
 							}
 						else {
-							messageLocations.add(MessageLocation.of(singleton(entity),
+							messageLocations.add(MessageLocation.of(entity,
 									Message.warning("Plugin class is not resolvable")));
 						}
 					}
@@ -188,9 +186,67 @@ public class Evaluator {
 				return concat(plugins.values(), pluginsByRelationshipType.get(type));
 			}
 
-			Result run() {
-				return Result.of(input.getKB(), KBs.emptyKB()/* JOIN RESIDUES */, messageLocations);
+			Context contextFor(List<Plugin> stackTrace, Annotated element) {
+				return new ComposedContext(input, resolution, new Emission() {
+					@Override
+					public void emit(Message message) {
+						messageLocations.add(MessageLocation.of(stackTrace, element, message));
+					}
+				});
 			}
+
+			KB runLayer(List<Plugin> stackTrace, Reasoner input) {
+				// Make the new residue KB
+				KB residue = KBs.emptyKB();
+
+				// Evaluate all the entities
+				for (Entity entity : input.getEntities())
+					// Get appropriate plugins
+					for (Plugin plugin : select(entity)) {
+						// Make the residue for the plugin and compose it for
+						// the next level
+						KB subResidue = plugin.evaluate(contextFor(stackTrace, entity), entity);
+						KB subAvailable = KBs.union(input.getKB(), subResidue);
+
+						// If the current plugin created an output
+						if (!equal(input.getKB(), subAvailable)) {
+							// Apply to the new available KB
+							KB subSubResidue = runLayer(append(stackTrace, plugin), Reasoners.create(subAvailable));
+
+							// Unify all
+							residue = KBs.union(residue, subResidue);
+							residue = KBs.union(residue, subSubResidue);
+						}
+					}
+
+				// Evaluate all the relationships
+				for (Relationship relationship : input.getRelationships())
+					// Get appropriate plugins
+					for (Plugin plugin : select(relationship)) {
+						// Make the residue for the plugin and compose it for
+						// the next level
+						KB subResidue = plugin.evaluate(contextFor(stackTrace, relationship), relationship);
+						KB subAvailable = KBs.union(input.getKB(), subResidue);
+
+						// If the current plugin created an output
+						if (!equal(input.getKB(), subAvailable)) {
+							// Apply to the new available KB
+							KB subSubResidue = runLayer(append(stackTrace, plugin), Reasoners.create(subAvailable));
+
+							// Unify all
+							residue = KBs.union(residue, subResidue);
+							residue = KBs.union(residue, subSubResidue);
+						}
+					}
+
+				// Return the generated residue
+				return residue;
+			}
+
+			Result run() {
+				return Result.of(input, runLayer(ImmutableList.of(), input), messageLocations);
+			}
+
 		}
 
 		return new LayeredAlgorithm().run();
