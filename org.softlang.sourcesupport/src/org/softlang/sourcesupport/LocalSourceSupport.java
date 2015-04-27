@@ -25,12 +25,6 @@ public final class LocalSourceSupport implements SourceSupport {
 		// Private constructor
 	}
 
-	public static void main(String[] args) {
-		for (String s : INSTANCE.getClasses())
-			System.out.println(s);
-
-	}
-
 	@Override
 	public Set<String> getPackages() {
 		Set<String> packages = newHashSet();
@@ -42,7 +36,7 @@ public final class LocalSourceSupport implements SourceSupport {
 	@Override
 	public Set<String> getClasses() {
 		ImmutableSet.Builder<String> builder = ImmutableSet.builder();
-		findClasses(x -> builder.add( x.getValue()));
+		findClasses(x -> builder.add(x.getValue()));
 
 		return builder.build();
 	}

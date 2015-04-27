@@ -554,4 +554,15 @@ public class KBs {
 	public static KB difference(KB a, KB b) {
 		throw new UnsupportedOperationException();
 	}
+
+	/**
+	 * <p>
+	 * Constructs an empty immutable KB.
+	 * </p>
+	 * 
+	 * @return Returns an empty KB
+	 */
+	public static KB emptyKB() {
+		return builder().build();
+	}
 }

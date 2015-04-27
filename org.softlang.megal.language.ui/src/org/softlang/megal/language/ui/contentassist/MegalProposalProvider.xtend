@@ -9,7 +9,6 @@ import org.eclipse.xtext.RuleCall
 import org.eclipse.xtext.ui.editor.contentassist.ContentAssistContext
 import org.eclipse.xtext.ui.editor.contentassist.ICompletionProposalAcceptor
 import org.softlang.megal.Link
-import org.softlang.megal.api.URI
 import org.softlang.megal.fragmentprovider.Evaluator
 
 /**

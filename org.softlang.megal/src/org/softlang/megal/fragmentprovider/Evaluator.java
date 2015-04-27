@@ -1,5 +1,12 @@
 package org.softlang.megal.fragmentprovider;
 
+import static java.util.Collections.emptyList;
+import static java.util.Collections.singletonList;
+import static org.softlang.megal.util.Persistent.append;
+import static org.softlang.megal.util.Persistent.concatenate;
+import static org.softlang.megal.util.Persistent.prepend;
+
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -13,7 +20,8 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
-import org.softlang.megal.api.URI;
+
+import com.google.common.base.Splitter;
 
 public class Evaluator {
 
@@ -53,11 +61,56 @@ public class Evaluator {
 		}
 	}
 
+	private static boolean isNet(URI uri) {
+		return uri.getSchemeSpecificPart().startsWith("//");
+	}
+
+	private static List<String> allSegments(URI uri) {
+		if (uri.isOpaque()) {
+			List<String> result = singletonList(uri.getSchemeSpecificPart());
+
+			if (uri.getScheme() != null)
+				result = prepend(uri.getScheme(), result);
+
+			if (uri.getFragment() != null)
+				result = append(result, uri.getFragment());
+
+			return result;
+		} else {
+			List<String> result = emptyList();
+
+			if (uri.getScheme() != null)
+				result = append(result, uri.getScheme());
+
+			if (uri.getUserInfo() != null)
+				result = append(result, uri.getUserInfo());
+
+			if (uri.getHost() != null)
+				result = append(result, uri.getHost());
+
+			if (uri.getPort() != -1)
+				result = append(result, Integer.toString(uri.getPort()));
+
+			// Potentially followed by a path
+			if (uri.getPath() != null)
+				result = concatenate(result, Splitter.on('/').splitToList(uri.getPath()));
+
+			// Then query
+			if (uri.getQuery() != null)
+				result = append(result, uri.getQuery());
+
+			// And finally
+			if (uri.getFragment() != null)
+				result = append(result, uri.getFragment());
+
+			return result;
+		}
+	}
+
 	public List<Object> evaluate(URI uri) {
+		List<Object> current = roots(uri.getScheme(), isNet(uri));
 
-		List<Object> current = roots(uri.getProtocol(), uri.isNet());
-
-		for (String segment : uri.getSegments())
+		for (String segment : allSegments(uri))
 			current = navigate(current, segment);
 
 		return current;

@@ -8,8 +8,7 @@ OnlyAs: Language
 OnlyAsAcceptor: Evaluator
 OnlyAsAcceptor partOf FileElementOfLanguage
 OnlyAsAcceptor realizationOf OnlyAs
-// TODO:::::::::: classpath:/
-OnlyAsAcceptor = "pluginroot.elementof.AcceptOnlyAs"
+OnlyAsAcceptor = "classpath:pluginroot.elementof.AcceptOnlyAs"
 
 OnlyBs: Language
 
@@ -66,6 +65,3 @@ a rel b
 c rel b
 
 a rel2 b
-
-xaxaxa : Resolver
-xaxaxa = "org.softlang.megal.language.tests.SampleResolver"

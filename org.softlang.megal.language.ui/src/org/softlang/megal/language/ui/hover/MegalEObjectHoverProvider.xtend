@@ -1,21 +1,12 @@
 package org.softlang.megal.language.ui.hover
 
-import org.eclipse.core.resources.IFile
+import java.net.URI
 import org.eclipse.emf.ecore.EObject
-import org.eclipse.jdt.core.IJavaElement
-import org.eclipse.jdt.core.IMember
-import org.eclipse.jdt.ui.JavaUI
-import org.eclipse.ui.ISharedImages
-import org.eclipse.ui.PlatformUI
-import org.eclipse.ui.ide.IDE
-import org.eclipse.xtext.ui.editor.hover.html.IXtextBrowserInformationControl
 import org.softlang.megal.Entity
 import org.softlang.megal.EntityType
 import org.softlang.megal.Link
 import org.softlang.megal.MegalPlugin
-import org.softlang.megal.Megamodel
 import org.softlang.megal.RelationshipType
-import org.softlang.megal.api.URI
 
 //class ListAnnotationsAction extends ExtenderAction {
 //
@@ -90,7 +81,6 @@ import org.softlang.megal.api.URI
 //				elementLinks.createLink(a)»«IF a.type.definition != e» <a title="Transitive instance">...</a>«ENDIF»</li>«ENDFOR»</ul>''')
 //	}
 //}
-
 class MegalEObjectHoverProvider extends ExtenderEObjectHoverProvider {
 
 	override protected hasHover(EObject o) {
@@ -107,7 +97,6 @@ class MegalEObjectHoverProvider extends ExtenderEObjectHoverProvider {
 //		p.constructors += [new ScopeToAction(MegalEObjectHoverProvider.this, it)]
 //		p.constructors += [new ListInstancesAction(MegalEObjectHoverProvider.this, it)]
 //	}
-
 	override protected getFirstLine(EObject object) {
 
 		// Calculate a first line
@@ -156,7 +145,9 @@ class MegalEObjectHoverProvider extends ExtenderEObjectHoverProvider {
 		'''<b>«name»</b>'''
 	}
 
-	def dispatch firstLineFor(Link it) '''Link, «IF MegalPlugin.evaluator.evaluate(URI.valueOf(to)).empty»unresolvable«ELSE»resolvable«ENDIF»'''
+	def dispatch firstLineFor(
+		Link it
+	) '''Link, «IF MegalPlugin.evaluator.evaluate(URI.create(to)).empty»unresolvable«ELSE»resolvable«ENDIF»'''
 
 	/**
 	 * Calculates the documentation for an EObject or null if no documentation
@@ -181,5 +172,6 @@ class MegalEObjectHoverProvider extends ExtenderEObjectHoverProvider {
 
 	def dispatch documentationFor(RelationshipType relationshipType) '''xxxx'''
 
-	def dispatch documentationFor(Link it) '''<ul>«FOR n : MegalPlugin.evaluator.evaluate(URI.valueOf(to))»<li>«n»</li>«ENDFOR»</ul>'''
+	def dispatch documentationFor(
+		Link it) '''<ul>«FOR n : MegalPlugin.evaluator.evaluate(URI.create(to))»<li>«n»</li>«ENDFOR»</ul>'''
 }

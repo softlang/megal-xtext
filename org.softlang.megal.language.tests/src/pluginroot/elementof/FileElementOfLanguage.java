@@ -1,19 +1,17 @@
 package pluginroot.elementof;
 
 import static com.google.common.collect.Iterables.filter;
-import static com.google.common.collect.Iterables.getOnlyElement;
-import static com.google.common.collect.Lists.newArrayList;
 
-import java.io.File;
-import java.util.Collection;
+import java.io.IOException;
 
-import org.softlang.megal.api.Evaluator;
-import org.softlang.megal.api.Output;
+import org.softlang.megal.mi2.KB;
+import org.softlang.megal.mi2.KBs;
 import org.softlang.megal.mi2.Relationship;
+import org.softlang.megal.mi2.mmp.Context;
+import org.softlang.megal.mi2.mmp.Plugin;
+import org.softlang.megal.mi2.mmp.data.Message;
 
-import com.google.common.base.Charsets;
 import com.google.common.io.CharSource;
-import com.google.common.io.Files;
 
 /**
  * <p>
@@ -23,40 +21,19 @@ import com.google.common.io.Files;
  * @author Pazuzu
  *
  */
-public class FileElementOfLanguage extends Evaluator {
-
+public class FileElementOfLanguage extends Plugin {
 	@Override
-	public Output evaluate(Relationship relationship) {
-		if (relationship.getLeft().getBindings().isEmpty())
-			return Output.notApplicable();
+	public KB evaluate(Context context, Relationship relationship) throws IOException {
+		for (Object binding : relationship.getLeft().getBindings()) {
+			CharSource s = context.getChars(binding);
 
-		// Collect all the links for the entity that to be checked for
-		// containment in language
-		Collection<String> nr = newArrayList();
-		for (Object link : relationship.getLeft().getBindings())
-			nr.add((String)link);
+			for (Acceptor a : filter(getParts(), Acceptor.class))
+				if (a.getRealization().contains(relationship.getRight()))
+					if (!a.accept(s))
+						context.emit(Message.error("The entity is not an element of "
+								+ relationship.getRight().getName()));
+		}
 
-		// Find a character source from these links, usually there's just one
-		// link for this entity
-		CharSource s = findASource(nr);
-
-		// Get all parts of the FileElementOfLanguage evaluator, these are the
-		// language acceptor plugins
-		for (Acceptor a : filter(getParts(), Acceptor.class))
-			// If a realizes the entity in question, use it
-			if (a.getRealized().contains(relationship.getRight())) {
-				// If the character source, i.e. the language artifact, is
-				// accepted, return a fine result
-				if (a.accept(s))
-					return Output.valid();
-
-			}
-
-		return Output.error(relationship.getLeft().getName() + " is not an element of "
-				+ relationship.getRight().getName());
-	}
-
-	private CharSource findASource(Collection<String> nr) {
-		return Files.asCharSource(new File(getOnlyElement(nr)), Charsets.UTF_8);
+		return KBs.emptyKB();
 	}
 }

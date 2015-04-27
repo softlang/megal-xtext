@@ -1,6 +1,12 @@
 model Prelude
 
+// Part of applies to all entities
+@Plugin 'PartOf'
 Entity as entity
+
+// Part of evaluator, evaluates dot names to part of relationships
+PartOf: Evaluator
+PartOf = "classpath:pluginroot.PartOfPlugin"
 
 // Entity types
 Artifact < Entity
@@ -91,7 +97,7 @@ elementOf < File * Language
 
 // Dispatcher with master as link and parameter dependence
 FileElementOfLanguage: Evaluator
-FileElementOfLanguage = "pluginroot.elementof.FileElementOfLanguage"
+FileElementOfLanguage = "classpath:pluginroot.elementof.FileElementOfLanguage"
 
 // Replacement for the function application
 Pair < Entity

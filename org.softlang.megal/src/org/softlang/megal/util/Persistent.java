@@ -22,67 +22,6 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 
 public class Persistent {
-	// /**
-	// * <p>
-	// * Views the collection as a list if it is not already a list.
-	// * </p>
-	// *
-	// * @param cs
-	// * The collection to view
-	// * @return Returns a view on the collection
-	// */
-	// public static <E> List<E> viewCollectionAsList(Collection<E> cs) {
-	// if (cs instanceof List<?>)
-	// return (List<E>) cs;
-	//
-	// return new AbstractList<E>() {
-	// @Override
-	// public boolean add(E e) {
-	// return cs.add(e);
-	// }
-	//
-	// @Override
-	// public boolean contains(Object o) {
-	// return cs.contains(o);
-	// }
-	//
-	// @Override
-	// public boolean containsAll(Collection<?> c) {
-	// return cs.containsAll(c);
-	// }
-	//
-	// @Override
-	// public E get(int index) {
-	// return Iterables.get(cs, index);
-	// }
-	//
-	// @Override
-	// public Iterator<E> iterator() {
-	// return cs.iterator();
-	// }
-	//
-	// @Override
-	// public boolean isEmpty() {
-	// return cs.isEmpty();
-	// }
-	//
-	// @Override
-	// public boolean remove(Object o) {
-	// return cs.remove(o);
-	// }
-	//
-	// @Override
-	// public void clear() {
-	// cs.clear();
-	// }
-	//
-	// @Override
-	// public int size() {
-	// return cs.size();
-	// }
-	// };
-	// }
-
 	public static <K, V> Multimap<K, V> composeMultimaps(Multimap<K, V> a, Multimap<K, V> b) {
 		Multimap<K, V> result = HashMultimap.create(a);
 		result.putAll(b);

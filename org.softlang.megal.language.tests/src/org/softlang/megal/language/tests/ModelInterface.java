@@ -5,8 +5,6 @@ import java.io.IOException;
 import java.util.Map.Entry;
 
 import org.softlang.megal.Megamodel;
-import org.softlang.megal.api.Evaluators;
-import org.softlang.megal.api.Result;
 import org.softlang.megal.language.Megals;
 import org.softlang.megal.mi2.Entity;
 import org.softlang.megal.mi2.EntityType;
@@ -14,13 +12,11 @@ import org.softlang.megal.mi2.KB;
 import org.softlang.megal.mi2.MegamodelKB;
 import org.softlang.megal.mi2.Relationship;
 import org.softlang.megal.mi2.RelationshipType;
-import org.softlang.megal.mi2.processing.PartOfProcessor;
-import org.softlang.megal.mi2.processing.Processor;
-import org.softlang.megal.mi2.processing.ResolutionProcessor;
-import org.softlang.megal.mi2.processing.UnionProcessor;
+import org.softlang.megal.mi2.mmp.Evaluator;
+import org.softlang.megal.mi2.mmp.data.Result;
+import org.softlang.megal.mi2.mmp.variants.LocalResolution;
 import org.softlang.megal.mi2.reasoning.Providers;
 import org.softlang.megal.mi2.reasoning.Reasoner;
-import org.softlang.sourcesupport.LocalSourceSupport;
 
 public class ModelInterface {
 	private static String PRELUDE = "./src/org/softlang/megal/language/tests/Prelude.megal";
@@ -28,28 +24,15 @@ public class ModelInterface {
 	private static String AS = "./src/org/softlang/megal/language/tests/As.megal";
 
 	public static void main(String[] args) throws IOException {
-		// Make the processor chain of first partOf materialization and then
-		// application of resolvers
-		Processor processChain = UnionProcessor.of(PartOfProcessor.INSTANCE, new ResolutionProcessor(
-				LocalSourceSupport.INSTANCE));
 
 		Megamodel mm = load();
-		KB a = MegamodelKB.loadAll(mm);
-		KB b = processChain.applyWith(a);
+		Reasoner reasoner = Providers.obtain(MegamodelKB.loadAll(mm));
 
-		dump(b);
+		Evaluator sequencer = new Evaluator();
+		Result result = sequencer.evaluate(new LocalResolution(), reasoner);
 
-		Result result = Evaluators.evaluate(LocalSourceSupport.INSTANCE, Providers.obtain(b));
-
-		for (Entry<Relationship, String> x : result.getInvalid().entries()) {
-			if (x.getKey().getAnnotations().containsKey("IsInvalid"))
-				continue;
-
-			System.err.println(x.getKey());
-			System.err.println(x.getValue());
-		}
-
-		System.out.println(result);
+		System.out.println(result.getMessageLocations());
+		dump(result.getKB());
 	}
 
 	private static Megamodel load() throws IOException {

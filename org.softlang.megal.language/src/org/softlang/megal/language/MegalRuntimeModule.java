@@ -3,10 +3,8 @@
  */
 package org.softlang.megal.language;
 
-import org.eclipse.xtext.conversion.IValueConverterService;
 import org.eclipse.xtext.naming.IQualifiedNameConverter;
 import org.softlang.megal.language.scoping.MegalQualifiedNameConverter;
-import org.softlang.megal.language.values.MegalValueConverterService;
 
 import com.google.inject.Binder;
 
@@ -20,11 +18,6 @@ public class MegalRuntimeModule extends AbstractMegalRuntimeModule {
 		super.configure(binder);
 
 		binder.bind(IQualifiedNameConverter.class).to(MegalQualifiedNameConverter.class);
-	}
-
-	@Override
-	public Class<? extends IValueConverterService> bindIValueConverterService() {
-		return MegalValueConverterService.class;
 	}
 
 }

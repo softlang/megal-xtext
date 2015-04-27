@@ -5,7 +5,6 @@ import static org.eclipse.core.resources.ResourcesPlugin.getWorkspace;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -232,6 +231,10 @@ public class SourceSupportPlugin implements BundleActivator {
 	}
 
 	public SourceSupport analyzeContaining(EObject eObject) {
+		return analyze(findProjectName(eObject));
+	}
+
+	public static String findProjectName(EObject eObject) {
 		if (eObject.eResource() == null)
 			throw new IllegalArgumentException("No containing resource fo the EObject");
 
@@ -243,9 +246,9 @@ public class SourceSupportPlugin implements BundleActivator {
 		String seg1 = uri.segment(1);
 
 		if ("resource".equals(seg0))
-			return analyze(seg1);
-
-		throw new IllegalArgumentException("Can not resolve to non-resource URI");
+			return seg1;
+		else
+			throw new IllegalArgumentException("Can not resolve to non-resource URI");
 	}
 
 	/**
