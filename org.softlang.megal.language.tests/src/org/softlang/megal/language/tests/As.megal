@@ -10,6 +10,11 @@ OnlyAsAcceptor partOf FileElementOfLanguage
 OnlyAsAcceptor realizationOf OnlyAs
 OnlyAsAcceptor = "classpath:pluginroot.elementof.AcceptOnlyAs"
 
+FailyAcceptor: Evaluator
+FailyAcceptor partOf FileElementOfLanguage
+FailyAcceptor realizationOf OnlyAs
+FailyAcceptor = "classpath:pluginroot.elementof.AcceptOnlySomethingThatDoesNotExist"
+
 OnlyBs: Language
 
 

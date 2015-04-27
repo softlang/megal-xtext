@@ -154,7 +154,7 @@ public final class MessageLocation {
 
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder(message.toString());
+		StringBuilder builder = new StringBuilder(message.toString()).append("\r\n");
 		for (Annotated a : elements)
 			builder.append("  at ").append(a).append("\r\n");
 
@@ -165,6 +165,6 @@ public final class MessageLocation {
 				builder.append("  in ").append(stackTrace.get(0)).append("\r\n");
 		}
 
-		return super.toString();
+		return builder.toString();
 	}
 }

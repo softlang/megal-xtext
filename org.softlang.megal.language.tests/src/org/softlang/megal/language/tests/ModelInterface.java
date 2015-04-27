@@ -2,6 +2,7 @@ package org.softlang.megal.language.tests;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.util.Map.Entry;
 
 import org.softlang.megal.Megamodel;
@@ -13,7 +14,9 @@ import org.softlang.megal.mi2.MegamodelKB;
 import org.softlang.megal.mi2.Relationship;
 import org.softlang.megal.mi2.RelationshipType;
 import org.softlang.megal.mi2.mmp.Evaluator;
+import org.softlang.megal.mi2.mmp.data.MessageLocation;
 import org.softlang.megal.mi2.mmp.data.Result;
+import org.softlang.megal.mi2.mmp.data.Message.Level;
 import org.softlang.megal.mi2.mmp.variants.LocalResolution;
 import org.softlang.megal.mi2.reasoning.Providers;
 import org.softlang.megal.mi2.reasoning.Reasoner;
@@ -31,8 +34,16 @@ public class ModelInterface {
 		Evaluator sequencer = new Evaluator();
 		Result result = sequencer.evaluate(new LocalResolution(), reasoner);
 
-		System.out.println(result.getMessageLocations());
 		dump(result.getKB());
+
+		System.out.println("_______________________________________");
+		for (MessageLocation messageLocation : result.getMessageLocations()) {
+			PrintStream target = messageLocation.getMessage().getLevel() == Level.ERROR ? System.err : System.out;
+
+			target.println(messageLocation);
+			target.println();
+		}
+
 	}
 
 	private static Megamodel load() throws IOException {

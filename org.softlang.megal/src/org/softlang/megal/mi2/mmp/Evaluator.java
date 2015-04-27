@@ -10,6 +10,7 @@ import java.util.Set;
 
 import org.softlang.megal.mi2.Entity;
 import org.softlang.megal.mi2.EntityType;
+import org.softlang.megal.mi2.KBs;
 import org.softlang.megal.mi2.Relationship;
 import org.softlang.megal.mi2.RelationshipType;
 import org.softlang.megal.mi2.mmp.data.Message;
@@ -144,6 +145,10 @@ public class Evaluator {
 								messageLocations
 										.add(MessageLocation.of(singleton(entity), Message.createWarningFor(e)));
 							}
+						else {
+							messageLocations.add(MessageLocation.of(singleton(entity),
+									Message.warning("Plugin class is not resolvable")));
+						}
 					}
 			}
 
@@ -184,7 +189,7 @@ public class Evaluator {
 			}
 
 			Result run() {
-				throw new UnsupportedOperationException();
+				return Result.of(input.getKB(), KBs.emptyKB()/* JOIN RESIDUES */, messageLocations);
 			}
 		}
 
