@@ -3,9 +3,7 @@ package org.softlang.megal.mi2;
 import static com.google.common.collect.Iterables.getFirst;
 
 import java.util.Collection;
-import java.util.List;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Multimap;
 
 /**
@@ -17,17 +15,6 @@ import com.google.common.collect.Multimap;
  *
  */
 public abstract class Element {
-	/**
-	 * <p>
-	 * Gets origin trace
-	 * </p>
-	 * 
-	 * @return Returns the origin, default is self
-	 */
-	public List<? extends Element> getOrigin() {
-		return ImmutableList.of(this);
-	}
-
 	/**
 	 * <p>
 	 * Gets all annotations of this element.

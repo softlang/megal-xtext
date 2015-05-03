@@ -74,14 +74,14 @@ partOf < Language * Language
 // EVEN NEWER
 
 // New entity types
-Evaluator < Entity
+Plugin < Entity
 Resolver < Entity
 
 // Binding an evaluator specific to an entity
-realizationOf < Evaluator * Entity
+realizationOf < Plugin * Entity
 
 // Specifying plug-in relationship of evaluators
-partOf < Evaluator * Evaluator
+partOf < Plugin * Plugin
 
 // Defining an evaluator for the relationship elementOf between File and language
 @Plugin 'FileElementOfLanguage'
@@ -89,7 +89,7 @@ elementOf < File * Language
 
 
 // Dispatcher with master as link and parameter dependence
-FileElementOfLanguage: Evaluator
+FileElementOfLanguage: Plugin
 FileElementOfLanguage = "classpath:plugins.root.elementof.FileElementOfLanguage"
 
 // Replacement for the function application
@@ -106,3 +106,12 @@ elementOf < Pair * Function
 // From model
 refersTo < Artifact(+) * Technology
 refersTo < Artifact(+) * Artifact(+)
+
+
+// bindingEvaluator, evaluates links by inference
+Resolver: Plugin
+Resolver = "classpath:pluginroot.Resolver"
+
+// partOf evaluator, evaluates dot names to part of relationships
+PartOf: Plugin
+PartOf = "classpath:pluginroot.elementof.PartOfReasoner"

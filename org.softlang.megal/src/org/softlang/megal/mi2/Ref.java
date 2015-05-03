@@ -1,4 +1,4 @@
-package org.softlang.megal.mi2.kb;
+package org.softlang.megal.mi2;
 
 /**
  * <p>

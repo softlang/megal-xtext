@@ -36,12 +36,12 @@ public interface Multitable<R, C, E> {
 
 	Table<R, C, Set<E>> asTable();
 
-	Iterable<Cell<R, C, E>> whereValue(E value);
+	Set<Cell<R, C, E>> whereValue(E value);
 
-	Iterable<Cell<R, C, E>> whereRow(R rowKey);
+	Set<Cell<R, C, E>> whereRow(R rowKey);
 
-	Iterable<Cell<R, C, E>> whereColumn(C columnKey);
+	Set<Cell<R, C, E>> whereColumn(C columnKey);
 
-	Iterable<Cell<R, C, E>> cells();
+	Set<Cell<R, C, E>> cells();
 
 }

@@ -7,8 +7,8 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.sirius.tools.api.ui.IExternalJavaAction;
 import org.softlang.megal.Entity;
 import org.softlang.megal.EntityType;
-import org.softlang.megal.EntityTypeReference;
 import org.softlang.megal.Megamodel;
+import org.softlang.megal.plugins.EntityTypeReference;
 import org.softlang.megal.sirius.MegalServices;
 
 public class SetLableEntity implements IExternalJavaAction {

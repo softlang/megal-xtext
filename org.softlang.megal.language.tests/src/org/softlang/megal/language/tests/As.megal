@@ -1,16 +1,21 @@
 model As
 import Prelude
 
+Reasoner < Entity
+PartOfReasoner : Reasoner
+PartOfReasoner = "classpath:org.softlang.megal.plugins.PartOfReasoner"
+
+
 // Language of all As (small or capital)
 OnlyAs: Language
 
 // Evaluator for this trick
-OnlyAsAcceptor: Evaluator
+OnlyAsAcceptor: Plugin
 OnlyAsAcceptor partOf FileElementOfLanguage
 OnlyAsAcceptor realizationOf OnlyAs
 OnlyAsAcceptor = "classpath:pluginroot.elementof.AcceptOnlyAs"
 
-FailyAcceptor: Evaluator
+FailyAcceptor: Plugin
 FailyAcceptor partOf FileElementOfLanguage
 FailyAcceptor realizationOf OnlyAs
 FailyAcceptor = "classpath:pluginroot.elementof.AcceptOnlySomethingThatDoesNotExist"
@@ -75,5 +80,5 @@ a rel2 b
 partOf < Technology * Technology
 
 // Part of evaluator, evaluates dot names to part of relationships
-ErrorOnPartOf: Evaluator
+ErrorOnPartOf: Plugin
 ErrorOnPartOf = "classpath:org.softlang.megal.language.tests.ErrorOnPartOf"

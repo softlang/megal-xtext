@@ -15,10 +15,10 @@ import org.softlang.megal.Annotation;
 import org.softlang.megal.Declaration;
 import org.softlang.megal.Entity;
 import org.softlang.megal.EntityType;
-import org.softlang.megal.EntityTypeReference;
 import org.softlang.megal.Megamodel;
 import org.softlang.megal.Relationship;
 import org.softlang.megal.RelationshipType;
+import org.softlang.megal.plugins.EntityTypeReference;
 
 import com.google.common.collect.FluentIterable;
 

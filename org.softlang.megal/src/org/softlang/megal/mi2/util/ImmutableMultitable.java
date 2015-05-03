@@ -1,5 +1,7 @@
 package org.softlang.megal.mi2.util;
 
+import static java.util.Collections.singleton;
+
 import java.util.Set;
 
 import com.google.common.collect.ImmutableTable;

@@ -1,7 +1,6 @@
 package org.softlang.megal.mi2.util;
 
 import static com.google.common.base.Predicates.not;
-import static com.google.common.collect.Iterables.getFirst;
 import static com.google.common.collect.Multimaps.index;
 import static com.google.common.collect.Multimaps.transformValues;
 
@@ -12,7 +11,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMultimap;
@@ -23,6 +21,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.SetMultimap;
+import com.google.common.collect.Sets;
 import com.google.common.collect.Table;
 import com.google.common.collect.Table.Cell;
 
@@ -35,91 +34,135 @@ import com.google.common.collect.Table.Cell;
  *
  */
 public class SetOperations {
+	private static class MutableFilterSet<E> extends AbstractSet<E> {
+		private final Set<E> set;
 
-	public static <E> Set<E> filter(final Set<E> elements, Predicate<? super E> filter) {
-		final Optional<Integer> preSize;
-		final Optional<Boolean> preEmpty;
+		private final Class<E> type;
 
-		if (elements instanceof ImmutableSet) {
-			preSize = Optional.of(Iterables.size(Iterables.filter(elements, filter)));
-			preEmpty = Optional.of(Iterables.all(elements, not(filter)));
-		} else {
-			preSize = Optional.absent();
-			preEmpty = Optional.absent();
+		private final Predicate<? super E> filter;
+
+		public MutableFilterSet(Set<E> set, Class<E> type, Predicate<? super E> filter) {
+			this.set = set;
+			this.type = type;
+			this.filter = filter;
 		}
 
-		return new AbstractSet<E>() {
-			@Override
-			public int size() {
-				if (preSize.isPresent())
-					return preSize.get();
+		@Override
+		public int size() {
+			return Iterables.size(Iterables.filter(set, filter));
+		}
 
-				return Iterables.size(Iterables.filter(elements, filter));
+		@Override
+		public boolean isEmpty() {
+			return Iterables.all(set, not(filter));
+		}
+
+		@Override
+		public boolean contains(Object o) {
+			if (set.isEmpty())
+				return false;
+
+			if (!type.isInstance(o))
+				return false;
+
+			E element = type.cast(o);
+
+			if (!filter.apply(element))
+				return false;
+
+			return set.contains(element);
+		}
+
+		@Override
+		public Iterator<E> iterator() {
+			return Iterators.filter(set.iterator(), filter);
+		}
+
+		@Override
+		public boolean add(E e) {
+			if (filter.apply(e))
+				return false;
+
+			return set.add(e);
+		}
+
+		@Override
+		public boolean remove(Object o) {
+			if (set.isEmpty())
+				return false;
+
+			if (!type.isInstance(o))
+				return false;
+
+			E element = type.cast(o);
+
+			if (!filter.apply(element))
+				return false;
+
+			return set.remove(element);
+		}
+
+		@Override
+		public void clear() {
+			for (Iterator<E> it = set.iterator(); it.hasNext();) {
+				E current = it.next();
+				if (filter.apply(current))
+					it.remove();
 			}
+		}
+	}
 
-			@Override
-			public boolean isEmpty() {
-				if (preEmpty.isPresent())
-					return preEmpty.get();
+	private static class ImmutableFilterSet<E> extends MutableFilterSet<E> {
+		private boolean sizeCalculated;
+		private boolean emptyCalculated;
 
-				return Iterables.all(elements, not(filter));
-			}
+		private int size;
+		private boolean empty;
 
-			private E asElement(final Set<E> elements, Object o) {
-				@SuppressWarnings("unchecked")
-				Class<E> elementClass = (Class<E>) getFirst(elements, null).getClass();
-				E element = elementClass.cast(o);
-				return element;
-			}
+		public ImmutableFilterSet(Set<E> set, Class<E> type, Predicate<? super E> filter) {
+			super(set, type, filter);
+		}
 
-			@Override
-			public boolean contains(Object o) {
-				if (elements.isEmpty())
-					return false;
+		@Override
+		public int size() {
+			if (sizeCalculated)
+				return size;
 
-				E element = asElement(elements, o);
+			sizeCalculated = true;
+			return size = super.size();
+		}
 
-				if (!filter.apply(element))
-					return false;
+		@Override
+		public boolean isEmpty() {
+			if (emptyCalculated)
+				return empty;
 
-				return elements.contains(element);
-			}
+			if (sizeCalculated)
+				return size == 0;
 
-			@Override
-			public Iterator<E> iterator() {
-				return Iterators.filter(elements.iterator(), filter);
-			}
+			emptyCalculated = true;
+			return emptyCalculated = super.isEmpty();
+		}
+	}
 
-			@Override
-			public boolean add(E e) {
-				if (filter.apply(e))
-					return false;
-
-				return elements.add(e);
-			}
-
-			@Override
-			public boolean remove(Object o) {
-				if (elements.isEmpty())
-					return false;
-
-				E element = asElement(elements, o);
-
-				if (!filter.apply(element))
-					return false;
-
-				return elements.remove(element);
-			}
-
-			@Override
-			public void clear() {
-				for (Iterator<E> it = elements.iterator(); it.hasNext();) {
-					E current = it.next();
-					if (filter.apply(current))
-						it.remove();
-				}
-			}
-		};
+	/**
+	 * <p>
+	 * Filters the entries of the set on demand. If the input set is an
+	 * ImmutableSet, iterating operations will be calculated on demand.
+	 * </p>
+	 * 
+	 * @param set
+	 *            The input set
+	 * @param filter
+	 *            The filter to apply
+	 * @return Returns a set where all elements contain filter, only
+	 *         modifications not matching the filter will be channeled
+	 */
+	public static <E> Set<E> filter(Set<E> set, Class<E> type, Predicate<? super E> filter) {
+		if (set instanceof ImmutableSet)
+			return new ImmutableFilterSet<E>(set, type, filter);
+		else
+			return new MutableFilterSet<E>(set, type, filter);
 	}
 
 	/**
@@ -207,6 +250,21 @@ public class SetOperations {
 	 *            The right side
 	 * @return Returns the result
 	 */
+	public static <E> Set<E> union(Set<E> a, Set<E> b) {
+		return Sets.union(a, b);
+	}
+
+	/**
+	 * <p>
+	 * Applies the set union on the input.
+	 * </p>
+	 * 
+	 * @param a
+	 *            The left side
+	 * @param b
+	 *            The right side
+	 * @return Returns the result
+	 */
 	public static <K, V> ImmutableMap<K, V> union(Map<K, V> a, Map<K, V> b) {
 		ImmutableMap.Builder<K, V> builder = ImmutableMap.builder();
 
@@ -238,7 +296,7 @@ public class SetOperations {
 		return builder.build();
 	}
 
-	public static <T, U> Set<U> transform(final Set<T> set, final Bijection<T, U> bijection) {
+	public static <T, U> Set<U> transform(final Set<T> set, final Class<U> type, final Bijection<T, U> bijection) {
 		return new AbstractSet<U>() {
 			@Override
 			public int size() {
@@ -255,7 +313,10 @@ public class SetOperations {
 				if (set.isEmpty())
 					return false;
 
-				return set.contains(bijection.inverse().apply(SetOperations.ofMatchingType(this, o)));
+				if (!type.isInstance(o))
+					return false;
+
+				return set.contains(bijection.inverse().apply(type.cast(o)));
 			}
 
 			@Override
@@ -273,7 +334,7 @@ public class SetOperations {
 				if (set.isEmpty())
 					return false;
 
-				return set.remove(bijection.inverse().apply(SetOperations.ofMatchingType(this, o)));
+				return set.remove(bijection.inverse().apply(type.cast(o)));
 			}
 
 			@Override
@@ -282,16 +343,4 @@ public class SetOperations {
 			}
 		};
 	}
-
-	public static <E> E ofMatchingType(Iterable<E> elements, Object item) {
-		for (E e : elements) {
-			@SuppressWarnings("unchecked")
-			Class<E> type = (Class<E>) e.getClass();
-
-			return type.cast(item);
-		}
-
-		throw new IllegalStateException();
-	}
-
 }

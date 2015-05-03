@@ -1,6 +1,6 @@
-package org.softlang.megal.api.emission;
+package org.softlang.megal.mi2.api.emission;
 
-import org.softlang.megal.api.Message;
+import org.softlang.megal.mi2.api.Message;
 
 /**
  * <p>

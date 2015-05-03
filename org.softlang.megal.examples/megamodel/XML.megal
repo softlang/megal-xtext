@@ -17,21 +17,20 @@ xmlFile conformsTo xsdFiles
 @Plugin 'XSDConformance'
 conformsTo < Artifact(+) * Artifact(+)
 
-XSDConformance : Evaluator
+XSDConformance : Plugin
 XSDConformance = 'classpath:plugins.jaxb.XSDConformance'
 
-XMLAcceptor : Evaluator
+XMLAcceptor : Plugin
 XMLAcceptor realizationOf XML
 XMLAcceptor = 'classpath:plugins.jaxb.AcceptXML'
 XMLAcceptor partOf FileElementOfLanguage
 
-XSDAcceptor : Evaluator
+XSDAcceptor : Plugin
 XSDAcceptor realizationOf XSD
 XSDAcceptor = 'classpath:plugins.jaxb.AcceptXSD'
 XSDAcceptor partOf FileElementOfLanguage
 
 // --------------------------------------------------------------------------
-
 schema: File
 schema elementOf XSD
 schema = "workspace:/org.softlang.megal.examples/inputs/Company.xsd"
@@ -47,3 +46,4 @@ conformsNot = "workspace:/org.softlang.megal.examples/inputs/notSampleCompany.xm
 conforms conformsTo schema
 @IsInvalid
 conformsNot conformsTo schema
+

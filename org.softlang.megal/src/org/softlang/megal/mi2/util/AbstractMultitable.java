@@ -9,6 +9,7 @@ import static com.google.common.collect.Tables.immutableCell;
 import java.util.Collection;
 import java.util.Set;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Table.Cell;
 
 public abstract class AbstractMultitable<R, C, E> implements Multitable<R, C, E> {
@@ -112,26 +113,30 @@ public abstract class AbstractMultitable<R, C, E> implements Multitable<R, C, E>
 	}
 
 	@Override
-	public Iterable<Cell<R, C, E>> whereValue(E value) {
-		return from(cells()).filter(x -> equal(x.getValue(), value));
+	public Set<Cell<R, C, E>> whereValue(E value) {
+		// TODO: I am a horrible person
+		return ImmutableSet.copyOf(from(cells()).filter(x -> equal(x.getValue(), value)));
 	}
 
 	@Override
-	public Iterable<Cell<R, C, E>> whereRow(R rowKey) {
-		return from(asTable().row(rowKey).entrySet()).transformAndConcat(
-				x -> transform(x.getValue(), y -> immutableCell(rowKey, x.getKey(), y)));
+	public Set<Cell<R, C, E>> whereRow(R rowKey) {
+		// TODO: I am a horrible person
+		return ImmutableSet.copyOf(from(asTable().row(rowKey).entrySet()).transformAndConcat(
+				x -> transform(x.getValue(), y -> immutableCell(rowKey, x.getKey(), y))));
 	}
 
 	@Override
-	public Iterable<Cell<R, C, E>> whereColumn(C columnKey) {
-		return from(asTable().column(columnKey).entrySet()).transformAndConcat(
-				x -> transform(x.getValue(), y -> immutableCell(x.getKey(), columnKey, y)));
+	public Set<Cell<R, C, E>> whereColumn(C columnKey) {
+		// TODO: I am a horrible person
+		return ImmutableSet.copyOf(from(asTable().column(columnKey).entrySet()).transformAndConcat(
+				x -> transform(x.getValue(), y -> immutableCell(x.getKey(), columnKey, y))));
 	}
 
 	@Override
-	public Iterable<Cell<R, C, E>> cells() {
-		return from(asTable().cellSet()).transformAndConcat(
-				x -> transform(x.getValue(), y -> immutableCell(x.getRowKey(), x.getColumnKey(), y)));
+	public Set<Cell<R, C, E>> cells() {
+		// TODO: I am a horrible person
+		return ImmutableSet.copyOf(from(asTable().cellSet()).transformAndConcat(
+				x -> transform(x.getValue(), y -> immutableCell(x.getRowKey(), x.getColumnKey(), y))));
 	}
 
 	@Override

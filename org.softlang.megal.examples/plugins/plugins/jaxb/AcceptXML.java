@@ -7,8 +7,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-import org.softlang.megal.mi2.mmp.Emission;
-import org.softlang.megal.mi2.mmp.data.Message;
+import org.softlang.megal.mi2.api.Message;
+import org.softlang.megal.mi2.api.emission.Emission;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;

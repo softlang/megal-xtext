@@ -6,8 +6,8 @@ import java.io.Reader;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.SchemaFactory;
 
-import org.softlang.megal.mi2.mmp.Emission;
-import org.softlang.megal.mi2.mmp.data.Message;
+import org.softlang.megal.mi2.api.Message;
+import org.softlang.megal.mi2.api.emission.Emission;
 import org.xml.sax.SAXException;
 
 import plugins.root.elementof.Acceptor;

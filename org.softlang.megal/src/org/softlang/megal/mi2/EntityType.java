@@ -4,8 +4,8 @@ import static com.google.common.base.Objects.equal;
 import static com.google.common.collect.Lists.newArrayList;
 
 import java.util.List;
+import java.util.Set;
 
-import org.softlang.megal.mi2.kb.KB;
 import org.softlang.megal.util.Persistent;
 
 import com.google.common.collect.ImmutableList;
@@ -37,7 +37,7 @@ public abstract class EntityType extends Named {
 	 * 
 	 * @return Iterates over the instances
 	 */
-	public abstract Iterable<? extends Entity> getInstances();
+	public abstract Set<Entity> getInstances();
 
 	/**
 	 * <p>
@@ -46,7 +46,7 @@ public abstract class EntityType extends Named {
 	 * 
 	 * @return Iterates over the instances
 	 */
-	public abstract Iterable<? extends EntityType> getSpecializations();
+	public abstract Set<EntityType> getSpecializations();
 
 	@Override
 	public int hashCode() {

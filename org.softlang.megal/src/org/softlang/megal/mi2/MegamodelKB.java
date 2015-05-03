@@ -1,4 +1,4 @@
-package org.softlang.megal.mi2.kb;
+package org.softlang.megal.mi2;
 
 import static com.google.common.base.Objects.equal;
 import static com.google.common.collect.FluentIterable.from;
@@ -44,7 +44,7 @@ import com.google.common.collect.Table.Cell;
  * @author Pazuzu
  *
  */
-public class MegamodelKB extends AbstractKB {
+public class MegamodelKB extends KB {
 	/**
 	 * <p>
 	 * Annotation key of the generics of an entity.
@@ -66,12 +66,32 @@ public class MegamodelKB extends AbstractKB {
 	 */
 	public static final String PARAMS_RIGHT = "#paramsRight";
 
+	/**
+	 * <p>
+	 * Relationship name for the element of relationship.
+	 * </p>
+	 */
 	public static final String ELEMENT_OF = "elementOf";
 
+	/**
+	 * <p>
+	 * Relationship name for the first of relationship.
+	 * </p>
+	 */
 	public static final String FIRST_OF = "firstOf";
 
+	/**
+	 * <p>
+	 * Relationship name for the second of relationship.
+	 * </p>
+	 */
 	public static final String SECOND_OF = "secondOf";
 
+	/**
+	 * <p>
+	 * Entity type pair.
+	 * </p>
+	 */
 	public static final String PAIR = "Pair";
 
 	/**
@@ -620,10 +640,10 @@ public class MegamodelKB extends AbstractKB {
 		// Reduce with union
 		KB rh = imports[0];
 		for (int i = 1; i < imports.length; i++)
-			rh = KBs.union(imports[i], rh);
+			rh = KB.union(imports[i], rh);
 
 		// Union with the main model
-		return KBs.union(new MegamodelKB(m), rh);
+		return KB.union(new MegamodelKB(m), rh);
 	}
 
 	/**
@@ -643,57 +663,57 @@ public class MegamodelKB extends AbstractKB {
 	}
 
 	@Override
-	public SetMultimap<String, String> getAnnotations() {
+	public SetMultimap<String, String> getRawAnnotations() {
 		return annotations;
 	}
 
 	@Override
-	public SetMultimap<String, String> getTheEntityTypeAnnotations() {
+	public SetMultimap<String, String> getRawTheEntityTypeAnnotations() {
 		return theEntityTypeAnnotations;
 	}
 
 	@Override
-	public Map<String, String> getEntityTypes() {
+	public Map<String, String> getRawEntityTypes() {
 		return entityTypes;
 	}
 
 	@Override
-	public Multitable<Ref, Ref, String> getRelationshipTypes() {
+	public Multitable<Ref, Ref, String> getRawRelationshipTypes() {
 		return relationshipTypes;
 	}
 
 	@Override
-	public Map<String, Ref> getEntities() {
+	public Map<String, Ref> getRawEntities() {
 		return entities;
 	}
 
 	@Override
-	public Map<String, Object> getBindings() {
+	public Map<String, Object> getRawBindings() {
 		return bindings;
 	}
 
 	@Override
-	public Multitable<String, String, String> getRelationships() {
+	public Multitable<String, String, String> getRawRelationships() {
 		return relationships;
 	}
 
 	@Override
-	public SetMultimap<Entry<String, String>, Entry<String, String>> getEntityTypeAnnotations() {
+	public SetMultimap<Entry<String, String>, Entry<String, String>> getRawEntityTypeAnnotations() {
 		return entityTypeAnnotations;
 	}
 
 	@Override
-	public SetMultimap<Cell<Ref, Ref, String>, Entry<String, String>> getRelationshipTypeAnnotations() {
+	public SetMultimap<Cell<Ref, Ref, String>, Entry<String, String>> getRawRelationshipTypeAnnotations() {
 		return relationshipTypeAnnotations;
 	}
 
 	@Override
-	public SetMultimap<Entry<String, Ref>, Entry<String, String>> getEntityAnnotations() {
+	public SetMultimap<Entry<String, Ref>, Entry<String, String>> getRawEntityAnnotations() {
 		return entityAnnotations;
 	}
 
 	@Override
-	public SetMultimap<Cell<String, String, String>, Entry<String, String>> getRelationshipAnnotations() {
+	public SetMultimap<Cell<String, String, String>, Entry<String, String>> getRawRelationshipAnnotations() {
 		return relationshipAnnotations;
 	}
 }

@@ -5,20 +5,17 @@ import static com.google.common.collect.Iterables.getFirst;
 import java.util.Set;
 
 import org.softlang.megal.mi2.Entity;
-import org.softlang.megal.mi2.KB;
-import org.softlang.megal.mi2.KBs;
 import org.softlang.megal.mi2.Relationship;
-import org.softlang.megal.mi2.mmp.Context;
-import org.softlang.megal.mi2.mmp.Plugin;
-import org.softlang.megal.mi2.mmp.data.Message;
+import org.softlang.megal.mi2.api.EvaluatorPlugin;
+import org.softlang.megal.mi2.api.Message;
+import org.softlang.megal.mi2.api.context.Context;
 
-public class FindBuildScriptAsElementOfProof extends Plugin {
+public class FindBuildScriptAsElementOfProof extends EvaluatorPlugin {
 
 	@Override
-	public KB evaluate(Context context, Relationship relationship) {
+	public void evaluate(Context context, Relationship relationship) {
 
-		Set<Object> bindings = relationship.getRight().getBindings();
-		System.out.println(bindings);
+		Set<Object> bindings = relationship.getRight().getBinding().asSet();
 
 		Relationship firstOf = getFirst(
 				relationship.getLeft().incoming("firstOf"), null);
@@ -28,11 +25,10 @@ public class FindBuildScriptAsElementOfProof extends Plugin {
 		Entity first = firstOf.getLeft();
 		Entity second = secondOf.getLeft();
 
-		for (Object firstBinding : first.getBindings())
-			for (Object secondBinding : second.getBindings())
+		for (Object firstBinding : first.getBinding().asSet())
+			for (Object secondBinding : second.getBinding().asSet())
 				context.emit(Message
 						.warning("TODO Find elementOf evidence for \r\nFirst: "
 								+ firstBinding + "\r\nSecond: " + secondBinding));
-		return KBs.emptyKB();
 	}
 }

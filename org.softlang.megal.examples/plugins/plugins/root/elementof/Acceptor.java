@@ -1,7 +1,8 @@
 package plugins.root.elementof;
 
-import org.softlang.megal.mi2.mmp.Emission;
-import org.softlang.megal.mi2.mmp.Plugin;
+
+import org.softlang.megal.mi2.api.Plugin;
+import org.softlang.megal.mi2.api.emission.Emission;
 
 import com.google.common.io.CharSource;
 

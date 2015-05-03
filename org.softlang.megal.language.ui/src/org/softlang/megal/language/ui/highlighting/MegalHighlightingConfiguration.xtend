@@ -204,10 +204,9 @@ class MegalHighlightingConfiguration extends DefaultHighlightingConfiguration {
 
 		// Load the prelude, runtime relation highlighting is probably not doable as this configuration is on init
 //		val px = MegalEnvironment.loadPreludeMegamodel
-
 		available.clear
 
-		// Register all stylable entity types
+	// Register all stylable entity types
 //		for (it : px.declarations.filter(EntityType))
 //			if (!available.contains(ID)) {
 //				available += ID

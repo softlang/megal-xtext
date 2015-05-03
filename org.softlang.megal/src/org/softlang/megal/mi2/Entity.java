@@ -1,7 +1,10 @@
 package org.softlang.megal.mi2;
 
 import static com.google.common.base.Objects.equal;
-import static com.google.common.collect.Iterables.filter;
+
+import java.util.Set;
+
+import org.softlang.megal.mi2.util.SetOperations;
 
 import com.google.common.base.Optional;
 
@@ -47,7 +50,7 @@ public abstract class Entity extends Named {
 	 * 
 	 * @return Returns a transformed network sequence of relationships
 	 */
-	public abstract Iterable<? extends Relationship> incoming();
+	public abstract Set<Relationship> incoming();
 
 	/**
 	 * <p>
@@ -56,7 +59,7 @@ public abstract class Entity extends Named {
 	 * 
 	 * @return Returns a transformed network sequence of relationships
 	 */
-	public abstract Iterable<? extends Relationship> outgoing();
+	public abstract Set<Relationship> outgoing();
 
 	/**
 	 * <p>
@@ -65,8 +68,8 @@ public abstract class Entity extends Named {
 	 * 
 	 * @return Returns a transformed network sequence of relationships
 	 */
-	public Iterable<? extends Relationship> incoming(String relationship) {
-		return filter(incoming(), x -> equal(relationship, x.getType().getName()));
+	public Set<Relationship> incoming(String relationship) {
+		return SetOperations.filter(incoming(), Relationship.class, x -> equal(relationship, x.getType().getName()));
 	}
 
 	/**
@@ -76,8 +79,8 @@ public abstract class Entity extends Named {
 	 * 
 	 * @return Returns a transformed network sequence of relationships
 	 */
-	public Iterable<? extends Relationship> outgoing(String relationship) {
-		return filter(outgoing(), x -> equal(relationship, x.getType().getName()));
+	public Set<Relationship> outgoing(String relationship) {
+		return SetOperations.filter(outgoing(), Relationship.class, x -> equal(relationship, x.getType().getName()));
 	}
 
 	@Override

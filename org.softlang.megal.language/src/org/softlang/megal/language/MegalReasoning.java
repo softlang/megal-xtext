@@ -2,10 +2,9 @@ package org.softlang.megal.language;
 
 import org.eclipse.xtext.resource.XtextResource;
 import org.softlang.megal.Megamodel;
-import org.softlang.megal.mi2.kb.KB;
-import org.softlang.megal.mi2.kb.MegamodelKB;
-import org.softlang.megal.mi2.reasoning.Reasoner;
-import org.softlang.megal.mi2.reasoning.Reasoners;
+import org.softlang.megal.mi2.KB;
+import org.softlang.megal.mi2.MegamodelKB;
+import org.softlang.megal.mi2.api.ReasonerPlugin;
 
 import com.google.inject.Provider;
 
@@ -40,29 +39,29 @@ public class MegalReasoning {
 			return MegamodelKB.loadAll(megamodel);
 	}
 
-	/**
-	 * <p>
-	 * Gets the reasoner associated with the megamodel, may be cached in XText
-	 * resources.
-	 * </p>
-	 * 
-	 * @param megamodel
-	 *            The megamodel to get the reasoner for
-	 * @return Returns the reasoner on the KB for the megamodel
-	 */
-	public static Reasoner getReasoner(final Megamodel megamodel) {
-		if (megamodel.eResource() instanceof XtextResource)
-			// If the megamodel resource has been loaded by XText, use the
-			// resource scoped cache for reasoner evaluation
-			return ((XtextResource) megamodel.eResource()).getCache().get(REASONER_KEY, megamodel.eResource(),
-					new Provider<Reasoner>() {
-						@Override
-						public Reasoner get() {
-							return Reasoners.create(getKB(megamodel));
-						}
-					});
-		else
-			// Else use reevaluation and reasoner generation
-			return Reasoners.create(getKB(megamodel));
-	}
+//	/**
+//	 * <p>
+//	 * Gets the reasoner associated with the megamodel, may be cached in XText
+//	 * resources.
+//	 * </p>
+//	 * 
+//	 * @param megamodel
+//	 *            The megamodel to get the reasoner for
+//	 * @return Returns the reasoner on the KB for the megamodel
+//	 */
+//	public static Reasoner getReasoner(final Megamodel megamodel) {
+//		if (megamodel.eResource() instanceof XtextResource)
+//			// If the megamodel resource has been loaded by XText, use the
+//			// resource scoped cache for reasoner evaluation
+//			return ((XtextResource) megamodel.eResource()).getCache().get(REASONER_KEY, megamodel.eResource(),
+//					new Provider<Reasoner>() {
+//						@Override
+//						public Reasoner get() {
+//							return Reasoners.create(getKB(megamodel));
+//						}
+//					});
+//		else
+//			// Else use reevaluation and reasoner generation
+//			return Reasoners.create(getKB(megamodel));
+//	}
 }

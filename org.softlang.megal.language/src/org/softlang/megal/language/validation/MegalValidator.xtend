@@ -12,11 +12,11 @@ import org.softlang.megal.Megamodel
 import org.softlang.megal.Relationship
 import org.softlang.megal.language.MegalReasoning
 import org.softlang.megal.mi2.Entity
-import org.softlang.megal.mi2.KB
 import org.softlang.megal.mi2.MegamodelKB
-import org.softlang.megal.mi2.mmp.Evaluator
-import org.softlang.megal.mi2.mmp.Message
-import org.softlang.megal.mi2.mmp.variants.ContainingProjectResolution
+import org.softlang.megal.mi2.api.Message
+import org.softlang.megal.mi2.api.resolution.ContainingProjectResolution
+import org.softlang.megal.mi2.KB
+import org.softlang.megal.mi2.api.ModelExecutor
 
 /**
  * Custom validation rules. 
@@ -37,7 +37,7 @@ class MegalValidator extends AbstractMegalValidator {
 
 	@Check
 	def checkRelationshipTypeApplicable(Relationship x) {
-		val rs = MegalReasoning.getReasoner(x.eContainer as Megamodel)
+		val rs = MegalReasoning.getKB(x.eContainer as Megamodel)
 
 		val left = rs.getEntity(x.left.name)
 		val right = rs.getEntity(x.right.name)
@@ -49,8 +49,10 @@ class MegalValidator extends AbstractMegalValidator {
 
 	}
 
-	def writeMessageTo(Megamodel in, Message message, EObject corr, EStructuralFeature feature) {
+	def writeMessageTo(Message message, boolean isInvalid, EObject corr, EStructuralFeature feature) {
 		switch (message.level) {
+			case isInvalid:
+				info('''Failed as expected: «message.message»''', corr, feature)
 			case INFO:
 				info(message.message, corr, feature)
 			case WARNING:
@@ -65,46 +67,51 @@ class MegalValidator extends AbstractMegalValidator {
 	 */
 	@Check
 	def checkValidate(Megamodel m) {
-		val evaluator = new Evaluator
-		val result = evaluator.evaluate(new ContainingProjectResolution(m), MegalReasoning.getReasoner(m))
+		val evaluator = new ModelExecutor
+		val result = evaluator.evaluate(new ContainingProjectResolution(m), MegalReasoning.getKB(m))
 
-		for (loc : result)
+		for (loc : result.messageLocations) {
+			val isInvalid = loc.origin.annotations.containsKey("IsInvalid")
+
 			// Get root trace element
-			switch root : loc.element.origin.head {
+			switch root : loc.origin {
 				// If the root is an entity
 				Entity: {
 					// Resolve the direct entity and annotate if present
 					val pent = MegamodelKB.resolve(false, m, root)
 					if (pent != null)
-						writeMessageTo(m, loc, pent, MegalPackage.Literals.NAMED__NAME)
+						writeMessageTo(loc.message, isInvalid, pent, MegalPackage.Literals.NAMED__NAME)
 
 					// Resolve the function application pair entity and annotate if present
 					val pfirst = MegamodelKB.resolvePair(false, m, root)
 					if (pfirst != null)
-						writeMessageTo(m, loc, pfirst, MegalPackage.Literals.FUNCTION_APPLICATION__FUNCTION)
+						writeMessageTo(loc.message, isInvalid, pfirst,
+							MegalPackage.Literals.FUNCTION_APPLICATION__FUNCTION)
 				}
 				// If the root is a relationship
 				org.softlang.megal.mi2.Relationship: {
 					// Resolve the direct relationship and annotate if present
 					val prel = MegamodelKB.resolve(false, m, root)
 					if (prel != null)
-						writeMessageTo(m, loc, prel, MegalPackage.Literals.RELATIONSHIP__TYPE)
+						writeMessageTo(loc.message, isInvalid, prel, MegalPackage.Literals.RELATIONSHIP__TYPE)
 
 					// Resolve the firstOf relationship and annotate if present
 					val pfo = MegamodelKB.resolveFirst(false, m, root)
 					if (pfo != null)
-						writeMessageTo(m, loc, pfo, MegalPackage.Literals.FUNCTION_APPLICATION__INPUT)
+						writeMessageTo(loc.message, isInvalid, pfo, MegalPackage.Literals.FUNCTION_APPLICATION__INPUT)
 
 					// Resolve the secondOf relationship and annotate if present
 					val pso = MegamodelKB.resolveSecond(false, m, root)
 					if (pso != null)
-						writeMessageTo(m, loc, pso, MegalPackage.Literals.FUNCTION_APPLICATION__OUTPUT)
+						writeMessageTo(loc.message, isInvalid, pso, MegalPackage.Literals.FUNCTION_APPLICATION__OUTPUT)
 
 					// Resolve the secondOf relationship and annotate if present
 					val peo = MegamodelKB.resolveElement(false, m, root)
 					if (peo != null)
-						writeMessageTo(m, loc, peo, MegalPackage.Literals.FUNCTION_APPLICATION__FUNCTION)
+						writeMessageTo(loc.message, isInvalid, peo,
+							MegalPackage.Literals.FUNCTION_APPLICATION__FUNCTION)
 				}
 			}
+		}
 	}
 }

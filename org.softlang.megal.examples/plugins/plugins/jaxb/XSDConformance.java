@@ -9,17 +9,16 @@ import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 
 import org.softlang.megal.mi2.KB;
-import org.softlang.megal.mi2.KBs;
 import org.softlang.megal.mi2.Relationship;
-import org.softlang.megal.mi2.mmp.Context;
-import org.softlang.megal.mi2.mmp.Emission;
-import org.softlang.megal.mi2.mmp.Plugin;
-import org.softlang.megal.mi2.mmp.data.Message;
+import org.softlang.megal.mi2.api.EvaluatorPlugin;
+import org.softlang.megal.mi2.api.Message;
+import org.softlang.megal.mi2.api.context.Context;
+import org.softlang.megal.mi2.api.emission.Emission;
 import org.xml.sax.SAXException;
 
 import com.google.common.io.CharSource;
 
-public class XSDConformance extends Plugin {
+public class XSDConformance extends EvaluatorPlugin {
 
 	private void conforms(Emission emission, CharSource xml, CharSource xsd) {
 		// 1. Lookup a factory for the W3C XML Schema language
@@ -56,14 +55,15 @@ public class XSDConformance extends Plugin {
 	}
 
 	@Override
-	public KB evaluate(Context context, Relationship relationship) {
+	public void evaluate(Context context, Relationship relationship) {
 		// Check if an item conforms to something that is element of XSD
 		for (Relationship r : relationship.getRight().outgoing("elementOf"))
 			if ("XSD".equals(r.getRight().getName()))
 				// Pair up all bindings, usually one * one
-				for (Object leftBinding : relationship.getLeft().getBindings())
+				for (Object leftBinding : relationship.getLeft().getBinding()
+						.asSet())
 					for (Object rightBinding : relationship.getRight()
-							.getBindings()) {
+							.getBinding().asSet()) {
 						// Get char sources
 						CharSource left = context.getChars(leftBinding);
 						CharSource right = context.getChars(rightBinding);
@@ -71,7 +71,5 @@ public class XSDConformance extends Plugin {
 						// Check conformance
 						conforms(context, left, right);
 					}
-
-		return KBs.emptyKB();
 	}
 }

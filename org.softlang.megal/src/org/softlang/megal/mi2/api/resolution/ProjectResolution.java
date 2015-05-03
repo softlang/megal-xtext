@@ -1,4 +1,4 @@
-package org.softlang.megal.api.resolution;
+package org.softlang.megal.mi2.api.resolution;
 
 import static com.google.common.collect.Iterables.filter;
 import static com.google.common.collect.Iterables.getFirst;

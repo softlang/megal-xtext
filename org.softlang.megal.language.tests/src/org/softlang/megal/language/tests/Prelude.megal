@@ -75,14 +75,13 @@ partOf < Language * Language
 // EVEN NEWER
 
 // New entity types
-Evaluator < Entity
-Resolver < Entity
+Plugin < Entity
 
 // Binding an evaluator specific to an entity
-realizationOf < Evaluator * Entity
+realizationOf < Plugin * Entity
 
 // Specifying plug-in relationship of evaluators
-partOf < Evaluator * Evaluator
+partOf < Plugin * Plugin
 
 
 // Defining an evaluator for the relationship elementOf between File and language
@@ -90,7 +89,7 @@ partOf < Evaluator * Evaluator
 elementOf < File * Language
 
 // Dispatcher with master as link and parameter dependence
-FileElementOfLanguage: Evaluator
+FileElementOfLanguage: Plugin
 FileElementOfLanguage = "classpath:pluginroot.elementof.FileElementOfLanguage"
 
 // Replacement for the function application
@@ -101,7 +100,10 @@ secondOf < Entity * Pair
 elementOf < Pair * Function
 
 
+// bindingEvaluator, evaluates links by inference
+Resolver: Plugin
+Resolver = "classpath:pluginroot.Resolver"
 
-// Part of evaluator, evaluates dot names to part of relationships
-PartOf: Evaluator
-PartOf = "classpath:pluginroot.PartOfPlugin"
+// partOf evaluator, evaluates dot names to part of relationships
+PartOf: Plugin
+PartOf = "classpath:pluginroot.elementof.PartOfReasoner"

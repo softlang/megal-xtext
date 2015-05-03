@@ -1,6 +1,4 @@
-package org.softlang.megal.api;
-
-import org.softlang.megal.mi2.Element;
+package org.softlang.megal.mi2.api;
 
 import com.google.common.base.Throwables;
 
@@ -54,8 +52,8 @@ public final class Message {
 	 *            The throwable
 	 * @return Returns a message
 	 */
-	public static Message createInfoFor(Element element, Throwable t) {
-		return Message.info(element, t.getMessage() + "\r\n" + Throwables.getStackTraceAsString(t));
+	public static Message createInfoFor(Throwable t) {
+		return Message.info(t.getMessage() + "\r\n" + Throwables.getStackTraceAsString(t));
 	}
 
 	/**
@@ -67,8 +65,8 @@ public final class Message {
 	 *            The throwable
 	 * @return Returns a message
 	 */
-	public static Message createWarningFor(Element element, Throwable t) {
-		return Message.warning(element, t.getMessage() + "\r\n" + Throwables.getStackTraceAsString(t));
+	public static Message createWarningFor(Throwable t) {
+		return Message.warning(t.getMessage() + "\r\n" + Throwables.getStackTraceAsString(t));
 	}
 
 	/**
@@ -80,16 +78,9 @@ public final class Message {
 	 *            The throwable
 	 * @return Returns a message
 	 */
-	public static Message createErrorFor(Element element, Throwable t) {
-		return Message.error(element, t.getMessage() + "\r\n" + Throwables.getStackTraceAsString(t));
+	public static Message createErrorFor(Throwable t) {
+		return Message.error(t.getMessage() + "\r\n" + Throwables.getStackTraceAsString(t));
 	}
-
-	/**
-	 * <p>
-	 * Internal backing field.
-	 * </p>
-	 */
-	private final Element element;
 
 	/**
 	 * <p>
@@ -110,15 +101,12 @@ public final class Message {
 	 * Field initializing constructor.
 	 * </p>
 	 * 
-	 * @param element
-	 *            The associated element
 	 * @param level
 	 *            The level to construct on
 	 * @param message
 	 *            The message to construct with
 	 */
-	private Message(Element element, Level level, String message) {
-		this.element = element;
+	private Message(Level level, String message) {
 		this.level = level;
 		this.message = message;
 	}
@@ -128,16 +116,14 @@ public final class Message {
 	 * Constructs an message on the given level and the message.
 	 * </p>
 	 * 
-	 * @param element
-	 *            The associated element
 	 * @param level
 	 *            The level to use
 	 * @param message
 	 *            The message to provide
 	 * @return Returns a new message
 	 */
-	public static Message of(Element element, Level level, String message) {
-		return new Message(element, level, message);
+	public static Message of(Level level, String message) {
+		return new Message(level, message);
 	}
 
 	/**
@@ -145,14 +131,12 @@ public final class Message {
 	 * Constructs an information on the message.
 	 * </p>
 	 * 
-	 * @param element
-	 *            The associated element
 	 * @param message
 	 *            The message to provide
 	 * @return Returns a new message
 	 */
-	public static Message info(Element element, String message) {
-		return new Message(element, Level.INFO, message);
+	public static Message info(String message) {
+		return new Message(Level.INFO, message);
 	}
 
 	/**
@@ -160,14 +144,12 @@ public final class Message {
 	 * Constructs a warning on the message.
 	 * </p>
 	 * 
-	 * @param element
-	 *            The associated element
 	 * @param message
 	 *            The message to provide
 	 * @return Returns a new message
 	 */
-	public static Message warning(Element element, String message) {
-		return new Message(element, Level.WARNING, message);
+	public static Message warning(String message) {
+		return new Message(Level.WARNING, message);
 	}
 
 	/**
@@ -175,25 +157,12 @@ public final class Message {
 	 * Constructs an error on the message.
 	 * </p>
 	 * 
-	 * @param element
-	 *            The associated element
 	 * @param message
 	 *            The message to provide
 	 * @return Returns a new message
 	 */
-	public static Message error(Element element, String message) {
-		return new Message(element, Level.ERROR, message);
-	}
-
-	/**
-	 * <p>
-	 * Gets the associated element.
-	 * </p>
-	 * 
-	 * @return Returns the element
-	 */
-	public Element getElement() {
-		return element;
+	public static Message error(String message) {
+		return new Message(Level.ERROR, message);
 	}
 
 	/**

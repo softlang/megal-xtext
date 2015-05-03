@@ -1,8 +1,8 @@
-package org.softlang.megal.api.context;
+package org.softlang.megal.mi2.api.context;
 
-import org.softlang.megal.api.emission.Emission;
-import org.softlang.megal.api.resolution.Resolution;
-import org.softlang.megal.mi2.kb.KB;
+import org.softlang.megal.mi2.KB;
+import org.softlang.megal.mi2.api.emission.Emission;
+import org.softlang.megal.mi2.api.resolution.Resolution;
 
 /**
  * <p>

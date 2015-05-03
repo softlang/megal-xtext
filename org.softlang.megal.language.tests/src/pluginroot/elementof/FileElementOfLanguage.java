@@ -2,10 +2,10 @@ package pluginroot.elementof;
 
 import static com.google.common.collect.Iterables.filter;
 
-import org.softlang.megal.api.Message;
-import org.softlang.megal.api.Plugin;
-import org.softlang.megal.api.context.Context;
 import org.softlang.megal.mi2.Relationship;
+import org.softlang.megal.mi2.api.Message;
+import org.softlang.megal.mi2.api.EvaluatorPlugin;
+import org.softlang.megal.mi2.api.context.Context;
 
 import com.google.common.io.CharSource;
 
@@ -17,7 +17,7 @@ import com.google.common.io.CharSource;
  * @author Pazuzu
  *
  */
-public class FileElementOfLanguage extends Plugin {
+public class FileElementOfLanguage extends EvaluatorPlugin {
 	@Override
 	public void evaluate(Context context, Relationship relationship) {
 		if (!relationship.getRight().getBinding().isPresent())

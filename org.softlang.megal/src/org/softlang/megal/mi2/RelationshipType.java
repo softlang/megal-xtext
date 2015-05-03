@@ -2,6 +2,8 @@ package org.softlang.megal.mi2;
 
 import static com.google.common.base.Objects.equal;
 
+import java.util.Set;
+
 /**
  * <p>
  * Base class for relationship types in the model interface that supports a
@@ -51,7 +53,7 @@ public abstract class RelationshipType extends Named {
 	 * 
 	 * @return Iterates over the instances
 	 */
-	public abstract Iterable<? extends Relationship> getInstances();
+	public abstract Set<Relationship> getInstances();
 
 	/**
 	 * <p>
@@ -60,7 +62,7 @@ public abstract class RelationshipType extends Named {
 	 * 
 	 * @return Iterates over the instances
 	 */
-	public abstract Iterable<? extends RelationshipType> getSpecializations();
+	public abstract Set<RelationshipType> getSpecializations();
 
 	public boolean isApplicable(Entity left, Entity right) {
 		return isApplicable(left.getType(), left.isTypeMany(), right.getType(), right.isTypeMany());
