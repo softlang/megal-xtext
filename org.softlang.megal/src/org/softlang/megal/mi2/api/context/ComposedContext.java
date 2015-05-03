@@ -1,5 +1,7 @@
 package org.softlang.megal.mi2.api.context;
 
+import java.net.URI;
+
 import org.softlang.megal.mi2.KB;
 import org.softlang.megal.mi2.api.Message;
 import org.softlang.megal.mi2.api.emission.Emission;
@@ -40,6 +42,11 @@ public final class ComposedContext implements Context {
 	@Override
 	public <T> Class<? extends T> getClass(Object object, Class<T> deriving) {
 		return resolutionDelegate.getClass(object, deriving);
+	}
+
+	@Override
+	public URI getAbsolute(Object object) {
+		return resolutionDelegate.getAbsolute(object);
 	}
 
 	@Override

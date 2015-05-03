@@ -76,6 +76,17 @@ public abstract class ProjectResolution extends AbstractResolution {
 	}
 
 	@Override
+	public URI getAbsolute(Object object) {
+		//TODO Fix this
+		IFile file = getIFile(object);
+
+		if (file == null)
+			return null;
+
+		return file.getFullPath().toFile().toURI();
+	}
+
+	@Override
 	public ByteSource getBytes(Object object) {
 		final IFile file = getIFile(object);
 

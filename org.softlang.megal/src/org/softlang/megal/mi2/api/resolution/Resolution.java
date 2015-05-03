@@ -41,6 +41,17 @@ public interface Resolution {
 
 	/**
 	 * <p>
+	 * Gets the identity describing the object
+	 * </p>
+	 * 
+	 * @param object
+	 *            The object to find the identity for
+	 * @return Returns an URI
+	 */
+	URI getAbsolute(Object object);
+
+	/**
+	 * <p>
 	 * Gets the bindings manifested representation. This method constitutes the
 	 * model relative resource locations.
 	 * </p>

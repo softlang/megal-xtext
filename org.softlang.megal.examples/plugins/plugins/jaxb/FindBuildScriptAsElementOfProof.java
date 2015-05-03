@@ -14,21 +14,30 @@ public class FindBuildScriptAsElementOfProof extends EvaluatorPlugin {
 
 	@Override
 	public void evaluate(Context context, Relationship relationship) {
+		Entity pair = relationship.getLeft();
 
-		Set<Object> bindings = relationship.getRight().getBinding().asSet();
+		if (!pair.getBinding().isPresent())
+			return;
 
-		Relationship firstOf = getFirst(
-				relationship.getLeft().incoming("firstOf"), null);
-		Relationship secondOf = getFirst(
-				relationship.getLeft().incoming("secondOf"), null);
+		Relationship firstOf = getFirst(pair.incoming("firstOf"), null);
+		Relationship secondOf = getFirst(pair.incoming("secondOf"), null);
 
 		Entity first = firstOf.getLeft();
 		Entity second = secondOf.getLeft();
 
-		for (Object firstBinding : first.getBinding().asSet())
-			for (Object secondBinding : second.getBinding().asSet())
-				context.emit(Message
-						.warning("TODO Find elementOf evidence for \r\nFirst: "
-								+ firstBinding + "\r\nSecond: " + secondBinding));
+		if (!first.getBinding().isPresent())
+			return;
+		if (!second.getBinding().isPresent())
+			return;
+
+		Object buildScript = pair.getBinding().get();
+		Object xsd = first.getBinding().get();
+		Object javaPackage = second.getBinding().get();
+
+		System.out.println(context.getAddress(xsd));
+		System.out.println(context.getAddress(javaPackage));
+
+		context.emit(Message.warning("TODO Find elementOf evidence for " + xsd
+				+ " -> " + javaPackage + " in " + buildScript));
 	}
 }

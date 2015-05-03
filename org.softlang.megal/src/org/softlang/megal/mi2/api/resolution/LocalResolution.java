@@ -37,6 +37,54 @@ public class LocalResolution extends AbstractResolution {
 	}
 
 	@Override
+	public URI getAbsolute(Object object) {
+		//TODO Fix this
+		
+		// If object itself is a file
+		if (object instanceof File) {
+			// Cast the object
+			File file = (File) object;
+			if (!file.exists())
+				return null;
+
+			// Wrap it
+			return file.toURI();
+		}
+
+		// If object is an URI
+		if (object instanceof URI) {
+			// Cast the object
+			URI uri = (URI) object;
+
+			return uri;
+		}
+
+		// If object is a string
+		if (object instanceof String) {
+			// Cast as string
+			String str = (String) object;
+
+			try {
+				// Try to convert to URI
+				URI uri = new URI(str);
+
+				// Return the evaluators first IFile
+				return uri;
+			} catch (URISyntaxException | IllegalArgumentException e) {
+			}
+
+			// If failed, let the project find the file
+			File file = new File(str);
+			if (!file.exists())
+				return null;
+
+			return file.toURI();
+		}
+
+		return null;
+	}
+
+	@Override
 	public ByteSource getBytes(Object object) {
 		// If object itself is a file
 		if (object instanceof File) {
