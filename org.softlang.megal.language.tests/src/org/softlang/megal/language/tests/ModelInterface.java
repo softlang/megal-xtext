@@ -2,24 +2,22 @@ package org.softlang.megal.language.tests;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import org.softlang.megal.Megamodel;
+import org.softlang.megal.api.Evaluator;
+import org.softlang.megal.api.Message;
+import org.softlang.megal.api.Message.Level;
+import org.softlang.megal.api.resolution.LocalResolution;
 import org.softlang.megal.language.Megals;
+import org.softlang.megal.mi2.Access;
 import org.softlang.megal.mi2.Entity;
 import org.softlang.megal.mi2.EntityType;
-import org.softlang.megal.mi2.KB;
-import org.softlang.megal.mi2.MegamodelKB;
 import org.softlang.megal.mi2.Relationship;
 import org.softlang.megal.mi2.RelationshipType;
-import org.softlang.megal.mi2.mmp.Evaluator;
-import org.softlang.megal.mi2.mmp.data.Message.Level;
-import org.softlang.megal.mi2.mmp.data.MessageLocation;
-import org.softlang.megal.mi2.mmp.data.Result;
-import org.softlang.megal.mi2.mmp.variants.LocalResolution;
-import org.softlang.megal.mi2.reasoning.Reasoner;
-import org.softlang.megal.mi2.reasoning.Reasoners;
+import org.softlang.megal.mi2.kb.KB;
+import org.softlang.megal.mi2.kb.MegamodelKB;
 
 public class ModelInterface {
 	private static String PRELUDE = "./src/org/softlang/megal/language/tests/Prelude.megal";
@@ -29,17 +27,15 @@ public class ModelInterface {
 	public static void main(String[] args) throws IOException {
 
 		Megamodel mm = load();
-		Reasoner reasoner = Reasoners.create(MegamodelKB.loadAll(mm));
+		KB kb = MegamodelKB.loadAll(mm);
 
 		Evaluator sequencer = new Evaluator();
-		Result result = sequencer.evaluate(new LocalResolution(), reasoner);
+		Set<Message> result = sequencer.evaluate(new LocalResolution(), kb);
 
-		dump(result.getInput());
+		dump(kb);
 		System.out.println("_______________________________________");
-		dump(result.getResidue());
-		System.out.println("_______________________________________");
-		for (MessageLocation messageLocation : result.getMessageLocations()) {
-			if (messageLocation.getMessage().getLevel() == Level.ERROR)
+		for (Message messageLocation : result) {
+			if (messageLocation.getLevel() == Level.ERROR)
 				System.err.println(messageLocation);
 			else
 				System.out.println(messageLocation);
@@ -56,14 +52,10 @@ public class ModelInterface {
 	}
 
 	private static void dump(KB kb) {
-		dump(Reasoners.create(kb));
-	}
-
-	private static void dump(Reasoner mi) {
-		System.out.println("Megamodel " + mi.getTitle());
+		System.out.println("Megamodel " + Access.on(kb).getTitle());
 
 		System.out.println("Entity types");
-		for (EntityType x : mi.getEntityTypes()) {
+		for (EntityType x : Access.on(kb).getEntityTypes()) {
 			for (Entry<String, String> annotation : x.getAnnotations().entries())
 				System.out.println("  @" + annotation.getKey() + " " + annotation.getValue());
 			System.out.println("  " + x);
@@ -71,7 +63,7 @@ public class ModelInterface {
 		System.out.println();
 
 		System.out.println("Relationship types");
-		for (RelationshipType x : mi.getRelationshipTypes()) {
+		for (RelationshipType x : Access.on(kb).getRelationshipTypes()) {
 			for (Entry<String, String> annotation : x.getAnnotations().entries())
 				System.out.println("  @" + annotation.getKey() + " " + annotation.getValue());
 			System.out.println("  " + x);
@@ -79,17 +71,16 @@ public class ModelInterface {
 		System.out.println();
 
 		System.out.println("Entities");
-		for (Entity x : mi.getEntities()) {
+		for (Entity x : Access.on(kb).getEntities()) {
 			for (Entry<String, String> annotation : x.getAnnotations().entries())
 				System.out.println("  @" + annotation.getKey() + " " + annotation.getValue());
 			System.out.println("  " + x);
-			for (Object s : x.getBindings())
-				System.out.println("  ~ " + s);
+			System.out.println("  ~ " + x.getBinding());
 		}
 		System.out.println();
 
 		System.out.println("Relationships");
-		for (Relationship x : mi.getRelationships()) {
+		for (Relationship x : Access.on(kb).getRelationships()) {
 			for (Entry<String, String> annotation : x.getAnnotations().entries())
 				System.out.println("  @" + annotation.getKey() + " " + annotation.getValue());
 			System.out.println("  " + x);

@@ -1,6 +1,6 @@
 package pluginroot.elementof;
 
-import org.softlang.megal.mi2.mmp.Plugin;
+import org.softlang.megal.api.Plugin;
 
 import com.google.common.io.CharSource;
 

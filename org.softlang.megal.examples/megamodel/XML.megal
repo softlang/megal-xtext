@@ -1,7 +1,7 @@
 model XML
 
 import Prelude
- 	
+
 XMLs: Language+
 // This part could go into an “XML” MegaL module	 	 	
 XML: Language
@@ -18,36 +18,32 @@ xmlFile conformsTo xsdFiles
 conformsTo < Artifact(+) * Artifact(+)
 
 XSDConformance : Evaluator
-XSDConformance = 'plugins.jaxb.XSDConformance'
-
+XSDConformance = 'classpath:plugins.jaxb.XSDConformance'
 
 XMLAcceptor : Evaluator
 XMLAcceptor realizationOf XML
-XMLAcceptor = 'plugins.jaxb.AcceptXML'
+XMLAcceptor = 'classpath:plugins.jaxb.AcceptXML'
 XMLAcceptor partOf FileElementOfLanguage
 
 XSDAcceptor : Evaluator
 XSDAcceptor realizationOf XSD
-XSDAcceptor = 'plugins.jaxb.AcceptXSD'
+XSDAcceptor = 'classpath:plugins.jaxb.AcceptXSD'
 XSDAcceptor partOf FileElementOfLanguage
 
-nxf: File
-@IsInvalid
-nxf elementOf XML
-//nxf = "workspace:/org.softlang.megal.examples/src/jaxb/data/NotXML.xml"
+// --------------------------------------------------------------------------
 
 schema: File
 schema elementOf XSD
-//schema = "workspace:/org.softlang.megal.examples/src/jaxb/data/Schema.xsd"
+schema = "workspace:/org.softlang.megal.examples/inputs/Company.xsd"
 
-scf: File
-scf elementOf XML
-//scf = "workspace:/org.softlang.megal.examples/src/jaxb/data/SchemaConformant.xml"
+conforms: File
+conforms elementOf XML
+conforms = "workspace:/org.softlang.megal.examples/inputs/sampleCompany.xml"
 
-sncf: File
-sncf elementOf XML
-//sncf = "workspace:/org.softlang.megal.examples/src/jaxb/data/SchemaNonConformant.xml"
+conformsNot: File
+conformsNot elementOf XML
+conformsNot = "workspace:/org.softlang.megal.examples/inputs/notSampleCompany.xml"
 
-scf conformsTo schema
+conforms conformsTo schema
 @IsInvalid
-sncf conformsTo schema
+conformsNot conformsTo schema

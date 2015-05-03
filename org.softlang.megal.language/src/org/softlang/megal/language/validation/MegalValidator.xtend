@@ -3,14 +3,19 @@
  */
 package org.softlang.megal.language.validation
 
+import org.eclipse.emf.ecore.EObject
+import org.eclipse.emf.ecore.EStructuralFeature
 import org.eclipse.xtext.validation.Check
 import org.softlang.megal.EntityType
 import org.softlang.megal.MegalPackage
 import org.softlang.megal.Megamodel
 import org.softlang.megal.Relationship
 import org.softlang.megal.language.MegalReasoning
+import org.softlang.megal.mi2.Entity
 import org.softlang.megal.mi2.KB
+import org.softlang.megal.mi2.MegamodelKB
 import org.softlang.megal.mi2.mmp.Evaluator
+import org.softlang.megal.mi2.mmp.Message
 import org.softlang.megal.mi2.mmp.variants.ContainingProjectResolution
 
 /**
@@ -44,55 +49,62 @@ class MegalValidator extends AbstractMegalValidator {
 
 	}
 
+	def writeMessageTo(Megamodel in, Message message, EObject corr, EStructuralFeature feature) {
+		switch (message.level) {
+			case INFO:
+				info(message.message, corr, feature)
+			case WARNING:
+				warning(message.message, corr, feature)
+			case ERROR:
+				error(message.message, corr, feature)
+		}
+	}
+
 	/**
 	 * This check requires expensive megamodel evaluation
 	 */
-//	@Check(CheckType.EXPENSIVE)
-	def matches(Relationship a, org.softlang.megal.mi2.Relationship b) {
-		a.type.name == b.type.name && a.left.name == b.left.name && a.right.name == b.right.name
-	}
-
 	@Check
 	def checkValidate(Megamodel m) {
 		val evaluator = new Evaluator
 		val result = evaluator.evaluate(new ContainingProjectResolution(m), MegalReasoning.getReasoner(m))
 
-		println(result.messageLocations)
+		for (loc : result)
+			// Get root trace element
+			switch root : loc.element.origin.head {
+				// If the root is an entity
+				Entity: {
+					// Resolve the direct entity and annotate if present
+					val pent = MegamodelKB.resolve(false, m, root)
+					if (pent != null)
+						writeMessageTo(m, loc, pent, MegalPackage.Literals.NAMED__NAME)
 
-//		try {
-//			
-//			val ss = SourceSupportPlugin.support.analyzeContaining(m)
-//			val processChain = UnionProcessor.of(new ResolutionProcessor(ss));
-//
-//			val a = 
-//			val b = processChain.apply(a);
-//			val rs = Providers.obtain(b)
-//
-//			// Evaluate parallel, join immediately
-//			val r = Evaluators.evaluate(ss, rs)
-//
-//			println(r)
-//			// Look the relations in this model up, if they are invalid, mark them 
-//			for (e : m.declarations.filter(Relationship))
-//				for (error : r.invalid.entries.filter[i|e.matches(i.key)])
-//					if (error.key.annotations.containsKey("IsInvalid"))
-//						info('''Failed as expected: "«error.value»"''', e, MegalPackage.Literals.RELATIONSHIP__TYPE)
-//					else
-//						error(error.value, e, MegalPackage.Literals.RELATIONSHIP__TYPE)
-//
-//			// Look the function applications generated relationships in this model up, if they are invalid, mark them 
-//			for (f : m.declarations.filter(FunctionApplication))
-//				for (e : MegamodelKB.findFor(rs, f))
-//					for (error : r.invalid.entries.filter[i|e == i.key])
-//						if (error.key.annotations.containsKey("IsInvalid"))
-//							info('''Failed as expected: "«error.value»"''', f,
-//								MegalPackage.Literals.FUNCTION_APPLICATION__FUNCTION)
-//						else
-//							error(error.value, f, MegalPackage.Literals.FUNCTION_APPLICATION__FUNCTION)
-//
-//		} catch (NoSuchElementException e) {
-//			info('''Unresolvable items, can not validate megamodel: "«e.message»"''', m,
-//				MegalPackage.Literals.MEGAMODEL__NAME)
-//		}
+					// Resolve the function application pair entity and annotate if present
+					val pfirst = MegamodelKB.resolvePair(false, m, root)
+					if (pfirst != null)
+						writeMessageTo(m, loc, pfirst, MegalPackage.Literals.FUNCTION_APPLICATION__FUNCTION)
+				}
+				// If the root is a relationship
+				org.softlang.megal.mi2.Relationship: {
+					// Resolve the direct relationship and annotate if present
+					val prel = MegamodelKB.resolve(false, m, root)
+					if (prel != null)
+						writeMessageTo(m, loc, prel, MegalPackage.Literals.RELATIONSHIP__TYPE)
+
+					// Resolve the firstOf relationship and annotate if present
+					val pfo = MegamodelKB.resolveFirst(false, m, root)
+					if (pfo != null)
+						writeMessageTo(m, loc, pfo, MegalPackage.Literals.FUNCTION_APPLICATION__INPUT)
+
+					// Resolve the secondOf relationship and annotate if present
+					val pso = MegamodelKB.resolveSecond(false, m, root)
+					if (pso != null)
+						writeMessageTo(m, loc, pso, MegalPackage.Literals.FUNCTION_APPLICATION__OUTPUT)
+
+					// Resolve the secondOf relationship and annotate if present
+					val peo = MegamodelKB.resolveElement(false, m, root)
+					if (peo != null)
+						writeMessageTo(m, loc, peo, MegalPackage.Literals.FUNCTION_APPLICATION__FUNCTION)
+				}
+			}
 	}
 }

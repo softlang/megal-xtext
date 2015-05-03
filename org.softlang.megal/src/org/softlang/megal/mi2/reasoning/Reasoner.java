@@ -1,181 +1,108 @@
 package org.softlang.megal.mi2.reasoning;
 
-import java.util.Set;
+import java.util.Map;
+import java.util.Map.Entry;
 
-import org.softlang.megal.mi2.Entity;
-import org.softlang.megal.mi2.EntityType;
-import org.softlang.megal.mi2.KB;
-import org.softlang.megal.mi2.Relationship;
-import org.softlang.megal.mi2.RelationshipType;
+import org.softlang.megal.mi2.kb.AbstractKB;
+import org.softlang.megal.mi2.kb.KB;
+import org.softlang.megal.mi2.kb.Ref;
+import org.softlang.megal.mi2.util.Multitable;
 
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Multimap;
+import com.google.common.collect.SetMultimap;
+import com.google.common.collect.Table.Cell;
 
-/**
- * <p>
- * Reasoner on a knowledge base.
- * </p>
- * 
- * @author Pazuzu
- *
- */
-public interface Reasoner {
-	/**
-	 * <p>
-	 * Gets the knowledge base this reasoner is build upon.
-	 * </p>
-	 * 
-	 * @return Returns the knowledge base
-	 */
-	KB getKB();
+public class Reasoner extends AbstractKB {
+	private final KB kb;
 
-	/**
-	 * <p>
-	 * Gets the title of the model.
-	 * </p>
-	 * 
-	 * @return Returns the title
-	 */
-	String getTitle();
+	public Reasoner(KB kb) {
+		this.kb = kb;
+	}
 
-	/**
-	 * <p>
-	 * Gets the top level annotations of the model.
-	 * </p>
-	 * 
-	 * @return Returns the annotations
-	 */
-	Multimap<String, String> getAnnotations();
+	public KB getKB() {
+		return kb;
+	}
 
-	/**
-	 * <p>
-	 * Gets the one entity type that is {@link KB#ENTITY}.
-	 * </p>
-	 * 
-	 * @return Returns the entity type
-	 */
-	EntityType getTheEntityType();
+	@Override
+	public String getTitle() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-	/**
-	 * <p>
-	 * Gets the entity type for the name.
-	 * </p>
-	 * 
-	 * @param name
-	 *            The name of the entity type
-	 * @return Returns the entity type
-	 */
-	EntityType getEntityType(String name);
+	//
+	// protected boolean spawnsEntityType(EntityType entityType) {
+	// return
+	// spawnEntityTypes().entrySet().contains(immutableEntry(entityType.getName(),
+	// entityType.getSupertype().getName()));
+	// }
+	//
+	// protected Map<String, String> spawnEntityTypes() {
+	// return emptyList();
+	// }
 
-	/**
-	 * <p>
-	 * Gets the relationship type for the name. Uses empty parameters.
-	 * </p>
-	 * 
-	 * @param name
-	 *            The name of the relationship type
-	 * @param left
-	 *            The definition of the left side
-	 * @param leftMany
-	 *            True if left is many
-	 * @param right
-	 *            The definition of the right side
-	 * @param rightMany
-	 *            True if right is many
-	 * 
-	 * @return Returns the relationship type
-	 */
-	RelationshipType getRelationshipType(String name, String left, boolean leftMany, String right, boolean rightMany);
+	@Override
+	public SetMultimap<String, String> getAnnotations() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-	/**
-	 * <p>
-	 * Gets the relationship type for the name. Uses false for many and empty
-	 * parameters.
-	 * </p>
-	 * 
-	 * @param name
-	 *            The name of the relationship type
-	 * @param left
-	 *            The definition of the left side
-	 * @param right
-	 *            The definition of the right side
-	 * 
-	 * @return Returns the relationship type
-	 */
-	RelationshipType getRelationshipType(String name, String left, String right);
+	@Override
+	public SetMultimap<String, String> getTheEntityTypeAnnotations() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-	/**
-	 * <p>
-	 * Gets the entity for the name.
-	 * </p>
-	 * 
-	 * @param name
-	 *            The name of the entity
-	 * @return Returns the entity
-	 */
-	Entity getEntity(String name);
+	@Override
+	public Map<String, String> getEntityTypes() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-	/**
-	 * <p>
-	 * Gets the relationship for the names.
-	 * </p>
-	 * 
-	 * @param left
-	 *            The name of the left entity
-	 * 
-	 * @param relationship
-	 *            The name of the relationship
-	 * 
-	 * @param right
-	 *            The name of the right entity
-	 * @return Returns the entity
-	 */
-	Relationship getRelationship(String left, String relationship, String right);
+	@Override
+	public Multitable<Ref, Ref, String> getRelationshipTypes() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-	/**
-	 * <p>
-	 * Gets all relationships for the given name.
-	 * </p>
-	 * 
-	 * @param name
-	 *            The name to find
-	 * @return Returns an iterable on the relationship types
-	 */
-	Iterable<? extends RelationshipType> getRelationshipTypes(String name);
+	@Override
+	public Map<String, Ref> getEntities() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-	/**
-	 * <p>
-	 * Gets all entity types.
-	 * </p>
-	 * 
-	 * @return Iterates over all entity types
-	 */
-	Iterable<? extends EntityType> getEntityTypes();
+	@Override
+	public Map<String, Object> getBindings() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-	/**
-	 * <p>
-	 * Gets all relationship types.
-	 * </p>
-	 * 
-	 * @return Iterates over all relationship types
-	 */
-	Iterable<? extends RelationshipType> getRelationshipTypes();
+	@Override
+	public Multitable<String, String, String> getRelationships() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-	/**
-	 * <p>
-	 * Gets all entities.
-	 * </p>
-	 * 
-	 * @return Iterates over all entities
-	 */
-	Iterable<? extends Entity> getEntities();
+	@Override
+	public SetMultimap<Entry<String, String>, Entry<String, String>> getEntityTypeAnnotations() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-	/**
-	 * <p>
-	 * Gets all relationships.
-	 * </p>
-	 * 
-	 * @return Iterates over all relationships
-	 */
-	Iterable<? extends Relationship> getRelationships();
+	@Override
+	public SetMultimap<Cell<Ref, Ref, String>, Entry<String, String>> getRelationshipTypeAnnotations() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public SetMultimap<Entry<String, Ref>, Entry<String, String>> getEntityAnnotations() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public SetMultimap<Cell<String, String, String>, Entry<String, String>> getRelationshipAnnotations() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

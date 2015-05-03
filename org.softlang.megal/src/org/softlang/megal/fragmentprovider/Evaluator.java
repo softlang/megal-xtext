@@ -1,5 +1,6 @@
 package org.softlang.megal.fragmentprovider;
 
+import static com.google.common.collect.Iterables.skip;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 import static org.softlang.megal.util.Persistent.append;
@@ -93,7 +94,7 @@ public class Evaluator {
 
 			// Potentially followed by a path
 			if (uri.getPath() != null)
-				result = concatenate(result, Splitter.on('/').splitToList(uri.getPath()));
+				result = concatenate(result, Splitter.on('/').omitEmptyStrings().splitToList(uri.getPath()));
 
 			// Then query
 			if (uri.getQuery() != null)
@@ -110,7 +111,7 @@ public class Evaluator {
 	public List<Object> evaluate(URI uri) {
 		List<Object> current = roots(uri.getScheme(), isNet(uri));
 
-		for (String segment : allSegments(uri))
+		for (String segment : skip(allSegments(uri), 1))
 			current = navigate(current, segment);
 
 		return current;

@@ -5,6 +5,7 @@ import static com.google.common.collect.Lists.newArrayList;
 
 import java.util.List;
 
+import org.softlang.megal.mi2.kb.KB;
 import org.softlang.megal.util.Persistent;
 
 import com.google.common.collect.ImmutableList;

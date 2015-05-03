@@ -2,14 +2,14 @@ package plugins.root.elementof;
 
 import static com.google.common.collect.Iterables.filter;
 
-import java.io.IOException;
-
-import org.eclipse.core.runtime.CoreException;
-import org.softlang.megal.api.Evaluator;
-import org.softlang.megal.api.Output;
+import org.softlang.megal.mi2.KB;
+import org.softlang.megal.mi2.KBs;
 import org.softlang.megal.mi2.Relationship;
+import org.softlang.megal.mi2.mmp.Context;
+import org.softlang.megal.mi2.mmp.Plugin;
+import org.softlang.megal.mi2.mmp.data.Message;
 
-import plugins.root.Bindings;
+import com.google.common.io.CharSource;
 
 /**
  * <p>
@@ -19,33 +19,23 @@ import plugins.root.Bindings;
  * @author Pazuzu
  *
  */
-public class FileElementOfLanguage extends Evaluator {
+public class FileElementOfLanguage extends Plugin {
 	@Override
-	public Output evaluate(Relationship relationship) {
-		if (relationship.getLeft().getBindings().isEmpty())
-			return Output.notApplicable();
+	public KB evaluate(Context context, Relationship relationship) {
+		for (Object binding : relationship.getLeft().getBindings()) {
+			CharSource s = context.getChars(binding);
+			if (s == null)
+				continue;
 
-		// Find a character source from these links, usually there's just one
-		// link for this entity
-		String text;
-		try {
-			text = Bindings.read(relationship.getLeft().getBindings());
-		} catch (IOException | CoreException e) {
-			return Output.error(e.getLocalizedMessage());
+			for (Acceptor a : filter(getParts(), Acceptor.class))
+				if (a.getRealization().contains(relationship.getRight()))
+					if (!a.accept(context, s))
+						context.emit(Message.error(relationship.getLeft()
+								.getName()
+								+ " is not an element of the language"
+								+ relationship.getRight().getName()));
 		}
 
-		// Get all parts of the FileElementOfLanguage evaluator, these are the
-		// language acceptor plugins
-		for (Acceptor a : filter(getParts(), Acceptor.class))
-			// If a realizes the entity in question, use it
-			if (a.getRealized().contains(relationship.getRight())) {
-				// If the character source, i.e. the language artifact, is
-				// accepted, return a fine result
-
-				return a.accept(text);
-			}
-
-		return Output.error(relationship.getLeft().getName()
-				+ " is not an element of " + relationship.getRight().getName());
+		return KBs.emptyKB();
 	}
 }

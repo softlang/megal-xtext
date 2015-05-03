@@ -3,7 +3,7 @@ package org.softlang.megal.mi2;
 import static com.google.common.base.Objects.equal;
 import static com.google.common.collect.Iterables.filter;
 
-import java.util.Set;
+import com.google.common.base.Optional;
 
 /**
  * <p>
@@ -22,7 +22,7 @@ public abstract class Entity extends Named {
 	 * 
 	 * @return Returns a set of the link targets
 	 */
-	public abstract Set<Object> getBindings();
+	public abstract Optional<Object> getBinding();
 
 	/**
 	 * <p>

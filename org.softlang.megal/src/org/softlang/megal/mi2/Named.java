@@ -8,7 +8,7 @@ package org.softlang.megal.mi2;
  * @author Pazuzu
  *
  */
-public abstract class Named extends Annotated {
+public abstract class Named extends Element {
 	/**
 	 * <p>
 	 * Getter for the name

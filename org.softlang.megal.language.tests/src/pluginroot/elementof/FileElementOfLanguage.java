@@ -2,12 +2,10 @@ package pluginroot.elementof;
 
 import static com.google.common.collect.Iterables.filter;
 
-import org.softlang.megal.mi2.KB;
-import org.softlang.megal.mi2.KBs;
+import org.softlang.megal.api.Message;
+import org.softlang.megal.api.Plugin;
+import org.softlang.megal.api.context.Context;
 import org.softlang.megal.mi2.Relationship;
-import org.softlang.megal.mi2.mmp.Context;
-import org.softlang.megal.mi2.mmp.Plugin;
-import org.softlang.megal.mi2.mmp.data.Message;
 
 import com.google.common.io.CharSource;
 
@@ -21,17 +19,16 @@ import com.google.common.io.CharSource;
  */
 public class FileElementOfLanguage extends Plugin {
 	@Override
-	public KB evaluate(Context context, Relationship relationship) {
-		for (Object binding : relationship.getLeft().getBindings()) {
-			CharSource s = context.getChars(binding);
+	public void evaluate(Context context, Relationship relationship) {
+		if (!relationship.getRight().getBinding().isPresent())
+			return;
 
-			for (Acceptor a : filter(getParts(), Acceptor.class))
-				if (a.getRealization().contains(relationship.getRight()))
-					if (!a.accept(s))
-						context.emit(Message.error("The entity is not an element of "
-								+ relationship.getRight().getName()));
-		}
+		CharSource s = context.getChars(relationship.getRight().getBinding().get());
 
-		return KBs.emptyKB();
+		for (Acceptor a : filter(getParts(), Acceptor.class))
+			if (a.getRealization().contains(relationship.getRight()))
+				if (!a.accept(s))
+					context.emit(Message.error("The entity is not an element of " + relationship.getRight().getName()));
+
 	}
 }

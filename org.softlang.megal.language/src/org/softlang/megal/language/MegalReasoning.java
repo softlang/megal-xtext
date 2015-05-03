@@ -2,8 +2,8 @@ package org.softlang.megal.language;
 
 import org.eclipse.xtext.resource.XtextResource;
 import org.softlang.megal.Megamodel;
-import org.softlang.megal.mi2.KB;
-import org.softlang.megal.mi2.MegamodelKB;
+import org.softlang.megal.mi2.kb.KB;
+import org.softlang.megal.mi2.kb.MegamodelKB;
 import org.softlang.megal.mi2.reasoning.Reasoner;
 import org.softlang.megal.mi2.reasoning.Reasoners;
 
@@ -32,12 +32,12 @@ public class MegalReasoning {
 					new Provider<KB>() {
 						@Override
 						public KB get() {
-							return new MegamodelKB(megamodel);
+							return MegamodelKB.loadAll(megamodel);
 						}
 					});
 		else
 			// Else use reevaluation
-			return new MegamodelKB(megamodel);
+			return MegamodelKB.loadAll(megamodel);
 	}
 
 	/**

@@ -402,7 +402,7 @@ public class Persistent {
 	 * 
 	 * @return Returns a view that has the item included
 	 */
-	public static <E> Set<E> with(final E item, final Set<E> set) {
+	public static <E> Set<E> with(final E item, final Set<? extends E> set) {
 		if (set.contains(item))
 			return unmodifiableSet(set);
 

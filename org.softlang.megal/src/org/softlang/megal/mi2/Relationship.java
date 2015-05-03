@@ -11,7 +11,7 @@ import static com.google.common.base.Objects.equal;
  * @author Pazuzu
  *
  */
-public abstract class Relationship extends Annotated {
+public abstract class Relationship extends Element {
 	/**
 	 * <p>
 	 * Gets the left side of the relationship.

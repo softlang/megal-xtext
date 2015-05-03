@@ -87,21 +87,21 @@ partOf < Evaluator * Evaluator
 @Plugin 'FileElementOfLanguage'
 elementOf < File * Language
 
+
 // Dispatcher with master as link and parameter dependence
 FileElementOfLanguage: Evaluator
-FileElementOfLanguage = "plugins.root.elementof.FileElementOfLanguage"
+FileElementOfLanguage = "classpath:plugins.root.elementof.FileElementOfLanguage"
 
 // Replacement for the function application
 Pair < Entity
 firstOf < Entity(+) * Pair
 secondOf < Entity(+) * Pair
 
-@Plugin 'PairElementOfFunction'
+//@Plugin 'PairElementOfFunction'
 elementOf < Pair * Function
 
-PairElementOfFunction: Evaluator
-PairElementOfFunction = "plugins.root.PairElementOfFunction"
-
+//PairElementOfFunction: Evaluator
+//PairElementOfFunction = "classpath:plugins.root.elementof.PairElementOfFunction"
 
 // From model
 refersTo < Artifact(+) * Technology
