@@ -1,6 +1,7 @@
 package org.softlang.megal.mi2;
 
 import static com.google.common.base.Objects.equal;
+import static com.google.common.base.Objects.toStringHelper;
 import static com.google.common.base.Predicates.equalTo;
 import static com.google.common.base.Predicates.not;
 import static com.google.common.collect.Maps.immutableEntry;
@@ -13,14 +14,13 @@ import java.util.Set;
 
 import org.softlang.megal.mi2.util.Bijection;
 import org.softlang.megal.mi2.util.Bijections;
-import org.softlang.megal.mi2.util.ImmutableMultitable;
 import org.softlang.megal.mi2.util.Multitable;
-import org.softlang.megal.mi2.util.SetOperations;
-import org.softlang.megal.util.Persistent;
 
+import static org.softlang.megal.mi2.util.SetOperations.*;
+import static org.softlang.megal.util.Persistent.*;
+
+import com.google.common.base.Objects;
 import com.google.common.base.Optional;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
@@ -37,9 +37,8 @@ import com.google.common.collect.Table.Cell;
 public abstract class KB {
 	/**
 	 * <p>
-	 * This is the name of the top level entity. This entity has itself as a
-	 * supertype. A {@link KB} is invalid, if it assigns a new type to this
-	 * name.
+	 * This is the name of the top level entity. This entity has itself as a supertype. A {@link KB} is invalid, if it
+	 * assigns a new type to this name.
 	 * </p>
 	 */
 	public static final String ENTITY = "Entity";
@@ -61,8 +60,8 @@ public abstract class KB {
 		public Set<Entity> getInstances() {
 			// All entities that are of this type or thats type is a
 			// specialization of this type
-			return SetOperations.filter(getEntities(), Entity.class, x -> equal(x.getType(), this)
-					|| x.getType().isSpecializationOf(this));
+			return filter(getEntities(), Entity.class,
+					x -> equal(x.getType(), this) || x.getType().isSpecializationOf(this));
 		}
 
 		@Override
@@ -74,7 +73,7 @@ public abstract class KB {
 		@Override
 		public Set<EntityType> getSpecializations() {
 			// All entity types that are specializations of this type
-			return SetOperations.filter(getEntityTypes(), EntityType.class, x -> x.isSpecializationOf(this));
+			return filter(getEntityTypes(), EntityType.class, x -> x.isSpecializationOf(this));
 		}
 
 		@Override
@@ -124,7 +123,7 @@ public abstract class KB {
 		public Set<Relationship> getInstances() {
 			// All relationships that are of this type or thats type is a
 			// specialization of this type
-			return SetOperations.filter(getRelationships(), Relationship.class, x -> equal(x.getType(), this)
+			return filter(getRelationships(), Relationship.class, x -> equal(x.getType(), this)
 					|| x.getType().isSpecializationOf(this));
 		}
 
@@ -149,7 +148,7 @@ public abstract class KB {
 		@Override
 		public Set<RelationshipType> getSpecializations() {
 			// All relationship types that are specializations of this type
-			return SetOperations.filter(getRelationshipTypes(from.getValue()), RelationshipType.class,
+			return filter(getRelationshipTypes(from.getValue()), RelationshipType.class,
 					x -> x.isSpecializationOf(this));
 		}
 
@@ -244,7 +243,7 @@ public abstract class KB {
 		@Override
 		public Set<Relationship> incoming() {
 			// Incoming are in the relationship column of this entity
-			return SetOperations.transform(getRawRelationships().whereColumn(from.getKey()), Relationship.class,
+			return transform(getRawRelationships().whereColumn(from.getKey()), Relationship.class,
 					relationshipBijection);
 		}
 
@@ -257,8 +256,7 @@ public abstract class KB {
 		@Override
 		public Set<Relationship> outgoing() {
 			// Outgoing are in the relationship column of this entity
-			return SetOperations.transform(getRawRelationships().whereRow(from.getKey()), Relationship.class,
-					relationshipBijection);
+			return transform(getRawRelationships().whereRow(from.getKey()), Relationship.class, relationshipBijection);
 		}
 
 		@Override
@@ -379,509 +377,9 @@ public abstract class KB {
 		}
 	}
 
-	/*
-	 * BUILDER
-	 * ========================================================================
-	 */
 	/**
 	 * <p>
-	 * The builder class initializes a knowledge base on the given static return
-	 * values. It may be supplied to other consumers, as every operation makes a
-	 * copy of the builder.
-	 * </p>
-	 * 
-	 * @author Pazuzu
-	 *
-	 */
-	public static class Builder {
-		/**
-		 * <p>
-		 * Internal backing field.
-		 * </p>
-		 */
-		private final String title;
-
-		/**
-		 * <p>
-		 * Internal backing field.
-		 * </p>
-		 */
-		private final Multitable<String, String, String> relationships;
-
-		/**
-		 * <p>
-		 * Internal backing field.
-		 * </p>
-		 */
-		private final Multitable<Ref, Ref, String> relationshipTypes;
-
-		/**
-		 * <p>
-		 * Internal backing field.
-		 * </p>
-		 */
-		private final SetMultimap<Cell<Ref, Ref, String>, Entry<String, String>> relationshipTypeAnnotations;
-
-		/**
-		 * <p>
-		 * Internal backing field.
-		 * </p>
-		 */
-		private final SetMultimap<Cell<String, String, String>, Entry<String, String>> relationshipAnnotations;
-
-		/**
-		 * <p>
-		 * Internal backing field.
-		 * </p>
-		 */
-		private final Map<String, String> entityTypes;
-
-		/**
-		 * <p>
-		 * Internal backing field.
-		 * </p>
-		 */
-		private final SetMultimap<Entry<String, String>, Entry<String, String>> entityTypeAnnotations;
-
-		/**
-		 * <p>
-		 * Internal backing field.
-		 * </p>
-		 */
-		private final SetMultimap<Entry<String, Ref>, Entry<String, String>> entityAnnotations;
-
-		/**
-		 * <p>
-		 * Internal backing field.
-		 * </p>
-		 */
-		private final Map<String, Ref> entities;
-
-		/**
-		 * <p>
-		 * Internal backing field.
-		 * </p>
-		 */
-		private final Map<String, Object> bindings;
-
-		/**
-		 * <p>
-		 * Internal backing field.
-		 * </p>
-		 */
-		private final SetMultimap<String, String> annotations;
-
-		/**
-		 * <p>
-		 * Internal backing field.
-		 * </p>
-		 */
-		private final SetMultimap<String, String> theEntityTypeAnnotations;
-
-		/**
-		 * <p>
-		 * Creates the builder on the given parameters
-		 * </p>
-		 * 
-		 * @param title
-		 *            The title
-		 * @param relationships
-		 *            The relationships
-		 * @param relationshipTypes
-		 *            The relationship types
-		 * @param relationshipTypeAnnotations
-		 *            The relationship type annotations
-		 * @param relationshipAnnotations
-		 *            The relationship annotations
-		 * @param entityTypes
-		 *            The entity types
-		 * @param entityTypeAnnotations
-		 *            The entity type annotations
-		 * @param entityAnnotations
-		 *            The entity annotations
-		 * @param entities
-		 *            The entities
-		 * @param bindings
-		 *            The bindings
-		 * @param annotations
-		 *            The annotations
-		 */
-		public Builder(String title, Multitable<String, String, String> relationships,
-				Multitable<Ref, Ref, String> relationshipTypes,
-				SetMultimap<Cell<Ref, Ref, String>, Entry<String, String>> relationshipTypeAnnotations,
-				SetMultimap<Cell<String, String, String>, Entry<String, String>> relationshipAnnotations,
-				Map<String, String> entityTypes,
-				SetMultimap<Entry<String, String>, Entry<String, String>> entityTypeAnnotations,
-				SetMultimap<Entry<String, Ref>, Entry<String, String>> entityAnnotations, Map<String, Ref> entities,
-				Map<String, Object> bindings, SetMultimap<String, String> theEntityTypeAnnotations,
-				SetMultimap<String, String> annotations) {
-			this.title = title;
-			this.relationships = relationships;
-			this.relationshipTypes = relationshipTypes;
-			this.relationshipTypeAnnotations = relationshipTypeAnnotations;
-			this.relationshipAnnotations = relationshipAnnotations;
-			this.entityTypes = entityTypes;
-			this.entityTypeAnnotations = entityTypeAnnotations;
-			this.entityAnnotations = entityAnnotations;
-			this.entities = entities;
-			this.bindings = bindings;
-			this.theEntityTypeAnnotations = theEntityTypeAnnotations;
-			this.annotations = annotations;
-		}
-
-		/**
-		 * <p>
-		 * Assigns the title, copies the builder
-		 * </p>
-		 * 
-		 * @param title
-		 *            The desired title
-		 * @return Returns a copied builder
-		 */
-		public Builder setTitle(String title) {
-			return new Builder(title, relationships, relationshipTypes, relationshipTypeAnnotations,
-					relationshipAnnotations, entityTypes, entityTypeAnnotations, entityAnnotations, entities, bindings,
-					theEntityTypeAnnotations, annotations);
-		}
-
-		/**
-		 * <p>
-		 * Assigns the relationships, copies the builder
-		 * </p>
-		 * 
-		 * @param relationships
-		 *            The desired relationships
-		 * @return Returns a copied builder
-		 */
-		public Builder setRelationships(Multitable<String, String, String> relationships) {
-			return new Builder(title, relationships, relationshipTypes, relationshipTypeAnnotations,
-					relationshipAnnotations, entityTypes, entityTypeAnnotations, entityAnnotations, entities, bindings,
-					theEntityTypeAnnotations, annotations);
-		}
-
-		/**
-		 * <p>
-		 * Assigns the relationship types, copies the builder
-		 * </p>
-		 * 
-		 * @param relationshipTypes
-		 *            The relationship types
-		 * @return Returns a copied builder
-		 */
-		public Builder setRelationshipTypes(Multitable<Ref, Ref, String> relationshipTypes) {
-			return new Builder(title, relationships, relationshipTypes, relationshipTypeAnnotations,
-					relationshipAnnotations, entityTypes, entityTypeAnnotations, entityAnnotations, entities, bindings,
-					theEntityTypeAnnotations, annotations);
-		}
-
-		public Builder setRelationshipTypeAnnotations(
-				SetMultimap<Cell<Ref, Ref, String>, Entry<String, String>> relationshipTypeAnnotations) {
-			return new Builder(title, relationships, relationshipTypes, relationshipTypeAnnotations,
-					relationshipAnnotations, entityTypes, entityTypeAnnotations, entityAnnotations, entities, bindings,
-					theEntityTypeAnnotations, annotations);
-		}
-
-		/**
-		 * <p>
-		 * Assigns the relationship type annotations, copies the builder
-		 * </p>
-		 * 
-		 * @param relationshipAnnotations
-		 *            The relationship type annotations
-		 * @return Returns a copied builder
-		 */
-		public Builder setRelationshipAnnotations(
-				SetMultimap<Cell<String, String, String>, Entry<String, String>> relationshipAnnotations) {
-			return new Builder(title, relationships, relationshipTypes, relationshipTypeAnnotations,
-					relationshipAnnotations, entityTypes, entityTypeAnnotations, entityAnnotations, entities, bindings,
-					theEntityTypeAnnotations, annotations);
-		}
-
-		/**
-		 * <p>
-		 * Assigns the entity types, copies the builder
-		 * </p>
-		 * 
-		 * @param entityTypes
-		 *            The entity types
-		 * @return Returns a copied builder
-		 */
-		public Builder setEntityTypes(Map<String, String> entityTypes) {
-			return new Builder(title, relationships, relationshipTypes, relationshipTypeAnnotations,
-					relationshipAnnotations, entityTypes, entityTypeAnnotations, entityAnnotations, entities, bindings,
-					theEntityTypeAnnotations, annotations);
-		}
-
-		/**
-		 * <p>
-		 * Assigns the entity type annotations, copies the builder
-		 * </p>
-		 * 
-		 * @param entityTypeAnnotations
-		 *            The entity type annotations
-		 * @return Returns a copied builder
-		 */
-		public Builder setEntityTypeAnnotations(
-				SetMultimap<Entry<String, String>, Entry<String, String>> entityTypeAnnotations) {
-			return new Builder(title, relationships, relationshipTypes, relationshipTypeAnnotations,
-					relationshipAnnotations, entityTypes, entityTypeAnnotations, entityAnnotations, entities, bindings,
-					theEntityTypeAnnotations, annotations);
-		}
-
-		/**
-		 * <p>
-		 * Assigns the entity annotations, copies the builder
-		 * </p>
-		 * 
-		 * @param entityAnnotations
-		 *            The entity annotations
-		 * @return Returns a copied builder
-		 */
-		public Builder setEntityAnnotations(SetMultimap<Entry<String, Ref>, Entry<String, String>> entityAnnotations) {
-			return new Builder(title, relationships, relationshipTypes, relationshipTypeAnnotations,
-					relationshipAnnotations, entityTypes, entityTypeAnnotations, entityAnnotations, entities, bindings,
-					theEntityTypeAnnotations, annotations);
-		}
-
-		/**
-		 * <p>
-		 * Assigns the entities, copies the builder
-		 * </p>
-		 * 
-		 * @param entities
-		 *            The entities
-		 * @return Returns a copied builder
-		 */
-		public Builder setEntities(Map<String, Ref> entities) {
-			return new Builder(title, relationships, relationshipTypes, relationshipTypeAnnotations,
-					relationshipAnnotations, entityTypes, entityTypeAnnotations, entityAnnotations, entities, bindings,
-					theEntityTypeAnnotations, annotations);
-		}
-
-		/**
-		 * <p>
-		 * Assigns the bindings, copies the builder
-		 * </p>
-		 * 
-		 * @param bindings
-		 *            The bindings
-		 * @return Returns a copied builder
-		 */
-		public Builder setBindings(Map<String, Object> bindings) {
-			return new Builder(title, relationships, relationshipTypes, relationshipTypeAnnotations,
-					relationshipAnnotations, entityTypes, entityTypeAnnotations, entityAnnotations, entities, bindings,
-					theEntityTypeAnnotations, annotations);
-		}
-
-		/**
-		 * <p>
-		 * Assigns the annotations, copies the builder
-		 * </p>
-		 * 
-		 * @param annotations
-		 *            The annotations
-		 * @return Returns a copied builder
-		 */
-		public Builder setAnnotations(SetMultimap<String, String> annotations) {
-			return new Builder(title, relationships, relationshipTypes, relationshipTypeAnnotations,
-					relationshipAnnotations, entityTypes, entityTypeAnnotations, entityAnnotations, entities, bindings,
-					theEntityTypeAnnotations, annotations);
-		}
-
-		/**
-		 * <p>
-		 * Assigns the entity type annotations, copies the builder
-		 * </p>
-		 * 
-		 * @param annotations
-		 *            The annotations
-		 * @return Returns a copied builder
-		 */
-		public Builder setTheEntityTypeAnnotations(SetMultimap<String, String> theEntityTypeAnnotations) {
-			return new Builder(title, relationships, relationshipTypes, relationshipTypeAnnotations,
-					relationshipAnnotations, entityTypes, entityTypeAnnotations, entityAnnotations, entities, bindings,
-					theEntityTypeAnnotations, annotations);
-		}
-
-		/**
-		 * <p>
-		 * Manifests the current builder into a knowledge base.
-		 * </p>
-		 * 
-		 * @return Returns a knowledge base backed by the current state
-		 */
-		public KB build() {
-			return new KB() {
-				@Override
-				public String getTitle() {
-					return title;
-				}
-
-				@Override
-				public Multitable<String, String, String> getRawRelationships() {
-					return relationships;
-				}
-
-				@Override
-				public Multitable<Ref, Ref, String> getRawRelationshipTypes() {
-					return relationshipTypes;
-				}
-
-				@Override
-				public SetMultimap<Cell<Ref, Ref, String>, Entry<String, String>> getRawRelationshipTypeAnnotations() {
-					return relationshipTypeAnnotations;
-				}
-
-				@Override
-				public SetMultimap<Cell<String, String, String>, Entry<String, String>> getRawRelationshipAnnotations() {
-					return relationshipAnnotations;
-				}
-
-				@Override
-				public Map<String, String> getRawEntityTypes() {
-					return entityTypes;
-				}
-
-				@Override
-				public SetMultimap<Entry<String, String>, Entry<String, String>> getRawEntityTypeAnnotations() {
-					return entityTypeAnnotations;
-				}
-
-				@Override
-				public SetMultimap<Entry<String, Ref>, Entry<String, String>> getRawEntityAnnotations() {
-					return entityAnnotations;
-				}
-
-				@Override
-				public Map<String, Ref> getRawEntities() {
-					return entities;
-				}
-
-				@Override
-				public Map<String, Object> getRawBindings() {
-					return bindings;
-				}
-
-				@Override
-				public SetMultimap<String, String> getRawTheEntityTypeAnnotations() {
-					return theEntityTypeAnnotations;
-				}
-
-				@Override
-				public SetMultimap<String, String> getRawAnnotations() {
-					return annotations;
-				}
-			};
-		}
-	}
-
-	/**
-	 * <p>
-	 * Starts a builder on empty values.
-	 * </p>
-	 * 
-	 * @return Returns a builder
-	 */
-	public static Builder builder() {
-		return new Builder(null, ImmutableMultitable.of(), ImmutableMultitable.of(), ImmutableSetMultimap.of(),
-				ImmutableSetMultimap.of(), ImmutableMap.of(), ImmutableSetMultimap.of(), ImmutableSetMultimap.of(),
-				ImmutableMap.of(), ImmutableMap.of(), ImmutableSetMultimap.of(), ImmutableSetMultimap.of());
-	}
-
-	/*
-	 * UTILITIES
-	 * ========================================================================
-	 */
-
-	public static KB clone(KB current) {
-		return union(current, empty());
-	}
-
-	/**
-	 * <p>
-	 * Applies the union on the values of <code>a</code> and <code>b</code>.
-	 * Uses the first knowledge bases title.
-	 * </p>
-	 * 
-	 * @param a
-	 *            The first knowledge base
-	 * @param b
-	 *            The second knowledge base
-	 * @return Returns a new knowledge base
-	 */
-	public static KB union(KB a, KB b) {
-		return KB
-				.builder()
-				.setTitle(a.getTitle())
-				.setRelationships(SetOperations.union(a.getRawRelationships(), b.getRawRelationships()))
-				.setRelationshipTypes(SetOperations.union(a.getRawRelationshipTypes(), b.getRawRelationshipTypes()))
-				.setRelationshipTypeAnnotations(
-						SetOperations.union(a.getRawRelationshipTypeAnnotations(),
-								b.getRawRelationshipTypeAnnotations()))
-				.setRelationshipAnnotations(
-						SetOperations.union(a.getRawRelationshipAnnotations(), b.getRawRelationshipAnnotations()))
-				.setEntityTypes(SetOperations.union(a.getRawEntityTypes(), b.getRawEntityTypes()))
-				.setEntityTypeAnnotations(
-						SetOperations.union(a.getRawEntityTypeAnnotations(), b.getRawEntityTypeAnnotations()))
-				.setEntityAnnotations(SetOperations.union(a.getRawEntityAnnotations(), b.getRawEntityAnnotations()))
-				.setEntities(SetOperations.union(a.getRawEntities(), b.getRawEntities()))
-				.setBindings(SetOperations.union(a.getRawBindings(), b.getRawBindings()))
-				.setTheEntityTypeAnnotations(
-						SetOperations.union(a.getRawTheEntityTypeAnnotations(), b.getRawTheEntityTypeAnnotations()))
-				.setAnnotations(SetOperations.union(a.getRawAnnotations(), b.getRawAnnotations())).build();
-	}
-
-	/**
-	 * <p>
-	 * Applies the intersection on the values of <code>a</code> and
-	 * <code>b</code>. Uses the first knowledge bases title.
-	 * </p>
-	 * 
-	 * @param a
-	 *            The first knowledge base
-	 * @param b
-	 *            The second knowledge base
-	 * @return Returns a new knowledge base
-	 */
-	public static KB intersection(KB a, KB b) {
-		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * <p>
-	 * Applies the difference on the values of <code>a</code> and <code>b</code>
-	 * . Uses the first knowledge bases title.
-	 * </p>
-	 * 
-	 * @param a
-	 *            The first knowledge base
-	 * @param b
-	 *            The second knowledge base
-	 * @return Returns a new knowledge base
-	 */
-	public static KB difference(KB a, KB b) {
-		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * <p>
-	 * Constructs an empty immutable KB.
-	 * </p>
-	 * 
-	 * @return Returns an empty KB
-	 */
-	public static KB empty() {
-		return KB.builder().build();
-	}
-
-	/*
-	 * FUNCTION OBJECTS
-	 * ========================================================================
-	 */
-	/**
-	 * <p>
-	 * Bijection object on the methods {@link #entity(Entry)} and
-	 * {@link #entityInverse(Entity)}.
+	 * Bijection object on the methods {@link #entity(Entry)} and {@link #entityInverse(Entity)}.
 	 * </p>
 	 */
 	private final Bijection<Entry<String, Ref>, Entity> entityBijection = Bijections.of(this::entity,
@@ -889,8 +387,7 @@ public abstract class KB {
 
 	/**
 	 * <p>
-	 * Bijection object on the methods {@link #entityType(Entry)} and
-	 * {@link #entityTypeInverse(EntityType)}.
+	 * Bijection object on the methods {@link #entityType(Entry)} and {@link #entityTypeInverse(EntityType)}.
 	 * </p>
 	 */
 	private final Bijection<Entry<String, String>, EntityType> entityTypeBijection = Bijections.of(this::entityType,
@@ -898,8 +395,7 @@ public abstract class KB {
 
 	/**
 	 * <p>
-	 * Bijection object on the methods {@link #relationship(Cell)} and
-	 * {@link #relationshipInverse(Relationship)}.
+	 * Bijection object on the methods {@link #relationship(Cell)} and {@link #relationshipInverse(Relationship)}.
 	 * </p>
 	 */
 	private final Bijection<Cell<String, String, String>, Relationship> relationshipBijection = Bijections.of(
@@ -915,8 +411,7 @@ public abstract class KB {
 			this::relationshipType, this::relationshipTypeInverse);
 
 	/*
-	 * INTERFACE
-	 * ========================================================================
+	 * INTERFACE ========================================================================
 	 */
 	/**
 	 * <p>
@@ -1026,10 +521,6 @@ public abstract class KB {
 	 */
 	public abstract SetMultimap<Cell<String, String, String>, Entry<String, String>> getRawRelationshipAnnotations();
 
-	/*
-	 * TRANSFORMATION
-	 * ========================================================================
-	 */
 	/**
 	 * <p>
 	 * Maps an entry.
@@ -1102,9 +593,12 @@ public abstract class KB {
 				relationshipType.getName());
 	}
 
-	/*
-	 * ACCESSS
-	 * ========================================================================
+	/**
+	 * <p>
+	 * Gets all elements defined in this knowledge base.
+	 * </p>
+	 * 
+	 * @return Returns a set of all elements
 	 */
 	public Set<Element> getElements() {
 		return Sets.union(Sets.union(Sets.union(getEntityTypes(), getRelationshipTypes()), getEntities()),
@@ -1132,7 +626,7 @@ public abstract class KB {
 	 */
 	public Set<Entity> getEntities() {
 		// Transform all entries of the entities in the KB
-		return SetOperations.transform(getRawEntities().entrySet(), Entity.class, entityBijection);
+		return transform(getRawEntities().entrySet(), Entity.class, entityBijection);
 	}
 
 	/**
@@ -1190,8 +684,8 @@ public abstract class KB {
 	 */
 	public Set<EntityType> getEntityTypes() {
 		// Get all newly defined entity types after the Entity type
-		return Persistent.with(getTheEntityType(),
-				SetOperations.transform(getRawEntityTypes().entrySet(), EntityType.class, entityTypeBijection));
+		return with(getTheEntityType(),
+				transform(getRawEntityTypes().entrySet(), EntityType.class, entityTypeBijection));
 	}
 
 	/**
@@ -1225,7 +719,7 @@ public abstract class KB {
 	 */
 	public Set<Relationship> getRelationships() {
 		// Transform all entries of the relationships in the KB
-		return SetOperations.transform(getRawRelationships().cells(), Relationship.class, relationshipBijection);
+		return transform(getRawRelationships().cells(), Relationship.class, relationshipBijection);
 	}
 
 	/**
@@ -1260,8 +754,7 @@ public abstract class KB {
 
 	/**
 	 * <p>
-	 * Gets the relationship type for the name. Uses false for many and empty
-	 * parameters.
+	 * Gets the relationship type for the name. Uses false for many and empty parameters.
 	 * </p>
 	 * 
 	 * @param name
@@ -1286,8 +779,7 @@ public abstract class KB {
 	 */
 	public Set<RelationshipType> getRelationshipTypes() {
 		// Transform all entries of the relationship types in the KB
-		return SetOperations.transform(getRawRelationshipTypes().cells(), RelationshipType.class,
-				relationshipTypeBijection);
+		return transform(getRawRelationshipTypes().cells(), RelationshipType.class, relationshipTypeBijection);
 	}
 
 	/**
@@ -1301,8 +793,7 @@ public abstract class KB {
 	 */
 	public Set<RelationshipType> getRelationshipTypes(String name) {
 		// Lookup relationship type multimap by name and wrap the triples
-		return SetOperations.transform(getRawRelationshipTypes().whereValue(name), RelationshipType.class,
-				relationshipTypeBijection);
+		return transform(getRawRelationshipTypes().whereValue(name), RelationshipType.class, relationshipTypeBijection);
 	}
 
 	/**
@@ -1336,7 +827,7 @@ public abstract class KB {
 			public Set<EntityType> getSpecializations() {
 				// All entity types that are not Entity itself are
 				// specializations of Entity
-				return SetOperations.filter(getEntityTypes(), EntityType.class, not(equalTo(this)));
+				return filter(getEntityTypes(), EntityType.class, not(equalTo(this)));
 			}
 
 			@Override
@@ -1352,33 +843,33 @@ public abstract class KB {
 			}
 
 			@Override
+			public boolean equals(Object obj) {
+				if (this == obj)
+					return true;
+				if (obj == null)
+					return false;
+
+				if (!(obj instanceof EntityType))
+					return false;
+
+				EntityType other = (EntityType) obj;
+
+				return equal(getName(), other.getName());
+			}
+
+			@Override
 			public String toString() {
 				return KB.ENTITY;
 			}
 		};
 	}
 
-	/*
-	 * EQUIVALENCE AND EQUIVALENCE IMPLICAITON
-	 * ========================================================================
-	 */
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + getRawAnnotations().hashCode();
-		result = prime * result + getRawTheEntityTypeAnnotations().hashCode();
-		result = prime * result + getRawBindings().hashCode();
-		result = prime * result + getRawEntities().hashCode();
-		result = prime * result + getRawEntityAnnotations().hashCode();
-		result = prime * result + getRawEntityTypeAnnotations().hashCode();
-		result = prime * result + getRawEntityTypes().hashCode();
-		result = prime * result + getRawRelationshipAnnotations().hashCode();
-		result = prime * result + getRawRelationshipTypeAnnotations().hashCode();
-		result = prime * result + getRawRelationshipTypes().hashCode();
-		result = prime * result + getRawRelationships().hashCode();
-		result = prime * result + (getTitle() == null ? 0 : getTitle().hashCode());
-		return result;
+		return Objects.hashCode(getRawAnnotations(), getRawTheEntityTypeAnnotations(), getRawBindings(),
+				getRawEntities(), getRawEntityAnnotations(), getRawEntityTypeAnnotations(), getRawEntityTypes(),
+				getRawRelationshipAnnotations(), getRawRelationshipTypeAnnotations(), getRawRelationshipTypes(),
+				getRawRelationships(), getTitle());
 	}
 
 	@Override
@@ -1387,51 +878,34 @@ public abstract class KB {
 			return true;
 		if (obj == null)
 			return false;
+
 		if (getClass() != obj.getClass())
 			return false;
+
 		KB other = (KB) obj;
-		if (!getRawAnnotations().equals(other.getRawAnnotations()))
-			return false;
-		if (!getRawTheEntityTypeAnnotations().equals(other.getRawTheEntityTypeAnnotations()))
-			return false;
-		if (!getRawBindings().equals(other.getRawBindings()))
-			return false;
-		if (!getRawEntities().equals(other.getRawEntities()))
-			return false;
-		if (!getRawEntityAnnotations().equals(other.getRawEntityAnnotations()))
-			return false;
-		if (!getRawEntityTypeAnnotations().equals(other.getRawEntityTypeAnnotations()))
-			return false;
-		if (!getRawEntityTypes().equals(other.getRawEntityTypes()))
-			return false;
-		if (!getRawRelationshipAnnotations().equals(other.getRawRelationshipAnnotations()))
-			return false;
-		if (!getRawRelationshipTypeAnnotations().equals(other.getRawRelationshipTypeAnnotations()))
-			return false;
-		if (!getRawRelationshipTypes().equals(other.getRawRelationshipTypes()))
-			return false;
-		if (!getRawRelationships().equals(other.getRawRelationships()))
-			return false;
-		if (getTitle() == null) {
-			if (other.getTitle() != null)
-				return false;
-		} else if (!getTitle().equals(other.getTitle()))
-			return false;
-		return true;
+
+		return equal(getRawAnnotations(), other.getRawAnnotations())
+				&& equal(getRawTheEntityTypeAnnotations(), other.getRawTheEntityTypeAnnotations())
+				&& equal(getRawBindings(), other.getRawBindings()) && equal(getRawEntities(), other.getRawEntities())
+				&& equal(getRawEntityAnnotations(), other.getRawEntityAnnotations())
+				&& equal(getRawEntityTypeAnnotations(), other.getRawEntityTypeAnnotations())
+				&& equal(getRawEntityTypes(), other.getRawEntityTypes())
+				&& equal(getRawRelationshipAnnotations(), other.getRawRelationshipAnnotations())
+				&& equal(getRawRelationshipTypeAnnotations(), other.getRawRelationshipTypeAnnotations())
+				&& equal(getRawRelationshipTypes(), other.getRawRelationshipTypes())
+				&& equal(getRawRelationships(), other.getRawRelationships()) && equal(getTitle(), other.getTitle());
 	}
 
-	/*
-	 * REPRESENTATION
-	 * ========================================================================
-	 */
 	@Override
 	public String toString() {
-		return "KB " + getTitle() + " [relationships=" + getRawRelationships() + ", relationshipTypes="
-				+ getRawRelationshipTypes() + ", relationshipTypeAnnotations=" + getRawRelationshipTypeAnnotations()
-				+ ", relationshipAnnotations=" + getRawRelationshipAnnotations() + ", entityTypes="
-				+ getRawEntityTypes() + ", entityTypeAnnotations=" + getRawEntityTypeAnnotations()
-				+ ", entityAnnotations=" + getRawEntityAnnotations() + ", entities=" + getRawEntities() + ", bindings="
-				+ getRawBindings() + ", annotations=" + getRawAnnotations() + ", theEntityTypeAnnotations"
-				+ getRawTheEntityTypeAnnotations() + "]";
+		return toStringHelper(this).add("title", getTitle()).add("entityTypes", getRawEntityTypes())
+				.add("relationshipTypes", getRawRelationshipTypes()).add("entities", getRawEntities())
+				.add("relationships", getRawRelationships()).add("bindings", getRawBindings())
+				.add("annotations", getRawAnnotations())
+				.add("theEntityTypeAnnotations", getRawTheEntityTypeAnnotations())
+				.add("entityTypeAnnotations", getRawEntityTypeAnnotations())
+				.add("relationshipTypeAnnotations", getRawRelationshipTypeAnnotations())
+				.add("entityAnnotations", getRawEntityAnnotations())
+				.add("relationshipAnnotations", getRawRelationshipAnnotations()).toString();
 	}
 }

@@ -2,6 +2,7 @@ package org.softlang.megal.mi2.api;
 
 import org.softlang.megal.mi2.Entity;
 import org.softlang.megal.mi2.KB;
+import org.softlang.megal.mi2.KBs;
 import org.softlang.megal.mi2.Relationship;
 import org.softlang.megal.mi2.api.context.Context;
 
@@ -15,11 +16,11 @@ import org.softlang.megal.mi2.api.context.Context;
  */
 public abstract class ReasonerPlugin extends Plugin {
 	public KB derive(Context context, Entity entity) {
-		return KB.empty();
+		return KBs.empty();
 
 	}
 
 	public KB derive(Context context, Relationship relationship) {
-		return KB.empty();
+		return KBs.empty();
 	}
 }

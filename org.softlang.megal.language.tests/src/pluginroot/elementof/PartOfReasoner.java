@@ -4,6 +4,7 @@ import static java.util.Collections.singleton;
 
 import org.softlang.megal.mi2.Entity;
 import org.softlang.megal.mi2.KB;
+import org.softlang.megal.mi2.KBs;
 import org.softlang.megal.mi2.api.ReasonerPlugin;
 import org.softlang.megal.mi2.api.context.Context;
 import org.softlang.megal.mi2.util.ImmutableMultitable;
@@ -15,10 +16,10 @@ public class PartOfReasoner extends ReasonerPlugin {
 		if (i >= 0) {
 			String container = entity.getName().substring(0, i);
 
-			return KB.builder()
+			return KBs.builder()
 					.setRelationships(ImmutableMultitable.of(entity.getName(), container, singleton("partOf"))).build();
 		}
 
-		return KB.empty();
+		return KBs.empty();
 	}
 }

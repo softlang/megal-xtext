@@ -12,9 +12,9 @@ import org.softlang.megal.mi2.KB;
 import org.softlang.megal.mi2.MegamodelKB;
 import org.softlang.megal.mi2.Relationship;
 import org.softlang.megal.mi2.RelationshipType;
-import org.softlang.megal.mi2.api.ModelExecutor;
-import org.softlang.megal.mi2.api.MessageLocation;
 import org.softlang.megal.mi2.api.Message.Level;
+import org.softlang.megal.mi2.api.MessageLocation;
+import org.softlang.megal.mi2.api.ModelExecutor;
 import org.softlang.megal.mi2.api.Result;
 import org.softlang.megal.mi2.api.resolution.LocalResolution;
 
@@ -47,7 +47,7 @@ public class ModelInterface {
 		for (int i = 0; i < items.length - 1; i += 2) {
 			long dt = (long) items[i + 2] - (long) items[i];
 			String phase = (String) items[i + 1];
-			System.out.println("Phase " + (i/2 + 1) + ", " + phase + ":");
+			System.out.println("Phase " + (i / 2 + 1) + ", " + phase + ":");
 			System.out.println("  " + timeValue(dt) + "(" + percValue(dt / (double) total) + ")");
 		}
 	}

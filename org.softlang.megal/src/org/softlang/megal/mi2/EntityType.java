@@ -23,7 +23,7 @@ public abstract class EntityType extends Named {
 	/**
 	 * <p>
 	 * Gets the supertype of the entity type. If the type is the base type
-	 * {@link KB#ENTITY}, then this method returns <code>this</code>.
+	 * {@link BasicKB#ENTITY}, then this method returns <code>this</code>.
 	 * </p>
 	 * 
 	 * @return Returns the super type

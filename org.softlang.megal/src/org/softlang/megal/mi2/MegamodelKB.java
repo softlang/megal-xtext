@@ -640,10 +640,10 @@ public class MegamodelKB extends KB {
 		// Reduce with union
 		KB rh = imports[0];
 		for (int i = 1; i < imports.length; i++)
-			rh = KB.union(imports[i], rh);
+			rh = KBs.union(imports[i], rh);
 
 		// Union with the main model
-		return KB.union(new MegamodelKB(m), rh);
+		return KBs.union(new MegamodelKB(m), rh);
 	}
 
 	/**

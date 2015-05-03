@@ -14,6 +14,7 @@ import org.softlang.megal.mi2.Element;
 import org.softlang.megal.mi2.Entity;
 import org.softlang.megal.mi2.EntityType;
 import org.softlang.megal.mi2.KB;
+import org.softlang.megal.mi2.KBs;
 import org.softlang.megal.mi2.Relationship;
 import org.softlang.megal.mi2.RelationshipType;
 import org.softlang.megal.mi2.api.context.ComposedContext;
@@ -221,9 +222,9 @@ public class ModelExecutor {
 							}
 					}
 
-					KB next = KB.clone(current);
+					KB next = KBs.clone(current);
 					for (KB sub : reasoned)
-						next = KB.union(next, sub);
+						next = KBs.union(next, sub);
 
 					if (equal(current, next))
 						break;
