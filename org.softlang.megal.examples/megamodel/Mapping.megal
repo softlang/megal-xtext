@@ -17,7 +17,7 @@ javaFiles = "workspace:/org.softlang.megal.examples/src/org/softlang/company/xjc
 FindBuildScriptAsElementOfProof : Plugin
 FindBuildScriptAsElementOfProof = 'classpath:plugins.jaxb.FindBuildScriptAsElementOfProof'
 
-// TODO: Plugin for “pairOfFilesElementOf” for JAXB.Generator as a sample-specific test on a buildscript to find a trace of an xjc invocation that appears process xsdFiles and to output to the javaFiles. To this end, the plugin needs to see preferably the “file names” of xsdFiles and javaFiles, which should be straightforward, if the plugin “sees” the relationship and the involved entities and their “linking” information.
+// DONE: Plugin for “pairOfFilesElementOf” for JAXB.Generator as a sample-specific test on a buildscript to find a trace of an xjc invocation that appears process xsdFiles and to output to the javaFiles. To this end, the plugin needs to see preferably the “file names” of xsdFiles and javaFiles, which should be straightforward, if the plugin “sees” the relationship and the involved entities and their “linking” information.
 
 // Design of function plugins: 
 aLanguage : Language // TODO: Plugin for both domain definition

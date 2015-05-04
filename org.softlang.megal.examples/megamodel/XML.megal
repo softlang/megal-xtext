@@ -12,7 +12,7 @@ xsdFiles elementOf XSD
 xmlFile: File
 xmlFile elementOf XML
 xmlFile conformsTo xsdFiles
-// TODO: plugin needed for conformsTo evaluator for XML and XSD
+// DONE: plugin needed for conformsTo evaluator for XML and XSD
 
 @Plugin 'XSDConformance'
 conformsTo < Artifact(+) * Artifact(+)
