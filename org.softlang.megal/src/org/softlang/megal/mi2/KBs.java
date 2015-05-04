@@ -16,9 +16,8 @@ public class KBs {
 
 	/**
 	 * <p>
-	 * The builder class initializes a knowledge base on the given static return
-	 * values. It may be supplied to other consumers, as every operation makes a
-	 * copy of the builder.
+	 * The builder class initializes a knowledge base on the given static return values. It may be supplied to other
+	 * consumers, as every operation makes a copy of the builder.
 	 * </p>
 	 * 
 	 * @author Pazuzu
@@ -412,8 +411,7 @@ public class KBs {
 
 	/**
 	 * <p>
-	 * Applies the union on the values of <code>a</code> and <code>b</code>.
-	 * Uses the first knowledge bases title.
+	 * Applies the union on the values of <code>a</code> and <code>b</code>. Uses the first knowledge bases title.
 	 * </p>
 	 * 
 	 * @param a
@@ -446,8 +444,8 @@ public class KBs {
 
 	/**
 	 * <p>
-	 * Applies the intersection on the values of <code>a</code> and
-	 * <code>b</code>. Uses the first knowledge bases title.
+	 * Applies the intersection on the values of <code>a</code> and <code>b</code>. Uses the first knowledge bases
+	 * title.
 	 * </p>
 	 * 
 	 * @param a
@@ -457,13 +455,33 @@ public class KBs {
 	 * @return Returns a new knowledge base
 	 */
 	public static KB intersection(KB a, KB b) {
-		throw new UnsupportedOperationException();
+		return KBs
+				.builder()
+				.setTitle(a.getTitle())
+				.setRelationships(SetOperations.intersection(a.getRawRelationships(), b.getRawRelationships()))
+				.setRelationshipTypes(
+						SetOperations.intersection(a.getRawRelationshipTypes(), b.getRawRelationshipTypes()))
+				.setRelationshipTypeAnnotations(
+						SetOperations.intersection(a.getRawRelationshipTypeAnnotations(),
+								b.getRawRelationshipTypeAnnotations()))
+				.setRelationshipAnnotations(
+						SetOperations.intersection(a.getRawRelationshipAnnotations(), b.getRawRelationshipAnnotations()))
+				.setEntityTypes(SetOperations.intersection(a.getRawEntityTypes(), b.getRawEntityTypes()))
+				.setEntityTypeAnnotations(
+						SetOperations.intersection(a.getRawEntityTypeAnnotations(), b.getRawEntityTypeAnnotations()))
+				.setEntityAnnotations(
+						SetOperations.intersection(a.getRawEntityAnnotations(), b.getRawEntityAnnotations()))
+				.setEntities(SetOperations.intersection(a.getRawEntities(), b.getRawEntities()))
+				.setBindings(SetOperations.intersection(a.getRawBindings(), b.getRawBindings()))
+				.setTheEntityTypeAnnotations(
+						SetOperations.intersection(a.getRawTheEntityTypeAnnotations(),
+								b.getRawTheEntityTypeAnnotations()))
+				.setAnnotations(SetOperations.intersection(a.getRawAnnotations(), b.getRawAnnotations())).build();
 	}
 
 	/**
 	 * <p>
-	 * Applies the difference on the values of <code>a</code> and <code>b</code>
-	 * . Uses the first knowledge bases title.
+	 * Applies the difference on the values of <code>a</code> and <code>b</code> . Uses the first knowledge bases title.
 	 * </p>
 	 * 
 	 * @param a
@@ -473,7 +491,27 @@ public class KBs {
 	 * @return Returns a new knowledge base
 	 */
 	public static KB difference(KB a, KB b) {
-		throw new UnsupportedOperationException();
+		return KBs
+				.builder()
+				.setTitle(a.getTitle())
+				.setRelationships(SetOperations.difference(a.getRawRelationships(), b.getRawRelationships()))
+				.setRelationshipTypes(
+						SetOperations.difference(a.getRawRelationshipTypes(), b.getRawRelationshipTypes()))
+				.setRelationshipTypeAnnotations(
+						SetOperations.difference(a.getRawRelationshipTypeAnnotations(),
+								b.getRawRelationshipTypeAnnotations()))
+				.setRelationshipAnnotations(
+						SetOperations.difference(a.getRawRelationshipAnnotations(), b.getRawRelationshipAnnotations()))
+				.setEntityTypes(SetOperations.difference(a.getRawEntityTypes(), b.getRawEntityTypes()))
+				.setEntityTypeAnnotations(
+						SetOperations.difference(a.getRawEntityTypeAnnotations(), b.getRawEntityTypeAnnotations()))
+				.setEntityAnnotations(
+						SetOperations.difference(a.getRawEntityAnnotations(), b.getRawEntityAnnotations()))
+				.setEntities(SetOperations.difference(a.getRawEntities(), b.getRawEntities()))
+				.setBindings(SetOperations.difference(a.getRawBindings(), b.getRawBindings()))
+				.setTheEntityTypeAnnotations(
+						SetOperations.difference(a.getRawTheEntityTypeAnnotations(), b.getRawTheEntityTypeAnnotations()))
+				.setAnnotations(SetOperations.difference(a.getRawAnnotations(), b.getRawAnnotations())).build();
 	}
 
 	/**

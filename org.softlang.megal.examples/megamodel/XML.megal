@@ -30,6 +30,7 @@ XSDAcceptor realizationOf XSD
 XSDAcceptor = 'classpath:plugins.jaxb.AcceptXSD'
 XSDAcceptor partOf FileElementOfLanguage
 
+
 // --------------------------------------------------------------------------
 schema: File
 schema elementOf XSD

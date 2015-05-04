@@ -1,10 +1,11 @@
 model As
 import Prelude
 
-Reasoner < Entity
-PartOfReasoner : Reasoner
-PartOfReasoner = "classpath:org.softlang.megal.plugins.PartOfReasoner"
+PartOfReasoner : Plugin
+PartOfReasoner = "classpath:pluginroot.elementof.PartOfReasoner"
 
+EmitAll : Plugin
+EmitAll = "classpath:pluginroot.elementof.EmitAll"
 
 // Language of all As (small or capital)
 OnlyAs: Language

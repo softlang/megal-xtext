@@ -14,5 +14,4 @@ import org.softlang.megal.mi2.api.resolution.Resolution;
  *
  */
 public interface Context extends Resolution, Emission {
-	public KB getKB();
 }

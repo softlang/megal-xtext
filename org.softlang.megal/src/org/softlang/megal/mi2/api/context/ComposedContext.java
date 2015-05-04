@@ -12,21 +12,13 @@ import com.google.common.io.ByteSource;
 import com.google.common.io.CharSource;
 
 public final class ComposedContext implements Context {
-	private final KB kb;
-
 	private final Resolution resolutionDelegate;
 
 	private final Emission emissionDelegate;
 
-	public ComposedContext(KB kb, Resolution resolutionDelegate, Emission emissionDelegate) {
-		this.kb = kb;
+	public ComposedContext(Resolution resolutionDelegate, Emission emissionDelegate) {
 		this.resolutionDelegate = resolutionDelegate;
 		this.emissionDelegate = emissionDelegate;
-	}
-
-	@Override
-	public KB getKB() {
-		return kb;
 	}
 
 	@Override
@@ -63,7 +55,6 @@ public final class ComposedContext implements Context {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + kb.hashCode();
 		result = prime * result + emissionDelegate.hashCode();
 		result = prime * result + resolutionDelegate.hashCode();
 		return result;
@@ -78,8 +69,6 @@ public final class ComposedContext implements Context {
 		if (getClass() != obj.getClass())
 			return false;
 		ComposedContext other = (ComposedContext) obj;
-		if (!kb.equals(other.kb))
-			return false;
 		if (!emissionDelegate.equals(other.emissionDelegate))
 			return false;
 		if (!resolutionDelegate.equals(other.resolutionDelegate))
@@ -89,8 +78,8 @@ public final class ComposedContext implements Context {
 
 	@Override
 	public String toString() {
-		return "ComposedContext [kb=" + kb + ", resolutionDelegate=" + resolutionDelegate + ", emissionDelegate="
-				+ emissionDelegate + "]";
+		return "ComposedContext [TresolutionDelegate=" + resolutionDelegate + ", emissionDelegate=" + emissionDelegate
+				+ "]";
 	}
 
 }

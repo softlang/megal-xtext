@@ -9,13 +9,13 @@ deserializationCode refersTo JAXB.Library
 deserializationCode refersTo javaFiles
 deserializationCode defines deserialization // TODO: plugin needed for “defines” for JVM.ObjectGraphs  
 
+
 // TODO: link to plugin
 // Phase 1: “Static” assignment or resolution of links
 // Phase 2: Compute more links with functions like below for COMPUTED entity links.
 // Phase 3: Evaluate relationships
 deserialization : Function[XML->JVM.ObjectGraphs]
 deserialization(xmlFile) |-> objectGraph
-
 
 somethingThatIsActuallyNotComputed : Transient
 

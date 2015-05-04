@@ -51,6 +51,11 @@ public abstract class KB {
 		}
 
 		@Override
+		public KB getKB() {
+			return KB.this;
+		}
+
+		@Override
 		public Multimap<String, String> getAnnotations() {
 			// Translate the unstructured annotations
 			return translate(getRawEntityTypeAnnotations().get(from));
@@ -111,6 +116,11 @@ public abstract class KB {
 
 		public ConvertedRelationshipType(Cell<Ref, Ref, String> from) {
 			this.from = from;
+		}
+
+		@Override
+		public KB getKB() {
+			return KB.this;
 		}
 
 		@Override
@@ -196,6 +206,11 @@ public abstract class KB {
 		}
 
 		@Override
+		public KB getKB() {
+			return KB.this;
+		}
+
+		@Override
 		public Multimap<String, String> getAnnotations() {
 			// Translate the unstructured annotations
 			return translate(getRawEntityAnnotations().get(from));
@@ -270,6 +285,11 @@ public abstract class KB {
 
 		private ConvertedRelationship(Cell<String, String, String> from) {
 			this.from = from;
+		}
+
+		@Override
+		public KB getKB() {
+			return KB.this;
 		}
 
 		/**
@@ -806,6 +826,11 @@ public abstract class KB {
 	public EntityType getTheEntityType() {
 		return new EntityType() {
 			@Override
+			public KB getKB() {
+				return KB.this;
+			}
+
+			@Override
 			public Multimap<String, String> getAnnotations() {
 				// Annotations are carried in the KB
 				return getRawTheEntityTypeAnnotations();
@@ -862,6 +887,14 @@ public abstract class KB {
 				return KB.ENTITY;
 			}
 		};
+	}
+
+	public boolean isEmpty() {
+		return getRawAnnotations().isEmpty() && getRawBindings().isEmpty() && getRawEntities().isEmpty()
+				&& getRawEntityAnnotations().isEmpty() && getRawEntityTypeAnnotations().isEmpty()
+				&& getRawEntityTypes().isEmpty() && getRawRelationshipAnnotations().isEmpty()
+				&& getRawRelationships().isEmpty() && getRawRelationshipTypeAnnotations().isEmpty()
+				&& getRawRelationshipTypes().isEmpty() && getRawTheEntityTypeAnnotations().isEmpty();
 	}
 
 	@Override

@@ -11,6 +11,7 @@ import java.io.Reader;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
@@ -34,6 +35,46 @@ public abstract class ProjectResolution extends AbstractResolution {
 	}
 
 	// TODO: also regular URIs and such
+
+	private IContainer getIContainer(Object object) {
+		// If object itself is an IFile
+		if (object instanceof IContainer) {
+			// Cast the object
+			IContainer conainer = (IContainer) object;
+
+			// Return it
+			return conainer;
+		}
+
+		// If object is an URI
+		if (object instanceof URI) {
+			// Cast the object
+			URI uri = (URI) object;
+
+			// Return the evaluators first IFile
+			return getFirst(filter(MegalPlugin.getEvaluator().evaluate(uri), IContainer.class), null);
+		}
+
+		// If object is a string
+		if (object instanceof String) {
+			// Cast as string
+			String str = (String) object;
+
+			try {
+				// Try to convert to URI
+				URI uri = new URI(str);
+
+				// Return the evaluators first IFile
+				return getFirst(filter(MegalPlugin.getEvaluator().evaluate(uri), IContainer.class), null);
+			} catch (URISyntaxException e) {
+			}
+
+			// If failed, let the project find the file
+			return getProject().getFolder(Path.fromOSString(str));
+		}
+
+		return null;
+	}
 
 	private IFile getIFile(Object object) {
 		// If object itself is an IFile
@@ -77,13 +118,18 @@ public abstract class ProjectResolution extends AbstractResolution {
 
 	@Override
 	public URI getAbsolute(Object object) {
-		//TODO Fix this
+		// TODO Fix this
 		IFile file = getIFile(object);
 
-		if (file == null)
-			return null;
+		if (file != null)
+			return file.getLocationURI();
 
-		return file.getFullPath().toFile().toURI();
+		IContainer container = getIContainer(object);
+
+		if (container != null)
+			return container.getLocationURI();
+
+		return null;
 	}
 
 	@Override

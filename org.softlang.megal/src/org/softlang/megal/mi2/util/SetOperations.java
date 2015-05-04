@@ -29,6 +29,7 @@ import com.google.common.collect.Table.Cell;
  * <p>
  * Set based operations, applied to set backed data structures.
  * </p>
+ * TODO: Many of these may be implemented in a fast and persistent way, are not yet.
  * 
  * @author Pazuzu
  *
@@ -147,16 +148,16 @@ public class SetOperations {
 
 	/**
 	 * <p>
-	 * Filters the entries of the set on demand. If the input set is an
-	 * ImmutableSet, iterating operations will be calculated on demand.
+	 * Filters the entries of the set on demand. If the input set is an ImmutableSet, iterating operations will be
+	 * calculated on demand.
 	 * </p>
 	 * 
 	 * @param set
 	 *            The input set
 	 * @param filter
 	 *            The filter to apply
-	 * @return Returns a set where all elements contain filter, only
-	 *         modifications not matching the filter will be channeled
+	 * @return Returns a set where all elements contain filter, only modifications not matching the filter will be
+	 *         channeled
 	 */
 	public static <E> Set<E> filter(Set<E> set, Class<E> type, Predicate<? super E> filter) {
 		if (set instanceof ImmutableSet)
@@ -342,5 +343,47 @@ public class SetOperations {
 				set.clear();
 			}
 		};
+	}
+
+	public static <R, C, E> Multitable<R, C, E> intersection(Multitable<R, C, E> a, Multitable<R, C, E> b) {
+		Multitable<R, C, E> result = HashMultitable.create();
+		result.putAll(a);
+		result.retainAll(b);
+		return result;
+	}
+
+	public static <K, V> SetMultimap<K, V> intersection(SetMultimap<K, V> a, SetMultimap<K, V> b) {
+		ImmutableSetMultimap.Builder<K, V> builder = ImmutableSetMultimap.builder();
+		for (Entry<K, V> e : Sets.intersection(a.entries(), b.entries()))
+			builder.put(e);
+		return builder.build();
+	}
+
+	public static <K, V> Map<K, V> intersection(Map<K, V> a, Map<K, V> b) {
+		ImmutableMap.Builder<K, V> builder = ImmutableMap.builder();
+		for (Entry<K, V> e : Sets.intersection(a.entrySet(), b.entrySet()))
+			builder.put(e);
+		return builder.build();
+	}
+
+	public static <R, C, E> Multitable<R, C, E> difference(Multitable<R, C, E> a, Multitable<R, C, E> b) {
+		Multitable<R, C, E> result = HashMultitable.create();
+		result.putAll(a);
+		result.removeAll(b);
+		return result;
+	}
+
+	public static <K, V> SetMultimap<K, V> difference(SetMultimap<K, V> a, SetMultimap<K, V> b) {
+		ImmutableSetMultimap.Builder<K, V> builder = ImmutableSetMultimap.builder();
+		for (Entry<K, V> e : Sets.difference(a.entries(), b.entries()))
+			builder.put(e);
+		return builder.build();
+	}
+
+	public static <K, V> Map<K, V> difference(Map<K, V> a, Map<K, V> b) {
+		ImmutableMap.Builder<K, V> builder = ImmutableMap.builder();
+		for (Entry<K, V> e : Sets.difference(a.entrySet(), b.entrySet()))
+			builder.put(e);
+		return builder.build();
 	}
 }

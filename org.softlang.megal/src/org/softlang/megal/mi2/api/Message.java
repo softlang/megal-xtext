@@ -21,16 +21,15 @@ public final class Message {
 	public static enum Level {
 		/**
 		 * <p>
-		 * Message level representing messages that are non-trivial information
-		 * but that do not revoke model consistency.
+		 * Message level representing messages that are non-trivial information but that do not revoke model
+		 * consistency.
 		 * </p>
 		 */
 		INFO,
 
 		/**
 		 * <p>
-		 * Message level for errors in model consistency that do not prevent
-		 * model execution.
+		 * Message level for errors in model consistency that do not prevent model execution.
 		 * </p>
 		 */
 		WARNING,
@@ -53,7 +52,7 @@ public final class Message {
 	 * @return Returns a message
 	 */
 	public static Message createInfoFor(Throwable t) {
-		return Message.info(t.getMessage() + "\r\n" + Throwables.getStackTraceAsString(t));
+		return Message.info(t.getClass().getName() + ": " + Throwables.getStackTraceAsString(t));
 	}
 
 	/**
@@ -66,7 +65,7 @@ public final class Message {
 	 * @return Returns a message
 	 */
 	public static Message createWarningFor(Throwable t) {
-		return Message.warning(t.getMessage() + "\r\n" + Throwables.getStackTraceAsString(t));
+		return Message.warning(t.getClass().getName() + ": " + Throwables.getStackTraceAsString(t));
 	}
 
 	/**
@@ -79,7 +78,7 @@ public final class Message {
 	 * @return Returns a message
 	 */
 	public static Message createErrorFor(Throwable t) {
-		return Message.error(t.getMessage() + "\r\n" + Throwables.getStackTraceAsString(t));
+		return Message.error(t.getClass().getName() + ": " + Throwables.getStackTraceAsString(t));
 	}
 
 	/**

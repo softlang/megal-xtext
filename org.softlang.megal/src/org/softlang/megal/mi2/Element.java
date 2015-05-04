@@ -17,6 +17,15 @@ import com.google.common.collect.Multimap;
 public abstract class Element {
 	/**
 	 * <p>
+	 * Gets the knowledge base this element is located in. The knowledge base is not part of the equivalence.
+	 * </p>
+	 * 
+	 * @return Returns the knowledge base
+	 */
+	public abstract KB getKB();
+
+	/**
+	 * <p>
 	 * Gets all annotations of this element.
 	 * </p>
 	 * 

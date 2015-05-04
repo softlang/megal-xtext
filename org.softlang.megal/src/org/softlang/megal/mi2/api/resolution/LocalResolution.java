@@ -38,14 +38,12 @@ public class LocalResolution extends AbstractResolution {
 
 	@Override
 	public URI getAbsolute(Object object) {
-		//TODO Fix this
-		
+		// TODO Fix this
+
 		// If object itself is a file
 		if (object instanceof File) {
 			// Cast the object
 			File file = (File) object;
-			if (!file.exists())
-				return null;
 
 			// Wrap it
 			return file.toURI();
@@ -75,9 +73,6 @@ public class LocalResolution extends AbstractResolution {
 
 			// If failed, let the project find the file
 			File file = new File(str);
-			if (!file.exists())
-				return null;
-
 			return file.toURI();
 		}
 

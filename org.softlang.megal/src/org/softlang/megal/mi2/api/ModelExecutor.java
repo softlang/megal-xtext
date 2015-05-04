@@ -1,12 +1,12 @@
 package org.softlang.megal.mi2.api;
 
-import static com.google.common.base.Objects.equal;
 import static com.google.common.collect.Iterables.concat;
-import static com.google.common.collect.Lists.newLinkedList;
+import static com.google.common.collect.Iterables.filter;
 import static com.google.common.collect.Maps.newHashMap;
+import static com.google.common.collect.Sets.difference;
 import static com.google.common.collect.Sets.newHashSet;
+import static java.util.Collections.emptyList;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -150,125 +150,118 @@ public class ModelExecutor {
 			}
 
 			Result run() {
-				KB current = input;
+				// Set of evaluated elements, so some element is not evaluated twice
+				Set<Element> evaluated = newHashSet();
+
+				// Origin of generated elements for origin tracking of errors
 				Map<Element, Element> origin = newHashMap();
-				List<KB> reasoned = newLinkedList();
+
+				// Current knowledge base and expansion base
+				KB current = input;
+				KB expansion = KBs.empty();
 
 				for (;;) {
-					// Clear the next reasoning step
-					reasoned.clear();
+					// Evaluate all the elements
+					for (Element element : difference(current.getElements(), evaluated)) {
+						// Mark as evaluated
+						evaluated.add(element);
 
-					// Evaluate all the entities
-					for (Entity entity : current.getEntities()) {
 						// Compose a local context
-						Context context = new ComposedContext(current, resolution, new Emission() {
-							@Override
-							public void emit(Message message) {
-								Element secondary = origin.get(entity);
-								if (secondary == null)
-									messages.add(MessageLocation.of(entity, message));
-								else
-									messages.add(MessageLocation.of(secondary, message));
+						Context context = createContext(origin, element);
+
+						// Get appropriate evaluators
+						for (EvaluatorPlugin plugin : select(EvaluatorPlugin.class, element))
+							// Try to evaluate, catch an exception into the error messages
+							try {
+								plugin.evaluate(context, element);
+							} catch (RuntimeException t) {
+								context.emit(Message.createWarningFor(t));
+							} catch (Throwable t) {
+								context.emit(Message.createErrorFor(t));
 							}
-						});
 
-						// Get appropriate plugins
-						for (Plugin plugin : select(entity))
-							if (plugin instanceof EvaluatorPlugin) {
-								EvaluatorPlugin evaluatorPlugin = (EvaluatorPlugin) plugin;
+						// Get the appropriate reasoners
+						for (ReasonerPlugin plugin : select(ReasonerPlugin.class, element))
+							// Try to get the output KB, catch an exception into the error messages
+							try {
+								KB output = plugin.derive(context, element);
 
-								evaluatorPlugin.evaluate(context, entity);
-							} else if (plugin instanceof ReasonerPlugin) {
-								ReasonerPlugin reasonerPlugin = (ReasonerPlugin) plugin;
+								// Annotate all the generated elements
+								for (Element generated : output.getElements())
+									origin.put(element, generated);
 
-								KB output = reasonerPlugin.derive(context, entity);
-
-								for (Element element : output.getElements())
-									origin.put(element, entity);
-
-								reasoned.add(output);
+								// Add the output to the reasoner
+								expansion = KBs.union(expansion, output);
+							} catch (RuntimeException t) {
+								context.emit(Message.createWarningFor(t));
+							} catch (Throwable t) {
+								context.emit(Message.createErrorFor(t));
 							}
 					}
 
-					// Evaluate all the relationships
-					for (Relationship relationship : current.getRelationships()) {
-						// Compose a local context
-						Context context = new ComposedContext(current, resolution, new Emission() {
-							@Override
-							public void emit(Message message) {
-								Element secondary = origin.get(relationship);
-								if (secondary == null)
-									messages.add(MessageLocation.of(relationship, message));
-								else
-									messages.add(MessageLocation.of(secondary, message));
-							}
-						});
-
-						// Get appropriate plugins
-						for (Plugin plugin : select(relationship))
-							if (plugin instanceof EvaluatorPlugin) {
-								EvaluatorPlugin evaluatorPlugin = (EvaluatorPlugin) plugin;
-
-								evaluatorPlugin.evaluate(context, relationship);
-							} else if (plugin instanceof ReasonerPlugin) {
-								ReasonerPlugin reasonerPlugin = (ReasonerPlugin) plugin;
-
-								KB output = reasonerPlugin.derive(context, relationship);
-
-								for (Element element : output.getElements())
-									origin.put(element, relationship);
-
-								reasoned.add(output);
-							}
-					}
-
-					KB next = KBs.clone(current);
-					for (KB sub : reasoned)
-						next = KBs.union(next, sub);
-
-					if (equal(current, next))
+					if (KBs.difference(expansion, current).isEmpty())
+						// If expansion has no more additions, stop evaluation
 						break;
-
-					current = next;
+					else
+						// Else continue with greater front
+						current = KBs.union(current, expansion);
 				}
 
+				// Return the result for the given parameters and the evaluator state
 				return Result.of(input, current, messages);
 			}
 
-			/**
-			 * <p>
-			 * Selects the sequence of plugins based on an entity.
-			 * </p>
-			 * 
-			 * @param entity
-			 *            The entity to select for
-			 * @return Returns all applicable plugins
-			 */
-			Iterable<Plugin> select(Entity entity) {
-				EntityType type = entity.getType();
-
-				if (type == null)
-					return universalPlugins;
-
-				return concat(universalPlugins, pluginsByEntityType.get(type));
+			Context createContext(Map<Element, Element> origin, Element element) {
+				Context context = new ComposedContext(resolution, new Emission() {
+					@Override
+					public void emit(Message message) {
+						Element secondary = origin.get(element);
+						if (secondary == null)
+							messages.add(MessageLocation.of(element, message));
+						else
+							messages.add(MessageLocation.of(secondary, message));
+					}
+				});
+				return context;
 			}
 
 			/**
 			 * <p>
-			 * Selects the sequence of plugins based on an entity.
+			 * Selects the desired type of plugin based on the associate element and the type of plugins.
 			 * </p>
 			 * 
-			 * @param entity
-			 *            The entity to select for
-			 * @return Returns all applicable plugins
+			 * @param type
+			 *            The type of plugins
+			 * @param element
+			 *            The associate element
+			 * @return Returns an iterable of plugins
 			 */
-			Iterable<Plugin> select(Relationship relationship) {
-				RelationshipType type = relationship.getType();
+			<T extends Plugin> Iterable<T> select(Class<T> type, Element element) {
+				// Always consider universal plugins
+				Iterable<Plugin> result = universalPlugins;
 
-				if (type == null)
-					return universalPlugins;
+				if (element instanceof Entity) {
+					// If entity, get the type
+					Entity entity = (Entity) element;
+					EntityType entityType = entity.getType();
 
-				return concat(universalPlugins, pluginsByRelationshipType.get(type));
+					// If type exists, append all plugins by entity type
+					if (entityType != null)
+						result = concat(result, pluginsByEntityType.get(entityType));
+				} else if (element instanceof Relationship) {
+					// If relationship, get the type
+					Relationship relationship = (Relationship) element;
+					RelationshipType relationshipType = relationship.getType();
+
+					// If type exists, append all plugins by relationship type
+					if (relationshipType != null)
+						result = concat(result, pluginsByRelationshipType.get(relationshipType));
+				} else
+					// Else, no specialized association possible
+					result = emptyList();
+
+				// Filter the desired type
+				return filter(result, type);
 			}
 		}
 

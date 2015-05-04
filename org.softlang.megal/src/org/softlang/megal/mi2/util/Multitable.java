@@ -28,9 +28,15 @@ public interface Multitable<R, C, E> {
 
 	boolean removeAll(Object rowKey, Object columnKey, Collection<?> values);
 
+	boolean removeAll(Multitable<? extends R, ? extends C, ? extends E> table);
+
+	boolean retainAll(Multitable<? extends R, ? extends C, ? extends E> table);
+
 	boolean contains(Object rowKey, Object columnKey, Object value);
 
 	boolean containsAll(Object rowKey, Object columnKey, Collection<?> values);
+
+	boolean isEmpty();
 
 	Set<E> get(Object rowKey, Object columnKey);
 

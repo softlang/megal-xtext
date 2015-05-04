@@ -5,8 +5,10 @@ import static com.google.common.collect.FluentIterable.from;
 import static com.google.common.collect.Iterables.transform;
 import static com.google.common.collect.Sets.newHashSet;
 import static com.google.common.collect.Tables.immutableCell;
+import static java.util.Collections.emptySet;
 
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.Set;
 
 import com.google.common.collect.ImmutableSet;
@@ -67,6 +69,15 @@ public abstract class AbstractMultitable<R, C, E> implements Multitable<R, C, E>
 	}
 
 	@Override
+	public boolean removeAll(Multitable<? extends R, ? extends C, ? extends E> table) {
+		boolean modified = false;
+		for (Cell<? extends R, ? extends C, ? extends E> cell : table.cells())
+			modified |= remove(cell.getRowKey(), cell.getColumnKey(), cell.getValue());
+
+		return modified;
+	}
+
+	@Override
 	public boolean removeAll(Object rowKey, Object columnKey, Collection<?> values) {
 		// Get the target
 		Set<E> existing = asTable().get(rowKey, columnKey);
@@ -83,6 +94,20 @@ public abstract class AbstractMultitable<R, C, E> implements Multitable<R, C, E>
 		}
 
 		return false;
+	}
+
+	@Override
+	public boolean retainAll(Multitable<? extends R, ? extends C, ? extends E> table) {
+		boolean modified = false;
+		for (Iterator<Cell<R, C, Set<E>>> it = asTable().cellSet().iterator(); it.hasNext();) {
+			Cell<R, C, Set<E>> current = it.next();
+
+			Set<? extends E> other = table.get(current.getRowKey(), current.getColumnKey());
+			modified |= current.getValue().retainAll(other);
+			if (current.getValue().isEmpty())
+				it.remove();
+		}
+		return modified;
 	}
 
 	@Override
@@ -108,8 +133,16 @@ public abstract class AbstractMultitable<R, C, E> implements Multitable<R, C, E>
 	}
 
 	@Override
+	public boolean isEmpty() {
+		return asTable().isEmpty();
+	}
+
+	@Override
 	public Set<E> get(Object rowKey, Object columnKey) {
-		return asTable().get(rowKey, columnKey);
+		Set<E> result = asTable().get(rowKey, columnKey);
+		if (result == null)
+			return emptySet();
+		return result;
 	}
 
 	@Override

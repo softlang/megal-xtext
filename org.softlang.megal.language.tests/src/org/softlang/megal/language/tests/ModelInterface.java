@@ -9,6 +9,7 @@ import org.softlang.megal.language.Megals;
 import org.softlang.megal.mi2.Entity;
 import org.softlang.megal.mi2.EntityType;
 import org.softlang.megal.mi2.KB;
+import org.softlang.megal.mi2.KBs;
 import org.softlang.megal.mi2.MegamodelKB;
 import org.softlang.megal.mi2.Relationship;
 import org.softlang.megal.mi2.RelationshipType;
@@ -62,7 +63,14 @@ public class ModelInterface {
 		ModelExecutor sequencer = new ModelExecutor();
 		Result result = sequencer.evaluate(new LocalResolution(), kb);
 		long t4 = System.nanoTime();
-		timePhased(t1, "Load model", t2, "Initialize KB", t3, "Execute", t4);
+
+		System.out.println("__ Input KB ______________________________");
+		dump(result.getInput());
+		System.out.println();
+		System.out.println("__ Emitted KB ____________________________");
+		dump(KBs.difference(result.getOutput(), result.getInput()));
+		System.out.println();
+		System.out.println("__ Messages ______________________________");
 
 		for (MessageLocation messageLocation : result.getMessageLocations()) {
 			if (messageLocation.getMessage().getLevel() == Level.ERROR)
@@ -71,6 +79,8 @@ public class ModelInterface {
 				System.out.println(messageLocation);
 			System.out.println();
 		}
+
+		timePhased(t1, "Load model", t2, "Initialize KB", t3, "Execute", t4);
 
 	}
 

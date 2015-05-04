@@ -17,7 +17,7 @@
 			<arg value="-d" />
 			<arg path="${src}" />
 			<arg value="-p" />
-			<arg value="org.softlang.company.xjc" />
+			<arg value="org.softlang.company.xjcssdadsa" />
 		</exec>
 
 		<!-- Compile all the classes -->
