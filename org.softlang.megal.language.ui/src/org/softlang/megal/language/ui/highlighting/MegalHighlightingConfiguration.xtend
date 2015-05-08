@@ -4,22 +4,21 @@ import org.eclipse.swt.SWT
 import org.eclipse.xtext.ui.editor.syntaxcoloring.DefaultHighlightingConfiguration
 import org.eclipse.xtext.ui.editor.syntaxcoloring.IHighlightingConfigurationAcceptor
 import org.eclipse.xtext.ui.editor.utils.TextStyle
-import org.softlang.megal.Annotation
-import org.softlang.megal.Entity
-import org.softlang.megal.EntityType
-import org.softlang.megal.RelationshipType
-import org.softlang.megal.language.MegalEnvironment
+import org.softlang.megal.MegalAnnotation
+import org.softlang.megal.MegalEntity
+import org.softlang.megal.MegalEntityType
+import org.softlang.megal.MegalRelationshipType
 import org.softlang.megal.language.ui.swt.SWTUtil
 
 import static org.softlang.megal.util.Guard.*
 import org.eclipse.swt.graphics.RGB
-import org.softlang.megal.Relationship
-import org.softlang.megal.Link
+import org.softlang.megal.MegalRelationship
+import org.softlang.megal.MegalLink
 
 class MegalHighlightingConfiguration extends DefaultHighlightingConfiguration {
 
 	// TODO: A lot of guarding here, as null pointers do occur frequently in unassigned models
-	def static readStyle(String k, Iterable<? extends Annotation> xs) {
+	def static readStyle(String k, Iterable<? extends MegalAnnotation> xs) {
 
 		// Find the style annotation if present
 		switch x : xs.findFirst[key == k] {
@@ -32,7 +31,7 @@ class MegalHighlightingConfiguration extends DefaultHighlightingConfiguration {
 		}
 	}
 
-	def static readColor(String k, Iterable<? extends Annotation> xs) {
+	def static readColor(String k, Iterable<? extends MegalAnnotation> xs) {
 
 		// Find the color annotation if present
 		switch x : xs.findFirst[key == k] {
@@ -57,7 +56,8 @@ class MegalHighlightingConfiguration extends DefaultHighlightingConfiguration {
 	 * @param bKey The key of the background colorannotaiton
 	 * @param xs The annotations
 	 */
-	def static readTextStyle(TextStyle from, String sKey, String cKey, String bKey, Iterable<? extends Annotation> xs) {
+	def static readTextStyle(TextStyle from, String sKey, String cKey, String bKey,
+		Iterable<? extends MegalAnnotation> xs) {
 		from.copy => [
 			style = readStyle(sKey, xs)
 			backgroundColor = readColor(bKey, xs)
@@ -65,11 +65,11 @@ class MegalHighlightingConfiguration extends DefaultHighlightingConfiguration {
 		]
 	}
 
-	def static readTextStyle(TextStyle from, Iterable<? extends Annotation> xs) {
+	def static readTextStyle(TextStyle from, Iterable<? extends MegalAnnotation> xs) {
 		readTextStyle(from, STYLE_ANNOTATION_KEY, COLOR_ANNOTATION_KEY, BACKGROUND_ANNOTATION_KEY, xs)
 	}
 
-	def static getID(EntityType o) {
+	def static getID(MegalEntityType o) {
 		guarded(null) [
 			// Guards
 			ifAssigned(o)
@@ -78,7 +78,7 @@ class MegalHighlightingConfiguration extends DefaultHighlightingConfiguration {
 		]
 	}
 
-	def static getID(RelationshipType o) {
+	def static getID(MegalRelationshipType o) {
 		guarded(null) [
 			// Guards	
 			ifAssigned(o)
@@ -89,7 +89,7 @@ class MegalHighlightingConfiguration extends DefaultHighlightingConfiguration {
 		]
 	}
 
-	def static getDescription(EntityType o) {
+	def static getDescription(MegalEntityType o) {
 		guarded(null) [
 			// Guards
 			ifAssigned(o)
@@ -98,7 +98,7 @@ class MegalHighlightingConfiguration extends DefaultHighlightingConfiguration {
 		]
 	}
 
-	def static getDescription(RelationshipType o) {
+	def static getDescription(MegalRelationshipType o) {
 		guarded('''Invalid object''') [
 			// Guards	
 			ifAssigned(o)
@@ -110,7 +110,7 @@ class MegalHighlightingConfiguration extends DefaultHighlightingConfiguration {
 
 	}
 
-	def getStyle(RelationshipType o) {
+	def getStyle(MegalRelationshipType o) {
 		guarded(relationshipTextStyle) [
 			// Guards	
 			ifAssigned(o)
@@ -120,7 +120,7 @@ class MegalHighlightingConfiguration extends DefaultHighlightingConfiguration {
 		]
 	}
 
-	def getStyle(EntityType o) {
+	def getStyle(MegalEntityType o) {
 		guarded(entityTextStyle) [
 			// Guards	
 			ifAssigned(o)
@@ -141,7 +141,7 @@ class MegalHighlightingConfiguration extends DefaultHighlightingConfiguration {
 	public static val RELATIONSHIP_TYPE_ID = "relationship_type";
 	public static val URI_ID = "uri";
 
-	static def idFor(Entity o) {
+	static def idFor(MegalEntity o) {
 		guarded(ENTITY_ID) [
 			// Guards
 			ifAssigned(o)
@@ -151,7 +151,7 @@ class MegalHighlightingConfiguration extends DefaultHighlightingConfiguration {
 		]
 	}
 
-	static def idFor(Link o) {
+	static def idFor(MegalLink o) {
 		guarded(ENTITY_ID) [
 			// Guards
 			ifAssigned(o)
@@ -162,7 +162,7 @@ class MegalHighlightingConfiguration extends DefaultHighlightingConfiguration {
 		]
 	}
 
-	static def idFor(Relationship o) {
+	static def idFor(MegalRelationship o) {
 		guarded(RELATIONSHIP_ID) [
 			// Guards
 			ifAssigned(o)
@@ -172,7 +172,7 @@ class MegalHighlightingConfiguration extends DefaultHighlightingConfiguration {
 		]
 	}
 
-	static def idFor(EntityType o) {
+	static def idFor(MegalEntityType o) {
 		guarded(ENTITY_TYPE_ID) [
 			// Guards
 			ifAssigned(o)
@@ -181,7 +181,7 @@ class MegalHighlightingConfiguration extends DefaultHighlightingConfiguration {
 		]
 	}
 
-	static def idFor(RelationshipType o) {
+	static def idFor(MegalRelationshipType o) {
 		guarded(RELATIONSHIP_TYPE_ID) [
 			// Guards
 			ifAssigned(o)

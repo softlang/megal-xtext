@@ -2,13 +2,14 @@ package plugins.jaxb;
 
 import java.io.IOException;
 import java.io.Reader;
+import java.util.Set;
 
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 
-import org.softlang.megal.mi2.KB;
+import org.softlang.megal.mi2.Element;
 import org.softlang.megal.mi2.Relationship;
 import org.softlang.megal.mi2.api.EvaluatorPlugin;
 import org.softlang.megal.mi2.api.Message;
@@ -16,11 +17,16 @@ import org.softlang.megal.mi2.api.context.Context;
 import org.softlang.megal.mi2.api.emission.Emission;
 import org.xml.sax.SAXException;
 
+import plugins.util.Prelude;
+
 import com.google.common.io.CharSource;
+
+import static plugins.util.Prelude.*;
+import static java.util.Collections.*;
 
 public class XSDConformance extends EvaluatorPlugin {
 
-	private void conforms(Emission emission, CharSource xml, CharSource xsd) {
+	private boolean conforms(Emission emission, CharSource xml, CharSource xsd) {
 		// 1. Lookup a factory for the W3C XML Schema language
 		SchemaFactory factory = SchemaFactory
 				.newInstance("http://www.w3.org/2001/XMLSchema");
@@ -33,10 +39,10 @@ public class XSDConformance extends EvaluatorPlugin {
 			schema = factory.newSchema(new StreamSource(reader));
 		} catch (SAXException e) {
 			emission.emit(Message.createErrorFor(e));
-			return;
+			return false;
 		} catch (IOException e) {
 			emission.emit(Message.createWarningFor(e));
-			return;
+			return false;
 		}
 
 		// 3. Get a validator from the schema.
@@ -45,31 +51,34 @@ public class XSDConformance extends EvaluatorPlugin {
 		// 5. Check the document
 		try (Reader reader = xml.openStream()) {
 			validator.validate(new StreamSource(reader));
+			return true;
 		} catch (SAXException e) {
 			emission.emit(Message.error("Instance does not conform to schema"));
-			return;
+			return false;
 		} catch (IOException e) {
 			emission.emit(Message.createWarningFor(e));
-			return;
+			return false;
 		}
 	}
 
 	@Override
-	public void evaluate(Context context, Relationship relationship) {
-		// Check if an item conforms to something that is element of XSD
-		for (Relationship r : relationship.getRight().outgoing("elementOf"))
-			if ("XSD".equals(r.getRight().getName()))
-				// Pair up all bindings, usually one * one
-				for (Object leftBinding : relationship.getLeft().getBinding()
-						.asSet())
-					for (Object rightBinding : relationship.getRight()
-							.getBinding().asSet()) {
-						// Get char sources
-						CharSource left = context.getChars(leftBinding);
-						CharSource right = context.getChars(rightBinding);
+	public Set<Element> evaluate(Context context, Relationship relationship) {
+		if (!isElementOfLanguage(relationship.getLeft(), "XML")
+				|| !isElementOfLanguage(relationship.getRight(), "XSD")
+				|| !relationship.getLeft().getBinding().isPresent()
+				|| !relationship.getRight().getBinding().isPresent())
+			return null;
 
-						// Check conformance
-						conforms(context, left, right);
-					}
+		Object leftBinding = relationship.getLeft().getBinding().get();
+		Object rightBinding = relationship.getRight().getBinding().get();
+
+		CharSource left = context.getChars(leftBinding);
+		CharSource right = context.getChars(rightBinding);
+
+		// Check conformance
+		if (conforms(context, left, right))
+			return singleton(relationship);
+
+		return emptySet();
 	}
 }

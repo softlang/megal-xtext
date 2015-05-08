@@ -27,5 +27,5 @@ Export-Package: org.softlang.megal.language,
  org.softlang.megal.language.parser.antlr.internal,
  org.softlang.megal.language.validation,
  org.softlang.megal.language.scoping,
- org.softlang.megal.language.generator,
- org.softlang.megal.language.formatting
+ org.softlang.megal.language.formatting,
+ org.softlang.megal.language.generator

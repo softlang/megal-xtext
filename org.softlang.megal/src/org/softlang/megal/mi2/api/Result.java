@@ -2,23 +2,30 @@ package org.softlang.megal.mi2.api;
 
 import java.util.Set;
 
+import org.softlang.megal.mi2.Element;
 import org.softlang.megal.mi2.KB;
+
+import com.google.common.collect.SetMultimap;
+import static com.google.common.collect.Sets.*;
 
 public final class Result {
 	private final KB input;
 
 	private final KB output;
 
-	private final Set<MessageLocation> messageLocations;
+	private final Set<Element> valid;
 
-	private Result(KB input, KB output, Set<MessageLocation> messageLocations) {
+	private final SetMultimap<Element, Message> messages;
+
+	private Result(KB input, KB output, Set<Element> valid, SetMultimap<Element, Message> messages) {
 		this.input = input;
 		this.output = output;
-		this.messageLocations = messageLocations;
+		this.valid = valid;
+		this.messages = messages;
 	}
 
-	public static Result of(KB input, KB output, Set<MessageLocation> messageLocations) {
-		return new Result(input, output, messageLocations);
+	public static Result of(KB input, KB output, Set<Element> valid, SetMultimap<Element, Message> messages) {
+		return new Result(input, output, valid, messages);
 	}
 
 	public KB getInput() {
@@ -29,8 +36,20 @@ public final class Result {
 		return output;
 	}
 
-	public Set<MessageLocation> getMessageLocations() {
-		return messageLocations;
+	public Set<Element> getValid() {
+		return valid;
+	}
+
+	public SetMultimap<Element, Message> getMessages() {
+		return messages;
+	}
+
+	public Set<Element> visited() {
+		return union(valid, messages.keySet());
+	}
+
+	public Set<Element> notVisited() {
+		return difference(getInput().getElements(), visited());
 	}
 
 	@Override
@@ -38,8 +57,10 @@ public final class Result {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + input.hashCode();
-		result = prime * result + messageLocations.hashCode();
 		result = prime * result + output.hashCode();
+		result = prime * result + valid.hashCode();
+		result = prime * result + messages.hashCode();
+
 		return result;
 	}
 
@@ -55,18 +76,18 @@ public final class Result {
 
 		if (!input.equals(other.input))
 			return false;
-
-		if (!messageLocations.equals(other.messageLocations))
-			return false;
-
 		if (!output.equals(other.output))
+			return false;
+		if (!valid.equals(other.valid))
+			return false;
+		if (!messages.equals(other.messages))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "Result [input=" + input + ", output=" + output + ", messageLocations=" + messageLocations + "]";
+		return "Result [input=" + input + ", output=" + output + ", valid=" + valid + ", messages=" + messages + "]";
 	}
 
 }

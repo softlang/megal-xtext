@@ -9,8 +9,7 @@ import org.softlang.megal.language.scoping.MegalQualifiedNameConverter;
 import com.google.inject.Binder;
 
 /**
- * Use this class to register components to be used at runtime / without the
- * Equinox extension registry.
+ * Use this class to register components to be used at runtime / without the Equinox extension registry.
  */
 public class MegalRuntimeModule extends AbstractMegalRuntimeModule {
 	@Override
@@ -19,5 +18,4 @@ public class MegalRuntimeModule extends AbstractMegalRuntimeModule {
 
 		binder.bind(IQualifiedNameConverter.class).to(MegalQualifiedNameConverter.class);
 	}
-
 }

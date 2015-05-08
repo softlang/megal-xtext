@@ -4,9 +4,8 @@
 package org.softlang.megal.language.generator
 
 import org.eclipse.emf.ecore.resource.Resource
-import org.eclipse.xtext.generator.IFileSystemAccess
 import org.eclipse.xtext.generator.IGenerator
-import org.softlang.megal.Megamodel
+import org.eclipse.xtext.generator.IFileSystemAccess
 
 /**
  * Generates code from your model files on save.
@@ -14,7 +13,12 @@ import org.softlang.megal.Megamodel
  * see http://www.eclipse.org/Xtext/documentation.html#TutorialCodeGeneration
  */
 class MegalGenerator implements IGenerator {
+	
 	override void doGenerate(Resource resource, IFileSystemAccess fsa) {
-
+//		fsa.generateFile('greetings.txt', 'People to greet: ' + 
+//			resource.allContents
+//				.filter(typeof(Greeting))
+//				.map[name]
+//				.join(', '))
 	}
 }

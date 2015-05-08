@@ -1,5 +1,7 @@
 package org.softlang.megal.mi2.api;
 
+import java.util.Set;
+
 import org.softlang.megal.mi2.Element;
 import org.softlang.megal.mi2.Entity;
 import org.softlang.megal.mi2.EntityType;
@@ -16,23 +18,25 @@ import org.softlang.megal.mi2.api.context.Context;
  *
  */
 public abstract class EvaluatorPlugin extends Plugin {
-	public final void evaluate(Context context, Element element) {
+	public final Set<Element> evaluate(Context context, Element element) {
 		if (element instanceof EntityType)
-			evaluate(context, (EntityType) element);
+			return evaluate(context, (EntityType) element);
 		else if (element instanceof RelationshipType)
-			evaluate(context, (RelationshipType) element);
+			return evaluate(context, (RelationshipType) element);
 		else if (element instanceof Entity)
-			evaluate(context, (Entity) element);
+			return evaluate(context, (Entity) element);
 		else if (element instanceof Relationship)
-			evaluate(context, (Relationship) element);
+			return evaluate(context, (Relationship) element);
 		else
-			return;
+			return null;
 	}
 
-	public void evaluate(Context context, EntityType entityType) {
+	public Set<Element> evaluate(Context context, EntityType entityType) {
+		return null;
 	}
 
-	public void evaluate(Context context, RelationshipType relationshipType) {
+	public Set<Element> evaluate(Context context, RelationshipType relationshipType) {
+		return null;
 	}
 
 	/**
@@ -46,7 +50,8 @@ public abstract class EvaluatorPlugin extends Plugin {
 	 * @param entity
 	 *            The evaluation item
 	 */
-	public void evaluate(Context context, Entity entity) {
+	public Set<Element> evaluate(Context context, Entity entity) {
+		return null;
 	}
 
 	/**
@@ -60,6 +65,7 @@ public abstract class EvaluatorPlugin extends Plugin {
 	 * @param relationship
 	 *            The evaluation item
 	 */
-	public void evaluate(Context context, Relationship relationship) {
+	public Set<Element> evaluate(Context context, Relationship relationship) {
+		return null;
 	}
 }

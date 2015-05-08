@@ -2,11 +2,11 @@ package org.softlang.megal.language.ui.hover
 
 import java.net.URI
 import org.eclipse.emf.ecore.EObject
-import org.softlang.megal.Entity
-import org.softlang.megal.EntityType
-import org.softlang.megal.Link
+import org.softlang.megal.MegalEntity
+import org.softlang.megal.MegalEntityType
+import org.softlang.megal.MegalLink
 import org.softlang.megal.MegalPlugin
-import org.softlang.megal.RelationshipType
+import org.softlang.megal.MegalRelationshipType
 
 //class ListAnnotationsAction extends ExtenderAction {
 //
@@ -85,7 +85,7 @@ class MegalEObjectHoverProvider extends ExtenderEObjectHoverProvider {
 
 	override protected hasHover(EObject o) {
 		switch o {
-			Link:
+			MegalLink:
 				true
 			default:
 				super.hasHover(o)
@@ -135,18 +135,19 @@ class MegalEObjectHoverProvider extends ExtenderEObjectHoverProvider {
 		null
 	}
 
-	def dispatch firstLineFor(Entity it) {
+	def dispatch firstLineFor(MegalEntity it) {
 		return '''<b>«name»</b> : «type.link»'''
 	}
 
-	def dispatch firstLineFor(EntityType it) '''<b>«name»</b> «IF supertype != null»  &lt; «supertype.link»«ENDIF»'''
+	def dispatch firstLineFor(
+		MegalEntityType it) '''<b>«name»</b> «IF supertype != null»  &lt; «supertype.link»«ENDIF»'''
 
-	def dispatch firstLineFor(RelationshipType it) {
+	def dispatch firstLineFor(MegalRelationshipType it) {
 		'''<b>«name»</b>'''
 	}
 
 	def dispatch firstLineFor(
-		Link it
+		MegalLink it
 	) '''Link, «IF MegalPlugin.evaluator.evaluate(URI.create(to)).empty»unresolvable«ELSE»resolvable«ENDIF»'''
 
 	/**
@@ -156,7 +157,7 @@ class MegalEObjectHoverProvider extends ExtenderEObjectHoverProvider {
 		null
 	}
 
-	def dispatch documentationFor(Entity it) '''
+	def dispatch documentationFor(MegalEntity it) '''
 		«IF dependent»<p>Entity is <a href="put a cool link to explain dependency">dependent</a></p>«ENDIF»
 		«IF parameter»<p>Entity is <a href="put a cool link to explain parametricity">a parameter</a></p>«ENDIF»
 		
@@ -168,10 +169,10 @@ class MegalEObjectHoverProvider extends ExtenderEObjectHoverProvider {
 		«super.getDocumentation(it)»
 	'''
 
-	def dispatch documentationFor(EntityType it) '''«super.getDocumentation(it)»'''
+	def dispatch documentationFor(MegalEntityType it) '''«super.getDocumentation(it)»'''
 
-	def dispatch documentationFor(RelationshipType relationshipType) '''xxxx'''
+	def dispatch documentationFor(MegalRelationshipType relationshipType) '''xxxx'''
 
 	def dispatch documentationFor(
-		Link it) '''<ul>«FOR n : MegalPlugin.evaluator.evaluate(URI.create(to))»<li>«n»</li>«ENDFOR»</ul>'''
+		MegalLink it) '''<ul>«FOR n : MegalPlugin.evaluator.evaluate(URI.create(to))»<li>«n»</li>«ENDFOR»</ul>'''
 }

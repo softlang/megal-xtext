@@ -1,70 +1,70 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="megal" nsURI="http://softlang.wikidot.com/megal" nsPrefix="">
-  <eClassifiers xsi:type="ecore:EClass" name="Annotation">
+  <eClassifiers xsi:type="ecore:EClass" name="MegalAnnotation">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="key" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Element" abstract="true" interface="true">
+  <eClassifiers xsi:type="ecore:EClass" name="MegalElement" abstract="true" interface="true">
     <eStructuralFeatures xsi:type="ecore:EReference" name="annotations" upperBound="-1"
-        eType="#//Annotation" containment="true"/>
+        eType="#//MegalAnnotation" containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Megamodel" eSuperTypes="#//Element">
+  <eClassifiers xsi:type="ecore:EClass" name="MegalFile" eSuperTypes="#//MegalElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="declarations" upperBound="-1"
-        eType="#//Declaration" containment="true"/>
+        eType="#//MegalDeclaration" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="bindings" upperBound="-1"
-        eType="#//Link" containment="true"/>
+        eType="#//MegalLink" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="imports" upperBound="-1"
-        eType="#//Megamodel"/>
+        eType="#//MegalFile"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Link" eSuperTypes="#//Element">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="link" lowerBound="1" eType="#//Entity"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MegalLink" eSuperTypes="#//MegalElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="link" lowerBound="1" eType="#//MegalEntity"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="to" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="input" eType="#//Entity"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="output" eType="#//Entity"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="input" eType="#//MegalEntity"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="output" eType="#//MegalEntity"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Declaration" abstract="true" eSuperTypes="#//Element"/>
-  <eClassifiers xsi:type="ecore:EClass" name="Relationship" eSuperTypes="#//Declaration">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="#//RelationshipType"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="left" lowerBound="1" eType="#//Entity"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="right" lowerBound="1" eType="#//Entity"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MegalDeclaration" abstract="true" eSuperTypes="#//MegalElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MegalRelationship" eSuperTypes="#//MegalDeclaration">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="#//MegalRelationshipType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="left" lowerBound="1" eType="#//MegalEntity"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="right" lowerBound="1" eType="#//MegalEntity"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="FunctionApplication" eSuperTypes="#//Declaration">
+  <eClassifiers xsi:type="ecore:EClass" name="MegalFunctionApplication" eSuperTypes="#//MegalDeclaration">
     <eStructuralFeatures xsi:type="ecore:EReference" name="function" lowerBound="1"
-        eType="#//Entity"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="input" lowerBound="1" eType="#//Entity"/>
+        eType="#//MegalEntity"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="input" lowerBound="1" eType="#//MegalEntity"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="output" lowerBound="1"
-        eType="#//Entity"/>
+        eType="#//MegalEntity"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Named" abstract="true" eSuperTypes="#//Declaration">
+  <eClassifiers xsi:type="ecore:EClass" name="MegalNamed" abstract="true" eSuperTypes="#//MegalDeclaration">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="EntityType" eSuperTypes="#//Named">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="supertype" eType="#//EntityType"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MegalEntityType" eSuperTypes="#//MegalNamed">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="supertype" eType="#//MegalEntityType"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="RelationshipType" eSuperTypes="#//Named">
+  <eClassifiers xsi:type="ecore:EClass" name="MegalRelationshipType" eSuperTypes="#//MegalNamed">
     <eStructuralFeatures xsi:type="ecore:EReference" name="typeLeft" lowerBound="1"
-        eType="#//EntityType"/>
+        eType="#//MegalEntityType"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="typeRight" lowerBound="1"
-        eType="#//EntityType"/>
+        eType="#//MegalEntityType"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="typeLeftArb" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="typeRightArb" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="typeLeftMany" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="typeRightMany" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="typeLeftParameters" upperBound="-1"
-        eType="#//Entity"/>
+        eType="#//MegalEntity"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="typeRightParameters" upperBound="-1"
-        eType="#//Entity"/>
+        eType="#//MegalEntity"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Entity" eSuperTypes="#//Named">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="#//EntityType"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MegalEntity" eSuperTypes="#//MegalNamed">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="#//MegalEntityType"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="dependent" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="parameter" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="typeParameters" upperBound="-1"
-        eType="#//Entity"/>
+        eType="#//MegalEntity"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="typeMany" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
   </eClassifiers>
 </ecore:EPackage>

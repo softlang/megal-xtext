@@ -2,7 +2,6 @@ model XML
 
 import Prelude
 
-XMLs: Language+
 // This part could go into an “XML” MegaL module	 	 	
 XML: Language
 XSD: Language
@@ -20,16 +19,17 @@ conformsTo < Artifact(+) * Artifact(+)
 XSDConformance : Plugin
 XSDConformance = 'classpath:plugins.jaxb.XSDConformance'
 
+
 XMLAcceptor : Plugin
 XMLAcceptor realizationOf XML
 XMLAcceptor = 'classpath:plugins.jaxb.AcceptXML'
 XMLAcceptor partOf FileElementOfLanguage
 
+
 XSDAcceptor : Plugin
 XSDAcceptor realizationOf XSD
 XSDAcceptor = 'classpath:plugins.jaxb.AcceptXSD'
 XSDAcceptor partOf FileElementOfLanguage
-
 
 // --------------------------------------------------------------------------
 schema: File
@@ -47,4 +47,3 @@ conformsNot = "workspace:/org.softlang.megal.examples/inputs/notSampleCompany.xm
 conforms conformsTo schema
 @IsInvalid
 conformsNot conformsTo schema
-

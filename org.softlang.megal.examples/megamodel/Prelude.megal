@@ -1,3 +1,5 @@
+// This is generally not needed
+@Suppress 'entityNotConsidered'
 model Prelude
 
 Entity as entity
@@ -9,6 +11,8 @@ Function < Entity
 FunctionApplication < Entity
 Set < Entity
 Technology < Entity
+
+@Plugin 'LanguageEvaluator'
 Language < Set
 
 @Color '255,0,0'
@@ -53,7 +57,7 @@ transformedIn < Artifact(+) * Artifact(+)
 correspondsTo < Artifact(+) * Artifact(+)
 
 defines < Artifact(+) * Language
-defines < Artifact(+) * Function // Ohne typenparameter universell
+defines < Artifact(+) * Function 
 
 linksTo < File(+) * File(+)
 
@@ -69,7 +73,6 @@ deploysTo < Technology * Technology
 Program: Entity
 
 partOf < Language * Language
-
 
 // EVEN NEWER
 
@@ -87,21 +90,28 @@ partOf < Plugin * Plugin
 @Plugin 'FileElementOfLanguage'
 elementOf < File * Language
 
-
 // Dispatcher with master as link and parameter dependence
 FileElementOfLanguage: Plugin
 FileElementOfLanguage = "classpath:plugins.root.elementof.FileElementOfLanguage"
+
+@Plugin 'FilesElementOfLanguage'
+elementOf < File+ * Language
+
+FilesElementOfLanguage: Plugin
+FilesElementOfLanguage = "classpath:plugins.root.elementof.FilesElementOfLanguage"
+FileElementOfLanguage partOf FilesElementOfLanguage
+
 
 // Replacement for the function application
 Pair < Entity
 firstOf < Entity(+) * Pair
 secondOf < Entity(+) * Pair
 
-//@Plugin 'PairElementOfFunction'
+@Plugin 'PairElementWhenComputed'
 elementOf < Pair * Function
 
-//PairElementOfFunction: Evaluator
-//PairElementOfFunction = "classpath:plugins.root.elementof.PairElementOfFunction"
+PairElementWhenComputed: Plugin
+PairElementWhenComputed = "classpath:plugins.root.elementof.PairElementWhenComputed"
 
 // From model
 refersTo < Artifact(+) * Technology

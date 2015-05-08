@@ -1,72 +1,38 @@
 package plugins.jaxb;
 
+import static com.google.common.base.Objects.equal;
+import static com.google.common.collect.ImmutableSet.of;
 import static com.google.common.collect.Iterables.getFirst;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.Reader;
 import java.net.URI;
-import java.util.AbstractList;
 import java.util.List;
 import java.util.Set;
 
-import javax.swing.text.html.parser.DocumentParser;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
-import javax.xml.transform.dom.DOMSource;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathException;
-import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
-import org.apache.tools.ant.IntrospectionHelper;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.ProjectHelper;
-import org.apache.tools.ant.Target;
-import org.apache.tools.ant.Task;
-import org.apache.tools.ant.UnknownElement;
-import org.apache.tools.ant.helper.ProjectHelper2;
-import org.apache.tools.ant.taskdefs.Exec;
-import org.apache.tools.ant.taskdefs.ExecTask;
+import org.softlang.megal.mi2.Element;
 import org.softlang.megal.mi2.Entity;
 import org.softlang.megal.mi2.Relationship;
 import org.softlang.megal.mi2.api.EvaluatorPlugin;
 import org.softlang.megal.mi2.api.Message;
 import org.softlang.megal.mi2.api.context.Context;
-import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.w3c.dom.bootstrap.DOMImplementationRegistry;
-import org.xml.sax.Attributes;
-import org.xml.sax.ContentHandler;
 import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-import org.xml.sax.XMLReader;
-import org.xml.sax.helpers.DefaultHandler;
-import org.xml.sax.helpers.XMLReaderFactory;
+
+import plugins.util.Nodes;
 
 import com.google.common.base.Splitter;
-import static com.google.common.base.Objects.*;
 
 public class FindBuildScriptAsElementOfProof extends EvaluatorPlugin {
-	private static List<Node> asList(final NodeList n) {
-		return new AbstractList<Node>() {
-			@Override
-			public Node get(int index) {
-				return n.item(index);
-			}
-
-			@Override
-			public int size() {
-				return n.getLength();
-			}
-		};
-	}
-
 	private static String getIn(Project project, String potentialVariable) {
 		if (potentialVariable.startsWith("${")
 				&& potentialVariable.endsWith("}"))
@@ -107,13 +73,13 @@ public class FindBuildScriptAsElementOfProof extends EvaluatorPlugin {
 	}
 
 	@Override
-	public void evaluate(Context context, Relationship relationship) {
+	public Set<Element> evaluate(Context context, Relationship relationship) {
 		// Get pair
 		Entity pair = relationship.getLeft();
 
 		// If pair not bound, there's no build script to validate in
 		if (!pair.getBinding().isPresent())
-			return;
+			return null;
 
 		// Get relationships to the parameters
 		Relationship firstOf = getFirst(pair.incoming("firstOf"), null);
@@ -121,7 +87,7 @@ public class FindBuildScriptAsElementOfProof extends EvaluatorPlugin {
 
 		// If any of them does not exist, return
 		if (firstOf == null || secondOf == null)
-			return;
+			return null;
 
 		// Get the parameter items
 		Entity first = firstOf.getLeft();
@@ -129,9 +95,9 @@ public class FindBuildScriptAsElementOfProof extends EvaluatorPlugin {
 
 		// If any of them is not bound, can not evaluate
 		if (!first.getBinding().isPresent())
-			return;
+			return null;
 		if (!second.getBinding().isPresent())
-			return;
+			return null;
 
 		// Get the XSD location and the package
 		File boundXSD = new File(context.getAbsolute(first.getBinding().get()));
@@ -140,7 +106,7 @@ public class FindBuildScriptAsElementOfProof extends EvaluatorPlugin {
 
 		// If any of them is not resolvable, exit
 		if (boundXSD == null || boundPackage == null)
-			return;
+			return null;
 
 		// Open the build script
 		try (Reader stream = context.getChars(pair.getBinding().get())
@@ -152,12 +118,11 @@ public class FindBuildScriptAsElementOfProof extends EvaluatorPlugin {
 			Project project = new Project();
 			ProjectHelper.configureProject(project, new File(buildscript));
 
-
 			// Evaluate to all execute statements
 			XPath xpath = XPathFactory.newInstance().newXPath();
 
 			// Make field for all executes and properties
-			List<Node> executes = asList((NodeList) xpath.evaluate(
+			List<Node> executes = Nodes.asList((NodeList) xpath.evaluate(
 					"/project/target/exec", new InputSource(stream),
 					XPathConstants.NODESET));
 
@@ -165,8 +130,8 @@ public class FindBuildScriptAsElementOfProof extends EvaluatorPlugin {
 
 			// Check all execute statements for evidence
 			for (Node node : executes) {
-				List<Node> args = asList((NodeList) xpath.evaluate("arg", node,
-						XPathConstants.NODESET));
+				List<Node> args = Nodes.asList((NodeList) xpath.evaluate("arg",
+						node, XPathConstants.NODESET));
 
 				// If no argument, continue
 				if (args.size() == 0)
@@ -233,10 +198,11 @@ public class FindBuildScriptAsElementOfProof extends EvaluatorPlugin {
 					break;
 				}
 			}
-			
+
 			if (!hasEvidence)
 				context.emit(Message
 						.error("No evidence for pair element relationship found in build script"));
+			return of(relationship, firstOf, secondOf);
 
 		} catch (IOException | XPathException e) {
 			throw new RuntimeException(e);

@@ -3,28 +3,17 @@
 */
 package org.softlang.megal.language.ui.quickfix
 
-import org.eclipse.xtext.ui.editor.quickfix.Fix
-import org.softlang.megal.language.validation.MegalValidator
-
-import org.eclipse.xtext.ui.editor.quickfix.IssueResolutionAcceptor
-import org.eclipse.xtext.validation.Issue
-import org.eclipse.xtext.ui.editor.model.edit.ISemanticModification
-import org.softlang.megal.Relationship
-import static org.eclipse.emf.ecore.util.EcoreUtil.copy
-import org.softlang.megal.MegalFactory
-import org.eclipse.xtext.linking.impl.LinkingDiagnosticMessageProvider
-import org.eclipse.xtext.diagnostics.Diagnostic
-import org.softlang.megal.Megamodel
+import org.eclipse.xtext.ui.editor.quickfix.DefaultQuickfixProvider
 
 /**
  * Custom quickfixes.
  *
  * see http://www.eclipse.org/Xtext/documentation.html#quickfixes
  */
-class MegalQuickfixProvider extends org.eclipse.xtext.ui.editor.quickfix.DefaultQuickfixProvider {
+class MegalQuickfixProvider extends DefaultQuickfixProvider {
 
-	@Fix(MegalValidator::NO_APPLICABLE_INSTANCE)
-	def createApplicableInstance(Issue issue, IssueResolutionAcceptor acceptor) {
+//	@Fix(MegalValidator::NO_APPLICABLE_INSTANCE)
+//	def createApplicableInstance(Issue issue, IssueResolutionAcceptor acceptor) {
 //		val label = 'Create applicable instance'
 //		val text = 'Creates an instance matching the required types.'
 //		val image = null
@@ -43,10 +32,10 @@ class MegalQuickfixProvider extends org.eclipse.xtext.ui.editor.quickfix.Default
 //			r.type = q
 //		]
 //		acceptor.accept(issue, label, text, image, fixByCreation)
-	}
+//	}
 
-	def getMegamodel(Relationship relationship) {
-		return relationship.eContainer as Megamodel
-	}
+//	def getMegamodel(Relationship relationship) {
+//		return relationship.eContainer as Megamodel
+//	}
 
 }

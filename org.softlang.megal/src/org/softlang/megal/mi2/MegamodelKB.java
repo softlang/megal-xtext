@@ -15,16 +15,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.softlang.megal.Annotation;
-import org.softlang.megal.Declaration;
-import org.softlang.megal.Element;
-import org.softlang.megal.Entity;
-import org.softlang.megal.EntityType;
-import org.softlang.megal.FunctionApplication;
-import org.softlang.megal.Link;
-import org.softlang.megal.Megamodel;
-import org.softlang.megal.Relationship;
-import org.softlang.megal.RelationshipType;
+import org.softlang.megal.MegalAnnotation;
+import org.softlang.megal.MegalDeclaration;
+import org.softlang.megal.MegalElement;
+import org.softlang.megal.MegalEntity;
+import org.softlang.megal.MegalEntityType;
+import org.softlang.megal.MegalFile;
+import org.softlang.megal.MegalFunctionApplication;
+import org.softlang.megal.MegalLink;
+import org.softlang.megal.MegalRelationship;
+import org.softlang.megal.MegalRelationshipType;
 import org.softlang.megal.mi2.util.HashMultitable;
 import org.softlang.megal.mi2.util.Multitable;
 
@@ -105,15 +105,14 @@ public class MegamodelKB extends KB {
 	 *            The item to resolve
 	 * @return The resolved item
 	 */
-	public static EntityType resolve(boolean transitive, Megamodel megamodel,
-			org.softlang.megal.mi2.EntityType entityType) {
-		for (EntityType item : from(megamodel.getDeclarations()).filter(EntityType.class))
+	public static MegalEntityType resolve(boolean transitive, MegalFile megamodel, EntityType entityType) {
+		for (MegalEntityType item : from(megamodel.getDeclarations()).filter(MegalEntityType.class))
 			if (equal(item.getName(), entityType.getName()))
 				return item;
 
 		if (transitive)
-			for (Megamodel imported : reverse(megamodel.getImports())) {
-				EntityType potential = resolve(transitive, imported, entityType);
+			for (MegalFile imported : reverse(megamodel.getImports())) {
+				MegalEntityType potential = resolve(transitive, imported, entityType);
 				if (potential != null)
 					return potential;
 			}
@@ -132,23 +131,23 @@ public class MegamodelKB extends KB {
 	 *            The item to resolve
 	 * @return The resolved item
 	 */
-	public static Entity resolve(boolean transitive, Megamodel megamodel, org.softlang.megal.mi2.Entity entity) {
-		for (Entity item : from(megamodel.getDeclarations()).filter(Entity.class)) {
+	public static MegalEntity resolve(boolean transitive, MegalFile megamodel, Entity entity) {
+		for (MegalEntity item : from(megamodel.getDeclarations()).filter(MegalEntity.class)) {
 			// Not equal name, no match
 			if (!equal(item.getName(), entity.getName()))
 				continue;
 
 			// Parameters not element equal, no match
-			if (!elementsEqual(transform(item.getTypeParameters(), Entity::getName),
-					Splitter.on(',').split(entity.getAnnotation(PARAMS))))
+			if (!elementsEqual(transform(item.getTypeParameters(), MegalEntity::getName), Splitter.on(',')
+					.omitEmptyStrings().split(entity.getAnnotation(PARAMS, ""))))
 				continue;
 
 			return item;
 		}
 
 		if (transitive)
-			for (Megamodel imported : reverse(megamodel.getImports())) {
-				Entity potential = resolve(transitive, imported, entity);
+			for (MegalFile imported : reverse(megamodel.getImports())) {
+				MegalEntity potential = resolve(transitive, imported, entity);
 				if (potential != null)
 					return potential;
 			}
@@ -167,9 +166,9 @@ public class MegamodelKB extends KB {
 	 *            The item to resolve
 	 * @return The resolved item
 	 */
-	public static RelationshipType resolve(boolean transitive, Megamodel megamodel,
-			org.softlang.megal.mi2.RelationshipType relationshipType) {
-		for (RelationshipType item : from(megamodel.getDeclarations()).filter(RelationshipType.class)) {
+	public static MegalRelationshipType resolve(boolean transitive, MegalFile megamodel,
+			RelationshipType relationshipType) {
+		for (MegalRelationshipType item : from(megamodel.getDeclarations()).filter(MegalRelationshipType.class)) {
 			// Not equal name, no match
 			if (!equal(item.getName(), relationshipType.getName()))
 				continue;
@@ -179,8 +178,8 @@ public class MegamodelKB extends KB {
 				continue;
 
 			// Left parameters not element equal, no match
-			if (!elementsEqual(transform(item.getTypeLeftParameters(), Entity::getName),
-					Splitter.on(',').split(relationshipType.getAnnotation(PARAMS_LEFT))))
+			if (!elementsEqual(transform(item.getTypeLeftParameters(), MegalEntity::getName), Splitter.on(',')
+					.omitEmptyStrings().split(relationshipType.getAnnotation(PARAMS_LEFT, ""))))
 				continue;
 
 			// Right type not equal, no match
@@ -188,16 +187,16 @@ public class MegamodelKB extends KB {
 				continue;
 
 			// Right parameters not element equal, no match
-			if (!elementsEqual(transform(item.getTypeRightParameters(), Entity::getName),
-					Splitter.on(',').split(relationshipType.getAnnotation(PARAMS_RIGHT))))
+			if (!elementsEqual(transform(item.getTypeRightParameters(), MegalEntity::getName), Splitter.on(',')
+					.omitEmptyStrings().split(relationshipType.getAnnotation(PARAMS_RIGHT, ""))))
 				continue;
 
 			return item;
 		}
 
 		if (transitive)
-			for (Megamodel imported : reverse(megamodel.getImports())) {
-				RelationshipType potential = resolve(true, imported, relationshipType);
+			for (MegalFile imported : reverse(megamodel.getImports())) {
+				MegalRelationshipType potential = resolve(true, imported, relationshipType);
 				if (potential != null)
 					return potential;
 			}
@@ -216,9 +215,8 @@ public class MegamodelKB extends KB {
 	 *            The item to resolve
 	 * @return The resolved item
 	 */
-	public static Relationship resolve(boolean transitive, Megamodel megamodel,
-			org.softlang.megal.mi2.Relationship relationship) {
-		for (Relationship item : from(megamodel.getDeclarations()).filter(Relationship.class)) {
+	public static MegalRelationship resolve(boolean transitive, MegalFile megamodel, Relationship relationship) {
+		for (MegalRelationship item : from(megamodel.getDeclarations()).filter(MegalRelationship.class)) {
 			// Left entity not equal, no match
 			if (!equal(item.getLeft().getName(), relationship.getLeft().getName()))
 				continue;
@@ -235,8 +233,8 @@ public class MegamodelKB extends KB {
 		}
 
 		if (transitive)
-			for (Megamodel imported : reverse(megamodel.getImports())) {
-				Relationship potential = resolve(transitive, imported, relationship);
+			for (MegalFile imported : reverse(megamodel.getImports())) {
+				MegalRelationship potential = resolve(transitive, imported, relationship);
 				if (potential != null)
 					return potential;
 			}
@@ -244,9 +242,8 @@ public class MegamodelKB extends KB {
 		return null;
 	}
 
-	public static FunctionApplication resolvePair(boolean transitive, Megamodel megamodel,
-			org.softlang.megal.mi2.Entity entity) {
-		for (FunctionApplication item : from(megamodel.getDeclarations()).filter(FunctionApplication.class)) {
+	public static MegalFunctionApplication resolvePair(boolean transitive, MegalFile megamodel, Entity entity) {
+		for (MegalFunctionApplication item : from(megamodel.getDeclarations()).filter(MegalFunctionApplication.class)) {
 			// Not equal name, no match
 			if (!equal(entityName(item.getFunction().getName(), item.getInput().getName(), item.getOutput().getName()),
 					entity.getName()))
@@ -256,8 +253,8 @@ public class MegamodelKB extends KB {
 		}
 
 		if (transitive)
-			for (Megamodel imported : reverse(megamodel.getImports())) {
-				FunctionApplication potential = resolvePair(transitive, imported, entity);
+			for (MegalFile imported : reverse(megamodel.getImports())) {
+				MegalFunctionApplication potential = resolvePair(transitive, imported, entity);
 				if (potential != null)
 					return potential;
 			}
@@ -265,9 +262,9 @@ public class MegamodelKB extends KB {
 		return null;
 	}
 
-	public static FunctionApplication resolveFirst(boolean transitive, Megamodel megamodel,
-			org.softlang.megal.mi2.Relationship relationship) {
-		for (FunctionApplication item : from(megamodel.getDeclarations()).filter(FunctionApplication.class)) {
+	public static MegalFunctionApplication resolveFirst(boolean transitive, MegalFile megamodel,
+			Relationship relationship) {
+		for (MegalFunctionApplication item : from(megamodel.getDeclarations()).filter(MegalFunctionApplication.class)) {
 			if (!equal(item.getInput().getName(), relationship.getLeft().getName()))
 				continue;
 
@@ -282,8 +279,8 @@ public class MegamodelKB extends KB {
 		}
 
 		if (transitive)
-			for (Megamodel imported : reverse(megamodel.getImports())) {
-				FunctionApplication potential = resolveFirst(transitive, imported, relationship);
+			for (MegalFile imported : reverse(megamodel.getImports())) {
+				MegalFunctionApplication potential = resolveFirst(transitive, imported, relationship);
 				if (potential != null)
 					return potential;
 			}
@@ -291,9 +288,9 @@ public class MegamodelKB extends KB {
 		return null;
 	}
 
-	public static FunctionApplication resolveSecond(boolean transitive, Megamodel megamodel,
-			org.softlang.megal.mi2.Relationship relationship) {
-		for (FunctionApplication item : from(megamodel.getDeclarations()).filter(FunctionApplication.class)) {
+	public static MegalFunctionApplication resolveSecond(boolean transitive, MegalFile megamodel,
+			Relationship relationship) {
+		for (MegalFunctionApplication item : from(megamodel.getDeclarations()).filter(MegalFunctionApplication.class)) {
 			if (!equal(item.getInput().getName(), relationship.getLeft().getName()))
 				continue;
 
@@ -308,8 +305,8 @@ public class MegamodelKB extends KB {
 		}
 
 		if (transitive)
-			for (Megamodel imported : reverse(megamodel.getImports())) {
-				FunctionApplication potential = resolveSecond(transitive, imported, relationship);
+			for (MegalFile imported : reverse(megamodel.getImports())) {
+				MegalFunctionApplication potential = resolveSecond(transitive, imported, relationship);
 				if (potential != null)
 					return potential;
 			}
@@ -317,9 +314,9 @@ public class MegamodelKB extends KB {
 		return null;
 	}
 
-	public static FunctionApplication resolveElement(boolean transitive, Megamodel megamodel,
-			org.softlang.megal.mi2.Relationship relationship) {
-		for (FunctionApplication item : from(megamodel.getDeclarations()).filter(FunctionApplication.class)) {
+	public static MegalFunctionApplication resolveElement(boolean transitive, MegalFile megamodel,
+			Relationship relationship) {
+		for (MegalFunctionApplication item : from(megamodel.getDeclarations()).filter(MegalFunctionApplication.class)) {
 			if (!equal(entityName(item.getFunction().getName(), item.getInput().getName(), item.getOutput().getName()),
 					relationship.getLeft().getName()))
 				continue;
@@ -334,8 +331,8 @@ public class MegamodelKB extends KB {
 		}
 
 		if (transitive)
-			for (Megamodel imported : reverse(megamodel.getImports())) {
-				FunctionApplication potential = resolveElement(transitive, imported, relationship);
+			for (MegalFile imported : reverse(megamodel.getImports())) {
+				MegalFunctionApplication potential = resolveElement(transitive, imported, relationship);
 				if (potential != null)
 					return potential;
 			}
@@ -352,7 +349,7 @@ public class MegamodelKB extends KB {
 	 * Internal backing field.
 	 * </p>
 	 */
-	private final Megamodel megamodel;
+	private final MegalFile megamodel;
 
 	/**
 	 * <p>
@@ -438,8 +435,8 @@ public class MegamodelKB extends KB {
 	 */
 	private final SetMultimap<Cell<String, String, String>, Entry<String, String>> relationshipAnnotations;
 
-	private static Multimap<String, String> getAnnotationMap(Element element) {
-		return transformValues(index(element.getAnnotations(), Annotation::getKey), Annotation::getValue);
+	private static Multimap<String, String> getAnnotationMap(MegalElement element) {
+		return transformValues(index(element.getAnnotations(), MegalAnnotation::getKey), MegalAnnotation::getValue);
 	}
 
 	/**
@@ -450,7 +447,7 @@ public class MegamodelKB extends KB {
 	 * @param megamodel
 	 *            The given megamodel
 	 */
-	public MegamodelKB(Megamodel megamodel) {
+	public MegamodelKB(MegalFile megamodel) {
 		this.megamodel = megamodel;
 
 		// Create database
@@ -468,9 +465,9 @@ public class MegamodelKB extends KB {
 		relationshipAnnotations = HashMultimap.create();
 
 		// Initialize database
-		for (Declaration declaration : megamodel.getDeclarations())
-			if (declaration instanceof EntityType) {
-				EntityType entityType = (EntityType) declaration;
+		for (MegalDeclaration declaration : megamodel.getDeclarations())
+			if (declaration instanceof MegalEntityType) {
+				MegalEntityType entityType = (MegalEntityType) declaration;
 
 				if (entityType.getSupertype() == null)
 					// Put the entity type annotations
@@ -488,8 +485,8 @@ public class MegamodelKB extends KB {
 							.entries());
 				}
 
-			} else if (declaration instanceof RelationshipType) {
-				RelationshipType relationshipType = (RelationshipType) declaration;
+			} else if (declaration instanceof MegalRelationshipType) {
+				MegalRelationshipType relationshipType = (MegalRelationshipType) declaration;
 
 				// Get the names of the types
 				String leftTypeName = relationshipType.getTypeLeft().getName();
@@ -504,8 +501,9 @@ public class MegamodelKB extends KB {
 						: relationshipType.isTypeRightMany() ? ImmutableList.of(true) : ImmutableList.of(false);
 
 				// Get the params of the types
-				List<String> leftTypeParams = transform(relationshipType.getTypeLeftParameters(), Entity::getName);
-				List<String> rightTypeParams = transform(relationshipType.getTypeRightParameters(), Entity::getName);
+				List<String> leftTypeParams = transform(relationshipType.getTypeLeftParameters(), MegalEntity::getName);
+				List<String> rightTypeParams = transform(relationshipType.getTypeRightParameters(),
+						MegalEntity::getName);
 
 				for (boolean leftMany : leftTypeManys)
 					for (boolean rightMany : rightTypeManys) {
@@ -534,13 +532,13 @@ public class MegamodelKB extends KB {
 									immutableEntry(PARAMS_RIGHT, Joiner.on(',').join(rightTypeParams)));
 					}
 
-			} else if (declaration instanceof Entity) {
-				Entity entity = (Entity) declaration;
+			} else if (declaration instanceof MegalEntity) {
+				MegalEntity entity = (MegalEntity) declaration;
 
 				// Get the type properties
 				String typeName = entity.getType().getName();
 				boolean typeMany = entity.isTypeMany();
-				List<String> typeParams = transform(entity.getTypeParameters(), Entity::getName);
+				List<String> typeParams = transform(entity.getTypeParameters(), MegalEntity::getName);
 
 				// Translate the entity
 				String name = entity.getName();
@@ -559,8 +557,8 @@ public class MegamodelKB extends KB {
 					// Put parameters if present
 					entityAnnotations.put(entry, immutableEntry(PARAMS, Joiner.on(',').join(typeParams)));
 
-			} else if (declaration instanceof Relationship) {
-				Relationship relationship = (Relationship) declaration;
+			} else if (declaration instanceof MegalRelationship) {
+				MegalRelationship relationship = (MegalRelationship) declaration;
 
 				// Translate the relationship
 				String name = relationship.getType().getName();
@@ -573,8 +571,8 @@ public class MegamodelKB extends KB {
 				// Put the annotations
 				relationshipAnnotations.putAll(immutableCell(left, right, name), getAnnotationMap(relationship)
 						.entries());
-			} else if (declaration instanceof FunctionApplication) {
-				FunctionApplication functionApplication = (FunctionApplication) declaration;
+			} else if (declaration instanceof MegalFunctionApplication) {
+				MegalFunctionApplication functionApplication = (MegalFunctionApplication) declaration;
 
 				// Translate the function application
 				String function = functionApplication.getFunction().getName();
@@ -603,7 +601,7 @@ public class MegamodelKB extends KB {
 			}
 
 		// Continue with bindings
-		for (Link link : megamodel.getBindings())
+		for (MegalLink link : megamodel.getBindings())
 			if (link.getInput() != null && link.getOutput() != null) {
 				// Linking a function application, so restore the target
 				String function = link.getLink().getName();
@@ -627,7 +625,7 @@ public class MegamodelKB extends KB {
 			}
 	}
 
-	public static KB loadAll(Megamodel m) {
+	public static KB loadAll(MegalFile m) {
 		// Simple model, most likely the prelude
 		if (m.getImports().size() == 0)
 			return new MegamodelKB(m);
@@ -653,7 +651,7 @@ public class MegamodelKB extends KB {
 	 * 
 	 * @return Returns the input
 	 */
-	public Megamodel getMegamodel() {
+	public MegalFile getMegamodel() {
 		return megamodel;
 	}
 

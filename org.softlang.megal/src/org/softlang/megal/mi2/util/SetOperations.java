@@ -191,7 +191,7 @@ public class SetOperations {
 	 *            The right side
 	 * @return Returns the result
 	 */
-	public static <R, C, V> ImmutableTable<R, C, V> union(Table<R, C, V> a, Table<R, C, V> b) {
+	public static <R, C, V> Table<R, C, V> union(Table<R, C, V> a, Table<R, C, V> b) {
 		ImmutableTable.Builder<R, C, V> builder = ImmutableTable.builder();
 
 		builder.putAll(a);

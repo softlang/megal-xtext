@@ -1,14 +1,18 @@
 package org.softlang.megal.language.ui.highlighting
 
-import org.eclipse.xtext.ui.editor.syntaxcoloring.DefaultSemanticHighlightingCalculator
 import org.eclipse.emf.ecore.EObject
+import org.eclipse.swt.widgets.Link
+import org.eclipse.xtext.ui.editor.syntaxcoloring.DefaultSemanticHighlightingCalculator
 import org.eclipse.xtext.ui.editor.syntaxcoloring.IHighlightedPositionAcceptor
-import org.softlang.megal.Entity
 import org.softlang.megal.MegalPackage
-import org.softlang.megal.EntityType
-import org.softlang.megal.RelationshipType
-import org.softlang.megal.Relationship
-import org.softlang.megal.Link
+import org.softlang.megal.mi2.EntityType
+import org.softlang.megal.mi2.Relationship
+import org.softlang.megal.mi2.RelationshipType
+import org.softlang.megal.MegalLink
+import org.softlang.megal.MegalEntity
+import org.softlang.megal.MegalEntityType
+import org.softlang.megal.MegalRelationship
+import org.softlang.megal.MegalRelationshipType
 
 class MegalSemanticHighlightingCalculator extends DefaultSemanticHighlightingCalculator {
 
@@ -36,24 +40,24 @@ class MegalSemanticHighlightingCalculator extends DefaultSemanticHighlightingCal
 		null
 	}
 
-	def dispatch stylesFor(Link object) {
-		#[MegalPackage.Literals.LINK__LINK -> MegalHighlightingConfiguration.idFor(object)]
+	def dispatch stylesFor(MegalLink object) {
+		#[MegalPackage.Literals.MEGAL_LINK__LINK -> MegalHighlightingConfiguration.idFor(object)]
 	}
 
-	def dispatch stylesFor(Entity object) {
-		#[MegalPackage.Literals.NAMED__NAME -> MegalHighlightingConfiguration.idFor(object)]
+	def dispatch stylesFor(MegalEntity object) {
+		#[MegalPackage.Literals.MEGAL_NAMED__NAME -> MegalHighlightingConfiguration.idFor(object)]
 	}
 
-	def dispatch stylesFor(EntityType object) {
-		#[MegalPackage.Literals.NAMED__NAME -> MegalHighlightingConfiguration.idFor(object)]
+	def dispatch stylesFor(MegalEntityType object) {
+		#[MegalPackage.Literals.MEGAL_NAMED__NAME -> MegalHighlightingConfiguration.idFor(object)]
 	}
 
-	def dispatch stylesFor(Relationship object) {
-		#[MegalPackage.Literals.RELATIONSHIP__TYPE -> MegalHighlightingConfiguration.idFor(object)]
+	def dispatch stylesFor(MegalRelationship object) {
+		#[MegalPackage.Literals.MEGAL_RELATIONSHIP__TYPE -> MegalHighlightingConfiguration.idFor(object)]
 	}
 
-	def dispatch stylesFor(RelationshipType object) {
-		#[MegalPackage.Literals.NAMED__NAME -> MegalHighlightingConfiguration.idFor(object)]
+	def dispatch stylesFor(MegalRelationshipType object) {
+		#[MegalPackage.Literals.MEGAL_NAMED__NAME -> MegalHighlightingConfiguration.idFor(object)]
 	}
 
 }

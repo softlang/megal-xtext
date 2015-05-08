@@ -5,8 +5,7 @@ import java.net.URISyntaxException;
 
 /**
  * <p>
- * Abstract resolution strategy that resolves the class query using the own
- * source support.
+ * Abstract resolution strategy that resolves the class query using the own source support.
  * </p>
  * 
  * @author Pazuzu

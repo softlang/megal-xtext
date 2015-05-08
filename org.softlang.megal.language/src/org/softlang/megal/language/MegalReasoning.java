@@ -1,7 +1,7 @@
 package org.softlang.megal.language;
 
 import org.eclipse.xtext.resource.XtextResource;
-import org.softlang.megal.Megamodel;
+import org.softlang.megal.MegalFile;
 import org.softlang.megal.mi2.KB;
 import org.softlang.megal.mi2.MegamodelKB;
 
@@ -21,7 +21,7 @@ public class MegalReasoning {
 	 *            The megamodel to get the KB for
 	 * @return Returns the KB for the megamodel
 	 */
-	public static KB getKB(final Megamodel megamodel) {
+	public static KB getKB(final MegalFile megamodel) {
 		if (megamodel.eResource() instanceof XtextResource)
 			// If the megamodel resource has been loaded by XText, use the
 			// resource scoped cache for KB evaluation

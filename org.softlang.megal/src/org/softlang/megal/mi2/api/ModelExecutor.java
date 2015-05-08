@@ -24,6 +24,7 @@ import org.softlang.megal.mi2.api.resolution.Resolution;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
+import com.google.common.collect.SetMultimap;
 
 public class ModelExecutor {
 	public static final String DEFAULT_PLUGIN_NAME = "Plugin";
@@ -66,7 +67,6 @@ public class ModelExecutor {
 	 */
 	public Result evaluate(final Resolution resolution, final KB input) {
 		class Evaluation {
-			final Set<MessageLocation> messages;
 
 			final Map<Entity, Plugin> plugins;
 
@@ -76,12 +76,16 @@ public class ModelExecutor {
 
 			final Multimap<RelationshipType, Plugin> pluginsByRelationshipType;
 
+			final Set<Element> valid;
+			final SetMultimap<Element, Message> messages;
+
 			Evaluation() {
-				messages = newHashSet();
 				plugins = newHashMap();
 				universalPlugins = newHashSet();
 				pluginsByEntityType = HashMultimap.create();
 				pluginsByRelationshipType = HashMultimap.create();
+				valid = newHashSet();
+				messages = HashMultimap.create();
 
 				// Get all instances of the plugin type
 				EntityType pluginType = input.getEntityType(getPluginName());
@@ -119,11 +123,10 @@ public class ModelExecutor {
 										universalPlugins.add(plugin);
 
 								} catch (InstantiationException | IllegalAccessException e) {
-									messages.add(MessageLocation.of(entity, Message.createWarningFor(e)));
+									messages.put(entity, Message.createWarningFor(e));
 								}
 							else {
-								messages.add(MessageLocation.of(entity,
-										Message.warning("Plugin class is not resolvable")));
+								messages.put(entity, Message.warning("Plugin class is not resolvable"));
 							}
 						}
 
@@ -173,10 +176,15 @@ public class ModelExecutor {
 						for (EvaluatorPlugin plugin : select(EvaluatorPlugin.class, element))
 							// Try to evaluate, catch an exception into the error messages
 							try {
-								plugin.evaluate(context, element);
+								// Get all validated elements
+								Set<Element> validated = plugin.evaluate(context, element);
+
+								// If there was a validation result
+								if (validated != null)
+									// Annotate all the origins as valid
+									for (Element item : validated)
+										valid.add(getOrigin(origin, item));
 							} catch (RuntimeException t) {
-								context.emit(Message.createWarningFor(t));
-							} catch (Throwable t) {
 								context.emit(Message.createErrorFor(t));
 							}
 
@@ -208,21 +216,25 @@ public class ModelExecutor {
 				}
 
 				// Return the result for the given parameters and the evaluator state
-				return Result.of(input, current, messages);
+				return Result.of(input, current, valid, messages);
 			}
 
 			Context createContext(Map<Element, Element> origin, Element element) {
 				Context context = new ComposedContext(resolution, new Emission() {
 					@Override
 					public void emit(Message message) {
-						Element secondary = origin.get(element);
-						if (secondary == null)
-							messages.add(MessageLocation.of(element, message));
-						else
-							messages.add(MessageLocation.of(secondary, message));
+						messages.put(getOrigin(origin, element), message);
 					}
 				});
+
 				return context;
+			}
+
+			Element getOrigin(Map<Element, Element> origin, Element element) {
+				Element secondary = origin.get(element);
+
+				return secondary == null ? element : secondary;
+
 			}
 
 			/**

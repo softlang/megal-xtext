@@ -131,7 +131,7 @@ public class LocalResolution extends AbstractResolution {
 
 		return new ErrorByteSource(new IllegalArgumentException());
 	}
-
+	
 	@Override
 	public CharSource getChars(Object object) {
 		return getBytes(object).asCharSource(

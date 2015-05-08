@@ -12,7 +12,7 @@ var generateXtendStub = true
 
 Workflow {
 	bean = StandaloneSetup {
-		scanClassPath  = true
+		scanClassPath = true
 		platformUri = "${runtimeProject}/.."
 		registerGeneratedEPackage = "org.softlang.megal.MegalPackage"
 		registerGenModelFile = "platform:/resource/org.softlang.megal/model/Megal.genmodel"
@@ -32,7 +32,6 @@ Workflow {
 		pathTestProject = "${runtimeProject}.tests"
 		projectNameRt = projectName
 		projectNameUi = "${projectName}.ui"
-	
 		language = auto-inject {
 			uri = grammarURI
 
@@ -47,7 +46,7 @@ Workflow {
 
 			// serializer 2.0
 			fragment = serializer.SerializerFragment auto-inject {
-				//generateStub = false
+			//generateStub = false
 			}
 
 			// the old serialization component
@@ -65,8 +64,9 @@ Workflow {
 
 			// Xtend-based API for validation 
 			fragment = validation.ValidatorFragment auto-inject {
-			// composedCheck = "org.eclipse.xtext.validation.ImportUriValidator"
-			// composedCheck = "org.eclipse.xtext.validation.NamesAreUniqueValidator"
+				generateStub = false
+				composedCheck = "org.softlang.megal.language.validation.IntegrityValidation"
+				composedCheck = "org.softlang.megal.language.validation.ModelExecutingValidation"
 			}
 
 			// old scoping and exporting API 
@@ -76,7 +76,7 @@ Workflow {
 			// scoping and exporting API
 			fragment = scoping.ImportURIScopingFragment auto-inject {}
 			fragment = exporting.SimpleNamesFragment auto-inject {}
-			fragment = builder.BuilderIntegrationFragment auto-inject {}		
+			fragment = builder.BuilderIntegrationFragment auto-inject {}
 
 			// generator API
 			fragment = generator.GeneratorFragment auto-inject {}
@@ -89,8 +89,8 @@ Workflow {
 			fragment = labeling.LabelProviderFragment auto-inject {}
 
 			// outline API 
-            fragment = outline.OutlineTreeProviderFragment auto-inject {}
-            fragment = outline.QuickOutlineFragment auto-inject {}
+			fragment = outline.OutlineTreeProviderFragment auto-inject {}
+			fragment = outline.QuickOutlineFragment auto-inject {}
 
 			// quickfix API
 			fragment = quickfix.QuickfixProviderFragment auto-inject {}
@@ -104,7 +104,7 @@ Workflow {
 					classSplitting = true
 				}
 			}
-			
+
 			// generates junit test support classes into Generator#pathTestProject
 			fragment = junit.Junit4Fragment auto-inject {}
 
@@ -118,10 +118,10 @@ Workflow {
 
 			// provides the necessary bindings for java types integration
 			fragment = types.TypesGeneratorFragment auto-inject {}
-			
+
 			// generates the required bindings only if the grammar inherits from Xbase
 			fragment = xbase.XbaseGeneratorFragment auto-inject {}
-			
+
 			// generates the required bindings only if the grammar inherits from Xtype
 			fragment = xbase.XtypeGeneratorFragment auto-inject {}
 
@@ -129,7 +129,7 @@ Workflow {
 			fragment = templates.CodetemplatesGeneratorFragment auto-inject {}
 
 			// provides a compare view
-            fragment = compare.CompareFragment auto-inject {}
+			fragment = compare.CompareFragment auto-inject {}
 		}
 	}
 }

@@ -29,7 +29,6 @@ public class AcceptXML extends Acceptor {
 			XMLReader reader = parser.getXMLReader();
 
 			reader.parse(new InputSource(stream));
-
 			return true;
 		} catch (SAXException | ParserConfigurationException e) {
 			emission.emit(Message.createWarningFor(e));

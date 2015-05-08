@@ -4,26 +4,21 @@
 package org.softlang.megal.language.ui.contentassist
 
 import com.google.inject.Inject
-import org.eclipse.emf.ecore.EObject
-import org.eclipse.xtext.RuleCall
-import org.eclipse.xtext.ui.editor.contentassist.ContentAssistContext
-import org.eclipse.xtext.ui.editor.contentassist.ICompletionProposalAcceptor
-import org.softlang.megal.Link
 import org.softlang.megal.fragmentprovider.Evaluator
 
 /**
  * see http://www.eclipse.org/Xtext/documentation.html#contentAssist on how to customize content assistant
  */
 class MegalProposalProvider extends AbstractMegalProposalProvider {
-//	@Inject Evaluator evaluator
-//
+	@Inject Evaluator evaluator
+
 //	override complete_STRING(EObject model, RuleCall ruleCall, ContentAssistContext context,
 //		ICompletionProposalAcceptor acceptor) {
 //
 //		switch model {
 //			Link:
 //				try {
-//					val pf = URI.valueOf(context.prefix.substring(1))
+//					val pf = URI.create(context.prefix.substring(1))
 //
 //					// Evaluate and propose for
 //					if (!proposeForAll(pf, acceptor, context) && pf.hasParent)
@@ -31,24 +26,6 @@ class MegalProposalProvider extends AbstractMegalProposalProvider {
 //
 //				} catch (IllegalArgumentException e) {
 //				}
-//		}
-//	}
-//
-//	def proposeForAll(URI uri, ICompletionProposalAcceptor acceptor, ContentAssistContext context) {
-//		val pfe = evaluator.evaluate(uri)
-//		for (c : pfe)
-//			proposeFor(c, uri, acceptor, context)
-//		!pfe.empty
-//	}
-//
-//	def proposeFor(Object item, URI uri, ICompletionProposalAcceptor acceptor, ContentAssistContext context) {
-//		for (n : evaluator.next(item)) {
-//			val c = uri.append(n);
-//
-//			// TODO: better terminality
-//			//			if (!evaluator.evaluate(c).empty)
-//			//				c.folder = true
-//			acceptor.accept(createCompletionProposal(c.toString, n, null, context))
 //		}
 //	}
 

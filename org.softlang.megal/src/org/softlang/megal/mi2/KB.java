@@ -4,10 +4,12 @@ import static com.google.common.base.Objects.equal;
 import static com.google.common.base.Objects.toStringHelper;
 import static com.google.common.base.Predicates.equalTo;
 import static com.google.common.base.Predicates.not;
+import static com.google.common.collect.Iterables.getFirst;
 import static com.google.common.collect.Maps.immutableEntry;
 import static com.google.common.collect.Tables.immutableCell;
 import static org.softlang.megal.mi2.util.SetOperations.translate;
 
+import java.util.Collection;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -635,6 +637,77 @@ public abstract class KB {
 	public Multimap<String, String> getAnnotations() {
 		// Annotations are carried in the KB
 		return getRawAnnotations();
+	}
+
+	/**
+	 * <p>
+	 * Returns true if the annotation is present.
+	 * </p>
+	 * 
+	 * @param name
+	 *            The name of the annotation
+	 * @return True if annotated with the annotation
+	 */
+	public boolean hasAnnotation(String name) {
+		return getAnnotations().containsEntry(name, null);
+	}
+
+	/**
+	 * <p>
+	 * Returns true if the annotation is present.
+	 * </p>
+	 * 
+	 * @param name
+	 *            The name of the annotation
+	 * @param value
+	 *            The value of the annotation
+	 * @return True if annotated with the annotation
+	 */
+	public boolean hasAnnotation(String name, String value) {
+		return getAnnotations().containsEntry(name, value);
+	}
+
+	/**
+	 * <p>
+	 * Gets all annotations of this element.
+	 * </p>
+	 * 
+	 * @param name
+	 *            The key to evaluate
+	 * 
+	 * @return Returns a collection of values
+	 */
+	public Collection<String> getAnnotations(String name) {
+		return getAnnotations().get(name);
+	}
+
+	/**
+	 * <p>
+	 * Gets the only annotation of this element.
+	 * </p>
+	 * 
+	 * @param name
+	 *            The key to evaluate
+	 * 
+	 * @return Returns the only annotation
+	 */
+	public String getAnnotation(String name) {
+		return getFirst(getAnnotations(name), null);
+	}
+
+	/**
+	 * <p>
+	 * Gets the only annotation of this element.
+	 * </p>
+	 * 
+	 * @param name
+	 *            The key to evaluate
+	 * @param defaultValue
+	 *            The value to default to
+	 * @return Returns the only annotation
+	 */
+	public String getAnnotation(String name, String defaultValue) {
+		return getFirst(getAnnotations(name), defaultValue);
 	}
 
 	/**

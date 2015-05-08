@@ -1,8 +1,10 @@
 package org.softlang.megal.mi2.api.resolution;
 
+import static com.google.common.base.Predicates.instanceOf;
 import static com.google.common.collect.Iterables.filter;
 import static com.google.common.collect.Iterables.getFirst;
 
+import java.io.BufferedInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -10,7 +12,11 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Map.Entry;
+import java.util.WeakHashMap;
 
+import org.eclipse.core.internal.jobs.JobManager;
+import org.eclipse.core.internal.refresh.RefreshManager;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -143,7 +149,7 @@ public abstract class ProjectResolution extends AbstractResolution {
 			@Override
 			public InputStream openStream() throws IOException {
 				try {
-					return file.getContents();
+					return new BufferedInputStream(file.getContents());
 				} catch (CoreException e) {
 					throw new IOException(e);
 				}
@@ -162,7 +168,7 @@ public abstract class ProjectResolution extends AbstractResolution {
 			@Override
 			public Reader openStream() throws IOException {
 				try {
-					return new InputStreamReader(file.getContents(), file.getCharset());
+					return new InputStreamReader(new BufferedInputStream(file.getContents()), file.getCharset());
 				} catch (CoreException e) {
 					throw new IOException(e);
 				}

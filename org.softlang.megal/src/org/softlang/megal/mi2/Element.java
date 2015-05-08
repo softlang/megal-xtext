@@ -35,6 +35,34 @@ public abstract class Element {
 
 	/**
 	 * <p>
+	 * Returns true if the annotation is present.
+	 * </p>
+	 * 
+	 * @param name
+	 *            The name of the annotation
+	 * @return True if annotated with the annotation
+	 */
+	public boolean hasAnnotation(String name) {
+		return getAnnotations().containsEntry(name, null);
+	}
+
+	/**
+	 * <p>
+	 * Returns true if the annotation is present.
+	 * </p>
+	 * 
+	 * @param name
+	 *            The name of the annotation
+	 * @param value
+	 *            The value of the annotation
+	 * @return True if annotated with the annotation
+	 */
+	public boolean hasAnnotation(String name, String value) {
+		return getAnnotations().containsEntry(name, value);
+	}
+
+	/**
+	 * <p>
 	 * Gets all annotations of this element.
 	 * </p>
 	 * 
@@ -59,5 +87,20 @@ public abstract class Element {
 	 */
 	public String getAnnotation(String name) {
 		return getFirst(getAnnotations(name), null);
+	}
+
+	/**
+	 * <p>
+	 * Gets the only annotation of this element.
+	 * </p>
+	 * 
+	 * @param name
+	 *            The key to evaluate
+	 * @param defaultValue
+	 *            The value to default to
+	 * @return Returns the only annotation
+	 */
+	public String getAnnotation(String name, String defaultValue) {
+		return getFirst(getAnnotations(name), defaultValue);
 	}
 }
