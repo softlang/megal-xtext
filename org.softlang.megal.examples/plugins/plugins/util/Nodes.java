@@ -1,5 +1,8 @@
 package plugins.util;
 
+import static com.google.common.collect.Iterators.emptyIterator;
+import static com.google.common.collect.Iterators.singletonIterator;
+
 import java.util.AbstractList;
 import java.util.Iterator;
 import java.util.List;
@@ -11,8 +14,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import com.google.common.collect.BiMap;
-
-import static com.google.common.collect.Iterators.*;
 
 public class Nodes {
 	public static List<Node> asList(final NodeList n) {

@@ -1,18 +1,18 @@
 package plugins.root.elementof;
 
-import static com.google.common.collect.Iterables.*;
-import static java.util.Collections.emptySet;
+import static com.google.common.collect.FluentIterable.from;
+import static com.google.common.collect.Iterables.any;
+import static com.google.common.collect.Iterables.filter;
 import static java.util.Collections.singleton;
+import static plugins.util.Prelude.isElementOfLanguage;
 
-import java.util.Set;
-
-import org.softlang.megal.mi2.Element;
 import org.softlang.megal.mi2.Entity;
 import org.softlang.megal.mi2.Relationship;
+import org.softlang.megal.mi2.api.Artifact;
 import org.softlang.megal.mi2.api.EvaluatorPlugin;
-import org.softlang.megal.mi2.api.Message;
 import org.softlang.megal.mi2.api.context.Context;
-import static plugins.util.Prelude.*;
+
+import com.google.common.base.Optional;
 
 /**
  * <p>
@@ -23,33 +23,49 @@ import static plugins.util.Prelude.*;
  *
  */
 public class FileElementOfLanguage extends EvaluatorPlugin {
+
+	private static Iterable<Artifact> expandIfFolder(Iterable<Artifact> iterable) {
+		return from(iterable).transformAndConcat(
+				x -> x.hasContent() ? singleton(x) : x.getChildren());
+	}
+
 	@Override
-	public Set<Element> evaluate(Context context, Relationship relationship) {
-		Entity artifact = relationship.getLeft();
-		Entity language = relationship.getRight();
+	public void evaluate(Context context, Relationship relationship) {
+		Entity element = relationship.getLeft();
+		if (!element.getBinding().isPresent())
+			return;
 
-		if (!artifact.getBinding().isPresent())
-			return null;
+		boolean anyError = false;
+		for (Artifact artifact : expandIfFolder(context.getArtifacts(element
+				.getBinding().get()))) {
 
-		boolean noRealization = true;
-		for (Acceptor acceptor : filter(getParts(), Acceptor.class)) {
-			if (!any(acceptor.getRealization(),
-					x -> isElementOfLanguage(artifact, x)))
-				continue;
+			Optional<String> error = isElement(element, artifact);
 
-			noRealization = false;
-
-			if (acceptor.accept(context,
-					context.getChars(artifact.getBinding().get())))
-				return singleton(relationship);
+			if (error.isPresent()) {
+				anyError = true;
+				context.error(error.get());
+			}
 		}
 
-		if (noRealization)
-			return null;
+		if (!anyError)
+			context.valid();
+	}
 
-		context.emit(Message.error(artifact
-				+ " is not an element of the language" + language));
-		return emptySet();
+	private Optional<String> isElement(Entity element, Artifact artifact) {
+		if (!artifact.hasContent())
+			return Optional.absent();
 
+		for (Acceptor acceptor : filter(getParts(), Acceptor.class)) {
+			if (!any(acceptor.getRealization(),
+					x -> isElementOfLanguage(element, x)))
+				continue;
+
+			Optional<String> error = acceptor.accept(artifact);
+
+			if (error.isPresent())
+				return error;
+		}
+
+		return Optional.absent();
 	}
 }

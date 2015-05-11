@@ -7,28 +7,28 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.softlang.megal.mi2.Entity;
+import org.softlang.megal.mi2.api.Artifact;
 import org.softlang.megal.mi2.api.resolution.Resolution;
 
-import com.google.common.io.CharSource;
-
 public class PackageInfoNSURIExtractor extends NSURIExtractor {
+	private static final Pattern EXTRACTOR_PATTERN = Pattern.compile(
+			".*namespace\\s*=\\s*\"([^\"]*)\".*", Pattern.DOTALL);
 
 	@Override
 	public URI extractNSURI(Resolution resolution, Entity entity) {
-		String base = entity.getBinding().get().toString();
-		if (!base.endsWith("/"))
-			base += "/";
+		Artifact artifact = resolution.getArtifact(entity.getBinding().get());
+		if (artifact == null)
+			return null;
 
-		CharSource source = resolution.getChars(base + "package-info.java");
-
-		Pattern pattern = Pattern.compile(".*namespace\\s*=\\s*\"([^\"]*)\".*",
-				Pattern.DOTALL);
+		Artifact packageInfo = artifact.getChild("package-info.java");
 
 		try {
-			Matcher matcher = pattern.matcher(source.read());
-			if (!matcher.matches()) 
+			Matcher matcher = EXTRACTOR_PATTERN.matcher(packageInfo.getChars()
+					.read());
+
+			if (!matcher.matches())
 				return null;
-			
+
 			String nsuri = matcher.group(1);
 			return new URI(nsuri);
 		} catch (IOException | URISyntaxException e) {

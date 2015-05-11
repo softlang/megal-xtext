@@ -1,6 +1,5 @@
 package org.softlang.megal.language.validation;
 
-import static com.google.common.collect.Sets.difference;
 import static org.softlang.megal.MegalPackage.Literals.MEGAL_FUNCTION_APPLICATION__FUNCTION;
 import static org.softlang.megal.MegalPackage.Literals.MEGAL_FUNCTION_APPLICATION__INPUT;
 import static org.softlang.megal.MegalPackage.Literals.MEGAL_FUNCTION_APPLICATION__OUTPUT;
@@ -24,7 +23,6 @@ import org.softlang.megal.mi2.KB;
 import org.softlang.megal.mi2.MegamodelKB;
 import org.softlang.megal.mi2.Relationship;
 import org.softlang.megal.mi2.RelationshipType;
-import org.softlang.megal.mi2.api.Message;
 import org.softlang.megal.mi2.api.ModelExecutor;
 import org.softlang.megal.mi2.api.Result;
 import org.softlang.megal.mi2.api.resolution.ContainingProjectResolution;
@@ -167,50 +165,29 @@ public class ModelExecutingValidation extends AbstractMegalValidator {
 					if (element.hasAnnotation(IS_INVALID))
 						errorOnLocations(element, createExpectedInvalidText(element));
 
-				// Get all messages
-				for (Entry<Element, Message> message : result.getMessages().entries()) {
-					// Find if element is expected to be invalid
-					boolean expectedInvalid = message.getKey().hasAnnotation(IS_INVALID);
+				// Annotate all infos
+				for (Entry<Element, String> message : result.getInfos().entries())
+					infoOnLocations(message.getKey(), message.getValue());
 
-					// Find if element has validation evidence
-					boolean isValid = result.getValid().contains(message.getKey());
+				// Annotate all warnings
+				for (Entry<Element, String> message : result.getWarnings(false).entries())
+					// If expected invalid, output an information, else create warning
+					if (message.getKey().hasAnnotation(IS_INVALID))
+						infoOnLocations(message.getKey(), createAsExpectedWarning(message.getValue()));
+					else
+						warningOnLocations(message.getKey(), message.getValue());
 
-					// Switch on the level
-					switch (message.getValue().getLevel()) {
-					case INFO:
-						// Always output INFO
-						infoOnLocations(message.getKey(), message.getValue().getMessage());
-						break;
-
-					case WARNING:
-						// If validation evidence is present, ignore messages
-						if (isValid)
-							continue;
-
-						// If expected invalid, output an information, else create warning
-						if (expectedInvalid)
-							infoOnLocations(message.getKey(), createAsExpectedWarning(message));
-						else
-							warningOnLocations(message.getKey(), message.getValue().getMessage());
-						break;
-
-					case ERROR:
-						// If validation evidence is present, ignore messages
-						if (isValid)
-							continue;
-
-						// If expected invalid, output an information, else create error
-						if (expectedInvalid)
-							infoOnLocations(message.getKey(), createAsExpectedError(message));
-						else
-							errorOnLocations(message.getKey(), message.getValue().getMessage());
-						break;
-					}
-				}
+				// Annotate all errors
+				for (Entry<Element, String> message : result.getErrors(false).entries())
+					// If expected invalid, output an information, else create error
+					if (message.getKey().hasAnnotation(IS_INVALID))
+						infoOnLocations(message.getKey(), createAsExpectedError(message.getValue()));
+					else
+						errorOnLocations(message.getKey(), message.getValue());
 
 				// Annotate all the items that are not considered by evaluation
-				for (Element notConsidered : difference(
-						difference(result.getOutput().getElements(), result.getValid()), result.getMessages().keySet()))
+				for (Element notConsidered : result.notVisited())
+					if(!executor.isStatement(notConsidered))
 					notConsideredOnLocations(notConsidered, createNotConsidered(notConsidered));
 			}
 
@@ -223,12 +200,12 @@ public class ModelExecutingValidation extends AbstractMegalValidator {
 		return "Element \"" + notConsidered + "\" was not considered";
 	}
 
-	protected String createAsExpectedError(Entry<Element, Message> message) {
-		return "Failed as expected with error \"" + message.getValue().getMessage() + "\"";
+	protected String createAsExpectedError(String message) {
+		return "Failed as expected with error \"" + message + "\"";
 	}
 
-	protected String createAsExpectedWarning(Entry<Element, Message> message) {
-		return "Failed as expected with warning \"" + message.getValue().getMessage() + "\"";
+	protected String createAsExpectedWarning(String message) {
+		return "Failed as expected with warning \"" + message + "\"";
 	}
 
 	protected String createExpectedInvalidText(Element element) {

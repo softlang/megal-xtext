@@ -1,15 +1,12 @@
 package org.softlang.megal.mi2.api.context;
 
-import java.net.URI;
+import java.util.List;
 
-import org.softlang.megal.mi2.KB;
-import org.softlang.megal.mi2.api.Message;
+import org.softlang.megal.mi2.Element;
+import org.softlang.megal.mi2.api.Artifact;
 import org.softlang.megal.mi2.api.emission.Emission;
 import org.softlang.megal.mi2.api.resolution.Resolution;
 import org.softlang.sourcesupport.SourceSupport;
-
-import com.google.common.io.ByteSource;
-import com.google.common.io.CharSource;
 
 public final class ComposedContext implements Context {
 	private final Resolution resolutionDelegate;
@@ -22,8 +19,43 @@ public final class ComposedContext implements Context {
 	}
 
 	@Override
-	public void emit(Message message) {
-		emissionDelegate.emit(message);
+	public void valid() {
+		emissionDelegate.valid();
+	}
+
+	@Override
+	public void info(String message) {
+		emissionDelegate.info(message);
+	}
+
+	@Override
+	public void warning(String message) {
+		emissionDelegate.warning(message);
+	}
+
+	@Override
+	public void error(String message) {
+		emissionDelegate.error(message);
+	}
+
+	@Override
+	public void valid(Element x, Element... xs) {
+		emissionDelegate.valid(x, xs);
+	}
+
+	@Override
+	public void info(String message, Element x, Element... xs) {
+		emissionDelegate.info(message, x, xs);
+	}
+
+	@Override
+	public void warning(String message, Element x, Element... xs) {
+		emissionDelegate.warning(message, x, xs);
+	}
+
+	@Override
+	public void error(String message, Element x, Element... xs) {
+		emissionDelegate.error(message, x, xs);
 	}
 
 	@Override
@@ -37,18 +69,18 @@ public final class ComposedContext implements Context {
 	}
 
 	@Override
-	public URI getAbsolute(Object object) {
-		return resolutionDelegate.getAbsolute(object);
+	public <T> Class<? extends T> getClass(Object binding, Class<T> deriving, Class<?> nextTo) {
+		return resolutionDelegate.getClass(binding, deriving, nextTo);
 	}
 
 	@Override
-	public CharSource getChars(Object object) {
-		return resolutionDelegate.getChars(object);
+	public Artifact getArtifact(Object binding) {
+		return resolutionDelegate.getArtifact(binding);
 	}
 
 	@Override
-	public ByteSource getBytes(Object object) {
-		return resolutionDelegate.getBytes(object);
+	public List<Artifact> getArtifacts(Object binding) {
+		return resolutionDelegate.getArtifacts(binding);
 	}
 
 	@Override

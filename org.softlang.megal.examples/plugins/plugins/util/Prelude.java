@@ -13,7 +13,6 @@ import org.softlang.megal.mi2.EntityType;
 import org.softlang.megal.mi2.Relationship;
 
 public class Prelude {
-
 	public static boolean isInstance(Entity entity, String type) {
 		EntityType entityType = entity.getKB().getEntityType(type);
 		if (entityType == null)
@@ -35,33 +34,45 @@ public class Prelude {
 	}
 
 	public static boolean isElementOfLanguage(Entity entity, Entity language) {
-		for (Entity other : outgoingTo(entity, "elementOf")) {
-			if (!isInstance(other, "Language"))
-				continue;
-
-			if (equal(language, other))
+		for (Entity other : outgoingTo(entity, "elementOf"))
+			if (isLanguageAssignable(other, language))
 				return true;
 
-			Set<Entity> visited = newHashSet();
-			Deque<Entity> candidates = newLinkedList(outgoingTo(other,
-					"subsetOf"));
+		return false;
+	}
 
-			while (!candidates.isEmpty()) {
-				Entity superset = candidates.poll();
+	public static boolean isLanguageAssignable(Entity sub, String language) {
+		return isLanguageAssignable(sub, sub.getKB().getEntity(language));
+	}
 
-				if (equal(language, superset))
-					return true;
+	public static boolean isLanguageAssignable(Entity sub, Entity language) {
+		if (!isInstance(sub, "Language"))
+			return false;
+		if (!isInstance(language, "Language"))
+			return false;
 
-				if (!isInstance(superset, "Language"))
-					continue;
+		if (equal(language, sub))
+			return true;
 
-				visited.add(superset);
+		Set<Entity> visited = newHashSet();
+		Deque<Entity> candidates = newLinkedList(outgoingTo(sub, "subsetOf"));
 
-				for (Entity supSup : outgoingTo(superset, "subsetOf"))
-					if (!visited.contains(supSup))
-						candidates.offer(supSup);
-			}
+		while (!candidates.isEmpty()) {
+			Entity superset = candidates.poll();
+
+			if (equal(language, superset))
+				return true;
+
+			if (!isInstance(superset, "Language"))
+				continue;
+
+			visited.add(superset);
+
+			for (Entity supSup : outgoingTo(superset, "subsetOf"))
+				if (!visited.contains(supSup))
+					candidates.offer(supSup);
 		}
+
 		return false;
 	}
 }

@@ -1,13 +1,14 @@
 model XML
 
 import Prelude
-
 // This part could go into an “XML” MegaL module	 	 	
 XML: Language
 XSD: Language
+@Suppress 'notConsidered'
 XSD subsetOf XML
 xsdFiles: File+ // Several files because of possible imports
 xsdFiles elementOf XSD
+
 xmlFile: File
 xmlFile elementOf XML
 xmlFile conformsTo xsdFiles
@@ -19,31 +20,16 @@ conformsTo < Artifact(+) * Artifact(+)
 XSDConformance : Plugin
 XSDConformance = 'classpath:plugins.jaxb.XSDConformance'
 
-
 XMLAcceptor : Plugin
 XMLAcceptor realizationOf XML
 XMLAcceptor = 'classpath:plugins.jaxb.AcceptXML'
 XMLAcceptor partOf FileElementOfLanguage
-
 
 XSDAcceptor : Plugin
 XSDAcceptor realizationOf XSD
 XSDAcceptor = 'classpath:plugins.jaxb.AcceptXSD'
 XSDAcceptor partOf FileElementOfLanguage
 
-// --------------------------------------------------------------------------
-schema: File
-schema elementOf XSD
-schema = "workspace:/org.softlang.megal.examples/inputs/Company.xsd"
 
-conforms: File
-conforms elementOf XML
-conforms = "workspace:/org.softlang.megal.examples/inputs/sampleCompany.xml"
-
-conformsNot: File
-conformsNot elementOf XML
-conformsNot = "workspace:/org.softlang.megal.examples/inputs/notSampleCompany.xml"
-
-conforms conformsTo schema
-@IsInvalid
-conformsNot conformsTo schema
+xmlFile = "workspace:/org.softlang.megal.examples/inputs/sampleCompany.xml"
+xsdFiles = "workspace:/org.softlang.megal.examples/inputs/Company.xsd"

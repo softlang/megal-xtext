@@ -1,6 +1,6 @@
 package org.softlang.megal.mi2.api.emission;
 
-import org.softlang.megal.mi2.api.Message;
+import org.softlang.megal.mi2.Element;
 
 /**
  * <p>
@@ -13,11 +13,75 @@ import org.softlang.megal.mi2.api.Message;
 public interface Emission {
 	/**
 	 * <p>
-	 * Emits a message.
+	 * Just validates the element.
+	 * </p>
+	 */
+	void valid();
+
+	/**
+	 * <p>
+	 * Emits an information.
 	 * </p>
 	 * 
 	 * @param message
 	 *            The message to emit
 	 */
-	void emit(Message message);
+	void info(String message);
+
+	/**
+	 * <p>
+	 * Emits a warning.
+	 * </p>
+	 * 
+	 * @param message
+	 *            The message to emit
+	 */
+	void warning(String message);
+
+	/**
+	 * <p>
+	 * Emits an error.
+	 * </p>
+	 * 
+	 * @param message
+	 *            The message to emit
+	 */
+	void error(String message);
+
+	/**
+	 * <p>
+	 * Just validates the element.
+	 * </p>
+	 */
+	void valid(Element x, Element... xs);
+
+	/**
+	 * <p>
+	 * Emits an information.
+	 * </p>
+	 * 
+	 * @param message
+	 *            The message to emit
+	 */
+	void info(String message, Element x, Element... xs);
+
+	/**
+	 * <p>
+	 * Emits a warning.
+	 * </p>
+	 * 
+	 * @param message
+	 *            The message to emit
+	 */
+	void warning(String message, Element x, Element... xs);
+
+	/**
+	 * <p>
+	 * Emits an error.
+	 * </p>
+	 * 
+	 * @param message
+	 *            The message to emit
+	 */
+	void error(String message, Element x, Element... xs);
 }

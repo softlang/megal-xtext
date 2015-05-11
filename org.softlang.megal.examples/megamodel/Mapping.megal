@@ -1,8 +1,6 @@
 model Mapping
 import Parts
 
-
-
 // Type-level mapping
 javaFiles: File +
 javaFiles elementOf JAXB.Java
@@ -21,11 +19,11 @@ javaFiles defines aLanguage
 // DONE: plugin needed for correspondsTo evaluator for XSD and Java+
 xsdFiles correspondsTo javaFiles
 
-@Plugin 'FindBuildScriptAsElementOfProof'
+@Plugin 'FindBuildScriptAsElementOfEvidence'
 elementOf < Pair * Function
 
-FindBuildScriptAsElementOfProof: Plugin
-FindBuildScriptAsElementOfProof = 'classpath:plugins.jaxb.FindBuildScriptAsElementOfProof'
+FindBuildScriptAsElementOfEvidence: Plugin
+FindBuildScriptAsElementOfEvidence = 'classpath:plugins.jaxb.FindBuildScriptAsElementOfEvidence'
 
 @Plugin 'XSDJavaCorrespondence'
 correspondsTo < Artifact ( + ) * Artifact ( + )

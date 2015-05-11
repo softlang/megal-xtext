@@ -4,14 +4,12 @@ import static com.google.common.base.Objects.equal;
 
 import java.util.Set;
 
-import org.softlang.megal.mi2.util.SetOperations;
-
 import com.google.common.base.Optional;
+import com.google.common.collect.Sets;
 
 /**
  * <p>
- * Base class for entities in the model interface that supports a basic set of
- * reasoning operations.
+ * Base class for entities in the model interface that supports a basic set of reasoning operations.
  * </p>
  * 
  * @author Pazuzu
@@ -69,7 +67,7 @@ public abstract class Entity extends Named {
 	 * @return Returns a transformed network sequence of relationships
 	 */
 	public Set<Relationship> incoming(String relationship) {
-		return SetOperations.filter(incoming(), Relationship.class, x -> equal(relationship, x.getType().getName()));
+		return Sets.filter(incoming(), x -> equal(relationship, x.getType().getName()));
 	}
 
 	/**
@@ -80,7 +78,7 @@ public abstract class Entity extends Named {
 	 * @return Returns a transformed network sequence of relationships
 	 */
 	public Set<Relationship> outgoing(String relationship) {
-		return SetOperations.filter(outgoing(), Relationship.class, x -> equal(relationship, x.getType().getName()));
+		return Sets.filter(outgoing(), x -> equal(relationship, x.getType().getName()));
 	}
 
 	@Override

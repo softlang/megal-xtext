@@ -1,7 +1,5 @@
 package org.softlang.megal.mi2.api;
 
-import java.util.Set;
-
 import org.softlang.megal.mi2.Element;
 import org.softlang.megal.mi2.Entity;
 import org.softlang.megal.mi2.EntityType;
@@ -18,25 +16,61 @@ import org.softlang.megal.mi2.api.context.Context;
  *
  */
 public abstract class EvaluatorPlugin extends Plugin {
-	public final Set<Element> evaluate(Context context, Element element) {
+	public static final EvaluatorPlugin IDENTITY = new EvaluatorPlugin() {
+		@Override
+		public void evaluate(Context context, EntityType entityType) {
+		}
+
+		@Override
+		public void evaluate(Context context, RelationshipType relationshipType) {
+		}
+
+		@Override
+		public void evaluate(Context context, Entity entity) {
+		}
+
+		@Override
+		public void evaluate(Context context, Relationship relationship) {
+		}
+	};
+
+	public static final EvaluatorPlugin VALIDATING = new EvaluatorPlugin() {
+		@Override
+		public void evaluate(Context context, EntityType entityType) {
+			context.valid();
+		}
+
+		@Override
+		public void evaluate(Context context, RelationshipType relationshipType) {
+			context.valid();
+		}
+
+		@Override
+		public void evaluate(Context context, Entity entity) {
+			context.valid();
+		}
+
+		@Override
+		public void evaluate(Context context, Relationship relationship) {
+			context.valid();
+		}
+	};
+
+	public final void evaluate(Context context, Element element) {
 		if (element instanceof EntityType)
-			return evaluate(context, (EntityType) element);
+			evaluate(context, (EntityType) element);
 		else if (element instanceof RelationshipType)
-			return evaluate(context, (RelationshipType) element);
+			evaluate(context, (RelationshipType) element);
 		else if (element instanceof Entity)
-			return evaluate(context, (Entity) element);
+			evaluate(context, (Entity) element);
 		else if (element instanceof Relationship)
-			return evaluate(context, (Relationship) element);
-		else
-			return null;
+			evaluate(context, (Relationship) element);
 	}
 
-	public Set<Element> evaluate(Context context, EntityType entityType) {
-		return null;
+	public void evaluate(Context context, EntityType entityType) {
 	}
 
-	public Set<Element> evaluate(Context context, RelationshipType relationshipType) {
-		return null;
+	public void evaluate(Context context, RelationshipType relationshipType) {
 	}
 
 	/**
@@ -50,8 +84,7 @@ public abstract class EvaluatorPlugin extends Plugin {
 	 * @param entity
 	 *            The evaluation item
 	 */
-	public Set<Element> evaluate(Context context, Entity entity) {
-		return null;
+	public void evaluate(Context context, Entity entity) {
 	}
 
 	/**
@@ -65,7 +98,6 @@ public abstract class EvaluatorPlugin extends Plugin {
 	 * @param relationship
 	 *            The evaluation item
 	 */
-	public Set<Element> evaluate(Context context, Relationship relationship) {
-		return null;
+	public void evaluate(Context context, Relationship relationship) {
 	}
 }

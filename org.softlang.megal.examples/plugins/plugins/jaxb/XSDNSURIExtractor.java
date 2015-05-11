@@ -7,24 +7,25 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.softlang.megal.mi2.Entity;
+import org.softlang.megal.mi2.api.Artifact;
 import org.softlang.megal.mi2.api.resolution.Resolution;
-
-import com.google.common.io.CharSource;
 
 public class XSDNSURIExtractor extends NSURIExtractor {
 
+	private static final Pattern EXTRACTOR_PATTERN = Pattern.compile(
+			".*schema xmlns\\s*=\\s*\"([^\"]*)\".*", Pattern.DOTALL);
+
 	@Override
 	public URI extractNSURI(Resolution resolution, Entity entity) {
-		CharSource source = resolution.getChars(entity.getBinding().get());
-
-		Pattern pattern = Pattern.compile(".*schema xmlns\\s*=\\s*\"([^\"]*)\".*",
-				Pattern.DOTALL);
+		Artifact artifact = resolution.getArtifact(entity.getBinding().get());
+		if (artifact == null)
+			return null;
 
 		try {
-			Matcher matcher = pattern.matcher(source.read());
-			if (!matcher.matches()) 
+			Matcher matcher = EXTRACTOR_PATTERN.matcher(artifact.getChars().read());
+			if (!matcher.matches())
 				return null;
-			
+
 			String nsuri = matcher.group(1);
 			return new URI(nsuri);
 		} catch (IOException | URISyntaxException e) {

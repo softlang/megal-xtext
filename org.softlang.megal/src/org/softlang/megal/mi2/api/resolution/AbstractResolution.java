@@ -1,7 +1,11 @@
 package org.softlang.megal.mi2.api.resolution;
 
+import static com.google.common.collect.Iterables.getOnlyElement;
+
 import java.net.URI;
 import java.net.URISyntaxException;
+
+import org.softlang.megal.mi2.api.Artifact;
 
 /**
  * <p>
@@ -13,11 +17,16 @@ import java.net.URISyntaxException;
  */
 public abstract class AbstractResolution implements Resolution {
 	@Override
-	public <T> Class<? extends T> getClass(Object object, Class<T> deriving) {
+	public <T> Class<? extends T> getClass(Object binding, Class<T> deriving) {
+		return getClass(binding, deriving, deriving);
+	}
+
+	@Override
+	public <T> Class<? extends T> getClass(Object binding, Class<T> deriving, Class<?> nextTo) {
 		// If object is a class
-		if (object instanceof Class<?>) {
+		if (binding instanceof Class<?>) {
 			// Cast as class
-			Class<?> cls = (Class<?>) object;
+			Class<?> cls = (Class<?>) binding;
 
 			// If assignable from deriving, return a subclass
 			if (deriving.isAssignableFrom(cls))
@@ -28,9 +37,9 @@ public abstract class AbstractResolution implements Resolution {
 		}
 
 		// If object is a string
-		if (object instanceof String) {
+		if (binding instanceof String) {
 			// Cast as string
-			String str = (String) object;
+			String str = (String) binding;
 
 			try {
 				// Get an URI on the string
@@ -39,7 +48,7 @@ public abstract class AbstractResolution implements Resolution {
 				// If URI specifies a class
 				if (uri.isOpaque() && "classpath".equals(uri.getScheme()))
 					// Load with source support
-					return getSourceSupport().loadClass(deriving, uri.getSchemeSpecificPart());
+					return getSourceSupport().loadClass(nextTo, deriving, uri.getSchemeSpecificPart());
 
 				// Else return null
 				return null;
@@ -48,23 +57,28 @@ public abstract class AbstractResolution implements Resolution {
 			}
 
 			// Load default with class load
-			return getSourceSupport().loadClass(deriving, str);
+			return getSourceSupport().loadClass(nextTo, deriving, str);
 		}
 
 		// If object is an URI
-		if (object instanceof URI) {
+		if (binding instanceof URI) {
 			// Cast as URI
-			URI uri = (URI) object;
+			URI uri = (URI) binding;
 
 			// If URI specifies a class
 			if (uri.isOpaque() && "classpath".equals(uri.getScheme()))
 				// Load with source support
-				return getSourceSupport().loadClass(deriving, uri.getSchemeSpecificPart());
+				return getSourceSupport().loadClass(nextTo, deriving, uri.getSchemeSpecificPart());
 
 			// Else return null
 			return null;
 		}
 
 		return null;
+	}
+
+	@Override
+	public Artifact getArtifact(Object binding) {
+		return getOnlyElement(getArtifacts(binding), null);
 	}
 }

@@ -2,12 +2,27 @@ model Deserialization
 
 import JVM
 
-// TODO: link to static method from chars to object
+@Plugin 'FileToObjectFunction'
+elementOf < Pair * Function 
+
+@Plugin 'JavaFileDefinesStaticFunction'
+defines < Artifact * Function 
+
+
+// DONE: link to static method from chars to object
 deserializationCode: File
 deserializationCode elementOf Java
 deserializationCode refersTo JAXB.Library
 deserializationCode refersTo javaFiles
-deserializationCode defines deserialization // TODO: plugin needed for “defines” for JVM.ObjectGraphs  
+deserializationCode defines deserialization 
+// DONE: plugin needed for “defines” for JVM.ObjectGraphs  
+deserializationCode = "workspace:/org.softlang.megal.examples/src/org/softlang/company/features/Serialization.java"
+
+FileToObjectFunction:Plugin
+FileToObjectFunction = "classpath:plugins.jaxb.FileToObjectFunction"
+
+JavaFileDefinesStaticFunction: Plugin
+JavaFileDefinesStaticFunction = "classpath:plugins.jaxb.JavaFileDefinesStaticFunction"
 
 // DUPE: link to plugin
 // Phase 1: “Static” assignment or resolution of links
@@ -15,6 +30,7 @@ deserializationCode defines deserialization // TODO: plugin needed for “defines”
 // Phase 3: Evaluate relationships
 deserialization: Function [ XML -> JVM.ObjectGraphs ]
 deserialization(xmlFile) | -> objectGraph
+deserialization = "classpath:org.softlang.company.features.Serialization#deserializeCompany(ByteSource)"
 
 // DONE: This “elementOf” plugin behavior needs to see that nothing needs to be checked because “secondOf” was clearly computed from “firstOf” by the function “deserialization”.
 objectGraph conformsTo javaFiles

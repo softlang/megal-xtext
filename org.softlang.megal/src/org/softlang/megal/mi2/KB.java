@@ -67,8 +67,7 @@ public abstract class KB {
 		public Set<Entity> getInstances() {
 			// All entities that are of this type or thats type is a
 			// specialization of this type
-			return filter(getEntities(), Entity.class,
-					x -> equal(x.getType(), this) || x.getType().isSpecializationOf(this));
+			return Sets.filter(getEntities(), x -> equal(x.getType(), this) || x.getType().isSpecializationOf(this));
 		}
 
 		@Override
@@ -80,7 +79,7 @@ public abstract class KB {
 		@Override
 		public Set<EntityType> getSpecializations() {
 			// All entity types that are specializations of this type
-			return filter(getEntityTypes(), EntityType.class, x -> x.isSpecializationOf(this));
+			return Sets.filter(getEntityTypes(), x -> x.isSpecializationOf(this));
 		}
 
 		@Override
@@ -135,7 +134,7 @@ public abstract class KB {
 		public Set<Relationship> getInstances() {
 			// All relationships that are of this type or thats type is a
 			// specialization of this type
-			return filter(getRelationships(), Relationship.class, x -> equal(x.getType(), this)
+			return Sets.filter(getRelationships(), x -> equal(x.getType(), this)
 					|| x.getType().isSpecializationOf(this));
 		}
 
@@ -160,8 +159,7 @@ public abstract class KB {
 		@Override
 		public Set<RelationshipType> getSpecializations() {
 			// All relationship types that are specializations of this type
-			return filter(getRelationshipTypes(from.getValue()), RelationshipType.class,
-					x -> x.isSpecializationOf(this));
+			return Sets.filter(getRelationshipTypes(from.getValue()), x -> x.isSpecializationOf(this));
 		}
 
 		@Override
@@ -308,7 +306,6 @@ public abstract class KB {
 		 * @return Returns the found relationship or absent if failed
 		 */
 		private Optional<RelationshipType> loadOrSubstitute(Ref fromType, Ref toType) {
-
 			// If candidates contains an entry for the given pair, use it
 			if (getRawRelationshipTypes().contains(fromType, toType, from.getValue()))
 				return Optional.of(relationshipType(immutableCell(fromType, toType, from.getValue())));
@@ -925,7 +922,7 @@ public abstract class KB {
 			public Set<EntityType> getSpecializations() {
 				// All entity types that are not Entity itself are
 				// specializations of Entity
-				return filter(getEntityTypes(), EntityType.class, not(equalTo(this)));
+				return Sets.filter(getEntityTypes(), not(equalTo(this)));
 			}
 
 			@Override

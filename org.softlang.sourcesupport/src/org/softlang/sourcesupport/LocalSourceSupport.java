@@ -43,9 +43,14 @@ public final class LocalSourceSupport implements SourceSupport {
 
 	@Override
 	public <T> Class<? extends T> loadClass(Class<T> deriving, String name) {
+		return loadClass(deriving, deriving, name);
+	}
+
+	@Override
+	public <T> Class<? extends T> loadClass(Class<?> nextTo, Class<T> deriving, String name) {
 		try {
 			// Try to load and subclass the class for this name
-			Class<?> c = Class.forName(name, false, deriving.getClassLoader());
+			Class<?> c = Class.forName(name, false, nextTo.getClassLoader());
 			if (deriving.isAssignableFrom(c))
 				return c.asSubclass(deriving);
 

@@ -9,5 +9,4 @@ JAXB.Generator : Function[XSD->Java]
 JAXB.Library : Technology
 JAXB.Annotations : Language
 
-@Suppress 'notConsidered'
 JAXB.Java subsetOf Java // NOT URGENT: subsetOf needs to figure out that it also needs to issue a relationship “javaFiles elementOf Java” or use annotation to make subsetOf quiet until further notice

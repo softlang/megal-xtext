@@ -1,35 +1,31 @@
 package org.softlang.megal.mi2.api.resolution;
 
-import static com.google.common.base.Predicates.instanceOf;
 import static com.google.common.collect.Iterables.filter;
 import static com.google.common.collect.Iterables.getFirst;
 
 import java.io.BufferedInputStream;
-import java.io.FileNotFoundException;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Map.Entry;
-import java.util.WeakHashMap;
+import java.util.List;
 
-import org.eclipse.core.internal.jobs.JobManager;
-import org.eclipse.core.internal.refresh.RefreshManager;
-import org.eclipse.core.resources.IContainer;
-import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.Path;
+import org.eclipse.core.resources.IResource;
 import org.softlang.megal.MegalPlugin;
-import org.softlang.megal.mi2.util.ErrorByteSource;
-import org.softlang.megal.mi2.util.ErrorCharSource;
+import org.softlang.megal.mi2.api.Artifact;
 import org.softlang.sourcesupport.SourceSupport;
 import org.softlang.sourcesupport.SourceSupportPlugin;
 
-import com.google.common.io.ByteSource;
-import com.google.common.io.CharSource;
+import com.google.common.base.Objects;
+
+import static com.google.common.collect.FluentIterable.*;
+import static com.google.common.collect.Lists.*;
+import static java.util.Collections.*;
 
 public abstract class ProjectResolution extends AbstractResolution {
 
@@ -40,139 +36,39 @@ public abstract class ProjectResolution extends AbstractResolution {
 		return SourceSupportPlugin.getSupport().analyze(getProject());
 	}
 
-	// TODO: also regular URIs and such
-
-	private IContainer getIContainer(Object object) {
-		// If object itself is an IFile
-		if (object instanceof IContainer) {
-			// Cast the object
-			IContainer conainer = (IContainer) object;
-
-			// Return it
-			return conainer;
-		}
-
+	private Iterable<IResource> unbind(Object object) {
 		// If object is an URI
-		if (object instanceof URI) {
-			// Cast the object
-			URI uri = (URI) object;
-
-			// Return the evaluators first IFile
-			return getFirst(filter(MegalPlugin.getEvaluator().evaluate(uri), IContainer.class), null);
-		}
+		if (object instanceof URI)
+			return filter(MegalPlugin.getEvaluator().evaluate((URI) object), IResource.class);
 
 		// If object is a string
 		if (object instanceof String) {
-			// Cast as string
-			String str = (String) object;
-
+			String string = (String) object;
 			try {
-				// Try to convert to URI
-				URI uri = new URI(str);
-
-				// Return the evaluators first IFile
-				return getFirst(filter(MegalPlugin.getEvaluator().evaluate(uri), IContainer.class), null);
+				return unbind(new URI(string));
 			} catch (URISyntaxException e) {
-			}
+				// Convert to file
+				File file = new File(string);
 
-			// If failed, let the project find the file
-			return getProject().getFolder(Path.fromOSString(str));
-		}
-
-		return null;
-	}
-
-	private IFile getIFile(Object object) {
-		// If object itself is an IFile
-		if (object instanceof IFile) {
-			// Cast the object
-			IFile file = (IFile) object;
-
-			// Return it
-			return file;
-		}
-
-		// If object is an URI
-		if (object instanceof URI) {
-			// Cast the object
-			URI uri = (URI) object;
-
-			// Return the evaluators first IFile
-			return getFirst(filter(MegalPlugin.getEvaluator().evaluate(uri), IFile.class), null);
-		}
-
-		// If object is a string
-		if (object instanceof String) {
-			// Cast as string
-			String str = (String) object;
-
-			try {
-				// Try to convert to URI
-				URI uri = new URI(str);
-
-				// Return the evaluators first IFile
-				return getFirst(filter(MegalPlugin.getEvaluator().evaluate(uri), IFile.class), null);
-			} catch (URISyntaxException e) {
-			}
-
-			// If failed, let the project find the file
-			return getProject().getFile(Path.fromOSString(str));
-		}
-
-		return null;
-	}
-
-	@Override
-	public URI getAbsolute(Object object) {
-		// TODO Fix this
-		IFile file = getIFile(object);
-
-		if (file != null)
-			return file.getLocationURI();
-
-		IContainer container = getIContainer(object);
-
-		if (container != null)
-			return container.getLocationURI();
-
-		return null;
-	}
-
-	@Override
-	public ByteSource getBytes(Object object) {
-		final IFile file = getIFile(object);
-
-		if (file == null || !file.exists())
-			return new ErrorByteSource(new FileNotFoundException());
-
-		return new ByteSource() {
-			@Override
-			public InputStream openStream() throws IOException {
 				try {
-					return new BufferedInputStream(file.getContents());
-				} catch (CoreException e) {
-					throw new IOException(e);
+					// Get project workspace URI
+					URI projectURI = new URI("workspace:/" + getProject().getName() + "/");
+					// Get workspace relative file URI
+					URI rootRelativeURI = getProject().getLocationURI().relativize(file.toURI());
+
+					// Unbind the composite
+					return unbind(projectURI.resolve(rootRelativeURI));
+				} catch (URISyntaxException f) {
+					return emptyList();
 				}
 			}
-		};
+		}
+
+		return emptyList();
 	}
 
 	@Override
-	public CharSource getChars(Object object) {
-		final IFile file = getIFile(object);
-
-		if (file == null || !file.exists())
-			return new ErrorCharSource(new FileNotFoundException());
-
-		return new CharSource() {
-			@Override
-			public Reader openStream() throws IOException {
-				try {
-					return new InputStreamReader(new BufferedInputStream(file.getContents()), file.getCharset());
-				} catch (CoreException e) {
-					throw new IOException(e);
-				}
-			}
-		};
+	public List<Artifact> getArtifacts(Object binding) {
+		return from(unbind(binding)).transform(EclipseArtifacts::toArtifact).toList();
 	}
 }

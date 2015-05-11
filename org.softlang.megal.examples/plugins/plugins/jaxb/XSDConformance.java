@@ -1,84 +1,66 @@
 package plugins.jaxb;
 
+import static plugins.util.Prelude.isElementOfLanguage;
+
 import java.io.IOException;
-import java.io.Reader;
-import java.util.Set;
+import java.io.InputStream;
 
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 
-import org.softlang.megal.mi2.Element;
 import org.softlang.megal.mi2.Relationship;
+import org.softlang.megal.mi2.api.Artifact;
 import org.softlang.megal.mi2.api.EvaluatorPlugin;
-import org.softlang.megal.mi2.api.Message;
 import org.softlang.megal.mi2.api.context.Context;
-import org.softlang.megal.mi2.api.emission.Emission;
 import org.xml.sax.SAXException;
 
-import plugins.util.Prelude;
-
-import com.google.common.io.CharSource;
-
-import static plugins.util.Prelude.*;
-import static java.util.Collections.*;
+import com.google.common.base.Throwables;
 
 public class XSDConformance extends EvaluatorPlugin {
 
-	private boolean conforms(Emission emission, CharSource xml, CharSource xsd) {
-		// 1. Lookup a factory for the W3C XML Schema language
-		SchemaFactory factory = SchemaFactory
-				.newInstance("http://www.w3.org/2001/XMLSchema");
-
-		// 2. Compile the schema.
-		// Here the schema is loaded from a java.io.File, but you could use
-		// a java.net.URL or a javax.xml.transform.Source instead.
-		Schema schema;
-		try (Reader reader = xsd.openStream()) {
-			schema = factory.newSchema(new StreamSource(reader));
-		} catch (SAXException e) {
-			emission.emit(Message.createErrorFor(e));
-			return false;
-		} catch (IOException e) {
-			emission.emit(Message.createWarningFor(e));
-			return false;
-		}
-
-		// 3. Get a validator from the schema.
-		Validator validator = schema.newValidator();
-
-		// 5. Check the document
-		try (Reader reader = xml.openStream()) {
-			validator.validate(new StreamSource(reader));
-			return true;
-		} catch (SAXException e) {
-			emission.emit(Message.error("Instance does not conform to schema"));
-			return false;
-		} catch (IOException e) {
-			emission.emit(Message.createWarningFor(e));
-			return false;
-		}
-	}
-
 	@Override
-	public Set<Element> evaluate(Context context, Relationship relationship) {
+	public void evaluate(Context context, Relationship relationship) {
 		if (!isElementOfLanguage(relationship.getLeft(), "XML")
 				|| !isElementOfLanguage(relationship.getRight(), "XSD")
 				|| !relationship.getLeft().getBinding().isPresent()
 				|| !relationship.getRight().getBinding().isPresent())
-			return null;
+			return;
 
-		Object leftBinding = relationship.getLeft().getBinding().get();
-		Object rightBinding = relationship.getRight().getBinding().get();
+		// Get the XML and the XSD artifact
+		Artifact artifactLeft = context.getArtifact(relationship.getLeft()
+				.getBinding().get());
+		Artifact artifactRight = context.getArtifact(relationship.getRight()
+				.getBinding().get());
 
-		CharSource left = context.getChars(leftBinding);
-		CharSource right = context.getChars(rightBinding);
+		// Obtain a schema factory
+		SchemaFactory factory = SchemaFactory
+				.newInstance("http://www.w3.org/2001/XMLSchema");
 
-		// Check conformance
-		if (conforms(context, left, right))
-			return singleton(relationship);
+		// Open XSD
+		try (InputStream xsdStream = artifactRight.getBytes().openStream()) {
+			// Obtain the schema
+			Schema schema = factory.newSchema(new StreamSource(xsdStream));
 
-		return emptySet();
+			// Get the validator
+			Validator validator = schema.newValidator();
+
+			// Open XML
+			try (InputStream xmlStream = artifactLeft.getBytes().openStream()) {
+				// Validate XML
+				validator.validate(new StreamSource(xmlStream));
+
+				// Note as valid
+				context.valid();
+			} catch (SAXException e) {
+				context.error("Instance does not conform to schema");
+			}
+		} catch (SAXException e) {
+			context.error("Cannot analyze the schema");
+		} catch (IOException e) {
+			context.warning(Throwables.getStackTraceAsString(e));
+		}
+
 	}
 }

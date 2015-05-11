@@ -1,15 +1,13 @@
 package plugins.jaxb;
 
 import static com.google.common.base.Objects.equal;
-import static com.google.common.collect.ImmutableSet.of;
 import static com.google.common.collect.Iterables.getFirst;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.Reader;
+import java.io.InputStream;
 import java.net.URI;
 import java.util.List;
-import java.util.Set;
 
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
@@ -18,11 +16,10 @@ import javax.xml.xpath.XPathFactory;
 
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.ProjectHelper;
-import org.softlang.megal.mi2.Element;
 import org.softlang.megal.mi2.Entity;
 import org.softlang.megal.mi2.Relationship;
+import org.softlang.megal.mi2.api.Artifact;
 import org.softlang.megal.mi2.api.EvaluatorPlugin;
-import org.softlang.megal.mi2.api.Message;
 import org.softlang.megal.mi2.api.context.Context;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -32,7 +29,7 @@ import plugins.util.Nodes;
 
 import com.google.common.base.Splitter;
 
-public class FindBuildScriptAsElementOfProof extends EvaluatorPlugin {
+public class FindBuildScriptAsElementOfEvidence extends EvaluatorPlugin {
 	private static String getIn(Project project, String potentialVariable) {
 		if (potentialVariable.startsWith("${")
 				&& potentialVariable.endsWith("}"))
@@ -42,13 +39,18 @@ public class FindBuildScriptAsElementOfProof extends EvaluatorPlugin {
 		return potentialVariable;
 	}
 
-	private static boolean corresponds(File boundXSD, File boundPackage,
-			File schema, File destination, String packageName) {
+	private static boolean corresponds(Artifact artifactXSD,
+			Artifact artifactPackage, Artifact schema, Artifact destination,
+			String packageName) {
 
 		for (String item : Splitter.on('.').split(packageName))
-			destination = new File(destination, item);
+			if (destination == null)
+				return false;
+			else
+				destination = destination.getChild(item);
 
-		return equal(boundXSD, schema) && equal(boundPackage, destination);
+		return equal(artifactXSD, schema)
+				&& equal(artifactPackage, destination);
 	}
 
 	private static String suffix(int n) {
@@ -73,13 +75,16 @@ public class FindBuildScriptAsElementOfProof extends EvaluatorPlugin {
 	}
 
 	@Override
-	public Set<Element> evaluate(Context context, Relationship relationship) {
+	public void evaluate(Context context, Relationship relationship) {
 		// Get pair
 		Entity pair = relationship.getLeft();
 
 		// If pair not bound, there's no build script to validate in
 		if (!pair.getBinding().isPresent())
-			return null;
+			return;
+
+		Artifact artifactBuildscript = context.getArtifact(pair.getBinding()
+				.get());
 
 		// Get relationships to the parameters
 		Relationship firstOf = getFirst(pair.incoming("firstOf"), null);
@@ -87,7 +92,7 @@ public class FindBuildScriptAsElementOfProof extends EvaluatorPlugin {
 
 		// If any of them does not exist, return
 		if (firstOf == null || secondOf == null)
-			return null;
+			return;
 
 		// Get the parameter items
 		Entity first = firstOf.getLeft();
@@ -95,24 +100,28 @@ public class FindBuildScriptAsElementOfProof extends EvaluatorPlugin {
 
 		// If any of them is not bound, can not evaluate
 		if (!first.getBinding().isPresent())
-			return null;
+			return;
 		if (!second.getBinding().isPresent())
-			return null;
+			return;
 
-		// Get the XSD location and the package
-		File boundXSD = new File(context.getAbsolute(first.getBinding().get()));
-		File boundPackage = new File(context.getAbsolute(second.getBinding()
-				.get()));
+		Artifact artifactXSD = context.getArtifact(first.getBinding().get());
+		Artifact artifactPackage = context.getArtifact(second.getBinding()
+				.get());
+
+		// // Get the XSD location and the package
+		// File boundXSD = new
+		// File(context.getLocation(first.getBinding().get()));
+		// File boundPackage = new File(context.getLocation(second.getBinding()
+		// .get()));
 
 		// If any of them is not resolvable, exit
-		if (boundXSD == null || boundPackage == null)
-			return null;
+		if (artifactXSD == null || artifactPackage == null)
+			return;
 
 		// Open the build script
-		try (Reader stream = context.getChars(pair.getBinding().get())
-				.openStream()) {
+		try (InputStream stream = artifactBuildscript.getBytes().openStream()) {
 
-			URI buildscript = context.getAbsolute(pair.getBinding().get());
+			URI buildscript = artifactBuildscript.getLocation();
 
 			// Configure with ANT for file resolution
 			Project project = new Project();
@@ -184,26 +193,27 @@ public class FindBuildScriptAsElementOfProof extends EvaluatorPlugin {
 				}
 
 				// Do resolution
-				File schema = new File(getIn(project, schemaArg));
-				File destination = new File(getIn(project, destinationArg));
+				Artifact schema = context
+						.getArtifact(getIn(project, schemaArg));
+				Artifact destination = context.getArtifact(getIn(project,
+						destinationArg));
 				String packageName = getIn(project, packageArg);
 
-				if (corresponds(boundXSD, boundPackage, schema, destination,
-						packageName)) {
+				if (corresponds(artifactXSD, artifactPackage, schema,
+						destination, packageName)) {
+
 					int index = 1 + executes.indexOf(node);
-					context.emit(Message
-							.info("Evidence for pair element found in build script at the "
-									+ index + suffix(index) + " <exec>."));
+					context.info("Evidence for pair element found in build script at the "
+							+ index + suffix(index) + " <exec>.");
 					hasEvidence = true;
 					break;
 				}
 			}
 
-			if (!hasEvidence)
-				context.emit(Message
-						.error("No evidence for pair element relationship found in build script"));
-			return of(relationship, firstOf, secondOf);
-
+			if (hasEvidence)
+				context.valid(relationship, pair, firstOf, secondOf);
+			else
+				context.error("No evidence for pair element relationship found in build script");
 		} catch (IOException | XPathException e) {
 			throw new RuntimeException(e);
 		}

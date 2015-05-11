@@ -22,7 +22,9 @@ import org.softlang.megal.mi2.api.context.Context;
 import org.softlang.megal.mi2.api.emission.Emission;
 import org.softlang.megal.mi2.api.resolution.Resolution;
 
+import com.google.common.base.Throwables;
 import com.google.common.collect.HashMultimap;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.SetMultimap;
 
@@ -35,6 +37,8 @@ public class ModelExecutor {
 
 	public static final String DEFAULT_REALIZATION_NAME = "realizationOf";
 
+	public static final String DEFAULT_STATEMENT_ANNOTATION_NAME = "Statement";
+
 	private final String pluginName;
 
 	private final String pluginAnnotationName;
@@ -43,15 +47,20 @@ public class ModelExecutor {
 
 	private final String realizationName;
 
+	private final String statementName;
+
 	public ModelExecutor() {
-		this(DEFAULT_PLUGIN_NAME, DEFAULT_PLUGIN_ANNOTATION_NAME, DEFAULT_PART_NAME, DEFAULT_REALIZATION_NAME);
+		this(DEFAULT_PLUGIN_NAME, DEFAULT_PLUGIN_ANNOTATION_NAME, DEFAULT_PART_NAME, DEFAULT_REALIZATION_NAME,
+				DEFAULT_STATEMENT_ANNOTATION_NAME);
 	}
 
-	public ModelExecutor(String pluginName, String pluginAnnotationName, String partName, String realizationName) {
+	public ModelExecutor(String pluginName, String pluginAnnotationName, String partName, String realizationName,
+			String statementName) {
 		this.pluginName = pluginName;
 		this.pluginAnnotationName = pluginAnnotationName;
 		this.partName = partName;
 		this.realizationName = realizationName;
+		this.statementName = statementName;
 	}
 
 	/**
@@ -67,7 +76,6 @@ public class ModelExecutor {
 	 */
 	public Result evaluate(final Resolution resolution, final KB input) {
 		class Evaluation {
-
 			final Map<Entity, Plugin> plugins;
 
 			final Set<Plugin> universalPlugins;
@@ -77,7 +85,9 @@ public class ModelExecutor {
 			final Multimap<RelationshipType, Plugin> pluginsByRelationshipType;
 
 			final Set<Element> valid;
-			final SetMultimap<Element, Message> messages;
+			final SetMultimap<Element, String> infos;
+			final SetMultimap<Element, String> warnings;
+			final SetMultimap<Element, String> errors;
 
 			Evaluation() {
 				plugins = newHashMap();
@@ -85,7 +95,9 @@ public class ModelExecutor {
 				pluginsByEntityType = HashMultimap.create();
 				pluginsByRelationshipType = HashMultimap.create();
 				valid = newHashSet();
-				messages = HashMultimap.create();
+				infos = HashMultimap.create();
+				warnings = HashMultimap.create();
+				errors = HashMultimap.create();
 
 				// Get all instances of the plugin type
 				EntityType pluginType = input.getEntityType(getPluginName());
@@ -109,6 +121,8 @@ public class ModelExecutor {
 												entity.getName())) {
 											specificAssociation = true;
 											pluginsByEntityType.put(entityType, plugin);
+											for (EntityType spec : entityType.getSpecializations())
+												pluginsByEntityType.put(spec, plugin);
 										}
 
 									// Connect to relationship types
@@ -117,35 +131,46 @@ public class ModelExecutor {
 												entity.getName())) {
 											specificAssociation = true;
 											pluginsByRelationshipType.put(relationshipType, plugin);
+											for (RelationshipType spec : relationshipType.getSpecializations())
+												pluginsByRelationshipType.put(spec, plugin);
 										}
 
 									if (!specificAssociation)
 										universalPlugins.add(plugin);
 
-								} catch (InstantiationException | IllegalAccessException e) {
-									messages.put(entity, Message.createWarningFor(e));
+								} catch (Throwable e) {
+									errors.put(entity, Throwables.getStackTraceAsString(e));
 								}
+
 							else {
-								messages.put(entity, Message.warning("Plugin class is not resolvable"));
+								errors.put(entity, "Plugin class " + binding + "  is not resolvable");
 							}
 						}
 
+				// Get the partOf relationship type
 				RelationshipType partOf = input.getRelationshipType(getPartName(), getPluginName(), getPluginName());
 				if (partOf != null)
+					// If it exists, iterate all the instances
 					for (Relationship relationship : partOf.getInstances()) {
+						// Get container and element
 						Plugin container = plugins.get(relationship.getRight());
 						Plugin item = plugins.get(relationship.getLeft());
 
+						// If both exist, add element as part
 						if (container != null && item != null)
 							container.getParts().add(item);
 					}
 
+				// Get the realizationOf relationship type
 				RelationshipType realizationOf = input.getRelationshipType(getRealizationName(), getPluginName(),
 						KB.ENTITY);
 				if (realizationOf != null)
+					// If it exists, iterate all the instances
 					for (Relationship relationship : realizationOf.getInstances()) {
+						// Get the realizer
 						Plugin realizer = plugins.get(relationship.getLeft());
 
+						// If it exists, add entity as realized
 						if (realizer != null)
 							realizer.getRealization().add(relationship.getRight());
 					}
@@ -173,19 +198,15 @@ public class ModelExecutor {
 						Context context = createContext(origin, element);
 
 						// Get appropriate evaluators
-						for (EvaluatorPlugin plugin : select(EvaluatorPlugin.class, element))
+						Iterable<EvaluatorPlugin> select = ImmutableList.copyOf(select(EvaluatorPlugin.class, element));
+						for (EvaluatorPlugin plugin : select)
 							// Try to evaluate, catch an exception into the error messages
 							try {
-								// Get all validated elements
-								Set<Element> validated = plugin.evaluate(context, element);
-
-								// If there was a validation result
-								if (validated != null)
-									// Annotate all the origins as valid
-									for (Element item : validated)
-										valid.add(getOrigin(origin, item));
+								plugin.evaluate(context, element);
 							} catch (RuntimeException t) {
-								context.emit(Message.createErrorFor(t));
+								context.warning(Throwables.getStackTraceAsString(t));
+							} catch (Throwable t) {
+								context.error(Throwables.getStackTraceAsString(t));
 							}
 
 						// Get the appropriate reasoners
@@ -201,9 +222,9 @@ public class ModelExecutor {
 								// Add the output to the reasoner
 								expansion = KBs.union(expansion, output);
 							} catch (RuntimeException t) {
-								context.emit(Message.createWarningFor(t));
+								context.warning(Throwables.getStackTraceAsString(t));
 							} catch (Throwable t) {
-								context.emit(Message.createErrorFor(t));
+								context.error(Throwables.getStackTraceAsString(t));
 							}
 					}
 
@@ -216,42 +237,122 @@ public class ModelExecutor {
 				}
 
 				// Return the result for the given parameters and the evaluator state
-				return Result.of(input, current, valid, messages);
+				return Result.of(input, current, valid, infos, warnings, errors);
 			}
 
+			/**
+			 * <p>
+			 * Creates the context with the given origin and the current element.
+			 * </p>
+			 * 
+			 * @param origin
+			 *            The origin tracking map
+			 * @param element
+			 *            The current element
+			 * @return Returns a new context
+			 */
 			Context createContext(Map<Element, Element> origin, Element element) {
 				Context context = new ComposedContext(resolution, new Emission() {
 					@Override
-					public void emit(Message message) {
-						messages.put(getOrigin(origin, element), message);
+					public void valid() {
+						valid.add(getOrigin(origin, element));
+					}
+
+					@Override
+					public void info(String message) {
+						infos.put(getOrigin(origin, element), message);
+					}
+
+					@Override
+					public void warning(String message) {
+						warnings.put(getOrigin(origin, element), message);
+					}
+
+					@Override
+					public void error(String message) {
+						errors.put(getOrigin(origin, element), message);
+					}
+
+					@Override
+					public void valid(Element x, Element... xs) {
+						valid.add(getOrigin(origin, x));
+						for (Element e : xs)
+							valid.add(getOrigin(origin, e));
+					}
+
+					@Override
+					public void info(String message, Element x, Element... xs) {
+						infos.put(getOrigin(origin, x), message);
+						for (Element e : xs)
+							infos.put(getOrigin(origin, e), message);
+					}
+
+					@Override
+					public void warning(String message, Element x, Element... xs) {
+						warnings.put(getOrigin(origin, x), message);
+						for (Element e : xs)
+							warnings.put(getOrigin(origin, e), message);
+					}
+
+					@Override
+					public void error(String message, Element x, Element... xs) {
+						errors.put(getOrigin(origin, x), message);
+						for (Element e : xs)
+							errors.put(getOrigin(origin, e), message);
+
 					}
 				});
 
 				return context;
 			}
 
+			/**
+			 * <p>
+			 * Gets the origin of the current element
+			 * </p>
+			 * 
+			 * @param origin
+			 *            The origin tracking map
+			 * @param element
+			 *            The current element
+			 * @return Returns the origin
+			 */
 			Element getOrigin(Map<Element, Element> origin, Element element) {
 				Element secondary = origin.get(element);
 
 				return secondary == null ? element : secondary;
-
 			}
 
 			/**
 			 * <p>
-			 * Selects the desired type of plugin based on the associate element and the type of plugins.
+			 * Selects the desired type of plugin based on the associated element and the type of plugins.
 			 * </p>
 			 * 
 			 * @param type
 			 *            The type of plugins
 			 * @param element
-			 *            The associate element
+			 *            The associated element
 			 * @return Returns an iterable of plugins
 			 */
 			<T extends Plugin> Iterable<T> select(Class<T> type, Element element) {
-				// Always consider universal plugins
-				Iterable<Plugin> result = universalPlugins;
+				// Filter the desired type
+				return filter(select(element), type);
+			}
 
+			/**
+			 * <p>
+			 * Selects the plugins based on the associated element.
+			 * </p>
+			 * 
+			 * @param element
+			 *            The associated element
+			 * @return Returns an iterable of plugins
+			 */
+			Iterable<Plugin> select(Element element) {
+				if (isStatement(element))
+					// If the element is a statement, it is just for factual purpose and not an evaluated item, for
+					// example plugin specifications
+					return emptyList();
 				if (element instanceof Entity) {
 					// If entity, get the type
 					Entity entity = (Entity) element;
@@ -259,7 +360,9 @@ public class ModelExecutor {
 
 					// If type exists, append all plugins by entity type
 					if (entityType != null)
-						result = concat(result, pluginsByEntityType.get(entityType));
+						return concat(universalPlugins, pluginsByEntityType.get(entityType));
+					else
+						return universalPlugins;
 				} else if (element instanceof Relationship) {
 					// If relationship, get the type
 					Relationship relationship = (Relationship) element;
@@ -267,13 +370,13 @@ public class ModelExecutor {
 
 					// If type exists, append all plugins by relationship type
 					if (relationshipType != null)
-						result = concat(result, pluginsByRelationshipType.get(relationshipType));
-				} else
-					// Else, no specialized association possible
-					result = emptyList();
+						return concat(universalPlugins, pluginsByRelationshipType.get(relationshipType));
+					else
+						return universalPlugins;
+				}
 
-				// Filter the desired type
-				return filter(result, type);
+				// Else, no specialized association possible
+				return universalPlugins;
 			}
 		}
 
@@ -294,5 +397,24 @@ public class ModelExecutor {
 
 	public String getRealizationName() {
 		return realizationName;
+	}
+
+	public String getStatementName() {
+		return statementName;
+	}
+
+	public boolean isStatement(Element element) {
+		// If element has the Statement annotation, it is a statement
+		if (element.hasAnnotation(getStatementName()))
+			return true;
+
+		// If an instances type is a statement, this is also a statement
+		if (element instanceof Entity)
+			return isStatement(((Entity) element).getType());
+		else if (element instanceof Relationship)
+			return isStatement(((Relationship) element).getType());
+
+		// Else this is a regular element
+		return false;
 	}
 }

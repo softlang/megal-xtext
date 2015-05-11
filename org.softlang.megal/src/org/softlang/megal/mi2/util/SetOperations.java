@@ -1,6 +1,5 @@
 package org.softlang.megal.mi2.util;
 
-import static com.google.common.base.Predicates.not;
 import static com.google.common.collect.Multimaps.index;
 import static com.google.common.collect.Multimaps.transformValues;
 
@@ -11,19 +10,15 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import com.google.common.base.Predicate;
+import org.softlang.megal.util.UnionMap;
+
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableMultimap;
-import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSetMultimap;
-import com.google.common.collect.ImmutableTable;
-import com.google.common.collect.Iterables;
 import com.google.common.collect.Iterators;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
-import com.google.common.collect.Table;
-import com.google.common.collect.Table.Cell;
 
 /**
  * <p>
@@ -35,135 +30,34 @@ import com.google.common.collect.Table.Cell;
  *
  */
 public class SetOperations {
-	private static class MutableFilterSet<E> extends AbstractSet<E> {
-		private final Set<E> set;
+	public static void main(String[] args) {
+		Map<Integer, Integer> x = Maps.newHashMap();
+		x.put(1, 5);
+		x.put(2, 6);
+		x.put(3, 8);
+		Map<Integer, Integer> y = Maps.newHashMap();
+		y.put(2, 3);
+		y.put(4, 10);
+		y.put(5, 12);
+		y.put(6, 13);
 
-		private final Class<E> type;
+		Map<Integer, Integer> z = new UnionMap<>(x, y);
 
-		private final Predicate<? super E> filter;
+		System.out.println("X: " + x + "\nY: " + y + "\nZ: " + z + "\n");
 
-		public MutableFilterSet(Set<E> set, Class<E> type, Predicate<? super E> filter) {
-			this.set = set;
-			this.type = type;
-			this.filter = filter;
+		z.remove(2);
+		System.out.println("X: " + x + "\nY: " + y + "\nZ: " + z + "\n");
+
+		z.put(1, 1);
+		System.out.println("X: " + x + "\nY: " + y + "\nZ: " + z + "\n");
+
+		for (Iterator<Entry<Integer, Integer>> e = z.entrySet().iterator(); e.hasNext();) {
+			Entry<Integer, Integer> entry = e.next();
+
+			if (entry.getKey() % 2 == 0)
+				e.remove();
 		}
-
-		@Override
-		public int size() {
-			return Iterables.size(Iterables.filter(set, filter));
-		}
-
-		@Override
-		public boolean isEmpty() {
-			return Iterables.all(set, not(filter));
-		}
-
-		@Override
-		public boolean contains(Object o) {
-			if (set.isEmpty())
-				return false;
-
-			if (!type.isInstance(o))
-				return false;
-
-			E element = type.cast(o);
-
-			if (!filter.apply(element))
-				return false;
-
-			return set.contains(element);
-		}
-
-		@Override
-		public Iterator<E> iterator() {
-			return Iterators.filter(set.iterator(), filter);
-		}
-
-		@Override
-		public boolean add(E e) {
-			if (filter.apply(e))
-				return false;
-
-			return set.add(e);
-		}
-
-		@Override
-		public boolean remove(Object o) {
-			if (set.isEmpty())
-				return false;
-
-			if (!type.isInstance(o))
-				return false;
-
-			E element = type.cast(o);
-
-			if (!filter.apply(element))
-				return false;
-
-			return set.remove(element);
-		}
-
-		@Override
-		public void clear() {
-			for (Iterator<E> it = set.iterator(); it.hasNext();) {
-				E current = it.next();
-				if (filter.apply(current))
-					it.remove();
-			}
-		}
-	}
-
-	private static class ImmutableFilterSet<E> extends MutableFilterSet<E> {
-		private boolean sizeCalculated;
-		private boolean emptyCalculated;
-
-		private int size;
-		private boolean empty;
-
-		public ImmutableFilterSet(Set<E> set, Class<E> type, Predicate<? super E> filter) {
-			super(set, type, filter);
-		}
-
-		@Override
-		public int size() {
-			if (sizeCalculated)
-				return size;
-
-			sizeCalculated = true;
-			return size = super.size();
-		}
-
-		@Override
-		public boolean isEmpty() {
-			if (emptyCalculated)
-				return empty;
-
-			if (sizeCalculated)
-				return size == 0;
-
-			emptyCalculated = true;
-			return emptyCalculated = super.isEmpty();
-		}
-	}
-
-	/**
-	 * <p>
-	 * Filters the entries of the set on demand. If the input set is an ImmutableSet, iterating operations will be
-	 * calculated on demand.
-	 * </p>
-	 * 
-	 * @param set
-	 *            The input set
-	 * @param filter
-	 *            The filter to apply
-	 * @return Returns a set where all elements contain filter, only modifications not matching the filter will be
-	 *         channeled
-	 */
-	public static <E> Set<E> filter(Set<E> set, Class<E> type, Predicate<? super E> filter) {
-		if (set instanceof ImmutableSet)
-			return new ImmutableFilterSet<E>(set, type, filter);
-		else
-			return new MutableFilterSet<E>(set, type, filter);
+		System.out.println("X: " + x + "\nY: " + y + "\nZ: " + z + "\n");
 	}
 
 	/**
@@ -178,123 +72,6 @@ public class SetOperations {
 	public static <K, V> Multimap<K, V> translate(Collection<Entry<K, V>> entries) {
 		// Index by map entry key and map the value by entry value
 		return transformValues(index(entries, Entry::getKey), Entry::getValue);
-	}
-
-	/**
-	 * <p>
-	 * Applies the set union on the input.
-	 * </p>
-	 * 
-	 * @param a
-	 *            The left side
-	 * @param b
-	 *            The right side
-	 * @return Returns the result
-	 */
-	public static <R, C, V> Table<R, C, V> union(Table<R, C, V> a, Table<R, C, V> b) {
-		ImmutableTable.Builder<R, C, V> builder = ImmutableTable.builder();
-
-		builder.putAll(a);
-		for (Cell<R, C, V> cell : b.cellSet())
-			if (!a.contains(cell.getRowKey(), cell.getColumnKey()))
-				builder.put(cell);
-
-		return builder.build();
-	}
-
-	/**
-	 * <p>
-	 * Applies the set union on the input.
-	 * </p>
-	 * 
-	 * @param a
-	 *            The left side
-	 * @param b
-	 *            The right side
-	 * @return Returns the result
-	 */
-	public static <R, C, E> Multitable<R, C, E> union(Multitable<R, C, E> a, Multitable<R, C, E> b) {
-		Multitable<R, C, E> result = HashMultitable.create();
-		result.putAll(a);
-		result.putAll(b);
-		return result;
-	}
-
-	/**
-	 * <p>
-	 * Applies the set union on the input.
-	 * </p>
-	 * 
-	 * @param a
-	 *            The left side
-	 * @param b
-	 *            The right side
-	 * @return Returns the result
-	 */
-	public static <K, V> ImmutableMultimap<K, V> union(Multimap<K, V> a, Multimap<K, V> b) {
-		ImmutableMultimap.Builder<K, V> builder = ImmutableMultimap.builder();
-
-		builder.putAll(a);
-		builder.putAll(b);
-
-		return builder.build();
-	}
-
-	/**
-	 * <p>
-	 * Applies the set union on the input.
-	 * </p>
-	 * 
-	 * @param a
-	 *            The left side
-	 * @param b
-	 *            The right side
-	 * @return Returns the result
-	 */
-	public static <E> Set<E> union(Set<E> a, Set<E> b) {
-		return Sets.union(a, b);
-	}
-
-	/**
-	 * <p>
-	 * Applies the set union on the input.
-	 * </p>
-	 * 
-	 * @param a
-	 *            The left side
-	 * @param b
-	 *            The right side
-	 * @return Returns the result
-	 */
-	public static <K, V> ImmutableMap<K, V> union(Map<K, V> a, Map<K, V> b) {
-		ImmutableMap.Builder<K, V> builder = ImmutableMap.builder();
-
-		builder.putAll(a);
-		for (Entry<K, V> entry : b.entrySet())
-			if (!a.containsKey(entry.getKey()))
-				builder.put(entry);
-
-		return builder.build();
-	}
-
-	/**
-	 * <p>
-	 * Applies the set union on the input.
-	 * </p>
-	 * 
-	 * @param a
-	 *            The left side
-	 * @param b
-	 *            The right side
-	 * @return Returns the result
-	 */
-	public static <K, V> ImmutableSetMultimap<K, V> union(SetMultimap<K, V> a, SetMultimap<K, V> b) {
-		ImmutableSetMultimap.Builder<K, V> builder = ImmutableSetMultimap.builder();
-
-		builder.putAll(a);
-		builder.putAll(b);
-
-		return builder.build();
 	}
 
 	public static <T, U> Set<U> transform(final Set<T> set, final Class<U> type, final Bijection<T, U> bijection) {

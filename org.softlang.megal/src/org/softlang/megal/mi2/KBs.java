@@ -6,6 +6,7 @@ import java.util.Map.Entry;
 import org.softlang.megal.mi2.util.ImmutableMultitable;
 import org.softlang.megal.mi2.util.Multitable;
 import org.softlang.megal.mi2.util.SetOperations;
+import org.softlang.megal.util.Union;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSetMultimap;
@@ -424,22 +425,22 @@ public class KBs {
 		return KBs
 				.builder()
 				.setTitle(a.getTitle())
-				.setRelationships(SetOperations.union(a.getRawRelationships(), b.getRawRelationships()))
-				.setRelationshipTypes(SetOperations.union(a.getRawRelationshipTypes(), b.getRawRelationshipTypes()))
+				.setRelationships(Union.union(a.getRawRelationships(), b.getRawRelationships()))
+				.setRelationshipTypes(Union.union(a.getRawRelationshipTypes(), b.getRawRelationshipTypes()))
 				.setRelationshipTypeAnnotations(
-						SetOperations.union(a.getRawRelationshipTypeAnnotations(),
+						Union.union(a.getRawRelationshipTypeAnnotations(),
 								b.getRawRelationshipTypeAnnotations()))
 				.setRelationshipAnnotations(
-						SetOperations.union(a.getRawRelationshipAnnotations(), b.getRawRelationshipAnnotations()))
-				.setEntityTypes(SetOperations.union(a.getRawEntityTypes(), b.getRawEntityTypes()))
+						Union.union(a.getRawRelationshipAnnotations(), b.getRawRelationshipAnnotations()))
+				.setEntityTypes(Union.union(a.getRawEntityTypes(), b.getRawEntityTypes()))
 				.setEntityTypeAnnotations(
-						SetOperations.union(a.getRawEntityTypeAnnotations(), b.getRawEntityTypeAnnotations()))
-				.setEntityAnnotations(SetOperations.union(a.getRawEntityAnnotations(), b.getRawEntityAnnotations()))
-				.setEntities(SetOperations.union(a.getRawEntities(), b.getRawEntities()))
-				.setBindings(SetOperations.union(a.getRawBindings(), b.getRawBindings()))
+						Union.union(a.getRawEntityTypeAnnotations(), b.getRawEntityTypeAnnotations()))
+				.setEntityAnnotations(Union.union(a.getRawEntityAnnotations(), b.getRawEntityAnnotations()))
+				.setEntities(Union.union(a.getRawEntities(), b.getRawEntities()))
+				.setBindings(Union.union(a.getRawBindings(), b.getRawBindings()))
 				.setTheEntityTypeAnnotations(
-						SetOperations.union(a.getRawTheEntityTypeAnnotations(), b.getRawTheEntityTypeAnnotations()))
-				.setAnnotations(SetOperations.union(a.getRawAnnotations(), b.getRawAnnotations())).build();
+						Union.union(a.getRawTheEntityTypeAnnotations(), b.getRawTheEntityTypeAnnotations()))
+				.setAnnotations(Union.union(a.getRawAnnotations(), b.getRawAnnotations())).build();
 	}
 
 	/**

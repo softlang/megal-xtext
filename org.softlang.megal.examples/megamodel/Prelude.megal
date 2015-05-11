@@ -77,29 +77,37 @@ partOf < Language * Language
 // EVEN NEWER
 
 // New entity types
+@Statement
 Plugin < Entity
+
+@Statement
 Resolver < Entity
 
 // Binding an evaluator specific to an entity
+@Statement
 realizationOf < Plugin * Entity
 
 // Specifying plug-in relationship of evaluators
+@Statement
 partOf < Plugin * Plugin
 
 // Defining an evaluator for the relationship elementOf between File and language
 @Plugin 'FileElementOfLanguage'
-elementOf < File * Language
+elementOf < File(+) * Language
 
 // Dispatcher with master as link and parameter dependence
 FileElementOfLanguage: Plugin
 FileElementOfLanguage = "classpath:plugins.root.elementof.FileElementOfLanguage"
 
-@Plugin 'FilesElementOfLanguage'
-elementOf < File+ * Language
 
-FilesElementOfLanguage: Plugin
-FilesElementOfLanguage = "classpath:plugins.root.elementof.FilesElementOfLanguage"
-FileElementOfLanguage partOf FilesElementOfLanguage
+// dddddd
+@Plugin 'JavaClassElementOfJava'
+elementOf < File * Language
+
+
+// dddd
+JavaClassElementOfJava: Plugin
+JavaClassElementOfJava = "classpath:plugins.root.elementof.JavaClassElementOfJava"
 
 
 // Replacement for the function application
@@ -117,11 +125,10 @@ PairElementWhenComputed = "classpath:plugins.root.elementof.PairElementWhenCompu
 refersTo < Artifact(+) * Technology
 refersTo < Artifact(+) * Artifact(+)
 
-
 // bindingEvaluator, evaluates links by inference
-Resolver: Plugin
-Resolver = "classpath:pluginroot.Resolver"
+//Resolver: Plugin
+//Resolver = "classpath:pluginroot.Resolver"
 
 // partOf evaluator, evaluates dot names to part of relationships
-PartOf: Plugin
-PartOf = "classpath:pluginroot.elementof.PartOfReasoner"
+//PartOf: Plugin
+//PartOf = "classpath:pluginroot.elementof.PartOfReasoner"

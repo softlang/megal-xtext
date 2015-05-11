@@ -8,4 +8,6 @@ public interface SourceSupport {
 	Set<String> getClasses();
 
 	<T> Class<? extends T> loadClass(Class<T> deriving, String name);
+
+	<T> Class<? extends T> loadClass(Class<?> nextTo, Class<T> deriving, String name);
 }
