@@ -77,18 +77,21 @@ partOf < Language * Language
 // EVEN NEWER
 
 // New entity types
-@Statement
+@Suppress 'notConsidered'
 Plugin < Entity
 
-@Statement
-Resolver < Entity
+//@Suppress 'notConsidered'
+//Evaluator < Plugin
+//
+//@Suppress 'notConsidered'
+//Reasoner < Plugin
 
 // Binding an evaluator specific to an entity
-@Statement
+@Suppress 'relationshipNotConsidered'
 realizationOf < Plugin * Entity
 
 // Specifying plug-in relationship of evaluators
-@Statement
+@Suppress 'relationshipNotConsidered'
 partOf < Plugin * Plugin
 
 // Defining an evaluator for the relationship elementOf between File and language
@@ -98,16 +101,6 @@ elementOf < File(+) * Language
 // Dispatcher with master as link and parameter dependence
 FileElementOfLanguage: Plugin
 FileElementOfLanguage = "classpath:plugins.root.elementof.FileElementOfLanguage"
-
-
-// dddddd
-@Plugin 'JavaClassElementOfJava'
-elementOf < File * Language
-
-
-// dddd
-JavaClassElementOfJava: Plugin
-JavaClassElementOfJava = "classpath:plugins.root.elementof.JavaClassElementOfJava"
 
 
 // Replacement for the function application

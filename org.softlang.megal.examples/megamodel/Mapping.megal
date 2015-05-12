@@ -16,6 +16,8 @@ aLanguage: Language // DONE: Plugin for both domain definition
 xsdFiles defines aLanguage
 javaFiles defines aLanguage
 
+aLanguage = "http://www.company.softlang.org/company.xsd"
+
 // DONE: plugin needed for correspondsTo evaluator for XSD and Java+
 xsdFiles correspondsTo javaFiles
 
@@ -35,18 +37,18 @@ AcceptJava realizationOf Java
 AcceptJava partOf FileElementOfLanguage
 AcceptJava = "classpath:plugins.jaxb.AcceptJava"
 
-@Plugin 'CommonLanguageDefinition'
+@Plugin 'MatchingLanguageDefinition'
 defines < Artifact(+) * Language
-CommonLanguageDefinition: Plugin
-CommonLanguageDefinition = 'classpath:plugins.jaxb.CommonLanguageDefinition'
+MatchingLanguageDefinition: Plugin
+MatchingLanguageDefinition = 'classpath:plugins.jaxb.MatchingLanguageDefinition'
 
 PackageInfoNSURIExtractor: Plugin
 PackageInfoNSURIExtractor realizationOf Java
-PackageInfoNSURIExtractor partOf CommonLanguageDefinition
+PackageInfoNSURIExtractor partOf MatchingLanguageDefinition
 PackageInfoNSURIExtractor = 'classpath:plugins.jaxb.PackageInfoNSURIExtractor'
 
 XSDNSURIExtractor: Plugin
 XSDNSURIExtractor realizationOf XSD
-XSDNSURIExtractor partOf CommonLanguageDefinition
+XSDNSURIExtractor partOf MatchingLanguageDefinition
 XSDNSURIExtractor = 'classpath:plugins.jaxb.XSDNSURIExtractor'
 

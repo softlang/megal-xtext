@@ -24,6 +24,7 @@ import org.xml.sax.InputSource;
 import com.google.common.base.CaseFormat;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableBiMap;
+import com.google.common.collect.Lists;
 
 public class XSDJavaCorrespondence extends EvaluatorPlugin {
 
@@ -53,6 +54,7 @@ public class XSDJavaCorrespondence extends EvaluatorPlugin {
 							"/xs:schema/xs:element/xs:complexType/..|/xs:schema/xs:complexType",
 							new InputSource(stream), XPathConstants.NODESET));
 
+			List<String> matched = Lists.newArrayList();
 			boolean hasInvalidation = false;
 			for (Node node : elements) {
 				String name = node.getAttributes().getNamedItem("name")
@@ -61,15 +63,21 @@ public class XSDJavaCorrespondence extends EvaluatorPlugin {
 						CaseFormat.UPPER_CAMEL, name);
 
 				if (hasInvalidation |= artifactRight.getChild(className
-						+ ".java") == null)
+						+ ".java") == null) {
 					context.error("The class with the name " + className
 							+ ", corresponding to the element <"
 							+ node.getNodeName() + " ... name=\"" + name
 							+ "\" ... /> does not exist.");
+				}
+				else{
+					matched.add(className);
+				}
 			}
 
-			if (!hasInvalidation)
+			if (!hasInvalidation) {
 				context.valid();
+				context.info(matched.toString());
+			}
 		} catch (IOException | XPathException e) {
 			context.warning(Throwables.getStackTraceAsString(e));
 		}

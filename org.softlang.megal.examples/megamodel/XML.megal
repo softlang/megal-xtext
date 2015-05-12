@@ -15,6 +15,7 @@ xmlFile conformsTo xsdFiles
 // DONE: plugin needed for conformsTo evaluator for XML and XSD
 
 @Plugin 'XSDConformance'
+//@Plugin 'TraceLinkReasoner'
 conformsTo < Artifact(+) * Artifact(+)
 
 XSDConformance : Plugin
@@ -30,6 +31,8 @@ XSDAcceptor realizationOf XSD
 XSDAcceptor = 'classpath:plugins.jaxb.AcceptXSD'
 XSDAcceptor partOf FileElementOfLanguage
 
-
 xmlFile = "workspace:/org.softlang.megal.examples/inputs/sampleCompany.xml"
 xsdFiles = "workspace:/org.softlang.megal.examples/inputs/Company.xsd"
+
+//TraceLinkReasoner : Plugin
+//TraceLinkReasoner = "classpath:plugins.TraceLinkReasoner"

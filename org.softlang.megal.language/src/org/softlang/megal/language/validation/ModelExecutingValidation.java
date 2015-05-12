@@ -187,7 +187,6 @@ public class ModelExecutingValidation extends AbstractMegalValidator {
 
 				// Annotate all the items that are not considered by evaluation
 				for (Element notConsidered : result.notVisited())
-					if(!executor.isStatement(notConsidered))
 					notConsideredOnLocations(notConsidered, createNotConsidered(notConsidered));
 			}
 

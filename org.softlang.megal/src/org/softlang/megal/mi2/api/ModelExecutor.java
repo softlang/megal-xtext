@@ -5,7 +5,6 @@ import static com.google.common.collect.Iterables.filter;
 import static com.google.common.collect.Maps.newHashMap;
 import static com.google.common.collect.Sets.difference;
 import static com.google.common.collect.Sets.newHashSet;
-import static java.util.Collections.emptyList;
 
 import java.util.Map;
 import java.util.Set;
@@ -37,8 +36,6 @@ public class ModelExecutor {
 
 	public static final String DEFAULT_REALIZATION_NAME = "realizationOf";
 
-	public static final String DEFAULT_STATEMENT_ANNOTATION_NAME = "Statement";
-
 	private final String pluginName;
 
 	private final String pluginAnnotationName;
@@ -47,20 +44,15 @@ public class ModelExecutor {
 
 	private final String realizationName;
 
-	private final String statementName;
-
 	public ModelExecutor() {
-		this(DEFAULT_PLUGIN_NAME, DEFAULT_PLUGIN_ANNOTATION_NAME, DEFAULT_PART_NAME, DEFAULT_REALIZATION_NAME,
-				DEFAULT_STATEMENT_ANNOTATION_NAME);
+		this(DEFAULT_PLUGIN_NAME, DEFAULT_PLUGIN_ANNOTATION_NAME, DEFAULT_PART_NAME, DEFAULT_REALIZATION_NAME);
 	}
 
-	public ModelExecutor(String pluginName, String pluginAnnotationName, String partName, String realizationName,
-			String statementName) {
+	public ModelExecutor(String pluginName, String pluginAnnotationName, String partName, String realizationName) {
 		this.pluginName = pluginName;
 		this.pluginAnnotationName = pluginAnnotationName;
 		this.partName = partName;
 		this.realizationName = realizationName;
-		this.statementName = statementName;
 	}
 
 	/**
@@ -228,12 +220,17 @@ public class ModelExecutor {
 							}
 					}
 
+					// TODO Do not evaluate multiple times, may be hard to do because of objects in bindings that do not
+					// support equality and hashing
+
 					if (KBs.difference(expansion, current).isEmpty())
 						// If expansion has no more additions, stop evaluation
 						break;
-					else
+					else {
+						System.out.println(expansion);
 						// Else continue with greater front
 						current = KBs.union(current, expansion);
+					}
 				}
 
 				// Return the result for the given parameters and the evaluator state
@@ -349,10 +346,6 @@ public class ModelExecutor {
 			 * @return Returns an iterable of plugins
 			 */
 			Iterable<Plugin> select(Element element) {
-				if (isStatement(element))
-					// If the element is a statement, it is just for factual purpose and not an evaluated item, for
-					// example plugin specifications
-					return emptyList();
 				if (element instanceof Entity) {
 					// If entity, get the type
 					Entity entity = (Entity) element;
@@ -397,24 +390,5 @@ public class ModelExecutor {
 
 	public String getRealizationName() {
 		return realizationName;
-	}
-
-	public String getStatementName() {
-		return statementName;
-	}
-
-	public boolean isStatement(Element element) {
-		// If element has the Statement annotation, it is a statement
-		if (element.hasAnnotation(getStatementName()))
-			return true;
-
-		// If an instances type is a statement, this is also a statement
-		if (element instanceof Entity)
-			return isStatement(((Entity) element).getType());
-		else if (element instanceof Relationship)
-			return isStatement(((Relationship) element).getType());
-
-		// Else this is a regular element
-		return false;
 	}
 }

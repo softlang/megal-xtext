@@ -7,6 +7,7 @@ import static plugins.util.Prelude.incomingFrom;
 import static plugins.util.Prelude.isElementOfLanguage;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Set;
 
 import org.softlang.megal.mi2.Entity;
@@ -14,7 +15,7 @@ import org.softlang.megal.mi2.Relationship;
 import org.softlang.megal.mi2.api.EvaluatorPlugin;
 import org.softlang.megal.mi2.api.context.Context;
 
-public class CommonLanguageDefinition extends EvaluatorPlugin {
+public class MatchingLanguageDefinition extends EvaluatorPlugin {
 	private NSURIExtractor getExtractor(Entity artifact) {
 		for (NSURIExtractor extractor : filter(getParts(), NSURIExtractor.class))
 			if (any(extractor.getRealization(),
@@ -26,20 +27,27 @@ public class CommonLanguageDefinition extends EvaluatorPlugin {
 
 	@Override
 	public void evaluate(Context context, Relationship relationship) {
-		Iterable<Entity> entities = incomingFrom(relationship.getRight(),
-				"defines");
+		if (!relationship.getRight().getBinding().isPresent())
+			return;
 
-		Set<URI> variants = newHashSet();
+		Object rightBinding = relationship.getRight().getBinding().get();
 
-		for (Entity entity : entities) {
-			NSURIExtractor extractor = getExtractor(entity);
-			if (extractor != null)
-				variants.add(extractor.extractNSURI(context, entity));
+		NSURIExtractor extractor = getExtractor(relationship.getLeft());
+		if (extractor == null)
+			return;
+
+		try {
+			URI toURI = new URI(rightBinding.toString());
+			URI extracted = extractor.extractNSURI(context,
+					relationship.getLeft());
+
+			if (extractor != null && toURI.equals(extracted))
+				context.valid();
+			else
+				context.error("The artifacts language " + extracted
+						+ " does not match the expected " + toURI);
+
+		} catch (URISyntaxException e) {
 		}
-
-		if (variants.size() == 1)
-			context.valid();
-		else if (variants.size() > 1)
-			context.error("Mutliple variants for language: " + variants);
 	}
 }

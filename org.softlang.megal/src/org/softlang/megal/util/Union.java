@@ -13,11 +13,13 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.ImmutableTable;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.SetMultimap;
+import com.google.common.collect.Sets;
 import com.google.common.collect.Table;
 import com.google.common.collect.Table.Cell;
-
+import static com.google.common.base.Predicates.*;
 /**
  * <p>
  * A collection of methods that provide mutable unions of common <i>ADS</i>s by specifying data dominance for remove and
@@ -100,6 +102,8 @@ public class Union {
 	 * @return Returns the result
 	 */
 	public static <E> Set<E> union(Set<E> a, Set<E> b) {
+		if (true)
+			return Sets.union(a, b);
 		return new UnionSet<>(a, b);
 	}
 
@@ -115,6 +119,10 @@ public class Union {
 	 * @return Returns the result
 	 */
 	public static <K, V> Map<K, V> union(Map<K, V> a, Map<K, V> b) {
+		if (true) {
+			Map<K, V> r = Maps.newHashMap(a);
+			r.putAll(Maps.filterKeys(b, not(in(a.keySet()))));
+		}
 		return new UnionMap<>(a, b);
 	}
 

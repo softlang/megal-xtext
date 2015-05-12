@@ -54,7 +54,7 @@ public class XSDConformance extends EvaluatorPlugin {
 				// Note as valid
 				context.valid();
 			} catch (SAXException e) {
-				context.error("Instance does not conform to schema");
+				context.error("Instance does not conform to schema, reason: "+Throwables.getStackTraceAsString(e));
 			}
 		} catch (SAXException e) {
 			context.error("Cannot analyze the schema");
