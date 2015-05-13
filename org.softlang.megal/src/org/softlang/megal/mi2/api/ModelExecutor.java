@@ -227,7 +227,6 @@ public class ModelExecutor {
 						// If expansion has no more additions, stop evaluation
 						break;
 					else {
-						System.out.println(expansion);
 						// Else continue with greater front
 						current = KBs.union(current, expansion);
 					}

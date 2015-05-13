@@ -19,6 +19,7 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 
 import com.google.common.collect.HashMultimap;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Multimap;
 
 public class Persistent {
@@ -66,8 +67,7 @@ public class Persistent {
 
 	/**
 	 * <p>
-	 * Returns the last item of the list or throws an
-	 * {@link NoSuchElementException}.
+	 * Returns the last item of the list or throws an {@link NoSuchElementException}.
 	 * </p>
 	 * 
 	 * @param list
@@ -105,8 +105,7 @@ public class Persistent {
 	 * Prepends the head item before the tail list.
 	 * </p>
 	 * <p>
-	 * The following fragment is always true:
-	 * <code>x.equals(prepend(head(x),tail(x)))</code>
+	 * The following fragment is always true: <code>x.equals(prepend(head(x),tail(x)))</code>
 	 * </p>
 	 * 
 	 * @param head
@@ -185,8 +184,7 @@ public class Persistent {
 	 * Appends the last item after the init list.
 	 * </p>
 	 * <p>
-	 * The following fragment is always true:
-	 * <code>x.equals(append(init(x),last(x)))</code>
+	 * The following fragment is always true: <code>x.equals(append(init(x),last(x)))</code>
 	 * </p>
 	 * 
 	 * @param init
@@ -251,6 +249,8 @@ public class Persistent {
 
 			@Override
 			public List<E> subList(int fromIndex, int toIndex) {
+				if (fromIndex > init.size())
+					return emptyList();
 				if (toIndex > init.size())
 					return append(init.subList(fromIndex, init.size()), last);
 				else
@@ -264,8 +264,7 @@ public class Persistent {
 	 * Persistent concatenation of the lists.
 	 * </p>
 	 * <p>
-	 * The following fragment is always true:
-	 * <code>x.equals(concatenate(x.subList(0,n),x.subList(n,x.size()))</code>
+	 * The following fragment is always true: <code>x.equals(concatenate(x.subList(0,n),x.subList(n,x.size()))</code>
 	 * </p>
 	 * 
 	 * @param first

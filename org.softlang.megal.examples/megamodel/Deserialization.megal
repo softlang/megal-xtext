@@ -8,7 +8,6 @@ elementOf < Pair * Function
 @Plugin 'JavaFileDefinesStaticFunction'
 defines < Artifact * Function 
 
-
 // DONE: link to static method from chars to object
 deserializationCode: File
 deserializationCode elementOf Java

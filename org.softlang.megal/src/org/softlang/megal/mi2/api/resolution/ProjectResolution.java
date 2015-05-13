@@ -1,19 +1,18 @@
 package org.softlang.megal.mi2.api.resolution;
 
+import static com.google.common.collect.FluentIterable.from;
+import static com.google.common.collect.Iterables.concat;
 import static com.google.common.collect.Iterables.filter;
-import static com.google.common.collect.Iterables.getFirst;
+import static java.util.Collections.emptyList;
+import static java.util.Collections.singleton;
 
-import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.List;
 
-import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.softlang.megal.MegalPlugin;
@@ -21,11 +20,7 @@ import org.softlang.megal.mi2.api.Artifact;
 import org.softlang.sourcesupport.SourceSupport;
 import org.softlang.sourcesupport.SourceSupportPlugin;
 
-import com.google.common.base.Objects;
-
-import static com.google.common.collect.FluentIterable.*;
-import static com.google.common.collect.Lists.*;
-import static java.util.Collections.*;
+import com.google.common.collect.ImmutableList;
 
 public abstract class ProjectResolution extends AbstractResolution {
 
@@ -36,7 +31,7 @@ public abstract class ProjectResolution extends AbstractResolution {
 		return SourceSupportPlugin.getSupport().analyze(getProject());
 	}
 
-	private Iterable<IResource> unbind(Object object) {
+	private Iterable<IResource> unbindEclipse(Object object) {
 		// If object is an URI
 		if (object instanceof URI)
 			return filter(MegalPlugin.getEvaluator().evaluate((URI) object), IResource.class);
@@ -45,7 +40,7 @@ public abstract class ProjectResolution extends AbstractResolution {
 		if (object instanceof String) {
 			String string = (String) object;
 			try {
-				return unbind(new URI(string));
+				return unbindEclipse(new URI(string));
 			} catch (URISyntaxException e) {
 				// Convert to file
 				File file = new File(string);
@@ -57,7 +52,7 @@ public abstract class ProjectResolution extends AbstractResolution {
 					URI rootRelativeURI = getProject().getLocationURI().relativize(file.toURI());
 
 					// Unbind the composite
-					return unbind(projectURI.resolve(rootRelativeURI));
+					return unbindEclipse(projectURI.resolve(rootRelativeURI));
 				} catch (URISyntaxException f) {
 					return emptyList();
 				}
@@ -67,8 +62,37 @@ public abstract class ProjectResolution extends AbstractResolution {
 		return emptyList();
 	}
 
+	private Iterable<URL> unbindWeb(Object object) {
+		if (object instanceof URL)
+			return singleton((URL) object);
+
+		if (object instanceof URI)
+			try {
+				return unbindWeb(((URI) object).toURL());
+			} catch (MalformedURLException e) {
+				return emptyList();
+			}
+
+		if (object instanceof String)
+			try {
+				return unbindWeb(new URI((String) object));
+			} catch (URISyntaxException e) {
+				return emptyList();
+			}
+
+		return emptyList();
+
+	}
+
 	@Override
 	public List<Artifact> getArtifacts(Object binding) {
-		return from(unbind(binding)).transform(EclipseArtifacts::toArtifact).toList();
+		// Enumerate eclipse artifacts
+		Iterable<Artifact> eclipseArtifacts = from(unbindEclipse(binding)).transform(EclipseArtifacts::toArtifact);
+
+		// Enumerate web artifacts
+		Iterable<Artifact> webArtifacts = from(unbindWeb(binding)).transform(WebArtifacts::toArtifact);
+
+		// Return both
+		return ImmutableList.copyOf(concat(eclipseArtifacts, webArtifacts));
 	}
 }

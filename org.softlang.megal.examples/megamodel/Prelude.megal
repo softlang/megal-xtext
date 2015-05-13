@@ -12,7 +12,7 @@ FunctionApplication < Entity
 Set < Entity
 Technology < Entity
 
-@Plugin 'LanguageEvaluator'
+@Plugin 'LanguageResolver'
 Language < Set
 
 @Color '255,0,0'
@@ -25,7 +25,7 @@ Transient < Artifact
 Filelocation < File
 
 // Relationship types
-elementOf < Entity(+) * Set
+elementOf < Entity ( + ) * Set
 
 subsetOf < Set * Set
 
@@ -42,9 +42,9 @@ instanceOf < Concept * Concept
 
 isA < Concept * Concept
 
-conformsTo < Artifact(+) * Artifact(+)
+conformsTo < Artifact ( + ) * Artifact ( + )
 
-dependsOn < Artifact(+) * Artifact(+)
+dependsOn < Artifact ( + ) * Artifact ( + )
 dependsOn < Technology * Language
 dependsOn < Technology * Technology
 // VERMUTLICH FALSCH
@@ -52,16 +52,16 @@ dependsOn < Function * Technology
 
 transformableIn < Language * Language
 transformedIn < Language * Language
-transformedIn < Artifact(+) * Artifact(+)
+transformedIn < Artifact ( + ) * Artifact ( + )
 
-correspondsTo < Artifact(+) * Artifact(+)
+correspondsTo < Artifact ( + ) * Artifact ( + )
 
-defines < Artifact(+) * Language
-defines < Artifact(+) * Function 
+defines < Artifact ( + ) * Language
+defines < Artifact ( + ) * Function
 
-linksTo < File(+) * File(+)
+linksTo < File ( + ) * File ( + )
 
-realizationOf < Artifact(+) * Function
+realizationOf < Artifact ( + ) * Function
 
 // XHTML variantOf HTML
 variantOf < Language * Language
@@ -96,17 +96,16 @@ partOf < Plugin * Plugin
 
 // Defining an evaluator for the relationship elementOf between File and language
 @Plugin 'FileElementOfLanguage'
-elementOf < File(+) * Language
+elementOf < File ( + ) * Language
 
 // Dispatcher with master as link and parameter dependence
 FileElementOfLanguage: Plugin
 FileElementOfLanguage = "classpath:plugins.root.elementof.FileElementOfLanguage"
 
-
 // Replacement for the function application
 Pair < Entity
-firstOf < Entity(+) * Pair
-secondOf < Entity(+) * Pair
+firstOf < Entity ( + ) * Pair
+secondOf < Entity ( + ) * Pair
 
 @Plugin 'PairElementWhenComputed'
 elementOf < Pair * Function
@@ -115,12 +114,12 @@ PairElementWhenComputed: Plugin
 PairElementWhenComputed = "classpath:plugins.root.elementof.PairElementWhenComputed"
 
 // From model
-refersTo < Artifact(+) * Technology
-refersTo < Artifact(+) * Artifact(+)
+refersTo < Artifact ( + ) * Technology
+refersTo < Artifact ( + ) * Artifact ( + )
 
 // bindingEvaluator, evaluates links by inference
-//Resolver: Plugin
-//Resolver = "classpath:pluginroot.Resolver"
+LanguageResolver: Plugin
+LanguageResolver = "classpath:plugins.LanguageResolver"
 
 // partOf evaluator, evaluates dot names to part of relationships
 //PartOf: Plugin
