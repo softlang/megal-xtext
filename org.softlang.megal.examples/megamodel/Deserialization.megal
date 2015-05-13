@@ -39,3 +39,10 @@ deserialization = "classpath:org.softlang.company.features.Serialization#deseria
 // DONE: This “elementOf” plugin behavior needs to see that nothing needs to be checked because “secondOf” was clearly computed from “firstOf” by the function “deserialization”.
 objectGraph conformsTo javaFiles // TODO match with files
 xmlFile correspondsTo objectGraph // TODO simple quick and dirty
+
+
+@Plugin 'ObjectCorrespondsToJavaFiles'
+conformsTo < Artifact ( + ) * Artifact ( + )
+
+ObjectCorrespondsToJavaFiles: Plugin
+ObjectCorrespondsToJavaFiles = "classpath:plugins.jaxb.ObjectCorrespondsToJavaFiles"

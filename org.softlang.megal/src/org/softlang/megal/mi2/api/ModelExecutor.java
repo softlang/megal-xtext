@@ -170,8 +170,6 @@ public class ModelExecutor {
 			}
 
 			Result run() {
-				// Set of evaluated elements, so some element is not evaluated twice
-				Set<Element> evaluated = newHashSet();
 
 				// Origin of generated elements for origin tracking of errors
 				Map<Element, Element> origin = newHashMap();
@@ -182,24 +180,10 @@ public class ModelExecutor {
 
 				for (;;) {
 					// Evaluate all the elements
-					for (Element element : difference(current.getElements(), evaluated)) {
-						// Mark as evaluated
-						evaluated.add(element);
+					for (Element element : current.getElements()) {
 
 						// Compose a local context
 						Context context = createContext(origin, element);
-
-						// Get appropriate evaluators
-						Iterable<EvaluatorPlugin> select = ImmutableList.copyOf(select(EvaluatorPlugin.class, element));
-						for (EvaluatorPlugin plugin : select)
-							// Try to evaluate, catch an exception into the error messages
-							try {
-								plugin.evaluate(context, element);
-							} catch (RuntimeException t) {
-								context.warning(Throwables.getStackTraceAsString(t));
-							} catch (Throwable t) {
-								context.error(Throwables.getStackTraceAsString(t));
-							}
 
 						// Get the appropriate reasoners
 						for (ReasonerPlugin plugin : select(ReasonerPlugin.class, element))
@@ -220,16 +204,28 @@ public class ModelExecutor {
 							}
 					}
 
-					// TODO Do not evaluate multiple times, may be hard to do because of objects in bindings that do not
-					// support equality and hashing
-
 					if (KBs.difference(expansion, current).isEmpty())
 						// If expansion has no more additions, stop evaluation
 						break;
-					else {
+					else
 						// Else continue with greater front
 						current = KBs.union(current, expansion);
-					}
+				}
+
+				for (Element element : current.getElements()) {
+					// Compose a local context
+					Context context = createContext(origin, element);
+
+					// Get appropriate evaluators
+					for (EvaluatorPlugin plugin : select(EvaluatorPlugin.class, element))
+						// Try to evaluate, catch an exception into the error messages
+						try {
+							plugin.evaluate(context, element);
+						} catch (RuntimeException t) {
+							context.warning(Throwables.getStackTraceAsString(t));
+						} catch (Throwable t) {
+							context.error(Throwables.getStackTraceAsString(t));
+						}
 				}
 
 				// Return the result for the given parameters and the evaluator state
