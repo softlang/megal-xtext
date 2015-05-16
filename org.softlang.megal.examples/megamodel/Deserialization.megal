@@ -18,7 +18,7 @@ deserializationCode defines deserialization
 deserializationCode = "workspace:/org.softlang.megal.examples/src/org/softlang/company/features/Serialization.java"
 
 @Plugin 'JavaRefersToJava'
-refersTo < Artifact(+) * Technology
+refersTo < Artifact ( + ) * Artifact ( + )
 JavaRefersToJava: Plugin
 JavaRefersToJava = "classpath:plugins.jaxb.JavaRefersToJava"
 

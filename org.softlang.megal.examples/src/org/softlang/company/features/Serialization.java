@@ -21,7 +21,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-
+import org.softlang.company.xjc.Employee;
 public class Serialization {
 
 	private static JAXBContext jaxbContext;

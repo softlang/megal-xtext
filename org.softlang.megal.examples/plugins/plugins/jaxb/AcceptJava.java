@@ -2,6 +2,7 @@ package plugins.jaxb;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Reader;
 
 import org.softlang.megal.mi2.api.Artifact;
 
@@ -15,8 +16,8 @@ import com.google.common.base.Throwables;
 public class AcceptJava extends Acceptor {
 	@Override
 	public Optional<String> accept(Artifact artifact) {
-		try (InputStream s = artifact.getBytes().openStream()) {
-			JavaParser.parse(s);
+		try (Reader s = artifact.getChars().openStream()) {
+			JavaParser.parse(s, false);
 			return Optional.absent();
 		} catch (ParseException e) {
 			return Optional.of("The artifact " + artifact.getName()
