@@ -119,8 +119,10 @@ public class JavaRefersToJava extends EvaluatorPlugin {
 
 		if (evidenceMessages.isEmpty())
 			context.error("No referral evidence found for the given bindings.");
-		else
+		else {
+			context.valid();
 			context.info(Joiner.on("\r\n").join(evidenceMessages));
+		}
 
 	}
 }

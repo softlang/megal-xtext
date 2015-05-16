@@ -22,6 +22,12 @@ refersTo < Artifact ( + ) * Artifact ( + )
 JavaRefersToJava: Plugin
 JavaRefersToJava = "classpath:plugins.jaxb.JavaRefersToJava"
 
+@Plugin 'JavaRefersToTechnology'
+refersTo < Artifact ( + ) * Technology
+
+JavaRefersToTechnology: Plugin
+JavaRefersToTechnology = "classpath:plugins.jaxb.JavaRefersToTechnology"
+
 FileToObjectFunction:Plugin
 FileToObjectFunction = "classpath:plugins.jaxb.FileToObjectFunction"
 
@@ -37,7 +43,7 @@ deserialization(xmlFile) | -> objectGraph // TODO reasoner that binds the object
 deserialization = "classpath:org.softlang.company.features.Serialization#deserializeCompany(ByteSource)"
 
 // DONE: This “elementOf” plugin behavior needs to see that nothing needs to be checked because “secondOf” was clearly computed from “firstOf” by the function “deserialization”.
-objectGraph conformsTo javaFiles // TODO match with files
+objectGraph conformsTo javaFiles
 xmlFile correspondsTo objectGraph // TODO simple quick and dirty
 
 
