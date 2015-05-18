@@ -18,6 +18,9 @@ import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableSet;
 
 public class JavaRefersToTechnology extends EvaluatorPlugin {
+	/**
+	 * <p>More like: STOP_WORD</p>
+	 */
 	private static final Set<String> STOP_WORDS = ImmutableSet.of("Library"
 			.toLowerCase());
 

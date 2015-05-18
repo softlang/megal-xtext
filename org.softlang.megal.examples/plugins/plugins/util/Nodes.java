@@ -6,16 +6,63 @@ import static com.google.common.collect.Iterators.singletonIterator;
 import java.util.AbstractList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.XMLConstants;
 import javax.xml.namespace.NamespaceContext;
 
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import com.google.common.collect.BiMap;
+import com.google.common.collect.Maps;
 
 public class Nodes {
+	public static String locationAndValue(Node node) {
+		String value = getValue(node);
+
+		return value == null ? location(node) : location(node) + ": " + value;
+	}
+
+	public static String location(Node node) {
+		if (node.getParentNode() == null)
+			return "";
+
+		int index = 0;
+		boolean overlap = false;
+		Node other = node;
+		while ((other = other.getPreviousSibling()) != null)
+			if (other.getNodeName().equalsIgnoreCase(node.getNodeName())) {
+				index++;
+				overlap = true;
+			}
+
+		other = node;
+		while ((other = other.getNextSibling()) != null)
+			if (other.getNodeName().equalsIgnoreCase(node.getNodeName())) {
+				overlap = true;
+				break;
+			}
+
+		if (overlap)
+			return location(node.getParentNode()) + "/" + node.getNodeName()
+					+ "#" + index;
+		else
+			return location(node.getParentNode()) + "/" + node.getNodeName();
+	}
+
+	public static String getValue(Node node) {
+		if (node.getNodeType() != Node.ELEMENT_NODE)
+			return node.getNodeValue();
+
+		for (Node childNode : asList(node.getChildNodes()))
+			if (childNode.getNodeType() == Node.ELEMENT_NODE)
+				return null;
+
+		return node.getTextContent();
+	}
+
 	public static List<Node> asList(final NodeList n) {
 		return new AbstractList<Node>() {
 			@Override
@@ -28,6 +75,24 @@ public class Nodes {
 				return n.getLength();
 			}
 		};
+	}
+
+	public static List<Node> asList(final NamedNodeMap n) {
+		return new AbstractList<Node>() {
+			@Override
+			public Node get(int index) {
+				return n.item(index);
+			}
+
+			@Override
+			public int size() {
+				return n.getLength();
+			}
+		};
+	}
+
+	public static Map<String, Node> asMap(final NamedNodeMap n) {
+		return Maps.uniqueIndex(asList(n), Node::getNodeName);
 	}
 
 	public static NamespaceContext asContext(BiMap<String, String> mapping) {
