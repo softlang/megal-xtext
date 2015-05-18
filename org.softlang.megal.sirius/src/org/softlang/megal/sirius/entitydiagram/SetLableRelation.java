@@ -4,15 +4,14 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.sirius.tools.api.ui.IExternalJavaAction;
-import org.softlang.megal.Entity;
-import org.softlang.megal.EntityType;
-import org.softlang.megal.Megamodel;
-import org.softlang.megal.Relationship;
-import org.softlang.megal.RelationshipType;
+import org.softlang.megal.MegalFile;
+import org.softlang.megal.MegalRelationship;
+import org.softlang.megal.MegalRelationshipType;
 import org.softlang.megal.sirius.MegalServices;
 
 public class SetLableRelation implements IExternalJavaAction {
@@ -30,22 +29,14 @@ public class SetLableRelation implements IExternalJavaAction {
 	public void execute(Collection<? extends EObject> arg0, Map<String, Object> arg1) {
 
 		String lable = (String) arg1.get("lable");
-		Relationship relation = (Relationship) arg0.iterator().next();
+		MegalRelationship relation = (MegalRelationship) arg0.iterator().next();
 
-		Megamodel megamodel = MegalServices.INSTANCE.getMegamodel(relation);
+		MegalFile megamodel = MegalServices.INSTANCE.megalFile(relation);
 
-		List<RelationshipType> rtis = MegalServices.INSTANCE.getRelationshipTypes(megamodel);
+		MegalRelationshipType type = MegalServices.INSTANCE.resolveRelationshipType(megamodel, lable);
 
-		// EList<RelationshipType> rts = megamodel.applicableRelationshipTypes(
-		// relation.getLeft(), relation.getRight());
+		if (type != null)
 
-		Optional<RelationshipType> rt = rtis.stream().filter(x -> lable.equals(x.getName()))
-				.findFirst();
-
-		if (!rt.isPresent())
-			return;
-
-		relation.setType(rt.get());
+			relation.setType(type);
 	}
-
 }

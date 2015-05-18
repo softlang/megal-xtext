@@ -5,10 +5,10 @@ import java.util.Map;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.sirius.tools.api.ui.IExternalJavaAction;
-import org.softlang.megal.Entity;
-import org.softlang.megal.EntityType;
-import org.softlang.megal.Megamodel;
-import org.softlang.megal.plugins.EntityTypeReference;
+import org.softlang.megal.MegalEntity;
+import org.softlang.megal.MegalEntityType;
+import org.softlang.megal.MegalFile;
+import org.softlang.megal.mi2.EntityType;
 import org.softlang.megal.sirius.MegalServices;
 
 public class SetLableEntity implements IExternalJavaAction {
@@ -26,7 +26,7 @@ public class SetLableEntity implements IExternalJavaAction {
 	public void execute(Collection<? extends EObject> arg0, Map<String, Object> arg1) {
 
 		String lable = (String) arg1.get("lable");
-		Entity entity = (Entity) arg0.iterator().next();
+		MegalEntity entity = (MegalEntity) arg0.iterator().next();
 
 		// Extract 'many' information.
 		boolean many = false;
@@ -41,28 +41,22 @@ public class SetLableEntity implements IExternalJavaAction {
 		if (fragments.length > 0) {
 			String name = fragments[0];
 
-			Entity resolved = MegalServices.INSTANCE.resolveEntity((Megamodel) entity.eContainer(),
-					name);
+			MegalEntity resolved = MegalServices.INSTANCE.resolveEntity((MegalFile) entity.eContainer(), name);
 
-			if (entity.getType() instanceof EntityTypeReference) {
-				EntityTypeReference et = (EntityTypeReference) entity.getType();
-				et.setMany(many);
-			}
-			
-			if (resolved == null){
+			entity.setTypeMany(many);
+
+			if (resolved == null) {
 				entity.setName(name);
 			}
 		}
 
 		// Change type if applicable to all relations that are in scope.
 		if (fragments.length > 1) {
-			EntityType resolved = MegalServices.INSTANCE.resolveEntityType(
-					(Megamodel) entity.eContainer(), fragments[1]);
-
-			Megamodel megamodel = MegalServices.INSTANCE.getMegamodel(entity);
+			MegalEntityType resolved = MegalServices.INSTANCE.resolveEntityType((MegalFile) entity.eContainer(),
+					fragments[1]);
 
 			if (resolved != null)
-				entity.getType().setDefinition(resolved);
+				entity.setType(resolved);
 		}
 	}
 

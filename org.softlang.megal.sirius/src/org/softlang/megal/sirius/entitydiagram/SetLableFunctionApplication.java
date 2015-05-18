@@ -4,38 +4,34 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.sirius.tools.api.ui.IExternalJavaAction;
-import org.softlang.megal.Entity;
-import org.softlang.megal.FunctionApplication;
-import org.softlang.megal.Megamodel;
-import org.softlang.megal.Relationship;
-import org.softlang.megal.RelationshipType;
+import org.softlang.megal.MegalEntity;
+import org.softlang.megal.MegalFile;
+import org.softlang.megal.MegalFunctionApplication;
 import org.softlang.megal.sirius.MegalServices;
 
 public class SetLableFunctionApplication implements IExternalJavaAction {
 
 	public SetLableFunctionApplication() {
-	
+
 	}
 
 	@Override
 	public void execute(Collection<? extends EObject> arg0, Map<String, Object> arg1) {
 		String lable = (String) arg1.get("lable");
-		FunctionApplication functionApplication = (FunctionApplication) arg0.iterator().next();
+		MegalFunctionApplication functionApplication = (MegalFunctionApplication) arg0.iterator().next();
 
-		Megamodel megamodel = MegalServices.INSTANCE.getMegamodel(functionApplication);
+		MegalFile megamodel = MegalServices.INSTANCE.megalFile(functionApplication);
 
-		List<Entity> entities = MegalServices.INSTANCE.getEntities(megamodel);
+		MegalEntity resolved = MegalServices.INSTANCE.resolveEntity(megamodel, lable);
 
-		Optional<Entity> entity = entities.stream().filter(x -> lable.equals(x.getName()))
-				.findFirst();
-
-		if (!entity.isPresent())
+		if (resolved == null)
 			return;
 
-		functionApplication.setFunction(entity.get());
+		functionApplication.setFunction(resolved);
 	}
 
 	@Override
