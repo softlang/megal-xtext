@@ -178,6 +178,10 @@ public class MegalServices {
 
 		return entity.getName();
 	}
+	
+	public String lable(MegalEntityType entitiyType){
+		return entitiyType.getName();
+	}
 
 	/**
 	 * Associated elements serve as source for the graphical mapping. Changes
@@ -280,11 +284,11 @@ public class MegalServices {
 		}
 	}
 
-	public EObject megalFileOverView(Declaration declaration, DNode dnode) {
+	public EObject megalFileOverView(MegalDeclaration declaration, DNode dnode) {
 		return ((DSemanticDecorator) dnode.eContainer()).getTarget();
 	}
 
-	public EObject megalFileOverView(Declaration declaration, DEdge dedge) {
+	public EObject megalFileOverView(MegalDeclaration declaration, DEdge dedge) {
 		return ((DSemanticDecorator) dedge.eContainer()).getTarget();
 	}
 
@@ -319,7 +323,7 @@ public class MegalServices {
 
 		Integer color = get(entity, 0);
 
-		if (color == null)
+		if (color == null && entity.getType() != null)
 			color = get(entity.getType(), 0);
 
 		if (color == null)
@@ -331,7 +335,7 @@ public class MegalServices {
 	public int green(MegalEntity entity) {
 		Integer color = get(entity, 1);
 
-		if (color == null)
+		if (color == null && entity.getType() != null)
 			color = get(entity.getType(), 1);
 
 		if (color == null)
@@ -343,7 +347,7 @@ public class MegalServices {
 	public int blue(MegalEntity entity) {
 		Integer color = get(entity, 2);
 
-		if (color == null)
+		if (color == null && entity.getType() != null)
 			color = get(entity.getType(), 2);
 
 		if (color == null)
@@ -380,32 +384,25 @@ public class MegalServices {
 		return color;
 	}
 
-	// public boolean canRemove(MegalEntity entity) {
-	// for (Declaration declaration : megalFile(entity).getDeclarations()) {
-	// if (declaration instanceof Relationship) {
-	// Relationship relationship = (Relationship) declaration;
-	// if (relationship.getLeft().equals(entity) ||
-	// relationship.getRight().equals(entity))
-	// return false;
-	// }
-	// }
-	//
-	// return true;
-	// }
-	//
-	// public boolean canRemove(EntityType entityType) {
-	// for (Declaration declaration :
-	// getMegamodel(entityType).getDeclarations()) {
-	// if (declaration instanceof RelationshipType) {
-	// RelationshipType relationshipType = (RelationshipType) declaration;
-	// if (relationshipType.getLeft().getDefinition().equals(entityType)
-	// || relationshipType.getRight().getDefinition().equals(entityType))
-	// return false;
-	// }
-	// }
-	//
-	// return true;
-	// }
+	public boolean canRemove(MegalEntity entity) {
+		for (MegalRelationship relationship : relationsLocal(megalFile(entity)))
+			if (relationship.getLeft().equals(entity) || relationship.getRight().equals(entity))
+				return false;
+
+		for (MegalFunctionApplication functionApplication : functionApplicationsLocal((megalFile(entity))))
+			if (functionApplication.getFunction().equals(entity))
+				return false;
+
+		return true;
+	}
+
+	public boolean canRemove(MegalEntityType entityType) {
+		for (MegalRelationshipType relationshipType : relationshipTypes(megalFile(entityType)))
+			if (relationshipType.getTypeLeft().equals(entityType) || relationshipType.getTypeRight().equals(entityType))
+				return false;
+
+		return true;
+	}
 
 	public int getLineRed(MegalDeclaration declaration) {
 		if (error(declaration) != null)
@@ -427,7 +424,5 @@ public class MegalServices {
 	public int getLineBlue(MegalDeclaration declaration) {
 		return 0;
 	}
-
-	
 
 }
