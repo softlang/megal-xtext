@@ -24,6 +24,7 @@ import org.softlang.megal.MegalRelationship;
 import org.softlang.megal.MegalRelationshipType;
 import org.softlang.megal.mi2.RelationshipType;
 
+import com.google.common.base.Joiner;
 import com.google.common.collect.FluentIterable;
 
 public class MegalServices {
@@ -144,6 +145,39 @@ public class MegalServices {
 		return declarationsImport(node, MegalFunctionApplication.class);
 	}
 
+	/**
+	 * Returns the first Relationionships in this megal file that connects this
+	 * type nodes.
+	 * 
+	 * @param node
+	 * @return
+	 */
+	public Set<MegalRelationshipType> firstRelationshipTypesLocal(MegalFile node) {
+		Set<MegalRelationshipType> firsts = new HashSet<>();
+
+		for (MegalRelationshipType current : relationshipTypesLocal(node)) {
+			boolean contains = false;
+			for (MegalRelationshipType first : firsts)
+				if (first.getTypeLeft() == current.getTypeLeft() && first.getTypeRight() == current.getTypeRight()) {
+					contains = true;
+					break;
+				}
+			if (!contains)
+				firsts.add(current);
+		}
+		return firsts;
+	}
+
+	public Set<MegalRelationshipType> merged(MegalRelationshipType relationshipType) {
+		Set<MegalRelationshipType> merged = new HashSet<>();
+		for (MegalRelationshipType current : relationshipTypesLocal(megalFile(relationshipType)))
+			if (relationshipType.getTypeLeft() == current.getTypeLeft()
+					&& relationshipType.getTypeRight() == current.getTypeRight())
+				merged.add(current);
+
+		return merged;
+	}
+
 	public String lable(MegalEntity entity) {
 
 		String name = entity.getName();
@@ -178,9 +212,17 @@ public class MegalServices {
 
 		return entity.getName();
 	}
-	
-	public String lable(MegalEntityType entitiyType){
+
+	public String lable(MegalEntityType entitiyType) {
 		return entitiyType.getName();
+	}
+
+	public String lable(MegalRelationshipType relationshipType) {
+		return Joiner.on("/").join(FluentIterable.from(merged(relationshipType)).transform(x -> x.getName()));
+	}
+
+	public Boolean isEntity(MegalEntityType entitiyType) {
+		return "Entity".equals(entitiyType.getName());
 	}
 
 	/**
