@@ -67,7 +67,7 @@ QID:
 	NAME ('::' NAME)*;
 
 NAME:
-	ID ('.' ID)*;
+	STRING | ID ('.' ID)*;
 
 ID:
 	UCID | LCID;
