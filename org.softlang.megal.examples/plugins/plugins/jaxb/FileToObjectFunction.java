@@ -19,8 +19,8 @@ import org.softlang.megal.mi2.KB;
 import org.softlang.megal.mi2.KBs;
 import org.softlang.megal.mi2.Relationship;
 import org.softlang.megal.mi2.api.Artifact;
-import org.softlang.megal.mi2.api.ReasonerPlugin;
-import org.softlang.megal.mi2.api.context.Context;
+
+import plugins.prelude.InjectedReasonerPlugin;
 
 import com.google.common.base.Optional;
 import com.google.common.base.Splitter;
@@ -28,30 +28,30 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.io.ByteSource;
 import com.google.common.io.CharSource;
 
-public class FileToObjectFunction extends ReasonerPlugin {
+public class FileToObjectFunction extends InjectedReasonerPlugin {
 	@Override
-	public KB derive(Context context, Relationship relationship) {
+	public KB derive(Relationship relationship) {
 
-		if (!relationship.getRight().getBinding().isPresent())
+		if (!relationship.getRight().hasBinding())
 			return KBs.empty();
 
-		Object binding = relationship.getRight().getBinding().get();
-		Class<?> home = context.getClass(binding, Object.class, getClass());
+		Object binding = relationship.getRight().getBinding();
+		Class<?> home = getClass(binding, Object.class, getClass());
 
 		if (home == null) {
-			context.error("Can not resolve the class.");
+			error("Can not resolve the class.");
 			return KBs.empty();
 		}
 
 		Method resolved = findAccessibleMethod(home, binding);
 
 		if (resolved == null) {
-			context.error("Can not resolve the method.");
+			error("Can not resolve the method.");
 			return KBs.empty();
 		}
 
 		if (resolved.getParameterCount() != 1) {
-			context.error("Can not invoke method, it needs to have one parameter.");
+			error("Can not invoke method, it needs to have one parameter.");
 			return KBs.empty();
 		}
 
@@ -66,16 +66,16 @@ public class FileToObjectFunction extends ReasonerPlugin {
 		Entity input = firstRelationshipOf.getLeft();
 		Entity output = secondRelationshipOf.getLeft();
 
-		if (output.getBinding().isPresent())
+		if (output.hasBinding())
 			return KBs.empty();
 
 		if (input == null)
 			return KBs.empty();
 
-		if (!input.getBinding().isPresent())
+		if (!input.hasBinding())
 			return KBs.empty();
 
-		Artifact inputArtifact = context.getArtifact(input.getBinding().get());
+		Artifact inputArtifact = getArtifact(input.getBinding());
 
 		if (inputArtifact == null)
 			return KBs.empty();
@@ -97,12 +97,11 @@ public class FileToObjectFunction extends ReasonerPlugin {
 					value = Optional.of(resolved.invoke(null, stream));
 				}
 			else
-				context.error("Cannot invoke method with parameter "
+				error("Cannot invoke method with parameter "
 						+ firstParameter.getSimpleName(), relationship,
 						firstRelationshipOf, secondRelationshipOf);
 
-			context.valid(relationship, firstRelationshipOf,
-					secondRelationshipOf);
+			valid(relationship, firstRelationshipOf, secondRelationshipOf);
 
 			if (!value.isPresent())
 				return KBs.empty();
@@ -113,7 +112,7 @@ public class FileToObjectFunction extends ReasonerPlugin {
 					.build();
 		} catch (InvocationTargetException | IllegalAccessException
 				| IllegalArgumentException | IOException e) {
-			context.error("Error while invoking function, " + e);
+			error("Error while invoking function, " + e);
 			return KBs.empty();
 		}
 	}

@@ -2,20 +2,17 @@ package plugins.jaxb;
 
 import static com.google.common.collect.Iterables.any;
 import static com.google.common.collect.Iterables.filter;
-import static com.google.common.collect.Sets.newHashSet;
-import static plugins.util.Prelude.incomingFrom;
 import static plugins.util.Prelude.isElementOfLanguage;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Set;
 
 import org.softlang.megal.mi2.Entity;
 import org.softlang.megal.mi2.Relationship;
-import org.softlang.megal.mi2.api.EvaluatorPlugin;
-import org.softlang.megal.mi2.api.context.Context;
 
-public class MatchingLanguageDefinition extends EvaluatorPlugin {
+import plugins.prelude.GuidedEvaluatorPlugin;
+
+public class MatchingLanguageDefinition extends GuidedEvaluatorPlugin {
 	private NSURIExtractor getExtractor(Entity artifact) {
 		for (NSURIExtractor extractor : filter(getParts(), NSURIExtractor.class))
 			if (any(extractor.getRealization(),
@@ -26,11 +23,9 @@ public class MatchingLanguageDefinition extends EvaluatorPlugin {
 	}
 
 	@Override
-	public void evaluate(Context context, Relationship relationship) {
-		if (!relationship.getRight().getBinding().isPresent())
-			return;
+	public void guidedEvaluate(Relationship relationship) {
 
-		Object rightBinding = relationship.getRight().getBinding().get();
+		Object rightBinding = withBound(relationship.getRight());
 
 		NSURIExtractor extractor = getExtractor(relationship.getLeft());
 		if (extractor == null)
@@ -38,13 +33,13 @@ public class MatchingLanguageDefinition extends EvaluatorPlugin {
 
 		try {
 			URI toURI = new URI(rightBinding.toString());
-			URI extracted = extractor.extractNSURI(context,
-					relationship.getLeft());
+			URI extracted = extractor
+					.extractNSURI(this, relationship.getLeft());
 
 			if (extractor != null && toURI.equals(extracted))
-				context.valid();
+				valid();
 			else
-				context.error("The artifacts language " + extracted
+				error("The artifacts language " + extracted
 						+ " does not match the expected " + toURI);
 
 		} catch (URISyntaxException e) {

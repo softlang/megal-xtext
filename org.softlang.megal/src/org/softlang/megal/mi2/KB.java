@@ -217,12 +217,14 @@ public abstract class KB {
 		}
 
 		@Override
-		public Optional<Object> getBinding() {
-			// Bindings are mapped from the key
-			if (getRawBindings().containsKey(from.getKey()))
-				return Optional.of(getRawBindings().get(from.getKey()));
+		public boolean hasBinding() {
+			return getRawBindings().containsKey(from.getKey());
+		}
 
-			return Optional.absent();
+		@Override
+		public Object getBinding() {
+			// Bindings are mapped from the key
+			return getRawBindings().get(from.getKey());
 		}
 
 		@Override

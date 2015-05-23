@@ -3,7 +3,6 @@ package org.softlang.megal.mi2.api;
 import static com.google.common.collect.Iterables.concat;
 import static com.google.common.collect.Iterables.filter;
 import static com.google.common.collect.Maps.newHashMap;
-import static com.google.common.collect.Sets.difference;
 import static com.google.common.collect.Sets.newHashSet;
 
 import java.util.Map;
@@ -23,7 +22,6 @@ import org.softlang.megal.mi2.api.resolution.Resolution;
 
 import com.google.common.base.Throwables;
 import com.google.common.collect.HashMultimap;
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.SetMultimap;
 
@@ -94,50 +92,50 @@ public class ModelExecutor {
 				// Get all instances of the plugin type
 				EntityType pluginType = input.getEntityType(getPluginName());
 				if (pluginType != null)
-					for (Entity entity : pluginType.getInstances())
-						for (Object binding : entity.getBinding().asSet()) {
-							// Try to load a class
-							Class<? extends Plugin> pluginClass = resolution.getClass(binding, Plugin.class);
+					for (Entity entity : pluginType.getInstances()) {
+						if (!entity.hasBinding())
+							continue;
+						// Try to load a class
+						Class<? extends Plugin> pluginClass = resolution.getClass(entity.getBinding(), Plugin.class);
 
-							// If class exists, instantiate it
-							if (pluginClass != null)
-								try {
-									// Make instance
-									Plugin plugin = pluginClass.newInstance();
-									plugins.put(entity, plugin);
+						// If class exists, instantiate it
+						if (pluginClass != null)
+							try {
+								// Make instance
+								Plugin plugin = pluginClass.newInstance();
+								plugins.put(entity, plugin);
 
-									boolean specificAssociation = false;
-									// Connect to entity types
-									for (EntityType entityType : input.getEntityTypes())
-										if (entityType.getAnnotations(getPluginAnnotationName()).contains(
-												entity.getName())) {
-											specificAssociation = true;
-											pluginsByEntityType.put(entityType, plugin);
-											for (EntityType spec : entityType.getSpecializations())
-												pluginsByEntityType.put(spec, plugin);
-										}
+								boolean specificAssociation = false;
+								// Connect to entity types
+								for (EntityType entityType : input.getEntityTypes())
+									if (entityType.getAnnotations(getPluginAnnotationName()).contains(entity.getName())) {
+										specificAssociation = true;
+										pluginsByEntityType.put(entityType, plugin);
+										for (EntityType spec : entityType.getSpecializations())
+											pluginsByEntityType.put(spec, plugin);
+									}
 
-									// Connect to relationship types
-									for (RelationshipType relationshipType : input.getRelationshipTypes())
-										if (relationshipType.getAnnotations(getPluginAnnotationName()).contains(
-												entity.getName())) {
-											specificAssociation = true;
-											pluginsByRelationshipType.put(relationshipType, plugin);
-											for (RelationshipType spec : relationshipType.getSpecializations())
-												pluginsByRelationshipType.put(spec, plugin);
-										}
+								// Connect to relationship types
+								for (RelationshipType relationshipType : input.getRelationshipTypes())
+									if (relationshipType.getAnnotations(getPluginAnnotationName()).contains(
+											entity.getName())) {
+										specificAssociation = true;
+										pluginsByRelationshipType.put(relationshipType, plugin);
+										for (RelationshipType spec : relationshipType.getSpecializations())
+											pluginsByRelationshipType.put(spec, plugin);
+									}
 
-									if (!specificAssociation)
-										universalPlugins.add(plugin);
+								if (!specificAssociation)
+									universalPlugins.add(plugin);
 
-								} catch (Throwable e) {
-									errors.put(entity, Throwables.getStackTraceAsString(e));
-								}
-
-							else {
-								errors.put(entity, "Plugin class " + binding + "  is not resolvable");
+							} catch (Throwable e) {
+								errors.put(entity, Throwables.getStackTraceAsString(e));
 							}
+
+						else {
+							errors.put(entity, "Plugin class " + entity.getBinding() + "  is not resolvable");
 						}
+					}
 
 				// Get the partOf relationship type
 				RelationshipType partOf = input.getRelationshipType(getPartName(), getPluginName(), getPluginName());
@@ -189,7 +187,7 @@ public class ModelExecutor {
 						for (ReasonerPlugin plugin : select(ReasonerPlugin.class, element))
 							// Try to get the output KB, catch an exception into the error messages
 							try {
-								KB output = plugin.derive(context, element);
+								KB output = Plugins.apply(plugin, context, element);
 
 								// Annotate all the generated elements
 								for (Element generated : output.getElements())
@@ -220,7 +218,7 @@ public class ModelExecutor {
 					for (EvaluatorPlugin plugin : select(EvaluatorPlugin.class, element))
 						// Try to evaluate, catch an exception into the error messages
 						try {
-							plugin.evaluate(context, element);
+							Plugins.apply(plugin, context, element);
 						} catch (RuntimeException t) {
 							context.warning(Throwables.getStackTraceAsString(t));
 						} catch (Throwable t) {

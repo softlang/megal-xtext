@@ -17,33 +17,13 @@ import org.softlang.megal.mi2.api.context.Context;
  * @author Pazuzu
  *
  */
-public abstract class ReasonerPlugin extends Plugin {
-	public final KB derive(Context context, Element element) {
-		if (element instanceof EntityType)
-			return derive(context, (EntityType) element);
-		else if (element instanceof RelationshipType)
-			return derive(context, (RelationshipType) element);
-		else if (element instanceof Entity)
-			return derive(context, (Entity) element);
-		else if (element instanceof Relationship)
-			return derive(context, (Relationship) element);
-		else
-			return KBs.empty();
-	}
+public interface ReasonerPlugin extends Plugin {
 
-	public KB derive(Context context, EntityType entityType) {
-		return KBs.empty();
-	}
+	KB derive(Context context, EntityType entityType);
 
-	public KB derive(Context context, RelationshipType relationshipType) {
-		return KBs.empty();
-	}
+	KB derive(Context context, RelationshipType relationshipType);
 
-	public KB derive(Context context, Entity entity) {
-		return KBs.empty();
-	}
+	KB derive(Context context, Entity entity);
 
-	public KB derive(Context context, Relationship relationship) {
-		return KBs.empty();
-	}
+	KB derive(Context context, Relationship relationship);
 }

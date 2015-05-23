@@ -16,7 +16,7 @@ public class PackageInfoNSURIExtractor extends NSURIExtractor {
 
 	@Override
 	public URI extractNSURI(Resolution resolution, Entity entity) {
-		Artifact artifact = resolution.getArtifact(entity.getBinding().get());
+		Artifact artifact = resolution.getArtifact(entity.getBinding());
 		if (artifact == null)
 			return null;
 

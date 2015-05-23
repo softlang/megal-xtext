@@ -46,7 +46,7 @@ public class ModelExecutingValidation extends AbstractMegalValidator {
 		// Perform the evaluation
 		final Result result = executor.evaluate(resolution, model);
 
-		// Marker class with scopeF
+		// Marker class with scope
 		class Marking {
 
 			Multimap<MegalElement, EStructuralFeature> getLocations(Element element) {
