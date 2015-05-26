@@ -3,6 +3,7 @@ package org.softlang.megal.sirius;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -19,7 +20,7 @@ import org.softlang.megal.MegalDeclaration;
 import org.softlang.megal.MegalEntity;
 import org.softlang.megal.MegalEntityType;
 import org.softlang.megal.MegalFile;
-import org.softlang.megal.MegalFunctionApplication;
+import org.softlang.megal.MegalPair;
 import org.softlang.megal.MegalRelationship;
 import org.softlang.megal.MegalRelationshipType;
 import org.softlang.megal.mi2.RelationshipType;
@@ -133,16 +134,16 @@ public class MegalServices {
 		return declarationsImport(node, MegalRelationshipType.class);
 	}
 
-	public Set<MegalFunctionApplication> functionApplications(MegalFile node) {
-		return declarations(node, MegalFunctionApplication.class);
+	public Set<MegalPair> pairs(MegalFile node) {
+		return declarations(node, MegalPair.class);
 	}
 
-	public Set<MegalFunctionApplication> functionApplicationsLocal(MegalFile node) {
-		return declarationsLocal(node, MegalFunctionApplication.class);
+	public Set<MegalPair> pairsLocal(MegalFile node) {
+		return declarationsLocal(node, MegalPair.class);
 	}
 
-	public Set<MegalFunctionApplication> functionApplicationsImport(MegalFile node) {
-		return declarationsImport(node, MegalFunctionApplication.class);
+	public Set<MegalPair> pairsImport(MegalFile node) {
+		return declarationsImport(node, MegalPair.class);
 	}
 
 	/**
@@ -158,7 +159,7 @@ public class MegalServices {
 		for (MegalRelationshipType current : relationshipTypesLocal(node)) {
 			boolean contains = false;
 			for (MegalRelationshipType first : firsts)
-				if (first.getTypeLeft() == current.getTypeLeft() && first.getTypeRight() == current.getTypeRight()) {
+				if (first.getLeft() == current.getLeft() && first.getRight() == current.getRight()) {
 					contains = true;
 					break;
 				}
@@ -168,11 +169,11 @@ public class MegalServices {
 		return firsts;
 	}
 
-	public Set<MegalRelationshipType> merged(MegalRelationshipType relationshipType) {
-		Set<MegalRelationshipType> merged = new HashSet<>();
-		for (MegalRelationshipType current : relationshipTypesLocal(megalFile(relationshipType)))
-			if (relationshipType.getTypeLeft() == current.getTypeLeft()
-					&& relationshipType.getTypeRight() == current.getTypeRight())
+	public List<MegalRelationshipType> merged(MegalRelationshipType relationshipType) {
+		List<MegalRelationshipType> merged = new LinkedList<>();
+		for (MegalRelationshipType current : FluentIterable.from(megalFile(relationshipType).getDeclarations()).filter(
+				MegalRelationshipType.class))
+			if (relationshipType.getLeft() == current.getLeft() && relationshipType.getRight() == current.getRight())
 				merged.add(current);
 
 		return merged;
@@ -186,7 +187,7 @@ public class MegalServices {
 		if (entity.getType() != null && entity.getType() != null)
 			name = name + ":" + entity.getType().getName();
 
-		if (entity.isTypeMany()) {
+		if (entity.isMany()) {
 			name = name + "+";
 		}
 
@@ -203,9 +204,9 @@ public class MegalServices {
 		return type.getName();
 	}
 
-	public String lable(MegalFunctionApplication functionApplication) {
+	public String lable(MegalPair pair) {
 
-		MegalEntity entity = functionApplication.getFunction();
+		MegalEntity entity = pair.getSet();
 
 		if (entity == null)
 			return "UNDEFINED";
@@ -431,8 +432,8 @@ public class MegalServices {
 			if (relationship.getLeft().equals(entity) || relationship.getRight().equals(entity))
 				return false;
 
-		for (MegalFunctionApplication functionApplication : functionApplicationsLocal((megalFile(entity))))
-			if (functionApplication.getFunction().equals(entity))
+		for (MegalPair pairs : pairsLocal((megalFile(entity))))
+			if (pairs.getSet().equals(entity))
 				return false;
 
 		return true;
@@ -440,7 +441,7 @@ public class MegalServices {
 
 	public boolean canRemove(MegalEntityType entityType) {
 		for (MegalRelationshipType relationshipType : relationshipTypes(megalFile(entityType)))
-			if (relationshipType.getTypeLeft().equals(entityType) || relationshipType.getTypeRight().equals(entityType))
+			if (relationshipType.getLeft().equals(entityType) || relationshipType.getRight().equals(entityType))
 				return false;
 
 		return true;
