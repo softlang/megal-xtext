@@ -82,10 +82,10 @@ class MegalHighlightingConfiguration extends DefaultHighlightingConfiguration {
 		guarded(null) [
 			// Guards	
 			ifAssigned(o)
-			ifAssigned(o.typeLeft)
-			ifAssigned(o.typeRight)
+			ifAssigned(o.left)
+			ifAssigned(o.right)
 			// Value
-			o.typeLeft.name + '_' + o.name + '_' + o.typeRight.name
+			o.left.name + '_' + o.name + '_' + o.right.name
 		]
 	}
 
@@ -102,10 +102,10 @@ class MegalHighlightingConfiguration extends DefaultHighlightingConfiguration {
 		guarded('''Invalid object''') [
 			// Guards	
 			ifAssigned(o)
-			ifAssigned(o.typeLeft)
-			ifAssigned(o.typeRight)
+			ifAssigned(o.left)
+			ifAssigned(o.right)
 			// Value
-			o.name + " between " + o.typeLeft.name + " and " + o.typeRight.name
+			o.name + " between " + o.left.name + " and " + o.right.name
 		]
 
 	}

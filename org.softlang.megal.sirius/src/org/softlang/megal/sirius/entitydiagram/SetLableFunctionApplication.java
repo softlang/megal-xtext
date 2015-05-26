@@ -10,7 +10,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.sirius.tools.api.ui.IExternalJavaAction;
 import org.softlang.megal.MegalEntity;
 import org.softlang.megal.MegalFile;
-import org.softlang.megal.MegalFunctionApplication;
+import org.softlang.megal.MegalPair;
 import org.softlang.megal.sirius.MegalServices;
 
 public class SetLableFunctionApplication implements IExternalJavaAction {
@@ -22,7 +22,7 @@ public class SetLableFunctionApplication implements IExternalJavaAction {
 	@Override
 	public void execute(Collection<? extends EObject> arg0, Map<String, Object> arg1) {
 		String lable = (String) arg1.get("lable");
-		MegalFunctionApplication functionApplication = (MegalFunctionApplication) arg0.iterator().next();
+		MegalPair functionApplication = (MegalPair) arg0.iterator().next();
 
 		MegalFile megamodel = MegalServices.INSTANCE.megalFile(functionApplication);
 
@@ -31,7 +31,7 @@ public class SetLableFunctionApplication implements IExternalJavaAction {
 		if (resolved == null)
 			return;
 
-		functionApplication.setFunction(resolved);
+		functionApplication.setSet(resolved);
 	}
 
 	@Override
