@@ -1,107 +1,79 @@
-grammar org.softlang.megal.language.Megal hidden(WS, ML_COMMENT, SL_COMMENT)
+grammar org.softlang.megal.language.Megal hidden(WS, COMMENT)
 
 import "http://softlang.wikidot.com/megal"
 import "http://www.eclipse.org/emf/2002/Ecore" as ecore
 
 MegalFile:
-	annotations+=PrefixAnnotation* 'model' name=QID
-	('import' imports+=[MegalFile|QID] | declarations+=MegalDeclaration | bindings+=MegalLink)*;
+	annotations+=MegalAnnotation* 'model' name=ID
+	('import' imports+=[MegalFile]
+	| declarations+=MegalEntityType
+	| declarations+=MegalRelationshipType
+	| declarations+=MegalEntity
+	| declarations+=MegalRelationship
+	| declarations+=MegalPair
+	| bindings+=MegalLink)*;
 
-MegalDeclaration:
-	MegalEntityType | MegalRelationshipType | MegalEntity | MegalRelationship | MegalFunctionApplication;
-
-PrefixAnnotation returns MegalAnnotation:
-	'@' key=QID (value=STRING)?;
-
-ShowNameAnnotation returns MegalAnnotation:
-	'[' value=STRING ']';
+MegalAnnotation:
+	'@' key=ID (value=STR)?;
 
 MegalLink:
-	annotations+=PrefixAnnotation*
-	link=[MegalEntity|QID] ('(' input=[MegalEntity|QID] ')' '|' '->' output=[MegalEntity|QID])? '=' to=STRING;
+	annotations+=MegalAnnotation* link=[MegalEntity]
+	('(' first=[MegalEntity] ')' '|->'
+	second=[MegalEntity])? '=' to=STR;
 
 MegalEntityType:
-	annotations+=PrefixAnnotation*
-	name=QID
-	(annotations+=ShowNameAnnotation)?
-	('<' supertype=[MegalEntityType|QID] | 'as' 'entity');
+	annotations+=MegalAnnotation* name=ID
+	('<' supertype=[MegalEntityType] | 'as' 'entity');
 
 MegalRelationshipType:
-	annotations+=PrefixAnnotation*
-	name=QID
-	(annotations+=ShowNameAnnotation)?
-	'<'
+	annotations+=MegalAnnotation* name=ID '<'
 	// Part of left type assignment
-	typeLeft=[MegalEntityType|QID] ('[' typeLeftParameters+=[MegalEntity|QID] ('->' typeLeftParameters+=[MegalEntity|QID])*
+	left=[MegalEntityType]
+	('[' leftParams+=[MegalEntity]
+	('->' leftParams+=[MegalEntity])*
 	']')?
-	(typeLeftArb?='(' typeLeftMany?='+' ')' | typeLeftMany?='+')?
-	// Operator
+	(leftBoth?='(+)' | leftMany?='+')?
 	'*'
 	// Part of right type assignment
-	typeRight=[MegalEntityType|QID] ('[' typeRightParameters+=[MegalEntity|QID] ('->'
-	typeRightParameters+=[MegalEntity|QID])* ']')?
-	(typeRightArb?='(' typeRightMany?='+' ')' | typeRightMany?='+')?;
+	right=[MegalEntityType]
+	('[' rightParams+=[MegalEntity]
+	('->' rightParams+=[MegalEntity])*
+	']')?
+	(rightBoth?='(+)' | rightMany?='+')?;
 
 MegalEntity:
-	annotations+=PrefixAnnotation*
-	(dependent?='?' | parameter?='!')?
-	name=QID
-	(annotations+=ShowNameAnnotation)?
-	':'
+	annotations+=MegalAnnotation* name=ID ':'
 	// Part of type assignment
-	type=[MegalEntityType|QID] ('[' typeParameters+=[MegalEntity|QID] ('->' typeParameters+=[MegalEntity|QID])* ']')?
-	typeMany?='+'?;
+	type=[MegalEntityType]
+	('[' params+=[MegalEntity]
+	('->' params+=[MegalEntity])*
+	']')? many?='+'?;
 
 MegalRelationship:
-	annotations+=PrefixAnnotation*
-	left=[MegalEntity|QID]
-	type=[MegalRelationshipType|QID]
-	right=[MegalEntity|QID];
+	annotations+=MegalAnnotation*
+	left=[MegalEntity] type=[MegalRelationshipType] right=[MegalEntity];
 
-MegalFunctionApplication:
-	annotations+=PrefixAnnotation*
-	function=[MegalEntity|QID]
-	'(' input=[MegalEntity|QID] ')' '|' '->' output=[MegalEntity|QID];
+MegalPair:
+	annotations+=MegalAnnotation* set=[MegalEntity]
+	'(' first=[MegalEntity] ')' '|->' second=[MegalEntity];
 
-QID:
+ID:
 	NAME ('::' NAME)*;
 
 NAME:
-	ID ('.' ID)*;
+	STR | (UCID | LCID) ('.' (UCID | LCID))*;
 
-ID:
-	UCID | LCID;
-	/**
-	 * Upper case identifier, most likely an entity
-	 */
 terminal UCID:
 	'^'? ('A'..'Z' | '0'..'9') ('a'..'z' | 'A'..'Z' | '_' | '0'..'9')*;
 
-	/**
-	 * Lower case identifier, most likely a relationship
-	 */
 terminal LCID:
 	'^'? ('a'..'z' | '_') ('a'..'z' | 'A'..'Z' | '_' | '0'..'9')*;
 
-	/**
-	 * String, for annotation values
-	 */
-terminal STRING:
-	'"' ('\\' . | !('\\' | '"'))* '"' |
+terminal STR:
 	"'" ('\\' . | !('\\' | "'"))* "'";
 
-terminal ML_COMMENT:
-	'/*'->'*/';
-
-terminal SL_COMMENT:
-	'//' !('\n' | '\r')* ('\r'? '\n')?;
+terminal COMMENT:
+	'/*'->'*/' | '//' !('\n' | '\r')* ('\r'? '\n')?;
 
 terminal WS:
 	(' ' | '\t' | '\r' | '\n')+;
-
-	/**
-	 * Segment of an URI
-	 */
-terminal fragment SEGMENT:
-	('A'..'Z' | 'a'..'z' | '0'..'9' | '-' | '.' | '_' | '~' | ':' | '?' | '#' | '[' | ']' | '@' | '!' | '$' | '&' | "'" |
-	'(' | ')' | '*' | '+' | ',' | ';' | '=')+;

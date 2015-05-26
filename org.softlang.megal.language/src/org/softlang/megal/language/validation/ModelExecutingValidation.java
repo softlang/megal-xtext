@@ -1,8 +1,8 @@
 package org.softlang.megal.language.validation;
 
-import static org.softlang.megal.MegalPackage.Literals.MEGAL_FUNCTION_APPLICATION__FUNCTION;
-import static org.softlang.megal.MegalPackage.Literals.MEGAL_FUNCTION_APPLICATION__INPUT;
-import static org.softlang.megal.MegalPackage.Literals.MEGAL_FUNCTION_APPLICATION__OUTPUT;
+import static org.softlang.megal.MegalPackage.Literals.MEGAL_PAIR__SET;
+import static org.softlang.megal.MegalPackage.Literals.MEGAL_PAIR__FIRST;
+import static org.softlang.megal.MegalPackage.Literals.MEGAL_PAIR__SECOND;
 import static org.softlang.megal.MegalPackage.Literals.MEGAL_NAMED__NAME;
 import static org.softlang.megal.MegalPackage.Literals.MEGAL_RELATIONSHIP__TYPE;
 
@@ -13,7 +13,7 @@ import org.eclipse.xtext.validation.Check;
 import org.softlang.megal.MegalElement;
 import org.softlang.megal.MegalEntity;
 import org.softlang.megal.MegalFile;
-import org.softlang.megal.MegalFunctionApplication;
+import org.softlang.megal.MegalPair;
 import org.softlang.megal.MegalRelationship;
 import org.softlang.megal.language.MegalReasoning;
 import org.softlang.megal.mi2.Element;
@@ -46,7 +46,7 @@ public class ModelExecutingValidation extends AbstractMegalValidator {
 		// Perform the evaluation
 		final Result result = executor.evaluate(resolution, model);
 
-		// Marker class with scopeF
+		// Marker class with scope
 		class Marking {
 
 			Multimap<MegalElement, EStructuralFeature> getLocations(Element element) {
@@ -59,7 +59,7 @@ public class ModelExecutingValidation extends AbstractMegalValidator {
 
 					// Get the direct and the generated pair entities
 					MegalEntity direct = MegamodelKB.resolve(false, megamodel, entity);
-					MegalFunctionApplication pair = MegamodelKB.resolvePair(false, megamodel, entity);
+					MegalPair pair = MegamodelKB.resolvePair(false, megamodel, entity);
 
 					// If direct exists, add
 					if (direct != null)
@@ -67,8 +67,8 @@ public class ModelExecutingValidation extends AbstractMegalValidator {
 
 					// If generated pair exists, add
 					if (pair != null) {
-						builder.put(pair, MEGAL_FUNCTION_APPLICATION__INPUT);
-						builder.put(pair, MEGAL_FUNCTION_APPLICATION__OUTPUT);
+						builder.put(pair, MEGAL_PAIR__FIRST);
+						builder.put(pair, MEGAL_PAIR__SECOND);
 					}
 
 				} else if (element instanceof Relationship) {
@@ -76,9 +76,9 @@ public class ModelExecutingValidation extends AbstractMegalValidator {
 
 					// Get the direct and all generated relationships
 					MegalRelationship direct = MegamodelKB.resolve(false, megamodel, relationship);
-					MegalFunctionApplication firstOf = MegamodelKB.resolveFirst(false, megamodel, relationship);
-					MegalFunctionApplication secondOf = MegamodelKB.resolveSecond(false, megamodel, relationship);
-					MegalFunctionApplication elementOf = MegamodelKB.resolveElement(false, megamodel, relationship);
+					MegalPair firstOf = MegamodelKB.resolveFirst(false, megamodel, relationship);
+					MegalPair secondOf = MegamodelKB.resolveSecond(false, megamodel, relationship);
+					MegalPair elementOf = MegamodelKB.resolveElement(false, megamodel, relationship);
 
 					// If direct exists, add
 					if (direct != null)
@@ -86,15 +86,15 @@ public class ModelExecutingValidation extends AbstractMegalValidator {
 
 					// If first of exists, add
 					if (firstOf != null)
-						builder.put(firstOf, MEGAL_FUNCTION_APPLICATION__INPUT);
+						builder.put(firstOf, MEGAL_PAIR__FIRST);
 
 					// If second of exists, add
 					if (secondOf != null)
-						builder.put(secondOf, MEGAL_FUNCTION_APPLICATION__OUTPUT);
+						builder.put(secondOf, MEGAL_PAIR__SECOND);
 
 					// If element of exists, add
 					if (elementOf != null)
-						builder.put(elementOf, MEGAL_FUNCTION_APPLICATION__FUNCTION);
+						builder.put(elementOf, MEGAL_PAIR__SET);
 				}
 
 				// Build the result

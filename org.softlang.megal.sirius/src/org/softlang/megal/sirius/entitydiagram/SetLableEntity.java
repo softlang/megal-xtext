@@ -43,7 +43,7 @@ public class SetLableEntity implements IExternalJavaAction {
 
 			MegalEntity resolved = MegalServices.INSTANCE.resolveEntity((MegalFile) entity.eContainer(), name);
 
-			entity.setTypeMany(many);
+			entity.setMany(many);
 
 			if (resolved == null) {
 				entity.setName(name);

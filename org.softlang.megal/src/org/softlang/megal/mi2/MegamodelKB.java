@@ -21,8 +21,8 @@ import org.softlang.megal.MegalElement;
 import org.softlang.megal.MegalEntity;
 import org.softlang.megal.MegalEntityType;
 import org.softlang.megal.MegalFile;
-import org.softlang.megal.MegalFunctionApplication;
 import org.softlang.megal.MegalLink;
+import org.softlang.megal.MegalPair;
 import org.softlang.megal.MegalRelationship;
 import org.softlang.megal.MegalRelationshipType;
 import org.softlang.megal.mi2.util.HashMultitable;
@@ -138,8 +138,8 @@ public class MegamodelKB extends KB {
 				continue;
 
 			// Parameters not element equal, no match
-			if (!elementsEqual(transform(item.getTypeParameters(), MegalEntity::getName), Splitter.on(',')
-					.omitEmptyStrings().split(entity.getAnnotation(PARAMS, ""))))
+			if (!elementsEqual(transform(item.getParams(), MegalEntity::getName), Splitter.on(',').omitEmptyStrings()
+					.split(entity.getAnnotation(PARAMS, ""))))
 				continue;
 
 			return item;
@@ -174,20 +174,20 @@ public class MegamodelKB extends KB {
 				continue;
 
 			// Left type not equal, no match
-			if (!equal(item.getTypeLeft().getName(), relationshipType.getLeft().getName()))
+			if (!equal(item.getLeft().getName(), relationshipType.getLeft().getName()))
 				continue;
 
 			// Left parameters not element equal, no match
-			if (!elementsEqual(transform(item.getTypeLeftParameters(), MegalEntity::getName), Splitter.on(',')
+			if (!elementsEqual(transform(item.getLeftParams(), MegalEntity::getName), Splitter.on(',')
 					.omitEmptyStrings().split(relationshipType.getAnnotation(PARAMS_LEFT, ""))))
 				continue;
 
 			// Right type not equal, no match
-			if (!equal(item.getTypeRight().getName(), relationshipType.getRight().getName()))
+			if (!equal(item.getRight().getName(), relationshipType.getRight().getName()))
 				continue;
 
 			// Right parameters not element equal, no match
-			if (!elementsEqual(transform(item.getTypeRightParameters(), MegalEntity::getName), Splitter.on(',')
+			if (!elementsEqual(transform(item.getRightParams(), MegalEntity::getName), Splitter.on(',')
 					.omitEmptyStrings().split(relationshipType.getAnnotation(PARAMS_RIGHT, ""))))
 				continue;
 
@@ -242,10 +242,10 @@ public class MegamodelKB extends KB {
 		return null;
 	}
 
-	public static MegalFunctionApplication resolvePair(boolean transitive, MegalFile megamodel, Entity entity) {
-		for (MegalFunctionApplication item : from(megamodel.getDeclarations()).filter(MegalFunctionApplication.class)) {
+	public static MegalPair resolvePair(boolean transitive, MegalFile megamodel, Entity entity) {
+		for (MegalPair item : from(megamodel.getDeclarations()).filter(MegalPair.class)) {
 			// Not equal name, no match
-			if (!equal(entityName(item.getFunction().getName(), item.getInput().getName(), item.getOutput().getName()),
+			if (!equal(entityName(item.getSet().getName(), item.getFirst().getName(), item.getSecond().getName()),
 					entity.getName()))
 				continue;
 
@@ -254,7 +254,7 @@ public class MegamodelKB extends KB {
 
 		if (transitive)
 			for (MegalFile imported : reverse(megamodel.getImports())) {
-				MegalFunctionApplication potential = resolvePair(transitive, imported, entity);
+				MegalPair potential = resolvePair(transitive, imported, entity);
 				if (potential != null)
 					return potential;
 			}
@@ -262,16 +262,15 @@ public class MegamodelKB extends KB {
 		return null;
 	}
 
-	public static MegalFunctionApplication resolveFirst(boolean transitive, MegalFile megamodel,
-			Relationship relationship) {
-		for (MegalFunctionApplication item : from(megamodel.getDeclarations()).filter(MegalFunctionApplication.class)) {
-			if (!equal(item.getInput().getName(), relationship.getLeft().getName()))
+	public static MegalPair resolveFirst(boolean transitive, MegalFile megamodel, Relationship relationship) {
+		for (MegalPair item : from(megamodel.getDeclarations()).filter(MegalPair.class)) {
+			if (!equal(item.getFirst().getName(), relationship.getLeft().getName()))
 				continue;
 
 			if (!equal(FIRST_OF, relationship.getType().getName()))
 				continue;
 
-			if (!equal(entityName(item.getFunction().getName(), item.getInput().getName(), item.getOutput().getName()),
+			if (!equal(entityName(item.getSet().getName(), item.getFirst().getName(), item.getSecond().getName()),
 					relationship.getRight().getName()))
 				continue;
 
@@ -280,7 +279,7 @@ public class MegamodelKB extends KB {
 
 		if (transitive)
 			for (MegalFile imported : reverse(megamodel.getImports())) {
-				MegalFunctionApplication potential = resolveFirst(transitive, imported, relationship);
+				MegalPair potential = resolveFirst(transitive, imported, relationship);
 				if (potential != null)
 					return potential;
 			}
@@ -288,16 +287,15 @@ public class MegamodelKB extends KB {
 		return null;
 	}
 
-	public static MegalFunctionApplication resolveSecond(boolean transitive, MegalFile megamodel,
-			Relationship relationship) {
-		for (MegalFunctionApplication item : from(megamodel.getDeclarations()).filter(MegalFunctionApplication.class)) {
-			if (!equal(item.getInput().getName(), relationship.getLeft().getName()))
+	public static MegalPair resolveSecond(boolean transitive, MegalFile megamodel, Relationship relationship) {
+		for (MegalPair item : from(megamodel.getDeclarations()).filter(MegalPair.class)) {
+			if (!equal(item.getFirst().getName(), relationship.getLeft().getName()))
 				continue;
 
 			if (!equal(SECOND_OF, relationship.getType().getName()))
 				continue;
 
-			if (!equal(entityName(item.getFunction().getName(), item.getInput().getName(), item.getOutput().getName()),
+			if (!equal(entityName(item.getSet().getName(), item.getFirst().getName(), item.getSecond().getName()),
 					relationship.getRight().getName()))
 				continue;
 
@@ -306,7 +304,7 @@ public class MegamodelKB extends KB {
 
 		if (transitive)
 			for (MegalFile imported : reverse(megamodel.getImports())) {
-				MegalFunctionApplication potential = resolveSecond(transitive, imported, relationship);
+				MegalPair potential = resolveSecond(transitive, imported, relationship);
 				if (potential != null)
 					return potential;
 			}
@@ -314,17 +312,16 @@ public class MegamodelKB extends KB {
 		return null;
 	}
 
-	public static MegalFunctionApplication resolveElement(boolean transitive, MegalFile megamodel,
-			Relationship relationship) {
-		for (MegalFunctionApplication item : from(megamodel.getDeclarations()).filter(MegalFunctionApplication.class)) {
-			if (!equal(entityName(item.getFunction().getName(), item.getInput().getName(), item.getOutput().getName()),
+	public static MegalPair resolveElement(boolean transitive, MegalFile megamodel, Relationship relationship) {
+		for (MegalPair item : from(megamodel.getDeclarations()).filter(MegalPair.class)) {
+			if (!equal(entityName(item.getSet().getName(), item.getFirst().getName(), item.getSecond().getName()),
 					relationship.getLeft().getName()))
 				continue;
 
 			if (!equal(ELEMENT_OF, relationship.getType().getName()))
 				continue;
 
-			if (!equal(item.getFunction().getName(), relationship.getRight().getName()))
+			if (!equal(item.getSet().getName(), relationship.getRight().getName()))
 				continue;
 
 			return item;
@@ -332,7 +329,7 @@ public class MegamodelKB extends KB {
 
 		if (transitive)
 			for (MegalFile imported : reverse(megamodel.getImports())) {
-				MegalFunctionApplication potential = resolveElement(transitive, imported, relationship);
+				MegalPair potential = resolveElement(transitive, imported, relationship);
 				if (potential != null)
 					return potential;
 			}
@@ -489,21 +486,20 @@ public class MegamodelKB extends KB {
 				MegalRelationshipType relationshipType = (MegalRelationshipType) declaration;
 
 				// Get the names of the types
-				String leftTypeName = relationshipType.getTypeLeft().getName();
-				String rightTypeName = relationshipType.getTypeRight().getName();
+				String leftTypeName = relationshipType.getLeft().getName();
+				String rightTypeName = relationshipType.getRight().getName();
 
 				// Get the 'many' expansion set for the relationship domain and
 				// codomain
-				List<Boolean> leftTypeManys = relationshipType.isTypeLeftArb() ? ImmutableList.of(false, true)
-						: relationshipType.isTypeLeftMany() ? ImmutableList.of(true) : ImmutableList.of(false);
+				List<Boolean> leftTypeManys = relationshipType.isLeftBoth() ? ImmutableList.of(false, true)
+						: relationshipType.isLeftMany() ? ImmutableList.of(true) : ImmutableList.of(false);
 
-				List<Boolean> rightTypeManys = relationshipType.isTypeRightArb() ? ImmutableList.of(false, true)
-						: relationshipType.isTypeRightMany() ? ImmutableList.of(true) : ImmutableList.of(false);
+				List<Boolean> rightTypeManys = relationshipType.isRightBoth() ? ImmutableList.of(false, true)
+						: relationshipType.isRightMany() ? ImmutableList.of(true) : ImmutableList.of(false);
 
 				// Get the params of the types
-				List<String> leftTypeParams = transform(relationshipType.getTypeLeftParameters(), MegalEntity::getName);
-				List<String> rightTypeParams = transform(relationshipType.getTypeRightParameters(),
-						MegalEntity::getName);
+				List<String> leftTypeParams = transform(relationshipType.getLeftParams(), MegalEntity::getName);
+				List<String> rightTypeParams = transform(relationshipType.getRightParams(), MegalEntity::getName);
 
 				for (boolean leftMany : leftTypeManys)
 					for (boolean rightMany : rightTypeManys) {
@@ -537,8 +533,8 @@ public class MegamodelKB extends KB {
 
 				// Get the type properties
 				String typeName = entity.getType().getName();
-				boolean typeMany = entity.isTypeMany();
-				List<String> typeParams = transform(entity.getTypeParameters(), MegalEntity::getName);
+				boolean typeMany = entity.isMany();
+				List<String> typeParams = transform(entity.getParams(), MegalEntity::getName);
 
 				// Translate the entity
 				String name = entity.getName();
@@ -571,45 +567,45 @@ public class MegamodelKB extends KB {
 				// Put the annotations
 				relationshipAnnotations.putAll(immutableCell(left, right, name), getAnnotationMap(relationship)
 						.entries());
-			} else if (declaration instanceof MegalFunctionApplication) {
-				MegalFunctionApplication functionApplication = (MegalFunctionApplication) declaration;
+			} else if (declaration instanceof MegalPair) {
+				MegalPair pairDeclaration = (MegalPair) declaration;
 
 				// Translate the function application
-				String function = functionApplication.getFunction().getName();
-				String first = functionApplication.getInput().getName();
-				String second = functionApplication.getOutput().getName();
+				String set = pairDeclaration.getSet().getName();
+				String first = pairDeclaration.getFirst().getName();
+				String second = pairDeclaration.getSecond().getName();
 
-				String name = entityName(function, first, second);
+				String name = entityName(set, first, second);
 				Ref type = Ref.to(PAIR, false);
 
 				// Put the entity
 				entities.put(name, type);
 
 				// Put all relationships
-				relationships.put(name, function, ELEMENT_OF);
+				relationships.put(name, set, ELEMENT_OF);
 				relationships.put(first, name, FIRST_OF);
 				relationships.put(second, name, SECOND_OF);
 
 				// Put the annotations
-				relationshipAnnotations.putAll(immutableCell(name, function, ELEMENT_OF),
-						getAnnotationMap(functionApplication).entries());
-				relationshipAnnotations.putAll(immutableCell(first, name, FIRST_OF),
-						getAnnotationMap(functionApplication).entries());
+				relationshipAnnotations.putAll(immutableCell(name, set, ELEMENT_OF), getAnnotationMap(pairDeclaration)
+						.entries());
+				relationshipAnnotations.putAll(immutableCell(first, name, FIRST_OF), getAnnotationMap(pairDeclaration)
+						.entries());
 				relationshipAnnotations.putAll(immutableCell(second, name, SECOND_OF),
-						getAnnotationMap(functionApplication).entries());
-				entityAnnotations.putAll(immutableEntry(name, type), getAnnotationMap(functionApplication).entries());
+						getAnnotationMap(pairDeclaration).entries());
+				entityAnnotations.putAll(immutableEntry(name, type), getAnnotationMap(pairDeclaration).entries());
 			}
 
 		// Continue with bindings
 		for (MegalLink link : megamodel.getBindings())
-			if (link.getInput() != null && link.getOutput() != null) {
+			if (link.getFirst() != null && link.getSecond() != null) {
 				// Linking a function application, so restore the target
-				String function = link.getLink().getName();
-				String input = link.getInput().getName();
-				String output = link.getOutput().getName();
+				String set = link.getLink().getName();
+				String first = link.getFirst().getName();
+				String second = link.getSecond().getName();
 
 				// Compute data
-				String name = entityName(function, input, output);
+				String name = entityName(set, first, second);
 				String to = link.getTo();
 
 				// Put binding

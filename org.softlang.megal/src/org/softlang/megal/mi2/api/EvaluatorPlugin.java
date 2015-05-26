@@ -1,6 +1,5 @@
 package org.softlang.megal.mi2.api;
 
-import org.softlang.megal.mi2.Element;
 import org.softlang.megal.mi2.Entity;
 import org.softlang.megal.mi2.EntityType;
 import org.softlang.megal.mi2.Relationship;
@@ -15,63 +14,10 @@ import org.softlang.megal.mi2.api.context.Context;
  * @author Pazuzu
  *
  */
-public abstract class EvaluatorPlugin extends Plugin {
-	public static final EvaluatorPlugin IDENTITY = new EvaluatorPlugin() {
-		@Override
-		public void evaluate(Context context, EntityType entityType) {
-		}
+public interface EvaluatorPlugin extends Plugin {
+	void evaluate(Context context, EntityType entityType);
 
-		@Override
-		public void evaluate(Context context, RelationshipType relationshipType) {
-		}
-
-		@Override
-		public void evaluate(Context context, Entity entity) {
-		}
-
-		@Override
-		public void evaluate(Context context, Relationship relationship) {
-		}
-	};
-
-	public static final EvaluatorPlugin VALIDATING = new EvaluatorPlugin() {
-		@Override
-		public void evaluate(Context context, EntityType entityType) {
-			context.valid();
-		}
-
-		@Override
-		public void evaluate(Context context, RelationshipType relationshipType) {
-			context.valid();
-		}
-
-		@Override
-		public void evaluate(Context context, Entity entity) {
-			context.valid();
-		}
-
-		@Override
-		public void evaluate(Context context, Relationship relationship) {
-			context.valid();
-		}
-	};
-
-	public final void evaluate(Context context, Element element) {
-		if (element instanceof EntityType)
-			evaluate(context, (EntityType) element);
-		else if (element instanceof RelationshipType)
-			evaluate(context, (RelationshipType) element);
-		else if (element instanceof Entity)
-			evaluate(context, (Entity) element);
-		else if (element instanceof Relationship)
-			evaluate(context, (Relationship) element);
-	}
-
-	public void evaluate(Context context, EntityType entityType) {
-	}
-
-	public void evaluate(Context context, RelationshipType relationshipType) {
-	}
+	void evaluate(Context context, RelationshipType relationshipType);
 
 	/**
 	 * <p>
@@ -84,8 +30,7 @@ public abstract class EvaluatorPlugin extends Plugin {
 	 * @param entity
 	 *            The evaluation item
 	 */
-	public void evaluate(Context context, Entity entity) {
-	}
+	void evaluate(Context context, Entity entity);
 
 	/**
 	 * <p>
@@ -98,6 +43,5 @@ public abstract class EvaluatorPlugin extends Plugin {
 	 * @param relationship
 	 *            The evaluation item
 	 */
-	public void evaluate(Context context, Relationship relationship) {
-	}
+	void evaluate(Context context, Relationship relationship);
 }

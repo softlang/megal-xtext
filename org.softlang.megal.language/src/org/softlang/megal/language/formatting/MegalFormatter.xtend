@@ -28,14 +28,10 @@ public class MegalFormatter extends AbstractDeclarativeFormatter {
 		c.setLinewrap(0, 1, 2).after(megalFileAccess.nameAssignment_2)
 		c.setLinewrap(0, 1, 2).after(megalFileAccess.importsAssignment_3_0_1)
 
-		// Prefix Annotation
-		c.setLinewrap(0, 1, 2).around(prefixAnnotationRule)
-		c.setNoSpace.after(prefixAnnotationAccess.commercialAtKeyword_0)
-		c.setSpace(' ').between(prefixAnnotationAccess.keyAssignment_1, prefixAnnotationAccess.valueAssignment_2)
-
-		// Show Name Annotation
-		c.setNoSpace.after(showNameAnnotationAccess.leftSquareBracketKeyword_0)
-		c.setNoSpace.before(showNameAnnotationAccess.rightSquareBracketKeyword_2)
+		// Annotation
+		c.setLinewrap(0, 1, 2).around(megalAnnotationRule)
+		c.setNoSpace.after(megalAnnotationAccess.commercialAtKeyword_0)
+		c.setSpace(' ').between(megalAnnotationAccess.keyAssignment_1, megalAnnotationAccess.valueAssignment_2)
 
 		// Link
 		c.setLinewrap(0, 1, 2).around(megalLinkRule)
@@ -43,35 +39,29 @@ public class MegalFormatter extends AbstractDeclarativeFormatter {
 		c.setNoSpace.before(megalLinkAccess.rightParenthesisKeyword_2_2)
 		c.setSpace(' ').after(megalLinkAccess.rightParenthesisKeyword_2_2)
 		c.setLinewrap(0, 0, 1).after(megalLinkAccess.rightParenthesisKeyword_2_2)
-		c.setNoSpace.after(megalLinkAccess.verticalLineKeyword_2_3)
-		c.setSpace(' ').before(megalLinkAccess.hyphenMinusGreaterThanSignKeyword_2_4)
-		c.setSpace(' ').after(megalLinkAccess.hyphenMinusGreaterThanSignKeyword_2_4)
+		c.setSpace(' ').before(megalLinkAccess.verticalLineHyphenMinusGreaterThanSignKeyword_2_3)
+		c.setSpace(' ').after(megalLinkAccess.verticalLineHyphenMinusGreaterThanSignKeyword_2_3)
 		c.setSpace(' ').before(megalLinkAccess.equalsSignKeyword_3)
 		c.setSpace(' ').after(megalLinkAccess.equalsSignKeyword_3)
 
 		// Entity Type
 		c.setLinewrap(0, 1, 2).around(megalEntityTypeRule)
-		c.setNoSpace.around(megalEntityTypeAccess.annotationsAssignment_2)
-		c.setSpace(' ').before(megalEntityTypeAccess.lessThanSignKeyword_3_0_0)
-		c.setSpace(' ').after(megalEntityTypeAccess.lessThanSignKeyword_3_0_0)
+		c.setSpace(' ').before(megalEntityTypeAccess.lessThanSignKeyword_2_0_0)
+		c.setSpace(' ').after(megalEntityTypeAccess.lessThanSignKeyword_2_0_0)
 
 		// Relationship Type
 		c.setLinewrap(0, 1, 2).around(megalRelationshipTypeRule)
-		c.setNoSpace.around(megalRelationshipTypeAccess.annotationsAssignment_2)
-		c.setSpace(' ').before(megalRelationshipTypeAccess.lessThanSignKeyword_3)
-		c.setSpace(' ').after(megalRelationshipTypeAccess.lessThanSignKeyword_3)
+		c.setSpace(' ').before(megalRelationshipTypeAccess.lessThanSignKeyword_2)
+		c.setSpace(' ').after(megalRelationshipTypeAccess.lessThanSignKeyword_2)
 
 		// Relationship Type instance
-		c.setSpace(' ').before(megalRelationshipTypeAccess.asteriskKeyword_7)
-		c.setSpace(' ').after(megalRelationshipTypeAccess.asteriskKeyword_7)
+		c.setSpace(' ').before(megalRelationshipTypeAccess.asteriskKeyword_6)
+		c.setSpace(' ').after(megalRelationshipTypeAccess.asteriskKeyword_6)
 
 		// Entity
 		c.setLinewrap(0, 1, 2).around(megalEntityRule)
-		c.setNoSpace.after(megalEntityAccess.dependentAssignment_1_0)
-		c.setNoSpace.after(megalEntityAccess.parameterAssignment_1_1)
-		c.setNoSpace.after(megalEntityAccess.annotationsAssignment_3)
-		c.setNoSpace.before(megalEntityAccess.colonKeyword_4)
-		c.setSpace(' ').after(megalEntityAccess.colonKeyword_4)
+		c.setNoSpace.before(megalEntityAccess.colonKeyword_2)
+		c.setSpace(' ').after(megalEntityAccess.colonKeyword_2)
 
 		// Relationship
 		c.setLinewrap(0, 1, 2).around(megalRelationshipRule)
@@ -79,18 +69,16 @@ public class MegalFormatter extends AbstractDeclarativeFormatter {
 		c.setSpace(' ').after(megalRelationshipAccess.typeAssignment_2)
 
 		// FunctionApplication
-		c.setLinewrap(0, 1, 2).around(megalFunctionApplicationRule)
-		c.setNoSpace.around(megalFunctionApplicationAccess.leftParenthesisKeyword_2)
-		c.setNoSpace.before(megalFunctionApplicationAccess.rightParenthesisKeyword_4)
-		c.setSpace(' ').after(megalFunctionApplicationAccess.rightParenthesisKeyword_4)
-		c.setLinewrap(0, 0, 1).after(megalFunctionApplicationAccess.rightParenthesisKeyword_4)
-		c.setNoSpace.after(megalFunctionApplicationAccess.verticalLineKeyword_5)
-		c.setSpace(' ').before(megalFunctionApplicationAccess.hyphenMinusGreaterThanSignKeyword_6)
-		c.setSpace(' ').after(megalFunctionApplicationAccess.hyphenMinusGreaterThanSignKeyword_6)
+		c.setLinewrap(0, 1, 2).around(megalPairRule)
+		c.setNoSpace.around(megalPairAccess.leftParenthesisKeyword_2)
+		c.setNoSpace.before(megalPairAccess.rightParenthesisKeyword_4)
+		c.setSpace(' ').after(megalPairAccess.rightParenthesisKeyword_4)
+		c.setLinewrap(0, 0, 1).after(megalPairAccess.rightParenthesisKeyword_4)
+		c.setSpace(' ').before(megalPairAccess.verticalLineHyphenMinusGreaterThanSignKeyword_5)
+		c.setSpace(' ').after(megalPairAccess.verticalLineHyphenMinusGreaterThanSignKeyword_5)
 
 		// Formatting for Comments 
-		c.setLinewrap(0, 1, 2).before(SL_COMMENTRule)
-		c.setLinewrap(0, 1, 2).before(ML_COMMENTRule)
-		c.setLinewrap(0, 1, 1).after(ML_COMMENTRule)
+		c.setLinewrap(0, 1, 2).before(COMMENTRule)
+		c.setLinewrap(0, 1, 1).after(COMMENTRule)
 	}
 }

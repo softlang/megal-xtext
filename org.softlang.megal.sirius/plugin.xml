@@ -21,5 +21,9 @@
            actionClass="org.softlang.megal.sirius.entitydiagram.SetLableFunctionApplication"
            id="org.softlang.megal.sirius.entitydiagram.tools.SetLableFunctionApplication">
      </javaActions>
+     <javaActions
+           actionClass="org.softlang.megal.sirius.entitydiagram.SetLableRelationshipType"
+           id="org.softlang.megal.sirius.entitydiagram.tools.SetLableRelationshipType">
+     </javaActions>
   </extension>
 </plugin>

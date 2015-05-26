@@ -16,14 +16,9 @@ import com.google.common.collect.Sets;
  *
  */
 public abstract class Entity extends Named {
-	/**
-	 * <p>
-	 * Gets all bindings of this entity.
-	 * </p>
-	 * 
-	 * @return Returns a set of the link targets
-	 */
-	public abstract Optional<Object> getBinding();
+	public abstract boolean hasBinding();
+
+	public abstract Object getBinding();
 
 	/**
 	 * <p>

@@ -1,7 +1,6 @@
 package plugins.jaxb;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.Reader;
 
 import org.softlang.megal.mi2.api.Artifact;

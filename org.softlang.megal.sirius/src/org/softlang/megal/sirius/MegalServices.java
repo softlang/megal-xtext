@@ -147,8 +147,7 @@ public class MegalServices {
 	}
 
 	/**
-	 * Returns the first Relationionships in this megal file that connects this
-	 * type nodes.
+	 * Returns the first Relationionships in this megal file that connects this type nodes.
 	 * 
 	 * @param node
 	 * @return
@@ -169,10 +168,16 @@ public class MegalServices {
 		return firsts;
 	}
 
+<<<<<<< HEAD
 	public List<MegalRelationshipType> merged(MegalRelationshipType relationshipType) {
 		List<MegalRelationshipType> merged = new LinkedList<>();
 		for (MegalRelationshipType current : FluentIterable.from(megalFile(relationshipType).getDeclarations()).filter(
 				MegalRelationshipType.class))
+=======
+	public Set<MegalRelationshipType> merged(MegalRelationshipType relationshipType) {
+		Set<MegalRelationshipType> merged = new HashSet<>();
+		for (MegalRelationshipType current : relationshipTypesLocal(megalFile(relationshipType)))
+>>>>>>> branch 'master' of https://github.com/avaranovich/megal-xtext.git
 			if (relationshipType.getLeft() == current.getLeft() && relationshipType.getRight() == current.getRight())
 				merged.add(current);
 
@@ -227,8 +232,8 @@ public class MegalServices {
 	}
 
 	/**
-	 * Associated elements serve as source for the graphical mapping. Changes
-	 * update on associated elements lead to update of mapping.
+	 * Associated elements serve as source for the graphical mapping. Changes update on associated elements lead to
+	 * update of mapping.
 	 *
 	 * @param entity
 	 * @return
