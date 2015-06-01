@@ -70,8 +70,6 @@ versionOf < Language * Language
 // a deployment perspective, where one technology is used as a container for deployment and execution of the other one
 deploysTo < Technology * Technology
 
-Program: Entity
-
 partOf < Language * Language
 
 // EVEN NEWER
@@ -97,6 +95,7 @@ partOf < Plugin * Plugin
 // Defining an evaluator for the relationship elementOf between File and language
 @Plugin 'FileElementOfLanguage'
 elementOf < File (+) * Language
+
 
 // Dispatcher with master as link and parameter dependence
 FileElementOfLanguage: Plugin
