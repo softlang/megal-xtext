@@ -9,19 +9,27 @@ import java.util.List;
 
 import org.softlang.megal.mi2.Relationship;
 import org.softlang.megal.mi2.api.Artifact;
-
-import plugins.prelude.GuidedEvaluatorPlugin;
+import org.softlang.megal.mi2.api.EvaluatorPlugin;
+import org.softlang.megal.mi2.api.context.Context;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
+import com.google.common.base.Throwables;
 
-public class JavaFileDefinesStaticFunction extends GuidedEvaluatorPlugin {
+public class JavaFileDefinesStaticFunction extends EvaluatorPlugin {
 	@Override
-	public void guidedEvaluate(Relationship relationship) throws IOException {
+	public void evaluate(Context context, Relationship relationship) {
+		if (!relationship.getLeft().getBinding().isPresent())
+			return;
 
-		Artifact javaFile = withArtifact(relationship.getLeft());
+		if (!relationship.getRight().getBinding().isPresent())
+			return;
+
+		Artifact javaFile = context.getArtifact(relationship.getLeft()
+				.getBinding().get());
 		try {
-			URI binding = new URI(withBound(relationship.getRight()).toString());
+			URI binding = new URI(relationship.getRight().getBinding().get()
+					.toString());
 			if (!"classpath".equals(binding.getScheme()))
 				return;
 
@@ -37,25 +45,29 @@ public class JavaFileDefinesStaticFunction extends GuidedEvaluatorPlugin {
 			String fname = getFirst(
 					Splitter.on('(').omitEmptyStrings().split(function), null);
 
-			String file = javaFile.getChars().read();
+			try {
+				String file = javaFile.getChars().read();
 
-			if (!file.contains(frag)) {
-				error("The file is not even in the same package.");
-				return;
+				if (!file.contains(frag)) {
+					context.error("The file is not even in the same package.");
+					return;
+				}
+
+				if (!(file.contains("class " + name) || file
+						.contains("interface " + name))) {
+					context.error("Not the same name, dude.");
+					return;
+				}
+
+				if (!file.contains(fname)) {
+					context.error("Can't find the method, I don't like this file!");
+					return;
+				}
+
+				context.valid();
+			} catch (IOException e) {
+				context.error(Throwables.getStackTraceAsString(e));
 			}
-
-			if (!(file.contains("class " + name) || file.contains("interface "
-					+ name))) {
-				error("Not the same name, dude.");
-				return;
-			}
-
-			if (!file.contains(fname)) {
-				error("Can't find the method, I don't like this file!");
-				return;
-			}
-
-			valid();
 		} catch (URISyntaxException e) {
 			return;
 		}

@@ -1,0 +1,6 @@
+model Helloworld
+import Prelude
+
+Java:Language
+haskellFile: File
+haskellFile elementOf Java

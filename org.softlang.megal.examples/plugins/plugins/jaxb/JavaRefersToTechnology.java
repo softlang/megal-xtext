@@ -9,19 +9,17 @@ import java.util.Set;
 
 import org.softlang.megal.mi2.Relationship;
 import org.softlang.megal.mi2.api.Artifact;
-
-import plugins.prelude.GuidedEvaluatorPlugin;
+import org.softlang.megal.mi2.api.EvaluatorPlugin;
+import org.softlang.megal.mi2.api.context.Context;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableSet;
 
-public class JavaRefersToTechnology extends GuidedEvaluatorPlugin {
+public class JavaRefersToTechnology extends EvaluatorPlugin {
 	/**
-	 * <p>
-	 * More like: STOP_WORD
-	 * </p>
+	 * <p>More like: STOP_WORD</p>
 	 */
 	private static final Set<String> STOP_WORDS = ImmutableSet.of("Library"
 			.toLowerCase());
@@ -33,8 +31,11 @@ public class JavaRefersToTechnology extends GuidedEvaluatorPlugin {
 	}
 
 	@Override
-	public void guidedEvaluate(Relationship relationship) {
-		Artifact artifact = withArtifact(relationship.getLeft());
+	public void evaluate(Context context, Relationship relationship) {
+		if (!relationship.getLeft().getBinding().isPresent())
+			return;
+		Artifact artifact = context.getArtifact(relationship.getLeft()
+				.getBinding().get());
 
 		Set<String> indicators = getIndicators(relationship.getRight()
 				.getName());
@@ -43,15 +44,15 @@ public class JavaRefersToTechnology extends GuidedEvaluatorPlugin {
 			for (String indicator : indicators)
 				for (String line : artifact.getChars().readLines())
 					if (line.toLowerCase().contains(indicator)) {
-						valid();
+						context.valid();
 						return;
 					}
 
-			error("No indicator found suggesting the referral to the technology "
+			context.error("No indicator found suggesting the referral to the technology "
 					+ relationship.getRight().getName()
 					+ ", looking for the indicators " + indicators);
 		} catch (IOException e) {
-			warning(Throwables.getStackTraceAsString(e));
+			context.warning(Throwables.getStackTraceAsString(e));
 		}
 	}
 }

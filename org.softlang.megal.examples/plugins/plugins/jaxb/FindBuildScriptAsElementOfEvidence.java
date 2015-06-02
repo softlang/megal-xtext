@@ -19,16 +19,17 @@ import org.apache.tools.ant.ProjectHelper;
 import org.softlang.megal.mi2.Entity;
 import org.softlang.megal.mi2.Relationship;
 import org.softlang.megal.mi2.api.Artifact;
+import org.softlang.megal.mi2.api.EvaluatorPlugin;
+import org.softlang.megal.mi2.api.context.Context;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
-import plugins.prelude.InjectedEvaluatorPlugin;
 import plugins.util.Nodes;
 
 import com.google.common.base.Splitter;
 
-public class FindBuildScriptAsElementOfEvidence extends InjectedEvaluatorPlugin {
+public class FindBuildScriptAsElementOfEvidence extends EvaluatorPlugin {
 	private static String getIn(Project project, String potentialVariable) {
 		if (potentialVariable.startsWith("${")
 				&& potentialVariable.endsWith("}"))
@@ -74,15 +75,16 @@ public class FindBuildScriptAsElementOfEvidence extends InjectedEvaluatorPlugin 
 	}
 
 	@Override
-	public void evaluate(Relationship relationship) {
+	public void evaluate(Context context, Relationship relationship) {
 		// Get pair
 		Entity pair = relationship.getLeft();
 
 		// If pair not bound, there's no build script to validate in
-		if (!pair.hasBinding())
+		if (!pair.getBinding().isPresent())
 			return;
 
-		Artifact artifactBuildscript = getArtifact(pair.getBinding());
+		Artifact artifactBuildscript = context.getArtifact(pair.getBinding()
+				.get());
 
 		// Get relationships to the parameters
 		Relationship firstOf = getFirst(pair.incoming("firstOf"), null);
@@ -97,13 +99,20 @@ public class FindBuildScriptAsElementOfEvidence extends InjectedEvaluatorPlugin 
 		Entity second = secondOf.getLeft();
 
 		// If any of them is not bound, can not evaluate
-		if (!first.hasBinding())
+		if (!first.getBinding().isPresent())
 			return;
-		if (!second.hasBinding())
+		if (!second.getBinding().isPresent())
 			return;
 
-		Artifact artifactXSD = getArtifact(first.getBinding());
-		Artifact artifactPackage = getArtifact(second.getBinding());
+		Artifact artifactXSD = context.getArtifact(first.getBinding().get());
+		Artifact artifactPackage = context.getArtifact(second.getBinding()
+				.get());
+
+		// // Get the XSD location and the package
+		// File boundXSD = new
+		// File(context.getLocation(first.getBinding().get()));
+		// File boundPackage = new File(context.getLocation(second.getBinding()
+		// .get()));
 
 		// If any of them is not resolvable, exit
 		if (artifactXSD == null || artifactPackage == null)
@@ -184,8 +193,9 @@ public class FindBuildScriptAsElementOfEvidence extends InjectedEvaluatorPlugin 
 				}
 
 				// Do resolution
-				Artifact schema = getArtifact(getIn(project, schemaArg));
-				Artifact destination = getArtifact(getIn(project,
+				Artifact schema = context
+						.getArtifact(getIn(project, schemaArg));
+				Artifact destination = context.getArtifact(getIn(project,
 						destinationArg));
 				String packageName = getIn(project, packageArg);
 
@@ -193,7 +203,7 @@ public class FindBuildScriptAsElementOfEvidence extends InjectedEvaluatorPlugin 
 						destination, packageName)) {
 
 					int index = 1 + executes.indexOf(node);
-					info("Evidence for pair element found in build script at the "
+					context.info("Evidence for pair element found in build script at the "
 							+ index + suffix(index) + " <exec>.");
 					hasEvidence = true;
 					break;
@@ -201,9 +211,9 @@ public class FindBuildScriptAsElementOfEvidence extends InjectedEvaluatorPlugin 
 			}
 
 			if (hasEvidence)
-				valid(relationship, pair, firstOf, secondOf);
+				context.valid(relationship, pair, firstOf, secondOf);
 			else
-				error("No evidence for pair element relationship found in build script");
+				context.error("No evidence for pair element relationship found in build script");
 		} catch (IOException | XPathException e) {
 			throw new RuntimeException(e);
 		}

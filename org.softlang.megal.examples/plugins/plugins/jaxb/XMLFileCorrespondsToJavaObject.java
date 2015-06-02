@@ -1,12 +1,11 @@
 package plugins.jaxb;
 
-import static com.google.common.collect.Iterables.getLast;
-import static com.google.common.collect.Sets.newHashSet;
-import static plugins.util.Nodes.asList;
-import static plugins.util.Nodes.getValue;
-import static plugins.util.Nodes.locationAndValue;
+import static com.google.common.collect.Iterables.*;
+import static plugins.util.Nodes.*;
 import static plugins.util.Prelude.isElementOfLanguage;
 import static plugins.util.Prelude.isInstance;
+import static com.google.common.collect.Sets.*;
+import static com.google.common.collect.Maps.*;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,19 +21,21 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.softlang.megal.mi2.Relationship;
 import org.softlang.megal.mi2.api.Artifact;
+import org.softlang.megal.mi2.api.EvaluatorPlugin;
+import org.softlang.megal.mi2.api.context.Context;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
-
-import plugins.prelude.GuidedEvaluatorPlugin;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Optional;
 import com.google.common.base.Splitter;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Maps;
 
-public class XMLFileCorrespondsToJavaObject extends GuidedEvaluatorPlugin {
+public class XMLFileCorrespondsToJavaObject extends EvaluatorPlugin {
 
 	private static String toFirstUpper(String s) {
 		if (s.isEmpty())
@@ -101,7 +102,7 @@ public class XMLFileCorrespondsToJavaObject extends GuidedEvaluatorPlugin {
 	 * @param file
 	 *            The XML node to match
 	 * @param object
-	 *            The object to match with
+	 *            THe object to match with
 	 * @param errors
 	 *            A result-set of errors or <code>null</code>
 	 * @return Returns the matches or <code>null</code>
@@ -176,12 +177,20 @@ public class XMLFileCorrespondsToJavaObject extends GuidedEvaluatorPlugin {
 	}
 
 	@Override
-	public void guidedEvaluate(Relationship relationship) {
-		with(isElementOfLanguage(relationship.getLeft(), "XML"));
-		with(isInstance(relationship.getRight(), "Transient"));
+	public void evaluate(Context context, Relationship relationship) {
+		if (!relationship.getLeft().getBinding().isPresent())
+			return;
+		if (!relationship.getRight().getBinding().isPresent())
+			return;
 
-		Artifact file = withArtifact(relationship.getLeft());
-		Object object = withBound(relationship.getRight());
+		if (!isElementOfLanguage(relationship.getLeft(), "XML"))
+			return;
+		if (!isInstance(relationship.getRight(), "Transient"))
+			return;
+
+		Artifact file = context.getArtifact(relationship.getLeft().getBinding()
+				.get());
+		Object object = relationship.getRight().getBinding().get();
 
 		try (InputStream stream = file.getBytes().openStream()) {
 			DocumentBuilderFactory builderFactory = DocumentBuilderFactory
@@ -197,7 +206,8 @@ public class XMLFileCorrespondsToJavaObject extends GuidedEvaluatorPlugin {
 					object, errors);
 
 			if (matches == null)
-				error("Does not correspond: " + Joiner.on("\r\n").join(errors));
+				context.error("Does not correspond: "
+						+ Joiner.on("\r\n").join(errors));
 			else {
 				StringBuilder info = new StringBuilder();
 				boolean sep = false;
@@ -215,15 +225,15 @@ public class XMLFileCorrespondsToJavaObject extends GuidedEvaluatorPlugin {
 
 					sep = true;
 				}
+				
+				context.info(info.toString());
 
-				info(info.toString());
-
-				valid();
+				context.valid();
 			}
 			// if (matchMessage.isPresent())
 			// context.error(matchMessage.get());
 		} catch (IOException | ParserConfigurationException | SAXException e) {
-			warning(Throwables.getStackTraceAsString(e));
+			context.warning(Throwables.getStackTraceAsString(e));
 		}
 
 	}

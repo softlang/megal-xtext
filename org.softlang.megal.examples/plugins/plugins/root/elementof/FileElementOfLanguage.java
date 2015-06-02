@@ -9,8 +9,8 @@ import static plugins.util.Prelude.isElementOfLanguage;
 import org.softlang.megal.mi2.Entity;
 import org.softlang.megal.mi2.Relationship;
 import org.softlang.megal.mi2.api.Artifact;
-
-import plugins.prelude.GuidedEvaluatorPlugin;
+import org.softlang.megal.mi2.api.EvaluatorPlugin;
+import org.softlang.megal.mi2.api.context.Context;
 
 import com.google.common.base.Optional;
 
@@ -22,7 +22,7 @@ import com.google.common.base.Optional;
  * @author Pazuzu
  *
  */
-public class FileElementOfLanguage extends GuidedEvaluatorPlugin {
+public class FileElementOfLanguage extends EvaluatorPlugin {
 
 	private static Iterable<Artifact> expandIfFolder(Iterable<Artifact> iterable) {
 		return from(iterable).transformAndConcat(
@@ -30,24 +30,25 @@ public class FileElementOfLanguage extends GuidedEvaluatorPlugin {
 	}
 
 	@Override
-	public void guidedEvaluate(Relationship relationship) {
+	public void evaluate(Context context, Relationship relationship) {
 		Entity element = relationship.getLeft();
-
-		Iterable<Artifact> items = expandIfFolder(withArtifacts(element));
+		if (!element.getBinding().isPresent())
+			return;
 
 		boolean anyError = false;
-		for (Artifact artifact : items) {
+		for (Artifact artifact : expandIfFolder(context.getArtifacts(element
+				.getBinding().get()))) {
 
 			Optional<String> error = isElement(element, artifact);
 
 			if (error.isPresent()) {
 				anyError = true;
-				error(error.get());
+				context.error(error.get());
 			}
 		}
 
 		if (!anyError)
-			valid();
+			context.valid();
 	}
 
 	private Optional<String> isElement(Entity element, Artifact artifact) {

@@ -1,9 +1,5 @@
 package plugins.jaxb;
 
-import static com.google.common.collect.FluentIterable.from;
-import static com.google.common.collect.Sets.newHashSet;
-import static java.util.Collections.singleton;
-
 import java.io.IOException;
 import java.io.Reader;
 import java.util.List;
@@ -11,8 +7,8 @@ import java.util.Set;
 
 import org.softlang.megal.mi2.Relationship;
 import org.softlang.megal.mi2.api.Artifact;
-
-import plugins.prelude.GuidedEvaluatorPlugin;
+import org.softlang.megal.mi2.api.EvaluatorPlugin;
+import org.softlang.megal.mi2.api.context.Context;
 
 import com.github.javaparser.JavaParser;
 import com.github.javaparser.ParseException;
@@ -20,8 +16,14 @@ import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.ImportDeclaration;
 import com.github.javaparser.ast.body.TypeDeclaration;
 import com.google.common.base.Joiner;
+import com.google.common.base.Optional;
+import com.google.common.base.Throwables;
 
-public class JavaRefersToJava extends GuidedEvaluatorPlugin {
+import static com.google.common.collect.Sets.*;
+import static java.util.Collections.*;
+import static com.google.common.collect.FluentIterable.*;
+
+public class JavaRefersToJava extends EvaluatorPlugin {
 
 	private Iterable<Artifact> filesOf(Iterable<Artifact> as) {
 		return from(as).transformAndConcat(
@@ -29,10 +31,17 @@ public class JavaRefersToJava extends GuidedEvaluatorPlugin {
 	}
 
 	@Override
-	public void guidedEvaluate(Relationship relationship) throws IOException {
+	public void evaluate(Context context, Relationship relationship) {
+		if (!relationship.getLeft().getBinding().isPresent())
+			return;
+		if (!relationship.getRight().getBinding().isPresent())
+			return;
+
 		// Get all bindings
-		List<Artifact> leftArtifacts = withArtifacts(relationship.getLeft());
-		List<Artifact> rightArtifacts = withArtifacts(relationship.getRight());
+		List<Artifact> leftArtifacts = context.getArtifacts(relationship
+				.getLeft().getBinding().get());
+		List<Artifact> rightArtifacts = context.getArtifacts(relationship
+				.getRight().getBinding().get());
 
 		// Make a set of defined packages and classes
 		Set<String> packages = newHashSet();
@@ -57,6 +66,8 @@ public class JavaRefersToJava extends GuidedEvaluatorPlugin {
 					}
 			} catch (ParseException e) {
 				// Not responsible for not an element of
+			} catch (IOException e) {
+				context.warning(Throwables.getStackTraceAsString(e));
 			}
 
 		Set<String> evidenceMessages = newHashSet();
@@ -102,13 +113,15 @@ public class JavaRefersToJava extends GuidedEvaluatorPlugin {
 
 			} catch (ParseException e) {
 				// Not responsible for not an element of
+			} catch (IOException e) {
+				context.warning(Throwables.getStackTraceAsString(e));
 			}
 
 		if (evidenceMessages.isEmpty())
-			error("No referral evidence found for the given bindings.");
+			context.error("No referral evidence found for the given bindings.");
 		else {
-			valid();
-			info(Joiner.on("\r\n").join(evidenceMessages));
+			context.valid();
+			context.info(Joiner.on("\r\n").join(evidenceMessages));
 		}
 
 	}

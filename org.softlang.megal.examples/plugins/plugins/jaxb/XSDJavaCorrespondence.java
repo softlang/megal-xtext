@@ -15,26 +15,31 @@ import javax.xml.xpath.XPathFactory;
 
 import org.softlang.megal.mi2.Relationship;
 import org.softlang.megal.mi2.api.Artifact;
+import org.softlang.megal.mi2.api.EvaluatorPlugin;
+import org.softlang.megal.mi2.api.context.Context;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
-
-import plugins.prelude.GuidedEvaluatorPlugin;
 
 import com.google.common.base.CaseFormat;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableBiMap;
 import com.google.common.collect.Lists;
 
-public class XSDJavaCorrespondence extends GuidedEvaluatorPlugin {
+public class XSDJavaCorrespondence extends EvaluatorPlugin {
 
 	@Override
-	public void guidedEvaluate(Relationship relationship) {
-		with(isElementOfLanguage(relationship.getLeft(), "XML"));
-		with(isElementOfLanguage(relationship.getRight(), "Java"));
+	public void evaluate(Context context, Relationship relationship) {
+		if (!isElementOfLanguage(relationship.getLeft(), "XML")
+				|| !isElementOfLanguage(relationship.getRight(), "Java")
+				|| !relationship.getLeft().getBinding().isPresent()
+				|| !relationship.getRight().getBinding().isPresent())
+			return;
 
-		Artifact artifactLeft = withArtifact(relationship.getLeft());
-		Artifact artifactRight = withArtifact(relationship.getRight());
+		Object binding = relationship.getRight().getBinding().get();
+		Artifact artifactLeft = context.getArtifact(relationship.getLeft()
+				.getBinding().get());
+		Artifact artifactRight = context.getArtifact(binding);
 
 		// Evaluate to all execute statements
 		XPath xpath = XPathFactory.newInstance().newXPath();
@@ -59,21 +64,22 @@ public class XSDJavaCorrespondence extends GuidedEvaluatorPlugin {
 
 				if (hasInvalidation |= artifactRight.getChild(className
 						+ ".java") == null) {
-					error("The class with the name " + className
+					context.error("The class with the name " + className
 							+ ", corresponding to the element <"
 							+ node.getNodeName() + " ... name=\"" + name
 							+ "\" ... /> does not exist.");
-				} else {
+				}
+				else{
 					matched.add(className);
 				}
 			}
 
 			if (!hasInvalidation) {
-				valid();
-				info(matched.toString());
+				context.valid();
+				context.info(matched.toString());
 			}
 		} catch (IOException | XPathException e) {
-			warning(Throwables.getStackTraceAsString(e));
+			context.warning(Throwables.getStackTraceAsString(e));
 		}
 	}
 }

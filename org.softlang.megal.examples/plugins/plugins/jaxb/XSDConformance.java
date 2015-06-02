@@ -12,22 +12,27 @@ import javax.xml.validation.Validator;
 
 import org.softlang.megal.mi2.Relationship;
 import org.softlang.megal.mi2.api.Artifact;
+import org.softlang.megal.mi2.api.EvaluatorPlugin;
+import org.softlang.megal.mi2.api.context.Context;
 import org.xml.sax.SAXException;
-
-import plugins.prelude.GuidedEvaluatorPlugin;
 
 import com.google.common.base.Throwables;
 
-public class XSDConformance extends GuidedEvaluatorPlugin {
+public class XSDConformance extends EvaluatorPlugin {
 
 	@Override
-	public void guidedEvaluate(Relationship relationship) {
-		with(isElementOfLanguage(relationship.getLeft(), "XML"));
-		with(isElementOfLanguage(relationship.getRight(), "XSD"));
+	public void evaluate(Context context, Relationship relationship) {
+		if (!isElementOfLanguage(relationship.getLeft(), "XML")
+				|| !isElementOfLanguage(relationship.getRight(), "XSD")
+				|| !relationship.getLeft().getBinding().isPresent()
+				|| !relationship.getRight().getBinding().isPresent())
+			return;
 
 		// Get the XML and the XSD artifact
-		Artifact artifactLeft = withArtifact(relationship.getLeft());
-		Artifact artifactRight = withArtifact(relationship.getRight());
+		Artifact artifactLeft = context.getArtifact(relationship.getLeft()
+				.getBinding().get());
+		Artifact artifactRight = context.getArtifact(relationship.getRight()
+				.getBinding().get());
 
 		// Obtain a schema factory
 		SchemaFactory factory = SchemaFactory
@@ -47,15 +52,14 @@ public class XSDConformance extends GuidedEvaluatorPlugin {
 				validator.validate(new StreamSource(xmlStream));
 
 				// Note as valid
-				valid();
+				context.valid();
 			} catch (SAXException e) {
-				error("Instance does not conform to schema, reason: "
-						+ Throwables.getStackTraceAsString(e));
+				context.error("Instance does not conform to schema, reason: "+Throwables.getStackTraceAsString(e));
 			}
 		} catch (SAXException e) {
-			error("Cannot analyze the schema");
+			context.error("Cannot analyze the schema");
 		} catch (IOException e) {
-			warning(Throwables.getStackTraceAsString(e));
+			context.warning(Throwables.getStackTraceAsString(e));
 		}
 
 	}

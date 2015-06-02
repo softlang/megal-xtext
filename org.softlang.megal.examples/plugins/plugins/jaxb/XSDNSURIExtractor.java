@@ -17,7 +17,7 @@ public class XSDNSURIExtractor extends NSURIExtractor {
 
 	@Override
 	public URI extractNSURI(Resolution resolution, Entity entity) {
-		Artifact artifact = resolution.getArtifact(entity.getBinding());
+		Artifact artifact = resolution.getArtifact(entity.getBinding().get());
 		if (artifact == null)
 			return null;
 
