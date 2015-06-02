@@ -168,16 +168,10 @@ public class MegalServices {
 		return firsts;
 	}
 
-<<<<<<< HEAD
 	public List<MegalRelationshipType> merged(MegalRelationshipType relationshipType) {
 		List<MegalRelationshipType> merged = new LinkedList<>();
 		for (MegalRelationshipType current : FluentIterable.from(megalFile(relationshipType).getDeclarations()).filter(
 				MegalRelationshipType.class))
-=======
-	public Set<MegalRelationshipType> merged(MegalRelationshipType relationshipType) {
-		Set<MegalRelationshipType> merged = new HashSet<>();
-		for (MegalRelationshipType current : relationshipTypesLocal(megalFile(relationshipType)))
->>>>>>> branch 'master' of https://github.com/avaranovich/megal-xtext.git
 			if (relationshipType.getLeft() == current.getLeft() && relationshipType.getRight() == current.getRight())
 				merged.add(current);
 

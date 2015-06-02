@@ -42,8 +42,8 @@ public class SetLableRelationshipType implements IExternalJavaAction {
 				// Create.
 				MegalRelationshipType newRelationshipType = MegalFactory.eINSTANCE.createMegalRelationshipType();
 				newRelationshipType.setName(lables.get(i));
-				newRelationshipType.setTypeLeft(relation.getTypeLeft());
-				newRelationshipType.setTypeRight(relation.getTypeRight());
+				newRelationshipType.setLeft(relation.getLeft());
+				newRelationshipType.setRight(relation.getRight());
 				megamodel.getDeclarations().add(newRelationshipType);
 			}
 		}
