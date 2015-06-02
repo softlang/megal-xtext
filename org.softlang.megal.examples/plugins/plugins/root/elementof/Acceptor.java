@@ -1,11 +1,11 @@
 package plugins.root.elementof;
 
+import org.softlang.megal.mi2.api.AbstractPlugin;
 import org.softlang.megal.mi2.api.Artifact;
-import org.softlang.megal.mi2.api.Plugin;
 
 import com.google.common.base.Optional;
 
-public abstract class Acceptor extends Plugin {
+public abstract class Acceptor extends AbstractPlugin {
 	/**
 	 * <p>
 	 * Accepts an artifact. If the artifact is not accepted, a reason is
