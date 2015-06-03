@@ -1,28 +1,34 @@
-// This is generally not needed
 @Suppress 'entityNotConsidered'
 model Prelude
 
 Entity as entity
 
 // Entity types
+@Color '223,108,91'
 Artifact < Entity
+
+@Color '244,200,45'
 Concept < Entity
 Function < Entity
-FunctionApplication < Entity
+
+@Color '129,173,203'
 Set < Entity
+
+@Color '82,237,143'
 Technology < Entity
 
 @Plugin 'LanguageResolver'
+@Color '73,158,216'
 Language < Set
 
-@Color '255,0,0'
+@Color '231,65,41'
 File < Artifact
 Folder < Artifact
 Fragment < Artifact
 Resource < Artifact
 Transient < Artifact
 
-Filelocation < File
+
 
 // Relationship types
 elementOf < Entity (+) * Set
@@ -34,9 +40,9 @@ partOf < Artifact * Technology
 partOf < Technology * Technology
 partOf < Language * Technology
 
-elementOf < FunctionApplication * Function
-inputOf < Artifact * FunctionApplication
-outputOf < Artifact * FunctionApplication
+
+
+
 
 instanceOf < Concept * Concept
 
@@ -72,27 +78,18 @@ deploysTo < Technology * Technology
 
 partOf < Language * Language
 
-// EVEN NEWER
 
-// New entity types
 @Suppress 'notConsidered'
+@Color '221,208,168'
 Plugin < Entity
 
-//@Suppress 'notConsidered'
-//Evaluator < Plugin
-//
-//@Suppress 'notConsidered'
-//Reasoner < Plugin
 
-// Binding an evaluator specific to an entity
 @Suppress 'relationshipNotConsidered'
 realizationOf < Plugin * Entity
 
-// Specifying plug-in relationship of evaluators
 @Suppress 'relationshipNotConsidered'
 partOf < Plugin * Plugin
 
-// Defining an evaluator for the relationship elementOf between File and language
 @Plugin 'FileElementOfLanguage'
 elementOf < File (+) * Language
 
@@ -119,7 +116,3 @@ refersTo < Artifact (+) * Artifact (+)
 // bindingEvaluator, evaluates links by inference
 LanguageResolver: Plugin
 LanguageResolver = 'classpath:plugins.LanguageResolver'
-
-// partOf evaluator, evaluates dot names to part of relationships
-//PartOf: Plugin
-//PartOf = "classpath:pluginroot.elementof.PartOfReasoner"

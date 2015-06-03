@@ -8,7 +8,7 @@ javaFiles elementOf JAXB.Java
 JAXB.Generator(xsdFiles) |-> javaFiles
 JAXB.Generator(xsdFiles) |-> javaFiles = 'workspace:/org.softlang.megal.examples/build.xml'
 
-xsdFiles = 'workspace:/org.softlang.megal.examples/inputs/Company.xsd'
+xsdFiles = 'workspace:/org.softlang.megal.examples/inputs/Company.xsd_file'
 javaFiles = 'workspace:/org.softlang.megal.examples/src/org/softlang/company/xjc/'
 // DONE: Plugin for “pairOfFilesElementOf” for JAXB.Generator as a sample-specific test on a buildscript to find a trace of an xjc invocation that appears process xsdFiles and to output to the javaFiles. To this end, the plugin needs to see preferably the “file names” of xsdFiles and javaFiles, which should be straightforward, if the plugin “sees” the relationship and the involved entities and their “linking” information.
 
@@ -52,4 +52,3 @@ XSDNSURIExtractor: Plugin
 XSDNSURIExtractor realizationOf XSD
 XSDNSURIExtractor partOf MatchingLanguageDefinition
 XSDNSURIExtractor = 'classpath:plugins.jaxb.XSDNSURIExtractor'
-

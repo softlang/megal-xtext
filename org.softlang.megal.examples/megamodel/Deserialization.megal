@@ -44,8 +44,7 @@ deserialization = 'classpath:org.softlang.company.features.Serialization#deseria
 
 // DONE: This “elementOf” plugin behavior needs to see that nothing needs to be checked because “secondOf” was clearly computed from “firstOf” by the function “deserialization”.
 objectGraph conformsTo javaFiles
-xmlFile correspondsTo objectGraph // DONE (not) simple quick and dirty
-
+xmlFile correspondsTo objectGraph 
 @Plugin 'ObjectCorrespondsToJavaFiles'
 conformsTo < Artifact (+) * Artifact (+)
 

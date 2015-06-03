@@ -30,8 +30,10 @@ public class AcceptXML extends Acceptor {
 
 			reader.parse(new InputSource(stream));
 			return Optional.absent();
-		} catch (IOException | SAXException | ParserConfigurationException e) {
-			return Optional.of(Throwables.getStackTraceAsString(e));
+		} catch (SAXException  e) {
+			return Optional.of("File not element of language:\r\n"+e.getMessage());
+		} catch (IOException  | ParserConfigurationException e) {
+			return Optional.of("File not element of language:\r\n"+Throwables.getStackTraceAsString(e));
 		}
 	}
 }

@@ -30,6 +30,8 @@ import com.google.common.collect.FluentIterable;
 
 public class MegalServices {
 
+	public static final String SEPARATOR = "\r\n";
+
 	public final static MegalServices INSTANCE = new MegalServices();
 
 	private static final String COLOR = "Color";
@@ -218,7 +220,7 @@ public class MegalServices {
 	}
 
 	public String lable(MegalRelationshipType relationshipType) {
-		return Joiner.on("/").join(FluentIterable.from(merged(relationshipType)).transform(x -> x.getName()));
+		return Joiner.on(SEPARATOR).join(FluentIterable.from(merged(relationshipType)).transform(x -> x.getName()));
 	}
 
 	public Boolean isEntity(MegalEntityType entitiyType) {
