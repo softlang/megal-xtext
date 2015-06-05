@@ -1,12 +1,13 @@
 package org.softlang.megal.mi2.api;
 
+import static com.google.common.base.Objects.equal;
+
 import java.net.URI;
 import java.nio.charset.Charset;
 import java.util.List;
 
 import com.google.common.io.ByteSource;
 import com.google.common.io.CharSource;
-import static com.google.common.base.Objects.*;
 
 public abstract class Artifact {
 	public abstract boolean exists();
@@ -26,7 +27,7 @@ public abstract class Artifact {
 	 * 
 	 * @param name
 	 *            The name to find
-	 * @return Returns an artifact or null
+	 * @return Returns an artifact or null TODO: do not return null
 	 */
 	public Artifact getChild(String name) {
 		for (Artifact child : getChildren())

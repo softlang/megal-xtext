@@ -1,5 +1,8 @@
 package org.softlang.megal.util;
 
+import static com.google.common.base.Predicates.in;
+import static com.google.common.base.Predicates.not;
+
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
@@ -8,7 +11,6 @@ import java.util.Set;
 import org.softlang.megal.mi2.util.HashMultitable;
 import org.softlang.megal.mi2.util.Multitable;
 
-import com.google.common.collect.ImmutableBiMap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.ImmutableSetMultimap;
@@ -19,7 +21,6 @@ import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
 import com.google.common.collect.Table;
 import com.google.common.collect.Table.Cell;
-import static com.google.common.base.Predicates.*;
 /**
  * <p>
  * A collection of methods that provide mutable unions of common <i>ADS</i>s by specifying data dominance for remove and

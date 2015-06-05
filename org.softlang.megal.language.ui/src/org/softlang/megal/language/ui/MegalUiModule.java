@@ -7,12 +7,10 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.eclipse.xtext.ui.editor.hover.IEObjectHoverProvider;
 import org.eclipse.xtext.ui.editor.syntaxcoloring.AbstractAntlrTokenToAttributeIdMapper;
 import org.eclipse.xtext.ui.editor.syntaxcoloring.IHighlightingConfiguration;
-import org.eclipse.xtext.ui.editor.syntaxcoloring.ISemanticHighlightingCalculator;
 import org.softlang.megal.MegalPlugin;
 import org.softlang.megal.fragmentprovider.Evaluator;
 import org.softlang.megal.language.ui.highlighting.MegalAntlrTokenToAttributeIdMapper;
 import org.softlang.megal.language.ui.highlighting.MegalHighlightingConfiguration;
-import org.softlang.megal.language.ui.highlighting.MegalSemanticHighlightingCalculator;
 import org.softlang.megal.language.ui.hover.MegalEObjectHoverProvider;
 
 import com.google.inject.Binder;
@@ -33,8 +31,6 @@ public class MegalUiModule extends AbstractMegalUiModule {
 				MegalHighlightingConfiguration.class);
 		binder.bind(AbstractAntlrTokenToAttributeIdMapper.class).to(
 				MegalAntlrTokenToAttributeIdMapper.class);
-		binder.bind(ISemanticHighlightingCalculator.class).to(
-				MegalSemanticHighlightingCalculator.class);
 
 		binder.bind(IEObjectHoverProvider.class).to(
 				MegalEObjectHoverProvider.class);

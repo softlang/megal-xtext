@@ -33,7 +33,7 @@ public class FileElementOfLanguage extends GuidedEvaluatorPlugin {
 	public void guidedEvaluate(Relationship relationship) {
 		Entity element = relationship.getLeft();
 
-		Iterable<Artifact> items = expandIfFolder(withArtifacts(element));
+		Iterable<Artifact> items = expandIfFolder(artifactsOf(element));
 
 		boolean anyError = false;
 		for (Artifact artifact : items) {

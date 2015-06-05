@@ -1,6 +1,5 @@
 package plugins.jaxb;
 
-import static com.google.common.collect.Iterables.getLast;
 import static com.google.common.collect.Sets.newHashSet;
 import static plugins.util.Nodes.asList;
 import static plugins.util.Nodes.getValue;
@@ -10,7 +9,6 @@ import static plugins.util.Prelude.isInstance;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -27,38 +25,13 @@ import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
 import plugins.prelude.GuidedEvaluatorPlugin;
+import plugins.util.Utils;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Optional;
-import com.google.common.base.Splitter;
-import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableMap;
 
 public class XMLFileCorrespondsToJavaObject extends GuidedEvaluatorPlugin {
-
-	private static String toFirstUpper(String s) {
-		if (s.isEmpty())
-			return s;
-
-		return Character.toUpperCase(s.charAt(0)) + s.substring(1);
-	}
-
-	private static Optional<Object> get(Object object, String field) {
-		field = getLast(Splitter.on(':').split(field));
-		try {
-			return Optional.of(object.getClass().getField(field).get(object));
-		} catch (IllegalArgumentException | IllegalAccessException
-				| NoSuchFieldException | SecurityException fe) {
-			try {
-				return Optional.of(object.getClass()
-						.getMethod("get" + toFirstUpper(field)).invoke(object));
-			} catch (IllegalAccessException | IllegalArgumentException
-					| InvocationTargetException | NoSuchMethodException
-					| SecurityException ge) {
-				return Optional.absent();
-			}
-		}
-	}
 
 	private boolean isMatchable(Node node) {
 		switch (node.getNodeType()) {
@@ -120,7 +93,8 @@ public class XMLFileCorrespondsToJavaObject extends GuidedEvaluatorPlugin {
 			// There is a child that passed the matchable mark
 			hasMatchableChildren = true;
 
-			Optional<Object> value = get(object, child.getNodeName());
+			Optional<Object> value = Utils.getForXML(object,
+					child.getNodeName());
 
 			// No corresponding field, structural error
 			if (!value.isPresent()) {
@@ -176,12 +150,13 @@ public class XMLFileCorrespondsToJavaObject extends GuidedEvaluatorPlugin {
 	}
 
 	@Override
-	public void guidedEvaluate(Relationship relationship) {
-		with(isElementOfLanguage(relationship.getLeft(), "XML"));
-		with(isInstance(relationship.getRight(), "Transient"));
+	public void guidedEvaluate(Relationship relationship) throws IOException,
+			ParserConfigurationException, SAXException {
+		when(isElementOfLanguage(relationship.getLeft(), "XML"));
+		when(isInstance(relationship.getRight(), "Transient"));
 
-		Artifact file = withArtifact(relationship.getLeft());
-		Object object = withBound(relationship.getRight());
+		Artifact file = artifactOf(relationship.getLeft());
+		Object object = bindingOf(relationship.getRight());
 
 		try (InputStream stream = file.getBytes().openStream()) {
 			DocumentBuilderFactory builderFactory = DocumentBuilderFactory
@@ -222,8 +197,6 @@ public class XMLFileCorrespondsToJavaObject extends GuidedEvaluatorPlugin {
 			}
 			// if (matchMessage.isPresent())
 			// context.error(matchMessage.get());
-		} catch (IOException | ParserConfigurationException | SAXException e) {
-			warning(Throwables.getStackTraceAsString(e));
 		}
 
 	}

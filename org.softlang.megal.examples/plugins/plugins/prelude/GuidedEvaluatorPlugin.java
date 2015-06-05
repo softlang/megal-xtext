@@ -1,6 +1,9 @@
 package plugins.prelude;
 
+import java.io.Closeable;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.Reader;
 import java.util.List;
 
 import org.softlang.megal.mi2.Entity;
@@ -11,103 +14,84 @@ import org.softlang.megal.mi2.api.Artifact;
 
 import com.google.common.base.Throwables;
 
+import static com.google.common.collect.Lists.*;
+
 public abstract class GuidedEvaluatorPlugin extends InjectedEvaluatorPlugin {
-	private static enum GuideLevel {
+	private static enum Level {
 		NOT_RESPONSIBLE, WARNING, ERROR
 	}
 
-	private static class GuideException extends RuntimeException {
+	private static class ExitException extends RuntimeException {
 		private static final long serialVersionUID = -2849721969483884329L;
 
-		private final GuideLevel level;
+		private final Level level;
 
-		public GuideException(GuideLevel level) {
+		public ExitException(Level level) {
 			this.level = level;
 		}
 
-		public GuideException(String message, GuideLevel level) {
-			super(message);
-			this.level = level;
-		}
-
-		public GuideLevel getLevel() {
+		public Level getLevel() {
 			return level;
 		}
 	}
 
-	protected final void with(boolean condition) {
-		if (!condition)
-			throw new GuideException(GuideLevel.NOT_RESPONSIBLE);
+	private final List<Closeable> closables;
+
+	public GuidedEvaluatorPlugin() {
+		closables = newArrayList();
 	}
 
-	protected final void require(boolean condition) {
+	protected void when(boolean condition) {
 		if (!condition)
-			throw new GuideException(GuideLevel.NOT_RESPONSIBLE);
+			throw new ExitException(Level.NOT_RESPONSIBLE);
 	}
 
-	protected final Object withBound(Entity entity) {
+	protected Object bindingOf(Entity entity) {
 		if (!entity.hasBinding())
-			throw new GuideException(GuideLevel.ERROR);
+			throw new ExitException(Level.ERROR);
 
 		return entity.getBinding();
 	}
 
-	protected final Object requireBound(Entity entity) {
+	protected Artifact artifactOf(Entity entity) {
 		if (!entity.hasBinding())
-			throw new GuideException("Binding of entity " + entity
-					+ " is required.", GuideLevel.ERROR);
-
-		return entity.getBinding();
-	}
-
-	protected final Artifact withArtifact(Entity entity) {
-		if (!entity.hasBinding())
-			throw new GuideException(GuideLevel.NOT_RESPONSIBLE);
+			throw new ExitException(Level.NOT_RESPONSIBLE);
 
 		Artifact artifact = getArtifact(entity.getBinding());
 
 		if (artifact == null)
-			throw new GuideException(GuideLevel.NOT_RESPONSIBLE);
+			throw new ExitException(Level.NOT_RESPONSIBLE);
 
 		return artifact;
 	}
 
-	protected final Artifact requireArtifact(Entity entity) {
+	protected List<Artifact> artifactsOf(Entity entity) {
 		if (!entity.hasBinding())
-			throw new GuideException("Binding of entity " + entity
-					+ " is required.", GuideLevel.ERROR);
-
-		Artifact artifact = getArtifact(entity.getBinding());
-
-		if (artifact == null)
-			throw new GuideException("Binding of entity " + entity
-					+ " is not resolvable to an artifact.", GuideLevel.ERROR);
-
-		return artifact;
-	}
-
-	protected final List<Artifact> withArtifacts(Entity entity) {
-		if (!entity.hasBinding())
-			throw new GuideException(GuideLevel.NOT_RESPONSIBLE);
+			throw new ExitException(Level.NOT_RESPONSIBLE);
 
 		return getArtifacts(entity.getBinding());
 	}
 
-	protected final List<Artifact> requireArtifacts(Entity entity) {
-		if (!entity.hasBinding())
-			throw new GuideException("Binding of entity " + entity
-					+ " is required.", GuideLevel.ERROR);
+	protected InputStream bytesFor(Artifact artifact) throws IOException {
+		InputStream stream = artifact.getBytes().openStream();
+		closables.add(stream);
+		return stream;
+	}
 
-		return getArtifacts(entity.getBinding());
+	protected Reader charsFor(Artifact artifact) throws IOException {
+		Reader stream = artifact.getChars().openStream();
+		closables.add(stream);
+		return stream;
 	}
 
 	@Override
 	protected final void evaluate(EntityType entityType) {
 		try {
 			guidedEvaluate(entityType);
-		} catch (GuideException e) {
+			closeAll();
+		} catch (ExitException e) {
 			handleGuideException(e);
-		} catch (IOException e) {
+		} catch (Throwable e) {
 			warning(Throwables.getStackTraceAsString(e));
 		}
 	}
@@ -116,9 +100,10 @@ public abstract class GuidedEvaluatorPlugin extends InjectedEvaluatorPlugin {
 	protected final void evaluate(RelationshipType relationshipType) {
 		try {
 			guidedEvaluate(relationshipType);
-		} catch (GuideException e) {
+			closeAll();
+		} catch (ExitException e) {
 			handleGuideException(e);
-		} catch (IOException e) {
+		} catch (Throwable e) {
 			warning(Throwables.getStackTraceAsString(e));
 		}
 	}
@@ -127,9 +112,10 @@ public abstract class GuidedEvaluatorPlugin extends InjectedEvaluatorPlugin {
 	protected final void evaluate(Entity entity) {
 		try {
 			guidedEvaluate(entity);
-		} catch (GuideException e) {
+			closeAll();
+		} catch (ExitException e) {
 			handleGuideException(e);
-		} catch (IOException e) {
+		} catch (Throwable e) {
 			warning(Throwables.getStackTraceAsString(e));
 		}
 	}
@@ -138,14 +124,21 @@ public abstract class GuidedEvaluatorPlugin extends InjectedEvaluatorPlugin {
 	protected final void evaluate(Relationship relationship) {
 		try {
 			guidedEvaluate(relationship);
-		} catch (GuideException e) {
+			closeAll();
+		} catch (ExitException e) {
 			handleGuideException(e);
-		} catch (IOException e) {
+		} catch (Throwable e) {
 			warning(Throwables.getStackTraceAsString(e));
 		}
 	}
 
-	private void handleGuideException(GuideException e) {
+	private void closeAll() throws IOException {
+		for (Closeable c : closables)
+			c.close();
+		closables.clear();
+	}
+
+	private void handleGuideException(ExitException e) {
 		switch (e.getLevel()) {
 		case NOT_RESPONSIBLE:
 			break;
@@ -158,16 +151,16 @@ public abstract class GuidedEvaluatorPlugin extends InjectedEvaluatorPlugin {
 		}
 	}
 
-	protected void guidedEvaluate(EntityType entityType) throws IOException {
+	protected void guidedEvaluate(EntityType entityType) throws Throwable {
 	}
 
 	protected void guidedEvaluate(RelationshipType relationshipType)
-			throws IOException {
+			throws Throwable {
 	}
 
-	protected void guidedEvaluate(Entity entity) throws IOException {
+	protected void guidedEvaluate(Entity entity) throws Throwable {
 	}
 
-	protected void guidedEvaluate(Relationship relationship) throws IOException {
+	protected void guidedEvaluate(Relationship relationship) throws Throwable {
 	}
 }

@@ -1,11 +1,11 @@
 package org.softlang.megal.mi2.api.resolution;
 
+import static com.google.common.base.Objects.equal;
+
 import java.net.URI;
 
 import org.eclipse.core.resources.IResource;
 import org.softlang.megal.mi2.api.Artifact;
-
-import static com.google.common.base.Objects.*;
 
 public abstract class IResourceArtifact extends Artifact {
 

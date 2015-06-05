@@ -7,7 +7,9 @@ import static com.google.common.base.Predicates.not;
 import static com.google.common.collect.Iterables.getFirst;
 import static com.google.common.collect.Maps.immutableEntry;
 import static com.google.common.collect.Tables.immutableCell;
+import static org.softlang.megal.mi2.util.SetOperations.transform;
 import static org.softlang.megal.mi2.util.SetOperations.translate;
+import static org.softlang.megal.util.Persistent.with;
 
 import java.util.Collection;
 import java.util.Map;
@@ -17,9 +19,6 @@ import java.util.Set;
 import org.softlang.megal.mi2.util.Bijection;
 import org.softlang.megal.mi2.util.Bijections;
 import org.softlang.megal.mi2.util.Multitable;
-
-import static org.softlang.megal.mi2.util.SetOperations.*;
-import static org.softlang.megal.util.Persistent.*;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Optional;

@@ -17,47 +17,49 @@ import com.google.common.base.Splitter;
 
 public class JavaFileDefinesStaticFunction extends GuidedEvaluatorPlugin {
 	@Override
-	public void guidedEvaluate(Relationship relationship) throws IOException {
+	public void guidedEvaluate(Relationship relationship) throws IOException,
+			URISyntaxException {
+		// Get artifact and binding
+		Artifact javaFile = artifactOf(relationship.getLeft());
+		URI binding = new URI(bindingOf(relationship.getRight()).toString());
 
-		Artifact javaFile = withArtifact(relationship.getLeft());
-		try {
-			URI binding = new URI(withBound(relationship.getRight()).toString());
-			if (!"classpath".equals(binding.getScheme()))
-				return;
+		// Responsible when classpath is the schema specific part
+		when("classpath".equals(binding.getScheme()));
 
-			String qname = binding.getSchemeSpecificPart();
-			String function = binding.getFragment();
+		// Obtain qualified name and function
+		String qname = binding.getSchemeSpecificPart();
+		String function = binding.getFragment();
 
-			List<String> split = Splitter.on('.').omitEmptyStrings()
-					.splitToList(qname);
-			String frag = Joiner.on('.').join(
-					split.subList(0, split.size() - 2));
-			String name = split.get(split.size() - 1);
+		// Split qualified name
+		List<String> split = Splitter.on('.').omitEmptyStrings()
+				.splitToList(qname);
+		// Find package and class name
+		String frag = Joiner.on('.').join(split.subList(0, split.size() - 2));
+		String name = split.get(split.size() - 1);
 
-			String fname = getFirst(
-					Splitter.on('(').omitEmptyStrings().split(function), null);
+		// Find function name
+		String fname = getFirst(
+				Splitter.on('(').omitEmptyStrings().split(function), null);
 
-			String file = javaFile.getChars().read();
+		// Get file content and check it
+		String file = javaFile.getChars().read();
 
-			if (!file.contains(frag)) {
-				error("The file is not even in the same package.");
-				return;
-			}
-
-			if (!(file.contains("class " + name) || file.contains("interface "
-					+ name))) {
-				error("Not the same name, dude.");
-				return;
-			}
-
-			if (!file.contains(fname)) {
-				error("Can't find the method, I don't like this file!");
-				return;
-			}
-
-			valid();
-		} catch (URISyntaxException e) {
+		if (!file.contains(frag)) {
+			error("Not in the same package.");
 			return;
 		}
+
+		if (!(file.contains("class " + name) || file.contains("interface "
+				+ name))) {
+			error("Does not define class or interface " + name + ".");
+			return;
+		}
+
+		if (!file.contains(fname)) {
+			error("Does not contain method symbol " + fname + "!");
+			return;
+		}
+
+		valid();
 	}
 }
