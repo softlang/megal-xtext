@@ -12,6 +12,8 @@ import org.softlang.megal.MegalPackage;
 import org.softlang.megal.MegalRelationshipType;
 import org.softlang.megal.sirius.MegalServices;
 
+import com.google.common.base.CharMatcher;
+import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 
 public class SetLableRelationshipType implements IExternalJavaAction {
@@ -32,8 +34,9 @@ public class SetLableRelationshipType implements IExternalJavaAction {
 		// Target RelationshipTypes.
 		List<MegalRelationshipType> merged = MegalServices.INSTANCE.merged(relation);
 
-		List<String> lables = Lists.newArrayList(lable.split("/"));
+		List<String> lables = Splitter.on(CharMatcher.anyOf(MegalServices.SEPARATOR)).omitEmptyStrings().splitToList(lable);
 	
+		// TODO: Implement this based on difference.
 		for (int i = 0; i < lables.size(); i++) {
 			if (i < merged.size())
 				// Rename.

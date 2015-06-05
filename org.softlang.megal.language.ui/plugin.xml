@@ -415,5 +415,33 @@
             extensions="megal">
     </provider>
   </extension>
+  <extension
+        point="org.eclipse.ui.menus">
+     <menuContribution
+           locationURI="popup:#TextEditorContext?endof=group.find">
+        <command
+              commandId="org.softlang.megal.language.ui.OpenBinding"
+              label="Open binding">
+           <visibleWhen
+                 checkEnabled="false">
+              <reference
+                    definitionId="org.softlang.megal.language.Megal.Editor.opened">
+              </reference>
+           </visibleWhen>
+        </command>
+     </menuContribution>
+  </extension>
+  <extension
+        point="org.eclipse.ui.handlers">
+     <handler
+           class="org.softlang.megal.language.ui.MegalExecutableExtensionFactory:org.softlang.megal.language.ui.OpenBindingHandler"
+           commandId="org.softlang.megal.language.ui.OpenBinding">
+        <activeWhen>
+           <reference
+                 definitionId="org.softlang.megal.language.Megal.Editor.opened">
+           </reference>
+        </activeWhen>
+     </handler>
+  </extension>
 
 </plugin>
