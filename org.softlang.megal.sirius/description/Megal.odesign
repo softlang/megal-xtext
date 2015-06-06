@@ -17,22 +17,13 @@
           </style>
         </nodeMappings>
         <edgeMappings name="org.softlang.megal.sirius.entitydiagram.relationship" deletionDescription="//@ownedViewpoints[name='org.softlang.megal.sirius']/@ownedRepresentations[name='org.softlang.megal.sirius.entitydiagram']/@defaultLayer/@toolSections.0/@ownedTools[name='org.softlang.megal.sirius.entitydiagram.tools.deleterelationship']" labelDirectEdit="//@ownedViewpoints[name='org.softlang.megal.sirius']/@ownedRepresentations[name='org.softlang.megal.sirius.entitydiagram']/@defaultLayer/@toolSections.0/@ownedTools[name='org.softlang.megal.sirius.entitydiagram.tools.editlablerelation']" semanticCandidatesExpression="[thisEObject.relationsLocal()/]" semanticElements="[thisEObject.associatedElements()/]" sourceMapping="//@ownedViewpoints[name='org.softlang.megal.sirius']/@ownedRepresentations[name='org.softlang.megal.sirius.entitydiagram']/@defaultLayer/@nodeMappings[name='org.softlang.megal.sirius.entitydiagram.entity'] //@ownedViewpoints[name='org.softlang.megal.sirius']/@ownedRepresentations[name='org.softlang.megal.sirius.entitydiagram']/@defaultLayer/@nodeMappings[name='org.softlang.megal.sirius.entitydiagram.entity.import']" targetMapping="//@ownedViewpoints[name='org.softlang.megal.sirius']/@ownedRepresentations[name='org.softlang.megal.sirius.entitydiagram']/@defaultLayer/@nodeMappings[name='org.softlang.megal.sirius.entitydiagram.entity'] //@ownedViewpoints[name='org.softlang.megal.sirius']/@ownedRepresentations[name='org.softlang.megal.sirius.entitydiagram']/@defaultLayer/@nodeMappings[name='org.softlang.megal.sirius.entitydiagram.entity.import']" targetFinderExpression="[thisEObject.right/]" sourceFinderExpression="[thisEObject.left/]" targetExpression="[self/]" domainClass="megal.MegalRelationship" useDomainElement="true">
-          <conditionnalStyles predicateExpression="[thisEObject.error().oclIsUndefined()/]">
-            <style strokeColor="//@userColorsPalettes[name='org.softlang.megal.sirius.colors']/@entries[name='lineColor']" sizeComputationExpression="2">
-              <centerLabelStyleDescription labelSize="10" showIcon="false" labelExpression="[thisEObject.lable()/]">
-                <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
-              </centerLabelStyleDescription>
-            </style>
-          </conditionnalStyles>
-          <conditionnalStyles predicateExpression="[thisEObject.error().oclIsUndefined()._not()/]">
-            <style strokeColor="//@userColorsPalettes[name='org.softlang.megal.sirius.colors']/@entries[name='lineColor']" sizeComputationExpression="2">
-              <centerLabelStyleDescription labelSize="10" labelExpression="[thisEObject.lable()/]" iconPath="/org.softlang.megal.sirius/icons/error.gif">
-                <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
-              </centerLabelStyleDescription>
-            </style>
-          </conditionnalStyles>
+          <style strokeColor="//@userColorsPalettes[name='org.softlang.megal.sirius.colors']/@entries[name='lineColor']" sizeComputationExpression="2">
+            <centerLabelStyleDescription labelSize="10" showIcon="false" labelExpression="[thisEObject.lable()/]">
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            </centerLabelStyleDescription>
+          </style>
         </edgeMappings>
-        <edgeMappings name="org.softlang.megal.sirius.entitydiagram.functionApplication" labelDirectEdit="//@ownedViewpoints[name='org.softlang.megal.sirius']/@ownedRepresentations[name='org.softlang.megal.sirius.entitydiagram']/@defaultLayer/@toolSections.0/@ownedTools[name='org.softlang.megal.sirius.entitydiagram.tools.editlableFunctionApplication']" semanticCandidatesExpression="[thisEObject.pairsLocal()/]" sourceMapping="//@ownedViewpoints[name='org.softlang.megal.sirius']/@ownedRepresentations[name='org.softlang.megal.sirius.entitydiagram']/@defaultLayer/@nodeMappings[name='org.softlang.megal.sirius.entitydiagram.entity'] //@ownedViewpoints[name='org.softlang.megal.sirius']/@ownedRepresentations[name='org.softlang.megal.sirius.entitydiagram']/@defaultLayer/@nodeMappings[name='org.softlang.megal.sirius.entitydiagram.entity.import']" targetMapping="//@ownedViewpoints[name='org.softlang.megal.sirius']/@ownedRepresentations[name='org.softlang.megal.sirius.entitydiagram']/@defaultLayer/@nodeMappings[name='org.softlang.megal.sirius.entitydiagram.entity'] //@ownedViewpoints[name='org.softlang.megal.sirius']/@ownedRepresentations[name='org.softlang.megal.sirius.entitydiagram']/@defaultLayer/@nodeMappings[name='org.softlang.megal.sirius.entitydiagram.entity.import']" targetFinderExpression="[self.output/]" sourceFinderExpression="[self.input/]" domainClass="megal.MegalPair" useDomainElement="true">
+        <edgeMappings name="org.softlang.megal.sirius.entitydiagram.pair" deletionDescription="//@ownedViewpoints[name='org.softlang.megal.sirius']/@ownedRepresentations[name='org.softlang.megal.sirius.entitydiagram']/@defaultLayer/@toolSections.0/@ownedTools[name='org.softlang.megal.sirius.entitydiagram.tools.deletepair']" labelDirectEdit="//@ownedViewpoints[name='org.softlang.megal.sirius']/@ownedRepresentations[name='org.softlang.megal.sirius.entitydiagram']/@defaultLayer/@toolSections.0/@ownedTools[name='org.softlang.megal.sirius.entitydiagram.tools.editlablePair']" semanticCandidatesExpression="[thisEObject.pairsLocal()/]" sourceMapping="//@ownedViewpoints[name='org.softlang.megal.sirius']/@ownedRepresentations[name='org.softlang.megal.sirius.entitydiagram']/@defaultLayer/@nodeMappings[name='org.softlang.megal.sirius.entitydiagram.entity'] //@ownedViewpoints[name='org.softlang.megal.sirius']/@ownedRepresentations[name='org.softlang.megal.sirius.entitydiagram']/@defaultLayer/@nodeMappings[name='org.softlang.megal.sirius.entitydiagram.entity.import']" targetMapping="//@ownedViewpoints[name='org.softlang.megal.sirius']/@ownedRepresentations[name='org.softlang.megal.sirius.entitydiagram']/@defaultLayer/@nodeMappings[name='org.softlang.megal.sirius.entitydiagram.entity'] //@ownedViewpoints[name='org.softlang.megal.sirius']/@ownedRepresentations[name='org.softlang.megal.sirius.entitydiagram']/@defaultLayer/@nodeMappings[name='org.softlang.megal.sirius.entitydiagram.entity.import']" targetFinderExpression="[self.second/]" sourceFinderExpression="[self.first/]" domainClass="megal.MegalPair" useDomainElement="true">
           <style lineStyle="dash" sourceArrow="OutputClosedArrow" targetArrow="InputClosedArrow" sizeComputationExpression="2">
             <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
             <centerLabelStyleDescription labelSize="10" labelFormat="bold" showIcon="false" labelExpression="[self.lable()/]">
@@ -57,10 +48,10 @@
               </firstModelOperations>
             </initialOperation>
           </ownedTools>
-          <ownedTools xsi:type="tool:DirectEditLabel" name="org.softlang.megal.sirius.entitydiagram.tools.editlableFunctionApplication" inputLabelExpression="[thisEObject.lable()/]">
+          <ownedTools xsi:type="tool:DirectEditLabel" name="org.softlang.megal.sirius.entitydiagram.tools.editlablePair" inputLabelExpression="[thisEObject.lable()/]">
             <mask mask="{0}"/>
             <initialOperation>
-              <firstModelOperations xsi:type="tool_1:ExternalJavaAction" name="org.softlang.megal.sirius.entitydiagram.tools.SetLableFunctionApplication" id="org.softlang.megal.sirius.entitydiagram.tools.SetLableFunctionApplication">
+              <firstModelOperations xsi:type="tool_1:ExternalJavaAction" name="org.softlang.megal.sirius.entitydiagram.tools.SetLablePair" id="org.softlang.megal.sirius.entitydiagram.tools.SetLablePair">
                 <parameters name="lable" value="var:arg0"/>
               </firstModelOperations>
             </initialOperation>
@@ -92,27 +83,19 @@
               </firstModelOperations>
             </initialOperation>
           </ownedTools>
-          <ownedTools xsi:type="tool:EdgeCreationDescription" name="org.softlang.megal.sirius.entitydiagram.tools.createFunctionApplication" label="Function Application" edgeMappings="//@ownedViewpoints[name='org.softlang.megal.sirius']/@ownedRepresentations[name='org.softlang.megal.sirius.entitydiagram']/@defaultLayer/@edgeMappings[name='org.softlang.megal.sirius.entitydiagram.functionApplication']" iconPath="/org.softlang.megal.sirius/icons/application.gif">
+          <ownedTools xsi:type="tool:EdgeCreationDescription" name="org.softlang.megal.sirius.entitydiagram.tools.createPair" label="Pair" edgeMappings="//@ownedViewpoints[name='org.softlang.megal.sirius']/@ownedRepresentations[name='org.softlang.megal.sirius.entitydiagram']/@defaultLayer/@edgeMappings[name='org.softlang.megal.sirius.entitydiagram.pair']" iconPath="/org.softlang.megal.sirius/icons/application.gif">
             <sourceVariable name="source"/>
             <targetVariable name="target"/>
             <sourceViewVariable name="sourceView"/>
             <targetViewVariable name="targetView"/>
             <initialOperation>
               <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="[source.megalFileOverView(sourceView)/]">
-                <subModelOperations xsi:type="tool_1:CreateInstance" typeName="megal.MegalFunctionApplication" referenceName="declarations">
-                  <subModelOperations xsi:type="tool_1:SetValue" featureName="input" valueExpression="[source/]"/>
-                  <subModelOperations xsi:type="tool_1:SetValue" featureName="output" valueExpression="[target/]"/>
-                  <subModelOperations xsi:type="tool_1:SetValue" featureName="function" valueExpression="[instance.oclAsType(Declaration).megalFile().entities() -> any(x|true)/]"/>
+                <subModelOperations xsi:type="tool_1:CreateInstance" typeName="megal.MegalPair" referenceName="declarations">
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="first" valueExpression="[source/]"/>
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="second" valueExpression="[target/]"/>
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="set" valueExpression="[instance.oclAsType(MegalDeclaration).megalFile().entities() -> any(x|true)/]"/>
                 </subModelOperations>
               </firstModelOperations>
-            </initialOperation>
-          </ownedTools>
-          <ownedTools xsi:type="tool:DeleteElementDescription" name="org.softlang.megal.sirius.entitydiagram.tools.deleteentity" precondition="[thisEObject.canRemove()/]">
-            <element name="element"/>
-            <elementView name="elementView"/>
-            <containerView name="containerView"/>
-            <initialOperation>
-              <firstModelOperations xsi:type="tool_1:RemoveElement"/>
             </initialOperation>
           </ownedTools>
           <ownedTools xsi:type="tool_1:SelectionWizardDescription" name="org.softlang.megal.sirius.entitydiagram.tools.changetype" label="Change type" precondition="[thisEObject.oclIsTypeOf(MegalRelationship)._or(thisEObject.oclIsTypeOf(MegalEntity))/]" candidatesExpression="[if thisEObject.oclIsTypeOf(MegalRelationship) then thisEObject.eContainer().oclAsType(MegalFile).relationshipTypes() else thisEObject.eContainer().oclAsType(MegalFile).entityTypes() endif/]" message="Select a new type for the Entity or the Relationship." iconPath="/org.softlang.megal.sirius/icons/change.gif" windowTitle="Selection Wizard for new type.">
@@ -130,6 +113,14 @@
               </firstModelOperations>
             </initialOperation>
           </ownedTools>
+          <ownedTools xsi:type="tool:DeleteElementDescription" name="org.softlang.megal.sirius.entitydiagram.tools.deleteentity" precondition="[thisEObject.canRemove()/]">
+            <element name="element"/>
+            <elementView name="elementView"/>
+            <containerView name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:RemoveElement"/>
+            </initialOperation>
+          </ownedTools>
           <ownedTools xsi:type="tool:DeleteElementDescription" name="org.softlang.megal.sirius.entitydiagram.tools.deleterelationship">
             <element name="element"/>
             <elementView name="elementView"/>
@@ -143,6 +134,14 @@
             <elementView name="elementView"/>
             <containerView name="containerView"/>
             <initialOperation/>
+          </ownedTools>
+          <ownedTools xsi:type="tool:DeleteElementDescription" name="org.softlang.megal.sirius.entitydiagram.tools.deletepair">
+            <element name="element"/>
+            <elementView name="elementView"/>
+            <containerView name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:RemoveElement"/>
+            </initialOperation>
           </ownedTools>
         </toolSections>
       </defaultLayer>

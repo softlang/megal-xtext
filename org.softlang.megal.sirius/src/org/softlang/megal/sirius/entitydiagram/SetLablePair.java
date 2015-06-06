@@ -13,9 +13,9 @@ import org.softlang.megal.MegalFile;
 import org.softlang.megal.MegalPair;
 import org.softlang.megal.sirius.MegalServices;
 
-public class SetLableFunctionApplication implements IExternalJavaAction {
+public class SetLablePair implements IExternalJavaAction {
 
-	public SetLableFunctionApplication() {
+	public SetLablePair() {
 
 	}
 
