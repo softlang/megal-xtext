@@ -23,26 +23,22 @@ public class MatchingLanguageDefinition extends GuidedEvaluatorPlugin {
 	}
 
 	@Override
-	public void guidedEvaluate(Relationship relationship) {
+	public void guidedEvaluate(Relationship relationship)
+			throws URISyntaxException {
 
-		Object rightBinding = withBound(relationship.getRight());
+		Object rightBinding = bindingOf(relationship.getRight());
 
 		NSURIExtractor extractor = getExtractor(relationship.getLeft());
 		if (extractor == null)
 			return;
 
-		try {
-			URI toURI = new URI(rightBinding.toString());
-			URI extracted = extractor
-					.extractNSURI(this, relationship.getLeft());
+		URI toURI = new URI(rightBinding.toString());
+		URI extracted = extractor.extractNSURI(this, relationship.getLeft());
 
-			if (extractor != null && toURI.equals(extracted))
-				valid();
-			else
-				error("The artifacts language " + extracted
-						+ " does not match the expected " + toURI);
-
-		} catch (URISyntaxException e) {
-		}
+		if (extractor != null && toURI.equals(extracted))
+			valid();
+		else
+			error("The artifacts language " + extracted
+					+ " does not match the expected " + toURI);
 	}
 }

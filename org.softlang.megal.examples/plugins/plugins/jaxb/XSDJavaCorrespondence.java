@@ -10,7 +10,7 @@ import java.util.List;
 
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathException;
+import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
 import org.softlang.megal.mi2.Relationship;
@@ -22,19 +22,19 @@ import org.xml.sax.InputSource;
 import plugins.prelude.GuidedEvaluatorPlugin;
 
 import com.google.common.base.CaseFormat;
-import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableBiMap;
 import com.google.common.collect.Lists;
 
 public class XSDJavaCorrespondence extends GuidedEvaluatorPlugin {
 
 	@Override
-	public void guidedEvaluate(Relationship relationship) {
-		with(isElementOfLanguage(relationship.getLeft(), "XML"));
-		with(isElementOfLanguage(relationship.getRight(), "Java"));
+	public void guidedEvaluate(Relationship relationship) throws IOException,
+			XPathExpressionException {
+		when(isElementOfLanguage(relationship.getLeft(), "XML"));
+		when(isElementOfLanguage(relationship.getRight(), "Java"));
 
-		Artifact artifactLeft = withArtifact(relationship.getLeft());
-		Artifact artifactRight = withArtifact(relationship.getRight());
+		Artifact left = artifactOf(relationship.getLeft());
+		Artifact right = artifactOf(relationship.getRight());
 
 		// Evaluate to all execute statements
 		XPath xpath = XPathFactory.newInstance().newXPath();
@@ -42,8 +42,7 @@ public class XSDJavaCorrespondence extends GuidedEvaluatorPlugin {
 				"http://www.w3.org/2001/XMLSchema")));
 
 		// Open the schema
-		try (InputStream stream = artifactLeft.getBytes().openStream()) {
-
+		try (InputStream stream = left.getBytes().openStream()) {
 			List<Node> elements = asList((NodeList) xpath
 					.evaluate(
 							"/xs:schema/xs:element/xs:complexType/..|/xs:schema/xs:complexType",
@@ -57,8 +56,7 @@ public class XSDJavaCorrespondence extends GuidedEvaluatorPlugin {
 				String className = CaseFormat.LOWER_CAMEL.to(
 						CaseFormat.UPPER_CAMEL, name);
 
-				if (hasInvalidation |= artifactRight.getChild(className
-						+ ".java") == null) {
+				if (hasInvalidation |= right.getChild(className + ".java") == null) {
 					error("The class with the name " + className
 							+ ", corresponding to the element <"
 							+ node.getNodeName() + " ... name=\"" + name
@@ -72,8 +70,6 @@ public class XSDJavaCorrespondence extends GuidedEvaluatorPlugin {
 				valid();
 				info(matched.toString());
 			}
-		} catch (IOException | XPathException e) {
-			warning(Throwables.getStackTraceAsString(e));
 		}
 	}
 }

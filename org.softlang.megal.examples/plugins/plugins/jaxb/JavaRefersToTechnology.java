@@ -14,7 +14,6 @@ import plugins.prelude.GuidedEvaluatorPlugin;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
-import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableSet;
 
 public class JavaRefersToTechnology extends GuidedEvaluatorPlugin {
@@ -33,25 +32,22 @@ public class JavaRefersToTechnology extends GuidedEvaluatorPlugin {
 	}
 
 	@Override
-	public void guidedEvaluate(Relationship relationship) {
-		Artifact artifact = withArtifact(relationship.getLeft());
+	public void guidedEvaluate(Relationship relationship) throws IOException {
+		Artifact artifact = artifactOf(relationship.getLeft());
 
 		Set<String> indicators = getIndicators(relationship.getRight()
 				.getName());
 
-		try {
-			for (String indicator : indicators)
-				for (String line : artifact.getChars().readLines())
-					if (line.toLowerCase().contains(indicator)) {
-						valid();
-						return;
-					}
+		for (String indicator : indicators)
+			for (String line : artifact.getChars().readLines())
+				if (line.toLowerCase().contains(indicator)) {
+					valid();
+					return;
+				}
 
-			error("No indicator found suggesting the referral to the technology "
-					+ relationship.getRight().getName()
-					+ ", looking for the indicators " + indicators);
-		} catch (IOException e) {
-			warning(Throwables.getStackTraceAsString(e));
-		}
+		error("No indicator found suggesting the referral to the technology "
+				+ relationship.getRight().getName()
+				+ ", looking for the indicators " + indicators);
+
 	}
 }

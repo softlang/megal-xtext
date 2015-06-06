@@ -13,14 +13,13 @@ import java.nio.charset.Charset;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.WeakHashMap;
+import java.util.Map.Entry;
 
 import org.softlang.megal.mi2.api.Artifact;
 
 import com.google.common.io.ByteSource;
 import com.google.common.io.CharSource;
 import com.google.common.io.Resources;
-import java.util.Map.Entry;
 
 public class URLArtifact extends Artifact {
 	/**

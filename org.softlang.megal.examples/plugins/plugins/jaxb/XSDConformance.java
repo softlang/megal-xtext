@@ -21,42 +21,31 @@ import com.google.common.base.Throwables;
 public class XSDConformance extends GuidedEvaluatorPlugin {
 
 	@Override
-	public void guidedEvaluate(Relationship relationship) {
-		with(isElementOfLanguage(relationship.getLeft(), "XML"));
-		with(isElementOfLanguage(relationship.getRight(), "XSD"));
+	public void guidedEvaluate(Relationship relationship) throws IOException,
+			SAXException {
+		// Responsible when left is an XML and right is an XSD
+		when(isElementOfLanguage(relationship.getLeft(), "XML"));
+		when(isElementOfLanguage(relationship.getRight(), "XSD"));
 
 		// Get the XML and the XSD artifact
-		Artifact artifactLeft = withArtifact(relationship.getLeft());
-		Artifact artifactRight = withArtifact(relationship.getRight());
+		Artifact left = artifactOf(relationship.getLeft());
+		Artifact right = artifactOf(relationship.getRight());
 
 		// Obtain a schema factory
 		SchemaFactory factory = SchemaFactory
 				.newInstance("http://www.w3.org/2001/XMLSchema");
 
-		// Open XSD
-		try (InputStream xsdStream = artifactRight.getBytes().openStream()) {
-			// Obtain the schema
-			Schema schema = factory.newSchema(new StreamSource(xsdStream));
+		// Obtain the schema and the validator
+		Schema schema = factory.newSchema(new StreamSource(bytesFor(right)));
+		Validator validator = schema.newValidator();
 
-			// Get the validator
-			Validator validator = schema.newValidator();
-
-			// Open XML
-			try (InputStream xmlStream = artifactLeft.getBytes().openStream()) {
-				// Validate XML
-				validator.validate(new StreamSource(xmlStream));
-
-				// Note as valid
-				valid();
-			} catch (SAXException e) {
-				error("Instance does not conform to schema, reason: "
-						+ Throwables.getStackTraceAsString(e));
-			}
+		try {
+			// Validate XML and mark relation as valid if no error occurred
+			validator.validate(new StreamSource(bytesFor(left)));
+			valid();
 		} catch (SAXException e) {
-			error("Cannot analyze the schema");
-		} catch (IOException e) {
-			warning(Throwables.getStackTraceAsString(e));
+			error("Instance does not conform to schema, reason: "
+					+ Throwables.getStackTraceAsString(e));
 		}
-
 	}
 }

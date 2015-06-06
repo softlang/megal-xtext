@@ -4,7 +4,6 @@ import static com.google.common.base.Objects.equal;
 
 import java.util.Set;
 
-import com.google.common.base.Optional;
 import com.google.common.collect.Sets;
 
 /**

@@ -1,6 +1,5 @@
 package org.softlang.megal.mi2.api.resolution;
 
-import static com.google.common.base.Objects.equal;
 import static com.google.common.collect.Lists.transform;
 import static java.util.Collections.emptyList;
 

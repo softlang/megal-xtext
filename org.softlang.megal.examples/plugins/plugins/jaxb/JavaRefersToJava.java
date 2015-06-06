@@ -31,8 +31,8 @@ public class JavaRefersToJava extends GuidedEvaluatorPlugin {
 	@Override
 	public void guidedEvaluate(Relationship relationship) throws IOException {
 		// Get all bindings
-		List<Artifact> leftArtifacts = withArtifacts(relationship.getLeft());
-		List<Artifact> rightArtifacts = withArtifacts(relationship.getRight());
+		List<Artifact> leftArtifacts = artifactsOf(relationship.getLeft());
+		List<Artifact> rightArtifacts = artifactsOf(relationship.getRight());
 
 		// Make a set of defined packages and classes
 		Set<String> packages = newHashSet();
