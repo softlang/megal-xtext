@@ -5,7 +5,6 @@ package org.softlang.megal.language;
 
 import org.eclipse.xtext.conversion.IValueConverterService;
 import org.eclipse.xtext.naming.IQualifiedNameConverter;
-import org.softlang.megal.language.scoping.MegalQualifiedNameConverter;
 
 import com.google.inject.Binder;
 
@@ -16,7 +15,5 @@ public class MegalRuntimeModule extends AbstractMegalRuntimeModule {
 	@Override
 	public void configure(Binder binder) {
 		super.configure(binder);
-
-		binder.bind(IQualifiedNameConverter.class).to(MegalQualifiedNameConverter.class);
 	}
 }

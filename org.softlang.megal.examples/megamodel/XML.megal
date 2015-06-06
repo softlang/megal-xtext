@@ -29,3 +29,11 @@ XSDAcceptor partOf FileElementOfLanguage
 
 xmlFile = 'workspace:/org.softlang.megal.examples/inputs/sampleCompany.xml'
 xsdFiles = 'workspace:/org.softlang.megal.examples/inputs/Company.xsd_file'
+Entity1: Concept
+Entity2: Concept
+Entity3: Concept
+Entity3 isA Entity2
+Entity2 isA Entity1
+Entity1 isA Entity3
+Con: Concept
+Con instanceOf Entity3

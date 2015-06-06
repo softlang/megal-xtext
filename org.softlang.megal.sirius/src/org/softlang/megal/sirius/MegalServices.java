@@ -20,13 +20,16 @@ import org.softlang.megal.MegalDeclaration;
 import org.softlang.megal.MegalEntity;
 import org.softlang.megal.MegalEntityType;
 import org.softlang.megal.MegalFile;
+import org.softlang.megal.MegalNamed;
 import org.softlang.megal.MegalPair;
 import org.softlang.megal.MegalRelationship;
 import org.softlang.megal.MegalRelationshipType;
+import org.softlang.megal.language.scoping.MegalScopeProvider;
 import org.softlang.megal.mi2.RelationshipType;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.FluentIterable;
+import com.google.common.collect.Lists;
 
 public class MegalServices {
 
@@ -149,7 +152,8 @@ public class MegalServices {
 	}
 
 	/**
-	 * Returns the first Relationionships in this megal file that connects this type nodes.
+	 * Returns the first Relationionships in this megal file that connects this
+	 * type nodes.
 	 * 
 	 * @param node
 	 * @return
@@ -172,8 +176,8 @@ public class MegalServices {
 
 	public List<MegalRelationshipType> merged(MegalRelationshipType relationshipType) {
 		List<MegalRelationshipType> merged = new LinkedList<>();
-		for (MegalRelationshipType current : FluentIterable.from(megalFile(relationshipType).getDeclarations()).filter(
-				MegalRelationshipType.class))
+		for (MegalRelationshipType current : FluentIterable.from(megalFile(relationshipType).getDeclarations())
+				.filter(MegalRelationshipType.class))
 			if (relationshipType.getLeft() == current.getLeft() && relationshipType.getRight() == current.getRight())
 				merged.add(current);
 
@@ -228,8 +232,8 @@ public class MegalServices {
 	}
 
 	/**
-	 * Associated elements serve as source for the graphical mapping. Changes update on associated elements lead to
-	 * update of mapping.
+	 * Associated elements serve as source for the graphical mapping. Changes
+	 * update on associated elements lead to update of mapping.
 	 *
 	 * @param entity
 	 * @return
@@ -272,15 +276,15 @@ public class MegalServices {
 	}
 
 	public MegalEntity resolveEntity(MegalFile node, String name) {
-		return entities(node).stream().filter(x -> name.equals(x.getName())).findFirst().orElse(null);
+		return MegalScopeProvider.resolve(node, MegalEntity.class, name);
 	}
 
 	public MegalEntityType resolveEntityType(MegalFile node, String name) {
-		return entityTypes(node).stream().filter(x -> name.equals(x.getName())).findFirst().orElse(null);
+		return MegalScopeProvider.resolve(node, MegalEntityType.class, name);
 	}
 
 	public MegalRelationshipType resolveRelationshipType(MegalFile node, String name) {
-		return relationshipTypes(node).stream().filter(x -> name.equals(x.getName())).findFirst().orElse(null);
+		return MegalScopeProvider.resolve(node, MegalRelationshipType.class, name);
 	}
 
 	public String unusedEntityName(MegalFile megamodel) {

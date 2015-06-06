@@ -1,7 +1,6 @@
 model Mapping
 import Parts
 
-// Type-level mapping
 javaFiles: File +
 javaFiles elementOf JAXB.Java
 
@@ -10,15 +9,12 @@ JAXB.Generator(xsdFiles) |-> javaFiles = 'workspace:/org.softlang.megal.examples
 
 xsdFiles = 'workspace:/org.softlang.megal.examples/inputs/Company.xsd_file'
 javaFiles = 'workspace:/org.softlang.megal.examples/src/org/softlang/company/xjc/'
-// DONE: Plugin for “pairOfFilesElementOf” for JAXB.Generator as a sample-specific test on a buildscript to find a trace of an xjc invocation that appears process xsdFiles and to output to the javaFiles. To this end, the plugin needs to see preferably the “file names” of xsdFiles and javaFiles, which should be straightforward, if the plugin “sees” the relationship and the involved entities and their “linking” information.
 
-aLanguage: Language // DONE: Plugin for both domain definition
-xsdFiles defines aLanguage
+aLanguage: Language xsdFiles defines aLanguage
 javaFiles defines aLanguage
 
 aLanguage = 'http://www.company.softlang.org/company.xsd'
 
-// DONE: plugin needed for correspondsTo evaluator for XSD and Java+
 xsdFiles correspondsTo javaFiles
 
 @Plugin 'FindBuildScriptAsElementOfEvidence'

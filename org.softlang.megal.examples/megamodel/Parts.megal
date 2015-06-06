@@ -1,7 +1,6 @@
 model Parts
 
 import XML
-// Parts of JAXB
 JAXB : Technology
 Java : Language
 JAXB.Java : Language

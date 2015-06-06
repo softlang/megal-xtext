@@ -3,6 +3,7 @@ package org.softlang.megal.language.scoping
 import com.google.inject.Inject
 import org.eclipse.emf.ecore.EReference
 import org.eclipse.xtext.naming.IQualifiedNameProvider
+import org.eclipse.xtext.scoping.IScope
 import org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider
 import org.softlang.megal.MegalFile
 import org.softlang.megal.MegalNamed
@@ -21,35 +22,50 @@ class MegalScopeProvider extends AbstractDeclarativeScopeProvider {
 		m.imports + m.imports.map[allImports].flatten
 	}
 
-	private def scope_Named(MegalFile m, EReference r) {
-
+	private def IScope elementScope(MegalFile file, EReference reference) {
 		// Declaration scope only for items that are declarations
-		if (!MegalNamed.isAssignableFrom(r.EType.instanceClass))
-			return delegateGetScope(m, r)
+		if (!MegalNamed.isAssignableFrom(reference.EType.instanceClass))
+			return delegateGetScope(file, reference)
 
 		// 'Cast' the instance class to match
-		val instanceClass = r.EType.instanceClass.asSubclass(MegalNamed)
+		val type = reference.EType.instanceClass.asSubclass(MegalNamed)
 
-		// Scope own elements first, then the imported
-		scopeFor(m.declarations.filter(instanceClass), qualifiedNameProvider, scopeFor(
-			m.allImports.map[declarations].flatten.filter(instanceClass),
-			qualifiedNameProvider,
-			NULLSCOPE
-		))
+		return elementScopeWith(file, type, NULLSCOPE)
+
 	}
 
-	// private static def <T, U> distinctBy(Iterable<T> source, (T)=>U by) {
-	// source.groupBy(by).mapValues[head].values
-	// }
-	def scope_Entity(MegalFile m, EReference r) {
-		return scope_Named(m, r)
+	private def IScope elementScopeWith(MegalFile file, Class<? extends MegalNamed> type, IScope parent) {
+		var visible = parent
+		for (i : file.imports)
+			visible = elementScopeWith(i, type, visible)
+
+		return scopeFor(file.declarations.filter(type), qualifiedNameProvider, visible)
 	}
 
-	def scope_EntityType(MegalFile m, EReference r) {
-		return scope_Named(m, r)
+	def static <T extends MegalNamed> T resolve(MegalFile file, Class<T> type, String name) {
+		// Return the first of type with the given name
+		for (d : file.declarations.filter(type).filter[d|d.name == name])
+			return d
+
+		// Check all imports from the lowestmost first
+		for (i : file.imports.reverseView) {
+			val p = resolve(i, type, name)
+			if (p != null)
+				return p
+		}
+
+		return null
 	}
 
-	def scope_RelationshipType(MegalFile m, EReference r) {
-		return scope_Named(m, r)
+	def scope_MegalEntity(MegalFile m, EReference r) {
+		return elementScope(m, r)
+	}
+
+	def scope_MegalEntityType(MegalFile m, EReference r) {
+		return elementScope(m, r)
+	}
+
+	def scope_MegalRelationshipType(MegalFile m, EReference r) {
+		return elementScope(m, r)
 	}
 }

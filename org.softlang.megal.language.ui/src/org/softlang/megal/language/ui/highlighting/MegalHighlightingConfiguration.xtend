@@ -1,12 +1,10 @@
 package org.softlang.megal.language.ui.highlighting
 
 import org.eclipse.swt.SWT
-import org.eclipse.swt.graphics.RGB
 import org.eclipse.xtext.ui.editor.syntaxcoloring.DefaultHighlightingConfiguration
 import org.eclipse.xtext.ui.editor.syntaxcoloring.IHighlightingConfigurationAcceptor
 
 class MegalHighlightingConfiguration extends DefaultHighlightingConfiguration {
-	public static val URI_ID = "uri";
 	public static val ENTITY_ID = "entity";
 	public static val RELATIONSHIP_ID = "relationship";
 	public static val ENTITY_TYPE_ID = "entity_type";
@@ -15,21 +13,11 @@ class MegalHighlightingConfiguration extends DefaultHighlightingConfiguration {
 	override configure(IHighlightingConfigurationAcceptor acceptor) {
 		super.configure(acceptor)
 
-		// Initialize URI 
-		acceptor.acceptDefaultHighlighting(URI_ID, "URI", uriTextStyle());
-
 		// Initialize styles
 		acceptor.acceptDefaultHighlighting(ENTITY_ID, "Entity", entityTextStyle)
 		acceptor.acceptDefaultHighlighting(ENTITY_TYPE_ID, "Entity type", entityTypeTextStyle)
 		acceptor.acceptDefaultHighlighting(RELATIONSHIP_ID, "Relationship", relationshipTextStyle)
 		acceptor.acceptDefaultHighlighting(RELATIONSHIP_TYPE_ID, "Relationship type", relationshipTypeTextStyle)
-	}
-
-	def uriTextStyle() {
-		defaultTextStyle.copy => [
-			style = SWT.ITALIC
-			color = new RGB(255, 60, 30)
-		]
 	}
 
 	def entityTextStyle() {
