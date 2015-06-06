@@ -3,7 +3,6 @@ model Prelude
 
 Entity as entity
 
-// Entity types
 @Color '223,108,91'
 Artifact < Entity
 

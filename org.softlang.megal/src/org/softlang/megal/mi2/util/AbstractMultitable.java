@@ -9,6 +9,7 @@ import static java.util.Collections.emptySet;
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import com.google.common.collect.ImmutableSet;
@@ -147,29 +148,43 @@ public abstract class AbstractMultitable<R, C, E> implements Multitable<R, C, E>
 
 	@Override
 	public Set<Cell<R, C, E>> whereValue(E value) {
-		// TODO: I am a horrible person
-		return ImmutableSet.copyOf(from(cells()).filter(x -> equal(x.getValue(), value)));
+		ImmutableSet.Builder<Cell<R, C, E>> resultBuilder = ImmutableSet.builder();
+		for (Cell<R, C, Set<E>> entry : asTable().cellSet())
+			for (E e : entry.getValue())
+				if (equal(e, value))
+					resultBuilder.add(immutableCell(entry.getRowKey(), entry.getColumnKey(), e));
+
+		return resultBuilder.build();
 	}
 
 	@Override
 	public Set<Cell<R, C, E>> whereRow(R rowKey) {
-		// TODO: I am a horrible person
-		return ImmutableSet.copyOf(from(asTable().row(rowKey).entrySet()).transformAndConcat(
-				x -> transform(x.getValue(), y -> immutableCell(rowKey, x.getKey(), y))));
+		ImmutableSet.Builder<Cell<R, C, E>> resultBuilder = ImmutableSet.builder();
+		for (Entry<C, Set<E>> entry : asTable().row(rowKey).entrySet())
+			for (E e : entry.getValue())
+				resultBuilder.add(immutableCell(rowKey, entry.getKey(), e));
+
+		return resultBuilder.build();
 	}
 
 	@Override
 	public Set<Cell<R, C, E>> whereColumn(C columnKey) {
-		// TODO: I am a horrible person
-		return ImmutableSet.copyOf(from(asTable().column(columnKey).entrySet()).transformAndConcat(
-				x -> transform(x.getValue(), y -> immutableCell(x.getKey(), columnKey, y))));
+		ImmutableSet.Builder<Cell<R, C, E>> resultBuilder = ImmutableSet.builder();
+		for (Entry<R, Set<E>> entry : asTable().column(columnKey).entrySet())
+			for (E e : entry.getValue())
+				resultBuilder.add(immutableCell(entry.getKey(), columnKey, e));
+
+		return resultBuilder.build();
 	}
 
 	@Override
 	public Set<Cell<R, C, E>> cells() {
-		// TODO: I am a horrible person
-		return ImmutableSet.copyOf(from(asTable().cellSet()).transformAndConcat(
-				x -> transform(x.getValue(), y -> immutableCell(x.getRowKey(), x.getColumnKey(), y))));
+		ImmutableSet.Builder<Cell<R, C, E>> resultBuilder = ImmutableSet.builder();
+		for (Cell<R, C, Set<E>> entry : asTable().cellSet())
+			for (E e : entry.getValue())
+				resultBuilder.add(immutableCell(entry.getRowKey(), entry.getColumnKey(), e));
+
+		return resultBuilder.build();
 	}
 
 	@Override

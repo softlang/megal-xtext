@@ -14,12 +14,12 @@ MegalFile:
 	| bindings+=MegalLink)*;
 
 MegalAnnotation:
-	'@' key=ID (value=STR)?;
+	'@' key=ID (value=STRING)?;
 
 MegalLink:
 	annotations+=MegalAnnotation* link=[MegalEntity]
 	('(' first=[MegalEntity] ')' '|->'
-	second=[MegalEntity])? '=' to=STR;
+	second=[MegalEntity])? '=' to=STRING;
 
 MegalEntityType:
 	annotations+=MegalAnnotation* name=ID
@@ -57,19 +57,16 @@ MegalPair:
 	annotations+=MegalAnnotation* set=[MegalEntity]
 	'(' first=[MegalEntity] ')' '|->' second=[MegalEntity];
 
-ID:
-	NAME ('::' NAME)*;
+terminal ID:
+	UCID | LCID;
 
-NAME:
-	STR | (UCID | LCID) ('.' (UCID | LCID))*;
-
-terminal UCID:
+terminal fragment UCID:
 	'^'? ('A'..'Z' | '0'..'9') ('a'..'z' | 'A'..'Z' | '_' | '0'..'9')*;
 
-terminal LCID:
+terminal fragment LCID:
 	'^'? ('a'..'z' | '_') ('a'..'z' | 'A'..'Z' | '_' | '0'..'9')*;
 
-terminal STR:
+terminal STRING:
 	"'" ('\\' . | !('\\' | "'"))* "'";
 
 terminal COMMENT:
