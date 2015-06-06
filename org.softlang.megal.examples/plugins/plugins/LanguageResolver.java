@@ -7,33 +7,22 @@ import org.softlang.megal.mi2.api.AbstractReasonerPlugin;
 import org.softlang.megal.mi2.api.Artifact;
 import org.softlang.megal.mi2.api.context.Context;
 
+import plugins.prelude.GuidedReasonerPlugin;
+import plugins.prelude.InjectedReasonerPlugin;
+
 import com.google.common.collect.ImmutableMap;
 
-public class LanguageResolver extends AbstractReasonerPlugin {
+public class LanguageResolver extends GuidedReasonerPlugin {
+
 	@Override
-	public KB derive(Context context, Entity entity) {
-		if (entity.hasBinding())
-			return KBs.empty();
-
-		String progLang = "http://dbpedia.org/page/" + entity.getName()
+	protected void guidedDerive(Entity entity) {
+		String url = "http://dbpedia.org/page/" + entity.getName()
 				+ "_(programming_language)";
+		if (getArtifact(url).exists())
+			binding(entity.getName(), url);
 
-		Artifact artifact = context.getArtifact(progLang);
-		if (artifact.exists()) {
-			return KBs.builder()
-					.setBindings(ImmutableMap.of(entity.getName(), progLang))
-					.build();
-		}
-
-		String page = "http://dbpedia.org/page/" + entity.getName();
-
-		artifact = context.getArtifact(page);
-		if (artifact.exists()) {
-			return KBs.builder()
-					.setBindings(ImmutableMap.of(entity.getName(), page))
-					.build();
-		}
-
-		return KBs.empty();
+		url = "http://dbpedia.org/page/" + entity.getName();
+		if (getArtifact(url).exists())
+			binding(entity.getName(), url);
 	}
 }

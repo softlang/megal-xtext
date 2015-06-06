@@ -7,9 +7,11 @@ import org.softlang.megal.mi2.Relationship;
 import org.softlang.megal.mi2.api.AbstractEvaluatorPlugin;
 import org.softlang.megal.mi2.api.context.Context;
 
-public class PairElementWhenComputed extends AbstractEvaluatorPlugin {
+import plugins.prelude.InjectedEvaluatorPlugin;
+
+public class PairElementWhenComputed extends InjectedEvaluatorPlugin {
 	@Override
-	public void evaluate(Context context, Relationship relationship) {
+	public void evaluate(Relationship relationship) {
 		// Get pair
 		Entity pair = relationship.getLeft();
 
@@ -25,8 +27,8 @@ public class PairElementWhenComputed extends AbstractEvaluatorPlugin {
 		boolean secondComputed = secondOf.getLeft().hasAnnotation("Computed");
 
 		if (firstComputed != secondComputed)
-			context.valid(relationship, pair, firstOf, secondOf);
+			valid(relationship, pair, firstOf, secondOf);
 		else
-			context.error("Either first or second must be computed");
+			error("Either first or second must be computed");
 	}
 }

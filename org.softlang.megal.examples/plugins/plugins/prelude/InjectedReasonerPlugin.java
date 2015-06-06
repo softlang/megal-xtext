@@ -14,8 +14,8 @@ import org.softlang.megal.mi2.api.Artifact;
 import org.softlang.megal.mi2.api.context.Context;
 import org.softlang.sourcesupport.SourceSupport;
 
-public class InjectedReasonerPlugin extends AbstractReasonerPlugin implements
-		Context {
+public abstract class InjectedReasonerPlugin extends AbstractReasonerPlugin
+		implements Context {
 	private Context delegate;
 
 	@Override

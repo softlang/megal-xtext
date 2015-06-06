@@ -406,6 +406,11 @@ public class KBs {
 		}
 	}
 
+	// TODO: more of these single element builders
+	public static KB bindingsKB(Map<String, Object> bindings) {
+		return builder().setBindings(bindings).build();
+	}
+
 	public static KB clone(KB current) {
 		return KBs.union(current, KBs.empty());
 	}
@@ -428,13 +433,11 @@ public class KBs {
 				.setRelationships(Union.union(a.getRawRelationships(), b.getRawRelationships()))
 				.setRelationshipTypes(Union.union(a.getRawRelationshipTypes(), b.getRawRelationshipTypes()))
 				.setRelationshipTypeAnnotations(
-						Union.union(a.getRawRelationshipTypeAnnotations(),
-								b.getRawRelationshipTypeAnnotations()))
+						Union.union(a.getRawRelationshipTypeAnnotations(), b.getRawRelationshipTypeAnnotations()))
 				.setRelationshipAnnotations(
 						Union.union(a.getRawRelationshipAnnotations(), b.getRawRelationshipAnnotations()))
 				.setEntityTypes(Union.union(a.getRawEntityTypes(), b.getRawEntityTypes()))
-				.setEntityTypeAnnotations(
-						Union.union(a.getRawEntityTypeAnnotations(), b.getRawEntityTypeAnnotations()))
+				.setEntityTypeAnnotations(Union.union(a.getRawEntityTypeAnnotations(), b.getRawEntityTypeAnnotations()))
 				.setEntityAnnotations(Union.union(a.getRawEntityAnnotations(), b.getRawEntityAnnotations()))
 				.setEntities(Union.union(a.getRawEntities(), b.getRawEntities()))
 				.setBindings(Union.union(a.getRawBindings(), b.getRawBindings()))
