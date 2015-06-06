@@ -132,7 +132,6 @@ public class FindBuildScriptAsElementOfEvidence extends InjectedEvaluatorPlugin 
 			for (Node node : executes) {
 				List<Node> args = Nodes.asList((NodeList) xpath.evaluate("arg",
 						node, XPathConstants.NODESET));
-
 				// If no argument, continue
 				if (args.size() == 0)
 					continue;

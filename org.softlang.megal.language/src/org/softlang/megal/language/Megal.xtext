@@ -21,6 +21,7 @@ MegalLink:
 	('(' first=[MegalEntity] ')' '|->'
 	second=[MegalEntity])? '=' to=STRING;
 
+
 MegalEntityType:
 	annotations+=MegalAnnotation* name=ID
 	('<' supertype=[MegalEntityType] | 'as' 'entity');
@@ -57,16 +58,16 @@ MegalPair:
 	annotations+=MegalAnnotation* set=[MegalEntity]
 	'(' first=[MegalEntity] ')' '|->' second=[MegalEntity];
 
-terminal ID:
-	UCID | LCID;
+ID:
+	(UCID | LCID) ('.' (UCID | LCID))*;
 
-terminal fragment UCID:
+terminal UCID:
 	'^'? ('A'..'Z' | '0'..'9') ('a'..'z' | 'A'..'Z' | '_' | '0'..'9')*;
 
-terminal fragment LCID:
+terminal LCID:
 	'^'? ('a'..'z' | '_') ('a'..'z' | 'A'..'Z' | '_' | '0'..'9')*;
 
-terminal STRING:
+terminal STRING returns ecore::EString:
 	"'" ('\\' . | !('\\' | "'"))* "'";
 
 terminal COMMENT:

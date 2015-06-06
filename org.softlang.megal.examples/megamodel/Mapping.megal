@@ -32,7 +32,6 @@ correspondsTo < Artifact (+) * Artifact (+)
 XSDJavaCorrespondence: Plugin
 XSDJavaCorrespondence = 'classpath:plugins.jaxb.XSDJavaCorrespondence'
 
-
 AcceptJava: Plugin
 AcceptJava realizationOf Java
 AcceptJava partOf FileElementOfLanguage

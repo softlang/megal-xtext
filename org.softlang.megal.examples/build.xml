@@ -1,6 +1,6 @@
 <project name="JAXB" default="compile" basedir=".">
 	<!-- Define the variables -->
-	<property name="xsdfile" location="inputs/Company.xsd" />
+	<property name="xsdfile" location="inputs/Company.xsd_file" />
 	<property name="xjcfiles" location="src/org/softlang/company/xjc" />
 	<property name="src" location="src/" />
 	<property name="bin" location="bin/" />
