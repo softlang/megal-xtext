@@ -15,10 +15,10 @@ import org.softlang.megal.mi2.api.Artifact;
 import com.google.common.io.ByteSource;
 import com.google.common.io.CharSource;
 
-public class IFileContainer extends IResourceArtifact {
+public class IFileArtifact extends IResourceArtifact {
 	final IFile file;
 
-	public IFileContainer(IFile file) {
+	public IFileArtifact(IFile file) {
 		this.file = file;
 	}
 

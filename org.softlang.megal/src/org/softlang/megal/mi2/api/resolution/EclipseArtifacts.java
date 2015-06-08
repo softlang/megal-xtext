@@ -21,6 +21,6 @@ public class EclipseArtifacts {
 	}
 
 	public static Artifact toArtifact(IFile file) {
-		return new IFileContainer(file);
+		return new IFileArtifact(file);
 	}
 }
