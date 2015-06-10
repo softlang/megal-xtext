@@ -222,7 +222,7 @@ public class MegamodelKB extends KB {
 				continue;
 
 			// Relationship type not equal, no match
-			if (!equal(item.getType().getName(), relationship.getType().getName()))
+			if (!equal(item.getType().getName(), relationship.getTypeName()))
 				continue;
 
 			// Right entity not equal, no match
@@ -267,7 +267,7 @@ public class MegamodelKB extends KB {
 			if (!equal(item.getFirst().getName(), relationship.getLeft().getName()))
 				continue;
 
-			if (!equal(FIRST_OF, relationship.getType().getName()))
+			if (!equal(FIRST_OF, relationship.getTypeName()))
 				continue;
 
 			if (!equal(entityName(item.getSet().getName(), item.getFirst().getName(), item.getSecond().getName()),
@@ -292,7 +292,7 @@ public class MegamodelKB extends KB {
 			if (!equal(item.getFirst().getName(), relationship.getLeft().getName()))
 				continue;
 
-			if (!equal(SECOND_OF, relationship.getType().getName()))
+			if (!equal(SECOND_OF, relationship.getTypeName()))
 				continue;
 
 			if (!equal(entityName(item.getSet().getName(), item.getFirst().getName(), item.getSecond().getName()),
@@ -318,7 +318,7 @@ public class MegamodelKB extends KB {
 					relationship.getLeft().getName()))
 				continue;
 
-			if (!equal(ELEMENT_OF, relationship.getType().getName()))
+			if (!equal(ELEMENT_OF, relationship.getTypeName()))
 				continue;
 
 			if (!equal(item.getSet().getName(), relationship.getRight().getName()))

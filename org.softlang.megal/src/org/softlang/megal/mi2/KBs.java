@@ -541,5 +541,4 @@ public class KBs {
 				ImmutableSetMultimap.of(), ImmutableMap.of(), ImmutableSetMultimap.of(), ImmutableSetMultimap.of(),
 				ImmutableMap.of(), ImmutableMap.of(), ImmutableSetMultimap.of(), ImmutableSetMultimap.of());
 	}
-
 }

@@ -198,7 +198,12 @@ public class ModelExecutor {
 
 								// Annotate all the generated elements
 								for (Element generated : output.getElements())
-									origin.put(element, generated);
+									// Entity is always element of the generated KB, skip it
+									if (!(generated instanceof EntityType && EntityType
+											.isTheEntityType((EntityType) generated)))
+										// Do not overwrite existing origin tracks
+										if (!origin.containsKey(element))
+											origin.put(element, generated);
 
 								// Add the output to the reasoner
 								expansion = KBs.union(expansion, output);

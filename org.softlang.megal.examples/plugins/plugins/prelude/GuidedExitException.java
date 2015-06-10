@@ -17,6 +17,21 @@ public class GuidedExitException extends RuntimeException {
 		this.level = level;
 	}
 
+	public GuidedExitException(Level level, String message) {
+		super(message);
+		this.level = level;
+	}
+
+	public GuidedExitException(Level level, Throwable cause) {
+		super(cause);
+		this.level = level;
+	}
+
+	public GuidedExitException(Level level, String message, Throwable cause) {
+		super(message, cause);
+		this.level = level;
+	}
+
 	public Level getLevel() {
 		return level;
 	}

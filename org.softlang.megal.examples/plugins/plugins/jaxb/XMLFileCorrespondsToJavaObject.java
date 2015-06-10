@@ -58,7 +58,8 @@ public class XMLFileCorrespondsToJavaObject extends GuidedReasonerPlugin {
 			return "null".equalsIgnoreCase(source);
 
 		if (target instanceof Number)
-			return target.equals(Long.valueOf(source)) || target.equals(Double.valueOf(source));
+			return target.equals(Long.valueOf(source))
+					|| target.equals(Double.valueOf(source));
 
 		if (target instanceof Boolean)
 			return target.equals(Boolean.valueOf(source));
@@ -94,12 +95,14 @@ public class XMLFileCorrespondsToJavaObject extends GuidedReasonerPlugin {
 			// There is a child that passed the matchable mark
 			hasMatchableChildren = true;
 
-			Optional<Object> value = Utils.getForXML(object, child.getNodeName());
+			Optional<Object> value = Utils.getForXML(object,
+					child.getNodeName());
 
 			// No corresponding field, structural error
 			if (!value.isPresent()) {
 				if (errors != null)
-					errors.add("No corresponding field for " + child.getNodeName());
+					errors.add("No corresponding field for "
+							+ child.getNodeName());
 				return null;
 			}
 
@@ -132,7 +135,8 @@ public class XMLFileCorrespondsToJavaObject extends GuidedReasonerPlugin {
 			}
 
 			if (errors != null)
-				errors.add("No corresponding element for child " + child.getNodeName());
+				errors.add("No corresponding element for child "
+						+ child.getNodeName());
 
 			// No match at all
 			return null;
@@ -148,40 +152,50 @@ public class XMLFileCorrespondsToJavaObject extends GuidedReasonerPlugin {
 	}
 
 	@Override
-	public void guidedDerive(Relationship relationship) throws IOException, ParserConfigurationException, SAXException {
+	public boolean isContextBased() {
+		// Context based, as the binding is provided by another reasoner
+		return true;
+	}
+
+	@Override
+	public void guidedDerive(Relationship relationship) throws IOException,
+			ParserConfigurationException, SAXException {
 		when(isElementOfLanguage(relationship.getLeft(), "XML"));
 		when(isInstance(relationship.getRight(), "Transient"));
 
 		Artifact file = artifactOf(relationship.getLeft());
 		Object object = bindingOf(relationship.getRight());
 
-		try (InputStream stream = file.getBytes().openStream()) {
-			DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
-			DocumentBuilder builder = builderFactory.newDocumentBuilder();
-			Document document = builder.parse(stream);
-			document.getDocumentElement().normalize();
+		DocumentBuilderFactory builderFactory = DocumentBuilderFactory
+				.newInstance();
+		
+		DocumentBuilder builder = builderFactory.newDocumentBuilder();
+		Document document = builder.parse(bytesFor(file));
+		document.getDocumentElement().normalize();
 
-			// Optional<String> matchMessage = isMatch(
-			// document.getDocumentElement(), object);
-			Set<String> errors = newHashSet();
-			Map<Node, Object> matches = match(document.getDocumentElement(), object, errors);
+		// Optional<String> matchMessage = isMatch(
+		// document.getDocumentElement(), object);
+		Set<String> errors = newHashSet();
+		Map<Node, Object> matches = match(document.getDocumentElement(),
+				object, errors);
 
-			if (matches == null)
-				error("Does not correspond: " + Joiner.on("\r\n").join(errors));
-			else {
+		if (matches == null)
+			error("Does not correspond: " + Joiner.on("\r\n").join(errors));
+		else {
 
-				for (Entry<Node, Object> trace : matches.entrySet()) {
-					Entity left = entity(locationAndValue(trace.getKey()), "Transient");
-					Entity right = entity(trace.getValue().toString(), "Transient");
+			for (Entry<Node, Object> trace : matches.entrySet()) {
+				Entity left = entity(locationAndValue(trace.getKey()),
+						"Transient");
+				Entity right = entity(trace.getValue().toString(), "Transient");
 
-					relationship(left.getName(), right.getName(), "correspondsTo");
+				relationship(left.getName(), right.getName(), "correspondsTo");
 
-					relationship(left.getName(), relationship.getLeft().getName(), "partOf");
-					relationship(right.getName(), relationship.getRight().getName(), "partOf");
-				}
-				valid();
+				relationship(left.getName(), relationship.getLeft().getName(),
+						"partOf");
+				relationship(right.getName(),
+						relationship.getRight().getName(), "partOf");
 			}
+			valid();
 		}
-
 	}
 }

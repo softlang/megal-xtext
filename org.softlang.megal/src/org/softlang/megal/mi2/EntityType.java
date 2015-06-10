@@ -12,18 +12,21 @@ import com.google.common.collect.ImmutableList;
 
 /**
  * <p>
- * Base class for entity type in the model interface that supports a basic set
- * of reasoning operations.
+ * Base class for entity type in the model interface that supports a basic set of reasoning operations.
  * </p>
  * 
  * @author Pazuzu
  *
  */
 public abstract class EntityType extends Named {
+	public static boolean isTheEntityType(EntityType entityType) {
+		return KB.ENTITY.equals(entityType.getName());
+	}
+
 	/**
 	 * <p>
-	 * Gets the supertype of the entity type. If the type is the base type
-	 * {@link BasicKB#ENTITY}, then this method returns <code>this</code>.
+	 * Gets the supertype of the entity type. If the type is the base type {@link BasicKB#ENTITY}, then this method
+	 * returns <code>this</code>.
 	 * </p>
 	 * 
 	 * @return Returns the super type

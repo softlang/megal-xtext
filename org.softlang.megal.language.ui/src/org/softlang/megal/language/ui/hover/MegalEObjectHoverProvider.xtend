@@ -15,7 +15,11 @@ import org.softlang.megal.mi2.MegamodelResolver
 
 class MegalEObjectHoverProvider extends DefaultEObjectHoverProvider {
 	def link(EObject o) {
-		elementLinks.createLink(o)
+		try {
+			elementLinks.createLink(o)
+		} catch (NullPointerException e) {
+			labelProvider.getText(o)
+		}
 	}
 
 	override protected getFirstLine(EObject object) {

@@ -4,8 +4,7 @@ import static com.google.common.base.Objects.equal;
 
 /**
  * <p>
- * Base class for relationships in the model interface that supports a basic set
- * of reasoning operations.
+ * Base class for relationships in the model interface that supports a basic set of reasoning operations.
  * </p>
  * 
  * @author Pazuzu
@@ -23,10 +22,21 @@ public abstract class Relationship extends Element {
 
 	/**
 	 * <p>
-	 * Gets the applied relationship type for this relationship
+	 * Gets the name of the relationship type. This returns the name even if there is no applicable type.
 	 * </p>
 	 * 
-	 * @return Returns the resolved and applied type
+	 * @return Returns the type name
+	 */
+	public abstract String getTypeName();
+
+	/**
+	 * <p>
+	 * Gets the applied relationship type for this relationship. This may be <code>null</code> if no relationship type
+	 * could be applied.
+	 * </p>
+	 * 
+	 * @return Returns the resolved and applied type, or <code>null</code> if no type is applicable.
+	 * @see #getTypeName()
 	 */
 	public abstract RelationshipType getType();
 
@@ -76,6 +86,6 @@ public abstract class Relationship extends Element {
 
 	@Override
 	public String toString() {
-		return getLeft().getName() + " " + getType().getName() + " " + getRight().getName();
+		return getLeft().getName() + " " + getTypeName() + " " + getRight().getName();
 	}
 }

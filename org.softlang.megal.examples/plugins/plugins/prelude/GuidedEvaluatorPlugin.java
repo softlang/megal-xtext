@@ -25,31 +25,30 @@ public abstract class GuidedEvaluatorPlugin extends InjectedEvaluatorPlugin {
 
 	protected void when(boolean condition) {
 		if (!condition)
-			throw new GuidedExitException(Level.NOT_RESPONSIBLE);
+			throw new GuidedExitException(Level.NOT_RESPONSIBLE,
+					"Condition not satisfied");
 	}
 
 	protected Object bindingOf(Entity entity) {
 		if (!entity.hasBinding())
-			throw new GuidedExitException(Level.ERROR);
+			throw new GuidedExitException(Level.NOT_RESPONSIBLE,
+					"Binding of the entity " + entity + " is required");
 
 		return entity.getBinding();
 	}
 
 	protected Artifact artifactOf(Entity entity) {
 		if (!entity.hasBinding())
-			throw new GuidedExitException(Level.NOT_RESPONSIBLE);
+			throw new GuidedExitException(Level.NOT_RESPONSIBLE,
+					"Binding of the entity " + entity + " is required");
 
-		Artifact artifact = getArtifact(entity.getBinding());
-
-		if (artifact == null)
-			throw new GuidedExitException(Level.NOT_RESPONSIBLE);
-
-		return artifact;
+		return getArtifact(entity.getBinding());
 	}
 
 	protected List<Artifact> artifactsOf(Entity entity) {
 		if (!entity.hasBinding())
-			throw new GuidedExitException(Level.NOT_RESPONSIBLE);
+			throw new GuidedExitException(Level.NOT_RESPONSIBLE,
+					"Binding of the entity " + entity + " is required");
 
 		return getArtifacts(entity.getBinding());
 	}

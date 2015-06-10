@@ -4,7 +4,6 @@ import Parts
 javaFiles: File +
 javaFiles elementOf JAXB.Java
 
-
 JAXB.Generator(xsdFiles) |-> javaFiles
 JAXB.Generator(xsdFiles) |-> javaFiles = 'workspace:/org.softlang.megal.examples/build.xml'
 

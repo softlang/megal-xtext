@@ -364,6 +364,11 @@ public abstract class KB {
 		}
 
 		@Override
+		public String getTypeName() {
+			return from.getValue();
+		}
+
+		@Override
 		public RelationshipType getType() {
 			// Type is obtained by substitution lookup
 			Ref fe = getRawEntities().get(from.getRowKey());
@@ -590,8 +595,8 @@ public abstract class KB {
 	}
 
 	private Cell<String, String, String> relationshipInverse(Relationship relationship) {
-		return immutableCell(relationship.getLeft().getName(), relationship.getRight().getName(), relationship
-				.getType().getName());
+		return immutableCell(relationship.getLeft().getName(), relationship.getRight().getName(),
+				relationship.getTypeName());
 	}
 
 	/**

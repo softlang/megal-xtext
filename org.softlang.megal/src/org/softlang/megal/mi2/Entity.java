@@ -61,7 +61,7 @@ public abstract class Entity extends Named {
 	 * @return Returns a transformed network sequence of relationships
 	 */
 	public Set<Relationship> incoming(String relationship) {
-		return Sets.filter(incoming(), x -> equal(relationship, x.getType().getName()));
+		return Sets.filter(incoming(), x -> equal(relationship, x.getTypeName()));
 	}
 
 	/**
@@ -72,7 +72,7 @@ public abstract class Entity extends Named {
 	 * @return Returns a transformed network sequence of relationships
 	 */
 	public Set<Relationship> outgoing(String relationship) {
-		return Sets.filter(outgoing(), x -> equal(relationship, x.getType().getName()));
+		return Sets.filter(outgoing(), x -> equal(relationship, x.getTypeName()));
 	}
 
 	@Override

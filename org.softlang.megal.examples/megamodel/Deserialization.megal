@@ -8,6 +8,7 @@ elementOf < Pair * Function
 @Plugin 'JavaFileDefinesStaticFunction'
 defines < Artifact * Function 
 
+
 deserializationCode: File
 deserializationCode elementOf Java
 deserializationCode refersTo JAXB.Library
@@ -23,6 +24,7 @@ JavaRefersToJava = 'classpath:plugins.jaxb.JavaRefersToJava'
 @Plugin 'JavaRefersToTechnology'
 refersTo < Artifact (+) * Technology
 
+
 JavaRefersToTechnology: Plugin
 JavaRefersToTechnology = 'classpath:plugins.jaxb.JavaRefersToTechnology'
 
@@ -34,9 +36,10 @@ JavaFileDefinesStaticFunction = 'classpath:plugins.jaxb.JavaFileDefinesStaticFun
 
 deserialization: Function [ XML -> JVM.ObjectGraphs ]
 deserialization(xmlFile) |-> objectGraph deserialization = 'classpath:org.softlang.company.features.Serialization#deserializeCompany(ByteSource)'
-
 objectGraph conformsTo javaFiles
+
 xmlFile correspondsTo objectGraph 
+
 @Plugin 'ObjectCorrespondsToJavaFiles'
 conformsTo < Artifact (+) * Artifact (+)
 

@@ -33,31 +33,30 @@ public abstract class GuidedReasonerPlugin extends InjectedReasonerPlugin {
 
 	protected void when(boolean condition) {
 		if (!condition)
-			throw new GuidedExitException(Level.NOT_RESPONSIBLE);
+			throw new GuidedExitException(Level.NOT_RESPONSIBLE,
+					"Condition not satisfied");
 	}
 
 	protected Object bindingOf(Entity entity) {
 		if (!entity.hasBinding())
-			throw new GuidedExitException(Level.ERROR);
+			throw new GuidedExitException(Level.NOT_RESPONSIBLE,
+					"Binding of the entity " + entity + " is required");
 
 		return entity.getBinding();
 	}
 
 	protected Artifact artifactOf(Entity entity) {
 		if (!entity.hasBinding())
-			throw new GuidedExitException(Level.NOT_RESPONSIBLE);
+			throw new GuidedExitException(Level.NOT_RESPONSIBLE,
+					"Binding of the entity " + entity + " is required");
 
-		Artifact artifact = getArtifact(entity.getBinding());
-
-		if (artifact == null)
-			throw new GuidedExitException(Level.NOT_RESPONSIBLE);
-
-		return artifact;
+		return getArtifact(entity.getBinding());
 	}
 
 	protected List<Artifact> artifactsOf(Entity entity) {
 		if (!entity.hasBinding())
-			throw new GuidedExitException(Level.NOT_RESPONSIBLE);
+			throw new GuidedExitException(Level.NOT_RESPONSIBLE,
+					"Binding of the entity " + entity + " is required");
 
 		return getArtifacts(entity.getBinding());
 	}
@@ -95,7 +94,8 @@ public abstract class GuidedReasonerPlugin extends InjectedReasonerPlugin {
 
 	protected RelationshipType relationshipType(Ref left, Ref right, String name) {
 		result.getRawRelationshipTypes().put(left, right, name);
-		return result.getRelationshipType(name, left.getType(), left.isMany(), right.getType(), right.isMany());
+		return result.getRelationshipType(name, left.getType(), left.isMany(),
+				right.getType(), right.isMany());
 	}
 
 	/**
@@ -108,8 +108,10 @@ public abstract class GuidedReasonerPlugin extends InjectedReasonerPlugin {
 	 * @param name
 	 * @return
 	 */
-	protected RelationshipType relationshipType(String left, String right, String name) {
-		result.getRawRelationshipTypes().put(Ref.to(left, false), Ref.to(right, false), name);
+	protected RelationshipType relationshipType(String left, String right,
+			String name) {
+		result.getRawRelationshipTypes().put(Ref.to(left, false),
+				Ref.to(right, false), name);
 		return result.getRelationshipType(name, left, right);
 	}
 
@@ -123,7 +125,8 @@ public abstract class GuidedReasonerPlugin extends InjectedReasonerPlugin {
 		return result.getEntity(name);
 	}
 
-	protected Relationship relationship(String left, String right, String relationshipType) {
+	protected Relationship relationship(String left, String right,
+			String relationshipType) {
 		result.getRawRelationships().put(left, right, relationshipType);
 		return result.getRelationship(left, relationshipType, right);
 	}
@@ -199,7 +202,8 @@ public abstract class GuidedReasonerPlugin extends InjectedReasonerPlugin {
 	protected void guidedDerive(EntityType entityType) throws Throwable {
 	}
 
-	protected void guidedDerive(RelationshipType relationshipType) throws Throwable {
+	protected void guidedDerive(RelationshipType relationshipType)
+			throws Throwable {
 	}
 
 	protected void guidedDerive(Entity entity) throws Throwable {

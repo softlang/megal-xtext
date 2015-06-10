@@ -7,6 +7,7 @@ import org.eclipse.xtext.validation.Check;
 import org.softlang.megal.MegalEntityType;
 import org.softlang.megal.MegalFile;
 import org.softlang.megal.MegalRelationship;
+import org.softlang.megal.language.MegalReasoning;
 import org.softlang.megal.mi2.KB;
 import org.softlang.megal.mi2.MegamodelKB;
 import org.softlang.megal.mi2.Relationship;
@@ -28,7 +29,7 @@ public class IntegrityValidation extends AbstractMegalValidator {
 	public void validateRelationship(MegalRelationship relationship) {
 		MegalFile megamodel = (MegalFile) relationship.eContainer();
 
-		KB kb = MegamodelKB.loadAll(megamodel);
+		KB kb = MegalReasoning.getKB(megamodel);
 		Relationship match = kb.getRelationship(relationship.getLeft().getName(), relationship.getType().getName(),
 				relationship.getRight().getName());
 

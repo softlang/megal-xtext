@@ -105,7 +105,6 @@ public class FileToObjectFunction extends InjectedReasonerPlugin {
 
 			if (!value.isPresent())
 				return KBs.empty();
-
 			return KBs
 					.builder()
 					.setBindings(ImmutableMap.of(output.getName(), value.get()))
