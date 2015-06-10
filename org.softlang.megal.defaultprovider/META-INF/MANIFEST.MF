@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Defaultfragmentprovider
 Bundle-SymbolicName: org.softlang.megal.defaultprovider;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Require-Bundle: org.softlang.megal;bundle-version="1.0.0",
+Require-Bundle: org.softlang.megal,
  org.eclipse.core.resources,
  com.google.guava,
  org.eclipse.jdt.core
