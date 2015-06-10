@@ -28,7 +28,6 @@ correspondsTo < Artifact (+) * Artifact (+)
 XSDJavaCorrespondence: Plugin
 XSDJavaCorrespondence = 'classpath:plugins.jaxb.XSDJavaCorrespondence'
 
-
 @Plugin 'MatchingLanguageDefinition'
 defines < Artifact(+) * Language
 MatchingLanguageDefinition: Plugin

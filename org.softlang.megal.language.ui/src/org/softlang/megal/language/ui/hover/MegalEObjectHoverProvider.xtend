@@ -11,7 +11,7 @@ import org.softlang.megal.MegalRelationshipType
 import static org.softlang.megal.language.MegalReasoning.*
 import static org.softlang.megal.mi2.MegamodelKB.*
 import org.softlang.megal.MegalFile
-import org.softlang.megal.mi2.MegamodelResolver
+import static org.softlang.megal.mi2.MegamodelResolver.*
 
 class MegalEObjectHoverProvider extends DefaultEObjectHoverProvider {
 	def link(EObject o) {
@@ -62,7 +62,7 @@ class MegalEObjectHoverProvider extends DefaultEObjectHoverProvider {
 	 * Calculates the documentation for an EObject or null if no documentation
 	 */
 	def dispatch documentationFor(MegalEntity it) {
-		val res = MegamodelResolver.transitive(it)
+		val res = transitive(it)
 		val rep = getKB(it).getEntity(name)
 		val incoming = rep.incoming
 		val outgoing = rep.outgoing
