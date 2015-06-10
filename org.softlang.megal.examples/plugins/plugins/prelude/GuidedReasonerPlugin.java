@@ -88,12 +88,14 @@ public abstract class GuidedReasonerPlugin extends InjectedReasonerPlugin {
 		result.setTitle(title);
 	}
 
-	protected void entityType(String type, String supertype) {
+	protected EntityType entityType(String type, String supertype) {
 		result.getRawEntityTypes().put(type, supertype);
+		return result.getEntityType(type);
 	}
 
-	protected void relationshipType(Ref left, Ref right, String name) {
+	protected RelationshipType relationshipType(Ref left, Ref right, String name) {
 		result.getRawRelationshipTypes().put(left, right, name);
+		return result.getRelationshipType(name, left.getType(), left.isMany(), right.getType(), right.isMany());
 	}
 
 	/**
@@ -104,23 +106,26 @@ public abstract class GuidedReasonerPlugin extends InjectedReasonerPlugin {
 	 * @param left
 	 * @param right
 	 * @param name
+	 * @return
 	 */
-	protected void relationshipType(String left, String right, String name) {
-		result.getRawRelationshipTypes().put(Ref.to(left, false),
-				Ref.to(right, false), name);
+	protected RelationshipType relationshipType(String left, String right, String name) {
+		result.getRawRelationshipTypes().put(Ref.to(left, false), Ref.to(right, false), name);
+		return result.getRelationshipType(name, left, right);
 	}
 
-	protected void entity(String name, Ref type) {
+	protected Entity entity(String name, Ref type) {
 		result.getRawEntities().put(name, type);
+		return result.getEntity(name);
 	}
 
-	protected void entity(String name, String type) {
+	protected Entity entity(String name, String type) {
 		result.getRawEntities().put(name, Ref.to(type, false));
+		return result.getEntity(name);
 	}
 
-	protected void relationship(String left, String right,
-			String relationshipType) {
+	protected Relationship relationship(String left, String right, String relationshipType) {
 		result.getRawRelationships().put(left, right, relationshipType);
+		return result.getRelationship(left, relationshipType, right);
 	}
 
 	protected void binding(String entity, Object binding) {
@@ -194,8 +199,7 @@ public abstract class GuidedReasonerPlugin extends InjectedReasonerPlugin {
 	protected void guidedDerive(EntityType entityType) throws Throwable {
 	}
 
-	protected void guidedDerive(RelationshipType relationshipType)
-			throws Throwable {
+	protected void guidedDerive(RelationshipType relationshipType) throws Throwable {
 	}
 
 	protected void guidedDerive(Entity entity) throws Throwable {
