@@ -18,6 +18,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.softlang.megal.mi2.Entity;
 import org.softlang.megal.mi2.Relationship;
 import org.softlang.megal.mi2.api.Artifact;
 import org.w3c.dom.Document;
@@ -25,13 +26,14 @@ import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
 import plugins.prelude.GuidedEvaluatorPlugin;
+import plugins.prelude.GuidedReasonerPlugin;
 import plugins.util.Utils;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableMap;
 
-public class XMLFileCorrespondsToJavaObject extends GuidedEvaluatorPlugin {
+public class XMLFileCorrespondsToJavaObject extends GuidedReasonerPlugin {
 
 	private boolean isMatchable(Node node) {
 		switch (node.getNodeType()) {
@@ -56,8 +58,7 @@ public class XMLFileCorrespondsToJavaObject extends GuidedEvaluatorPlugin {
 			return "null".equalsIgnoreCase(source);
 
 		if (target instanceof Number)
-			return target.equals(Long.valueOf(source))
-					|| target.equals(Double.valueOf(source));
+			return target.equals(Long.valueOf(source)) || target.equals(Double.valueOf(source));
 
 		if (target instanceof Boolean)
 			return target.equals(Boolean.valueOf(source));
@@ -93,14 +94,12 @@ public class XMLFileCorrespondsToJavaObject extends GuidedEvaluatorPlugin {
 			// There is a child that passed the matchable mark
 			hasMatchableChildren = true;
 
-			Optional<Object> value = Utils.getForXML(object,
-					child.getNodeName());
+			Optional<Object> value = Utils.getForXML(object, child.getNodeName());
 
 			// No corresponding field, structural error
 			if (!value.isPresent()) {
 				if (errors != null)
-					errors.add("No corresponding field for "
-							+ child.getNodeName());
+					errors.add("No corresponding field for " + child.getNodeName());
 				return null;
 			}
 
@@ -133,8 +132,7 @@ public class XMLFileCorrespondsToJavaObject extends GuidedEvaluatorPlugin {
 			}
 
 			if (errors != null)
-				errors.add("No corresponding element for child "
-						+ child.getNodeName());
+				errors.add("No corresponding element for child " + child.getNodeName());
 
 			// No match at all
 			return null;
@@ -150,8 +148,7 @@ public class XMLFileCorrespondsToJavaObject extends GuidedEvaluatorPlugin {
 	}
 
 	@Override
-	public void guidedEvaluate(Relationship relationship) throws IOException,
-			ParserConfigurationException, SAXException {
+	public void guidedDerive(Relationship relationship) throws IOException, ParserConfigurationException, SAXException {
 		when(isElementOfLanguage(relationship.getLeft(), "XML"));
 		when(isInstance(relationship.getRight(), "Transient"));
 
@@ -159,8 +156,7 @@ public class XMLFileCorrespondsToJavaObject extends GuidedEvaluatorPlugin {
 		Object object = bindingOf(relationship.getRight());
 
 		try (InputStream stream = file.getBytes().openStream()) {
-			DocumentBuilderFactory builderFactory = DocumentBuilderFactory
-					.newInstance();
+			DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder builder = builderFactory.newDocumentBuilder();
 			Document document = builder.parse(stream);
 			document.getDocumentElement().normalize();
@@ -168,35 +164,23 @@ public class XMLFileCorrespondsToJavaObject extends GuidedEvaluatorPlugin {
 			// Optional<String> matchMessage = isMatch(
 			// document.getDocumentElement(), object);
 			Set<String> errors = newHashSet();
-			Map<Node, Object> matches = match(document.getDocumentElement(),
-					object, errors);
+			Map<Node, Object> matches = match(document.getDocumentElement(), object, errors);
 
 			if (matches == null)
 				error("Does not correspond: " + Joiner.on("\r\n").join(errors));
 			else {
-				StringBuilder info = new StringBuilder();
-				boolean sep = false;
+
 				for (Entry<Node, Object> trace : matches.entrySet()) {
-					if (sep)
-						info.append("\r\n");
+					Entity left = entity(locationAndValue(trace.getKey()), "Transient");
+					Entity right = entity(trace.getValue().toString(), "Transient");
 
-					info.append(locationAndValue(trace.getKey()));
-					info.append(" <-> ");
-					info.append(trace.getValue());
+					relationship(left.getName(), right.getName(), "correspondsTo");
 
-					if (trace.getValue() != null)
-						info.append(": "
-								+ trace.getValue().getClass().getSimpleName());
-
-					sep = true;
+					relationship(left.getName(), relationship.getLeft().getName(), "partOf");
+					relationship(right.getName(), relationship.getRight().getName(), "partOf");
 				}
-
-				info(info.toString());
-
 				valid();
 			}
-			// if (matchMessage.isPresent())
-			// context.error(matchMessage.get());
 		}
 
 	}

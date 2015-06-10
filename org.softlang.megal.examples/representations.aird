@@ -1038,50 +1038,6 @@
             <styles xmi:type="notation:ShapeStyle" xmi:id="_H1IvQwn3EeWMwIgfRrO8jg" fontName="Segoe UI" fontHeight="12" italic="true"/>
             <layoutConstraint xmi:type="notation:Bounds" xmi:id="_H1IvRAn3EeWMwIgfRrO8jg" x="519" y="465" width="211" height="70"/>
           </children>
-          <children xmi:type="notation:Node" xmi:id="_lJE7sAxuEeWiBfRQb9z7OQ" type="2001" element="_lFBiIAxuEeWiBfRQb9z7OQ">
-            <children xmi:type="notation:Node" xmi:id="_lJLCUAxuEeWiBfRQb9z7OQ" type="5002">
-              <layoutConstraint xmi:type="notation:Location" xmi:id="_lJLCUQxuEeWiBfRQb9z7OQ" y="5"/>
-            </children>
-            <children xmi:type="notation:Node" xmi:id="_lJNekAxuEeWiBfRQb9z7OQ" type="3003" element="_lFJd8AxuEeWiBfRQb9z7OQ">
-              <styles xmi:type="notation:ShapeStyle" xmi:id="_lJNekQxuEeWiBfRQb9z7OQ" fontName="Segoe UI"/>
-              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_lJNekgxuEeWiBfRQb9z7OQ"/>
-            </children>
-            <styles xmi:type="notation:ShapeStyle" xmi:id="_lJE7sQxuEeWiBfRQb9z7OQ" fontName="Segoe UI" fontHeight="12"/>
-            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_lJE7sgxuEeWiBfRQb9z7OQ" x="1065" y="150" width="130" height="70"/>
-          </children>
-          <children xmi:type="notation:Node" xmi:id="_lUb3IAxuEeWiBfRQb9z7OQ" type="2001" element="_lTUc0AxuEeWiBfRQb9z7OQ">
-            <children xmi:type="notation:Node" xmi:id="_lUb3IwxuEeWiBfRQb9z7OQ" type="5002">
-              <layoutConstraint xmi:type="notation:Location" xmi:id="_lUb3JAxuEeWiBfRQb9z7OQ" y="5"/>
-            </children>
-            <children xmi:type="notation:Node" xmi:id="_lUceMAxuEeWiBfRQb9z7OQ" type="3003" element="_lTUc0QxuEeWiBfRQb9z7OQ">
-              <styles xmi:type="notation:ShapeStyle" xmi:id="_lUceMQxuEeWiBfRQb9z7OQ" fontName="Segoe UI"/>
-              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_lUceMgxuEeWiBfRQb9z7OQ"/>
-            </children>
-            <styles xmi:type="notation:ShapeStyle" xmi:id="_lUb3IQxuEeWiBfRQb9z7OQ" fontName="Segoe UI" fontHeight="12"/>
-            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_lUb3IgxuEeWiBfRQb9z7OQ" x="945" y="450" width="130" height="70"/>
-          </children>
-          <children xmi:type="notation:Node" xmi:id="_lfAvcAxuEeWiBfRQb9z7OQ" type="2001" element="_leEUQAxuEeWiBfRQb9z7OQ">
-            <children xmi:type="notation:Node" xmi:id="_lfBWgAxuEeWiBfRQb9z7OQ" type="5002">
-              <layoutConstraint xmi:type="notation:Location" xmi:id="_lfBWgQxuEeWiBfRQb9z7OQ" y="5"/>
-            </children>
-            <children xmi:type="notation:Node" xmi:id="_lfB9kAxuEeWiBfRQb9z7OQ" type="3003" element="_leEUQQxuEeWiBfRQb9z7OQ">
-              <styles xmi:type="notation:ShapeStyle" xmi:id="_lfB9kQxuEeWiBfRQb9z7OQ" fontName="Segoe UI"/>
-              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_lfB9kgxuEeWiBfRQb9z7OQ"/>
-            </children>
-            <styles xmi:type="notation:ShapeStyle" xmi:id="_lfAvcQxuEeWiBfRQb9z7OQ" fontName="Segoe UI" fontHeight="12"/>
-            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_lfAvcgxuEeWiBfRQb9z7OQ" x="780" y="120" width="130" height="70"/>
-          </children>
-          <children xmi:type="notation:Node" xmi:id="_oPAK0AxuEeWiBfRQb9z7OQ" type="2001" element="_oOIBEAxuEeWiBfRQb9z7OQ">
-            <children xmi:type="notation:Node" xmi:id="_oPAK0wxuEeWiBfRQb9z7OQ" type="5002">
-              <layoutConstraint xmi:type="notation:Location" xmi:id="_oPAK1AxuEeWiBfRQb9z7OQ" y="5"/>
-            </children>
-            <children xmi:type="notation:Node" xmi:id="_oPAx4AxuEeWiBfRQb9z7OQ" type="3003" element="_oOIoIAxuEeWiBfRQb9z7OQ">
-              <styles xmi:type="notation:ShapeStyle" xmi:id="_oPAx4QxuEeWiBfRQb9z7OQ" fontName="Segoe UI"/>
-              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_oPAx4gxuEeWiBfRQb9z7OQ"/>
-            </children>
-            <styles xmi:type="notation:ShapeStyle" xmi:id="_oPAK0QxuEeWiBfRQb9z7OQ" fontName="Segoe UI" fontHeight="12"/>
-            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_oPAK0gxuEeWiBfRQb9z7OQ" x="885" width="130" height="70"/>
-          </children>
           <styles xmi:type="notation:DiagramStyle" xmi:id="_IN7fMgn2EeW6QsNfI9wgHg"/>
           <edges xmi:type="notation:Edge" xmi:id="_IOOaMgn2EeW6QsNfI9wgHg" type="4001" element="_INxuVAn2EeW6QsNfI9wgHg" source="_IOFQMgn2EeW6QsNfI9wgHg" target="_IN7fMwn2EeW6QsNfI9wgHg">
             <children xmi:type="notation:Node" xmi:id="_IOOaNgn2EeW6QsNfI9wgHg" type="6001">
@@ -1211,70 +1167,6 @@
             <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_H1n3dAn3EeWMwIgfRrO8jg" id="(0.5,0.0)"/>
             <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_H1n3dQn3EeWMwIgfRrO8jg" id="(0.2697095435684647,0.9210526315789473)"/>
           </edges>
-          <edges xmi:type="notation:Edge" xmi:id="_lyP0gAxuEeWiBfRQb9z7OQ" type="4001" element="_lv2AwAxuEeWiBfRQb9z7OQ" source="_lfAvcAxuEeWiBfRQb9z7OQ" target="_lUb3IAxuEeWiBfRQb9z7OQ">
-            <children xmi:type="notation:Node" xmi:id="_lyRCoAxuEeWiBfRQb9z7OQ" type="6001">
-              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_lyRCoQxuEeWiBfRQb9z7OQ" y="-10"/>
-            </children>
-            <children xmi:type="notation:Node" xmi:id="_lyRpsAxuEeWiBfRQb9z7OQ" type="6002">
-              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_lyRpsQxuEeWiBfRQb9z7OQ" y="10"/>
-            </children>
-            <children xmi:type="notation:Node" xmi:id="_lySQwAxuEeWiBfRQb9z7OQ" type="6003">
-              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_lySQwQxuEeWiBfRQb9z7OQ" y="10"/>
-            </children>
-            <styles xmi:type="notation:ConnectorStyle" xmi:id="_lyP0gQxuEeWiBfRQb9z7OQ"/>
-            <styles xmi:type="notation:FontStyle" xmi:id="_lyP0ggxuEeWiBfRQb9z7OQ" fontName="Segoe UI" fontHeight="10"/>
-            <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_lyP0gwxuEeWiBfRQb9z7OQ" points="[0, 0, -150, -260]$[150, 260, 0, 0]"/>
-            <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_lyS30AxuEeWiBfRQb9z7OQ" id="(0.46153846153846156,1.0)"/>
-            <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_lyTe4AxuEeWiBfRQb9z7OQ" id="(0.34615384615384615,0.0)"/>
-          </edges>
-          <edges xmi:type="notation:Edge" xmi:id="_mQhr8AxuEeWiBfRQb9z7OQ" type="4001" element="_mPWAMAxuEeWiBfRQb9z7OQ" source="_lUb3IAxuEeWiBfRQb9z7OQ" target="_lJE7sAxuEeWiBfRQb9z7OQ">
-            <children xmi:type="notation:Node" xmi:id="_mQiTAAxuEeWiBfRQb9z7OQ" type="6001">
-              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_mQiTAQxuEeWiBfRQb9z7OQ" y="-10"/>
-            </children>
-            <children xmi:type="notation:Node" xmi:id="_mQiTAgxuEeWiBfRQb9z7OQ" type="6002">
-              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_mQiTAwxuEeWiBfRQb9z7OQ" y="10"/>
-            </children>
-            <children xmi:type="notation:Node" xmi:id="_mQiTBAxuEeWiBfRQb9z7OQ" type="6003">
-              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_mQiTBQxuEeWiBfRQb9z7OQ" y="10"/>
-            </children>
-            <styles xmi:type="notation:ConnectorStyle" xmi:id="_mQhr8QxuEeWiBfRQb9z7OQ"/>
-            <styles xmi:type="notation:FontStyle" xmi:id="_mQhr8gxuEeWiBfRQb9z7OQ" fontName="Segoe UI" fontHeight="10"/>
-            <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_mQhr8wxuEeWiBfRQb9z7OQ" points="[0, 0, -120, 230]$[120, -230, 0, 0]"/>
-            <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_mQiTBgxuEeWiBfRQb9z7OQ" id="(0.5769230769230769,0.0)"/>
-            <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_mQiTBwxuEeWiBfRQb9z7OQ" id="(0.5769230769230769,1.0)"/>
-          </edges>
-          <edges xmi:type="notation:Edge" xmi:id="_mdxdwAxuEeWiBfRQb9z7OQ" type="4001" element="_mczNYAxuEeWiBfRQb9z7OQ" source="_lJE7sAxuEeWiBfRQb9z7OQ" target="_lfAvcAxuEeWiBfRQb9z7OQ">
-            <children xmi:type="notation:Node" xmi:id="_mdxdxAxuEeWiBfRQb9z7OQ" type="6001">
-              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_mdxdxQxuEeWiBfRQb9z7OQ" y="-10"/>
-            </children>
-            <children xmi:type="notation:Node" xmi:id="_mdxdxgxuEeWiBfRQb9z7OQ" type="6002">
-              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_mdxdxwxuEeWiBfRQb9z7OQ" y="10"/>
-            </children>
-            <children xmi:type="notation:Node" xmi:id="_mdxdyAxuEeWiBfRQb9z7OQ" type="6003">
-              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_mdxdyQxuEeWiBfRQb9z7OQ" y="10"/>
-            </children>
-            <styles xmi:type="notation:ConnectorStyle" xmi:id="_mdxdwQxuEeWiBfRQb9z7OQ"/>
-            <styles xmi:type="notation:FontStyle" xmi:id="_mdxdwgxuEeWiBfRQb9z7OQ" fontName="Segoe UI" fontHeight="10"/>
-            <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_mdxdwwxuEeWiBfRQb9z7OQ" points="[-9, -2, 166, 27]$[-164, -28, 11, 1]"/>
-            <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_mdyE0AxuEeWiBfRQb9z7OQ" id="(0.06923076923076923,0.4)"/>
-            <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_mdyE0QxuEeWiBfRQb9z7OQ" id="(0.9153846153846154,0.4142857142857143)"/>
-          </edges>
-          <edges xmi:type="notation:Edge" xmi:id="_opwNIAxuEeWiBfRQb9z7OQ" type="4001" element="_oo8U0AxuEeWiBfRQb9z7OQ" source="_oPAK0AxuEeWiBfRQb9z7OQ" target="_lfAvcAxuEeWiBfRQb9z7OQ">
-            <children xmi:type="notation:Node" xmi:id="_opw0MAxuEeWiBfRQb9z7OQ" type="6001">
-              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_opw0MQxuEeWiBfRQb9z7OQ" x="-18" y="-61"/>
-            </children>
-            <children xmi:type="notation:Node" xmi:id="_opw0MgxuEeWiBfRQb9z7OQ" type="6002">
-              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_opw0MwxuEeWiBfRQb9z7OQ" y="10"/>
-            </children>
-            <children xmi:type="notation:Node" xmi:id="_opw0NAxuEeWiBfRQb9z7OQ" type="6003">
-              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_opw0NQxuEeWiBfRQb9z7OQ" y="10"/>
-            </children>
-            <styles xmi:type="notation:ConnectorStyle" xmi:id="_opwNIQxuEeWiBfRQb9z7OQ"/>
-            <styles xmi:type="notation:FontStyle" xmi:id="_opwNIgxuEeWiBfRQb9z7OQ" fontName="Segoe UI" fontHeight="10"/>
-            <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_opwNIwxuEeWiBfRQb9z7OQ" points="[-17, 70, 58, -120]$[-28, 120, 47, -70]"/>
-            <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_opw0NgxuEeWiBfRQb9z7OQ" id="(0.34615384615384615,0.0)"/>
-            <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_opw0NwxuEeWiBfRQb9z7OQ" id="(0.5769230769230769,1.0)"/>
-          </edges>
         </data>
       </ownedAnnotationEntries>
       <ownedAnnotationEntries xmi:type="description:AnnotationEntry" xmi:id="_Q6b08AxqEeWAgPcAH8gN6w" source="DANNOTATION_CUSTOMIZATION_KEY">
@@ -1360,48 +1252,6 @@
         <arrangeConstraints>KEEP_SIZE</arrangeConstraints>
         <arrangeConstraints>KEEP_RATIO</arrangeConstraints>
         <ownedStyle xmi:type="diagram:Square" xmi:id="_INxuUAn2EeW6QsNfI9wgHg" labelSize="12" showIcon="false" borderSize="1" borderSizeComputationExpression="1" labelPosition="node" width="13" height="7" color="221,208,168">
-          <description xmi:type="style:SquareDescription" href="platform:/plugin/org.softlang.megal.sirius/description/Megal.odesign#//@ownedViewpoints[name='org.softlang.megal.sirius']/@ownedRepresentations[name='org.softlang.megal.sirius.entitydiagram']/@defaultLayer/@nodeMappings[name='org.softlang.megal.sirius.entitydiagram.entity']/@style"/>
-        </ownedStyle>
-        <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.softlang.megal.sirius/description/Megal.odesign#//@ownedViewpoints[name='org.softlang.megal.sirius']/@ownedRepresentations[name='org.softlang.megal.sirius.entitydiagram']/@defaultLayer/@nodeMappings[name='org.softlang.megal.sirius.entitydiagram.entity']"/>
-      </ownedDiagramElements>
-      <ownedDiagramElements xmi:type="diagram:DNode" xmi:id="_lFBiIAxuEeWiBfRQb9z7OQ" name="Entity1:Concept" outgoingEdges="_mczNYAxuEeWiBfRQb9z7OQ" incomingEdges="_mPWAMAxuEeWiBfRQb9z7OQ" width="13" height="7" resizeKind="NSEW">
-        <target xmi:type="MegalEntity" href="megamodel/XML.megal#//@declarations.16"/>
-        <semanticElements xmi:type="MegalEntity" href="megamodel/XML.megal#//@declarations.16"/>
-        <semanticElements xmi:type="MegalEntityType" href="megamodel/Prelude.megal#//@declarations.2"/>
-        <ownedStyle xmi:type="diagram:Square" xmi:id="_lFJd8AxuEeWiBfRQb9z7OQ" labelSize="12" showIcon="false" borderSize="1" borderSizeComputationExpression="1" labelPosition="node" width="13" height="7" color="244,200,45">
-          <description xmi:type="style:SquareDescription" href="platform:/plugin/org.softlang.megal.sirius/description/Megal.odesign#//@ownedViewpoints[name='org.softlang.megal.sirius']/@ownedRepresentations[name='org.softlang.megal.sirius.entitydiagram']/@defaultLayer/@nodeMappings[name='org.softlang.megal.sirius.entitydiagram.entity']/@style"/>
-        </ownedStyle>
-        <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.softlang.megal.sirius/description/Megal.odesign#//@ownedViewpoints[name='org.softlang.megal.sirius']/@ownedRepresentations[name='org.softlang.megal.sirius.entitydiagram']/@defaultLayer/@nodeMappings[name='org.softlang.megal.sirius.entitydiagram.entity']"/>
-      </ownedDiagramElements>
-      <ownedDiagramElements xmi:type="diagram:DNode" xmi:id="_lTUc0AxuEeWiBfRQb9z7OQ" name="Entity2:Concept" outgoingEdges="_mPWAMAxuEeWiBfRQb9z7OQ" incomingEdges="_lv2AwAxuEeWiBfRQb9z7OQ" width="13" height="7" resizeKind="NSEW">
-        <target xmi:type="MegalEntity" href="megamodel/XML.megal#//@declarations.17"/>
-        <semanticElements xmi:type="MegalEntity" href="megamodel/XML.megal#//@declarations.17"/>
-        <semanticElements xmi:type="MegalEntityType" href="megamodel/Prelude.megal#//@declarations.2"/>
-        <ownedStyle xmi:type="diagram:Square" xmi:id="_lTUc0QxuEeWiBfRQb9z7OQ" labelSize="12" showIcon="false" borderSize="1" borderSizeComputationExpression="1" labelPosition="node" width="13" height="7" color="244,200,45">
-          <description xmi:type="style:SquareDescription" href="platform:/plugin/org.softlang.megal.sirius/description/Megal.odesign#//@ownedViewpoints[name='org.softlang.megal.sirius']/@ownedRepresentations[name='org.softlang.megal.sirius.entitydiagram']/@defaultLayer/@nodeMappings[name='org.softlang.megal.sirius.entitydiagram.entity']/@style"/>
-        </ownedStyle>
-        <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.softlang.megal.sirius/description/Megal.odesign#//@ownedViewpoints[name='org.softlang.megal.sirius']/@ownedRepresentations[name='org.softlang.megal.sirius.entitydiagram']/@defaultLayer/@nodeMappings[name='org.softlang.megal.sirius.entitydiagram.entity']"/>
-      </ownedDiagramElements>
-      <ownedDiagramElements xmi:type="diagram:DNode" xmi:id="_leEUQAxuEeWiBfRQb9z7OQ" name="Entity3:Concept" outgoingEdges="_lv2AwAxuEeWiBfRQb9z7OQ" incomingEdges="_mczNYAxuEeWiBfRQb9z7OQ _oo8U0AxuEeWiBfRQb9z7OQ" width="13" height="7" resizeKind="NSEW">
-        <target xmi:type="MegalEntity" href="megamodel/XML.megal#//@declarations.18"/>
-        <semanticElements xmi:type="MegalEntity" href="megamodel/XML.megal#//@declarations.18"/>
-        <semanticElements xmi:type="MegalEntityType" href="megamodel/Prelude.megal#//@declarations.2"/>
-        <arrangeConstraints>KEEP_LOCATION</arrangeConstraints>
-        <arrangeConstraints>KEEP_SIZE</arrangeConstraints>
-        <arrangeConstraints>KEEP_RATIO</arrangeConstraints>
-        <ownedStyle xmi:type="diagram:Square" xmi:id="_leEUQQxuEeWiBfRQb9z7OQ" labelSize="12" showIcon="false" borderSize="1" borderSizeComputationExpression="1" labelPosition="node" width="13" height="7" color="244,200,45">
-          <description xmi:type="style:SquareDescription" href="platform:/plugin/org.softlang.megal.sirius/description/Megal.odesign#//@ownedViewpoints[name='org.softlang.megal.sirius']/@ownedRepresentations[name='org.softlang.megal.sirius.entitydiagram']/@defaultLayer/@nodeMappings[name='org.softlang.megal.sirius.entitydiagram.entity']/@style"/>
-        </ownedStyle>
-        <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.softlang.megal.sirius/description/Megal.odesign#//@ownedViewpoints[name='org.softlang.megal.sirius']/@ownedRepresentations[name='org.softlang.megal.sirius.entitydiagram']/@defaultLayer/@nodeMappings[name='org.softlang.megal.sirius.entitydiagram.entity']"/>
-      </ownedDiagramElements>
-      <ownedDiagramElements xmi:type="diagram:DNode" xmi:id="_oOIBEAxuEeWiBfRQb9z7OQ" name="Con:Concept" outgoingEdges="_oo8U0AxuEeWiBfRQb9z7OQ" width="13" height="7" resizeKind="NSEW">
-        <target xmi:type="MegalEntity" href="megamodel/XML.megal#//@declarations.22"/>
-        <semanticElements xmi:type="MegalEntity" href="megamodel/XML.megal#//@declarations.22"/>
-        <semanticElements xmi:type="MegalEntityType" href="megamodel/Prelude.megal#//@declarations.2"/>
-        <arrangeConstraints>KEEP_LOCATION</arrangeConstraints>
-        <arrangeConstraints>KEEP_SIZE</arrangeConstraints>
-        <arrangeConstraints>KEEP_RATIO</arrangeConstraints>
-        <ownedStyle xmi:type="diagram:Square" xmi:id="_oOIoIAxuEeWiBfRQb9z7OQ" labelSize="12" showIcon="false" borderSize="1" borderSizeComputationExpression="1" labelPosition="node" width="13" height="7" color="244,200,45">
           <description xmi:type="style:SquareDescription" href="platform:/plugin/org.softlang.megal.sirius/description/Megal.odesign#//@ownedViewpoints[name='org.softlang.megal.sirius']/@ownedRepresentations[name='org.softlang.megal.sirius.entitydiagram']/@defaultLayer/@nodeMappings[name='org.softlang.megal.sirius.entitydiagram.entity']/@style"/>
         </ownedStyle>
         <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.softlang.megal.sirius/description/Megal.odesign#//@ownedViewpoints[name='org.softlang.megal.sirius']/@ownedRepresentations[name='org.softlang.megal.sirius.entitydiagram']/@defaultLayer/@nodeMappings[name='org.softlang.megal.sirius.entitydiagram.entity']"/>
@@ -1495,6 +1345,19 @@
         </ownedStyle>
         <actualMapping xmi:type="description_1:NodeMappingImport" href="platform:/plugin/org.softlang.megal.sirius/description/Megal.odesign#//@ownedViewpoints[name='org.softlang.megal.sirius']/@ownedRepresentations[name='org.softlang.megal.sirius.entitydiagram']/@defaultLayer/@nodeMappings[name='org.softlang.megal.sirius.entitydiagram.entity.import']"/>
       </ownedDiagramElements>
+      <ownedDiagramElements xmi:type="diagram:DNode" xmi:id="_Hwb1dQn3EeWMwIgfRrO8jg" name="LanguageResolver:Plugin" width="13" height="7" resizeKind="NSEW">
+        <target xmi:type="MegalEntity" href="megamodel/Prelude.megal#//@declarations.49"/>
+        <semanticElements xmi:type="MegalEntity" href="megamodel/Prelude.megal#//@declarations.49"/>
+        <semanticElements xmi:type="MegalEntityType" href="megamodel/Prelude.megal#//@declarations.37"/>
+        <arrangeConstraints>KEEP_LOCATION</arrangeConstraints>
+        <arrangeConstraints>KEEP_SIZE</arrangeConstraints>
+        <arrangeConstraints>KEEP_RATIO</arrangeConstraints>
+        <ownedStyle xmi:type="diagram:Square" xmi:id="_Hwb1dgn3EeWMwIgfRrO8jg" labelSize="12" showIcon="false" borderColor="136,136,136" labelPosition="node" width="13" height="7" color="209,209,209">
+          <labelFormat>italic</labelFormat>
+          <description xmi:type="style:SquareDescription" href="platform:/plugin/org.softlang.megal.sirius/description/Megal.odesign#//@ownedViewpoints[name='org.softlang.megal.sirius']/@ownedRepresentations[name='org.softlang.megal.sirius.entitydiagram']/@defaultLayer/@nodeMappings[name='org.softlang.megal.sirius.entitydiagram.entity.import']/@style"/>
+        </ownedStyle>
+        <actualMapping xmi:type="description_1:NodeMappingImport" href="platform:/plugin/org.softlang.megal.sirius/description/Megal.odesign#//@ownedViewpoints[name='org.softlang.megal.sirius']/@ownedRepresentations[name='org.softlang.megal.sirius.entitydiagram']/@defaultLayer/@nodeMappings[name='org.softlang.megal.sirius.entitydiagram.entity.import']"/>
+      </ownedDiagramElements>
       <ownedDiagramElements xmi:type="diagram:DNode" xmi:id="_Hwb1cAn3EeWMwIgfRrO8jg" name="PairElementWhenComputed:Plugin" visible="false" width="13" height="7" resizeKind="NSEW">
         <target xmi:type="MegalEntity" href="megamodel/Prelude.megal#//@declarations.46"/>
         <semanticElements xmi:type="MegalEntity" href="megamodel/Prelude.megal#//@declarations.46"/>
@@ -1504,19 +1367,6 @@
         <arrangeConstraints>KEEP_SIZE</arrangeConstraints>
         <arrangeConstraints>KEEP_RATIO</arrangeConstraints>
         <ownedStyle xmi:type="diagram:Square" xmi:id="_Hwb1cQn3EeWMwIgfRrO8jg" labelSize="12" showIcon="false" borderColor="136,136,136" labelPosition="node" width="13" height="7" color="209,209,209">
-          <labelFormat>italic</labelFormat>
-          <description xmi:type="style:SquareDescription" href="platform:/plugin/org.softlang.megal.sirius/description/Megal.odesign#//@ownedViewpoints[name='org.softlang.megal.sirius']/@ownedRepresentations[name='org.softlang.megal.sirius.entitydiagram']/@defaultLayer/@nodeMappings[name='org.softlang.megal.sirius.entitydiagram.entity.import']/@style"/>
-        </ownedStyle>
-        <actualMapping xmi:type="description_1:NodeMappingImport" href="platform:/plugin/org.softlang.megal.sirius/description/Megal.odesign#//@ownedViewpoints[name='org.softlang.megal.sirius']/@ownedRepresentations[name='org.softlang.megal.sirius.entitydiagram']/@defaultLayer/@nodeMappings[name='org.softlang.megal.sirius.entitydiagram.entity.import']"/>
-      </ownedDiagramElements>
-      <ownedDiagramElements xmi:type="diagram:DNode" xmi:id="_Hwb1dQn3EeWMwIgfRrO8jg" name="LanguageResolver:Plugin" width="13" height="7" resizeKind="NSEW">
-        <target xmi:type="MegalEntity" href="megamodel/Prelude.megal#//@declarations.49"/>
-        <semanticElements xmi:type="MegalEntity" href="megamodel/Prelude.megal#//@declarations.49"/>
-        <semanticElements xmi:type="MegalEntityType" href="megamodel/Prelude.megal#//@declarations.37"/>
-        <arrangeConstraints>KEEP_LOCATION</arrangeConstraints>
-        <arrangeConstraints>KEEP_SIZE</arrangeConstraints>
-        <arrangeConstraints>KEEP_RATIO</arrangeConstraints>
-        <ownedStyle xmi:type="diagram:Square" xmi:id="_Hwb1dgn3EeWMwIgfRrO8jg" labelSize="12" showIcon="false" borderColor="136,136,136" labelPosition="node" width="13" height="7" color="209,209,209">
           <labelFormat>italic</labelFormat>
           <description xmi:type="style:SquareDescription" href="platform:/plugin/org.softlang.megal.sirius/description/Megal.odesign#//@ownedViewpoints[name='org.softlang.megal.sirius']/@ownedRepresentations[name='org.softlang.megal.sirius.entitydiagram']/@defaultLayer/@nodeMappings[name='org.softlang.megal.sirius.entitydiagram.entity.import']/@style"/>
         </ownedStyle>
@@ -1543,54 +1393,6 @@
         <ownedStyle xmi:type="diagram:EdgeStyle" xmi:id="_uf66pAw_EeW_fommB45D4A" size="2" strokeColor="0,0,0">
           <description xmi:type="style:EdgeStyleDescription" href="platform:/plugin/org.softlang.megal.sirius/description/Megal.odesign#//@ownedViewpoints[name='org.softlang.megal.sirius']/@ownedRepresentations[name='org.softlang.megal.sirius.entitydiagram']/@defaultLayer/@edgeMappings[name='org.softlang.megal.sirius.entitydiagram.relationship']/@style"/>
           <centerLabelStyle xmi:type="diagram:CenterLabelStyle" xmi:id="_uf66pgw_EeW_fommB45D4A" labelSize="10" showIcon="false"/>
-        </ownedStyle>
-        <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/plugin/org.softlang.megal.sirius/description/Megal.odesign#//@ownedViewpoints[name='org.softlang.megal.sirius']/@ownedRepresentations[name='org.softlang.megal.sirius.entitydiagram']/@defaultLayer/@edgeMappings[name='org.softlang.megal.sirius.entitydiagram.relationship']"/>
-      </ownedDiagramElements>
-      <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_lv2AwAxuEeWiBfRQb9z7OQ" name="isA" sourceNode="_leEUQAxuEeWiBfRQb9z7OQ" targetNode="_lTUc0AxuEeWiBfRQb9z7OQ">
-        <target xmi:type="MegalRelationship" href="megamodel/XML.megal#//@declarations.19"/>
-        <semanticElements xmi:type="MegalRelationship" href="megamodel/XML.megal#//@declarations.19"/>
-        <semanticElements xmi:type="MegalRelationshipType" href="megamodel/Prelude.megal#//@declarations.19"/>
-        <semanticElements xmi:type="MegalEntityType" href="megamodel/Prelude.megal#//@declarations.2"/>
-        <semanticElements xmi:type="MegalEntity" href="megamodel/XML.megal#//@declarations.18"/>
-        <ownedStyle xmi:type="diagram:EdgeStyle" xmi:id="_lv2n0AxuEeWiBfRQb9z7OQ" size="2" strokeColor="0,0,0">
-          <description xmi:type="style:EdgeStyleDescription" href="platform:/plugin/org.softlang.megal.sirius/description/Megal.odesign#//@ownedViewpoints[name='org.softlang.megal.sirius']/@ownedRepresentations[name='org.softlang.megal.sirius.entitydiagram']/@defaultLayer/@edgeMappings[name='org.softlang.megal.sirius.entitydiagram.relationship']/@style"/>
-          <centerLabelStyle xmi:type="diagram:CenterLabelStyle" xmi:id="_lv2n0QxuEeWiBfRQb9z7OQ" labelSize="10" showIcon="false"/>
-        </ownedStyle>
-        <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/plugin/org.softlang.megal.sirius/description/Megal.odesign#//@ownedViewpoints[name='org.softlang.megal.sirius']/@ownedRepresentations[name='org.softlang.megal.sirius.entitydiagram']/@defaultLayer/@edgeMappings[name='org.softlang.megal.sirius.entitydiagram.relationship']"/>
-      </ownedDiagramElements>
-      <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_mPWAMAxuEeWiBfRQb9z7OQ" name="isA" sourceNode="_lTUc0AxuEeWiBfRQb9z7OQ" targetNode="_lFBiIAxuEeWiBfRQb9z7OQ">
-        <target xmi:type="MegalRelationship" href="megamodel/XML.megal#//@declarations.20"/>
-        <semanticElements xmi:type="MegalRelationship" href="megamodel/XML.megal#//@declarations.20"/>
-        <semanticElements xmi:type="MegalRelationshipType" href="megamodel/Prelude.megal#//@declarations.19"/>
-        <semanticElements xmi:type="MegalEntityType" href="megamodel/Prelude.megal#//@declarations.2"/>
-        <semanticElements xmi:type="MegalEntity" href="megamodel/XML.megal#//@declarations.17"/>
-        <ownedStyle xmi:type="diagram:EdgeStyle" xmi:id="_mPWnQAxuEeWiBfRQb9z7OQ" size="2" strokeColor="0,0,0">
-          <description xmi:type="style:EdgeStyleDescription" href="platform:/plugin/org.softlang.megal.sirius/description/Megal.odesign#//@ownedViewpoints[name='org.softlang.megal.sirius']/@ownedRepresentations[name='org.softlang.megal.sirius.entitydiagram']/@defaultLayer/@edgeMappings[name='org.softlang.megal.sirius.entitydiagram.relationship']/@style"/>
-          <centerLabelStyle xmi:type="diagram:CenterLabelStyle" xmi:id="_mPWnQQxuEeWiBfRQb9z7OQ" labelSize="10" showIcon="false"/>
-        </ownedStyle>
-        <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/plugin/org.softlang.megal.sirius/description/Megal.odesign#//@ownedViewpoints[name='org.softlang.megal.sirius']/@ownedRepresentations[name='org.softlang.megal.sirius.entitydiagram']/@defaultLayer/@edgeMappings[name='org.softlang.megal.sirius.entitydiagram.relationship']"/>
-      </ownedDiagramElements>
-      <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_mczNYAxuEeWiBfRQb9z7OQ" name="isA" sourceNode="_lFBiIAxuEeWiBfRQb9z7OQ" targetNode="_leEUQAxuEeWiBfRQb9z7OQ">
-        <target xmi:type="MegalRelationship" href="megamodel/XML.megal#//@declarations.21"/>
-        <semanticElements xmi:type="MegalRelationship" href="megamodel/XML.megal#//@declarations.21"/>
-        <semanticElements xmi:type="MegalRelationshipType" href="megamodel/Prelude.megal#//@declarations.19"/>
-        <semanticElements xmi:type="MegalEntityType" href="megamodel/Prelude.megal#//@declarations.2"/>
-        <semanticElements xmi:type="MegalEntity" href="megamodel/XML.megal#//@declarations.16"/>
-        <ownedStyle xmi:type="diagram:EdgeStyle" xmi:id="_mcz0cAxuEeWiBfRQb9z7OQ" size="2" strokeColor="0,0,0">
-          <description xmi:type="style:EdgeStyleDescription" href="platform:/plugin/org.softlang.megal.sirius/description/Megal.odesign#//@ownedViewpoints[name='org.softlang.megal.sirius']/@ownedRepresentations[name='org.softlang.megal.sirius.entitydiagram']/@defaultLayer/@edgeMappings[name='org.softlang.megal.sirius.entitydiagram.relationship']/@style"/>
-          <centerLabelStyle xmi:type="diagram:CenterLabelStyle" xmi:id="_mcz0cQxuEeWiBfRQb9z7OQ" labelSize="10" showIcon="false"/>
-        </ownedStyle>
-        <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/plugin/org.softlang.megal.sirius/description/Megal.odesign#//@ownedViewpoints[name='org.softlang.megal.sirius']/@ownedRepresentations[name='org.softlang.megal.sirius.entitydiagram']/@defaultLayer/@edgeMappings[name='org.softlang.megal.sirius.entitydiagram.relationship']"/>
-      </ownedDiagramElements>
-      <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_oo8U0AxuEeWiBfRQb9z7OQ" name="instanceOf" sourceNode="_oOIBEAxuEeWiBfRQb9z7OQ" targetNode="_leEUQAxuEeWiBfRQb9z7OQ">
-        <target xmi:type="MegalRelationship" href="megamodel/XML.megal#//@declarations.23"/>
-        <semanticElements xmi:type="MegalRelationship" href="megamodel/XML.megal#//@declarations.23"/>
-        <semanticElements xmi:type="MegalRelationshipType" href="megamodel/Prelude.megal#//@declarations.18"/>
-        <semanticElements xmi:type="MegalEntityType" href="megamodel/Prelude.megal#//@declarations.2"/>
-        <semanticElements xmi:type="MegalEntity" href="megamodel/XML.megal#//@declarations.22"/>
-        <ownedStyle xmi:type="diagram:EdgeStyle" xmi:id="_oo8U0QxuEeWiBfRQb9z7OQ" size="2" strokeColor="0,0,0">
-          <description xmi:type="style:EdgeStyleDescription" href="platform:/plugin/org.softlang.megal.sirius/description/Megal.odesign#//@ownedViewpoints[name='org.softlang.megal.sirius']/@ownedRepresentations[name='org.softlang.megal.sirius.entitydiagram']/@defaultLayer/@edgeMappings[name='org.softlang.megal.sirius.entitydiagram.relationship']/@style"/>
-          <centerLabelStyle xmi:type="diagram:CenterLabelStyle" xmi:id="_oo8U0gxuEeWiBfRQb9z7OQ" labelSize="10" showIcon="false"/>
         </ownedStyle>
         <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/plugin/org.softlang.megal.sirius/description/Megal.odesign#//@ownedViewpoints[name='org.softlang.megal.sirius']/@ownedRepresentations[name='org.softlang.megal.sirius.entitydiagram']/@defaultLayer/@edgeMappings[name='org.softlang.megal.sirius.entitydiagram.relationship']"/>
       </ownedDiagramElements>

@@ -34,8 +34,8 @@ elementOf < Entity (+) * Set
 
 subsetOf < Set * Set
 
-partOf < Artifact * Artifact
-partOf < Artifact * Technology
+partOf < Artifact(+) * Artifact(+)
+partOf < Artifact(+) * Technology
 partOf < Technology * Technology
 partOf < Language * Technology
 
