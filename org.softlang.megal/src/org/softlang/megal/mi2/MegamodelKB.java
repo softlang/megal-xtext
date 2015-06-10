@@ -336,7 +336,7 @@ public class MegamodelKB extends KB {
 
 		return null;
 	}
-
+	
 	private static String entityName(String function, String input, String output) {
 		return "(" + input + ", " + output + ") in " + function;
 	}

@@ -28,4 +28,9 @@ public abstract class AbstractReasonerPlugin extends AbstractPlugin implements R
 	public KB derive(Context context, Relationship relationship) {
 		return KBs.empty();
 	}
+
+	@Override
+	public boolean isContextBased() {
+		return false;
+	}
 }

@@ -16,8 +16,8 @@ Set < Entity
 @Color '82,237,143'
 Technology < Entity
 
-@Plugin 'LanguageResolver'
 @Color '73,158,216'
+@Plugin 'LanguageResolver'
 Language < Set
 
 @Color '231,65,41'
@@ -29,7 +29,6 @@ Transient < Artifact
 
 
 
-// Relationship types
 elementOf < Entity (+) * Set
 
 subsetOf < Set * Set
@@ -43,8 +42,7 @@ partOf < Language * Technology
 
 
 
-instanceOf < Concept * Concept
-
+instanceOf < Entity * Concept
 isA < Concept * Concept
 
 conformsTo < Artifact (+) * Artifact (+)
@@ -52,7 +50,6 @@ conformsTo < Artifact (+) * Artifact (+)
 dependsOn < Artifact (+) * Artifact (+)
 dependsOn < Technology * Language
 dependsOn < Technology * Technology
-// VERMUTLICH FALSCH
 dependsOn < Function * Technology
 
 transformableIn < Language * Language
@@ -68,11 +65,9 @@ linksTo < File (+) * File (+)
 
 realizationOf < Artifact (+) * Function
 
-// XHTML variantOf HTML
 variantOf < Language * Language
 versionOf < Language * Language
 
-// a deployment perspective, where one technology is used as a container for deployment and execution of the other one
 deploysTo < Technology * Technology
 
 partOf < Language * Language
@@ -83,21 +78,19 @@ partOf < Language * Language
 Plugin < Entity
 
 
-@Suppress 'relationshipNotConsidered'
+@Suppress 'notConsidered'
 realizationOf < Plugin * Entity
 
-@Suppress 'relationshipNotConsidered'
+@Suppress 'notConsidered'
 partOf < Plugin * Plugin
 
 @Plugin 'FileElementOfLanguage'
 elementOf < File (+) * Language
 
 
-// Dispatcher with master as link and parameter dependence
 FileElementOfLanguage: Plugin
 FileElementOfLanguage = 'classpath:plugins.root.elementof.FileElementOfLanguage'
 
-// Replacement for the function application
 Pair < Entity
 firstOf < Entity (+) * Pair
 secondOf < Entity (+) * Pair
@@ -108,10 +101,8 @@ elementOf < Pair * Function
 PairElementWhenComputed: Plugin
 PairElementWhenComputed = 'classpath:plugins.root.elementof.PairElementWhenComputed'
 
-// From model
 refersTo < Artifact (+) * Technology
 refersTo < Artifact (+) * Artifact (+)
 
-// bindingEvaluator, evaluates links by inference
 LanguageResolver: Plugin
 LanguageResolver = 'classpath:plugins.LanguageResolver'

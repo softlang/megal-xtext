@@ -24,4 +24,10 @@ public interface ReasonerPlugin extends Plugin {
 	KB derive(Context context, Entity entity);
 
 	KB derive(Context context, Relationship relationship);
+	
+	/**
+	 * <p>If reasoner plugin is context based, visiting elements not directly involved is allowed. Elements are however not allowed.</p>
+	 * @return Returns true if reasoner is context based
+	 */
+	boolean isContextBased();
 }

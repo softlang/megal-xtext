@@ -1,7 +1,9 @@
 package org.softlang.megal.language;
 
 import org.eclipse.xtext.resource.XtextResource;
+import org.softlang.megal.MegalDeclaration;
 import org.softlang.megal.MegalFile;
+import org.softlang.megal.MegalLink;
 import org.softlang.megal.mi2.KB;
 import org.softlang.megal.mi2.MegamodelKB;
 
@@ -35,5 +37,13 @@ public class MegalReasoning {
 		else
 			// Else use reevaluation
 			return MegamodelKB.loadAll(megamodel);
+	}
+
+	public static KB getKB(MegalDeclaration declaration) {
+		return getKB((MegalFile) declaration.eContainer());
+	}
+
+	public static KB getKB(MegalLink link) {
+		return getKB((MegalFile) link.eContainer());
 	}
 }

@@ -54,7 +54,7 @@ public abstract class RelationshipType extends Named {
 	 * @return Iterates over the instances
 	 */
 	public abstract Set<Relationship> getInstances();
-
+	
 	/**
 	 * <p>
 	 * Gets all subtypes of this relationship type.

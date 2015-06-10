@@ -78,6 +78,7 @@ public class ModelExecutor {
 			final SetMultimap<Element, String> infos;
 			final SetMultimap<Element, String> warnings;
 			final SetMultimap<Element, String> errors;
+			final SetMultimap<Element, Plugin> contextLocked;
 
 			Evaluation() {
 				plugins = newHashMap();
@@ -88,6 +89,7 @@ public class ModelExecutor {
 				infos = HashMultimap.create();
 				warnings = HashMultimap.create();
 				errors = HashMultimap.create();
+				contextLocked = HashMultimap.create();
 
 				// Get all instances of the plugin type
 				EntityType pluginType = input.getEntityType(getPluginName());
@@ -187,6 +189,11 @@ public class ModelExecutor {
 						for (ReasonerPlugin plugin : select(ReasonerPlugin.class, element))
 							// Try to get the output KB, catch an exception into the error messages
 							try {
+								// If the plugin does not exceed element limits, check if the context lock contains it
+								// and skip if true
+								if (!plugin.isContextBased() && !contextLocked.put(element, plugin))
+									continue;
+
 								KB output = Plugins.apply(plugin, context, element);
 
 								// Annotate all the generated elements

@@ -1,8 +1,9 @@
 model Parts
 
 import XML
+import Java
+
 JAXB : Technology
-Java : Language
 JAXB.Java : Language
 JAXB.Generator : Function[XSD->Java]
 JAXB.Library : Technology

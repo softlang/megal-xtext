@@ -1,11 +1,14 @@
 package org.softlang.megal.language.validation;
 
-import static org.softlang.megal.MegalPackage.Literals.MEGAL_PAIR__SET;
+import static java.util.Collections.emptyList;
+import static java.util.Collections.singletonList;
+import static org.softlang.megal.MegalPackage.Literals.MEGAL_NAMED__NAME;
 import static org.softlang.megal.MegalPackage.Literals.MEGAL_PAIR__FIRST;
 import static org.softlang.megal.MegalPackage.Literals.MEGAL_PAIR__SECOND;
-import static org.softlang.megal.MegalPackage.Literals.MEGAL_NAMED__NAME;
+import static org.softlang.megal.MegalPackage.Literals.MEGAL_PAIR__SET;
 import static org.softlang.megal.MegalPackage.Literals.MEGAL_RELATIONSHIP__TYPE;
 
+import java.util.List;
 import java.util.Map.Entry;
 
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -101,6 +104,28 @@ public class ModelExecutingValidation extends AbstractMegalValidator {
 				return builder.build();
 			}
 
+			List<Element> firstOrderDelegate(Element element) {
+				if (element instanceof EntityType) {
+					EntityType entityType = (EntityType) element;
+					if (entityType.getSupertype() != null)
+						singletonList(entityType.getSupertype());
+					else
+						return emptyList();
+				}
+
+				if (element instanceof Entity)
+					return singletonList(((Entity) element).getType());
+
+				// TODO specialized relationship type
+				if (element instanceof RelationshipType)
+					return emptyList();
+
+				if (element instanceof Relationship)
+					return singletonList(((Relationship) element).getType());
+
+				return emptyList();
+			}
+
 			boolean shouldOutput(Element element, boolean isNotConsidered) {
 				// TODO Better rules for this
 
@@ -131,6 +156,10 @@ public class ModelExecutingValidation extends AbstractMegalValidator {
 							&& element.getKB().hasAnnotation("Suppress", "relationshipNotConsidered"))
 						return false;
 				}
+
+				for (Element delegate : firstOrderDelegate(element))
+					if (!shouldOutput(delegate, isNotConsidered))
+						return false;
 
 				return true;
 			}
