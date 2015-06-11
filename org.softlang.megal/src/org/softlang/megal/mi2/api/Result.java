@@ -6,6 +6,7 @@ import static com.google.common.collect.Multimaps.filterKeys;
 import static com.google.common.collect.Sets.difference;
 import static com.google.common.collect.Sets.union;
 
+import java.util.Map;
 import java.util.Set;
 
 import org.softlang.megal.mi2.Element;
@@ -18,24 +19,29 @@ public final class Result {
 
 	private final KB output;
 
+	private final Map<Element, Element> origin;
+
 	private final Set<Element> valid;
 	private final SetMultimap<Element, String> infos;
 	private final SetMultimap<Element, String> warnings;
 	private final SetMultimap<Element, String> errors;
 
-	private Result(KB input, KB output, Set<Element> valid, SetMultimap<Element, String> infos,
-			SetMultimap<Element, String> warnings, SetMultimap<Element, String> errors) {
+	private Result(KB input, KB output, Map<Element, Element> origin, Set<Element> valid,
+			SetMultimap<Element, String> infos, SetMultimap<Element, String> warnings,
+			SetMultimap<Element, String> errors) {
 		this.input = input;
 		this.output = output;
+		this.origin = origin;
 		this.valid = valid;
 		this.infos = infos;
 		this.warnings = warnings;
 		this.errors = errors;
 	}
 
-	public static Result of(KB input, KB output, Set<Element> valid, SetMultimap<Element, String> infos,
-			SetMultimap<Element, String> warnings, SetMultimap<Element, String> errors) {
-		return new Result(input, output, valid, infos, warnings, errors);
+	public static Result of(KB input, KB output, Map<Element, Element> origin, Set<Element> valid,
+			SetMultimap<Element, String> infos, SetMultimap<Element, String> warnings,
+			SetMultimap<Element, String> errors) {
+		return new Result(input, output, origin, valid, infos, warnings, errors);
 	}
 
 	/**
@@ -58,6 +64,10 @@ public final class Result {
 	 */
 	public KB getOutput() {
 		return output;
+	}
+
+	public Map<Element, Element> getOrigin() {
+		return origin;
 	}
 
 	/**

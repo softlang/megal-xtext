@@ -64,7 +64,7 @@ class MegalSemanticHighlightingCalculator extends DefaultSemanticHighlightingCal
 	}
 
 	def dispatch stylesFor(MegalRelationship object) {
-		if (object?.left?.type.name == "Plugin" || object?.right?.type.name == "Plugin")
+		if (object?.left?.type?.name == "Plugin" || object?.right?.type?.name == "Plugin")
 			MegalPackage.Literals.MEGAL_RELATIONSHIP.EAllStructuralFeatures.map [
 				it -> MegalHighlightingConfiguration.PLUGIN_ID
 			]

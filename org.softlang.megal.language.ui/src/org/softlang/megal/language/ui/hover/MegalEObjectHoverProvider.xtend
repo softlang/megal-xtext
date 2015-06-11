@@ -8,9 +8,10 @@ import org.softlang.megal.MegalEntityType
 import org.softlang.megal.MegalLink
 import org.softlang.megal.MegalPlugin
 import org.softlang.megal.MegalRelationshipType
+import org.softlang.megal.mi2.Element
+import org.softlang.megal.mi2.api.Result
+
 import static org.softlang.megal.language.MegalReasoning.*
-import static org.softlang.megal.mi2.MegamodelKB.*
-import org.softlang.megal.MegalFile
 import static org.softlang.megal.mi2.MegamodelResolver.*
 
 class MegalEObjectHoverProvider extends DefaultEObjectHoverProvider {
@@ -58,17 +59,42 @@ class MegalEObjectHoverProvider extends DefaultEObjectHoverProvider {
 		return '''<b>«name»</b> : «type.link»'''
 	}
 
+	def outputTraces(Result result, Element element) {
+		val r = result.origin.filter[a, b|b == element].keySet
+
+		// TODO do this right, I suck at quick implementation of this
+		if (!r.empty) '''
+			<p>Elements derived from this
+				<ul>
+					«FOR f : r»
+						<li>«f»</li>
+					«ENDFOR»
+				</ul>
+			</p>
+		''' else ''''''
+	}
+
 	/**
 	 * Calculates the documentation for an EObject or null if no documentation
 	 */
 	def dispatch documentationFor(MegalEntity it) {
+		val exe = getLocalResult(it)
 		val res = transitive(it)
-		val rep = getKB(it).getEntity(name)
+		val rep = exe.output.getEntity(name)
+
 		val incoming = rep.incoming
 		val outgoing = rep.outgoing
 
 		return '''
 			«super.getDocumentation(it)»
+			<p>
+			«IF rep.hasBinding»
+				Bound to <a href="«rep.binding»">«rep.binding»</a>
+			«ELSE»
+				Not bound after execution.
+			«ENDIF»
+			</p>
+			«outputTraces(exe, rep)»
 			«IF !incoming.empty || !outgoing.empty»
 				<p>Relationships in defined document: <ul>
 					«FOR in : incoming»

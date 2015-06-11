@@ -22,14 +22,10 @@ import org.softlang.megal.language.MegalReasoning;
 import org.softlang.megal.mi2.Element;
 import org.softlang.megal.mi2.Entity;
 import org.softlang.megal.mi2.EntityType;
-import org.softlang.megal.mi2.KB;
 import org.softlang.megal.mi2.MegamodelKB;
 import org.softlang.megal.mi2.Relationship;
 import org.softlang.megal.mi2.RelationshipType;
-import org.softlang.megal.mi2.api.ModelExecutor;
 import org.softlang.megal.mi2.api.Result;
-import org.softlang.megal.mi2.api.resolution.ContainingProjectResolution;
-import org.softlang.megal.mi2.api.resolution.Resolution;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
@@ -39,15 +35,8 @@ public class ModelExecutingValidation extends AbstractMegalValidator {
 
 	@Check
 	public void validateModel(final MegalFile megamodel) {
-		// Make the default executor
-		ModelExecutor executor = new ModelExecutor();
-
-		// Male resolution and get the input
-		Resolution resolution = new ContainingProjectResolution(megamodel);
-		KB model = MegalReasoning.getKB(megamodel);
-
 		// Perform the evaluation
-		final Result result = executor.evaluate(resolution, model);
+		final Result result = MegalReasoning.getLocalResult(megamodel);
 
 		// Marker class with scope
 		class Marking {

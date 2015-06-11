@@ -2,12 +2,6 @@ model Deserialization
 
 import JVM
 
-@Plugin 'FileToObjectFunction'
-elementOf < Pair * Function 
-
-@Plugin 'JavaFileDefinesStaticFunction'
-defines < Artifact * Function 
-
 deserializationCode: File
 deserializationCode elementOf Java
 deserializationCode refersTo JAXB.Library
@@ -15,13 +9,32 @@ deserializationCode refersTo javaFiles
 deserializationCode defines deserialization 
 deserializationCode = 'workspace:/org.softlang.megal.examples/src/org/softlang/company/features/Serialization.java'
 
+deserialization: Function [ XML -> JVM.ObjectGraphs ]
+deserialization(xmlFile) |-> objectGraph
+deserialization = 'classpath:org.softlang.company.features.Serialization#deserializeCompany(ByteSource)'
+objectGraph conformsTo javaFiles
+xmlFile correspondsTo objectGraph 
+
+@Plugin 'FileToObjectFunction'
+elementOf < Pair * Function 
+
+@Plugin 'JavaFileDefinesStaticFunction'
+defines < Artifact * Function 
+
 @Plugin 'JavaRefersToJava'
 refersTo < Artifact (+) * Artifact (+)
-JavaRefersToJava: Plugin
-JavaRefersToJava = 'classpath:plugins.jaxb.JavaRefersToJava'
 
 @Plugin 'JavaRefersToTechnology'
 refersTo < Artifact (+) * Technology
+
+@Plugin 'ObjectCorrespondsToJavaFiles'
+conformsTo < Artifact (+) * Artifact (+)
+
+@Plugin 'XMLFileCorrespondsToJavaObject'
+correspondsTo < Artifact (+) * Artifact (+)
+
+JavaRefersToJava: Plugin
+JavaRefersToJava = 'classpath:plugins.jaxb.JavaRefersToJava'
 
 JavaRefersToTechnology: Plugin
 JavaRefersToTechnology = 'classpath:plugins.jaxb.JavaRefersToTechnology'
@@ -32,20 +45,8 @@ FileToObjectFunction = 'classpath:plugins.jaxb.FileToObjectFunction'
 JavaFileDefinesStaticFunction: Plugin
 JavaFileDefinesStaticFunction = 'classpath:plugins.jaxb.JavaFileDefinesStaticFunction'
 
-deserialization: Function [ XML -> JVM.ObjectGraphs ]
-deserialization(xmlFile) |-> objectGraph deserialization = 'classpath:org.softlang.company.features.Serialization#deserializeCompany(ByteSource)'
-objectGraph conformsTo javaFiles
-
-xmlFile correspondsTo objectGraph 
-
-@Plugin 'ObjectCorrespondsToJavaFiles'
-conformsTo < Artifact (+) * Artifact (+)
-
 ObjectCorrespondsToJavaFiles: Plugin
 ObjectCorrespondsToJavaFiles = 'classpath:plugins.jaxb.ObjectCorrespondsToJavaFiles'
-
-@Plugin 'XMLFileCorrespondsToJavaObject'
-correspondsTo < Artifact (+) * Artifact (+)
 
 XMLFileCorrespondsToJavaObject: Plugin
 XMLFileCorrespondsToJavaObject = 'classpath:plugins.jaxb.XMLFileCorrespondsToJavaObject'

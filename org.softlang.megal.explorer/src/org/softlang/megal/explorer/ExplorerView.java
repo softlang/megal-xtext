@@ -16,11 +16,7 @@ import org.eclipse.xtext.ui.editor.XtextEditor;
 import org.eclipse.xtext.util.concurrent.IUnitOfWork;
 import org.softlang.megal.MegalFile;
 import org.softlang.megal.language.MegalReasoning;
-import org.softlang.megal.mi2.KB;
-import org.softlang.megal.mi2.api.ModelExecutor;
 import org.softlang.megal.mi2.api.Result;
-import org.softlang.megal.mi2.api.resolution.ContainingProjectResolution;
-import org.softlang.megal.mi2.api.resolution.Resolution;
 
 public class ExplorerView extends ViewPart {
 
@@ -92,15 +88,8 @@ public class ExplorerView extends ViewPart {
 					return null;
 				MegalFile megamodel = (MegalFile) state.getContents().get(0);
 
-				// Make the default executor
-				ModelExecutor executor = new ModelExecutor();
-
-				// Male resolution and get the input
-				Resolution resolution = new ContainingProjectResolution(megamodel);
-				KB model = MegalReasoning.getKB(megamodel);
-
 				// Perform the evaluation
-				return executor.evaluate(resolution, model);
+				return MegalReasoning.getLocalResult(megamodel);
 			};
 		});
 

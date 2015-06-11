@@ -70,7 +70,7 @@ public class XSDJavaCorrespondence extends GuidedReasonerPlugin {
 
 			if (!hasInvalidation) {
 				valid();
-
+				//TODO Really nesting partOf stuff things
 				for (Entry<Node, Artifact> match : matched.entrySet()) {
 					Entity eleft = entity(locationAndValue(match.getKey()), "Transient");
 					Entity eright = entity(match.getValue().toString(), "Transient");

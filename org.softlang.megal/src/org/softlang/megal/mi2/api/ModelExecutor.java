@@ -1,9 +1,9 @@
 package org.softlang.megal.mi2.api;
 
-import static com.google.common.collect.Iterables.concat;
 import static com.google.common.collect.Iterables.filter;
 import static com.google.common.collect.Maps.newHashMap;
 import static com.google.common.collect.Sets.newHashSet;
+import static java.util.Collections.emptyList;
 
 import java.util.Map;
 import java.util.Set;
@@ -68,8 +68,6 @@ public class ModelExecutor {
 		class Evaluation {
 			final Map<Entity, Plugin> plugins;
 
-			final Set<Plugin> universalPlugins;
-
 			final Multimap<EntityType, Plugin> pluginsByEntityType;
 
 			final Multimap<RelationshipType, Plugin> pluginsByRelationshipType;
@@ -82,7 +80,6 @@ public class ModelExecutor {
 
 			Evaluation() {
 				plugins = newHashMap();
-				universalPlugins = newHashSet();
 				pluginsByEntityType = HashMultimap.create();
 				pluginsByRelationshipType = HashMultimap.create();
 				valid = newHashSet();
@@ -107,11 +104,9 @@ public class ModelExecutor {
 								Plugin plugin = pluginClass.newInstance();
 								plugins.put(entity, plugin);
 
-								boolean specificAssociation = false;
 								// Connect to entity types
 								for (EntityType entityType : input.getEntityTypes())
 									if (entityType.getAnnotations(getPluginAnnotationName()).contains(entity.getName())) {
-										specificAssociation = true;
 										pluginsByEntityType.put(entityType, plugin);
 										for (EntityType spec : entityType.getSpecializations())
 											pluginsByEntityType.put(spec, plugin);
@@ -121,14 +116,10 @@ public class ModelExecutor {
 								for (RelationshipType relationshipType : input.getRelationshipTypes())
 									if (relationshipType.getAnnotations(getPluginAnnotationName()).contains(
 											entity.getName())) {
-										specificAssociation = true;
 										pluginsByRelationshipType.put(relationshipType, plugin);
 										for (RelationshipType spec : relationshipType.getSpecializations())
 											pluginsByRelationshipType.put(spec, plugin);
 									}
-
-								if (!specificAssociation)
-									universalPlugins.add(plugin);
 
 							} catch (Throwable e) {
 								errors.put(entity, Throwables.getStackTraceAsString(e));
@@ -166,11 +157,10 @@ public class ModelExecutor {
 						if (realizer != null)
 							realizer.getRealization().add(relationship.getRight());
 					}
-
 			}
 
 			Result run() {
-
+				long startTime = System.nanoTime();
 				// Origin of generated elements for origin tracking of errors
 				Map<Element, Element> origin = newHashMap();
 
@@ -202,8 +192,8 @@ public class ModelExecutor {
 									if (!(generated instanceof EntityType && EntityType
 											.isTheEntityType((EntityType) generated)))
 										// Do not overwrite existing origin tracks
-										if (!origin.containsKey(element))
-											origin.put(element, generated);
+										if (!origin.containsKey(generated))
+											origin.put(generated, element);
 
 								// Add the output to the reasoner
 								expansion = KBs.union(expansion, output);
@@ -239,7 +229,7 @@ public class ModelExecutor {
 				}
 
 				// Return the result for the given parameters and the evaluator state
-				return Result.of(input, current, valid, infos, warnings, errors);
+				return Result.of(input, current, origin, valid, infos, warnings, errors);
 			}
 
 			/**
@@ -356,25 +346,25 @@ public class ModelExecutor {
 					Entity entity = (Entity) element;
 					EntityType entityType = entity.getType();
 
-					// If type exists, append all plugins by entity type
+					// If type exists, return all plugins by entity type
 					if (entityType != null)
-						return concat(universalPlugins, pluginsByEntityType.get(entityType));
+						return pluginsByEntityType.get(entityType);
 					else
-						return universalPlugins;
+						return emptyList();
 				} else if (element instanceof Relationship) {
 					// If relationship, get the type
 					Relationship relationship = (Relationship) element;
 					RelationshipType relationshipType = relationship.getType();
 
-					// If type exists, append all plugins by relationship type
+					// If type exists, return all plugins by relationship type
 					if (relationshipType != null)
-						return concat(universalPlugins, pluginsByRelationshipType.get(relationshipType));
+						return pluginsByRelationshipType.get(relationshipType);
 					else
-						return universalPlugins;
+						return emptyList();
 				}
 
-				// Else, no specialized association possible
-				return universalPlugins;
+				// Else, no association possible
+				return emptyList();
 			}
 		}
 

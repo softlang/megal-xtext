@@ -183,6 +183,7 @@ public class XMLFileCorrespondsToJavaObject extends GuidedReasonerPlugin {
 			error("Does not correspond: " + Joiner.on("\r\n").join(errors));
 		else {
 
+			//TODO Really nesting partOf stuff things
 			for (Entry<Node, Object> trace : matches.entrySet()) {
 				Entity left = entity(locationAndValue(trace.getKey()),
 						"Transient");
