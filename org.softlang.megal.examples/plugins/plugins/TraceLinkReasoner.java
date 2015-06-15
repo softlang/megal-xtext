@@ -10,10 +10,10 @@ import org.softlang.megal.mi2.Relationship;
 import org.softlang.megal.mi2.api.AbstractReasonerPlugin;
 import org.softlang.megal.mi2.api.context.Context;
 
-import plugins.util.Prelude;
-
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
+
+import plugins.util.Prelude;
 
 public class TraceLinkReasoner extends AbstractReasonerPlugin {
 	@Override
@@ -24,14 +24,8 @@ public class TraceLinkReasoner extends AbstractReasonerPlugin {
 
 			Multimap<String, String> ab = HashMultimap.create();
 			// ...
-			return KBs
-					.builder()
-					.setEntities(
-							from(concat(ab.keys(), ab.values())).toMap(
-									x -> Ref.to("Fragment", false)))
-					.setRelationships(null)
-					.setBindings(null)
-							.build();
+			return KBs.builder().setEntities(from(concat(ab.keys(), ab.values())).toMap(x -> Ref.to("Fragment", false)))
+					.setRelationships(null).setBindings(null).build();
 		}
 		return super.derive(context, relationship);
 	}

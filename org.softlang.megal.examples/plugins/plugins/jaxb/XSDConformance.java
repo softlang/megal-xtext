@@ -3,7 +3,6 @@ package plugins.jaxb;
 import static plugins.util.Prelude.isElementOfLanguage;
 
 import java.io.IOException;
-import java.io.InputStream;
 
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
@@ -14,15 +13,14 @@ import org.softlang.megal.mi2.Relationship;
 import org.softlang.megal.mi2.api.Artifact;
 import org.xml.sax.SAXException;
 
-import plugins.prelude.GuidedEvaluatorPlugin;
-
 import com.google.common.base.Throwables;
+
+import plugins.prelude.GuidedEvaluatorPlugin;
 
 public class XSDConformance extends GuidedEvaluatorPlugin {
 
 	@Override
-	public void guidedEvaluate(Relationship relationship) throws IOException,
-			SAXException {
+	public void guidedEvaluate(Relationship relationship) throws IOException, SAXException {
 		// Responsible when left is an XML and right is an XSD
 		when(isElementOfLanguage(relationship.getLeft(), "XML"));
 		when(isElementOfLanguage(relationship.getRight(), "XSD"));
@@ -32,8 +30,7 @@ public class XSDConformance extends GuidedEvaluatorPlugin {
 		Artifact right = artifactOf(relationship.getRight());
 
 		// Obtain a schema factory
-		SchemaFactory factory = SchemaFactory
-				.newInstance("http://www.w3.org/2001/XMLSchema");
+		SchemaFactory factory = SchemaFactory.newInstance("http://www.w3.org/2001/XMLSchema");
 
 		// Obtain the schema and the validator
 		Schema schema = factory.newSchema(new StreamSource(bytesFor(right)));
@@ -44,8 +41,7 @@ public class XSDConformance extends GuidedEvaluatorPlugin {
 			validator.validate(new StreamSource(bytesFor(left)));
 			valid();
 		} catch (SAXException e) {
-			error("Instance does not conform to schema, reason: "
-					+ Throwables.getStackTraceAsString(e));
+			error("Instance does not conform to schema, reason: " + Throwables.getStackTraceAsString(e));
 		}
 	}
 }

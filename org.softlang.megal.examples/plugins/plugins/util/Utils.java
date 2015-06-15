@@ -19,14 +19,11 @@ public class Utils {
 		field = getLast(Splitter.on(':').split(field));
 		try {
 			return Optional.of(object.getClass().getField(field).get(object));
-		} catch (IllegalArgumentException | IllegalAccessException
-				| NoSuchFieldException | SecurityException fe) {
+		} catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException fe) {
 			try {
-				return Optional.of(object.getClass()
-						.getMethod("get" + toFirstUpper(field)).invoke(object));
-			} catch (IllegalAccessException | IllegalArgumentException
-					| InvocationTargetException | NoSuchMethodException
-					| SecurityException ge) {
+				return Optional.of(object.getClass().getMethod("get" + toFirstUpper(field)).invoke(object));
+			} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException
+					| NoSuchMethodException | SecurityException ge) {
 				return Optional.absent();
 			}
 		}

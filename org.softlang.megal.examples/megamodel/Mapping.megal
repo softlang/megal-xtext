@@ -10,27 +10,24 @@ JAXB.Generator(xsdFiles) |-> javaFiles = 'workspace:/org.softlang.megal.examples
 xsdFiles = 'workspace:/org.softlang.megal.examples/inputs/Company.xsd_file'
 javaFiles = 'workspace:/org.softlang.megal.examples/src/org/softlang/company/xjc/'
 
-aLanguage: Language xsdFiles defines aLanguage
+aLanguage: Language
+xsdFiles defines aLanguage
 javaFiles defines aLanguage
 
 aLanguage = 'http://www.company.softlang.org/company.xsd'
 
 xsdFiles correspondsTo javaFiles
 
-@Plugin 'FindBuildScriptAsElementOfEvidence'
-elementOf < Pair * Function
-
 FindBuildScriptAsElementOfEvidence: Plugin
+FindBuildScriptAsElementOfEvidence partOf PairElementOfFunctionEvaluator
 FindBuildScriptAsElementOfEvidence = 'classpath:plugins.jaxb.FindBuildScriptAsElementOfEvidence'
 
-@Plugin 'XSDJavaCorrespondence'
-correspondsTo < Artifact (+) * Artifact (+)
 XSDJavaCorrespondence: Plugin
+XSDJavaCorrespondence partOf ArtifactConformsToArtifactReasoner
 XSDJavaCorrespondence = 'classpath:plugins.jaxb.XSDJavaCorrespondence'
 
-@Plugin 'MatchingLanguageDefinition'
-defines < Artifact(+) * Language
 MatchingLanguageDefinition: Plugin
+MatchingLanguageDefinition partOf ArtifactDefinesLanguageEvaluator
 MatchingLanguageDefinition = 'classpath:plugins.jaxb.MatchingLanguageDefinition'
 
 PackageInfoNSURIExtractor: Plugin

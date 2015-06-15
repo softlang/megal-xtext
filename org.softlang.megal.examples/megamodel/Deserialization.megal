@@ -15,38 +15,26 @@ deserialization = 'classpath:org.softlang.company.features.Serialization#deseria
 objectGraph conformsTo javaFiles
 xmlFile correspondsTo objectGraph 
 
-@Plugin 'FileToObjectFunction'
-elementOf < Pair * Function 
-
-@Plugin 'JavaFileDefinesStaticFunction'
-defines < Artifact * Function 
-
-@Plugin 'JavaRefersToJava'
-refersTo < Artifact (+) * Artifact (+)
-
-@Plugin 'JavaRefersToTechnology'
-refersTo < Artifact (+) * Technology
-
-@Plugin 'ObjectCorrespondsToJavaFiles'
-conformsTo < Artifact (+) * Artifact (+)
-
-@Plugin 'XMLFileCorrespondsToJavaObject'
-correspondsTo < Artifact (+) * Artifact (+)
-
 JavaRefersToJava: Plugin
+JavaRefersToJava partOf ArtifactRefersToArtifactEvaluator
 JavaRefersToJava = 'classpath:plugins.jaxb.JavaRefersToJava'
 
 JavaRefersToTechnology: Plugin
+JavaRefersToTechnology partOf ArtifactRefersToTechnologyEvaluator
 JavaRefersToTechnology = 'classpath:plugins.jaxb.JavaRefersToTechnology'
 
 FileToObjectFunction:Plugin
+FileToObjectFunction partOf PairElementOfFunctionReasoner
 FileToObjectFunction = 'classpath:plugins.jaxb.FileToObjectFunction'
 
 JavaFileDefinesStaticFunction: Plugin
+JavaFileDefinesStaticFunction partOf ArtifactDefinesFunctionEvaluator
 JavaFileDefinesStaticFunction = 'classpath:plugins.jaxb.JavaFileDefinesStaticFunction'
 
 ObjectCorrespondsToJavaFiles: Plugin
+ObjectCorrespondsToJavaFiles partOf ArtifactCorrespondsToArtifactEvaluator
 ObjectCorrespondsToJavaFiles = 'classpath:plugins.jaxb.ObjectCorrespondsToJavaFiles'
 
 XMLFileCorrespondsToJavaObject: Plugin
+XMLFileCorrespondsToJavaObject partOf ArtifactCorrespondsToArtifactReasoner
 XMLFileCorrespondsToJavaObject = 'classpath:plugins.jaxb.XMLFileCorrespondsToJavaObject'

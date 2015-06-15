@@ -1,111 +1,260 @@
-@Suppress 'entityNotConsidered'
 model Prelude
-@Plugin 'PartOfReasoner'
+@Plugin 'EntityEvaluator'
+@Plugin 'EntityReasoner'
 Entity as entity
-
+EntityEvaluator: Plugin
+EntityReasoner: Plugin
+@Plugin 'ArtifactEvaluator'
+@Plugin 'ArtifactReasoner'
 @Color '223,108,91'
-Artifact < Entity
-
+Artifact<Entity
+ArtifactEvaluator: Plugin
+ArtifactReasoner: Plugin
+@Plugin 'ConceptEvaluator'
+@Plugin 'ConceptReasoner'
 @Color '244,200,45'
-Concept < Entity
-Function < Entity
-
+Concept<Entity
+ConceptEvaluator: Plugin
+ConceptReasoner: Plugin
+@Plugin 'FunctionEvaluator'
+@Plugin 'FunctionReasoner'
+Function<Set
+FunctionEvaluator: Plugin
+FunctionReasoner: Plugin
+@Plugin 'SetEvaluator'
+@Plugin 'SetReasoner'
 @Color '129,173,203'
-Set < Entity
-
+Set<Entity
+SetEvaluator: Plugin
+SetReasoner: Plugin
+@Plugin 'TechnologyEvaluator'
+@Plugin 'TechnologyReasoner'
 @Color '82,237,143'
-Technology < Entity
-
+Technology<Entity
+TechnologyEvaluator: Plugin
+TechnologyReasoner: Plugin
+@Plugin 'LanguageEvaluator'
+@Plugin 'LanguageReasoner'
 @Color '73,158,216'
-@Plugin 'LanguageResolver'
-Language < Set
-
+Language<Set
+LanguageEvaluator: Plugin
+LanguageReasoner: Plugin
+@Plugin 'FileEvaluator'
+@Plugin 'FileReasoner'
 @Color '231,65,41'
-File < Artifact
-Folder < Artifact
-Fragment < Artifact
-Resource < Artifact
-Transient < Artifact
+File<Artifact
+FileEvaluator: Plugin
+FileReasoner: Plugin
+@Plugin 'FolderEvaluator'
+@Plugin 'FolderReasoner'
+Folder<Artifact
+FolderEvaluator: Plugin
+FolderReasoner: Plugin
+@Plugin 'FragmentEvaluator'
+@Plugin 'FragmentReasoner'
+Fragment<Artifact
+FragmentEvaluator: Plugin
+FragmentReasoner: Plugin
+@Plugin 'ResourceEvaluator'
+@Plugin 'ResourceReasoner'
+Resource<Artifact
+ResourceEvaluator: Plugin
+ResourceReasoner: Plugin
+@Plugin 'TransientEvaluator'
+@Plugin 'TransientReasoner'
+Transient<Artifact
+TransientEvaluator: Plugin
+TransientReasoner: Plugin
+@Plugin 'PairEvaluator'
+@Plugin 'PairReasoner'
+Pair<Entity
+PairEvaluator: Plugin
+PairReasoner: Plugin
+@Plugin 'PluginEvaluator'
+@Plugin 'PluginReasoner'
+Plugin<Entity
+PluginEvaluator: Plugin
+PluginReasoner: Plugin
+@Plugin 'EntityFirstOfPairEvaluator'
+@Plugin 'EntityFirstOfPairReasoner'
+firstOf<Entity(+)*Pair
+EntityFirstOfPairEvaluator: Plugin
+EntityFirstOfPairReasoner: Plugin
+@Plugin 'EntitySecondOfPairEvaluator'
+@Plugin 'EntitySecondOfPairReasoner'
+secondOf<Entity(+)*Pair
+EntitySecondOfPairEvaluator: Plugin
+EntitySecondOfPairReasoner: Plugin
+@Plugin 'EntityElementOfSetEvaluator'
+@Plugin 'EntityElementOfSetReasoner'
+elementOf<Entity(+)*Set
+EntityElementOfSetEvaluator: Plugin
+EntityElementOfSetReasoner: Plugin
+@Plugin 'PairElementOfFunctionEvaluator'
+@Plugin 'PairElementOfFunctionReasoner'
+elementOf<Pair*Function
+PairElementOfFunctionEvaluator: Plugin
+PairElementOfFunctionReasoner: Plugin
+@Plugin 'ArtifactElementOfLanguageEvaluator'
+@Plugin 'ArtifactElementOfLanguageReasoner'
+elementOf<Artifact(+)*Language
+ArtifactElementOfLanguageEvaluator: Plugin
+ArtifactElementOfLanguageReasoner: Plugin
+@Plugin 'ArtifactRefersToTechnologyEvaluator'
+@Plugin 'ArtifactRefersToTechnologyReasoner'
+refersTo<Artifact(+)*Technology
+ArtifactRefersToTechnologyEvaluator: Plugin
+ArtifactRefersToTechnologyReasoner: Plugin
+@Plugin 'ArtifactRefersToArtifactEvaluator'
+@Plugin 'ArtifactRefersToArtifactReasoner'
+refersTo<Artifact(+)*Artifact(+)
+ArtifactRefersToArtifactEvaluator: Plugin
+ArtifactRefersToArtifactReasoner: Plugin
+@Plugin 'SetSubsetOfSetEvaluator'
+@Plugin 'SetSubsetOfSetReasoner'
+subsetOf<Set*Set
+SetSubsetOfSetEvaluator: Plugin
+SetSubsetOfSetReasoner: Plugin
+@Plugin 'ArtifactPartOfArtifactEvaluator'
+@Plugin 'ArtifactPartOfArtifactReasoner'
+partOf<Artifact(+)*Artifact(+)
+ArtifactPartOfArtifactEvaluator: Plugin
+ArtifactPartOfArtifactReasoner: Plugin
+@Plugin 'ArtifactPartOfTechnologyEvaluator'
+@Plugin 'ArtifactPartOfTechnologyReasoner'
+partOf<Artifact(+)*Technology
+ArtifactPartOfTechnologyEvaluator: Plugin
+ArtifactPartOfTechnologyReasoner: Plugin
+@Plugin 'TechnologyPartOfTechnologyEvaluator'
+@Plugin 'TechnologyPartOfTechnologyReasoner'
+partOf<Technology*Technology
+TechnologyPartOfTechnologyEvaluator: Plugin
+TechnologyPartOfTechnologyReasoner: Plugin
+@Plugin 'LanguagePartOfTechnologyEvaluator'
+@Plugin 'LanguagePartOfTechnologyReasoner'
+partOf<Language*Technology
+LanguagePartOfTechnologyEvaluator: Plugin
+LanguagePartOfTechnologyReasoner: Plugin
+@Plugin 'LanguagePartOfLanguageEvaluator'
+@Plugin 'LanguagePartOfLanguageReasoner'
+partOf<Language*Language
+LanguagePartOfLanguageEvaluator: Plugin
+LanguagePartOfLanguageReasoner: Plugin
+@Plugin 'PluginPartOfPluginEvaluator'
+@Plugin 'PluginPartOfPluginReasoner'
+partOf<Plugin*Plugin
+PluginPartOfPluginEvaluator: Plugin
+PluginPartOfPluginReasoner: Plugin
+@Plugin 'EntityInstanceOfConceptEvaluator'
+@Plugin 'EntityInstanceOfConceptReasoner'
+instanceOf<Entity*Concept
+EntityInstanceOfConceptEvaluator: Plugin
+EntityInstanceOfConceptReasoner: Plugin
+@Plugin 'ConceptIsAConceptEvaluator'
+@Plugin 'ConceptIsAConceptReasoner'
+isA<Concept*Concept
+ConceptIsAConceptEvaluator: Plugin
+ConceptIsAConceptReasoner: Plugin
+@Plugin 'ArtifactConformsToArtifactEvaluator'
+@Plugin 'ArtifactConformsToArtifactReasoner'
+conformsTo<Artifact(+)*Artifact(+)
+ArtifactConformsToArtifactEvaluator: Plugin
+ArtifactConformsToArtifactReasoner: Plugin
+@Plugin 'ArtifactDependsOnArtifactEvaluator'
+@Plugin 'ArtifactDependsOnArtifactReasoner'
+dependsOn<Artifact(+)*Artifact(+)
+ArtifactDependsOnArtifactEvaluator: Plugin
+ArtifactDependsOnArtifactReasoner: Plugin
+@Plugin 'TechnologyDependsOnLanguageEvaluator'
+@Plugin 'TechnologyDependsOnLanguageReasoner'
+dependsOn<Technology*Language
+TechnologyDependsOnLanguageEvaluator: Plugin
+TechnologyDependsOnLanguageReasoner: Plugin
+@Plugin 'TechnologyDependsOnTechnologyEvaluator'
+@Plugin 'TechnologyDependsOnTechnologyReasoner'
+dependsOn<Technology*Technology
+TechnologyDependsOnTechnologyEvaluator: Plugin
+TechnologyDependsOnTechnologyReasoner: Plugin
+@Plugin 'FunctionDependsOnTechnologyEvaluator'
+@Plugin 'FunctionDependsOnTechnologyReasoner'
+dependsOn<Function*Technology
+FunctionDependsOnTechnologyEvaluator: Plugin
+FunctionDependsOnTechnologyReasoner: Plugin
+@Plugin 'PluginDependsOnEntityEvaluator'
+@Plugin 'PluginDependsOnEntityReasoner'
+dependsOn<Plugin*Entity
+PluginDependsOnEntityEvaluator: Plugin
+PluginDependsOnEntityReasoner: Plugin
+@Plugin 'LanguageTransformableInLanguageEvaluator'
+@Plugin 'LanguageTransformableInLanguageReasoner'
+transformableIn<Language*Language
+LanguageTransformableInLanguageEvaluator: Plugin
+LanguageTransformableInLanguageReasoner: Plugin
+@Plugin 'LanguageTransformedInLanguageEvaluator'
+@Plugin 'LanguageTransformedInLanguageReasoner'
+transformedIn<Language*Language
+LanguageTransformedInLanguageEvaluator: Plugin
+LanguageTransformedInLanguageReasoner: Plugin
+@Plugin 'ArtifactTransformedInArtifactEvaluator'
+@Plugin 'ArtifactTransformedInArtifactReasoner'
+transformedIn<Artifact(+)*Artifact(+)
+ArtifactTransformedInArtifactEvaluator: Plugin
+ArtifactTransformedInArtifactReasoner: Plugin
+@Plugin 'ArtifactCorrespondsToArtifactEvaluator'
+@Plugin 'ArtifactCorrespondsToArtifactReasoner'
+correspondsTo<Artifact(+)*Artifact(+)
+ArtifactCorrespondsToArtifactEvaluator: Plugin
+ArtifactCorrespondsToArtifactReasoner: Plugin
+@Plugin 'ArtifactDefinesLanguageEvaluator'
+@Plugin 'ArtifactDefinesLanguageReasoner'
+defines<Artifact(+)*Language
+ArtifactDefinesLanguageEvaluator: Plugin
+ArtifactDefinesLanguageReasoner: Plugin
+@Plugin 'ArtifactDefinesFunctionEvaluator'
+@Plugin 'ArtifactDefinesFunctionReasoner'
+defines<Artifact(+)*Function
+ArtifactDefinesFunctionEvaluator: Plugin
+ArtifactDefinesFunctionReasoner: Plugin
+@Plugin 'ArtifactLinksToArtifactEvaluator'
+@Plugin 'ArtifactLinksToArtifactReasoner'
+linksTo<Artifact(+)*Artifact(+)
+ArtifactLinksToArtifactEvaluator: Plugin
+ArtifactLinksToArtifactReasoner: Plugin
+@Plugin 'ArtifactRealizationOfFunctionEvaluator'
+@Plugin 'ArtifactRealizationOfFunctionReasoner'
+realizationOf<Artifact(+)*Function
+ArtifactRealizationOfFunctionEvaluator: Plugin
+ArtifactRealizationOfFunctionReasoner: Plugin
+@Plugin 'LanguageVariantOfLanguageEvaluator'
+@Plugin 'LanguageVariantOfLanguageReasoner'
+variantOf<Language*Language
+LanguageVariantOfLanguageEvaluator: Plugin
+LanguageVariantOfLanguageReasoner: Plugin
+@Plugin 'LanguageVersionOfLanguageEvaluator'
+@Plugin 'LanguageVersionOfLanguageReasoner'
+versionOf<Language*Language
+LanguageVersionOfLanguageEvaluator: Plugin
+LanguageVersionOfLanguageReasoner: Plugin
+@Plugin 'TechnologyDeploysToTechnologyEvaluator'
+@Plugin 'TechnologyDeploysToTechnologyReasoner'
+deploysTo<Technology*Technology
+TechnologyDeploysToTechnologyEvaluator: Plugin
+TechnologyDeploysToTechnologyReasoner: Plugin
+@Plugin 'PluginRealizationOfEntityEvaluator'
+@Plugin 'PluginRealizationOfEntityReasoner'
+realizationOf<Plugin*Entity
+PluginRealizationOfEntityEvaluator: Plugin
+PluginRealizationOfEntityReasoner: Plugin
 
-
-
-elementOf < Entity (+) * Set
-
-subsetOf < Set * Set
-
-partOf < Artifact(+) * Artifact(+)
-partOf < Artifact(+) * Technology
-partOf < Technology * Technology
-partOf < Language * Technology
-
-
-
-
-
-instanceOf < Entity * Concept
-isA < Concept * Concept
-
-conformsTo < Artifact (+) * Artifact (+)
-
-dependsOn < Artifact (+) * Artifact (+)
-dependsOn < Technology * Language
-dependsOn < Technology * Technology
-dependsOn < Function * Technology
-
-transformableIn < Language * Language
-transformedIn < Language * Language
-transformedIn < Artifact (+) * Artifact (+)
-
-correspondsTo < Artifact (+) * Artifact (+)
-
-defines < Artifact (+) * Language
-defines < Artifact (+) * Function
-
-linksTo < File (+) * File (+)
-
-realizationOf < Artifact (+) * Function
-
-variantOf < Language * Language
-versionOf < Language * Language
-
-deploysTo < Technology * Technology
-
-partOf < Language * Language
-
-
-@Suppress 'notConsidered'
-@Color '221,208,168'
-Plugin < Entity
-
-
-@Suppress 'notConsidered'
-realizationOf < Plugin * Entity
-
-@Suppress 'notConsidered'
-partOf < Plugin * Plugin
-
-@Plugin 'FileElementOfLanguage'
-elementOf < File (+) * Language
-
-
-FileElementOfLanguage: Plugin
-FileElementOfLanguage = 'classpath:plugins.root.elementof.FileElementOfLanguage'
-
-Pair < Entity
-firstOf < Entity (+) * Pair
-secondOf < Entity (+) * Pair
-
-@Plugin 'PairElementWhenComputed'
-elementOf < Pair * Function
-
-PairElementWhenComputed: Plugin
-PairElementWhenComputed = 'classpath:plugins.root.elementof.PairElementWhenComputed'
-
-refersTo < Artifact (+) * Technology
-refersTo < Artifact (+) * Artifact (+)
+AcceptString: Plugin
+AcceptString = 'classpath:plugins.root.elementof.FileElementOfLanguage'
+AcceptString partOf ArtifactElementOfLanguageEvaluator
 
 LanguageResolver: Plugin
+LanguageResolver partOf LanguageReasoner
 LanguageResolver = 'classpath:plugins.LanguageResolver'
 
+
 PartOfReasoner: Plugin
+PartOfReasoner partOf EntityReasoner
 PartOfReasoner = 'classpath:plugins.PartOfReasoner'

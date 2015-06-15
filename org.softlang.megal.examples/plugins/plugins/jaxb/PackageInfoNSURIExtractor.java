@@ -11,8 +11,8 @@ import org.softlang.megal.mi2.api.Artifact;
 import org.softlang.megal.mi2.api.resolution.Resolution;
 
 public class PackageInfoNSURIExtractor extends NSURIExtractor {
-	private static final Pattern EXTRACTOR_PATTERN = Pattern.compile(
-			".*namespace\\s*=\\s*\"([^\"]*)\".*", Pattern.DOTALL);
+	private static final Pattern EXTRACTOR_PATTERN = Pattern.compile(".*namespace\\s*=\\s*\"([^\"]*)\".*",
+			Pattern.DOTALL);
 
 	@Override
 	public URI extractNSURI(Resolution resolution, Entity entity) {
@@ -23,8 +23,7 @@ public class PackageInfoNSURIExtractor extends NSURIExtractor {
 		Artifact packageInfo = artifact.getChild("package-info.java");
 
 		try {
-			Matcher matcher = EXTRACTOR_PATTERN.matcher(packageInfo.getChars()
-					.read());
+			Matcher matcher = EXTRACTOR_PATTERN.matcher(packageInfo.getChars().read());
 
 			if (!matcher.matches())
 				return null;

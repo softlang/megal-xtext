@@ -8,7 +8,6 @@ import static plugins.util.Prelude.isElementOfLanguage;
 import static plugins.util.Prelude.isInstance;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -25,13 +24,12 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
-import plugins.prelude.GuidedEvaluatorPlugin;
-import plugins.prelude.GuidedReasonerPlugin;
-import plugins.util.Utils;
-
 import com.google.common.base.Joiner;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableMap;
+
+import plugins.prelude.GuidedReasonerPlugin;
+import plugins.util.Utils;
 
 public class XMLFileCorrespondsToJavaObject extends GuidedReasonerPlugin {
 
@@ -58,8 +56,7 @@ public class XMLFileCorrespondsToJavaObject extends GuidedReasonerPlugin {
 			return "null".equalsIgnoreCase(source);
 
 		if (target instanceof Number)
-			return target.equals(Long.valueOf(source))
-					|| target.equals(Double.valueOf(source));
+			return target.equals(Long.valueOf(source)) || target.equals(Double.valueOf(source));
 
 		if (target instanceof Boolean)
 			return target.equals(Boolean.valueOf(source));
@@ -95,14 +92,12 @@ public class XMLFileCorrespondsToJavaObject extends GuidedReasonerPlugin {
 			// There is a child that passed the matchable mark
 			hasMatchableChildren = true;
 
-			Optional<Object> value = Utils.getForXML(object,
-					child.getNodeName());
+			Optional<Object> value = Utils.getForXML(object, child.getNodeName());
 
 			// No corresponding field, structural error
 			if (!value.isPresent()) {
 				if (errors != null)
-					errors.add("No corresponding field for "
-							+ child.getNodeName());
+					errors.add("No corresponding field for " + child.getNodeName());
 				return null;
 			}
 
@@ -135,8 +130,7 @@ public class XMLFileCorrespondsToJavaObject extends GuidedReasonerPlugin {
 			}
 
 			if (errors != null)
-				errors.add("No corresponding element for child "
-						+ child.getNodeName());
+				errors.add("No corresponding element for child " + child.getNodeName());
 
 			// No match at all
 			return null;
@@ -158,17 +152,15 @@ public class XMLFileCorrespondsToJavaObject extends GuidedReasonerPlugin {
 	}
 
 	@Override
-	public void guidedDerive(Relationship relationship) throws IOException,
-			ParserConfigurationException, SAXException {
+	public void guidedDerive(Relationship relationship) throws IOException, ParserConfigurationException, SAXException {
 		when(isElementOfLanguage(relationship.getLeft(), "XML"));
 		when(isInstance(relationship.getRight(), "Transient"));
 
 		Artifact file = artifactOf(relationship.getLeft());
 		Object object = bindingOf(relationship.getRight());
 
-		DocumentBuilderFactory builderFactory = DocumentBuilderFactory
-				.newInstance();
-		
+		DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
+
 		DocumentBuilder builder = builderFactory.newDocumentBuilder();
 		Document document = builder.parse(bytesFor(file));
 		document.getDocumentElement().normalize();
@@ -176,25 +168,21 @@ public class XMLFileCorrespondsToJavaObject extends GuidedReasonerPlugin {
 		// Optional<String> matchMessage = isMatch(
 		// document.getDocumentElement(), object);
 		Set<String> errors = newHashSet();
-		Map<Node, Object> matches = match(document.getDocumentElement(),
-				object, errors);
+		Map<Node, Object> matches = match(document.getDocumentElement(), object, errors);
 
 		if (matches == null)
 			error("Does not correspond: " + Joiner.on("\r\n").join(errors));
 		else {
 
-			//TODO Really nesting partOf stuff things
+			// TODO Really nesting partOf stuff things
 			for (Entry<Node, Object> trace : matches.entrySet()) {
-				Entity left = entity(locationAndValue(trace.getKey()),
-						"Transient");
+				Entity left = entity(locationAndValue(trace.getKey()), "Transient");
 				Entity right = entity(trace.getValue().toString(), "Transient");
 
 				relationship(left.getName(), right.getName(), "correspondsTo");
 
-				relationship(left.getName(), relationship.getLeft().getName(),
-						"partOf");
-				relationship(right.getName(),
-						relationship.getRight().getName(), "partOf");
+				relationship(left.getName(), relationship.getLeft().getName(), "partOf");
+				relationship(right.getName(), relationship.getRight().getName(), "partOf");
 			}
 			valid();
 		}

@@ -10,9 +10,9 @@ import org.softlang.megal.mi2.Entity;
 import org.softlang.megal.mi2.Relationship;
 import org.softlang.megal.mi2.api.Artifact;
 
-import plugins.prelude.GuidedEvaluatorPlugin;
-
 import com.google.common.base.Optional;
+
+import plugins.prelude.GuidedEvaluatorPlugin;
 
 /**
  * <p>
@@ -25,8 +25,7 @@ import com.google.common.base.Optional;
 public class FileElementOfLanguage extends GuidedEvaluatorPlugin {
 
 	private static Iterable<Artifact> expandIfFolder(Iterable<Artifact> iterable) {
-		return from(iterable).transformAndConcat(
-				x -> x.hasContent() ? singleton(x) : x.getChildren());
+		return from(iterable).transformAndConcat(x -> x.hasContent() ? singleton(x) : x.getChildren());
 	}
 
 	@Override
@@ -55,8 +54,7 @@ public class FileElementOfLanguage extends GuidedEvaluatorPlugin {
 			return Optional.absent();
 
 		for (Acceptor acceptor : filter(getParts(), Acceptor.class)) {
-			if (!any(acceptor.getRealization(),
-					x -> isElementOfLanguage(element, x)))
+			if (!any(acceptor.getRealization(), x -> isElementOfLanguage(element, x)))
 				continue;
 
 			Optional<String> error = acceptor.accept(artifact);

@@ -15,16 +15,14 @@ import plugins.prelude.GuidedEvaluatorPlugin;
 public class MatchingLanguageDefinition extends GuidedEvaluatorPlugin {
 	private NSURIExtractor getExtractor(Entity artifact) {
 		for (NSURIExtractor extractor : filter(getParts(), NSURIExtractor.class))
-			if (any(extractor.getRealization(),
-					x -> isElementOfLanguage(artifact, x)))
+			if (any(extractor.getRealization(), x -> isElementOfLanguage(artifact, x)))
 				return extractor;
 
 		return null;
 	}
 
 	@Override
-	public void guidedEvaluate(Relationship relationship)
-			throws URISyntaxException {
+	public void guidedEvaluate(Relationship relationship) throws URISyntaxException {
 
 		Object rightBinding = bindingOf(relationship.getRight());
 
@@ -38,7 +36,6 @@ public class MatchingLanguageDefinition extends GuidedEvaluatorPlugin {
 		if (extractor != null && toURI.equals(extracted))
 			valid();
 		else
-			error("The artifacts language " + extracted
-					+ " does not match the expected " + toURI);
+			error("The artifacts language " + extracted + " does not match the expected " + toURI);
 	}
 }

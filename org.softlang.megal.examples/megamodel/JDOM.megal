@@ -7,8 +7,6 @@ deserializedXmlFile:Transient
 deserialization(xmlFile) |->deserializedXmlFile
 deserialization = 'classpath:org.softlang.megal.examples.jdom.Deserialization#deserialize(InputStream)'
 
-@Plugin 'FileToObjectFunction'
-elementOf < Pair * Function 
-
 FileToObjectFunction:Plugin
+FileToObjectFunction partOf PairElementOfFunctionReasoner
 FileToObjectFunction = 'classpath:plugins.jaxb.FileToObjectFunction'

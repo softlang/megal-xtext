@@ -11,21 +11,19 @@ xmlFile: File
 xmlFile elementOf XML
 xmlFile conformsTo xsdFiles
 
-@Plugin 'XSDConformance'
-conformsTo < Artifact(+) * Artifact(+)
-
 XSDConformance : Plugin
+XSDConformance realizationOf ArtifactConformsToArtifactEvaluator
 XSDConformance = 'classpath:plugins.jaxb.XSDConformance'
 
 XMLAcceptor : Plugin
 XMLAcceptor realizationOf XML
 XMLAcceptor = 'classpath:plugins.jaxb.AcceptXML'
-XMLAcceptor partOf FileElementOfLanguage
+XMLAcceptor partOf AcceptString
 
 XSDAcceptor : Plugin
 XSDAcceptor realizationOf XSD
 XSDAcceptor = 'classpath:plugins.jaxb.AcceptXSD'
-XSDAcceptor partOf FileElementOfLanguage
+XSDAcceptor partOf AcceptString
 
 xmlFile = 'workspace:/org.softlang.megal.examples/inputs/sampleCompany.xml'
 xsdFiles = 'workspace:/org.softlang.megal.examples/inputs/Company.xsd_file'

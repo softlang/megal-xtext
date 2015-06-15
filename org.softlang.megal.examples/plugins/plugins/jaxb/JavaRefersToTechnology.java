@@ -10,11 +10,11 @@ import java.util.Set;
 import org.softlang.megal.mi2.Relationship;
 import org.softlang.megal.mi2.api.Artifact;
 
-import plugins.prelude.GuidedEvaluatorPlugin;
-
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableSet;
+
+import plugins.prelude.GuidedEvaluatorPlugin;
 
 public class JavaRefersToTechnology extends GuidedEvaluatorPlugin {
 	/**
@@ -22,21 +22,18 @@ public class JavaRefersToTechnology extends GuidedEvaluatorPlugin {
 	 * More like: STOP_WORD
 	 * </p>
 	 */
-	private static final Set<String> STOP_WORDS = ImmutableSet.of("Library"
-			.toLowerCase());
+	private static final Set<String> STOP_WORDS = ImmutableSet.of("Library".toLowerCase());
 
 	private static final Set<String> getIndicators(CharSequence name) {
-		return from(Splitter.on(CharMatcher.anyOf("._")).split(name))
-				.transform(String::toLowerCase).filter(not(in(STOP_WORDS)))
-				.toSet();
+		return from(Splitter.on(CharMatcher.anyOf("._")).split(name)).transform(String::toLowerCase)
+				.filter(not(in(STOP_WORDS))).toSet();
 	}
 
 	@Override
 	public void guidedEvaluate(Relationship relationship) throws IOException {
 		Artifact artifact = artifactOf(relationship.getLeft());
 
-		Set<String> indicators = getIndicators(relationship.getRight()
-				.getName());
+		Set<String> indicators = getIndicators(relationship.getRight().getName());
 
 		for (String indicator : indicators)
 			for (String line : artifact.getChars().readLines())
@@ -45,8 +42,7 @@ public class JavaRefersToTechnology extends GuidedEvaluatorPlugin {
 					return;
 				}
 
-		error("No indicator found suggesting the referral to the technology "
-				+ relationship.getRight().getName()
+		error("No indicator found suggesting the referral to the technology " + relationship.getRight().getName()
 				+ ", looking for the indicators " + indicators);
 
 	}

@@ -1,0 +1,57 @@
+model Prelude
+
+Entity as entity
+@Color '223,108,91'
+Artifact < Entity
+@Color '244,200,45'
+Concept < Entity
+Function < Set
+@Color '129,173,203'
+Set < Entity
+@Color '82,237,143'
+Technology < Entity
+@Color '73,158,216'
+Language < Set
+@Color '231,65,41'
+File < Artifact
+Folder < Artifact
+Fragment < Artifact
+Resource < Artifact
+Transient < Artifact
+Pair < Entity
+Plugin < Entity
+
+firstOf < Entity (+) * Pair
+secondOf < Entity (+) * Pair
+elementOf < Entity (+) * Set
+elementOf < Pair * Function
+elementOf < Artifact (+) * Language
+refersTo < Artifact (+) * Technology
+refersTo < Artifact (+) * Artifact (+)
+subsetOf < Set * Set
+partOf < Artifact (+) * Artifact (+)
+partOf < Artifact (+) * Technology
+partOf < Technology * Technology
+partOf < Language * Technology
+partOf < Language * Language
+partOf < Plugin * Plugin
+instanceOf < Entity * Concept
+isA < Concept * Concept
+conformsTo < Artifact (+) * Artifact (+)
+dependsOn < Artifact (+) * Artifact (+)
+dependsOn < Technology * Language
+dependsOn < Technology * Technology
+dependsOn < Function * Technology
+dependsOn < Plugin * Entity
+transformableIn < Language * Language
+transformedIn < Language * Language
+transformedIn < Artifact (+) * Artifact (+)
+correspondsTo < Artifact (+) * Artifact (+)
+defines < Artifact (+) * Language
+defines < Artifact (+) * Function
+linksTo < Artifact (+) * Artifact (+)
+realizationOf < Artifact (+) * Function
+variantOf < Language * Language
+versionOf < Language * Language
+deploysTo < Technology * Technology
+realizationOf < Plugin * Entity

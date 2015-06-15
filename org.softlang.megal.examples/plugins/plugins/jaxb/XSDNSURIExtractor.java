@@ -12,8 +12,8 @@ import org.softlang.megal.mi2.api.resolution.Resolution;
 
 public class XSDNSURIExtractor extends NSURIExtractor {
 
-	private static final Pattern EXTRACTOR_PATTERN = Pattern.compile(
-			".*schema xmlns\\s*=\\s*\"([^\"]*)\".*", Pattern.DOTALL);
+	private static final Pattern EXTRACTOR_PATTERN = Pattern.compile(".*schema xmlns\\s*=\\s*\"([^\"]*)\".*",
+			Pattern.DOTALL);
 
 	@Override
 	public URI extractNSURI(Resolution resolution, Entity entity) {
