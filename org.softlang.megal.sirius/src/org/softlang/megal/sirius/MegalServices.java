@@ -263,58 +263,44 @@ public class MegalServices {
 	}
 
 	public MegalEntity resolveEntity(MegalFile node, String name) {
-		return MegalScopeProvider.resolve(node, MegalEntity.class, name);
+		return resolve(node, MegalEntity.class, name);
 	}
 
 	public MegalEntityType resolveEntityType(MegalFile node, String name) {
-		return MegalScopeProvider.resolve(node, MegalEntityType.class, name);
+		return resolve(node, MegalEntityType.class, name);
 	}
 
 	public MegalRelationshipType resolveRelationshipType(MegalFile node, String name) {
-		return MegalScopeProvider.resolve(node, MegalRelationshipType.class, name);
+		return resolve(node, MegalRelationshipType.class, name);
+	}
+
+	public <T extends MegalNamed> T resolve(MegalFile node, Class<T> cls, String name) {
+		return MegalScopeProvider.resolve(node, cls, name);
+	}
+
+	/**
+	 * Returns an unused name in the current scope for the given class.
+	 */
+	public <T extends MegalNamed> String unused(MegalFile megamodel, Class<T> cls) {
+		int prefix = 1;
+		while (true) {
+			String name = cls.getSimpleName() + String.valueOf(prefix);
+			if (resolveEntity(megamodel, name) == null)
+				return name;
+			prefix++;
+		}
 	}
 
 	public String unusedEntityName(MegalFile megamodel) {
-
-		int number = 1;
-		while (true) {
-			String name = "Entity" + String.valueOf(number);
-
-			if (resolveEntity(megamodel, name) == null)
-				return name;
-
-			number++;
-		}
+		return unused(megamodel, MegalEntity.class);
 	}
 
 	public String unusedEntityTypeName(MegalFile megamodel) {
-
-		int number = 1;
-		while (true) {
-			String name = "EntityType" + String.valueOf(number);
-
-			MegalEntityType resolved = resolveEntityType(megamodel, name);
-
-			if (resolved == null)
-				return name;
-
-			number++;
-		}
+		return unused(megamodel, MegalEntityType.class);
 	}
 
 	public String unusedRelationshipTypeName(MegalFile megamodel) {
-
-		int number = 1;
-		while (true) {
-			String name = "RelationshipType" + String.valueOf(number);
-
-			MegalRelationshipType resolved = resolveRelationshipType(megamodel, name);
-
-			if (resolved == null)
-				return name;
-
-			number++;
-		}
+		return unused(megamodel, MegalRelationshipType.class);
 	}
 
 	public EObject megalFileOverView(MegalDeclaration declaration, DNode dnode) {
