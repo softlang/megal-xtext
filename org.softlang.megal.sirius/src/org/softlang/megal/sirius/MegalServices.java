@@ -3,10 +3,12 @@ package org.softlang.megal.sirius;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.SortedSet;
 
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.ecore.EObject;
@@ -29,7 +31,11 @@ import org.softlang.megal.mi2.RelationshipType;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.FluentIterable;
+import com.google.common.collect.HashBasedTable;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Table;
 
 public class MegalServices {
 
@@ -44,45 +50,57 @@ public class MegalServices {
 	private static final Integer COLOR_BLUE_DEFAULT = 255;
 
 	/**
-	 * Returns all files imported in this megal file inclusive this file.
+	 * Returns all reflexive, transitive file imports imported in this megal
+	 * file.
 	 */
-	public Set<MegalFile> megalFiles(MegalFile node) {
-		Set<MegalFile> nodes = new HashSet<>();
-		nodes.add(node);
+	public List<MegalFile> megalFiles(MegalFile file) {
+		ImmutableList.Builder<MegalFile> builder = ImmutableList.builder();
 
-		for (MegalFile importedMegalFile : node.getImports())
-			nodes.addAll(megalFiles(importedMegalFile));
+		builder.add(file);
+		builder.addAll(megalFilesImported(file));
 
-		return nodes;
+		return builder.build();
 	}
 
 	/**
-	 * Returns all files imported in this megal file exclusive this file.
+	 * Returns all transitive imported files.
 	 */
-	public Set<MegalFile> megalFilesImported(MegalFile node) {
-		Set<MegalFile> nodes = megalFiles(node);
-		nodes.remove(node);
-		return nodes;
+	public List<MegalFile> megalFilesImported(MegalFile file) {
+		LinkedHashSet<MegalFile> files = new LinkedHashSet<>();
+
+		for (MegalFile importedMegalFile : file.getImports())
+			files.addAll(megalFiles(importedMegalFile));
+
+		return ImmutableList.copyOf(files);
 	}
 
-	public <T extends MegalDeclaration> Set<T> declarations(MegalFile node, Class<T> cls) {
-		Set<T> declarations = new HashSet<>();
+	/**
+	 * Return all declaration of the given class in the megal file.
+	 */
+	public <T extends MegalDeclaration> List<T> declarations(MegalFile file, Class<T> cls) {
+		List<T> declarations = new ArrayList<>();
 
-		for (MegalFile megalFile : megalFiles(node))
-			declarations.addAll(FluentIterable.from(megalFile.getDeclarations()).filter(cls).toSet());
+		for (MegalFile megalFile : megalFiles(file))
+			declarations.addAll(FluentIterable.from(megalFile.getDeclarations()).filter(cls).toList());
 
-		return declarations;
+		return ImmutableList.copyOf(declarations);
 	}
 
-	public <T extends MegalDeclaration> Set<T> declarationsLocal(MegalFile node, Class<T> cls) {
-		return FluentIterable.from(node.getDeclarations()).filter(cls).toSet();
+	/**
+	 * Return all local definition of the give class.
+	 */
+	public <T extends MegalDeclaration> List<T> declarationsLocal(MegalFile node, Class<T> cls) {
+		return FluentIterable.from(node.getDeclarations()).filter(cls).toList();
 	}
 
-	public <T extends MegalDeclaration> Set<T> declarationsImport(MegalFile node, Class<T> cls) {
-		Set<T> declarations = new HashSet<>();
+	/**
+	 * Returns all imported declarations of the of the given class.
+	 */
+	public <T extends MegalDeclaration> List<T> declarationsImport(MegalFile node, Class<T> cls) {
+		List<T> declarations = new ArrayList<>();
 
 		for (MegalFile megalFile : megalFilesImported(node))
-			declarations.addAll(FluentIterable.from(megalFile.getDeclarations()).filter(cls).toSet());
+			declarations.addAll(FluentIterable.from(megalFile.getDeclarations()).filter(cls).toList());
 
 		return declarations;
 	}
@@ -91,91 +109,84 @@ public class MegalServices {
 		return (MegalFile) declaration.eContainer();
 	}
 
-	public Set<MegalEntity> entities(MegalFile node) {
+	public List<MegalEntity> entities(MegalFile node) {
 		return declarations(node, MegalEntity.class);
 	}
 
-	public Set<MegalEntity> entitiesLocal(MegalFile node) {
+	public List<MegalEntity> entitiesLocal(MegalFile node) {
 		return declarationsLocal(node, MegalEntity.class);
 	}
 
-	public Set<MegalEntity> entitiesImport(MegalFile node) {
+	public List<MegalEntity> entitiesImport(MegalFile node) {
 		return declarationsImport(node, MegalEntity.class);
 	}
 
-	public Set<MegalEntityType> entityTypes(MegalFile node) {
+	public List<MegalEntityType> entityTypes(MegalFile node) {
 		return declarations(node, MegalEntityType.class);
 	}
 
-	public Set<MegalEntityType> entityTypesLocal(MegalFile node) {
+	public List<MegalEntityType> entityTypesLocal(MegalFile node) {
 		return declarationsLocal(node, MegalEntityType.class);
 	}
 
-	public Set<MegalEntityType> entityTypesImport(MegalFile node) {
+	public List<MegalEntityType> entityTypesImport(MegalFile node) {
 		return declarationsImport(node, MegalEntityType.class);
 	}
 
-	public Set<MegalRelationship> relations(MegalFile node) {
+	public List<MegalRelationship> relations(MegalFile node) {
 		return declarations(node, MegalRelationship.class);
 	}
 
-	public Set<MegalRelationship> relationsLocal(MegalFile node) {
+	public List<MegalRelationship> relationsLocal(MegalFile node) {
 		return declarationsLocal(node, MegalRelationship.class);
 	}
 
-	public Set<MegalRelationship> relationsImport(MegalFile node) {
+	public List<MegalRelationship> relationsImport(MegalFile node) {
 		return declarationsImport(node, MegalRelationship.class);
 	}
 
-	public Set<MegalRelationshipType> relationshipTypes(MegalFile node) {
+	public List<MegalRelationshipType> relationshipTypes(MegalFile node) {
 		return declarations(node, MegalRelationshipType.class);
 	}
 
-	public Set<MegalRelationshipType> relationshipTypesLocal(MegalFile node) {
+	public List<MegalRelationshipType> relationshipTypesLocal(MegalFile node) {
 		return declarationsLocal(node, MegalRelationshipType.class);
 	}
 
-	public Set<MegalRelationshipType> relationshipTypesImport(MegalFile node) {
+	public List<MegalRelationshipType> relationshipTypesImport(MegalFile node) {
 		return declarationsImport(node, MegalRelationshipType.class);
 	}
 
-	public Set<MegalPair> pairs(MegalFile node) {
+	public List<MegalPair> pairs(MegalFile node) {
 		return declarations(node, MegalPair.class);
 	}
 
-	public Set<MegalPair> pairsLocal(MegalFile node) {
+	public List<MegalPair> pairsLocal(MegalFile node) {
 		return declarationsLocal(node, MegalPair.class);
 	}
 
-	public Set<MegalPair> pairsImport(MegalFile node) {
+	public List<MegalPair> pairsImport(MegalFile node) {
 		return declarationsImport(node, MegalPair.class);
 	}
 
 	/**
-	 * Returns the first Relationionships in this megal file that connects this
-	 * type nodes.
-	 * 
-	 * @param node
-	 * @return
+	 * Returns the first Relationionshiptypes in this megal file that connects a
+	 * pair of Entitytypes.
 	 */
-	public Set<MegalRelationshipType> firstRelationshipTypesLocal(MegalFile node) {
-		Set<MegalRelationshipType> firsts = new HashSet<>();
+	public List<MegalRelationshipType> firstRelationshipTypesLocal(MegalFile node) {
+		// TODO: Maybe switch to ordered implementation.
+		Table<MegalEntityType, MegalEntityType, MegalRelationshipType> firstRelationshipTypesLocal = HashBasedTable
+				.create();
 
-		for (MegalRelationshipType current : relationshipTypesLocal(node)) {
-			boolean contains = false;
-			for (MegalRelationshipType first : firsts)
-				if (first.getLeft() == current.getLeft() && first.getRight() == current.getRight()) {
-					contains = true;
-					break;
-				}
-			if (!contains)
-				firsts.add(current);
-		}
-		return firsts;
+		for (MegalRelationshipType mrt : relationshipTypesLocal(node))
+			if (!firstRelationshipTypesLocal.contains(mrt.getLeft(), mrt.getRight()))
+				firstRelationshipTypesLocal.put(mrt.getLeft(), mrt.getRight(), mrt);
+
+		return ImmutableList.copyOf(firstRelationshipTypesLocal.values());
 	}
 
 	public List<MegalRelationshipType> merged(MegalRelationshipType relationshipType) {
-		List<MegalRelationshipType> merged = new LinkedList<>();
+		List<MegalRelationshipType> merged = new ArrayList<>();
 		for (MegalRelationshipType current : FluentIterable.from(megalFile(relationshipType).getDeclarations())
 				.filter(MegalRelationshipType.class))
 			if (relationshipType.getLeft() == current.getLeft() && relationshipType.getRight() == current.getRight())
@@ -185,24 +196,17 @@ public class MegalServices {
 	}
 
 	public String lable(MegalEntity entity) {
-
 		String name = entity.getName();
-
-		// Add type to entity name
 		if (entity.getType() != null && entity.getType() != null)
 			name = name + ":" + entity.getType().getName();
-
-		if (entity.isMany()) {
+		if (entity.isMany())
 			name = name + "+";
-		}
 
 		return name;
 	}
 
 	public String lable(MegalRelationship relationship) {
-
 		MegalRelationshipType type = relationship.getType();
-
 		if (type == null)
 			return "UNDEFINED";
 
@@ -210,17 +214,15 @@ public class MegalServices {
 	}
 
 	public String lable(MegalPair pair) {
-
 		MegalEntity entity = pair.getSet();
-
 		if (entity == null)
 			return "UNDEFINED";
 
 		return entity.getName();
 	}
 
-	public String lable(MegalEntityType entitiyType) {
-		return entitiyType.getName();
+	public String lable(MegalEntityType entityType) {
+		return entityType.getName();
 	}
 
 	public String lable(MegalRelationshipType relationshipType) {
@@ -232,46 +234,31 @@ public class MegalServices {
 	}
 
 	/**
-	 * Associated elements serve as source for the graphical mapping. Changes
-	 * update on associated elements lead to update of mapping.
-	 *
-	 * @param entity
-	 * @return
+	 * Associated elements serve as additional source for the graphical mapping.
+	 * Changes on associated elements lead to updated projection.
 	 */
 	public Collection<EObject> associatedElements(MegalEntity entity) {
-		Collection<EObject> associated = new ArrayList<>();
-
-		associated.add(entity);
-		associated.add(entity.getType());
-
-		return associated;
+		return ImmutableList.of(entity, entity.getType());
 	}
 
 	public Collection<EObject> associatedElements(MegalRelationship relationship) {
-		Collection<EObject> associated = new ArrayList<>();
-
-		associated.add(relationship);
-		associated.add(relationship.getType());
-		associated.add(relationship.getLeft().getType());
-		associated.add(relationship.getLeft());
-		associated.add(relationship.getRight().getType());
-
-		return associated;
+		return ImmutableList.of(relationship, relationship.getType(), relationship.getLeft(),
+				relationship.getLeft().getType(), relationship.getRight(), relationship.getRight().getType());
 	}
 
 	public String error(MegalDeclaration declaration) {
 		Diagnostic diagnostic = Diagnostician.INSTANCE.validate(declaration);
-		if (diagnostic.getSeverity() == Diagnostic.ERROR) {
+		if (diagnostic.getSeverity() == Diagnostic.ERROR)
 			return diagnostic.getMessage();
-		}
+
 		return null;
 	}
 
 	public String warning(MegalDeclaration declaration) {
 		Diagnostic diagnostic = Diagnostician.INSTANCE.validate(declaration);
-		if (diagnostic.getSeverity() == Diagnostic.WARNING) {
+		if (diagnostic.getSeverity() == Diagnostic.WARNING)
 			return diagnostic.getMessage();
-		}
+
 		return null;
 	}
 
@@ -293,9 +280,7 @@ public class MegalServices {
 		while (true) {
 			String name = "Entity" + String.valueOf(number);
 
-			MegalEntity resolved = resolveEntity(megamodel, name);
-
-			if (resolved == null)
+			if (resolveEntity(megamodel, name) == null)
 				return name;
 
 			number++;
@@ -472,5 +457,4 @@ public class MegalServices {
 	public int getLineBlue(MegalDeclaration declaration) {
 		return 0;
 	}
-
 }
