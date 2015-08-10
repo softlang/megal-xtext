@@ -16,25 +16,25 @@ objectGraph conformsTo javaFiles
 xmlFile correspondsTo objectGraph 
 
 JavaRefersToJava: Plugin
-JavaRefersToJava partOf ArtifactRefersToArtifactEvaluator
+JavaRefersToJava partOf RefersToEvaluator
 JavaRefersToJava = 'classpath:plugins.jaxb.JavaRefersToJava'
 
 JavaRefersToTechnology: Plugin
-JavaRefersToTechnology partOf ArtifactRefersToTechnologyEvaluator
+JavaRefersToTechnology partOf RefersToEvaluator
 JavaRefersToTechnology = 'classpath:plugins.jaxb.JavaRefersToTechnology'
 
 FileToObjectFunction:Plugin
-FileToObjectFunction partOf PairElementOfFunctionReasoner
+FileToObjectFunction partOf ElementOfReasoner
 FileToObjectFunction = 'classpath:plugins.jaxb.FileToObjectFunction'
 
 JavaFileDefinesStaticFunction: Plugin
-JavaFileDefinesStaticFunction partOf ArtifactDefinesFunctionEvaluator
+JavaFileDefinesStaticFunction partOf DefinesEvaluator
 JavaFileDefinesStaticFunction = 'classpath:plugins.jaxb.JavaFileDefinesStaticFunction'
 
 ObjectCorrespondsToJavaFiles: Plugin
-ObjectCorrespondsToJavaFiles partOf ArtifactCorrespondsToArtifactEvaluator
+ObjectCorrespondsToJavaFiles partOf ConformsToEvaluator
 ObjectCorrespondsToJavaFiles = 'classpath:plugins.jaxb.ObjectCorrespondsToJavaFiles'
 
 XMLFileCorrespondsToJavaObject: Plugin
-XMLFileCorrespondsToJavaObject partOf ArtifactCorrespondsToArtifactReasoner
+XMLFileCorrespondsToJavaObject partOf CorrespondsToReasoner
 XMLFileCorrespondsToJavaObject = 'classpath:plugins.jaxb.XMLFileCorrespondsToJavaObject'

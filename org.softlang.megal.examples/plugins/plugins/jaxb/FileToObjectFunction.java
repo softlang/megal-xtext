@@ -31,7 +31,6 @@ import plugins.prelude.InjectedReasonerPlugin;
 public class FileToObjectFunction extends InjectedReasonerPlugin {
 	@Override
 	public KB derive(Relationship relationship) {
-
 		if (!relationship.getRight().hasBinding())
 			return KBs.empty();
 
@@ -76,7 +75,6 @@ public class FileToObjectFunction extends InjectedReasonerPlugin {
 			return KBs.empty();
 
 		Artifact inputArtifact = getArtifact(input.getBinding());
-
 		if (inputArtifact == null)
 			return KBs.empty();
 

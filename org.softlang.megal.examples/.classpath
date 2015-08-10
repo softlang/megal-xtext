@@ -5,6 +5,7 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="src" path="plugins"/>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="src-gen"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Ant"/>
 	<classpathentry kind="lib" path="libs/javaparser-core-2.1.0-SNAPSHOT.jar"/>
 	<classpathentry kind="output" path="bin"/>

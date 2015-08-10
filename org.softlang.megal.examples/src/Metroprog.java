@@ -2,6 +2,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.Set;
 
 import org.softlang.megal.MegalAnnotation;
 import org.softlang.megal.MegalDeclaration;
@@ -14,13 +15,15 @@ import org.softlang.megal.MegalRelationshipType;
 import org.softlang.megal.language.Megals;
 
 import com.google.common.base.Charsets;
-import com.google.common.io.CharSink;
+import com.google.common.collect.Sets;
 import com.google.common.io.Files;
 
 public class Metroprog {
+	private static final File PRELUDE_OUT = new File("megamodel/PreludeOut.megal");
 	private static final File PRELUDE = new File("megamodel/Prelude.megal.source");
+	private static final File PRELUDE_EXTRA = new File("megamodel/Prelude.megal.extra");
 
-	public static final File[] ALL_FILES = { new File("megamodel/Prelude.megal"), new File("megamodel/JDOM.megal"),
+	public static final File[] ALL_FILES = { PRELUDE_OUT, new File("megamodel/JDOM.megal"),
 			new File("megamodel/Java.megal"), new File("megamodel/JVM.megal"), new File("megamodel/XML.megal"),
 			new File("megamodel/Parts.megal"), new File("megamodel/Mapping.megal"),
 			new File("megamodel/Deserialization.megal")
@@ -44,8 +47,19 @@ public class Metroprog {
 		return s.substring(0, 1).toUpperCase() + s.substring(1);
 	}
 
+	private static String techTech(String name) {
+
+		if ("JDOM".equals(name) || "Java".equals(name) || "JVM".equals(name) || "XML".equals(name))
+			return "\\tech{" + name + "}";
+		else
+			return name;
+	}
+
 	public static void main(String[] args) throws IOException {
-		// generatePrelude();
+		generatePrelude();
+
+		if (true)
+			return;
 
 		int[] agg = { 0, 0, 0, 0 };
 		int[] crr = { 0, 0, 0, 0 };
@@ -59,8 +73,8 @@ public class Metroprog {
 				pre[2] = crr[2];
 				pre[3] = crr[3];
 			}
-			System.out.println("\\hline " + m.getName() + " & " + crr[0] + " & " + crr[1] + " & " + crr[2] + " & "
-					+ crr[3] + " \\\\ ");
+			System.out.println("\\hline " + techTech(m.getName()) + " & " + crr[0] + " & " + crr[1] + " & " + crr[2]
+					+ " & " + crr[3] + " \\\\ ");
 
 			agg[0] += crr[0];
 			agg[1] += crr[1];
@@ -77,7 +91,14 @@ public class Metroprog {
 	private static void generatePrelude() throws IOException, FileNotFoundException {
 		MegalFile f = Megals.load(PRELUDE);
 
-		try (PrintStream p = new PrintStream(new File("megamodel/Prelude.megal"))) {
+		Set<String> evGen = Sets.newHashSet();
+		Set<String> reGen = Sets.newHashSet();
+		try (PrintStream p = new PrintStream(PRELUDE_OUT)) {
+			for (MegalAnnotation a : f.getAnnotations())
+				if (a.getValue() != null)
+					p.println("@" + a.getKey() + " '" + a.getValue() + "'");
+				else
+					p.println("@" + a.getKey());
 			p.println("model Prelude");
 
 			for (MegalDeclaration d : f.getDeclarations())
@@ -99,15 +120,19 @@ public class Metroprog {
 						p.println(x.getSupertype().getName());
 					}
 
+					p.println("@Virtual");
 					p.println(evaluatorName + ": Plugin");
+					p.println("@Virtual");
 					p.println(reasonerName + ": Plugin");
 
 				} else if (d instanceof MegalRelationshipType) {
 					MegalRelationshipType x = (MegalRelationshipType) d;
 
-					String baseName = x.getLeft().getName() + toFirstUpper(x.getName()) + x.getRight().getName();
-					String evaluatorName = baseName + "Evaluator";
-					String reasonerName = baseName + "Reasoner";
+					// TODO: IMPORTANT!!!!!!! Only relationship name as plugin,
+					// rest apparently is done by parts themselves
+
+					String evaluatorName = toFirstUpper(x.getName()) + "Evaluator";
+					String reasonerName = toFirstUpper(x.getName()) + "Reasoner";
 
 					p.println("@Plugin '" + evaluatorName + "'");
 					p.println("@Plugin '" + reasonerName + "'");
@@ -128,11 +153,20 @@ public class Metroprog {
 					else if (x.isRightBoth())
 						p.print("(+)");
 					p.println();
-					p.println(evaluatorName + ": Plugin");
-					p.println(reasonerName + ": Plugin");
+
+					if (evGen.add(evaluatorName)) {
+						p.println("@Virtual");
+						p.println(evaluatorName + ": Plugin");
+					}
+
+					if (reGen.add(reasonerName)) {
+						p.println("@Virtual");
+						p.println(reasonerName + ": Plugin");
+					}
 
 				}
 
+			Files.asCharSource(PRELUDE_EXTRA, Charsets.UTF_8).copyTo(p);
 		}
 	}
 

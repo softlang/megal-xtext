@@ -19,15 +19,15 @@ aLanguage = 'http://www.company.softlang.org/company.xsd'
 xsdFiles correspondsTo javaFiles
 
 FindBuildScriptAsElementOfEvidence: Plugin
-FindBuildScriptAsElementOfEvidence partOf PairElementOfFunctionEvaluator
+FindBuildScriptAsElementOfEvidence partOf ElementOfEvaluator
 FindBuildScriptAsElementOfEvidence = 'classpath:plugins.jaxb.FindBuildScriptAsElementOfEvidence'
 
 XSDJavaCorrespondence: Plugin
-XSDJavaCorrespondence partOf ArtifactConformsToArtifactReasoner
+XSDJavaCorrespondence partOf ConformsToReasoner
 XSDJavaCorrespondence = 'classpath:plugins.jaxb.XSDJavaCorrespondence'
 
 MatchingLanguageDefinition: Plugin
-MatchingLanguageDefinition partOf ArtifactDefinesLanguageEvaluator
+MatchingLanguageDefinition partOf DefinesEvaluator
 MatchingLanguageDefinition = 'classpath:plugins.jaxb.MatchingLanguageDefinition'
 
 PackageInfoNSURIExtractor: Plugin

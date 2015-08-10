@@ -42,7 +42,7 @@ public class ModelExecutingValidation extends AbstractMegalValidator {
 		class Marking {
 
 			Multimap<MegalElement, EStructuralFeature> getLocations(Element element) {
-				// Male a builder initializing the locations
+				// Make a builder initializing the locations
 				ImmutableMultimap.Builder<MegalElement, EStructuralFeature> builder = ImmutableMultimap.builder();
 
 				if (element instanceof Entity) {
