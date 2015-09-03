@@ -1,4 +1,4 @@
-package org.softlang.megal.mi2.util;
+package org.softlang.megal.util;
 
 import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.Lists.newLinkedList;

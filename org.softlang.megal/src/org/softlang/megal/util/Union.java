@@ -8,9 +8,6 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-import org.softlang.megal.mi2.util.HashMultitable;
-import org.softlang.megal.mi2.util.Multitable;
-
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.ImmutableSetMultimap;

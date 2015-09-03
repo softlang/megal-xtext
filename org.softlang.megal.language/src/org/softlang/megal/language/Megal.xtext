@@ -14,7 +14,7 @@ MegalFile:
 	| bindings+=MegalLink)*;
 
 MegalAnnotation:
-	'@' key=ID (value=STRING)?;
+	key=ANN_ID selection=Selection?;
 
 MegalLink:
 	annotations+=MegalAnnotation* link=[MegalEntity]
@@ -56,6 +56,42 @@ MegalRelationship:
 MegalPair:
 	annotations+=MegalAnnotation* set=[MegalEntity]
 	'(' first=[MegalEntity] ')' '|->' second=[MegalEntity];
+
+Selection:
+	select+=QueryDefEntry (',' select+=QueryDefEntry)* ('from' '{' query+=QueryStatement+ '}')?;
+
+QueryStatement:
+	subject=QueryRefEntry predicate=[MegalRelationshipType] object=QueryRefEntry;
+
+QueryDefEntry returns QueryEntry:
+	QueryParam | QueryString | QueryEntity | QueryPos;
+
+QueryRefEntry returns QueryEntry:
+	QueryReference | QueryString | QueryEntity | QueryPos;
+
+QueryParam:
+	name=VAR_ID (':' type=[MegalEntityType])?;
+
+QueryReference:
+	ref=[QueryParam|VAR_ID];
+
+QueryString:
+	value=STRING;
+
+QueryEntity:
+	entity=[MegalEntity];
+
+QueryPos:
+	'(' value=INT ')';
+
+terminal INT returns ecore::EInt:
+	'1'..'9' ('0'..'9')*;
+
+terminal ANN_ID:
+	'@' ('a'..'z' | 'A'..'Z' | '_' | '0'..'9')+ ('.' ('a'..'z' | 'A'..'Z' | '_' | '0'..'9')+)*;
+
+terminal VAR_ID:
+	'?' ('a'..'z' | 'A'..'Z' | '_' | '0'..'9')+ ('.' ('a'..'z' | 'A'..'Z' | '_' | '0'..'9')+)*;
 
 terminal ID:
 	'^'? ('a'..'z' | 'A'..'Z' | '_' | '0'..'9')+ ('.' ('a'..'z' | 'A'..'Z' | '_' | '0'..'9')+)*;
