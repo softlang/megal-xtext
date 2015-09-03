@@ -27,7 +27,6 @@ import org.softlang.megal.MegalRelationship;
 import org.softlang.megal.MegalRelationshipType;
 import org.softlang.megal.util.HashMultitable;
 import org.softlang.megal.util.Multitable;
-import org.softlang.megal.util.Serial;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
@@ -436,7 +435,7 @@ public class MegamodelKB extends KB {
 	private static String getStringOf(MegalAnnotation a) {
 		// TODO: FUCK
 		return "";
-//		return Serial.positional(a.getSelection());
+		// return Serial.positional(a.getSelection());
 	}
 
 	private static Multimap<String, String> getAnnotationMap(MegalElement element) {
