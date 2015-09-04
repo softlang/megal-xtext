@@ -15,6 +15,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import static com.google.common.collect.Iterables.*;
+import static org.eclipse.xtext.nodemodel.util.NodeModelUtils.*;
+
+import org.eclipse.xtext.nodemodel.ICompositeNode;
+import org.eclipse.xtext.xtext.XtextFormatter;
+import org.softlang.megal.Annotations;
 import org.softlang.megal.MegalAnnotation;
 import org.softlang.megal.MegalDeclaration;
 import org.softlang.megal.MegalElement;
@@ -25,10 +31,13 @@ import org.softlang.megal.MegalLink;
 import org.softlang.megal.MegalPair;
 import org.softlang.megal.MegalRelationship;
 import org.softlang.megal.MegalRelationshipType;
+import org.softlang.megal.QueryEntity;
+import org.softlang.megal.QueryString;
 import org.softlang.megal.util.HashMultitable;
 import org.softlang.megal.util.Multitable;
 
 import com.google.common.base.Joiner;
+import com.google.common.base.Predicates;
 import com.google.common.base.Splitter;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableList;
@@ -433,9 +442,24 @@ public class MegamodelKB extends KB {
 	private final SetMultimap<Cell<String, String, String>, Entry<String, String>> relationshipAnnotations;
 
 	private static String getStringOf(MegalAnnotation a) {
-		// TODO: FUCK
-		return "";
-		// return Serial.positional(a.getSelection());
+		if (a.getSelection() == null)
+			return null;
+
+		// Single string mode, like in the original model
+		if (a.getSelection().getQuery().isEmpty() && a.getSelection().getSelect().size() == 1
+				&& a.getSelection().getSelect().get(0) instanceof QueryString) {
+
+			return ((QueryString) a.getSelection().getSelect().get(0)).getValue();
+		}
+
+		if (a.getSelection().getQuery().isEmpty()
+				&& all(a.getSelection().getSelect(), Predicates.instanceOf(QueryEntity.class))) {
+
+			return "entitites:" + Joiner.on(", ")
+					.join(transform(a.getSelection().getSelect(), x -> ((QueryEntity) x).getEntity().getName()));
+		}
+
+		return "query:" + Annotations.serializeSelection(a.getSelection());
 	}
 
 	private static Multimap<String, String> getAnnotationMap(MegalElement element) {

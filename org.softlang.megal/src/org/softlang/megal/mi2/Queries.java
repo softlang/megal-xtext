@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.softlang.megal.MegalAnnotation;
 import org.softlang.megal.QueryEntity;
 import org.softlang.megal.QueryEntry;
 import org.softlang.megal.QueryParam;
@@ -23,7 +24,6 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.common.primitives.Ints;
-
 /**
  * <p>
  * Converts a notational query in the form of a selection into an executable

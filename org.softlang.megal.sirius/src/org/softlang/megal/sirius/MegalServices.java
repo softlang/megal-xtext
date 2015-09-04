@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 import org.eclipse.emf.common.util.Diagnostic;
@@ -14,22 +13,19 @@ import org.eclipse.emf.ecore.util.Diagnostician;
 import org.eclipse.sirius.diagram.DEdge;
 import org.eclipse.sirius.diagram.DNode;
 import org.eclipse.sirius.viewpoint.DSemanticDecorator;
-import org.eclipse.xtend.lib.macro.declaration.Declaration;
+import org.softlang.megal.Annotations;
 import org.softlang.megal.MegalAnnotation;
 import org.softlang.megal.MegalDeclaration;
 import org.softlang.megal.MegalEntity;
 import org.softlang.megal.MegalEntityType;
 import org.softlang.megal.MegalFile;
-import org.softlang.megal.MegalNamed;
 import org.softlang.megal.MegalPair;
 import org.softlang.megal.MegalRelationship;
 import org.softlang.megal.MegalRelationshipType;
 import org.softlang.megal.language.scoping.MegalScopeProvider;
-import org.softlang.megal.mi2.RelationshipType;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.FluentIterable;
-import com.google.common.collect.Lists;
 
 public class MegalServices {
 
@@ -351,7 +347,7 @@ public class MegalServices {
 		if (annotation == null)
 			return null;
 
-		String[] colorStrings = annotation.getValue().split(",");
+		String[] colorStrings = Annotations.getString(annotation).split(",");
 
 		if (colorStrings.length != 3)
 			return null;

@@ -72,6 +72,10 @@ class MegalEObjectHoverProvider extends DefaultEObjectHoverProvider {
 
 	def dispatch documentationFor(MegalAnnotation it) {
 		val query = Queries.convert(selection)
+
+		if (query.symbols > 0)
+			return '''Parameterized, «query.symbols» entries.'''
+
 		val rows = switch item: eContainer {
 			MegalFile:
 				query.execute(getKB(item))
