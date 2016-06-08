@@ -90,6 +90,6 @@ $RECYCLE.BIN/
 *.msp
 bin
 
-src-gen/
-xtend-gen/
-generated/
+src-gen/**/*
+xtend-gen/**/*
+generated/**/*
