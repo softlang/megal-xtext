@@ -17,6 +17,7 @@ import org.eclipse.sirius.diagram.DEdge;
 import org.eclipse.sirius.diagram.DNode;
 import org.eclipse.sirius.viewpoint.DSemanticDecorator;
 import org.eclipse.xtend.lib.macro.declaration.Declaration;
+import org.softlang.megal.Annotations;
 import org.softlang.megal.MegalAnnotation;
 import org.softlang.megal.MegalDeclaration;
 import org.softlang.megal.MegalEntity;
@@ -322,12 +323,12 @@ public class MegalServices {
 		if (annotation == null)
 			return null;
 
-		String[] colorStrings = annotation.getValue().split(",");
+		List<String> colorStrings = Annotations.getStrings(annotation);
 
-		if (colorStrings.length != 3)
+		if (colorStrings.size() != 3)
 			return null;
 
-		String colorString = colorStrings[position];
+		String colorString = colorStrings.get(position);
 
 		try {
 			Integer color = Integer.valueOf(colorString);
