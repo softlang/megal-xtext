@@ -88,8 +88,8 @@ $RECYCLE.BIN/
 *.msi
 *.msm
 *.msp
-bin
 
-src-gen/
-xtend-gen/
-generated/
+bin
+src-gen
+xtend-gen
+generated

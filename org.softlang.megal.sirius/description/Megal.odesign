@@ -181,7 +181,7 @@
           </style>
         </edgeMappings>
         <edgeMappings name="org.softlang.megal.sirius.entitytypediagram.relationshiptype" labelDirectEdit="//@ownedViewpoints[name='org.softlang.megal.sirius']/@ownedRepresentations[name='org.softlang.megal.sirius.entitytypediagram']/@defaultLayer/@toolSections.0/@ownedTools[name='org.softlang.megal.sirius.entitytypediagram.tools.editlablerelationshiptype']" semanticCandidatesExpression="[thisEObject.firstRelationshipTypesLocal()/]" sourceMapping="//@ownedViewpoints[name='org.softlang.megal.sirius']/@ownedRepresentations[name='org.softlang.megal.sirius.entitytypediagram']/@defaultLayer/@nodeMappings[name='org.softlang.megal.sirius.entitytypediagram.entitytype'] //@ownedViewpoints[name='org.softlang.megal.sirius']/@ownedRepresentations[name='org.softlang.megal.sirius.entitytypediagram']/@defaultLayer/@nodeMappings[name='org.softlang.megal.sirius.entitytypediagram.entitytype.import']" targetMapping="//@ownedViewpoints[name='org.softlang.megal.sirius']/@ownedRepresentations[name='org.softlang.megal.sirius.entitytypediagram']/@defaultLayer/@nodeMappings[name='org.softlang.megal.sirius.entitytypediagram.entitytype'] //@ownedViewpoints[name='org.softlang.megal.sirius']/@ownedRepresentations[name='org.softlang.megal.sirius.entitytypediagram']/@defaultLayer/@nodeMappings[name='org.softlang.megal.sirius.entitytypediagram.entitytype.import']" targetFinderExpression="[thisEObject.right/]" sourceFinderExpression="[thisEObject.left/]" domainClass="megal.MegalRelationshipType" useDomainElement="true">
-          <style strokeColor="//@userColorsPalettes[name='org.softlang.megal.sirius.colors']/@entries[name='lineColor']" lineStyle="dash" sizeComputationExpression="2" routingStyle="manhattan">
+          <style strokeColor="//@userColorsPalettes[name='org.softlang.megal.sirius.colors']/@entries[name='lineColor']" lineStyle="dash" sizeComputationExpression="2">
             <centerLabelStyleDescription labelSize="9" showIcon="false" labelExpression="[thisEObject.lable()/]">
               <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             </centerLabelStyleDescription>
@@ -226,9 +226,9 @@
             <initialOperation>
               <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="[source.megalFileOverView(sourceView)/]">
                 <subModelOperations xsi:type="tool_1:CreateInstance" typeName="megal.MegalRelationshipType" referenceName="declarations">
-                  <subModelOperations xsi:type="tool_1:SetValue" featureName="typeLeft" valueExpression="[source/]"/>
-                  <subModelOperations xsi:type="tool_1:SetValue" featureName="typeRight" valueExpression="[target/]"/>
-                  <subModelOperations xsi:type="tool_1:SetValue" featureName="name" valueExpression="['relation'/]"/>
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="left" valueExpression="[source/]"/>
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="right" valueExpression="[target/]"/>
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="name" valueExpression="[instance.megalFile().unusedRelationshipTypeName()/]"/>
                 </subModelOperations>
               </firstModelOperations>
             </initialOperation>
