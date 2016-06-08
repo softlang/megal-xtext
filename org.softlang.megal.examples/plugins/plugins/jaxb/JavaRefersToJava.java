@@ -12,8 +12,6 @@ import java.util.Set;
 import org.softlang.megal.mi2.Relationship;
 import org.softlang.megal.mi2.api.Artifact;
 
-import plugins.prelude.GuidedEvaluatorPlugin;
-
 import com.github.javaparser.JavaParser;
 import com.github.javaparser.ParseException;
 import com.github.javaparser.ast.CompilationUnit;
@@ -21,11 +19,12 @@ import com.github.javaparser.ast.ImportDeclaration;
 import com.github.javaparser.ast.body.TypeDeclaration;
 import com.google.common.base.Joiner;
 
+import plugins.prelude.GuidedEvaluatorPlugin;
+
 public class JavaRefersToJava extends GuidedEvaluatorPlugin {
 
 	private Iterable<Artifact> filesOf(Iterable<Artifact> as) {
-		return from(as).transformAndConcat(
-				a -> a.hasContent() ? singleton(a) : a.getChildren());
+		return from(as).transformAndConcat(a -> a.hasContent() ? singleton(a) : a.getChildren());
 	}
 
 	@Override
@@ -52,8 +51,7 @@ public class JavaRefersToJava extends GuidedEvaluatorPlugin {
 				if (unit.getTypes() != null)
 					for (TypeDeclaration type : unit.getTypes()) {
 						String typeName = type.getNameExpr().toString();
-						classes.add(packageName.isEmpty() ? typeName
-								: packageName + "." + typeName);
+						classes.add(packageName.isEmpty() ? typeName : packageName + "." + typeName);
 					}
 			} catch (ParseException e) {
 				// Not responsible for not an element of
@@ -66,36 +64,27 @@ public class JavaRefersToJava extends GuidedEvaluatorPlugin {
 
 				String packageName = unit.getPackage().getName().toString();
 				if (packages.contains(packageName)) {
-					evidenceMessages
-							.add("The artifact "
-									+ leftArtifact.getName()
-									+ " is in the same package as a referred artifact, namely "
-									+ packageName + ".");
+					evidenceMessages.add("The artifact " + leftArtifact.getName()
+							+ " is in the same package as a referred artifact, namely " + packageName + ".");
 				}
 
 				for (ImportDeclaration imp : unit.getImports()) {
 					if (imp.isStatic()) {
 						if (classes.contains(imp.getName().toString())) {
-							evidenceMessages
-									.add("The artifact "
-											+ leftArtifact.getName()
-											+ " statically imports the members of the referred artifact "
-											+ imp.getName().toString() + ".");
+							evidenceMessages.add("The artifact " + leftArtifact.getName()
+									+ " statically imports the members of the referred artifact "
+									+ imp.getName().toString() + ".");
 						}
 					} else if (imp.isAsterisk()) {
 						if (packages.contains(imp.getName().toString())) {
-							evidenceMessages.add("The artifact "
-									+ leftArtifact.getName()
-									+ " imports the package elements of "
-									+ imp.getName().toString()
-									+ " containing a referred artifact.");
+							evidenceMessages
+									.add("The artifact " + leftArtifact.getName() + " imports the package elements of "
+											+ imp.getName().toString() + " containing a referred artifact.");
 						}
 					} else {
 						if (classes.contains(imp.getName().toString())) {
-							evidenceMessages.add("The artifact "
-									+ leftArtifact.getName()
-									+ " imports a referred artifact "
-									+ imp.getName().toString() + ".");
+							evidenceMessages.add("The artifact " + leftArtifact.getName()
+									+ " imports a referred artifact " + imp.getName().toString() + ".");
 						}
 					}
 				}

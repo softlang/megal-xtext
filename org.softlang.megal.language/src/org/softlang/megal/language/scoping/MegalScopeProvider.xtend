@@ -7,6 +7,8 @@ import org.eclipse.xtext.scoping.IScope
 import org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider
 import org.softlang.megal.MegalFile
 import org.softlang.megal.MegalNamed
+import org.softlang.megal.QueryParam
+import org.softlang.megal.Selection
 
 import static org.eclipse.xtext.scoping.IScope.NULLSCOPE
 import static org.eclipse.xtext.scoping.Scopes.*
@@ -67,5 +69,9 @@ class MegalScopeProvider extends AbstractDeclarativeScopeProvider {
 
 	def scope_MegalRelationshipType(MegalFile m, EReference r) {
 		return elementScope(m, r)
+	}
+
+	def scope_QueryReference(Selection s, EReference r) {
+		return scopeFor(s.select.filter(QueryParam))
 	}
 }

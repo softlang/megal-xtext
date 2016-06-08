@@ -3,24 +3,35 @@ package org.softlang.megal.language.ui.hover
 import java.net.URI
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.xtext.ui.editor.hover.html.DefaultEObjectHoverProvider
+import org.softlang.megal.MegalAnnotation
+import org.softlang.megal.MegalDeclaration
 import org.softlang.megal.MegalEntity
 import org.softlang.megal.MegalEntityType
+import org.softlang.megal.MegalFile
 import org.softlang.megal.MegalLink
 import org.softlang.megal.MegalPlugin
 import org.softlang.megal.MegalRelationshipType
+import org.softlang.megal.mi2.Queries
 import org.softlang.megal.mi2.Element
 import org.softlang.megal.mi2.api.Result
 
 import static org.softlang.megal.language.MegalReasoning.*
 import static org.softlang.megal.mi2.MegamodelResolver.*
+import com.google.common.base.Joiner
 
 class MegalEObjectHoverProvider extends DefaultEObjectHoverProvider {
+	val unnamedHoverable = #[MegalAnnotation]
+
 	def link(EObject o) {
 		try {
 			elementLinks.createLink(o)
 		} catch (NullPointerException e) {
 			labelProvider.getText(o)
 		}
+	}
+
+	override protected hasHover(EObject o) {
+		return unnamedHoverable.exists[x|x.isInstance(o)] || super.hasHover(o)
 	}
 
 	override protected getFirstLine(EObject object) {
@@ -53,6 +64,26 @@ class MegalEObjectHoverProvider extends DefaultEObjectHoverProvider {
 
 	def dispatch documentationFor(EObject it) {
 		null
+	}
+
+	def dispatch firstLineFor(MegalAnnotation it) {
+		return '''Annotation, «IF Queries.isStatic(selection)»static«ELSE»dynamic«ENDIF» value'''
+	}
+
+	def dispatch documentationFor(MegalAnnotation it) {
+		val query = Queries.convert(selection)
+
+		if (query.symbols > 0)
+			return '''Parameterized, «query.symbols» entries.'''
+
+		val rows = switch item: eContainer {
+			MegalFile:
+				query.execute(getKB(item))
+			MegalDeclaration:
+				query.execute(getKB(item))
+		}
+
+		return '''«FOR row : rows»«row.join(", ")»<br/>«ENDFOR»'''
 	}
 
 	def dispatch firstLineFor(MegalEntity it) {

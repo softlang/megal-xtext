@@ -20,18 +20,17 @@ import org.softlang.megal.mi2.KBs;
 import org.softlang.megal.mi2.Relationship;
 import org.softlang.megal.mi2.api.Artifact;
 
-import plugins.prelude.InjectedReasonerPlugin;
-
 import com.google.common.base.Optional;
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.io.ByteSource;
 import com.google.common.io.CharSource;
 
+import plugins.prelude.InjectedReasonerPlugin;
+
 public class FileToObjectFunction extends InjectedReasonerPlugin {
 	@Override
 	public KB derive(Relationship relationship) {
-
 		if (!relationship.getRight().hasBinding())
 			return KBs.empty();
 
@@ -76,18 +75,15 @@ public class FileToObjectFunction extends InjectedReasonerPlugin {
 			return KBs.empty();
 
 		Artifact inputArtifact = getArtifact(input.getBinding());
-
 		if (inputArtifact == null)
 			return KBs.empty();
 
 		try {
 			Optional<Object> value = Optional.absent();
 			if (ByteSource.class.isAssignableFrom(firstParameter))
-				value = Optional.of(resolved.invoke(null,
-						inputArtifact.getBytes()));
+				value = Optional.of(resolved.invoke(null, inputArtifact.getBytes()));
 			else if (CharSource.class.isAssignableFrom(firstParameter))
-				value = Optional.of(resolved.invoke(null,
-						inputArtifact.getChars()));
+				value = Optional.of(resolved.invoke(null, inputArtifact.getChars()));
 			else if (InputStream.class.isAssignableFrom(firstParameter))
 				try (InputStream stream = inputArtifact.getBytes().openStream()) {
 					value = Optional.of(resolved.invoke(null, stream));
@@ -97,20 +93,15 @@ public class FileToObjectFunction extends InjectedReasonerPlugin {
 					value = Optional.of(resolved.invoke(null, stream));
 				}
 			else
-				error("Cannot invoke method with parameter "
-						+ firstParameter.getSimpleName(), relationship,
+				error("Cannot invoke method with parameter " + firstParameter.getSimpleName(), relationship,
 						firstRelationshipOf, secondRelationshipOf);
 
 			valid(relationship, firstRelationshipOf, secondRelationshipOf);
 
 			if (!value.isPresent())
 				return KBs.empty();
-			return KBs
-					.builder()
-					.setBindings(ImmutableMap.of(output.getName(), value.get()))
-					.build();
-		} catch (InvocationTargetException | IllegalAccessException
-				| IllegalArgumentException | IOException e) {
+			return KBs.builder().setBindings(ImmutableMap.of(output.getName(), value.get())).build();
+		} catch (InvocationTargetException | IllegalAccessException | IllegalArgumentException | IOException e) {
 			error("Error while invoking function, " + e);
 			return KBs.empty();
 		}
@@ -119,16 +110,13 @@ public class FileToObjectFunction extends InjectedReasonerPlugin {
 	public static Method findAccessibleMethod(Class<?> home, Object binding) {
 		String location = URI.create(binding.toString()).getFragment();
 
-		Iterable<String> commands = Splitter.onPattern("[(),]")
-				.omitEmptyStrings().split(location);
+		Iterable<String> commands = Splitter.onPattern("[(),]").omitEmptyStrings().split(location);
 
-		Method resolved = findAccessibleMethod(home, from(commands).first()
-				.orNull(), from(commands).skip(1).toList());
+		Method resolved = findAccessibleMethod(home, from(commands).first().orNull(), from(commands).skip(1).toList());
 		return resolved;
 	}
 
-	public static Method findAccessibleMethod(Class<?> home, String name,
-			List<String> signature) {
+	public static Method findAccessibleMethod(Class<?> home, String name, List<String> signature) {
 		Method resolved = null;
 
 		nextMethod: for (Method method : home.getMethods()) {
@@ -145,8 +133,7 @@ public class FileToObjectFunction extends InjectedReasonerPlugin {
 				continue;
 
 			for (int i = 0; i < signature.size(); i++)
-				if (!equal(signature.get(i),
-						method.getParameterTypes()[i].getSimpleName()))
+				if (!equal(signature.get(i), method.getParameterTypes()[i].getSimpleName()))
 					continue nextMethod;
 
 			resolved = method;

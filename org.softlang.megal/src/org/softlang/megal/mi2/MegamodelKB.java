@@ -15,6 +15,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import static com.google.common.collect.Iterables.*;
+import static org.eclipse.xtext.nodemodel.util.NodeModelUtils.*;
+
+import org.eclipse.xtext.nodemodel.ICompositeNode;
+import org.eclipse.xtext.xtext.XtextFormatter;
+import org.softlang.megal.Annotations;
 import org.softlang.megal.MegalAnnotation;
 import org.softlang.megal.MegalDeclaration;
 import org.softlang.megal.MegalElement;
@@ -25,10 +31,13 @@ import org.softlang.megal.MegalLink;
 import org.softlang.megal.MegalPair;
 import org.softlang.megal.MegalRelationship;
 import org.softlang.megal.MegalRelationshipType;
-import org.softlang.megal.mi2.util.HashMultitable;
-import org.softlang.megal.mi2.util.Multitable;
+import org.softlang.megal.QueryEntity;
+import org.softlang.megal.QueryString;
+import org.softlang.megal.util.HashMultitable;
+import org.softlang.megal.util.Multitable;
 
 import com.google.common.base.Joiner;
+import com.google.common.base.Predicates;
 import com.google.common.base.Splitter;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableList;
@@ -138,8 +147,8 @@ public class MegamodelKB extends KB {
 				continue;
 
 			// Parameters not element equal, no match
-			if (!elementsEqual(transform(item.getParams(), MegalEntity::getName), Splitter.on(',').omitEmptyStrings()
-					.split(entity.getAnnotation(PARAMS, ""))))
+			if (!elementsEqual(transform(item.getParams(), MegalEntity::getName),
+					Splitter.on(',').omitEmptyStrings().split(entity.getAnnotation(PARAMS, ""))))
 				continue;
 
 			return item;
@@ -178,8 +187,8 @@ public class MegamodelKB extends KB {
 				continue;
 
 			// Left parameters not element equal, no match
-			if (!elementsEqual(transform(item.getLeftParams(), MegalEntity::getName), Splitter.on(',')
-					.omitEmptyStrings().split(relationshipType.getAnnotation(PARAMS_LEFT, ""))))
+			if (!elementsEqual(transform(item.getLeftParams(), MegalEntity::getName),
+					Splitter.on(',').omitEmptyStrings().split(relationshipType.getAnnotation(PARAMS_LEFT, ""))))
 				continue;
 
 			// Right type not equal, no match
@@ -187,8 +196,8 @@ public class MegamodelKB extends KB {
 				continue;
 
 			// Right parameters not element equal, no match
-			if (!elementsEqual(transform(item.getRightParams(), MegalEntity::getName), Splitter.on(',')
-					.omitEmptyStrings().split(relationshipType.getAnnotation(PARAMS_RIGHT, ""))))
+			if (!elementsEqual(transform(item.getRightParams(), MegalEntity::getName),
+					Splitter.on(',').omitEmptyStrings().split(relationshipType.getAnnotation(PARAMS_RIGHT, ""))))
 				continue;
 
 			return item;
@@ -336,7 +345,7 @@ public class MegamodelKB extends KB {
 
 		return null;
 	}
-	
+
 	private static String entityName(String function, String input, String output) {
 		return "(" + input + ", " + output + ") in " + function;
 	}
@@ -432,8 +441,29 @@ public class MegamodelKB extends KB {
 	 */
 	private final SetMultimap<Cell<String, String, String>, Entry<String, String>> relationshipAnnotations;
 
+	private static String getStringOf(MegalAnnotation a) {
+		if (a.getSelection() == null)
+			return null;
+
+		// Single string mode, like in the original model
+		if (a.getSelection().getQuery().isEmpty() && a.getSelection().getSelect().size() == 1
+				&& a.getSelection().getSelect().get(0) instanceof QueryString) {
+
+			return ((QueryString) a.getSelection().getSelect().get(0)).getValue();
+		}
+
+		if (a.getSelection().getQuery().isEmpty()
+				&& all(a.getSelection().getSelect(), Predicates.instanceOf(QueryEntity.class))) {
+
+			return "entitites:" + Joiner.on(", ")
+					.join(transform(a.getSelection().getSelect(), x -> ((QueryEntity) x).getEntity().getName()));
+		}
+
+		return "query:" + Annotations.serializeSelection(a.getSelection());
+	}
+
 	private static Multimap<String, String> getAnnotationMap(MegalElement element) {
-		return transformValues(index(element.getAnnotations(), MegalAnnotation::getKey), MegalAnnotation::getValue);
+		return transformValues(index(element.getAnnotations(), MegalAnnotation::getKey), MegamodelKB::getStringOf);
 	}
 
 	/**
@@ -478,8 +508,8 @@ public class MegamodelKB extends KB {
 					entityTypes.put(name, supertype);
 
 					// Put the annotations
-					entityTypeAnnotations.putAll(immutableEntry(name, supertype), getAnnotationMap(entityType)
-							.entries());
+					entityTypeAnnotations.putAll(immutableEntry(name, supertype),
+							getAnnotationMap(entityType).entries());
 				}
 
 			} else if (declaration instanceof MegalRelationshipType) {
@@ -565,8 +595,8 @@ public class MegamodelKB extends KB {
 				relationships.put(left, right, name);
 
 				// Put the annotations
-				relationshipAnnotations.putAll(immutableCell(left, right, name), getAnnotationMap(relationship)
-						.entries());
+				relationshipAnnotations.putAll(immutableCell(left, right, name),
+						getAnnotationMap(relationship).entries());
 			} else if (declaration instanceof MegalPair) {
 				MegalPair pairDeclaration = (MegalPair) declaration;
 
@@ -587,10 +617,10 @@ public class MegamodelKB extends KB {
 				relationships.put(second, name, SECOND_OF);
 
 				// Put the annotations
-				relationshipAnnotations.putAll(immutableCell(name, set, ELEMENT_OF), getAnnotationMap(pairDeclaration)
-						.entries());
-				relationshipAnnotations.putAll(immutableCell(first, name, FIRST_OF), getAnnotationMap(pairDeclaration)
-						.entries());
+				relationshipAnnotations.putAll(immutableCell(name, set, ELEMENT_OF),
+						getAnnotationMap(pairDeclaration).entries());
+				relationshipAnnotations.putAll(immutableCell(first, name, FIRST_OF),
+						getAnnotationMap(pairDeclaration).entries());
 				relationshipAnnotations.putAll(immutableCell(second, name, SECOND_OF),
 						getAnnotationMap(pairDeclaration).entries());
 				entityAnnotations.putAll(immutableEntry(name, type), getAnnotationMap(pairDeclaration).entries());

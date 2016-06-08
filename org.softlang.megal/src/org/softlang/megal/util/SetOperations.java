@@ -1,4 +1,4 @@
-package org.softlang.megal.mi2.util;
+package org.softlang.megal.util;
 
 import static com.google.common.collect.Multimaps.index;
 import static com.google.common.collect.Multimaps.transformValues;
@@ -9,8 +9,6 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-
-import org.softlang.megal.util.UnionMap;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSetMultimap;

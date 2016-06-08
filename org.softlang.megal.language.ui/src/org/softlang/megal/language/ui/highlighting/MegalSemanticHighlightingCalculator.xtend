@@ -36,50 +36,20 @@ class MegalSemanticHighlightingCalculator extends DefaultSemanticHighlightingCal
 		null
 	}
 
-	def dispatch stylesFor(MegalLink object) {
-		if (object?.link?.type.name == "Plugin")
-			MegalPackage.Literals.MEGAL_LINK.EAllStructuralFeatures.map [
-				it -> MegalHighlightingConfiguration.PLUGIN_ID
-			]
-		else
-			null
-	}
-
 	def dispatch stylesFor(MegalEntity object) {
-		if (object?.type.name == "Plugin")
-			MegalPackage.Literals.MEGAL_ENTITY.EAllStructuralFeatures.map [
-				it -> MegalHighlightingConfiguration.PLUGIN_ID
-			]
-		else
-			#[MegalPackage.Literals.MEGAL_NAMED__NAME -> MegalHighlightingConfiguration.ENTITY_ID]
+		#[MegalPackage.Literals.MEGAL_NAMED__NAME -> MegalHighlightingConfiguration.ENTITY_ID]
 	}
 
 	def dispatch stylesFor(MegalEntityType object) {
-		if (object.name == "Plugin")
-			MegalPackage.Literals.MEGAL_ENTITY_TYPE.EAllStructuralFeatures.map [
-				it -> MegalHighlightingConfiguration.PLUGIN_ID
-			]
-		else
-			#[MegalPackage.Literals.MEGAL_NAMED__NAME -> MegalHighlightingConfiguration.ENTITY_TYPE_ID]
+		#[MegalPackage.Literals.MEGAL_NAMED__NAME -> MegalHighlightingConfiguration.ENTITY_TYPE_ID]
 	}
 
 	def dispatch stylesFor(MegalRelationship object) {
-		if (object?.left?.type?.name == "Plugin" || object?.right?.type?.name == "Plugin")
-			MegalPackage.Literals.MEGAL_RELATIONSHIP.EAllStructuralFeatures.map [
-				it -> MegalHighlightingConfiguration.PLUGIN_ID
-			]
-		else
-			#[MegalPackage.Literals.MEGAL_RELATIONSHIP__TYPE -> MegalHighlightingConfiguration.RELATIONSHIP_ID]
+		#[MegalPackage.Literals.MEGAL_RELATIONSHIP__TYPE -> MegalHighlightingConfiguration.RELATIONSHIP_ID]
 	}
 
 	def dispatch stylesFor(MegalRelationshipType object) {
-		if (object.annotations.exists[key == "Plugin"] || object?.left.name == "Plugin" ||
-			object?.right.name == "Plugin")
-			MegalPackage.Literals.MEGAL_RELATIONSHIP_TYPE.EAllStructuralFeatures.map [
-				it -> MegalHighlightingConfiguration.PLUGIN_ID
-			]
-		else
-			#[MegalPackage.Literals.MEGAL_NAMED__NAME -> MegalHighlightingConfiguration.RELATIONSHIP_TYPE_ID]
+		#[MegalPackage.Literals.MEGAL_NAMED__NAME -> MegalHighlightingConfiguration.RELATIONSHIP_TYPE_ID]
 	}
 
 }

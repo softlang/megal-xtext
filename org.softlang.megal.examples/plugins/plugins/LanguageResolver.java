@@ -10,8 +10,7 @@ public class LanguageResolver extends GuidedReasonerPlugin {
 	protected void guidedDerive(Entity entity) {
 		when(!entity.hasBinding());
 
-		String url = "http://dbpedia.org/page/" + entity.getName()
-				+ "_(programming_language)";
+		String url = "http://dbpedia.org/page/" + entity.getName() + "_(programming_language)";
 		if (getArtifact(url).exists())
 			binding(entity.getName(), url);
 	}

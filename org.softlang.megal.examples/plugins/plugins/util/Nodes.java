@@ -46,8 +46,7 @@ public class Nodes {
 			}
 
 		if (overlap)
-			return location(node.getParentNode()) + "/" + node.getNodeName()
-					+ "#" + index;
+			return location(node.getParentNode()) + "/" + node.getNodeName() + "#" + index;
 		else
 			return location(node.getParentNode()) + "/" + node.getNodeName();
 	}
@@ -99,8 +98,7 @@ public class Nodes {
 		return asContext(null, mapping);
 	}
 
-	public static NamespaceContext asContext(final String defaultNSRURI,
-			final BiMap<String, String> mapping) {
+	public static NamespaceContext asContext(final String defaultNSRURI, final BiMap<String, String> mapping) {
 		return new NamespaceContext() {
 
 			@Override

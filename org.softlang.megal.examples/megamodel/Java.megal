@@ -8,5 +8,5 @@ javaFile = 'workspace:/org.softlang.megal.examples/src/org/softlang/company/xjc/
 
 AcceptJava: Plugin
 AcceptJava realizationOf Java
-AcceptJava partOf FileElementOfLanguage
+AcceptJava partOf StringAcceptor
 AcceptJava = 'classpath:plugins.jaxb.AcceptJava'

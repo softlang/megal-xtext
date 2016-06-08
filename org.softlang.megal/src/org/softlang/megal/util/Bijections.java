@@ -1,4 +1,4 @@
-package org.softlang.megal.mi2.util;
+package org.softlang.megal.util;
 
 import com.google.common.base.Function;
 import com.google.common.collect.BiMap;

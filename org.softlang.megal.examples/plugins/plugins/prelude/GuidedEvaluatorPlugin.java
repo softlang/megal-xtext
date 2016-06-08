@@ -25,30 +25,26 @@ public abstract class GuidedEvaluatorPlugin extends InjectedEvaluatorPlugin {
 
 	protected void when(boolean condition) {
 		if (!condition)
-			throw new GuidedExitException(Level.NOT_RESPONSIBLE,
-					"Condition not satisfied");
+			throw new GuidedExitException(Level.NOT_RESPONSIBLE, "Condition not satisfied");
 	}
 
 	protected Object bindingOf(Entity entity) {
 		if (!entity.hasBinding())
-			throw new GuidedExitException(Level.NOT_RESPONSIBLE,
-					"Binding of the entity " + entity + " is required");
+			throw new GuidedExitException(Level.NOT_RESPONSIBLE, "Binding of the entity " + entity + " is required");
 
 		return entity.getBinding();
 	}
 
 	protected Artifact artifactOf(Entity entity) {
 		if (!entity.hasBinding())
-			throw new GuidedExitException(Level.NOT_RESPONSIBLE,
-					"Binding of the entity " + entity + " is required");
+			throw new GuidedExitException(Level.NOT_RESPONSIBLE, "Binding of the entity " + entity + " is required");
 
 		return getArtifact(entity.getBinding());
 	}
 
 	protected List<Artifact> artifactsOf(Entity entity) {
 		if (!entity.hasBinding())
-			throw new GuidedExitException(Level.NOT_RESPONSIBLE,
-					"Binding of the entity " + entity + " is required");
+			throw new GuidedExitException(Level.NOT_RESPONSIBLE, "Binding of the entity " + entity + " is required");
 
 		return getArtifacts(entity.getBinding());
 	}
@@ -122,8 +118,7 @@ public abstract class GuidedEvaluatorPlugin extends InjectedEvaluatorPlugin {
 	protected void guidedEvaluate(EntityType entityType) throws Throwable {
 	}
 
-	protected void guidedEvaluate(RelationshipType relationshipType)
-			throws Throwable {
+	protected void guidedEvaluate(RelationshipType relationshipType) throws Throwable {
 	}
 
 	protected void guidedEvaluate(Entity entity) throws Throwable {

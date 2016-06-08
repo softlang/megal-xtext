@@ -12,8 +12,7 @@ import org.softlang.megal.mi2.api.Artifact;
 import org.softlang.megal.mi2.api.context.Context;
 import org.softlang.sourcesupport.SourceSupport;
 
-public class InjectedEvaluatorPlugin extends AbstractEvaluatorPlugin implements
-		Context {
+public class InjectedEvaluatorPlugin extends AbstractEvaluatorPlugin implements Context {
 	private Context delegate;
 
 	@Override
@@ -23,8 +22,7 @@ public class InjectedEvaluatorPlugin extends AbstractEvaluatorPlugin implements
 	}
 
 	@Override
-	public final void evaluate(Context context,
-			RelationshipType relationshipType) {
+	public final void evaluate(Context context, RelationshipType relationshipType) {
 		delegate = context;
 		evaluate(relationshipType);
 	}
@@ -64,8 +62,7 @@ public class InjectedEvaluatorPlugin extends AbstractEvaluatorPlugin implements
 	}
 
 	@Override
-	public <T> Class<? extends T> getClass(Object binding, Class<T> deriving,
-			Class<?> nextTo) {
+	public <T> Class<? extends T> getClass(Object binding, Class<T> deriving, Class<?> nextTo) {
 		return delegate.getClass(binding, deriving, nextTo);
 	}
 

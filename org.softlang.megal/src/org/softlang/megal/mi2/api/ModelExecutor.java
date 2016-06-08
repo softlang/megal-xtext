@@ -4,6 +4,7 @@ import static com.google.common.collect.Iterables.filter;
 import static com.google.common.collect.Maps.newHashMap;
 import static com.google.common.collect.Sets.newHashSet;
 import static java.util.Collections.emptyList;
+import static java.util.Collections.singleton;
 
 import java.util.Map;
 import java.util.Set;
@@ -21,6 +22,7 @@ import org.softlang.megal.mi2.api.emission.Emission;
 import org.softlang.megal.mi2.api.resolution.Resolution;
 
 import com.google.common.base.Throwables;
+import com.google.common.collect.FluentIterable;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.SetMultimap;
@@ -34,6 +36,8 @@ public class ModelExecutor {
 
 	public static final String DEFAULT_REALIZATION_NAME = "realizationOf";
 
+	public static final String DEFAULT_VIRTUAL_ANNOTATION_NAME = "Virtual";
+
 	private final String pluginName;
 
 	private final String pluginAnnotationName;
@@ -42,15 +46,20 @@ public class ModelExecutor {
 
 	private final String realizationName;
 
+	private final String virtualAnnotationName;
+
 	public ModelExecutor() {
-		this(DEFAULT_PLUGIN_NAME, DEFAULT_PLUGIN_ANNOTATION_NAME, DEFAULT_PART_NAME, DEFAULT_REALIZATION_NAME);
+		this(DEFAULT_PLUGIN_NAME, DEFAULT_PLUGIN_ANNOTATION_NAME, DEFAULT_PART_NAME, DEFAULT_REALIZATION_NAME,
+				DEFAULT_VIRTUAL_ANNOTATION_NAME);
 	}
 
-	public ModelExecutor(String pluginName, String pluginAnnotationName, String partName, String realizationName) {
+	public ModelExecutor(String pluginName, String pluginAnnotationName, String partName, String realizationName,
+			String virtualAnnotationName) {
 		this.pluginName = pluginName;
 		this.pluginAnnotationName = pluginAnnotationName;
 		this.partName = partName;
 		this.realizationName = realizationName;
+		this.virtualAnnotationName = virtualAnnotationName;
 	}
 
 	/**
@@ -91,45 +100,48 @@ public class ModelExecutor {
 				// Get all instances of the plugin type
 				EntityType pluginType = input.getEntityType(getPluginName());
 				if (pluginType != null)
-					for (Entity entity : pluginType.getInstances()) {
-						if (!entity.hasBinding())
-							continue;
-						// Try to load a class
-						Class<? extends Plugin> pluginClass = resolution.getClass(entity.getBinding(), Plugin.class);
+					for (Entity entityOrGroup : pluginType.getInstances())
+						for (Entity entity : devirtualize(entityOrGroup)) {
+							if (!entity.hasBinding())
+								continue;
+							// Try to load a class
+							Class<? extends Plugin> pluginClass = resolution.getClass(entity.getBinding(),
+									Plugin.class);
 
-						// If class exists, instantiate it
-						if (pluginClass != null)
-							try {
-								// Make instance
-								Plugin plugin = pluginClass.newInstance();
-								plugins.put(entity, plugin);
+							// If class exists, instantiate it
+							if (pluginClass != null)
+								try {
+									// Make instance
+									Plugin plugin = pluginClass.newInstance();
+									plugins.put(entity, plugin);
 
-								// Connect to entity types
-								for (EntityType entityType : input.getEntityTypes())
-									if (entityType.getAnnotations(getPluginAnnotationName()).contains(entity.getName())) {
-										pluginsByEntityType.put(entityType, plugin);
-										for (EntityType spec : entityType.getSpecializations())
-											pluginsByEntityType.put(spec, plugin);
-									}
+									// Connect to entity types
+									for (EntityType entityType : input.getEntityTypes())
+										if (entityType.getAnnotations(getPluginAnnotationName())
+												.contains(entityOrGroup.getName())) {
+											pluginsByEntityType.put(entityType, plugin);
+											for (EntityType spec : entityType.getSpecializations())
+												pluginsByEntityType.put(spec, plugin);
+										}
 
-								// Connect to relationship types
-								for (RelationshipType relationshipType : input.getRelationshipTypes())
-									if (relationshipType.getAnnotations(getPluginAnnotationName()).contains(
-											entity.getName())) {
-										pluginsByRelationshipType.put(relationshipType, plugin);
-										for (RelationshipType spec : relationshipType.getSpecializations())
-											pluginsByRelationshipType.put(spec, plugin);
-									}
+									// Connect to relationship types
+									for (RelationshipType relationshipType : input.getRelationshipTypes())
+										if (relationshipType.getAnnotations(getPluginAnnotationName())
+												.contains(entityOrGroup.getName())) {
+											pluginsByRelationshipType.put(relationshipType, plugin);
+											for (RelationshipType spec : relationshipType.getSpecializations())
+												pluginsByRelationshipType.put(spec, plugin);
+										}
 
-							} catch (Throwable e) {
-								errors.put(entity, Throwables.getStackTraceAsString(e));
+								} catch (Throwable e) {
+									errors.put(entity, Throwables.getStackTraceAsString(e));
+								}
+
+							else {
+								errors.put(entity, "Plugin class " + entity.getBinding() + "  is not resolvable");
 							}
-
-						else {
-							errors.put(entity, "Plugin class " + entity.getBinding() + "  is not resolvable");
 						}
-					}
-
+				
 				// Get the partOf relationship type
 				RelationshipType partOf = input.getRelationshipType(getPartName(), getPluginName(), getPluginName());
 				if (partOf != null)
@@ -160,7 +172,6 @@ public class ModelExecutor {
 			}
 
 			Result run() {
-				long startTime = System.nanoTime();
 				// Origin of generated elements for origin tracking of errors
 				Map<Element, Element> origin = newHashMap();
 
@@ -177,9 +188,11 @@ public class ModelExecutor {
 
 						// Get the appropriate reasoners
 						for (ReasonerPlugin plugin : select(ReasonerPlugin.class, element))
-							// Try to get the output KB, catch an exception into the error messages
+							// Try to get the output KB, catch an exception into
+							// the error messages
 							try {
-								// If the plugin does not exceed element limits, check if the context lock contains it
+								// If the plugin does not exceed element limits,
+								// check if the context lock contains it
 								// and skip if true
 								if (!plugin.isContextBased() && !contextLocked.put(element, plugin))
 									continue;
@@ -188,10 +201,12 @@ public class ModelExecutor {
 
 								// Annotate all the generated elements
 								for (Element generated : output.getElements())
-									// Entity is always element of the generated KB, skip it
-									if (!(generated instanceof EntityType && EntityType
-											.isTheEntityType((EntityType) generated)))
-										// Do not overwrite existing origin tracks
+									// Entity is always element of the generated
+									// KB, skip it
+									if (!(generated instanceof EntityType
+											&& EntityType.isTheEntityType((EntityType) generated)))
+										// Do not overwrite existing origin
+										// tracks
 										if (!origin.containsKey(generated))
 											origin.put(generated, element);
 
@@ -218,7 +233,8 @@ public class ModelExecutor {
 
 					// Get appropriate evaluators
 					for (EvaluatorPlugin plugin : select(EvaluatorPlugin.class, element))
-						// Try to evaluate, catch an exception into the error messages
+						// Try to evaluate, catch an exception into the error
+						// messages
 						try {
 							Plugins.apply(plugin, context, element);
 						} catch (RuntimeException t) {
@@ -228,13 +244,22 @@ public class ModelExecutor {
 						}
 				}
 
-				// Return the result for the given parameters and the evaluator state
+				// Return the result for the given parameters and the evaluator
+				// state
 				return Result.of(input, current, origin, valid, infos, warnings, errors);
+			}
+
+			Iterable<Entity> devirtualize(Entity entity) {
+				if (entity.hasAnnotation(getVirtualAnnotationName()))
+					return FluentIterable.from(entity.incoming(getPartName()))
+							.transformAndConcat(r -> devirtualize(r.getLeft()));
+				return singleton(entity);
 			}
 
 			/**
 			 * <p>
-			 * Creates the context with the given origin and the current element.
+			 * Creates the context with the given origin and the current
+			 * element.
 			 * </p>
 			 * 
 			 * @param origin
@@ -317,7 +342,8 @@ public class ModelExecutor {
 
 			/**
 			 * <p>
-			 * Selects the desired type of plugin based on the associated element and the type of plugins.
+			 * Selects the desired type of plugin based on the associated
+			 * element and the type of plugins.
 			 * </p>
 			 * 
 			 * @param type
@@ -385,5 +411,9 @@ public class ModelExecutor {
 
 	public String getRealizationName() {
 		return realizationName;
+	}
+
+	private String getVirtualAnnotationName() {
+		return virtualAnnotationName;
 	}
 }

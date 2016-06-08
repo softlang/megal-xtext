@@ -4,8 +4,6 @@ import static com.google.common.collect.Iterables.getFirst;
 
 import org.softlang.megal.mi2.Entity;
 import org.softlang.megal.mi2.Relationship;
-import org.softlang.megal.mi2.api.AbstractEvaluatorPlugin;
-import org.softlang.megal.mi2.api.context.Context;
 
 import plugins.prelude.InjectedEvaluatorPlugin;
 

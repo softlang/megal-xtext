@@ -12,10 +12,10 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
-import plugins.root.elementof.Acceptor;
-
 import com.google.common.base.Optional;
 import com.google.common.base.Throwables;
+
+import plugins.root.elementof.Acceptor;
 
 public class AcceptXML extends Acceptor {
 	@Override
@@ -30,10 +30,10 @@ public class AcceptXML extends Acceptor {
 
 			reader.parse(new InputSource(stream));
 			return Optional.absent();
-		} catch (SAXException  e) {
-			return Optional.of("File not element of language:\r\n"+e.getMessage());
-		} catch (IOException  | ParserConfigurationException e) {
-			return Optional.of("File not element of language:\r\n"+Throwables.getStackTraceAsString(e));
+		} catch (SAXException e) {
+			return Optional.of("File not element of language:\r\n" + e.getMessage());
+		} catch (IOException | ParserConfigurationException e) {
+			return Optional.of("File not element of language:\r\n" + Throwables.getStackTraceAsString(e));
 		}
 	}
 }

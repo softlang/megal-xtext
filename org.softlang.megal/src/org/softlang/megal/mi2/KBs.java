@@ -3,9 +3,9 @@ package org.softlang.megal.mi2;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.softlang.megal.mi2.util.ImmutableMultitable;
-import org.softlang.megal.mi2.util.Multitable;
-import org.softlang.megal.mi2.util.SetOperations;
+import org.softlang.megal.util.ImmutableMultitable;
+import org.softlang.megal.util.Multitable;
+import org.softlang.megal.util.SetOperations;
 import org.softlang.megal.util.Union;
 
 import com.google.common.collect.ImmutableMap;

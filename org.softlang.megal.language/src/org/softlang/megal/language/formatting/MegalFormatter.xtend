@@ -28,10 +28,12 @@ public class MegalFormatter extends AbstractDeclarativeFormatter {
 		c.setLinewrap(0, 1, 2).after(megalFileAccess.nameAssignment_2)
 		c.setLinewrap(0, 1, 2).after(megalFileAccess.importsAssignment_3_0_1)
 
-		// Annotation
+		// Annotations
 		c.setLinewrap(0, 1, 2).around(megalAnnotationRule)
-		c.setNoSpace.after(megalAnnotationAccess.commercialAtKeyword_0)
-		c.setSpace(' ').between(megalAnnotationAccess.keyAssignment_1, megalAnnotationAccess.valueAssignment_2)
+
+		// Query options
+		c.setNoSpace.before(selectionAccess.commaKeyword_1_0)
+		c.setNoSpace.around(queryPosAccess.valueAssignment_1)
 
 		// Link
 		c.setLinewrap(0, 1, 2).around(megalLinkRule)

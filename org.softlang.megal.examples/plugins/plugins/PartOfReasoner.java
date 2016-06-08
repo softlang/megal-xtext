@@ -8,7 +8,7 @@ public class PartOfReasoner extends GuidedReasonerPlugin {
 	@Override
 	protected void guidedDerive(Entity entity) throws Throwable {
 		when(entity.getName().contains("."));
-		
+
 		String first = entity.getName().substring(0, entity.getName().lastIndexOf("."));
 
 		if (entity.getKB().getEntity(first) != null)

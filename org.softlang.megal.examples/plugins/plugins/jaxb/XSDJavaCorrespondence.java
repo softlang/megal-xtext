@@ -23,13 +23,11 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
-import plugins.prelude.GuidedEvaluatorPlugin;
-import plugins.prelude.GuidedReasonerPlugin;
-
 import com.google.common.base.CaseFormat;
 import com.google.common.collect.ImmutableBiMap;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+
+import plugins.prelude.GuidedReasonerPlugin;
 
 public class XSDJavaCorrespondence extends GuidedReasonerPlugin {
 
@@ -70,7 +68,7 @@ public class XSDJavaCorrespondence extends GuidedReasonerPlugin {
 
 			if (!hasInvalidation) {
 				valid();
-				//TODO Really nesting partOf stuff things
+				// TODO Really nesting partOf stuff things
 				for (Entry<Node, Artifact> match : matched.entrySet()) {
 					Entity eleft = entity(locationAndValue(match.getKey()), "Transient");
 					Entity eright = entity(match.getValue().toString(), "Transient");

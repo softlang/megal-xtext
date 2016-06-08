@@ -10,15 +10,14 @@ import java.util.List;
 import org.softlang.megal.mi2.Relationship;
 import org.softlang.megal.mi2.api.Artifact;
 
-import plugins.prelude.GuidedEvaluatorPlugin;
-
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 
+import plugins.prelude.GuidedEvaluatorPlugin;
+
 public class JavaFileDefinesStaticFunction extends GuidedEvaluatorPlugin {
 	@Override
-	public void guidedEvaluate(Relationship relationship) throws IOException,
-			URISyntaxException {
+	public void guidedEvaluate(Relationship relationship) throws IOException, URISyntaxException {
 		// Get artifact and binding
 		Artifact javaFile = artifactOf(relationship.getLeft());
 		URI binding = new URI(bindingOf(relationship.getRight()).toString());
@@ -31,15 +30,13 @@ public class JavaFileDefinesStaticFunction extends GuidedEvaluatorPlugin {
 		String function = binding.getFragment();
 
 		// Split qualified name
-		List<String> split = Splitter.on('.').omitEmptyStrings()
-				.splitToList(qname);
+		List<String> split = Splitter.on('.').omitEmptyStrings().splitToList(qname);
 		// Find package and class name
 		String frag = Joiner.on('.').join(split.subList(0, split.size() - 2));
 		String name = split.get(split.size() - 1);
 
 		// Find function name
-		String fname = getFirst(
-				Splitter.on('(').omitEmptyStrings().split(function), null);
+		String fname = getFirst(Splitter.on('(').omitEmptyStrings().split(function), null);
 
 		// Get file content and check it
 		String file = javaFile.getChars().read();
@@ -49,8 +46,7 @@ public class JavaFileDefinesStaticFunction extends GuidedEvaluatorPlugin {
 			return;
 		}
 
-		if (!(file.contains("class " + name) || file.contains("interface "
-				+ name))) {
+		if (!(file.contains("class " + name) || file.contains("interface " + name))) {
 			error("Does not define class or interface " + name + ".");
 			return;
 		}

@@ -23,24 +23,21 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
+import com.google.common.base.Splitter;
+
 import plugins.prelude.InjectedEvaluatorPlugin;
 import plugins.util.Nodes;
 
-import com.google.common.base.Splitter;
-
 public class FindBuildScriptAsElementOfEvidence extends InjectedEvaluatorPlugin {
 	private static String getIn(Project project, String potentialVariable) {
-		if (potentialVariable.startsWith("${")
-				&& potentialVariable.endsWith("}"))
-			return project.getProperty(potentialVariable.substring(2,
-					potentialVariable.length() - 1));
+		if (potentialVariable.startsWith("${") && potentialVariable.endsWith("}"))
+			return project.getProperty(potentialVariable.substring(2, potentialVariable.length() - 1));
 
 		return potentialVariable;
 	}
 
-	private static boolean corresponds(Artifact artifactXSD,
-			Artifact artifactPackage, Artifact schema, Artifact destination,
-			String packageName) {
+	private static boolean corresponds(Artifact artifactXSD, Artifact artifactPackage, Artifact schema,
+			Artifact destination, String packageName) {
 
 		for (String item : Splitter.on('.').split(packageName))
 			if (destination == null)
@@ -48,8 +45,7 @@ public class FindBuildScriptAsElementOfEvidence extends InjectedEvaluatorPlugin 
 			else
 				destination = destination.getChild(item);
 
-		return equal(artifactXSD, schema)
-				&& equal(artifactPackage, destination);
+		return equal(artifactXSD, schema) && equal(artifactPackage, destination);
 	}
 
 	private static String suffix(int n) {
@@ -122,23 +118,20 @@ public class FindBuildScriptAsElementOfEvidence extends InjectedEvaluatorPlugin 
 			XPath xpath = XPathFactory.newInstance().newXPath();
 
 			// Make field for all executes and properties
-			List<Node> executes = Nodes.asList((NodeList) xpath.evaluate(
-					"/project/target/exec", new InputSource(stream),
-					XPathConstants.NODESET));
+			List<Node> executes = Nodes.asList(
+					(NodeList) xpath.evaluate("/project/target/exec", new InputSource(stream), XPathConstants.NODESET));
 
 			boolean hasEvidence = false;
 
 			// Check all execute statements for evidence
 			for (Node node : executes) {
-				List<Node> args = Nodes.asList((NodeList) xpath.evaluate("arg",
-						node, XPathConstants.NODESET));
+				List<Node> args = Nodes.asList((NodeList) xpath.evaluate("arg", node, XPathConstants.NODESET));
 				// If no argument, continue
 				if (args.size() == 0)
 					continue;
 
 				// Get schema value
-				Node schemaArgValue = args.get(0).getAttributes()
-						.getNamedItem("value");
+				Node schemaArgValue = args.get(0).getAttributes().getNamedItem("value");
 
 				// If not present skip
 				if (schemaArgValue == null)
@@ -152,8 +145,7 @@ public class FindBuildScriptAsElementOfEvidence extends InjectedEvaluatorPlugin 
 				// Find associated mappings
 				for (int i = 1; i < args.size() - 1; i++) {
 					// Get argument name
-					Node argName = args.get(i).getAttributes()
-							.getNamedItem("value");
+					Node argName = args.get(i).getAttributes().getNamedItem("value");
 
 					// If no argument name, skip
 					if (argName == null)
@@ -162,8 +154,7 @@ public class FindBuildScriptAsElementOfEvidence extends InjectedEvaluatorPlugin 
 					// If argument name is 'd', set folder
 					if ("-d".equals(argName.getTextContent())) {
 						// Get value
-						Node argValue = args.get(i + 1).getAttributes()
-								.getNamedItem("path");
+						Node argValue = args.get(i + 1).getAttributes().getNamedItem("path");
 
 						// If present, assign
 						if (argValue != null)
@@ -173,8 +164,7 @@ public class FindBuildScriptAsElementOfEvidence extends InjectedEvaluatorPlugin 
 					// If argument name is 'p', set package
 					if ("-p".equals(argName.getTextContent())) {
 						// Get value
-						Node argValue = args.get(i + 1).getAttributes()
-								.getNamedItem("value");
+						Node argValue = args.get(i + 1).getAttributes().getNamedItem("value");
 
 						// If present, assign
 						if (argValue != null)
@@ -184,16 +174,14 @@ public class FindBuildScriptAsElementOfEvidence extends InjectedEvaluatorPlugin 
 
 				// Do resolution
 				Artifact schema = getArtifact(getIn(project, schemaArg));
-				Artifact destination = getArtifact(getIn(project,
-						destinationArg));
+				Artifact destination = getArtifact(getIn(project, destinationArg));
 				String packageName = getIn(project, packageArg);
 
-				if (corresponds(artifactXSD, artifactPackage, schema,
-						destination, packageName)) {
+				if (corresponds(artifactXSD, artifactPackage, schema, destination, packageName)) {
 
 					int index = 1 + executes.indexOf(node);
-					info("Evidence for pair element found in build script at the "
-							+ index + suffix(index) + " <exec>.");
+					info("Evidence for pair element found in build script at the " + index + suffix(index)
+							+ " <exec>.");
 					hasEvidence = true;
 					break;
 				}

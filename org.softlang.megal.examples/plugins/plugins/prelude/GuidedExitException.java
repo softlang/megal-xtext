@@ -36,8 +36,7 @@ public class GuidedExitException extends RuntimeException {
 		return level;
 	}
 
-	public static void handleGuideException(Context context,
-			GuidedExitException e) {
+	public static void handleGuideException(Context context, GuidedExitException e) {
 		switch (e.getLevel()) {
 		case NOT_RESPONSIBLE:
 			break;

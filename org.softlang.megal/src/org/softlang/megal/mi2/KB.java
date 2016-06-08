@@ -7,18 +7,19 @@ import static com.google.common.base.Predicates.not;
 import static com.google.common.collect.Iterables.getFirst;
 import static com.google.common.collect.Maps.immutableEntry;
 import static com.google.common.collect.Tables.immutableCell;
-import static org.softlang.megal.mi2.util.SetOperations.transform;
-import static org.softlang.megal.mi2.util.SetOperations.translate;
 import static org.softlang.megal.util.Persistent.with;
+import static org.softlang.megal.util.SetOperations.transform;
+import static org.softlang.megal.util.SetOperations.translate;
 
 import java.util.Collection;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 
-import org.softlang.megal.mi2.util.Bijection;
-import org.softlang.megal.mi2.util.Bijections;
-import org.softlang.megal.mi2.util.Multitable;
+import org.softlang.megal.util.Bijection;
+import org.softlang.megal.util.Bijections;
+import org.softlang.megal.util.Multitable;
+
+import java.util.Set;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Optional;
