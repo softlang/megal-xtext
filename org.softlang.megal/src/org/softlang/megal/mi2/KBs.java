@@ -3,13 +3,16 @@ package org.softlang.megal.mi2;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.softlang.megal.util.HashMultitable;
 import org.softlang.megal.util.ImmutableMultitable;
 import org.softlang.megal.util.Multitable;
 import org.softlang.megal.util.SetOperations;
 import org.softlang.megal.util.Union;
 
+import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSetMultimap;
+import com.google.common.collect.Maps;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Table.Cell;
 
@@ -17,8 +20,9 @@ public class KBs {
 
 	/**
 	 * <p>
-	 * The builder class initializes a knowledge base on the given static return values. It may be supplied to other
-	 * consumers, as every operation makes a copy of the builder.
+	 * The builder class initializes a knowledge base on the given static return
+	 * values. It may be supplied to other consumers, as every operation makes a
+	 * copy of the builder.
 	 * </p>
 	 * 
 	 * @author Pazuzu
@@ -417,7 +421,8 @@ public class KBs {
 
 	/**
 	 * <p>
-	 * Applies the union on the values of <code>a</code> and <code>b</code>. Uses the first knowledge bases title.
+	 * Applies the union on the values of <code>a</code> and <code>b</code>.
+	 * Uses the first knowledge bases title.
 	 * </p>
 	 * 
 	 * @param a
@@ -427,9 +432,7 @@ public class KBs {
 	 * @return Returns a new knowledge base
 	 */
 	public static KB union(KB a, KB b) {
-		return KBs
-				.builder()
-				.setTitle(a.getTitle())
+		return KBs.builder().setTitle(a.getTitle())
 				.setRelationships(Union.union(a.getRawRelationships(), b.getRawRelationships()))
 				.setRelationshipTypes(Union.union(a.getRawRelationshipTypes(), b.getRawRelationshipTypes()))
 				.setRelationshipTypeAnnotations(
@@ -448,8 +451,8 @@ public class KBs {
 
 	/**
 	 * <p>
-	 * Applies the intersection on the values of <code>a</code> and <code>b</code>. Uses the first knowledge bases
-	 * title.
+	 * Applies the intersection on the values of <code>a</code> and
+	 * <code>b</code>. Uses the first knowledge bases title.
 	 * </p>
 	 * 
 	 * @param a
@@ -459,17 +462,14 @@ public class KBs {
 	 * @return Returns a new knowledge base
 	 */
 	public static KB intersection(KB a, KB b) {
-		return KBs
-				.builder()
-				.setTitle(a.getTitle())
+		return KBs.builder().setTitle(a.getTitle())
 				.setRelationships(SetOperations.intersection(a.getRawRelationships(), b.getRawRelationships()))
 				.setRelationshipTypes(
 						SetOperations.intersection(a.getRawRelationshipTypes(), b.getRawRelationshipTypes()))
-				.setRelationshipTypeAnnotations(
-						SetOperations.intersection(a.getRawRelationshipTypeAnnotations(),
-								b.getRawRelationshipTypeAnnotations()))
-				.setRelationshipAnnotations(
-						SetOperations.intersection(a.getRawRelationshipAnnotations(), b.getRawRelationshipAnnotations()))
+				.setRelationshipTypeAnnotations(SetOperations.intersection(a.getRawRelationshipTypeAnnotations(),
+						b.getRawRelationshipTypeAnnotations()))
+				.setRelationshipAnnotations(SetOperations.intersection(a.getRawRelationshipAnnotations(),
+						b.getRawRelationshipAnnotations()))
 				.setEntityTypes(SetOperations.intersection(a.getRawEntityTypes(), b.getRawEntityTypes()))
 				.setEntityTypeAnnotations(
 						SetOperations.intersection(a.getRawEntityTypeAnnotations(), b.getRawEntityTypeAnnotations()))
@@ -477,15 +477,15 @@ public class KBs {
 						SetOperations.intersection(a.getRawEntityAnnotations(), b.getRawEntityAnnotations()))
 				.setEntities(SetOperations.intersection(a.getRawEntities(), b.getRawEntities()))
 				.setBindings(SetOperations.intersection(a.getRawBindings(), b.getRawBindings()))
-				.setTheEntityTypeAnnotations(
-						SetOperations.intersection(a.getRawTheEntityTypeAnnotations(),
-								b.getRawTheEntityTypeAnnotations()))
+				.setTheEntityTypeAnnotations(SetOperations.intersection(a.getRawTheEntityTypeAnnotations(),
+						b.getRawTheEntityTypeAnnotations()))
 				.setAnnotations(SetOperations.intersection(a.getRawAnnotations(), b.getRawAnnotations())).build();
 	}
 
 	/**
 	 * <p>
-	 * Applies the difference on the values of <code>a</code> and <code>b</code> . Uses the first knowledge bases title.
+	 * Applies the difference on the values of <code>a</code> and <code>b</code>
+	 * . Uses the first knowledge bases title.
 	 * </p>
 	 * 
 	 * @param a
@@ -495,15 +495,12 @@ public class KBs {
 	 * @return Returns a new knowledge base
 	 */
 	public static KB difference(KB a, KB b) {
-		return KBs
-				.builder()
-				.setTitle(a.getTitle())
+		return KBs.builder().setTitle(a.getTitle())
 				.setRelationships(SetOperations.difference(a.getRawRelationships(), b.getRawRelationships()))
 				.setRelationshipTypes(
 						SetOperations.difference(a.getRawRelationshipTypes(), b.getRawRelationshipTypes()))
-				.setRelationshipTypeAnnotations(
-						SetOperations.difference(a.getRawRelationshipTypeAnnotations(),
-								b.getRawRelationshipTypeAnnotations()))
+				.setRelationshipTypeAnnotations(SetOperations.difference(a.getRawRelationshipTypeAnnotations(),
+						b.getRawRelationshipTypeAnnotations()))
 				.setRelationshipAnnotations(
 						SetOperations.difference(a.getRawRelationshipAnnotations(), b.getRawRelationshipAnnotations()))
 				.setEntityTypes(SetOperations.difference(a.getRawEntityTypes(), b.getRawEntityTypes()))
@@ -513,8 +510,8 @@ public class KBs {
 						SetOperations.difference(a.getRawEntityAnnotations(), b.getRawEntityAnnotations()))
 				.setEntities(SetOperations.difference(a.getRawEntities(), b.getRawEntities()))
 				.setBindings(SetOperations.difference(a.getRawBindings(), b.getRawBindings()))
-				.setTheEntityTypeAnnotations(
-						SetOperations.difference(a.getRawTheEntityTypeAnnotations(), b.getRawTheEntityTypeAnnotations()))
+				.setTheEntityTypeAnnotations(SetOperations.difference(a.getRawTheEntityTypeAnnotations(),
+						b.getRawTheEntityTypeAnnotations()))
 				.setAnnotations(SetOperations.difference(a.getRawAnnotations(), b.getRawAnnotations())).build();
 	}
 
@@ -540,5 +537,42 @@ public class KBs {
 		return new Builder(null, ImmutableMultitable.of(), ImmutableMultitable.of(), ImmutableSetMultimap.of(),
 				ImmutableSetMultimap.of(), ImmutableMap.of(), ImmutableSetMultimap.of(), ImmutableSetMultimap.of(),
 				ImmutableMap.of(), ImmutableMap.of(), ImmutableSetMultimap.of(), ImmutableSetMultimap.of());
+	}
+
+	/**
+	 * <p>
+	 * Constructs a mutable KB.
+	 * </p>
+	 * 
+	 * @return Returns a mutable KB
+	 */
+	public static MutableKB mutable() {
+		return new MutableKB();
+	}
+
+	public static boolean add(KB target, KB source) {
+		boolean modflag = target.getRawRelationships().putAll(source.getRawRelationships());
+		modflag |= target.getRawRelationshipTypes().putAll(source.getRawRelationshipTypes());
+		modflag |= target.getRawRelationshipTypeAnnotations().putAll(source.getRawRelationshipTypeAnnotations());
+		modflag |= target.getRawRelationshipAnnotations().putAll(source.getRawRelationshipAnnotations());
+
+		int modcount = target.getRawEntityTypes().size();
+		target.getRawEntityTypes().putAll(source.getRawEntityTypes());
+		modflag |= modcount != target.getRawEntityTypes().size();
+
+		modflag |= target.getRawEntityTypeAnnotations().putAll(source.getRawEntityTypeAnnotations());
+		modflag |= target.getRawEntityAnnotations().putAll(source.getRawEntityAnnotations());
+
+		modcount = target.getRawEntities().size();
+		target.getRawEntities().putAll(source.getRawEntities());
+		modflag |= modcount != target.getRawEntities().size();
+
+		modcount = target.getRawBindings().size();
+		target.getRawBindings().putAll(source.getRawBindings());
+		modflag |= modcount != target.getRawBindings().size();
+
+		modflag |= target.getRawTheEntityTypeAnnotations().putAll(source.getRawTheEntityTypeAnnotations());
+		modflag |= target.getRawAnnotations().putAll(source.getRawAnnotations());
+		return modflag;
 	}
 }

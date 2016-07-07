@@ -97,9 +97,12 @@ class MegalEObjectHoverProvider extends DefaultEObjectHoverProvider {
 		if (!r.empty) '''
 			<p>Elements derived from this
 				<ul>
-					«FOR f : r»
+					«FOR f : r.take(15)»
 						<li>«f»</li>
 					«ENDFOR»
+					«IF !r.drop(15).empty»
+						<li>...</li>
+					«ENDIF»
 				</ul>
 			</p>
 		''' else ''''''

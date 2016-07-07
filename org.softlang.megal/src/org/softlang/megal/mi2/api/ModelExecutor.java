@@ -141,19 +141,19 @@ public class ModelExecutor {
 								errors.put(entity, "Plugin class " + entity.getBinding() + "  is not resolvable");
 							}
 						}
-				
+
 				// Get the partOf relationship type
 				RelationshipType partOf = input.getRelationshipType(getPartName(), getPluginName(), getPluginName());
 				if (partOf != null)
 					// If it exists, iterate all the instances
 					for (Relationship relationship : partOf.getInstances()) {
-						// Get container and element
-						Plugin container = plugins.get(relationship.getRight());
-						Plugin item = plugins.get(relationship.getLeft());
+					// Get container and element
+					Plugin container = plugins.get(relationship.getRight());
+					Plugin item = plugins.get(relationship.getLeft());
 
-						// If both exist, add element as part
-						if (container != null && item != null)
-							container.getParts().add(item);
+					// If both exist, add element as part
+					if (container != null && item != null)
+					container.getParts().add(item);
 					}
 
 				// Get the realizationOf relationship type
@@ -162,12 +162,12 @@ public class ModelExecutor {
 				if (realizationOf != null)
 					// If it exists, iterate all the instances
 					for (Relationship relationship : realizationOf.getInstances()) {
-						// Get the realizer
-						Plugin realizer = plugins.get(relationship.getLeft());
+					// Get the realizer
+					Plugin realizer = plugins.get(relationship.getLeft());
 
-						// If it exists, add entity as realized
-						if (realizer != null)
-							realizer.getRealization().add(relationship.getRight());
+					// If it exists, add entity as realized
+					if (realizer != null)
+					realizer.getRealization().add(relationship.getRight());
 					}
 			}
 
@@ -175,11 +175,14 @@ public class ModelExecutor {
 				// Origin of generated elements for origin tracking of errors
 				Map<Element, Element> origin = newHashMap();
 
-				// Current knowledge base and expansion base
-				KB current = input;
-				KB expansion = KBs.empty();
+				// Current knowledge base, initialized on input
+				KB current = KBs.mutable();
+				KBs.add(current, input);
 
 				for (;;) {
+					// Start current expansion base
+					KB expansion = KBs.mutable();
+
 					// Evaluate all the elements
 					for (Element element : current.getElements()) {
 
@@ -208,10 +211,10 @@ public class ModelExecutor {
 										// Do not overwrite existing origin
 										// tracks
 										if (!origin.containsKey(generated))
-											origin.put(generated, element);
+										origin.put(generated, element);
 
 								// Add the output to the reasoner
-								expansion = KBs.union(expansion, output);
+								KBs.add(expansion, output);
 							} catch (RuntimeException t) {
 								context.warning(Throwables.getStackTraceAsString(t));
 							} catch (Throwable t) {
@@ -219,12 +222,8 @@ public class ModelExecutor {
 							}
 					}
 
-					if (KBs.difference(expansion, current).isEmpty())
-						// If expansion has no more additions, stop evaluation
+					if (!KBs.add(current, expansion))
 						break;
-					else
-						// Else continue with greater front
-						current = KBs.union(current, expansion);
 				}
 
 				for (Element element : current.getElements()) {
