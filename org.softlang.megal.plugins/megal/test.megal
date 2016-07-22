@@ -1,0 +1,70 @@
+model test
+import Prelude
+import Java
+
+Java : Language
+
+JavaFragment < Fragment
+JavaInterface < Fragment
+JavaClass < Fragment
+JavaInnerClass < Fragment
+JavaConstructor < Fragment
+JavaMethod < Fragment
+JavaField < Fragment
+JavaAnnotation < Fragment
+
+partOf < JavaClass * File
+partOf < JavaInterface * File
+partOf < JavaMethod * JavaClass
+partOf < JavaField * JavaClass
+
+
+aJavaFile : File
+aJavaFile elementOf Java
+
+JavaFragmentizer : Plugin
+JavaFragmentizer realizationOf Java
+JavaFragmentizer partOf FileFragmentReasoner
+JavaFragmentizer = 'classpath:org.softlang.megal.plugins.impl.java.JavaFragmentizer'
+
+
+// relationship annotations for reasoning
+@Transitive
+@Reflexive
+Rel < Entity * Entity
+
+
+
+XML: Language
+XSD: Language
+XSD subsetOf XML
+
+XMLSchema < Artifact
+
+XMLSchemaSchema : File
+XMLSchemaSchema elementOf XML
+XMLSchemaSchema defines XSD
+
+//@Plugin 'XSDFragmentResolver'
+XMLFragment < Fragment
+XMLElement < XMLFragment
+XMLAttribute < XMLFragment
+XMLNSAttribute < XMLAttribute
+
+
+
+
+XMLFragmentizer : Plugin
+XMLFragmentizer realizationOf XML
+XMLFragmentizer partOf FileFragmentReasoner
+XMLFragmentizer = 'classpath:org.softlang.megal.plugins.impl.xml.XMLFragmentizer'
+
+
+XSDFragmentResolver : Plugin
+XSDFragmentResolver = 'classpath:org.softlang.megal.plugins.impl.xsd.XSDFragmentResolver'
+
+xmlFile: File
+xmlFile elementOf XML
+
+xsdFile: File
+xsdFile elementOf XSD

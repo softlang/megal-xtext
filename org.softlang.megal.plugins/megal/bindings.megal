@@ -1,0 +1,14 @@
+model bindings
+import test
+
+
+//aJavaFile = 'workspace:/org.softlang.megal.plugins/input/Company.java'
+//aJavaFile = 'workspace:/org.softlang.megal.plugins/src/org/softlang/megal/plugins/impl/java/JavaFragmentizer.java'
+
+
+//xmlFile = 'workspace:/org.softlang.megal.plugins/input/Foo.xml'
+//xsdFile = 'workspace:/org.softlang.megal.plugins/input/Foo.xsd'
+
+
+//XMLSchemaSchema = 'https://www.w3.org/2009/XMLSchema/XMLSchema.xsd'
+XMLSchemaSchema = 'workspace:/org.softlang.megal.plugins/input/XMLSchema.xsd'
