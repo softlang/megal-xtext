@@ -173,6 +173,8 @@ public class Main {
 		printInstances(kb,out);
 		out.close();
 		
+		System.out.println();
+		System.out.println("Done!");
 		
 	}
 
