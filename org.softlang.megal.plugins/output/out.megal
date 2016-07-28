@@ -19862,7 +19862,6 @@ XMLSchemaSchema.xs:schema$0.xs:group$109.xs:sequence$1.xs:choice$1.maxOccurs$1 p
 XMLSchemaSchema.xs:schema$0.xs:group$109.xs:sequence$1.xs:choice$1.maxOccurs$1 = 'file:/home/darjeeling/Documents/megal-xtext/org.softlang.megal.plugins/input/XMLSchema.xsd#/0/xs:schema/XMLElement/109/xs:group/XMLElement/1/xs:sequence/XMLElement/1/xs:choice/XMLElement/1/maxOccurs/XMLAttribute'
 
 Java: Language
-Java = 'http://dbpedia.org/page/Java_(programming_language)'
 
 @FragmentText '<xs:element ref="xs:annotation" minOccurs="0"/> ...'
 XMLSchemaSchema.xs:schema$0.xs:element$82.xs:complexType$3.xs:complexContent$0.xs:extension$0.xs:sequence$1.xs:element$0: XMLElement
