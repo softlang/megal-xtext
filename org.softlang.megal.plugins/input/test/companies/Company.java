@@ -1,9 +1,12 @@
+package test.companies;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Company {
 	
-	
+	static interface Lala {
+		
+	}
 	
 	static public class Department {
 	
@@ -43,6 +46,8 @@ public class Company {
 		private String name;
 		private List<Employee> employees = new ArrayList<Employee>();
 		
+		
+		
 		public String getName() {
 			return name;
 		}
@@ -62,6 +67,10 @@ public class Company {
 
 	private String name;
 	private List<Department> departments = new ArrayList<Department>();
+	
+	public Company () {
+		
+	}
 	
 	public String getName() {
 		return name;

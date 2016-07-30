@@ -14,12 +14,16 @@ import org.softlang.megal.plugins.api.fragmentation.Fragments.Fragment;
 import org.softlang.megal.plugins.impl.java.antlr.JavaLexer;
 import org.softlang.megal.plugins.impl.java.antlr.JavaParser;
 import org.softlang.megal.plugins.impl.java.antlr.JavaParser.FieldDeclarationContext;
+import org.softlang.megal.plugins.impl.java.antlr.JavaParser.InterfaceDeclarationContext;
 import org.softlang.megal.plugins.impl.java.antlr.JavaParser.MemberDeclarationContext;
 import org.softlang.megal.plugins.impl.java.antlr.JavaParser.MethodDeclarationContext;
+import org.softlang.megal.plugins.impl.java.antlr.JavaParser.PackageDeclarationContext;
 import org.softlang.megal.plugins.impl.java.antlr.JavaParser.TypeDeclarationContext;
 import org.softlang.megal.plugins.impl.java.antlr.JavaParser.VariableDeclaratorContext;
 import org.softlang.megal.plugins.impl.java.antlr.JavaParser.ClassBodyDeclarationContext;
 import org.softlang.megal.plugins.impl.java.antlr.JavaParser.ClassDeclarationContext;
+import org.softlang.megal.plugins.impl.java.antlr.JavaParser.CompilationUnitContext;
+import org.softlang.megal.plugins.impl.java.antlr.JavaParser.ConstructorDeclarationContext;
 import org.softlang.megal.plugins.impl.java.antlr.JavaParserFactory;
 
 /**
@@ -30,6 +34,47 @@ import org.softlang.megal.plugins.impl.java.antlr.JavaParserFactory;
  */
 public class JavaFragmentizer extends ANTLRFragmentizerPlugin<JavaParser, JavaLexer> {
 	
+	static final private String FRAGMENTTYPE_PACKAGE = "JavaPackage";
+	static final private String FRAGMENTTYPE_CLASS = "JavaClass";
+	static final private String FRAGMENTTYPE_INTERFACE = "JavaInterface";
+	static final private String FRAGMENTTYPE_ENUM = "JavaEnum";
+	static final private String FRAGMENTTYPE_FIELD = "JavaField";
+	static final private String FRAGMENTTYPE_METHOD = "JavaMethod";
+	static final private String FRAGMENTTYPE_CONSTRUCTOR = "JavaConstructor";
+	
+	static private class PackageRule extends FragmentationRule<CompilationUnitContext> {
+
+		@Override
+		protected Class<CompilationUnitContext> contextType() {
+			return CompilationUnitContext.class;
+		}
+
+		@Override
+		protected boolean isAtom(CompilationUnitContext context) {
+			return false;
+		}
+
+		@Override
+		protected boolean test(CompilationUnitContext context) {
+			return context.packageDeclaration() instanceof PackageDeclarationContext;
+		}
+
+		@Override
+		protected Fragment createFragment(Entity entity, Artifact artifact, CompilationUnitContext context) {
+			
+			return Fragments.create(
+					context.packageDeclaration().qualifiedName().getText(), 
+					FRAGMENTTYPE_PACKAGE, 
+					ANTLRUtils.originalText(context), 
+					entity, 
+					artifact
+					);
+			
+		}
+
+		
+		
+	}
 	
 	/**
 	 * Fragmentation rule for classes
@@ -59,7 +104,7 @@ public class JavaFragmentizer extends ANTLRFragmentizerPlugin<JavaParser, JavaLe
 			// Create a new JavaClass fragment
 			return Fragments.create(
 					context.classDeclaration().Identifier().getText(),
-					"JavaClass", 
+					FRAGMENTTYPE_CLASS, 
 					ANTLRUtils.originalText(context),
 					entity, 
 					artifact
@@ -68,8 +113,6 @@ public class JavaFragmentizer extends ANTLRFragmentizerPlugin<JavaParser, JavaLe
 		
 	};
 	
-
-	// PRODUCES WRONG RESULTS FOR MORE THAN 1 INNER CLASS !!!
 	/**
 	 * Fragmentation rule for inner classes
 	 * 
@@ -98,7 +141,69 @@ public class JavaFragmentizer extends ANTLRFragmentizerPlugin<JavaParser, JavaLe
 		protected Fragment createFragment(Entity entity, Artifact artifact, ClassBodyDeclarationContext context) {
 			return Fragments.create(
 					context.memberDeclaration().classDeclaration().Identifier().getText(),
-					"JavaInnerClass", 
+					FRAGMENTTYPE_CLASS, 
+					ANTLRUtils.originalText(context),
+					entity, 
+					artifact
+					);
+		}
+		
+	};
+	
+	static private class InterfaceRule extends FragmentationRule<TypeDeclarationContext> {
+
+		@Override
+		protected Class<TypeDeclarationContext> contextType() {
+			return TypeDeclarationContext.class;
+		}
+
+		@Override
+		protected boolean isAtom(TypeDeclarationContext context) {
+			return false;
+		}
+
+		@Override
+		protected boolean test(TypeDeclarationContext context) {
+			return context.interfaceDeclaration() instanceof InterfaceDeclarationContext;
+		}
+
+		@Override
+		protected Fragment createFragment(Entity entity, Artifact artifact, TypeDeclarationContext context) {
+			// Create a new JavaClass fragment
+			return Fragments.create(
+					context.interfaceDeclaration().Identifier().getText(),
+					FRAGMENTTYPE_INTERFACE, 
+					ANTLRUtils.originalText(context),
+					entity, 
+					artifact
+					);
+		}
+		
+	};
+	
+	static private class InnerInterfaceRule extends FragmentationRule<ClassBodyDeclarationContext> {
+
+		@Override
+		protected Class<ClassBodyDeclarationContext> contextType() {
+			return ClassBodyDeclarationContext.class;
+		}
+
+		@Override
+		protected boolean isAtom(ClassBodyDeclarationContext context) {
+			return false;
+		}
+
+		@Override
+		protected boolean test(ClassBodyDeclarationContext context) {
+			return context.memberDeclaration() instanceof MemberDeclarationContext
+					&& context.memberDeclaration().interfaceDeclaration() instanceof InterfaceDeclarationContext;
+		}
+
+		@Override
+		protected Fragment createFragment(Entity entity, Artifact artifact, ClassBodyDeclarationContext context) {
+			return Fragments.create(
+					context.memberDeclaration().interfaceDeclaration().Identifier().getText(),
+					FRAGMENTTYPE_INTERFACE, 
 					ANTLRUtils.originalText(context),
 					entity, 
 					artifact
@@ -135,7 +240,7 @@ public class JavaFragmentizer extends ANTLRFragmentizerPlugin<JavaParser, JavaLe
 		protected Fragment createFragment(Entity entity, Artifact artifact, MethodDeclarationContext context) {
 			return Fragments.create(
 					context.Identifier().getText(),
-					"JavaMethod", 
+					FRAGMENTTYPE_METHOD, 
 					ANTLRUtils.originalText(context),
 					entity, 
 					artifact
@@ -145,6 +250,36 @@ public class JavaFragmentizer extends ANTLRFragmentizerPlugin<JavaParser, JavaLe
 		
 		
 	};
+	
+	static private class ConstructorRule extends FragmentationRule<ConstructorDeclarationContext> {
+
+		@Override
+		protected Class<ConstructorDeclarationContext> contextType() {
+			return ConstructorDeclarationContext.class;
+		}
+
+		@Override
+		protected boolean isAtom(ConstructorDeclarationContext context) {
+			return true;
+		}
+
+		@Override
+		protected boolean test(ConstructorDeclarationContext context) {
+			return true;
+		}
+
+		@Override
+		protected Fragment createFragment(Entity entity, Artifact artifact, ConstructorDeclarationContext context) {
+			return Fragments.create(
+					context.Identifier().getText(),
+					FRAGMENTTYPE_CONSTRUCTOR, 
+					ANTLRUtils.originalText(context),
+					entity, 
+					artifact
+					);
+		}
+		
+	}
 	
 	/**
 	 * Fragmentation rule for fields
@@ -174,7 +309,7 @@ public class JavaFragmentizer extends ANTLRFragmentizerPlugin<JavaParser, JavaLe
 		protected Fragment createFragment(Entity entity, Artifact artifact, VariableDeclaratorContext context) {
 			return Fragments.create(
 					context.variableDeclaratorId().getText(),
-					"JavaField", 
+					FRAGMENTTYPE_FIELD, 
 					ANTLRUtils.originalText(context.getParent().getParent()),
 					entity, 
 					artifact
@@ -196,10 +331,14 @@ public class JavaFragmentizer extends ANTLRFragmentizerPlugin<JavaParser, JavaLe
 		
 		Collection<FragmentationRule<? extends ParserRuleContext>> rules = new ArrayList<FragmentationRule<? extends ParserRuleContext>>();
 		
+		rules.add(new PackageRule());
 		rules.add(new InnerClassRule());
 		rules.add(new ClassRule());
-		rules.add(new MethodRule());
+		rules.add(new InterfaceRule());
+		rules.add(new InnerInterfaceRule());
 		rules.add(new FieldRule());
+		rules.add(new MethodRule());
+		rules.add(new ConstructorRule());
 		
 		return rules;
 		

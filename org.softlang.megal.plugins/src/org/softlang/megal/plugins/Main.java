@@ -98,6 +98,19 @@ public class Main {
 		out.println();
 		out.println("/*");
 		out.println("============================================");
+		out.println("                  Metrics                   ");
+		out.println("============================================");
+		out.println("#Elements          : " + kb.getElements().size());
+		out.println("#EntityTypes       : " + kb.getEntityTypes().size());
+		out.println("#Entities          : " + kb.getEntities().size());
+		out.println("#Relationships     : " + kb.getRelationships().size());
+		out.println("#RelationshipTypes : " + kb.getRelationshipTypes().size());
+		out.println("*/");
+		out.println();
+		
+		out.println();
+		out.println("/*");
+		out.println("============================================");
 		out.println("   Derived Instances in Alphabetic Order.   ");
 		out.println("============================================");
 		out.println("*/");

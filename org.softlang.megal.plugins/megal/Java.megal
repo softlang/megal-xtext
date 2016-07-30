@@ -1,12 +1,39 @@
 model Java
 import Prelude
 
-Java: Language
+// Java: Language
 // javaFile: File
 // javaFile elementOf Java
 // javaFile = 'workspace:/org.softlang.megal.examples/src/org/softlang/company/xjc/Department.java'
+
+Java : Language
+
+JavaFragment < Fragment
+
+JavaPackage < JavaFragment
+JavaInterface < JavaFragment
+JavaClass < JavaFragment
+JavaEnum < JavaFragment
+JavaField < JavaFragment
+JavaMethod < JavaFragment
+JavaConstructor < JavaMethod
+JavaAnnotation < JavaFragment
+
+partOf < JavaClass * File
+partOf < JavaInterface * File
+partOf < JavaMethod * JavaClass
+partOf < JavaField * JavaClass
 
 AcceptJava: Plugin
 AcceptJava realizationOf Java
 AcceptJava partOf FileElementOfLanguage
 AcceptJava = 'classpath:org.softlang.megal.plugins.impl.java.JavaAcceptor'
+
+JavaFragmentizer : Plugin
+JavaFragmentizer realizationOf Java
+JavaFragmentizer partOf FileFragmentReasoner
+JavaFragmentizer = 'classpath:org.softlang.megal.plugins.impl.java.JavaFragmentizer'
+
+
+aJavaFile : File
+aJavaFile elementOf Java

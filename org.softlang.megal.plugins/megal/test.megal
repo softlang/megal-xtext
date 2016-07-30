@@ -2,30 +2,7 @@ model test
 import Prelude
 import Java
 
-Java : Language
 
-JavaFragment < Fragment
-JavaInterface < Fragment
-JavaClass < Fragment
-JavaInnerClass < Fragment
-JavaConstructor < Fragment
-JavaMethod < Fragment
-JavaField < Fragment
-JavaAnnotation < Fragment
-
-partOf < JavaClass * File
-partOf < JavaInterface * File
-partOf < JavaMethod * JavaClass
-partOf < JavaField * JavaClass
-
-
-aJavaFile : File
-aJavaFile elementOf Java
-
-JavaFragmentizer : Plugin
-JavaFragmentizer realizationOf Java
-JavaFragmentizer partOf FileFragmentReasoner
-JavaFragmentizer = 'classpath:org.softlang.megal.plugins.impl.java.JavaFragmentizer'
 
 
 // relationship annotations for reasoning
