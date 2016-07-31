@@ -1,10 +1,20 @@
-package test.companies;
+package org.softlang.megal.acme.nested;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Company {
 	
+	static enum ET {
+		Manager;
+		
+		ET () {
+			
+		}
+	}
+	
 	static interface Lala {
+		
+		public void foo ();
 		
 	}
 	

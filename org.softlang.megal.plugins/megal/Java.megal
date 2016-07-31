@@ -1,12 +1,12 @@
 model Java
 import Prelude
 
-// Java: Language
-// javaFile: File
-// javaFile elementOf Java
-// javaFile = 'workspace:/org.softlang.megal.examples/src/org/softlang/company/xjc/Department.java'
 
 Java : Language
+
+//===============================================
+// Java Syntax Fragments
+//===============================================
 
 JavaFragment < Fragment
 
@@ -23,6 +23,10 @@ partOf < JavaClass * File
 partOf < JavaInterface * File
 partOf < JavaMethod * JavaClass
 partOf < JavaField * JavaClass
+
+//===============================================
+// Plugins
+//===============================================
 
 AcceptJava: Plugin
 AcceptJava realizationOf Java

@@ -2,6 +2,8 @@ package org.softlang.megal.plugins.impl.java;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.softlang.megal.mi2.Entity;
@@ -24,6 +26,7 @@ import org.softlang.megal.plugins.impl.java.antlr.JavaParser.ClassBodyDeclaratio
 import org.softlang.megal.plugins.impl.java.antlr.JavaParser.ClassDeclarationContext;
 import org.softlang.megal.plugins.impl.java.antlr.JavaParser.CompilationUnitContext;
 import org.softlang.megal.plugins.impl.java.antlr.JavaParser.ConstructorDeclarationContext;
+import org.softlang.megal.plugins.impl.java.antlr.JavaParser.EnumDeclarationContext;
 import org.softlang.megal.plugins.impl.java.antlr.JavaParserFactory;
 
 /**
@@ -212,68 +215,30 @@ public class JavaFragmentizer extends ANTLRFragmentizerPlugin<JavaParser, JavaLe
 		
 	};
 	
-	/**
-	 * Fragmentation rule for methods
-	 * 
-	 * @author maxmeffert
-	 *
-	 */
-	static private class MethodRule extends FragmentationRule<MethodDeclarationContext> {
-		
-
-		@Override
-		protected Class<MethodDeclarationContext> contextType() {
-			return MethodDeclarationContext.class;
-		}
-
-		@Override
-		protected boolean isAtom(MethodDeclarationContext context) {
-			return true;
-		}
-
-		@Override
-		protected boolean test(MethodDeclarationContext context) {
-			return true;
-		}
-
-		@Override
-		protected Fragment createFragment(Entity entity, Artifact artifact, MethodDeclarationContext context) {
-			return Fragments.create(
-					context.Identifier().getText(),
-					FRAGMENTTYPE_METHOD, 
-					ANTLRUtils.originalText(context),
-					entity, 
-					artifact
-					);
-		}
-
-		
-		
-	};
 	
-	static private class ConstructorRule extends FragmentationRule<ConstructorDeclarationContext> {
+	static private class EnumRule extends FragmentationRule<EnumDeclarationContext> {
 
 		@Override
-		protected Class<ConstructorDeclarationContext> contextType() {
-			return ConstructorDeclarationContext.class;
+		protected Class<EnumDeclarationContext> contextType() {
+			return EnumDeclarationContext.class;
 		}
 
 		@Override
-		protected boolean isAtom(ConstructorDeclarationContext context) {
+		protected boolean isAtom(EnumDeclarationContext context) {
+			return false;
+		}
+
+		@Override
+		protected boolean test(EnumDeclarationContext context) {
 			return true;
 		}
 
 		@Override
-		protected boolean test(ConstructorDeclarationContext context) {
-			return true;
-		}
-
-		@Override
-		protected Fragment createFragment(Entity entity, Artifact artifact, ConstructorDeclarationContext context) {
+		protected Fragment createFragment(Entity entity, Artifact artifact, EnumDeclarationContext context) {
 			return Fragments.create(
-					context.Identifier().getText(),
-					FRAGMENTTYPE_CONSTRUCTOR, 
-					ANTLRUtils.originalText(context),
+					context.Identifier().getText(), 
+					FRAGMENTTYPE_ENUM, 
+					ANTLRUtils.originalText(context), 
 					entity, 
 					artifact
 					);
@@ -307,21 +272,144 @@ public class JavaFragmentizer extends ANTLRFragmentizerPlugin<JavaParser, JavaLe
 
 		@Override
 		protected Fragment createFragment(Entity entity, Artifact artifact, VariableDeclaratorContext context) {
+			
+			String name = context.variableDeclaratorId().getText();
+			
+			if (context.getParent().getParent() instanceof FieldDeclarationContext) {
+				
+				FieldDeclarationContext field = (FieldDeclarationContext) context.getParent().getParent();
+				
+				name += "_" + field.type().getText().replace("<", "[").replace(">", "]");
+				
+			}
+			
 			return Fragments.create(
-					context.variableDeclaratorId().getText(),
+					name,
 					FRAGMENTTYPE_FIELD, 
 					ANTLRUtils.originalText(context.getParent().getParent()),
 					entity, 
 					artifact
 					);
 		}
+		
+	};
+	
+	/**
+	 * Fragmentation rule for methods
+	 * 
+	 * @author maxmeffert
+	 *
+	 */
+	static private class MethodRule extends FragmentationRule<MethodDeclarationContext> {
+		
 
-		
-		
+		@Override
+		protected Class<MethodDeclarationContext> contextType() {
+			return MethodDeclarationContext.class;
+		}
+
+		@Override
+		protected boolean isAtom(MethodDeclarationContext context) {
+			return true;
+		}
+
+		@Override
+		protected boolean test(MethodDeclarationContext context) {
+			return true;
+		}
+
+		@Override
+		protected Fragment createFragment(Entity entity, Artifact artifact, MethodDeclarationContext context) {
+			
+			String name = context.Identifier().getText();
+			
+			if (context.formalParameters().formalParameterList() != null) {
+				
+				List<String> types = context.formalParameters().formalParameterList().formalParameter().stream()
+						.map( p -> p.type().getText().replace("<", "[").replace(">", "]") )
+						.collect(Collectors.toList());
+				
+				name += "(" + String.join(",", types) + ")";
+				
+				
+			}
+			
+			if (context.type() != null) {
+				
+				name += "_" + context.type().getText().replace("<", "[").replace(">", "]");
+				
+			}
+			
+			return Fragments.create(
+					name,
+					FRAGMENTTYPE_METHOD, 
+					ANTLRUtils.originalText(context),
+					entity, 
+					artifact
+					);
+			
+		}
 
 		
 		
 	};
+	
+	/**
+	 * 
+	 * Fragmentation rule for constructors
+	 * 
+	 * @author maxmeffert
+	 *
+	 */
+	static private class ConstructorRule extends FragmentationRule<ConstructorDeclarationContext> {
+
+		@Override
+		protected Class<ConstructorDeclarationContext> contextType() {
+			return ConstructorDeclarationContext.class;
+		}
+
+		@Override
+		protected boolean isAtom(ConstructorDeclarationContext context) {
+			return true;
+		}
+
+		@Override
+		protected boolean test(ConstructorDeclarationContext context) {
+			return true;
+		}
+
+		@Override
+		protected Fragment createFragment(Entity entity, Artifact artifact, ConstructorDeclarationContext context) {
+			
+			String name = context.Identifier().getText();
+			
+			if (context.formalParameters().formalParameterList() != null) {
+				
+				List<String> types = context.formalParameters().formalParameterList().formalParameter().stream()
+						.map( p -> p.type().getText() )
+						.collect(Collectors.toList());
+				
+				name += "(" + String.join(",", types) + ")";
+				name = name.replace("<", "[");
+				name = name.replace(">", "]");
+				
+				
+			}
+			
+//			System.err.println(name);
+			
+			return Fragments.create(
+					name,
+					FRAGMENTTYPE_CONSTRUCTOR, 
+					ANTLRUtils.originalText(context),
+					entity, 
+					artifact
+					);
+		}
+		
+	}
+	
+	
 	
 	/**
 	 * Gets the collection of Java fragmentation rules
@@ -336,6 +424,7 @@ public class JavaFragmentizer extends ANTLRFragmentizerPlugin<JavaParser, JavaLe
 		rules.add(new ClassRule());
 		rules.add(new InterfaceRule());
 		rules.add(new InnerInterfaceRule());
+		rules.add(new EnumRule());
 		rules.add(new FieldRule());
 		rules.add(new MethodRule());
 		rules.add(new ConstructorRule());

@@ -3,10 +3,10 @@
 ============================================
                   Metrics                   
 ============================================
-#Elements          : 274
+#Elements          : 285
 #EntityTypes       : 28
-#Entities          : 42
-#Relationships     : 136
+#Entities          : 44
+#Relationships     : 145
 #RelationshipTypes : 68
 */
 
@@ -19,235 +19,252 @@
 
 aJavaFile: File
 aJavaFile elementOf Java
-aJavaFile = 'workspace:/org.softlang.megal.plugins/input/test/companies/Company.java'
+aJavaFile = 'workspace:/org.softlang.megal.plugins/input/org/softlang/megal/acme/nested/Company.java'
 
-@FragmentText 'package test.companies; ...'
-aJavaFile.test.companies$0: JavaPackage
-aJavaFile.test.companies$0 partOf aJavaFile
-aJavaFile.test.companies$0 elementOf Java
-aJavaFile.test.companies$0 = 'file:/home/darjeeling/Documents/megal-xtext/org.softlang.megal.plugins/input/test/companies/Company.java#/0/test.companies/JavaPackage'
+@FragmentText 'package org.softlang.megal.acme.nested; ...'
+aJavaFile.org.softlang.megal.acme.nested$0: JavaPackage
+aJavaFile.org.softlang.megal.acme.nested$0 partOf aJavaFile
+aJavaFile.org.softlang.megal.acme.nested$0 elementOf Java
+aJavaFile.org.softlang.megal.acme.nested$0 = 'file:/home/darjeeling/Documents/megal-xtext/org.softlang.megal.plugins/input/org/softlang/megal/acme/nested/Company.java#/0/org.softlang.megal.acme.nested/JavaPackage'
 
 @FragmentText 'public class Company { ...'
-aJavaFile.test.companies$0.Company$0: JavaClass
-aJavaFile.test.companies$0.Company$0 partOf aJavaFile
-aJavaFile.test.companies$0.Company$0 partOf aJavaFile.test.companies$0
-aJavaFile.test.companies$0.Company$0 elementOf Java
-aJavaFile.test.companies$0.Company$0 = 'file:/home/darjeeling/Documents/megal-xtext/org.softlang.megal.plugins/input/test/companies/Company.java#/0/test.companies/JavaPackage/0/Company/JavaClass'
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0: JavaClass
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0 partOf aJavaFile
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0 partOf aJavaFile.org.softlang.megal.acme.nested$0
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0 elementOf Java
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0 = 'file:/home/darjeeling/Documents/megal-xtext/org.softlang.megal.plugins/input/org/softlang/megal/acme/nested/Company.java#/0/org.softlang.megal.acme.nested/JavaPackage/0/Company/JavaClass'
 
 @FragmentText 'Company () { ...'
-aJavaFile.test.companies$0.Company$0.Company$4: JavaConstructor
-aJavaFile.test.companies$0.Company$0.Company$4 partOf aJavaFile
-aJavaFile.test.companies$0.Company$0.Company$4 partOf aJavaFile.test.companies$0
-aJavaFile.test.companies$0.Company$0.Company$4 partOf aJavaFile.test.companies$0.Company$0
-aJavaFile.test.companies$0.Company$0.Company$4 elementOf Java
-aJavaFile.test.companies$0.Company$0.Company$4 = 'file:/home/darjeeling/Documents/megal-xtext/org.softlang.megal.plugins/input/test/companies/Company.java#/0/test.companies/JavaPackage/0/Company/JavaClass/4/Company/JavaConstructor'
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Company$5: JavaConstructor
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Company$5 partOf aJavaFile
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Company$5 partOf aJavaFile.org.softlang.megal.acme.nested$0
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Company$5 partOf aJavaFile.org.softlang.megal.acme.nested$0.Company$0
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Company$5 elementOf Java
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Company$5 = 'file:/home/darjeeling/Documents/megal-xtext/org.softlang.megal.plugins/input/org/softlang/megal/acme/nested/Company.java#/0/org.softlang.megal.acme.nested/JavaPackage/0/Company/JavaClass/5/Company/JavaConstructor'
 
 @FragmentText 'static public class Department { ...'
-aJavaFile.test.companies$0.Company$0.Department$1: JavaClass
-aJavaFile.test.companies$0.Company$0.Department$1 partOf aJavaFile
-aJavaFile.test.companies$0.Company$0.Department$1 partOf aJavaFile.test.companies$0
-aJavaFile.test.companies$0.Company$0.Department$1 partOf aJavaFile.test.companies$0.Company$0
-aJavaFile.test.companies$0.Company$0.Department$1 elementOf Java
-aJavaFile.test.companies$0.Company$0.Department$1 = 'file:/home/darjeeling/Documents/megal-xtext/org.softlang.megal.plugins/input/test/companies/Company.java#/0/test.companies/JavaPackage/0/Company/JavaClass/1/Department/JavaClass'
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2: JavaClass
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2 partOf aJavaFile
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2 partOf aJavaFile.org.softlang.megal.acme.nested$0
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2 partOf aJavaFile.org.softlang.megal.acme.nested$0.Company$0
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2 elementOf Java
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2 = 'file:/home/darjeeling/Documents/megal-xtext/org.softlang.megal.plugins/input/org/softlang/megal/acme/nested/Company.java#/0/org.softlang.megal.acme.nested/JavaPackage/0/Company/JavaClass/2/Department/JavaClass'
 
 @FragmentText 'static public class Employee { ...'
-aJavaFile.test.companies$0.Company$0.Department$1.Employee$0: JavaClass
-aJavaFile.test.companies$0.Company$0.Department$1.Employee$0 partOf aJavaFile
-aJavaFile.test.companies$0.Company$0.Department$1.Employee$0 partOf aJavaFile.test.companies$0
-aJavaFile.test.companies$0.Company$0.Department$1.Employee$0 partOf aJavaFile.test.companies$0.Company$0
-aJavaFile.test.companies$0.Company$0.Department$1.Employee$0 partOf aJavaFile.test.companies$0.Company$0.Department$1
-aJavaFile.test.companies$0.Company$0.Department$1.Employee$0 elementOf Java
-aJavaFile.test.companies$0.Company$0.Department$1.Employee$0 = 'file:/home/darjeeling/Documents/megal-xtext/org.softlang.megal.plugins/input/test/companies/Company.java#/0/test.companies/JavaPackage/0/Company/JavaClass/1/Department/JavaClass/0/Employee/JavaClass'
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.Employee$0: JavaClass
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.Employee$0 partOf aJavaFile
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.Employee$0 partOf aJavaFile.org.softlang.megal.acme.nested$0
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.Employee$0 partOf aJavaFile.org.softlang.megal.acme.nested$0.Company$0
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.Employee$0 partOf aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.Employee$0 elementOf Java
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.Employee$0 = 'file:/home/darjeeling/Documents/megal-xtext/org.softlang.megal.plugins/input/org/softlang/megal/acme/nested/Company.java#/0/org.softlang.megal.acme.nested/JavaPackage/0/Company/JavaClass/2/Department/JavaClass/0/Employee/JavaClass'
 
 @FragmentText 'Employee () { ...'
-aJavaFile.test.companies$0.Company$0.Department$1.Employee$0.Employee$2: JavaConstructor
-aJavaFile.test.companies$0.Company$0.Department$1.Employee$0.Employee$2 partOf aJavaFile
-aJavaFile.test.companies$0.Company$0.Department$1.Employee$0.Employee$2 partOf aJavaFile.test.companies$0
-aJavaFile.test.companies$0.Company$0.Department$1.Employee$0.Employee$2 partOf aJavaFile.test.companies$0.Company$0
-aJavaFile.test.companies$0.Company$0.Department$1.Employee$0.Employee$2 partOf aJavaFile.test.companies$0.Company$0.Department$1
-aJavaFile.test.companies$0.Company$0.Department$1.Employee$0.Employee$2 partOf aJavaFile.test.companies$0.Company$0.Department$1.Employee$0
-aJavaFile.test.companies$0.Company$0.Department$1.Employee$0.Employee$2 elementOf Java
-aJavaFile.test.companies$0.Company$0.Department$1.Employee$0.Employee$2 = 'file:/home/darjeeling/Documents/megal-xtext/org.softlang.megal.plugins/input/test/companies/Company.java#/0/test.companies/JavaPackage/0/Company/JavaClass/1/Department/JavaClass/0/Employee/JavaClass/2/Employee/JavaConstructor'
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.Employee$0.Employee$2: JavaConstructor
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.Employee$0.Employee$2 partOf aJavaFile
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.Employee$0.Employee$2 partOf aJavaFile.org.softlang.megal.acme.nested$0
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.Employee$0.Employee$2 partOf aJavaFile.org.softlang.megal.acme.nested$0.Company$0
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.Employee$0.Employee$2 partOf aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.Employee$0.Employee$2 partOf aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.Employee$0
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.Employee$0.Employee$2 elementOf Java
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.Employee$0.Employee$2 = 'file:/home/darjeeling/Documents/megal-xtext/org.softlang.megal.plugins/input/org/softlang/megal/acme/nested/Company.java#/0/org.softlang.megal.acme.nested/JavaPackage/0/Company/JavaClass/2/Department/JavaClass/0/Employee/JavaClass/2/Employee/JavaConstructor'
 
 @FragmentText 'Employee (String name, int salary) { ...'
-aJavaFile.test.companies$0.Company$0.Department$1.Employee$0.Employee$3: JavaConstructor
-aJavaFile.test.companies$0.Company$0.Department$1.Employee$0.Employee$3 partOf aJavaFile
-aJavaFile.test.companies$0.Company$0.Department$1.Employee$0.Employee$3 partOf aJavaFile.test.companies$0
-aJavaFile.test.companies$0.Company$0.Department$1.Employee$0.Employee$3 partOf aJavaFile.test.companies$0.Company$0
-aJavaFile.test.companies$0.Company$0.Department$1.Employee$0.Employee$3 partOf aJavaFile.test.companies$0.Company$0.Department$1
-aJavaFile.test.companies$0.Company$0.Department$1.Employee$0.Employee$3 partOf aJavaFile.test.companies$0.Company$0.Department$1.Employee$0
-aJavaFile.test.companies$0.Company$0.Department$1.Employee$0.Employee$3 elementOf Java
-aJavaFile.test.companies$0.Company$0.Department$1.Employee$0.Employee$3 = 'file:/home/darjeeling/Documents/megal-xtext/org.softlang.megal.plugins/input/test/companies/Company.java#/0/test.companies/JavaPackage/0/Company/JavaClass/1/Department/JavaClass/0/Employee/JavaClass/3/Employee/JavaConstructor'
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.Employee$0.Employee(String,int)$3: JavaConstructor
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.Employee$0.Employee(String,int)$3 partOf aJavaFile
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.Employee$0.Employee(String,int)$3 partOf aJavaFile.org.softlang.megal.acme.nested$0
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.Employee$0.Employee(String,int)$3 partOf aJavaFile.org.softlang.megal.acme.nested$0.Company$0
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.Employee$0.Employee(String,int)$3 partOf aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.Employee$0.Employee(String,int)$3 partOf aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.Employee$0
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.Employee$0.Employee(String,int)$3 elementOf Java
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.Employee$0.Employee(String,int)$3 = 'file:/home/darjeeling/Documents/megal-xtext/org.softlang.megal.plugins/input/org/softlang/megal/acme/nested/Company.java#/0/org.softlang.megal.acme.nested/JavaPackage/0/Company/JavaClass/2/Department/JavaClass/0/Employee/JavaClass/3/Employee(String,int)/JavaConstructor'
 
 @FragmentText 'String getName() { ...'
-aJavaFile.test.companies$0.Company$0.Department$1.Employee$0.getName$4: JavaMethod
-aJavaFile.test.companies$0.Company$0.Department$1.Employee$0.getName$4 partOf aJavaFile
-aJavaFile.test.companies$0.Company$0.Department$1.Employee$0.getName$4 partOf aJavaFile.test.companies$0
-aJavaFile.test.companies$0.Company$0.Department$1.Employee$0.getName$4 partOf aJavaFile.test.companies$0.Company$0
-aJavaFile.test.companies$0.Company$0.Department$1.Employee$0.getName$4 partOf aJavaFile.test.companies$0.Company$0.Department$1
-aJavaFile.test.companies$0.Company$0.Department$1.Employee$0.getName$4 partOf aJavaFile.test.companies$0.Company$0.Department$1.Employee$0
-aJavaFile.test.companies$0.Company$0.Department$1.Employee$0.getName$4 elementOf Java
-aJavaFile.test.companies$0.Company$0.Department$1.Employee$0.getName$4 = 'file:/home/darjeeling/Documents/megal-xtext/org.softlang.megal.plugins/input/test/companies/Company.java#/0/test.companies/JavaPackage/0/Company/JavaClass/1/Department/JavaClass/0/Employee/JavaClass/4/getName/JavaMethod'
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.Employee$0.getName_String$4: JavaMethod
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.Employee$0.getName_String$4 partOf aJavaFile
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.Employee$0.getName_String$4 partOf aJavaFile.org.softlang.megal.acme.nested$0
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.Employee$0.getName_String$4 partOf aJavaFile.org.softlang.megal.acme.nested$0.Company$0
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.Employee$0.getName_String$4 partOf aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.Employee$0.getName_String$4 partOf aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.Employee$0
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.Employee$0.getName_String$4 elementOf Java
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.Employee$0.getName_String$4 = 'file:/home/darjeeling/Documents/megal-xtext/org.softlang.megal.plugins/input/org/softlang/megal/acme/nested/Company.java#/0/org.softlang.megal.acme.nested/JavaPackage/0/Company/JavaClass/2/Department/JavaClass/0/Employee/JavaClass/4/getName_String/JavaMethod'
 
 @FragmentText 'int getSalary() { ...'
-aJavaFile.test.companies$0.Company$0.Department$1.Employee$0.getSalary$6: JavaMethod
-aJavaFile.test.companies$0.Company$0.Department$1.Employee$0.getSalary$6 partOf aJavaFile
-aJavaFile.test.companies$0.Company$0.Department$1.Employee$0.getSalary$6 partOf aJavaFile.test.companies$0
-aJavaFile.test.companies$0.Company$0.Department$1.Employee$0.getSalary$6 partOf aJavaFile.test.companies$0.Company$0
-aJavaFile.test.companies$0.Company$0.Department$1.Employee$0.getSalary$6 partOf aJavaFile.test.companies$0.Company$0.Department$1
-aJavaFile.test.companies$0.Company$0.Department$1.Employee$0.getSalary$6 partOf aJavaFile.test.companies$0.Company$0.Department$1.Employee$0
-aJavaFile.test.companies$0.Company$0.Department$1.Employee$0.getSalary$6 elementOf Java
-aJavaFile.test.companies$0.Company$0.Department$1.Employee$0.getSalary$6 = 'file:/home/darjeeling/Documents/megal-xtext/org.softlang.megal.plugins/input/test/companies/Company.java#/0/test.companies/JavaPackage/0/Company/JavaClass/1/Department/JavaClass/0/Employee/JavaClass/6/getSalary/JavaMethod'
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.Employee$0.getSalary_int$6: JavaMethod
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.Employee$0.getSalary_int$6 partOf aJavaFile
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.Employee$0.getSalary_int$6 partOf aJavaFile.org.softlang.megal.acme.nested$0
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.Employee$0.getSalary_int$6 partOf aJavaFile.org.softlang.megal.acme.nested$0.Company$0
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.Employee$0.getSalary_int$6 partOf aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.Employee$0.getSalary_int$6 partOf aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.Employee$0
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.Employee$0.getSalary_int$6 elementOf Java
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.Employee$0.getSalary_int$6 = 'file:/home/darjeeling/Documents/megal-xtext/org.softlang.megal.plugins/input/org/softlang/megal/acme/nested/Company.java#/0/org.softlang.megal.acme.nested/JavaPackage/0/Company/JavaClass/2/Department/JavaClass/0/Employee/JavaClass/6/getSalary_int/JavaMethod'
 
 @FragmentText 'String name; ...'
-aJavaFile.test.companies$0.Company$0.Department$1.Employee$0.name$0: JavaField
-aJavaFile.test.companies$0.Company$0.Department$1.Employee$0.name$0 partOf aJavaFile
-aJavaFile.test.companies$0.Company$0.Department$1.Employee$0.name$0 partOf aJavaFile.test.companies$0
-aJavaFile.test.companies$0.Company$0.Department$1.Employee$0.name$0 partOf aJavaFile.test.companies$0.Company$0
-aJavaFile.test.companies$0.Company$0.Department$1.Employee$0.name$0 partOf aJavaFile.test.companies$0.Company$0.Department$1
-aJavaFile.test.companies$0.Company$0.Department$1.Employee$0.name$0 partOf aJavaFile.test.companies$0.Company$0.Department$1.Employee$0
-aJavaFile.test.companies$0.Company$0.Department$1.Employee$0.name$0 elementOf Java
-aJavaFile.test.companies$0.Company$0.Department$1.Employee$0.name$0 = 'file:/home/darjeeling/Documents/megal-xtext/org.softlang.megal.plugins/input/test/companies/Company.java#/0/test.companies/JavaPackage/0/Company/JavaClass/1/Department/JavaClass/0/Employee/JavaClass/0/name/JavaField'
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.Employee$0.name_String$0: JavaField
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.Employee$0.name_String$0 partOf aJavaFile
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.Employee$0.name_String$0 partOf aJavaFile.org.softlang.megal.acme.nested$0
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.Employee$0.name_String$0 partOf aJavaFile.org.softlang.megal.acme.nested$0.Company$0
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.Employee$0.name_String$0 partOf aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.Employee$0.name_String$0 partOf aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.Employee$0
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.Employee$0.name_String$0 elementOf Java
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.Employee$0.name_String$0 = 'file:/home/darjeeling/Documents/megal-xtext/org.softlang.megal.plugins/input/org/softlang/megal/acme/nested/Company.java#/0/org.softlang.megal.acme.nested/JavaPackage/0/Company/JavaClass/2/Department/JavaClass/0/Employee/JavaClass/0/name_String/JavaField'
 
 @FragmentText 'int salary; ...'
-aJavaFile.test.companies$0.Company$0.Department$1.Employee$0.salary$1: JavaField
-aJavaFile.test.companies$0.Company$0.Department$1.Employee$0.salary$1 partOf aJavaFile
-aJavaFile.test.companies$0.Company$0.Department$1.Employee$0.salary$1 partOf aJavaFile.test.companies$0
-aJavaFile.test.companies$0.Company$0.Department$1.Employee$0.salary$1 partOf aJavaFile.test.companies$0.Company$0
-aJavaFile.test.companies$0.Company$0.Department$1.Employee$0.salary$1 partOf aJavaFile.test.companies$0.Company$0.Department$1
-aJavaFile.test.companies$0.Company$0.Department$1.Employee$0.salary$1 partOf aJavaFile.test.companies$0.Company$0.Department$1.Employee$0
-aJavaFile.test.companies$0.Company$0.Department$1.Employee$0.salary$1 elementOf Java
-aJavaFile.test.companies$0.Company$0.Department$1.Employee$0.salary$1 = 'file:/home/darjeeling/Documents/megal-xtext/org.softlang.megal.plugins/input/test/companies/Company.java#/0/test.companies/JavaPackage/0/Company/JavaClass/1/Department/JavaClass/0/Employee/JavaClass/1/salary/JavaField'
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.Employee$0.salary_int$1: JavaField
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.Employee$0.salary_int$1 partOf aJavaFile
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.Employee$0.salary_int$1 partOf aJavaFile.org.softlang.megal.acme.nested$0
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.Employee$0.salary_int$1 partOf aJavaFile.org.softlang.megal.acme.nested$0.Company$0
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.Employee$0.salary_int$1 partOf aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.Employee$0.salary_int$1 partOf aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.Employee$0
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.Employee$0.salary_int$1 elementOf Java
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.Employee$0.salary_int$1 = 'file:/home/darjeeling/Documents/megal-xtext/org.softlang.megal.plugins/input/org/softlang/megal/acme/nested/Company.java#/0/org.softlang.megal.acme.nested/JavaPackage/0/Company/JavaClass/2/Department/JavaClass/0/Employee/JavaClass/1/salary_int/JavaField'
 
 @FragmentText 'void setName(String name) { ...'
-aJavaFile.test.companies$0.Company$0.Department$1.Employee$0.setName$5: JavaMethod
-aJavaFile.test.companies$0.Company$0.Department$1.Employee$0.setName$5 partOf aJavaFile
-aJavaFile.test.companies$0.Company$0.Department$1.Employee$0.setName$5 partOf aJavaFile.test.companies$0
-aJavaFile.test.companies$0.Company$0.Department$1.Employee$0.setName$5 partOf aJavaFile.test.companies$0.Company$0
-aJavaFile.test.companies$0.Company$0.Department$1.Employee$0.setName$5 partOf aJavaFile.test.companies$0.Company$0.Department$1
-aJavaFile.test.companies$0.Company$0.Department$1.Employee$0.setName$5 partOf aJavaFile.test.companies$0.Company$0.Department$1.Employee$0
-aJavaFile.test.companies$0.Company$0.Department$1.Employee$0.setName$5 elementOf Java
-aJavaFile.test.companies$0.Company$0.Department$1.Employee$0.setName$5 = 'file:/home/darjeeling/Documents/megal-xtext/org.softlang.megal.plugins/input/test/companies/Company.java#/0/test.companies/JavaPackage/0/Company/JavaClass/1/Department/JavaClass/0/Employee/JavaClass/5/setName/JavaMethod'
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.Employee$0.setName(String)$5: JavaMethod
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.Employee$0.setName(String)$5 partOf aJavaFile
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.Employee$0.setName(String)$5 partOf aJavaFile.org.softlang.megal.acme.nested$0
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.Employee$0.setName(String)$5 partOf aJavaFile.org.softlang.megal.acme.nested$0.Company$0
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.Employee$0.setName(String)$5 partOf aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.Employee$0.setName(String)$5 partOf aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.Employee$0
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.Employee$0.setName(String)$5 elementOf Java
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.Employee$0.setName(String)$5 = 'file:/home/darjeeling/Documents/megal-xtext/org.softlang.megal.plugins/input/org/softlang/megal/acme/nested/Company.java#/0/org.softlang.megal.acme.nested/JavaPackage/0/Company/JavaClass/2/Department/JavaClass/0/Employee/JavaClass/5/setName(String)/JavaMethod'
 
 @FragmentText 'void setSalary(int salary) { ...'
-aJavaFile.test.companies$0.Company$0.Department$1.Employee$0.setSalary$7: JavaMethod
-aJavaFile.test.companies$0.Company$0.Department$1.Employee$0.setSalary$7 partOf aJavaFile
-aJavaFile.test.companies$0.Company$0.Department$1.Employee$0.setSalary$7 partOf aJavaFile.test.companies$0
-aJavaFile.test.companies$0.Company$0.Department$1.Employee$0.setSalary$7 partOf aJavaFile.test.companies$0.Company$0
-aJavaFile.test.companies$0.Company$0.Department$1.Employee$0.setSalary$7 partOf aJavaFile.test.companies$0.Company$0.Department$1
-aJavaFile.test.companies$0.Company$0.Department$1.Employee$0.setSalary$7 partOf aJavaFile.test.companies$0.Company$0.Department$1.Employee$0
-aJavaFile.test.companies$0.Company$0.Department$1.Employee$0.setSalary$7 elementOf Java
-aJavaFile.test.companies$0.Company$0.Department$1.Employee$0.setSalary$7 = 'file:/home/darjeeling/Documents/megal-xtext/org.softlang.megal.plugins/input/test/companies/Company.java#/0/test.companies/JavaPackage/0/Company/JavaClass/1/Department/JavaClass/0/Employee/JavaClass/7/setSalary/JavaMethod'
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.Employee$0.setSalary(int)$7: JavaMethod
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.Employee$0.setSalary(int)$7 partOf aJavaFile
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.Employee$0.setSalary(int)$7 partOf aJavaFile.org.softlang.megal.acme.nested$0
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.Employee$0.setSalary(int)$7 partOf aJavaFile.org.softlang.megal.acme.nested$0.Company$0
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.Employee$0.setSalary(int)$7 partOf aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.Employee$0.setSalary(int)$7 partOf aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.Employee$0
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.Employee$0.setSalary(int)$7 elementOf Java
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.Employee$0.setSalary(int)$7 = 'file:/home/darjeeling/Documents/megal-xtext/org.softlang.megal.plugins/input/org/softlang/megal/acme/nested/Company.java#/0/org.softlang.megal.acme.nested/JavaPackage/0/Company/JavaClass/2/Department/JavaClass/0/Employee/JavaClass/7/setSalary(int)/JavaMethod'
 
 @FragmentText 'List<Employee> employees = new ArrayList<Employee>(); ...'
-aJavaFile.test.companies$0.Company$0.Department$1.employees$2: JavaField
-aJavaFile.test.companies$0.Company$0.Department$1.employees$2 partOf aJavaFile
-aJavaFile.test.companies$0.Company$0.Department$1.employees$2 partOf aJavaFile.test.companies$0
-aJavaFile.test.companies$0.Company$0.Department$1.employees$2 partOf aJavaFile.test.companies$0.Company$0
-aJavaFile.test.companies$0.Company$0.Department$1.employees$2 partOf aJavaFile.test.companies$0.Company$0.Department$1
-aJavaFile.test.companies$0.Company$0.Department$1.employees$2 elementOf Java
-aJavaFile.test.companies$0.Company$0.Department$1.employees$2 = 'file:/home/darjeeling/Documents/megal-xtext/org.softlang.megal.plugins/input/test/companies/Company.java#/0/test.companies/JavaPackage/0/Company/JavaClass/1/Department/JavaClass/2/employees/JavaField'
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.employees_List[Employee]$2: JavaField
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.employees_List[Employee]$2 partOf aJavaFile
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.employees_List[Employee]$2 partOf aJavaFile.org.softlang.megal.acme.nested$0
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.employees_List[Employee]$2 partOf aJavaFile.org.softlang.megal.acme.nested$0.Company$0
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.employees_List[Employee]$2 partOf aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.employees_List[Employee]$2 elementOf Java
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.employees_List[Employee]$2 = 'file:/home/darjeeling/Documents/megal-xtext/org.softlang.megal.plugins/input/org/softlang/megal/acme/nested/Company.java#/0/org.softlang.megal.acme.nested/JavaPackage/0/Company/JavaClass/2/Department/JavaClass/2/employees_List[Employee]/JavaField'
 
 @FragmentText 'List<Employee> getEmployees() { ...'
-aJavaFile.test.companies$0.Company$0.Department$1.getEmployees$5: JavaMethod
-aJavaFile.test.companies$0.Company$0.Department$1.getEmployees$5 partOf aJavaFile
-aJavaFile.test.companies$0.Company$0.Department$1.getEmployees$5 partOf aJavaFile.test.companies$0
-aJavaFile.test.companies$0.Company$0.Department$1.getEmployees$5 partOf aJavaFile.test.companies$0.Company$0
-aJavaFile.test.companies$0.Company$0.Department$1.getEmployees$5 partOf aJavaFile.test.companies$0.Company$0.Department$1
-aJavaFile.test.companies$0.Company$0.Department$1.getEmployees$5 elementOf Java
-aJavaFile.test.companies$0.Company$0.Department$1.getEmployees$5 = 'file:/home/darjeeling/Documents/megal-xtext/org.softlang.megal.plugins/input/test/companies/Company.java#/0/test.companies/JavaPackage/0/Company/JavaClass/1/Department/JavaClass/5/getEmployees/JavaMethod'
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.getEmployees_List[Employee]$5: JavaMethod
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.getEmployees_List[Employee]$5 partOf aJavaFile
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.getEmployees_List[Employee]$5 partOf aJavaFile.org.softlang.megal.acme.nested$0
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.getEmployees_List[Employee]$5 partOf aJavaFile.org.softlang.megal.acme.nested$0.Company$0
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.getEmployees_List[Employee]$5 partOf aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.getEmployees_List[Employee]$5 elementOf Java
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.getEmployees_List[Employee]$5 = 'file:/home/darjeeling/Documents/megal-xtext/org.softlang.megal.plugins/input/org/softlang/megal/acme/nested/Company.java#/0/org.softlang.megal.acme.nested/JavaPackage/0/Company/JavaClass/2/Department/JavaClass/5/getEmployees_List[Employee]/JavaMethod'
 
 @FragmentText 'String getName() { ...'
-aJavaFile.test.companies$0.Company$0.Department$1.getName$3: JavaMethod
-aJavaFile.test.companies$0.Company$0.Department$1.getName$3 partOf aJavaFile
-aJavaFile.test.companies$0.Company$0.Department$1.getName$3 partOf aJavaFile.test.companies$0
-aJavaFile.test.companies$0.Company$0.Department$1.getName$3 partOf aJavaFile.test.companies$0.Company$0
-aJavaFile.test.companies$0.Company$0.Department$1.getName$3 partOf aJavaFile.test.companies$0.Company$0.Department$1
-aJavaFile.test.companies$0.Company$0.Department$1.getName$3 elementOf Java
-aJavaFile.test.companies$0.Company$0.Department$1.getName$3 = 'file:/home/darjeeling/Documents/megal-xtext/org.softlang.megal.plugins/input/test/companies/Company.java#/0/test.companies/JavaPackage/0/Company/JavaClass/1/Department/JavaClass/3/getName/JavaMethod'
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.getName_String$3: JavaMethod
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.getName_String$3 partOf aJavaFile
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.getName_String$3 partOf aJavaFile.org.softlang.megal.acme.nested$0
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.getName_String$3 partOf aJavaFile.org.softlang.megal.acme.nested$0.Company$0
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.getName_String$3 partOf aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.getName_String$3 elementOf Java
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.getName_String$3 = 'file:/home/darjeeling/Documents/megal-xtext/org.softlang.megal.plugins/input/org/softlang/megal/acme/nested/Company.java#/0/org.softlang.megal.acme.nested/JavaPackage/0/Company/JavaClass/2/Department/JavaClass/3/getName_String/JavaMethod'
 
 @FragmentText 'String name; ...'
-aJavaFile.test.companies$0.Company$0.Department$1.name$1: JavaField
-aJavaFile.test.companies$0.Company$0.Department$1.name$1 partOf aJavaFile
-aJavaFile.test.companies$0.Company$0.Department$1.name$1 partOf aJavaFile.test.companies$0
-aJavaFile.test.companies$0.Company$0.Department$1.name$1 partOf aJavaFile.test.companies$0.Company$0
-aJavaFile.test.companies$0.Company$0.Department$1.name$1 partOf aJavaFile.test.companies$0.Company$0.Department$1
-aJavaFile.test.companies$0.Company$0.Department$1.name$1 elementOf Java
-aJavaFile.test.companies$0.Company$0.Department$1.name$1 = 'file:/home/darjeeling/Documents/megal-xtext/org.softlang.megal.plugins/input/test/companies/Company.java#/0/test.companies/JavaPackage/0/Company/JavaClass/1/Department/JavaClass/1/name/JavaField'
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.name_String$1: JavaField
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.name_String$1 partOf aJavaFile
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.name_String$1 partOf aJavaFile.org.softlang.megal.acme.nested$0
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.name_String$1 partOf aJavaFile.org.softlang.megal.acme.nested$0.Company$0
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.name_String$1 partOf aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.name_String$1 elementOf Java
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.name_String$1 = 'file:/home/darjeeling/Documents/megal-xtext/org.softlang.megal.plugins/input/org/softlang/megal/acme/nested/Company.java#/0/org.softlang.megal.acme.nested/JavaPackage/0/Company/JavaClass/2/Department/JavaClass/1/name_String/JavaField'
 
 @FragmentText 'void setEmployees(List<Employee> employees) { ...'
-aJavaFile.test.companies$0.Company$0.Department$1.setEmployees$6: JavaMethod
-aJavaFile.test.companies$0.Company$0.Department$1.setEmployees$6 partOf aJavaFile
-aJavaFile.test.companies$0.Company$0.Department$1.setEmployees$6 partOf aJavaFile.test.companies$0
-aJavaFile.test.companies$0.Company$0.Department$1.setEmployees$6 partOf aJavaFile.test.companies$0.Company$0
-aJavaFile.test.companies$0.Company$0.Department$1.setEmployees$6 partOf aJavaFile.test.companies$0.Company$0.Department$1
-aJavaFile.test.companies$0.Company$0.Department$1.setEmployees$6 elementOf Java
-aJavaFile.test.companies$0.Company$0.Department$1.setEmployees$6 = 'file:/home/darjeeling/Documents/megal-xtext/org.softlang.megal.plugins/input/test/companies/Company.java#/0/test.companies/JavaPackage/0/Company/JavaClass/1/Department/JavaClass/6/setEmployees/JavaMethod'
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.setEmployees(List[Employee])$6: JavaMethod
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.setEmployees(List[Employee])$6 partOf aJavaFile
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.setEmployees(List[Employee])$6 partOf aJavaFile.org.softlang.megal.acme.nested$0
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.setEmployees(List[Employee])$6 partOf aJavaFile.org.softlang.megal.acme.nested$0.Company$0
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.setEmployees(List[Employee])$6 partOf aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.setEmployees(List[Employee])$6 elementOf Java
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.setEmployees(List[Employee])$6 = 'file:/home/darjeeling/Documents/megal-xtext/org.softlang.megal.plugins/input/org/softlang/megal/acme/nested/Company.java#/0/org.softlang.megal.acme.nested/JavaPackage/0/Company/JavaClass/2/Department/JavaClass/6/setEmployees(List[Employee])/JavaMethod'
 
 @FragmentText 'void setName(String name) { ...'
-aJavaFile.test.companies$0.Company$0.Department$1.setName$4: JavaMethod
-aJavaFile.test.companies$0.Company$0.Department$1.setName$4 partOf aJavaFile
-aJavaFile.test.companies$0.Company$0.Department$1.setName$4 partOf aJavaFile.test.companies$0
-aJavaFile.test.companies$0.Company$0.Department$1.setName$4 partOf aJavaFile.test.companies$0.Company$0
-aJavaFile.test.companies$0.Company$0.Department$1.setName$4 partOf aJavaFile.test.companies$0.Company$0.Department$1
-aJavaFile.test.companies$0.Company$0.Department$1.setName$4 elementOf Java
-aJavaFile.test.companies$0.Company$0.Department$1.setName$4 = 'file:/home/darjeeling/Documents/megal-xtext/org.softlang.megal.plugins/input/test/companies/Company.java#/0/test.companies/JavaPackage/0/Company/JavaClass/1/Department/JavaClass/4/setName/JavaMethod'
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.setName(String)$4: JavaMethod
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.setName(String)$4 partOf aJavaFile
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.setName(String)$4 partOf aJavaFile.org.softlang.megal.acme.nested$0
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.setName(String)$4 partOf aJavaFile.org.softlang.megal.acme.nested$0.Company$0
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.setName(String)$4 partOf aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.setName(String)$4 elementOf Java
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Department$2.setName(String)$4 = 'file:/home/darjeeling/Documents/megal-xtext/org.softlang.megal.plugins/input/org/softlang/megal/acme/nested/Company.java#/0/org.softlang.megal.acme.nested/JavaPackage/0/Company/JavaClass/2/Department/JavaClass/4/setName(String)/JavaMethod'
 
 @FragmentText 'List<Department> departments = new ArrayList<Department>(); ...'
-aJavaFile.test.companies$0.Company$0.departments$3: JavaField
-aJavaFile.test.companies$0.Company$0.departments$3 partOf aJavaFile
-aJavaFile.test.companies$0.Company$0.departments$3 partOf aJavaFile.test.companies$0
-aJavaFile.test.companies$0.Company$0.departments$3 partOf aJavaFile.test.companies$0.Company$0
-aJavaFile.test.companies$0.Company$0.departments$3 elementOf Java
-aJavaFile.test.companies$0.Company$0.departments$3 = 'file:/home/darjeeling/Documents/megal-xtext/org.softlang.megal.plugins/input/test/companies/Company.java#/0/test.companies/JavaPackage/0/Company/JavaClass/3/departments/JavaField'
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.departments_List[Department]$4: JavaField
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.departments_List[Department]$4 partOf aJavaFile
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.departments_List[Department]$4 partOf aJavaFile.org.softlang.megal.acme.nested$0
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.departments_List[Department]$4 partOf aJavaFile.org.softlang.megal.acme.nested$0.Company$0
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.departments_List[Department]$4 elementOf Java
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.departments_List[Department]$4 = 'file:/home/darjeeling/Documents/megal-xtext/org.softlang.megal.plugins/input/org/softlang/megal/acme/nested/Company.java#/0/org.softlang.megal.acme.nested/JavaPackage/0/Company/JavaClass/4/departments_List[Department]/JavaField'
+
+@FragmentText 'enum ET { ...'
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.ET$0: JavaEnum
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.ET$0 partOf aJavaFile
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.ET$0 partOf aJavaFile.org.softlang.megal.acme.nested$0
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.ET$0 partOf aJavaFile.org.softlang.megal.acme.nested$0.Company$0
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.ET$0 elementOf Java
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.ET$0 = 'file:/home/darjeeling/Documents/megal-xtext/org.softlang.megal.plugins/input/org/softlang/megal/acme/nested/Company.java#/0/org.softlang.megal.acme.nested/JavaPackage/0/Company/JavaClass/0/ET/JavaEnum'
+
+@FragmentText 'ET () { ...'
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.ET$0.ET$0: JavaConstructor
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.ET$0.ET$0 partOf aJavaFile
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.ET$0.ET$0 partOf aJavaFile.org.softlang.megal.acme.nested$0
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.ET$0.ET$0 partOf aJavaFile.org.softlang.megal.acme.nested$0.Company$0
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.ET$0.ET$0 partOf aJavaFile.org.softlang.megal.acme.nested$0.Company$0.ET$0
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.ET$0.ET$0 elementOf Java
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.ET$0.ET$0 = 'file:/home/darjeeling/Documents/megal-xtext/org.softlang.megal.plugins/input/org/softlang/megal/acme/nested/Company.java#/0/org.softlang.megal.acme.nested/JavaPackage/0/Company/JavaClass/0/ET/JavaEnum/0/ET/JavaConstructor'
 
 @FragmentText 'List<Department> getDepartments() { ...'
-aJavaFile.test.companies$0.Company$0.getDepartments$7: JavaMethod
-aJavaFile.test.companies$0.Company$0.getDepartments$7 partOf aJavaFile
-aJavaFile.test.companies$0.Company$0.getDepartments$7 partOf aJavaFile.test.companies$0
-aJavaFile.test.companies$0.Company$0.getDepartments$7 partOf aJavaFile.test.companies$0.Company$0
-aJavaFile.test.companies$0.Company$0.getDepartments$7 elementOf Java
-aJavaFile.test.companies$0.Company$0.getDepartments$7 = 'file:/home/darjeeling/Documents/megal-xtext/org.softlang.megal.plugins/input/test/companies/Company.java#/0/test.companies/JavaPackage/0/Company/JavaClass/7/getDepartments/JavaMethod'
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.getDepartments_List[Department]$8: JavaMethod
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.getDepartments_List[Department]$8 partOf aJavaFile
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.getDepartments_List[Department]$8 partOf aJavaFile.org.softlang.megal.acme.nested$0
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.getDepartments_List[Department]$8 partOf aJavaFile.org.softlang.megal.acme.nested$0.Company$0
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.getDepartments_List[Department]$8 elementOf Java
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.getDepartments_List[Department]$8 = 'file:/home/darjeeling/Documents/megal-xtext/org.softlang.megal.plugins/input/org/softlang/megal/acme/nested/Company.java#/0/org.softlang.megal.acme.nested/JavaPackage/0/Company/JavaClass/8/getDepartments_List[Department]/JavaMethod'
 
 @FragmentText 'String getName() { ...'
-aJavaFile.test.companies$0.Company$0.getName$5: JavaMethod
-aJavaFile.test.companies$0.Company$0.getName$5 partOf aJavaFile
-aJavaFile.test.companies$0.Company$0.getName$5 partOf aJavaFile.test.companies$0
-aJavaFile.test.companies$0.Company$0.getName$5 partOf aJavaFile.test.companies$0.Company$0
-aJavaFile.test.companies$0.Company$0.getName$5 elementOf Java
-aJavaFile.test.companies$0.Company$0.getName$5 = 'file:/home/darjeeling/Documents/megal-xtext/org.softlang.megal.plugins/input/test/companies/Company.java#/0/test.companies/JavaPackage/0/Company/JavaClass/5/getName/JavaMethod'
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.getName_String$6: JavaMethod
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.getName_String$6 partOf aJavaFile
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.getName_String$6 partOf aJavaFile.org.softlang.megal.acme.nested$0
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.getName_String$6 partOf aJavaFile.org.softlang.megal.acme.nested$0.Company$0
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.getName_String$6 elementOf Java
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.getName_String$6 = 'file:/home/darjeeling/Documents/megal-xtext/org.softlang.megal.plugins/input/org/softlang/megal/acme/nested/Company.java#/0/org.softlang.megal.acme.nested/JavaPackage/0/Company/JavaClass/6/getName_String/JavaMethod'
 
 @FragmentText 'static interface Lala { ...'
-aJavaFile.test.companies$0.Company$0.Lala$0: JavaInterface
-aJavaFile.test.companies$0.Company$0.Lala$0 partOf aJavaFile
-aJavaFile.test.companies$0.Company$0.Lala$0 partOf aJavaFile.test.companies$0
-aJavaFile.test.companies$0.Company$0.Lala$0 partOf aJavaFile.test.companies$0.Company$0
-aJavaFile.test.companies$0.Company$0.Lala$0 elementOf Java
-aJavaFile.test.companies$0.Company$0.Lala$0 = 'file:/home/darjeeling/Documents/megal-xtext/org.softlang.megal.plugins/input/test/companies/Company.java#/0/test.companies/JavaPackage/0/Company/JavaClass/0/Lala/JavaInterface'
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Lala$1: JavaInterface
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Lala$1 partOf aJavaFile
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Lala$1 partOf aJavaFile.org.softlang.megal.acme.nested$0
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Lala$1 partOf aJavaFile.org.softlang.megal.acme.nested$0.Company$0
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Lala$1 elementOf Java
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.Lala$1 = 'file:/home/darjeeling/Documents/megal-xtext/org.softlang.megal.plugins/input/org/softlang/megal/acme/nested/Company.java#/0/org.softlang.megal.acme.nested/JavaPackage/0/Company/JavaClass/1/Lala/JavaInterface'
 
 @FragmentText 'String name; ...'
-aJavaFile.test.companies$0.Company$0.name$2: JavaField
-aJavaFile.test.companies$0.Company$0.name$2 partOf aJavaFile
-aJavaFile.test.companies$0.Company$0.name$2 partOf aJavaFile.test.companies$0
-aJavaFile.test.companies$0.Company$0.name$2 partOf aJavaFile.test.companies$0.Company$0
-aJavaFile.test.companies$0.Company$0.name$2 elementOf Java
-aJavaFile.test.companies$0.Company$0.name$2 = 'file:/home/darjeeling/Documents/megal-xtext/org.softlang.megal.plugins/input/test/companies/Company.java#/0/test.companies/JavaPackage/0/Company/JavaClass/2/name/JavaField'
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.name_String$3: JavaField
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.name_String$3 partOf aJavaFile
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.name_String$3 partOf aJavaFile.org.softlang.megal.acme.nested$0
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.name_String$3 partOf aJavaFile.org.softlang.megal.acme.nested$0.Company$0
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.name_String$3 elementOf Java
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.name_String$3 = 'file:/home/darjeeling/Documents/megal-xtext/org.softlang.megal.plugins/input/org/softlang/megal/acme/nested/Company.java#/0/org.softlang.megal.acme.nested/JavaPackage/0/Company/JavaClass/3/name_String/JavaField'
 
 @FragmentText 'void setDepartments(List<Department> departments) { ...'
-aJavaFile.test.companies$0.Company$0.setDepartments$8: JavaMethod
-aJavaFile.test.companies$0.Company$0.setDepartments$8 partOf aJavaFile
-aJavaFile.test.companies$0.Company$0.setDepartments$8 partOf aJavaFile.test.companies$0
-aJavaFile.test.companies$0.Company$0.setDepartments$8 partOf aJavaFile.test.companies$0.Company$0
-aJavaFile.test.companies$0.Company$0.setDepartments$8 elementOf Java
-aJavaFile.test.companies$0.Company$0.setDepartments$8 = 'file:/home/darjeeling/Documents/megal-xtext/org.softlang.megal.plugins/input/test/companies/Company.java#/0/test.companies/JavaPackage/0/Company/JavaClass/8/setDepartments/JavaMethod'
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.setDepartments(List[Department])$9: JavaMethod
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.setDepartments(List[Department])$9 partOf aJavaFile
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.setDepartments(List[Department])$9 partOf aJavaFile.org.softlang.megal.acme.nested$0
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.setDepartments(List[Department])$9 partOf aJavaFile.org.softlang.megal.acme.nested$0.Company$0
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.setDepartments(List[Department])$9 elementOf Java
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.setDepartments(List[Department])$9 = 'file:/home/darjeeling/Documents/megal-xtext/org.softlang.megal.plugins/input/org/softlang/megal/acme/nested/Company.java#/0/org.softlang.megal.acme.nested/JavaPackage/0/Company/JavaClass/9/setDepartments(List[Department])/JavaMethod'
 
 @FragmentText 'void setName(String name) { ...'
-aJavaFile.test.companies$0.Company$0.setName$6: JavaMethod
-aJavaFile.test.companies$0.Company$0.setName$6 partOf aJavaFile
-aJavaFile.test.companies$0.Company$0.setName$6 partOf aJavaFile.test.companies$0
-aJavaFile.test.companies$0.Company$0.setName$6 partOf aJavaFile.test.companies$0.Company$0
-aJavaFile.test.companies$0.Company$0.setName$6 elementOf Java
-aJavaFile.test.companies$0.Company$0.setName$6 = 'file:/home/darjeeling/Documents/megal-xtext/org.softlang.megal.plugins/input/test/companies/Company.java#/0/test.companies/JavaPackage/0/Company/JavaClass/6/setName/JavaMethod'
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.setName(String)$7: JavaMethod
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.setName(String)$7 partOf aJavaFile
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.setName(String)$7 partOf aJavaFile.org.softlang.megal.acme.nested$0
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.setName(String)$7 partOf aJavaFile.org.softlang.megal.acme.nested$0.Company$0
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.setName(String)$7 elementOf Java
+aJavaFile.org.softlang.megal.acme.nested$0.Company$0.setName(String)$7 = 'file:/home/darjeeling/Documents/megal-xtext/org.softlang.megal.plugins/input/org/softlang/megal/acme/nested/Company.java#/0/org.softlang.megal.acme.nested/JavaPackage/0/Company/JavaClass/7/setName(String)/JavaMethod'
 
 Java: Language
 Java = 'http://dbpedia.org/page/Java_(programming_language)'
