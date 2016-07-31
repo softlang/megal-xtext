@@ -3,6 +3,8 @@
 
   <xs:element name="company" type="company"/>
 
+  <xs:element name="employee" type="employee"/>
+
   <xs:complexType name="company">
     <xs:sequence>
       <xs:element name="departments" type="department" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
@@ -13,15 +15,14 @@
   <xs:complexType name="department">
     <xs:sequence>
       <xs:element name="employees" type="employee" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
-      <xs:element name="name" type="xs:string" minOccurs="0"/>
     </xs:sequence>
+    <xs:attribute name="name" type="xs:string"/>
   </xs:complexType>
 
   <xs:complexType name="employee">
-    <xs:sequence>
-      <xs:element name="name" type="xs:string" minOccurs="0"/>
-      <xs:element name="salary" type="xs:int"/>
-    </xs:sequence>
+    <xs:sequence/>
+    <xs:attribute name="name" type="xs:string"/>
+    <xs:attribute name="salary" type="xs:int" use="required"/>
   </xs:complexType>
 </xs:schema>
 

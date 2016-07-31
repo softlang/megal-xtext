@@ -1,5 +1,9 @@
 package org.softlang.megal.acme;
 
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
 public class Employee {
 
 	private String name;
@@ -16,12 +20,15 @@ public class Employee {
 		
 	}
 	
+	@XmlAttribute
 	public String getName() {
 		return name;
 	}
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	@XmlAttribute
 	public int getSalary() {
 		return salary;
 	}

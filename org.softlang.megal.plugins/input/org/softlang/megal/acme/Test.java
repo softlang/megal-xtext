@@ -1,6 +1,7 @@
 package org.softlang.megal.acme;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 import javax.xml.XMLConstants;
@@ -18,6 +19,7 @@ import org.xml.sax.SAXException;
 public class Test {
 
 	static final private String SCHEMA_LOCATION = "./input/org/softlang/megal/acme/acme.xsd";
+	static final private String XML_LOCATION = "./input/org/softlang/megal/acme/acme.xml";
 	
 	static private Schema createSchema (JAXBContext context) throws SAXException, IOException {
 		
@@ -48,10 +50,24 @@ public class Test {
 		Company c = new Company();
 		c.setName("ACME");
 		
-		Department d = new Department();
-		d.setName("Research");
-		
-		c.addDepartment(d);
+		for (int i=0; i<10; i++) {
+			
+			Department d = new Department();
+			d.setName("D"+i);
+			
+			for (int j=0; j<10; j++) {
+				
+				Employee e = new Employee();
+				e.setName("E" + j);
+				e.setSalary( (j+1) * 1000 );
+				
+				d.addEmployee(e);
+				
+			}
+			
+			c.addDepartment(d);
+			
+		}
 		
 		return c;
 		
@@ -70,7 +86,10 @@ public class Test {
 			m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 			m.setProperty(Marshaller.JAXB_NO_NAMESPACE_SCHEMA_LOCATION, SCHEMA_LOCATION);
 			
-			m.marshal(createSampleCompany(), System.out);
+			Company c = createSampleCompany();
+			
+			m.marshal(c, System.out);
+			m.marshal(c, new FileOutputStream(new File(XML_LOCATION)));
 			
 			
 		} catch (JAXBException | IOException | SAXException e) {
