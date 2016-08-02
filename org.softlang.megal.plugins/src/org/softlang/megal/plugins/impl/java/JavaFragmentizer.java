@@ -37,6 +37,11 @@ import org.softlang.megal.plugins.impl.java.antlr.JavaParserFactory;
  */
 public class JavaFragmentizer extends ANTLRFragmentizerPlugin<JavaParser, JavaLexer> {
 	
+	/* =====================================================================================================
+	 * Fragment type names
+	 * =====================================================================================================
+	 */
+	
 	static final private String FRAGMENTTYPE_PACKAGE = "JavaPackage";
 	static final private String FRAGMENTTYPE_CLASS = "JavaClass";
 	static final private String FRAGMENTTYPE_INTERFACE = "JavaInterface";
@@ -45,8 +50,31 @@ public class JavaFragmentizer extends ANTLRFragmentizerPlugin<JavaParser, JavaLe
 	static final private String FRAGMENTTYPE_METHOD = "JavaMethod";
 	static final private String FRAGMENTTYPE_CONSTRUCTOR = "JavaConstructor";
 	
+	/* =====================================================================================================
+	 * Fragmentation Rules
+	 * =====================================================================================================
+	 * 
+	 * Rule classes depend on the grammar specified in org.softlang.megal.plugins.impl.java.antlr.Java.g4
+	 * 
+	 */
+	
+	/**
+	 * Fragmentation rule for packages.
+	 * 
+	 * @author maxmeffert
+	 *
+	 */
 	static private class PackageRule extends FragmentationRule<CompilationUnitContext> {
 
+		/**
+		 * Gets the targeted AST declaration context.
+		 * 
+		 * <p>
+		 * This rule makes use of the CompilationUnitContext because the actual PackageDeclarationContext 
+		 * does not have any children, which is counter-intuitive for fragments
+		 * </p>
+		 * 
+		 */
 		@Override
 		protected Class<CompilationUnitContext> contextType() {
 			return CompilationUnitContext.class;
@@ -74,8 +102,6 @@ public class JavaFragmentizer extends ANTLRFragmentizerPlugin<JavaParser, JavaLe
 					);
 			
 		}
-
-		
 		
 	}
 	
@@ -153,6 +179,12 @@ public class JavaFragmentizer extends ANTLRFragmentizerPlugin<JavaParser, JavaLe
 		
 	};
 	
+	/**
+	 * Fragmentation rule for interfaces
+	 * 
+	 * @author maxmeffert
+	 *
+	 */
 	static private class InterfaceRule extends FragmentationRule<TypeDeclarationContext> {
 
 		@Override
@@ -184,6 +216,12 @@ public class JavaFragmentizer extends ANTLRFragmentizerPlugin<JavaParser, JavaLe
 		
 	};
 	
+	/**
+	 * Fragmentation rule for member interfaces
+	 * 
+	 * @author maxmeffert
+	 *
+	 */
 	static private class InnerInterfaceRule extends FragmentationRule<ClassBodyDeclarationContext> {
 
 		@Override
@@ -215,7 +253,12 @@ public class JavaFragmentizer extends ANTLRFragmentizerPlugin<JavaParser, JavaLe
 		
 	};
 	
-	
+	/**
+	 * Fragmentation rule for enums
+	 * 
+	 * @author maxmeffert
+	 *
+	 */
 	static private class EnumRule extends FragmentationRule<EnumDeclarationContext> {
 
 		@Override
@@ -409,7 +452,10 @@ public class JavaFragmentizer extends ANTLRFragmentizerPlugin<JavaParser, JavaLe
 		
 	}
 	
-	
+	/* =====================================================================================================
+	 * Implemented ANTLRFRagmentizer methods
+	 * =====================================================================================================
+	 */
 	
 	/**
 	 * Gets the collection of Java fragmentation rules
