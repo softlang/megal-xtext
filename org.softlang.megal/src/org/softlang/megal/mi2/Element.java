@@ -43,7 +43,21 @@ public abstract class Element {
 	 * @return True if annotated with the annotation
 	 */
 	public boolean hasAnnotation(String name) {
-		return getAnnotations().containsEntry(name, null);
+		
+		/*
+		 * Use .containsKey instead of .containsEntry!
+		 * 
+		 * .containsEntry checks for the exact pair of arguments.
+		 * So .containsEntry(name, null) makes no sense for the notion of hasAnnotation,
+		 * since elements should also to be considered to have an annotation for non-null values.
+		 * 
+		 * Regards
+		 * Max
+		 * 
+		 */
+		
+		return getAnnotations().containsKey(name);
+//		return getAnnotations().containsEntry(name, null);
 	}
 
 	/**
