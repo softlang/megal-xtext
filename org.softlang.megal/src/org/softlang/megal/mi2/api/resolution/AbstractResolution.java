@@ -1,6 +1,7 @@
 package org.softlang.megal.mi2.api.resolution;
 
 import static com.google.common.collect.Iterables.getOnlyElement;
+import static com.google.common.collect.Iterables.getFirst;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -79,6 +80,18 @@ public abstract class AbstractResolution implements Resolution {
 
 	@Override
 	public Artifact getArtifact(Object binding) {
-		return getOnlyElement(getArtifacts(binding), null);
+		
+		/*
+		 * Use Iterables.getFirst instead of Iterables.getOnlyElement!
+		 * 
+		 * getOnlyElement will throw an exception if getArtifacts returns a list with more than 1 element.
+		 * However, this is likely to happen since getArtifacts returns the CONCATENATION of two lists!
+		 * 
+		 * Regards,
+		 * Max
+		 * 
+		 */
+		return getFirst(getArtifacts(binding), null);
+//		return getOnlyElement(getArtifacts(binding), null);
 	}
 }
