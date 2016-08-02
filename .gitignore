@@ -13,6 +13,7 @@ tmp/
 local.properties
 .settings/
 .loadpath
+*.md.html
 
 # External tool builders
 .externalToolBuilders/
