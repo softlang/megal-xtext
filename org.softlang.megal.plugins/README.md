@@ -1,14 +1,13 @@
-# megal plugins
+# org.softlang.megal.plugins
 
-## Package Outline
-### org.softlang.megal.plugins
-Package for abstract plugins
+A collection of *static/dynamic program analysis* and *reasoner* plugins for MegaL.
 
-### org.softlang.megal.plugins.prelude
-Package for "meta-plugins" referenced insed Prelude.megal
-
-### org.softlang.megal.plugins.util
-Package for plugin utilities
-
-### org.softlang.megal.plugins.impl
-Package for language/technology specific plugin implementations
+## Outline
+- ```/src``` The source files for plugins
+- ```/input``` A collection of mixed input sources
+- ```/input-lib``` Dependencies for input sources
+- ```/lib``` Dependencies for plugins
+- ```/megal``` Java source files for plugins
+- ```/output``` Folder for results
+- ```/ucls``` Folder for ObjectAid diagrams
+- ```/SETUP.md``` Instructions how to set up an eclipse environment
