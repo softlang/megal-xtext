@@ -1,7 +1,7 @@
 model Java
 import Prelude
 
-
+@FileExtensions '.java'
 Java : Language
 
 //===============================================

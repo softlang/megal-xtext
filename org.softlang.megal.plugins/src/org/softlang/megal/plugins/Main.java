@@ -186,13 +186,20 @@ public class Main {
 		
 		printInstances(kb, System.out);
 		
+
+		System.out.println();
+		System.out.println("Done!");
+		
+		System.out.println();
+		System.out.println("Start Writing to " + output);
+		
 		PrintStream out = new PrintStream(new FileOutputStream(output));
 //		printTypes(kb,out);
 		printInstances(kb,out);
 		out.close();
 		
 		System.out.println();
-		System.out.println("Done!");
+		System.out.println("Done writing to " + output);
 		
 	}
 

@@ -21,8 +21,11 @@ Technology < Entity
 Language < Set
 
 @Color '231,65,41'
+@Plugin 'FileExtensionLanguageReasoner'
 @Plugin 'FileFragmentReasoner'
 File < Artifact
+
+@Plugin 'FolderReasoner'
 Folder < Artifact
 Fragment < Artifact
 Resource < Artifact
@@ -103,3 +106,9 @@ PartOfReasoner = 'classpath:org.softlang.megal.plugins.prelude.PartOfReasoner'
 
 FileFragmentReasoner: Plugin
 FileFragmentReasoner = 'classpath:org.softlang.megal.plugins.prelude.FileFragmentationReasoner'
+
+FolderReasoner: Plugin
+FolderReasoner = 'classpath:org.softlang.megal.plugins.prelude.FolderReasoner'
+
+FileExtensionLanguageReasoner: Plugin
+FileExtensionLanguageReasoner = 'classpath:org.softlang.megal.plugins.prelude.FileExtensionLanguageReasoner'

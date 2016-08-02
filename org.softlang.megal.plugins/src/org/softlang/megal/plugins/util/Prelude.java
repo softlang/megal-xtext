@@ -7,6 +7,7 @@ import static com.google.common.collect.Sets.newHashSet;
 
 import java.util.Deque;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.softlang.megal.mi2.Entity;
 import org.softlang.megal.mi2.EntityType;
@@ -22,6 +23,12 @@ public class Prelude {
 	}
 
 	public static Iterable<Entity> outgoingTo(Entity entity, String name) {
+		
+//		return entity.getKB().getRelationships().stream()
+//				.filter( r -> r.getTypeName().equals(name) && r.getLeft().equals(entity))
+//				.map( r -> r.getRight() )
+//				.collect(Collectors.toList());
+		
 		return from(entity.outgoing(name)).transform(Relationship::getRight);
 	}
 

@@ -11,8 +11,9 @@ import Java
 Rel < Entity * Entity
 
 
-
+@FileExtensions '.xml'
 XML: Language
+@FileExtensions '.xsd'
 XSD: Language
 XSD subsetOf XML
 
@@ -45,3 +46,6 @@ xmlFile elementOf XML
 
 xsdFile: File
 xsdFile elementOf XSD
+
+
+aFolder: Folder

@@ -49,9 +49,13 @@ public abstract class LocalResolution extends AbstractResolution {
 		// If object is an URI
 		if (object instanceof URI) {
 			URI uri = (URI) object;
+//			System.err.println(uri);
+//			System.err.println("file".equals(uri.getScheme()));
 			// Directly map file
-			if ("file".equals(uri.getScheme()))
+			if ("file".equals(uri.getScheme())) {
+//				System.err.println(uri);
 				return singletonList(new File(uri));
+			}
 			// Redirect workspace
 			else if ("workspace".equals(uri.getScheme()))
 				try {

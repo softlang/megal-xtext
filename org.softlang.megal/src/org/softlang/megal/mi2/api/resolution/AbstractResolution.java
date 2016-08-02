@@ -84,7 +84,7 @@ public abstract class AbstractResolution implements Resolution {
 		/*
 		 * Use Iterables.getFirst instead of Iterables.getOnlyElement!
 		 * 
-		 * getOnlyElement will throw an exception if getArtifacts returns a list with more than 1 element.
+		 * Iterables.getOnlyElement will throw an exception if getArtifacts returns a list with more than 1 element.
 		 * However, this is likely to happen since getArtifacts returns the CONCATENATION of two lists!
 		 * 
 		 * Regards,

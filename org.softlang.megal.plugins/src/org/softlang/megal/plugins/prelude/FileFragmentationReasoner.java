@@ -8,6 +8,9 @@ import static com.google.common.collect.Maps.immutableEntry;
 import static com.google.common.collect.Iterables.filter;
 
 import static org.softlang.megal.plugins.util.Prelude.isElementOfLanguage;
+
+import java.util.stream.Collectors;
+
 import org.softlang.megal.plugins.api.FragmentizerPlugin;
 import org.softlang.megal.plugins.api.GuidedReasonerPlugin;
 import org.softlang.megal.plugins.api.fragmentation.Fragments.Fragment;
@@ -76,6 +79,14 @@ public class FileFragmentationReasoner extends GuidedReasonerPlugin {
 			
 			for(Entity lang : plugin.getRealization()) {
 				
+//				System.err.println(entity);
+//				System.err.println(
+//						entity.getKB().getRelationships().stream()
+//						.filter( r -> r.getTypeName().equals("elementOf"))
+////						.filter( r -> r.getRight().equals(lang))
+//						.collect(Collectors.toList())
+//						);
+				
 				if (isElementOfLanguage(entity, lang)) {
 					
 					deriveFragments(plugin.getFragments(entity, artifactOf(entity)), lang.getName());
@@ -120,7 +131,9 @@ public class FileFragmentationReasoner extends GuidedReasonerPlugin {
 		
 	}
 	
-	
+	public boolean isContextBased () {
+		return true;
+	}
 	
 	
 	
