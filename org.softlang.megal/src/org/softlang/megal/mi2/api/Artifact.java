@@ -2,6 +2,7 @@ package org.softlang.megal.mi2.api;
 
 import static com.google.common.base.Objects.equal;
 
+import java.io.File;
 import java.net.URI;
 import java.nio.charset.Charset;
 import java.util.List;
@@ -20,6 +21,10 @@ public abstract class Artifact {
 
 	public abstract List<? extends Artifact> getChildren();
 
+	public abstract boolean hasContent();
+
+	public abstract ByteSource getBytes();
+	
 	/**
 	 * <p>
 	 * Gets the first child with the given name.
@@ -37,11 +42,12 @@ public abstract class Artifact {
 		return null;
 	}
 
-	public abstract boolean hasContent();
-
-	public abstract ByteSource getBytes();
-
 	public CharSource getChars() {
 		return getBytes().asCharSource(Charset.defaultCharset());
 	}
+	
+	public File getFile () {
+		return new File(getLocation());
+	}
+	
 }
