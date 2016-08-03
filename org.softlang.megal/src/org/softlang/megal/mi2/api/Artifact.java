@@ -11,6 +11,7 @@ import com.google.common.io.ByteSource;
 import com.google.common.io.CharSource;
 
 public abstract class Artifact {
+	
 	public abstract boolean exists();
 
 	public abstract URI getLocation();
@@ -46,7 +47,7 @@ public abstract class Artifact {
 		return getBytes().asCharSource(Charset.defaultCharset());
 	}
 	
-	public File getFile () {
+	public File toFile () {
 		return new File(getLocation());
 	}
 	
