@@ -31,6 +31,16 @@ public abstract class GuidedReasonerPlugin extends InjectedReasonerPlugin {
 
 	// TODO: Loads of duplication because of problems with multiple aspects
 
+	/**
+	 * Checks a given condition.
+	 * 
+	 * <p>
+	 * If the condition is not satisfied, a GuidedExitException will be thrown, which will end the plugin evaluation.
+	 * As a rule of thumb: DO NOT put when-calls inside try-catch-blocks or make sure that GuidedExitException are not caught.
+	 * <p>
+	 * 
+	 * @param condition
+	 */
 	protected void when(boolean condition) {
 		if (!condition)
 			throw new GuidedExitException(Level.NOT_RESPONSIBLE,

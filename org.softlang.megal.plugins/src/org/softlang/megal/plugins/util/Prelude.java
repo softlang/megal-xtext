@@ -7,16 +7,25 @@ import static com.google.common.collect.Sets.newHashSet;
 
 import java.util.Deque;
 import java.util.Set;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+
 import org.softlang.megal.mi2.Entity;
 import org.softlang.megal.mi2.EntityType;
+import org.softlang.megal.mi2.KB;
 import org.softlang.megal.mi2.Relationship;
 
 /**
  * 
- * @author darjeeling
+ * @author maxmeffert
  *
  */
 public class Prelude {
+	
+	/* ==================================================================
+	 * Prelude Entity Sub-Types
+	 * ==================================================================
+	 */
 	
 	static final public String ARTIFACT = "Artifact";
 	static final public String CONCEPT = "Concept";
@@ -30,6 +39,11 @@ public class Prelude {
 	static final public String RESOURCE = "Resource";
 	static final public String TRANSIENT = "Transient";
 	static final public String PLUGIN = "Plugin";
+	
+	/* ==================================================================
+	 * Instance-level Type-Checkers
+	 * ==================================================================
+	 */
 	
 	static public boolean isInstance(Entity entity, String type) {
 		
@@ -91,6 +105,11 @@ public class Prelude {
 		return isInstance(entity,PLUGIN);
 	}
 
+	/* ==================================================================
+	 * Instance-level Type-Checkers
+	 * ==================================================================
+	 */
+	
 	public static Iterable<Entity> outgoingTo(Entity entity, String name) {
 		
 //		return entity.getKB().getRelationships().stream()
@@ -151,4 +170,96 @@ public class Prelude {
 
 		return false;
 	}
+	
+	/* ==================================================================
+	 * Instance-level Type-Checkers
+	 * ==================================================================
+	 */
+	
+	static public Set<Entity> getInstancesWhere (KB kb, Predicate<Entity> predicate) {
+		
+		return kb.getEntities().stream()
+				.filter(predicate)
+				.collect(Collectors.toSet());
+		
+	}
+	
+	static public Set<Entity> getInstancesOf (KB kb, String type) {
+		
+		return getInstancesWhere(kb, e -> isInstance(e, type) );
+		
+	}
+	
+	static public Set<Entity> getArtifacts (KB kb) {
+		
+		return getInstancesWhere(kb, Prelude::isArtifact);
+		
+	}
+	
+	static public Set<Entity> getConcepts (KB kb) {
+		
+		return getInstancesWhere(kb, Prelude::isConcept);
+		
+	}
+	
+	static public Set<Entity> getFunctions (KB kb) {
+		
+		return getInstancesWhere(kb, Prelude::isFunction);
+		
+	}
+	
+	static public Set<Entity> getSets (KB kb) {
+		
+		return getInstancesWhere(kb, Prelude::isSet);
+		
+	}
+	
+	static public Set<Entity> getTechnologies (KB kb) {
+		
+		return getInstancesWhere(kb, Prelude::isTechnology);
+		
+	}
+	
+	static public Set<Entity> getLanguages (KB kb) {
+		
+		return getInstancesWhere(kb, Prelude::isLanguage);
+		
+	}
+	
+	static public Set<Entity> getFiles (KB kb) {
+		
+		return getInstancesWhere(kb, Prelude::isFile);
+		
+	}
+	
+	static public Set<Entity> getFolders (KB kb) {
+		
+		return getInstancesWhere(kb, Prelude::isFolder);
+		
+	}
+	
+	static public Set<Entity> getFragments (KB kb) {
+		
+		return getInstancesWhere(kb, Prelude::isFragment);
+		
+	}
+	
+	static public Set<Entity> getResources (KB kb) {
+		
+		return getInstancesWhere(kb, Prelude::isResource);
+		
+	}
+	
+	static public Set<Entity> getTransients (KB kb) {
+		
+		return getInstancesWhere(kb, Prelude::isTransient);
+		
+	}
+	
+	static public Set<Entity> getPlugins (KB kb) {
+		
+		return getInstancesWhere(kb, Prelude::isPlugin);
+		
+	}
+	
 }

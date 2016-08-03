@@ -22,14 +22,25 @@ import org.softlang.megal.plugins.util.Prelude;
  */
 public class FileExtensionLanguageReasoner extends GuidedReasonerPlugin {
 	
+	/**
+	 * The annotation name for file extensions
+	 */
 	static final private String ANNOTATION = "FileExtensions";
 	
+	/**
+	 * 
+	 * Gets the set of declared file extensions for a given language entity
+	 * 
+	 * @param language The given language entity
+	 * @return The set of declared file extensions
+	 */
 	static private Set<String> extensions (Entity language) {
 		
-		if (language.hasAnnotation(ANNOTATION)) {
+		if (Prelude.isLanguage(language) 
+				&& language.hasAnnotation(ANNOTATION)) {
 			
 			return Arrays.asList(language.getAnnotation(ANNOTATION).split(",")).stream()
-					.map( s -> s.trim().toLowerCase() )
+					.map( s -> s.trim() )
 					.map( s -> s.startsWith(".") ? s : "." + s )
 					.collect(Collectors.toSet());
 			
@@ -39,6 +50,15 @@ public class FileExtensionLanguageReasoner extends GuidedReasonerPlugin {
 		
 	}
 	
+	static private boolean endsWithExtension(File file, String extension) {
+		
+		return file.getPath().toLowerCase().endsWith(extension.toLowerCase());
+		
+	}
+	
+	/**
+	 * 
+	 */
 	@Override
 	protected void guidedDerive(Entity entity) {
 		
@@ -48,21 +68,13 @@ public class FileExtensionLanguageReasoner extends GuidedReasonerPlugin {
 		
 		try {
 			
-			File file = artifactOf(entity).toFile();
+			File file = artifactOf(entity).toFile();			
 			
-			KB kb = entity.getKB();
-			
-			List<Entity> languages = kb.getEntities().stream()
-					.filter(Prelude::isLanguage)
-					.collect(Collectors.toList());
-			
-			
-			
-			for (Entity language : languages) {
+			for (Entity language : Prelude.getLanguages(entity.getKB())) {
 				
 				for (String extension : extensions(language)) {
 					
-					if (file.getAbsolutePath().endsWith(extension)) {
+					if (endsWithExtension(file, extension)) {
 						
 						relationship(entity.getName(), language.getName(), "elementOf");
 						
