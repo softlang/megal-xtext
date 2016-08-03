@@ -141,7 +141,7 @@ public class Main {
 			
 			List<Relationship> rs = kb.getRelationships().stream()
 					.filter( r -> r.getLeft().equals(e))
-					.sorted( (a,b) -> a.getRight().getName().compareToIgnoreCase(b.getRight().getName()) )
+					.sorted( (a,b) -> (a.getTypeName() + a.getRight().getName()).compareToIgnoreCase(b.getTypeName() + b.getRight().getName()) )
 					.collect(Collectors.toList());
 			
 			for (Relationship rel : rs) {

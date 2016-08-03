@@ -7,19 +7,88 @@ import static com.google.common.collect.Sets.newHashSet;
 
 import java.util.Deque;
 import java.util.Set;
-import java.util.stream.Collectors;
-
 import org.softlang.megal.mi2.Entity;
 import org.softlang.megal.mi2.EntityType;
 import org.softlang.megal.mi2.Relationship;
 
+/**
+ * 
+ * @author darjeeling
+ *
+ */
 public class Prelude {
-	public static boolean isInstance(Entity entity, String type) {
+	
+	static final public String ARTIFACT = "Artifact";
+	static final public String CONCEPT = "Concept";
+	static final public String FUNCTION = "Function";
+	static final public String SET = "SET";
+	static final public String TECHNOLOGY = "Technology";
+	static final public String LANGUAGE = "Language";
+	static final public String FILE = "File";
+	static final public String FOLDER = "Folder";
+	static final public String FRAGMENT = "Fragment";
+	static final public String RESOURCE = "Resource";
+	static final public String TRANSIENT = "Transient";
+	static final public String PLUGIN = "Plugin";
+	
+	static public boolean isInstance(Entity entity, String type) {
+		
 		EntityType entityType = entity.getKB().getEntityType(type);
-		if (entityType == null)
+		
+		if (entityType == null) {
 			return false;
+		}
 
 		return entity.isInstance(entityType);
+		
+	}
+	
+	static public boolean isArtifact (Entity entity) {
+		return isInstance(entity,ARTIFACT);
+	}
+	
+	static public boolean isConcept (Entity entity) {
+		return isInstance(entity,CONCEPT);
+	}
+	
+	static public boolean isFunction (Entity entity) {
+		return isInstance(entity,FUNCTION);
+	}
+	
+	static public boolean isSet (Entity entity) {
+		return isInstance(entity,SET);
+	}
+	
+	static public boolean isTechnology (Entity entity) {
+		return isInstance(entity,TECHNOLOGY);
+	}
+	
+	static public boolean isLanguage (Entity entity) {
+		return isInstance(entity,LANGUAGE);
+	}
+	
+	static public boolean isFile (Entity entity) {
+		return isInstance(entity,FILE);
+	}
+	
+	static public boolean isFolder (Entity entity) {
+		return isInstance(entity,FOLDER);
+	}
+	
+	static public boolean isFragment (Entity entity) {
+		return isInstance(entity,FRAGMENT);
+	}
+	
+	static public boolean isResource (Entity entity) {
+		return isInstance(entity,RESOURCE);
+	}
+	
+	static public boolean isTransient (Entity entity) {
+		return isInstance(entity,TRANSIENT);
+	}
+	
+	static public boolean isPlugin (Entity entity) {
+		return isInstance(entity,PLUGIN);
 	}
 
 	public static Iterable<Entity> outgoingTo(Entity entity, String name) {

@@ -2,6 +2,7 @@ package org.softlang.megal.plugins.prelude;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -9,6 +10,8 @@ import java.util.stream.Collectors;
 import org.softlang.megal.mi2.Entity;
 import org.softlang.megal.mi2.KB;
 import org.softlang.megal.plugins.api.GuidedReasonerPlugin;
+import org.softlang.megal.plugins.util.Prelude;
+
 
 /**
  * 
@@ -19,45 +22,49 @@ import org.softlang.megal.plugins.api.GuidedReasonerPlugin;
  */
 public class FileExtensionLanguageReasoner extends GuidedReasonerPlugin {
 	
-	static final private String ANNOTATIONNAME = "FileExtensions";
+	static final private String ANNOTATION = "FileExtensions";
+	
+	static private Set<String> extensions (Entity language) {
+		
+		if (language.hasAnnotation(ANNOTATION)) {
+			
+			return Arrays.asList(language.getAnnotation(ANNOTATION).split(",")).stream()
+					.map( s -> s.trim().toLowerCase() )
+					.map( s -> s.startsWith(".") ? s : "." + s )
+					.collect(Collectors.toSet());
+			
+		}
+		
+		return Collections.emptySet();
+		
+	}
 	
 	@Override
 	protected void guidedDerive(Entity entity) {
 		
-		when(entity.getType().getName().toLowerCase().equals("file")
-				&& entity.hasBinding());
+		when(Prelude.isFile(entity) 
+				&& entity.hasBinding()
+				&& artifactOf(entity).toFile().isFile());
 		
 		try {
 			
-			File file = new File(artifactOf(entity).getLocation());
+			File file = artifactOf(entity).toFile();
 			
 			KB kb = entity.getKB();
 			
 			List<Entity> languages = kb.getEntities().stream()
-					.filter(e -> e.getType().getName().toLowerCase().equals("language"))
+					.filter(Prelude::isLanguage)
 					.collect(Collectors.toList());
 			
 			
 			
 			for (Entity language : languages) {
 				
-//				System.err.println(language.getAnnotations());
-				
-				if (language.hasAnnotation(ANNOTATIONNAME)) {
+				for (String extension : extensions(language)) {
 					
-					Set<String> extensions = Arrays.asList(language.getAnnotation(ANNOTATIONNAME).split(",")).stream()
-							.map( s -> s.trim().toLowerCase() )
-							.collect(Collectors.toSet());
-					
-//					System.err.println(extensions);
-					
-					for (String extension : extensions) {
+					if (file.getAbsolutePath().endsWith(extension)) {
 						
-						if (file.getAbsolutePath().endsWith(extension)) {
-							
-							relationship(entity.getName(), language.getName(), "elementOf");
-							
-						}
+						relationship(entity.getName(), language.getName(), "elementOf");
 						
 					}
 					
