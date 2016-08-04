@@ -1,7 +1,7 @@
 package org.softlang.megal.plugins.util;
 
 import static com.google.common.base.Objects.equal;
-import static com.google.common.collect.FluentIterable.from;
+//import static com.google.common.collect.FluentIterable.from;
 import static com.google.common.collect.Lists.newLinkedList;
 import static com.google.common.collect.Sets.newHashSet;
 
@@ -110,18 +110,29 @@ public class Prelude {
 	 * ==================================================================
 	 */
 	
-	public static Iterable<Entity> outgoingTo(Entity entity, String name) {
+	public static Iterable<Entity> outgoingTo(Entity entity, String relationshipName) {
 		
 //		return entity.getKB().getRelationships().stream()
 //				.filter( r -> r.getTypeName().equals(name) && r.getLeft().equals(entity))
 //				.map( r -> r.getRight() )
-//				.collect(Collectors.toList());
+//				.collect(Collectors.toSet());
 		
-		return from(entity.outgoing(name)).transform(Relationship::getRight);
+		return entity.outgoing(relationshipName).stream()
+				.map(Relationship::getRight)
+				.collect(Collectors.toSet());
+		
+//		return from(entity.outgoing(relationshipName)).transform(Relationship::getRight);
+		
 	}
 
-	public static Iterable<Entity> incomingFrom(Entity entity, String name) {
-		return from(entity.incoming(name)).transform(Relationship::getLeft);
+	public static Iterable<Entity> incomingFrom(Entity entity, String relationshipName) {
+		
+		return entity.incoming(relationshipName).stream()
+				.map(Relationship::getLeft)
+				.collect(Collectors.toSet());
+		
+//		return from(entity.incoming(relationshipName)).transform(Relationship::getLeft);
+		
 	}
 
 	public static boolean isElementOfLanguage(Entity entity, String language) {
