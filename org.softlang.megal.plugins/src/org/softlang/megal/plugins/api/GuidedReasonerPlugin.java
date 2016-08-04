@@ -1,13 +1,12 @@
 package org.softlang.megal.plugins.api;
 
-import static com.google.common.collect.Lists.newArrayList;
-
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.softlang.megal.mi2.Entity;
@@ -35,7 +34,7 @@ public abstract class GuidedReasonerPlugin extends InjectedReasonerPlugin {
 	/**
 	 * A collection of closable objects  
 	 */
-	private final List<Closeable> closables;
+	private final List<Closeable> closables = new ArrayList<Closeable>();;
 
 	/**
 	 * The model extension aka the result.
@@ -47,9 +46,9 @@ public abstract class GuidedReasonerPlugin extends InjectedReasonerPlugin {
 	 * ========================================================================
 	 */
 	
-	public GuidedReasonerPlugin() {
-		closables = newArrayList();
-	}
+//	public GuidedReasonerPlugin() {
+//		closables = newArrayList();
+//	}
 	
 	/* ========================================================================
 	 * Utility methods
@@ -135,11 +134,10 @@ public abstract class GuidedReasonerPlugin extends InjectedReasonerPlugin {
 			}
 		
 		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
-			//e.printStackTrace();
+			// do nothing!
 		}
 
-		throw new IllegalStateException("Binding is not a valid UIR!");
+		throw new IllegalStateException("Binding is not a valid URI!");
 		
 	}
 
