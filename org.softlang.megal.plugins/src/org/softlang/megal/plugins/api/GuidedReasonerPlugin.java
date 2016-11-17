@@ -40,15 +40,6 @@ public abstract class GuidedReasonerPlugin extends InjectedReasonerPlugin {
 	 * The model extension aka the result.
 	 */
 	private MutableKB result;
-
-	/* ========================================================================
-	 * Constructors
-	 * ========================================================================
-	 */
-	
-//	public GuidedReasonerPlugin() {
-//		closables = newArrayList();
-//	}
 	
 	/* ========================================================================
 	 * Utility methods
@@ -345,6 +336,11 @@ public abstract class GuidedReasonerPlugin extends InjectedReasonerPlugin {
 		
 	}
 	
+	/**
+	 * Binds an entity to an URI.
+	 * @param entity The entity.
+	 * @param binding The URI
+	 */
 	protected void binding(String entity, String binding) throws URISyntaxException {
 		
 		binding(entity, new URI(binding));

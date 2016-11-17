@@ -43,31 +43,7 @@ public class LanguageResolver extends GuidedReasonerPlugin {
 		
 	}
 	
-	/**
-	 * Checks whether the host of a given url is reachable
-	 * @param url
-	 * @return
-	 */
-	private boolean isReachable(String url) {
-		
-		try {
-			
-			return isReachable(new URI(url));
-			
-			
-		}
-		catch (URISyntaxException e) {
-			
-			System.err.println("LanguageResolver: '" + url + "' is malformed!");
-			System.err.println(e);
-			
-		} 
-		
-		return false;
-		
-	}
-	
-	private String dbpdiaURl (Entity entity) {
+	private String dbpdiaURL (Entity entity) {
 		
 		return "http://dbpedia.org/page/" + entity.getName() + "_(programming_language)";
 		
@@ -75,17 +51,31 @@ public class LanguageResolver extends GuidedReasonerPlugin {
 	
 	/**
 	 * Binds a page from dbpedia.org to a given language entity
+	 * @throws URISyntaxException 
 	 */
 	@Override
 	protected void guidedDerive(Entity entity) {
 		
 		when(!entity.hasBinding());
 		
-		String url = dbpdiaURl(entity);
+		String url = dbpdiaURL(entity);
 		
-		if (isReachable(url) && getArtifact(url).exists())
-			binding(entity.getName(), url);
+		try {
 			
+			URI binding = new URI(url);
+			
+			if (isReachable(binding) && getArtifact(binding).exists()) {
+				
+				binding(entity.getName(), binding);
+				
+			}
+			
+		} catch (URISyntaxException e) {
+			
+			System.err.println("LanguageResolver: '" + url + "' is malformed!");
+			System.err.println(e);
+			
+		}
 		
 	}
 }

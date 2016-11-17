@@ -3,19 +3,27 @@ package org.softlang.megal.plugins.prelude;
 import java.io.File;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.softlang.megal.mi2.Entity;
-import org.softlang.megal.mi2.KB;
 import org.softlang.megal.plugins.api.GuidedReasonerPlugin;
 import org.softlang.megal.plugins.util.Prelude;
 
 
 /**
  * 
- * Infers the elementOf-Language declaration for bound entities
+ * Derives the elementOf-Language relationship for bound entities by the file extension of the binding URI.
+ * 
+ * <p>
+ * </p>
+ * <pre>
+ * &#x0040;FileExtension '.java'
+ * Java : Langauge
+ * 
+ * aFile : File
+ * aFile = '/path/to/some/java/file.java'
+ * </pre>
  * 
  * @author maxmeffert
  *

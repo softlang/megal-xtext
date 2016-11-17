@@ -16,6 +16,7 @@ import org.softlang.megal.mi2.api.Artifact;
 import org.softlang.megal.plugins.api.GuidedExitException.Level;
 
 public abstract class GuidedEvaluatorPlugin extends InjectedEvaluatorPlugin {
+	
 	private final List<Closeable> closables;
 
 	public GuidedEvaluatorPlugin() {
@@ -130,4 +131,5 @@ public abstract class GuidedEvaluatorPlugin extends InjectedEvaluatorPlugin {
 
 	protected void guidedEvaluate(Relationship relationship) throws Throwable {
 	}
+
 }

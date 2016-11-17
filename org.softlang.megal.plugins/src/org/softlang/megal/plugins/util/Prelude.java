@@ -110,7 +110,20 @@ public class Prelude {
 	 * ==================================================================
 	 */
 	
-	public static Iterable<Entity> outgoingTo(Entity entity, String relationshipName) {
+	static public boolean isAssignable (Entity left, Relationship relationship, Entity right) {
+		
+		return (left.getType().equals(relationship.getType().getLeft())
+				&& right.getType().equals(relationship.getType().getRight()));
+		
+	}
+	
+	static public boolean ok (Entity left, Relationship relationship, Entity right) {
+		
+		return outgoingTo(left, relationship.getTypeName()).contains(right);
+		
+	}
+	
+	public static Set<Entity> outgoingTo(Entity entity, String relationshipName) {
 		
 //		return entity.getKB().getRelationships().stream()
 //				.filter( r -> r.getTypeName().equals(name) && r.getLeft().equals(entity))
@@ -125,7 +138,7 @@ public class Prelude {
 		
 	}
 
-	public static Iterable<Entity> incomingFrom(Entity entity, String relationshipName) {
+	public static Set<Entity> incomingFrom(Entity entity, String relationshipName) {
 		
 		return entity.incoming(relationshipName).stream()
 				.map(Relationship::getLeft)
