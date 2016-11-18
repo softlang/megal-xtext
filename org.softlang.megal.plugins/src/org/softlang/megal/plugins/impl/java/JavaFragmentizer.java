@@ -3,6 +3,7 @@ package org.softlang.megal.plugins.impl.java;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,9 +21,11 @@ import org.softlang.megal.plugins.impl.java.antlr.JavaParser.FieldDeclarationCon
 import org.softlang.megal.plugins.impl.java.antlr.JavaParser.InterfaceDeclarationContext;
 import org.softlang.megal.plugins.impl.java.antlr.JavaParser.MemberDeclarationContext;
 import org.softlang.megal.plugins.impl.java.antlr.JavaParser.MethodDeclarationContext;
+import org.softlang.megal.plugins.impl.java.antlr.JavaParser.ModifierContext;
 import org.softlang.megal.plugins.impl.java.antlr.JavaParser.PackageDeclarationContext;
 import org.softlang.megal.plugins.impl.java.antlr.JavaParser.TypeDeclarationContext;
 import org.softlang.megal.plugins.impl.java.antlr.JavaParser.VariableDeclaratorContext;
+import org.softlang.megal.plugins.impl.java.antlr.JavaParser.VariableDeclaratorsContext;
 import org.softlang.megal.plugins.impl.java.antlr.JavaParser.AnnotationContext;
 import org.softlang.megal.plugins.impl.java.antlr.JavaParser.ClassBodyDeclarationContext;
 import org.softlang.megal.plugins.impl.java.antlr.JavaParser.ClassDeclarationContext;
@@ -299,26 +302,27 @@ public class JavaFragmentizer extends ANTLRFragmentizerPlugin<JavaParser, JavaLe
 	 * @author maxmeffert
 	 *
 	 */
-	static private class FieldRule extends FragmentationRule<VariableDeclaratorContext> {
+	static private class FieldRule extends FragmentationRule<VariableDeclaratorsContext> {
 		
 
 		@Override
-		protected Class<VariableDeclaratorContext> contextType() {
-			return VariableDeclaratorContext.class;
+		protected Class<VariableDeclaratorsContext> contextType() {
+			return VariableDeclaratorsContext.class;
 		}
 
 		@Override
-		protected boolean isAtom(VariableDeclaratorContext context) {
-			return false; // due to possible annotations
+		protected boolean isAtom(VariableDeclaratorsContext context) {
+			return true; // due to possible annotations
 		}
 
 		@Override
-		protected boolean test(VariableDeclaratorContext context) {
-			return context.getParent().getParent() instanceof FieldDeclarationContext;
+		protected boolean test(VariableDeclaratorsContext context) {
+			
+			return context.getParent() instanceof FieldDeclarationContext;
+//			return context.getParent().getParent() instanceof FieldDeclarationContext;
 		}
 
-		@Override
-		protected Collection<Fragment> createFragment(Entity entity, Artifact artifact, VariableDeclaratorContext context) {
+		private String getFieldNameOf(VariableDeclaratorContext context) {
 			
 			String name = context.variableDeclaratorId().getText();
 			
@@ -330,13 +334,86 @@ public class JavaFragmentizer extends ANTLRFragmentizerPlugin<JavaParser, JavaLe
 				
 			}
 			
-			return Collections.singletonList(Fragments.create(
-					name,
+			return name;
+			
+		}
+		
+		
+		
+		@Override
+		protected Collection<Fragment> createFragment(Entity entity, Artifact artifact, VariableDeclaratorsContext context) {
+			
+//			ClassBodyDeclarationContext ctx = (ClassBodyDeclarationContext) context;
+			List<VariableDeclaratorContext> variableDeclarators = context.variableDeclarator();
+			
+			Collection<Fragment> result = new LinkedList<Fragment>();
+			
+			boolean isAnnotated = false;
+			Collection<AnnotationContext> annotationContexts = new LinkedList<AnnotationContext>();
+			ParserRuleContext ctx = context;
+			
+			while (ctx != null) {
+				
+				if (ctx instanceof ClassBodyDeclarationContext) {
+					
+					for(ModifierContext modifierContext : ((ClassBodyDeclarationContext) ctx).modifier()) {
+						if (modifierContext.classOrInterfaceModifier().annotation() != null) {
+							annotationContexts.add(modifierContext.classOrInterfaceModifier().annotation());
+						}
+					}
+					
+				}
+				
+				ctx = ctx.getParent();
+				
+			}
+			
+			for(VariableDeclaratorContext vdCtx : variableDeclarators) {
+				
+				Fragment f = Fragments.create(
+					getFieldNameOf(vdCtx),
 					FRAGMENTTYPE_FIELD, 
 					ANTLRUtils.originalText(context.getParent().getParent()),
 					entity, 
 					artifact
-					));
+					);
+				
+				for (AnnotationContext annotationContext : annotationContexts) {
+//					System.out.println(annotationContext);
+					f.addPart(Fragments.create(
+							annotationContext.getText(),
+							FRAGMENTTYPE_ANNOTATION,
+							ANTLRUtils.originalText(annotationContext), 
+							entity,
+							artifact
+							));
+					
+				}
+				
+				result.add(f);
+				
+			}
+			
+			
+			return result;
+			
+//			String name = context.variableDeclaratorId().getText();
+//			
+//			if (context.getParent().getParent() instanceof FieldDeclarationContext) {
+//				
+//				FieldDeclarationContext field = (FieldDeclarationContext) context.getParent().getParent();
+//				
+//				name += "_" + field.type().getText().replace("<", "[").replace(">", "]");
+//				
+//			}
+//			
+//			return Collections.singletonList(Fragments.create(
+//					name,
+//					FRAGMENTTYPE_FIELD, 
+//					ANTLRUtils.originalText(context.getParent().getParent()),
+//					entity, 
+//					artifact
+//					));
 		}
 		
 	};
@@ -519,13 +596,14 @@ public class JavaFragmentizer extends ANTLRFragmentizerPlugin<JavaParser, JavaLe
 		rules.add(new FieldRule());
 		rules.add(new MethodRule());
 		rules.add(new ConstructorRule());
-		rules.add(new AnnotationRule());
 		
 		return rules;
 		
 	}
 	
-	
+	/**
+	 * 
+	 */
 	@Override
 	public ANTLRParserFactory<JavaParser, JavaLexer> getParserFactory() {
 		return new JavaParserFactory();

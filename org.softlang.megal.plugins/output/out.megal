@@ -3,10 +3,10 @@
 ============================================
                   Metrics                   
 ============================================
-#Elements          : 189
+#Elements          : 176
 #EntityTypes       : 28
-#Entities          : 32
-#Relationships     : 61
+#Entities          : 31
+#Relationships     : 49
 #RelationshipTypes : 68
 */
 
@@ -133,6 +133,38 @@ aJavaFile: File
 aJavaFile elementOf Java
 aJavaFile = 'workspace:/org.softlang.megal.plugins/input/org/softlang/megal/acme/Company.java'
 
+@FragmentText 'List<Department> departments = new ArrayList<Department>(); ...'
+aJavaFile.departments_List[Department]$0: JavaField
+aJavaFile.departments_List[Department]$0 elementOf Java
+aJavaFile.departments_List[Department]$0 partOf aJavaFile
+aJavaFile.departments_List[Department]$0 = 'file:/home/darjeeling/Documents/megal/megal-xtext/org.softlang.megal.plugins/input/org/softlang/megal/acme/Company.java#/0/departments_List[Department]/JavaField'
+
+@FragmentText 'String name, lala; ...'
+aJavaFile.lala_String$0: JavaField
+aJavaFile.lala_String$0 elementOf Java
+aJavaFile.lala_String$0 partOf aJavaFile
+aJavaFile.lala_String$0 = 'file:/home/darjeeling/Documents/megal/megal-xtext/org.softlang.megal.plugins/input/org/softlang/megal/acme/Company.java#/0/lala_String/JavaField'
+
+@FragmentText '@XmlAttribute ...'
+aJavaFile.lala_String$0.@XmlAttribute$0: JavaAnnotation
+aJavaFile.lala_String$0.@XmlAttribute$0 elementOf Java
+aJavaFile.lala_String$0.@XmlAttribute$0 partOf aJavaFile
+aJavaFile.lala_String$0.@XmlAttribute$0 partOf aJavaFile.lala_String$0
+aJavaFile.lala_String$0.@XmlAttribute$0 = 'file:/home/darjeeling/Documents/megal/megal-xtext/org.softlang.megal.plugins/input/org/softlang/megal/acme/Company.java#/0/lala_String/JavaField/0/@XmlAttribute/JavaAnnotation'
+
+@FragmentText 'String name, lala; ...'
+aJavaFile.name_String$0: JavaField
+aJavaFile.name_String$0 elementOf Java
+aJavaFile.name_String$0 partOf aJavaFile
+aJavaFile.name_String$0 = 'file:/home/darjeeling/Documents/megal/megal-xtext/org.softlang.megal.plugins/input/org/softlang/megal/acme/Company.java#/0/name_String/JavaField'
+
+@FragmentText '@XmlAttribute ...'
+aJavaFile.name_String$0.@XmlAttribute$0: JavaAnnotation
+aJavaFile.name_String$0.@XmlAttribute$0 elementOf Java
+aJavaFile.name_String$0.@XmlAttribute$0 partOf aJavaFile
+aJavaFile.name_String$0.@XmlAttribute$0 partOf aJavaFile.name_String$0
+aJavaFile.name_String$0.@XmlAttribute$0 = 'file:/home/darjeeling/Documents/megal/megal-xtext/org.softlang.megal.plugins/input/org/softlang/megal/acme/Company.java#/0/name_String/JavaField/0/@XmlAttribute/JavaAnnotation'
+
 @FragmentText 'package org.softlang.megal.acme; ...'
 aJavaFile.org_softlang_megal_acme$0: JavaPackage
 aJavaFile.org_softlang_megal_acme$0 elementOf Java
@@ -147,92 +179,44 @@ aJavaFile.org_softlang_megal_acme$0.Company$0 partOf aJavaFile.org_softlang_mega
 aJavaFile.org_softlang_megal_acme$0.Company$0 = 'file:/home/darjeeling/Documents/megal/megal-xtext/org.softlang.megal.plugins/input/org/softlang/megal/acme/Company.java#/0/org_softlang_megal_acme/JavaPackage/0/Company/JavaClass'
 
 @FragmentText 'void addDepartment(Department department) { ...'
-aJavaFile.org_softlang_megal_acme$0.Company$0.addDepartment(Department)$10: JavaMethod
-aJavaFile.org_softlang_megal_acme$0.Company$0.addDepartment(Department)$10 elementOf Java
-aJavaFile.org_softlang_megal_acme$0.Company$0.addDepartment(Department)$10 partOf aJavaFile
-aJavaFile.org_softlang_megal_acme$0.Company$0.addDepartment(Department)$10 partOf aJavaFile.org_softlang_megal_acme$0
-aJavaFile.org_softlang_megal_acme$0.Company$0.addDepartment(Department)$10 partOf aJavaFile.org_softlang_megal_acme$0.Company$0
-aJavaFile.org_softlang_megal_acme$0.Company$0.addDepartment(Department)$10 = 'file:/home/darjeeling/Documents/megal/megal-xtext/org.softlang.megal.plugins/input/org/softlang/megal/acme/Company.java#/0/org_softlang_megal_acme/JavaPackage/0/Company/JavaClass/10/addDepartment(Department)/JavaMethod'
-
-@FragmentText 'List<Department> departments = new ArrayList<Department>(); ...'
-aJavaFile.org_softlang_megal_acme$0.Company$0.departments_List[Department]$4: JavaField
-aJavaFile.org_softlang_megal_acme$0.Company$0.departments_List[Department]$4 elementOf Java
-aJavaFile.org_softlang_megal_acme$0.Company$0.departments_List[Department]$4 partOf aJavaFile
-aJavaFile.org_softlang_megal_acme$0.Company$0.departments_List[Department]$4 partOf aJavaFile.org_softlang_megal_acme$0
-aJavaFile.org_softlang_megal_acme$0.Company$0.departments_List[Department]$4 partOf aJavaFile.org_softlang_megal_acme$0.Company$0
-aJavaFile.org_softlang_megal_acme$0.Company$0.departments_List[Department]$4 = 'file:/home/darjeeling/Documents/megal/megal-xtext/org.softlang.megal.plugins/input/org/softlang/megal/acme/Company.java#/0/org_softlang_megal_acme/JavaPackage/0/Company/JavaClass/4/departments_List[Department]/JavaField'
+aJavaFile.org_softlang_megal_acme$0.Company$0.addDepartment(Department)$4: JavaMethod
+aJavaFile.org_softlang_megal_acme$0.Company$0.addDepartment(Department)$4 elementOf Java
+aJavaFile.org_softlang_megal_acme$0.Company$0.addDepartment(Department)$4 partOf aJavaFile
+aJavaFile.org_softlang_megal_acme$0.Company$0.addDepartment(Department)$4 partOf aJavaFile.org_softlang_megal_acme$0
+aJavaFile.org_softlang_megal_acme$0.Company$0.addDepartment(Department)$4 partOf aJavaFile.org_softlang_megal_acme$0.Company$0
+aJavaFile.org_softlang_megal_acme$0.Company$0.addDepartment(Department)$4 = 'file:/home/darjeeling/Documents/megal/megal-xtext/org.softlang.megal.plugins/input/org/softlang/megal/acme/Company.java#/0/org_softlang_megal_acme/JavaPackage/0/Company/JavaClass/4/addDepartment(Department)/JavaMethod'
 
 @FragmentText 'List<Department> getDepartments() { ...'
-aJavaFile.org_softlang_megal_acme$0.Company$0.getDepartments_List[Department]$8: JavaMethod
-aJavaFile.org_softlang_megal_acme$0.Company$0.getDepartments_List[Department]$8 elementOf Java
-aJavaFile.org_softlang_megal_acme$0.Company$0.getDepartments_List[Department]$8 partOf aJavaFile
-aJavaFile.org_softlang_megal_acme$0.Company$0.getDepartments_List[Department]$8 partOf aJavaFile.org_softlang_megal_acme$0
-aJavaFile.org_softlang_megal_acme$0.Company$0.getDepartments_List[Department]$8 partOf aJavaFile.org_softlang_megal_acme$0.Company$0
-aJavaFile.org_softlang_megal_acme$0.Company$0.getDepartments_List[Department]$8 = 'file:/home/darjeeling/Documents/megal/megal-xtext/org.softlang.megal.plugins/input/org/softlang/megal/acme/Company.java#/0/org_softlang_megal_acme/JavaPackage/0/Company/JavaClass/8/getDepartments_List[Department]/JavaMethod'
+aJavaFile.org_softlang_megal_acme$0.Company$0.getDepartments_List[Department]$2: JavaMethod
+aJavaFile.org_softlang_megal_acme$0.Company$0.getDepartments_List[Department]$2 elementOf Java
+aJavaFile.org_softlang_megal_acme$0.Company$0.getDepartments_List[Department]$2 partOf aJavaFile
+aJavaFile.org_softlang_megal_acme$0.Company$0.getDepartments_List[Department]$2 partOf aJavaFile.org_softlang_megal_acme$0
+aJavaFile.org_softlang_megal_acme$0.Company$0.getDepartments_List[Department]$2 partOf aJavaFile.org_softlang_megal_acme$0.Company$0
+aJavaFile.org_softlang_megal_acme$0.Company$0.getDepartments_List[Department]$2 = 'file:/home/darjeeling/Documents/megal/megal-xtext/org.softlang.megal.plugins/input/org/softlang/megal/acme/Company.java#/0/org_softlang_megal_acme/JavaPackage/0/Company/JavaClass/2/getDepartments_List[Department]/JavaMethod'
 
 @FragmentText 'String getName() { ...'
-aJavaFile.org_softlang_megal_acme$0.Company$0.getName_String$6: JavaMethod
-aJavaFile.org_softlang_megal_acme$0.Company$0.getName_String$6 elementOf Java
-aJavaFile.org_softlang_megal_acme$0.Company$0.getName_String$6 partOf aJavaFile
-aJavaFile.org_softlang_megal_acme$0.Company$0.getName_String$6 partOf aJavaFile.org_softlang_megal_acme$0
-aJavaFile.org_softlang_megal_acme$0.Company$0.getName_String$6 partOf aJavaFile.org_softlang_megal_acme$0.Company$0
-aJavaFile.org_softlang_megal_acme$0.Company$0.getName_String$6 = 'file:/home/darjeeling/Documents/megal/megal-xtext/org.softlang.megal.plugins/input/org/softlang/megal/acme/Company.java#/0/org_softlang_megal_acme/JavaPackage/0/Company/JavaClass/6/getName_String/JavaMethod'
-
-@FragmentText 'String name, lala; ...'
-aJavaFile.org_softlang_megal_acme$0.Company$0.lala_String$3: JavaField
-aJavaFile.org_softlang_megal_acme$0.Company$0.lala_String$3 elementOf Java
-aJavaFile.org_softlang_megal_acme$0.Company$0.lala_String$3 partOf aJavaFile
-aJavaFile.org_softlang_megal_acme$0.Company$0.lala_String$3 partOf aJavaFile.org_softlang_megal_acme$0
-aJavaFile.org_softlang_megal_acme$0.Company$0.lala_String$3 partOf aJavaFile.org_softlang_megal_acme$0.Company$0
-aJavaFile.org_softlang_megal_acme$0.Company$0.lala_String$3 = 'file:/home/darjeeling/Documents/megal/megal-xtext/org.softlang.megal.plugins/input/org/softlang/megal/acme/Company.java#/0/org_softlang_megal_acme/JavaPackage/0/Company/JavaClass/3/lala_String/JavaField'
-
-@FragmentText 'String name, lala; ...'
-aJavaFile.org_softlang_megal_acme$0.Company$0.name_String$2: JavaField
-aJavaFile.org_softlang_megal_acme$0.Company$0.name_String$2 elementOf Java
-aJavaFile.org_softlang_megal_acme$0.Company$0.name_String$2 partOf aJavaFile
-aJavaFile.org_softlang_megal_acme$0.Company$0.name_String$2 partOf aJavaFile.org_softlang_megal_acme$0
-aJavaFile.org_softlang_megal_acme$0.Company$0.name_String$2 partOf aJavaFile.org_softlang_megal_acme$0.Company$0
-aJavaFile.org_softlang_megal_acme$0.Company$0.name_String$2 = 'file:/home/darjeeling/Documents/megal/megal-xtext/org.softlang.megal.plugins/input/org/softlang/megal/acme/Company.java#/0/org_softlang_megal_acme/JavaPackage/0/Company/JavaClass/2/name_String/JavaField'
+aJavaFile.org_softlang_megal_acme$0.Company$0.getName_String$0: JavaMethod
+aJavaFile.org_softlang_megal_acme$0.Company$0.getName_String$0 elementOf Java
+aJavaFile.org_softlang_megal_acme$0.Company$0.getName_String$0 partOf aJavaFile
+aJavaFile.org_softlang_megal_acme$0.Company$0.getName_String$0 partOf aJavaFile.org_softlang_megal_acme$0
+aJavaFile.org_softlang_megal_acme$0.Company$0.getName_String$0 partOf aJavaFile.org_softlang_megal_acme$0.Company$0
+aJavaFile.org_softlang_megal_acme$0.Company$0.getName_String$0 = 'file:/home/darjeeling/Documents/megal/megal-xtext/org.softlang.megal.plugins/input/org/softlang/megal/acme/Company.java#/0/org_softlang_megal_acme/JavaPackage/0/Company/JavaClass/0/getName_String/JavaMethod'
 
 @FragmentText 'void setDepartments(List<Department> departments) { ...'
-aJavaFile.org_softlang_megal_acme$0.Company$0.setDepartments(List[Department])$9: JavaMethod
-aJavaFile.org_softlang_megal_acme$0.Company$0.setDepartments(List[Department])$9 elementOf Java
-aJavaFile.org_softlang_megal_acme$0.Company$0.setDepartments(List[Department])$9 partOf aJavaFile
-aJavaFile.org_softlang_megal_acme$0.Company$0.setDepartments(List[Department])$9 partOf aJavaFile.org_softlang_megal_acme$0
-aJavaFile.org_softlang_megal_acme$0.Company$0.setDepartments(List[Department])$9 partOf aJavaFile.org_softlang_megal_acme$0.Company$0
-aJavaFile.org_softlang_megal_acme$0.Company$0.setDepartments(List[Department])$9 = 'file:/home/darjeeling/Documents/megal/megal-xtext/org.softlang.megal.plugins/input/org/softlang/megal/acme/Company.java#/0/org_softlang_megal_acme/JavaPackage/0/Company/JavaClass/9/setDepartments(List[Department])/JavaMethod'
+aJavaFile.org_softlang_megal_acme$0.Company$0.setDepartments(List[Department])$3: JavaMethod
+aJavaFile.org_softlang_megal_acme$0.Company$0.setDepartments(List[Department])$3 elementOf Java
+aJavaFile.org_softlang_megal_acme$0.Company$0.setDepartments(List[Department])$3 partOf aJavaFile
+aJavaFile.org_softlang_megal_acme$0.Company$0.setDepartments(List[Department])$3 partOf aJavaFile.org_softlang_megal_acme$0
+aJavaFile.org_softlang_megal_acme$0.Company$0.setDepartments(List[Department])$3 partOf aJavaFile.org_softlang_megal_acme$0.Company$0
+aJavaFile.org_softlang_megal_acme$0.Company$0.setDepartments(List[Department])$3 = 'file:/home/darjeeling/Documents/megal/megal-xtext/org.softlang.megal.plugins/input/org/softlang/megal/acme/Company.java#/0/org_softlang_megal_acme/JavaPackage/0/Company/JavaClass/3/setDepartments(List[Department])/JavaMethod'
 
 @FragmentText 'void setName(String name) { ...'
-aJavaFile.org_softlang_megal_acme$0.Company$0.setName(String)$7: JavaMethod
-aJavaFile.org_softlang_megal_acme$0.Company$0.setName(String)$7 elementOf Java
-aJavaFile.org_softlang_megal_acme$0.Company$0.setName(String)$7 partOf aJavaFile
-aJavaFile.org_softlang_megal_acme$0.Company$0.setName(String)$7 partOf aJavaFile.org_softlang_megal_acme$0
-aJavaFile.org_softlang_megal_acme$0.Company$0.setName(String)$7 partOf aJavaFile.org_softlang_megal_acme$0.Company$0
-aJavaFile.org_softlang_megal_acme$0.Company$0.setName(String)$7 = 'file:/home/darjeeling/Documents/megal/megal-xtext/org.softlang.megal.plugins/input/org/softlang/megal/acme/Company.java#/0/org_softlang_megal_acme/JavaPackage/0/Company/JavaClass/7/setName(String)/JavaMethod'
-
-@FragmentText '@XmlAttribute ...'
-aJavaFile.org_softlang_megal_acme$0.Company$0.XmlAttribute$1: JavaAnnotation
-aJavaFile.org_softlang_megal_acme$0.Company$0.XmlAttribute$1 elementOf Java
-aJavaFile.org_softlang_megal_acme$0.Company$0.XmlAttribute$1 partOf aJavaFile
-aJavaFile.org_softlang_megal_acme$0.Company$0.XmlAttribute$1 partOf aJavaFile.org_softlang_megal_acme$0
-aJavaFile.org_softlang_megal_acme$0.Company$0.XmlAttribute$1 partOf aJavaFile.org_softlang_megal_acme$0.Company$0
-aJavaFile.org_softlang_megal_acme$0.Company$0.XmlAttribute$1 = 'file:/home/darjeeling/Documents/megal/megal-xtext/org.softlang.megal.plugins/input/org/softlang/megal/acme/Company.java#/0/org_softlang_megal_acme/JavaPackage/0/Company/JavaClass/1/XmlAttribute/JavaAnnotation'
-
-@FragmentText '@XmlAttribute ...'
-aJavaFile.org_softlang_megal_acme$0.Company$0.XmlAttribute$5: JavaAnnotation
-aJavaFile.org_softlang_megal_acme$0.Company$0.XmlAttribute$5 elementOf Java
-aJavaFile.org_softlang_megal_acme$0.Company$0.XmlAttribute$5 partOf aJavaFile
-aJavaFile.org_softlang_megal_acme$0.Company$0.XmlAttribute$5 partOf aJavaFile.org_softlang_megal_acme$0
-aJavaFile.org_softlang_megal_acme$0.Company$0.XmlAttribute$5 partOf aJavaFile.org_softlang_megal_acme$0.Company$0
-aJavaFile.org_softlang_megal_acme$0.Company$0.XmlAttribute$5 = 'file:/home/darjeeling/Documents/megal/megal-xtext/org.softlang.megal.plugins/input/org/softlang/megal/acme/Company.java#/0/org_softlang_megal_acme/JavaPackage/0/Company/JavaClass/5/XmlAttribute/JavaAnnotation'
-
-@FragmentText '@XmlRootElement ...'
-aJavaFile.org_softlang_megal_acme$0.Company$0.XmlRootElement$0: JavaAnnotation
-aJavaFile.org_softlang_megal_acme$0.Company$0.XmlRootElement$0 elementOf Java
-aJavaFile.org_softlang_megal_acme$0.Company$0.XmlRootElement$0 partOf aJavaFile
-aJavaFile.org_softlang_megal_acme$0.Company$0.XmlRootElement$0 partOf aJavaFile.org_softlang_megal_acme$0
-aJavaFile.org_softlang_megal_acme$0.Company$0.XmlRootElement$0 partOf aJavaFile.org_softlang_megal_acme$0.Company$0
-aJavaFile.org_softlang_megal_acme$0.Company$0.XmlRootElement$0 = 'file:/home/darjeeling/Documents/megal/megal-xtext/org.softlang.megal.plugins/input/org/softlang/megal/acme/Company.java#/0/org_softlang_megal_acme/JavaPackage/0/Company/JavaClass/0/XmlRootElement/JavaAnnotation'
+aJavaFile.org_softlang_megal_acme$0.Company$0.setName(String)$1: JavaMethod
+aJavaFile.org_softlang_megal_acme$0.Company$0.setName(String)$1 elementOf Java
+aJavaFile.org_softlang_megal_acme$0.Company$0.setName(String)$1 partOf aJavaFile
+aJavaFile.org_softlang_megal_acme$0.Company$0.setName(String)$1 partOf aJavaFile.org_softlang_megal_acme$0
+aJavaFile.org_softlang_megal_acme$0.Company$0.setName(String)$1 partOf aJavaFile.org_softlang_megal_acme$0.Company$0
+aJavaFile.org_softlang_megal_acme$0.Company$0.setName(String)$1 = 'file:/home/darjeeling/Documents/megal/megal-xtext/org.softlang.megal.plugins/input/org/softlang/megal/acme/Company.java#/0/org_softlang_megal_acme/JavaPackage/0/Company/JavaClass/1/setName(String)/JavaMethod'
 
 @FileExtensions '.java'
 Java: Language

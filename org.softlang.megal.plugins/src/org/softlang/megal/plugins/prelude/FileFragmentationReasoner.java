@@ -88,7 +88,7 @@ public class FileFragmentationReasoner extends GuidedReasonerPlugin {
 //						);
 				
 				if (isElementOfLanguage(entity, lang)) {
-					
+//					System.out.println(plugin.getFragments(entity, artifactOf(entity)));
 					deriveFragments(plugin.getFragments(entity, artifactOf(entity)), lang.getName());
 					
 				}

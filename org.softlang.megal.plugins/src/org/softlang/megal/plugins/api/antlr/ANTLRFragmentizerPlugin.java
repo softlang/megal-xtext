@@ -3,6 +3,7 @@ package org.softlang.megal.plugins.api.antlr;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Stack;
 import java.util.stream.Collectors;
@@ -217,10 +218,24 @@ public abstract class ANTLRFragmentizerPlugin<P extends Parser, L extends Lexer>
 			
 			// Since the fragments map has entries for every collected fragment including their child nodes,
 			// only fragments without parents, i.e. root fragments, are valid results
-			return fragments.values().stream()
-					.flatMap( f -> f.stream() )
-					.filter( f -> f.isRoot() )
-					.collect(Collectors.toList());
+//			System.out.println(fragments.values().stream().flatMap(f -> f.stream()).collect(Collectors.toList()));
+//			System.out.println(
+//					fragments.values().stream()
+//						.reduce(new HashSet<Fragment>(), (a,b) -> { a.addAll(b); return a;  })
+//					);
+			
+			Collection<Fragment> result = fragments.values().stream()
+					.reduce(new HashSet<Fragment>(), (a,b) -> { a.addAll(b); return a;  });
+			
+//			System.out.println(result);
+			
+			return result;
+			
+//			return fragments.values().stream()
+//					.reduce(new HashSet<Fragment>(), (a,b) -> { a.addAll(b); return a;  });
+//					.stream()
+//					.filter( f -> f.isRoot() )
+//					.collect(Collectors.toList());
 		}
 		
 		/**
@@ -249,21 +264,27 @@ public abstract class ANTLRFragmentizerPlugin<P extends Parser, L extends Lexer>
 					// map the fragments to its respective context/scope
 					fragments.put(context, f);
 					
+// the following may not be necessary!!!
+					
 					// if the scope stack is not empty and the current scope is already mapped
-					if (!stack.isEmpty()
-							&& fragments.containsKey(stack.peek())) {
+//					if (!stack.isEmpty()
+//							&& fragments.containsKey(stack.peek())) {
 
 						// get the current compound fragment
-						Collection<Fragment> compounds = fragments.get(stack.peek());
+//						Collection<Fragment> compounds = fragments.get(stack.peek());
 
+						
+						
 						// add the new fragment to its compound
 //						compound.addPart(f);
-						for(Fragment compound : compounds) {
-							compound.addParts(f);
-						}
+//						for(Fragment compound : compounds) {
+//							System.out.println(compound.getName());
+//							System.out.println(f);
+//							compound.addParts(f);
+//						}
 						
 						
-					}
+//					}
 					
 					
 				}
@@ -351,7 +372,7 @@ public abstract class ANTLRFragmentizerPlugin<P extends Parser, L extends Lexer>
 			
 		}
 
-				
+//		System.out.println(listener.getFragments());
 		// Return the collected fragments
 		return listener.getFragments();
 		
