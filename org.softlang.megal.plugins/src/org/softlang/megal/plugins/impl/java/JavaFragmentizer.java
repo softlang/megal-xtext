@@ -368,6 +368,18 @@ public class JavaFragmentizer extends ANTLRFragmentizerPlugin<JavaParser, JavaLe
 				
 			}
 			
+			/*
+			 * Problem: Single Annotation on a VariableDeclaratorsContext, e.g.:
+			 * 
+			 *    ...
+			 *    
+			 *    @SomeAnnotation
+			 *    private int foo, bar;
+			 *    
+			 *    ...
+			 * 
+			 */
+			
 			for(VariableDeclaratorContext vdCtx : variableDeclarators) {
 				
 				Fragment f = Fragments.create(
