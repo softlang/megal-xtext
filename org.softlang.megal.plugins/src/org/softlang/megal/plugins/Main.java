@@ -24,6 +24,10 @@ import org.softlang.megal.plugins.api.fragmentation.Fragments;
 @SuppressWarnings("unused")
 public class Main {
 	
+	static final private boolean showMetrics = true;
+	static final private boolean showTypes = false;
+	static final private boolean showInstances = true;
+	
 	static final private File root = new File("..");
 	static final private Resolution rootResolution = new LocalResolution(){
 
@@ -73,27 +77,7 @@ public class Main {
 		
 	}
 	
-	static private void printTypes (KB kb, PrintStream out) {
-		
-		out.println();
-		
-		for (EntityType et :kb.getEntityTypes()) {
-			
-			out.println(et);
-			
-		}
-		
-		out.println();
-		
-		for (RelationshipType rt : kb.getRelationshipTypes()) {
-			
-			out.println(rt);	
-			
-		}
-		
-	}
-	
-	static private void printInstances (KB kb, PrintStream out) {
+	static private void printMetrics(KB kb, PrintStream out) {
 		
 		out.println();
 		out.println("/*");
@@ -108,10 +92,57 @@ public class Main {
 		out.println("*/");
 		out.println();
 		
+	}
+	
+	static private void printTypes (KB kb, PrintStream out) {
+		
 		out.println();
 		out.println("/*");
 		out.println("============================================");
-		out.println("   Derived Instances in Alphabetic Order.   ");
+		out.println("     Entity Types in Alphabetic Order.      ");
+		out.println("============================================");
+		out.println("*/");
+		out.println();
+		
+		List<EntityType> sortedEntityTypes = kb.getEntityTypes().stream()
+				.filter( et -> !et.equals(kb.getTheEntityType()) )
+				.sorted( (a,b) -> a.getName().compareToIgnoreCase(b.getName()) )
+				.collect(Collectors.toList());
+		
+		out.println(kb.getTheEntityType());
+		
+		for (EntityType et : sortedEntityTypes) {
+			
+			out.println(et);
+			
+		}
+		
+		out.println();
+		out.println("/*");
+		out.println("============================================");
+		out.println("  Relationship Types in Alphabetic Order.   ");
+		out.println("============================================");
+		out.println("*/");
+		out.println();		
+
+		List<RelationshipType> sortedRelationshipTypes = kb.getRelationshipTypes().stream()
+				.sorted( (a,b) -> a.getName().compareToIgnoreCase(b.getName()) )
+				.collect(Collectors.toList());
+		
+		for (RelationshipType rt : sortedRelationshipTypes) {
+			
+			out.println(rt);	
+			
+		}
+		
+	}
+	
+	static private void printInstances (KB kb, PrintStream out) {
+		
+		out.println();
+		out.println("/*");
+		out.println("============================================");
+		out.println("       Instances in Alphabetic Order.       ");
 		out.println("============================================");
 		out.println("*/");
 		out.println();
@@ -184,9 +215,19 @@ public class Main {
 		
 		KB kb = evaluate(load(new File(input)));
 		
-		printInstances(kb, System.out);
 		
-
+		if (showMetrics) {
+			printMetrics(kb,System.out);
+		}
+		
+		if (showTypes) {
+			printTypes(kb,System.out);
+		}
+		
+		if (showInstances) {
+			printInstances(kb,System.out);
+		}
+		
 		System.out.println();
 		System.out.println("Done!");
 		
@@ -194,7 +235,10 @@ public class Main {
 		System.out.println("Start Writing to " + output);
 		
 		PrintStream out = new PrintStream(new FileOutputStream(output));
-//		printTypes(kb,out);
+
+		
+		printMetrics(kb,out);
+		printTypes(kb,out);
 		printInstances(kb,out);
 		out.close();
 		

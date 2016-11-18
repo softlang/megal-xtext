@@ -22,6 +22,7 @@ import org.softlang.megal.plugins.impl.java.antlr.JavaParser.MethodDeclarationCo
 import org.softlang.megal.plugins.impl.java.antlr.JavaParser.PackageDeclarationContext;
 import org.softlang.megal.plugins.impl.java.antlr.JavaParser.TypeDeclarationContext;
 import org.softlang.megal.plugins.impl.java.antlr.JavaParser.VariableDeclaratorContext;
+import org.softlang.megal.plugins.impl.java.antlr.JavaParser.AnnotationContext;
 import org.softlang.megal.plugins.impl.java.antlr.JavaParser.ClassBodyDeclarationContext;
 import org.softlang.megal.plugins.impl.java.antlr.JavaParser.ClassDeclarationContext;
 import org.softlang.megal.plugins.impl.java.antlr.JavaParser.CompilationUnitContext;
@@ -49,6 +50,7 @@ public class JavaFragmentizer extends ANTLRFragmentizerPlugin<JavaParser, JavaLe
 	static final private String FRAGMENTTYPE_FIELD = "JavaField";
 	static final private String FRAGMENTTYPE_METHOD = "JavaMethod";
 	static final private String FRAGMENTTYPE_CONSTRUCTOR = "JavaConstructor";
+	static final private String FRAGMENTTYPE_ANNOTATION = "JavaAnnotation";
 	
 	/* =====================================================================================================
 	 * Fragmentation Rules
@@ -94,7 +96,7 @@ public class JavaFragmentizer extends ANTLRFragmentizerPlugin<JavaParser, JavaLe
 		protected Fragment createFragment(Entity entity, Artifact artifact, CompilationUnitContext context) {
 			
 			return Fragments.create(
-					context.packageDeclaration().qualifiedName().getText(), 
+					context.packageDeclaration().qualifiedName().getText().replace('.', '_'), 
 					FRAGMENTTYPE_PACKAGE, 
 					ANTLRUtils.originalText(context), 
 					entity, 
@@ -452,6 +454,40 @@ public class JavaFragmentizer extends ANTLRFragmentizerPlugin<JavaParser, JavaLe
 		
 	}
 	
+	static private class AnnotationRule extends FragmentationRule<AnnotationContext> {
+		
+
+		@Override
+		protected Class<AnnotationContext> contextType() {
+			return AnnotationContext.class;
+		}
+
+		@Override
+		protected boolean isAtom(AnnotationContext context) {
+			return true;
+		}
+
+		@Override
+		protected boolean test(AnnotationContext context) {
+			return true;
+		}
+
+		@Override
+		protected Fragment createFragment(Entity entity, Artifact artifact, AnnotationContext context) {
+			System.out.println(context);
+			String name = context.annotationName().qualifiedName().getText();
+						
+			return Fragments.create(
+					name,
+					FRAGMENTTYPE_ANNOTATION, 
+					ANTLRUtils.originalText(context.getParent().getParent()),
+					entity, 
+					artifact
+					);
+		}
+		
+	};
+	
 	/* =====================================================================================================
 	 * Implemented ANTLRFRagmentizer methods
 	 * =====================================================================================================
@@ -474,6 +510,7 @@ public class JavaFragmentizer extends ANTLRFragmentizerPlugin<JavaParser, JavaLe
 		rules.add(new FieldRule());
 		rules.add(new MethodRule());
 		rules.add(new ConstructorRule());
+		rules.add(new AnnotationRule());
 		
 		return rules;
 		

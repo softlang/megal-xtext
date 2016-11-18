@@ -120,7 +120,6 @@ public class XMLFragmentizer extends ANTLRFragmentizerPlugin<XMLParser, XMLLexer
 		
 	}
 	
-	
 	/**
 	 * Gets the collection of XML fragmentation rules
 	 */
@@ -136,7 +135,9 @@ public class XMLFragmentizer extends ANTLRFragmentizerPlugin<XMLParser, XMLLexer
 		
 	}
 	
-
+	/**
+	 * 
+	 */
 	@Override
 	public ANTLRParserFactory<XMLParser, XMLLexer> getParserFactory() {
 		return new XMLParserFactory();
