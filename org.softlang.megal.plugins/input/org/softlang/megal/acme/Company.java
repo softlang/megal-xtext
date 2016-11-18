@@ -9,8 +9,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class Company {
 
-	
-	private String name;
+	@XmlAttribute
+	private String name, lala;
 	private List<Department> departments = new ArrayList<Department>();
 	
 	public Company () {

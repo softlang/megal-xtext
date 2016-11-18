@@ -2,6 +2,7 @@ package org.softlang.megal.plugins.impl.java;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,6 +30,7 @@ import org.softlang.megal.plugins.impl.java.antlr.JavaParser.CompilationUnitCont
 import org.softlang.megal.plugins.impl.java.antlr.JavaParser.ConstructorDeclarationContext;
 import org.softlang.megal.plugins.impl.java.antlr.JavaParser.EnumDeclarationContext;
 import org.softlang.megal.plugins.impl.java.antlr.JavaParserFactory;
+
 
 /**
  * Disassembles a Java artifact into its fragments.
@@ -93,15 +95,15 @@ public class JavaFragmentizer extends ANTLRFragmentizerPlugin<JavaParser, JavaLe
 		}
 
 		@Override
-		protected Fragment createFragment(Entity entity, Artifact artifact, CompilationUnitContext context) {
+		protected Collection<Fragment> createFragment(Entity entity, Artifact artifact, CompilationUnitContext context) {
 			
-			return Fragments.create(
+			return Collections.singletonList(Fragments.create(
 					context.packageDeclaration().qualifiedName().getText().replace('.', '_'), 
 					FRAGMENTTYPE_PACKAGE, 
 					ANTLRUtils.originalText(context), 
 					entity, 
 					artifact
-					);
+					));
 			
 		}
 		
@@ -131,15 +133,15 @@ public class JavaFragmentizer extends ANTLRFragmentizerPlugin<JavaParser, JavaLe
 		}
 
 		@Override
-		protected Fragment createFragment(Entity entity, Artifact artifact, TypeDeclarationContext context) {
+		protected Collection<Fragment> createFragment(Entity entity, Artifact artifact, TypeDeclarationContext context) {
 			// Create a new JavaClass fragment
-			return Fragments.create(
+			return Collections.singletonList(Fragments.create(
 					context.classDeclaration().Identifier().getText(),
 					FRAGMENTTYPE_CLASS, 
 					ANTLRUtils.originalText(context),
 					entity, 
 					artifact
-					);
+					));
 		}
 		
 	};
@@ -169,14 +171,14 @@ public class JavaFragmentizer extends ANTLRFragmentizerPlugin<JavaParser, JavaLe
 		}
 
 		@Override
-		protected Fragment createFragment(Entity entity, Artifact artifact, ClassBodyDeclarationContext context) {
-			return Fragments.create(
+		protected Collection<Fragment> createFragment(Entity entity, Artifact artifact, ClassBodyDeclarationContext context) {
+			return Collections.singletonList(Fragments.create(
 					context.memberDeclaration().classDeclaration().Identifier().getText(),
 					FRAGMENTTYPE_CLASS, 
 					ANTLRUtils.originalText(context),
 					entity, 
 					artifact
-					);
+					));
 		}
 		
 	};
@@ -205,15 +207,15 @@ public class JavaFragmentizer extends ANTLRFragmentizerPlugin<JavaParser, JavaLe
 		}
 
 		@Override
-		protected Fragment createFragment(Entity entity, Artifact artifact, TypeDeclarationContext context) {
+		protected Collection<Fragment> createFragment(Entity entity, Artifact artifact, TypeDeclarationContext context) {
 			// Create a new JavaClass fragment
-			return Fragments.create(
+			return Collections.singletonList(Fragments.create(
 					context.interfaceDeclaration().Identifier().getText(),
 					FRAGMENTTYPE_INTERFACE, 
 					ANTLRUtils.originalText(context),
 					entity, 
 					artifact
-					);
+					));
 		}
 		
 	};
@@ -243,14 +245,14 @@ public class JavaFragmentizer extends ANTLRFragmentizerPlugin<JavaParser, JavaLe
 		}
 
 		@Override
-		protected Fragment createFragment(Entity entity, Artifact artifact, ClassBodyDeclarationContext context) {
-			return Fragments.create(
+		protected Collection<Fragment> createFragment(Entity entity, Artifact artifact, ClassBodyDeclarationContext context) {
+			return Collections.singletonList(Fragments.create(
 					context.memberDeclaration().interfaceDeclaration().Identifier().getText(),
 					FRAGMENTTYPE_INTERFACE, 
 					ANTLRUtils.originalText(context),
 					entity, 
 					artifact
-					);
+					));
 		}
 		
 	};
@@ -279,14 +281,14 @@ public class JavaFragmentizer extends ANTLRFragmentizerPlugin<JavaParser, JavaLe
 		}
 
 		@Override
-		protected Fragment createFragment(Entity entity, Artifact artifact, EnumDeclarationContext context) {
-			return Fragments.create(
+		protected Collection<Fragment> createFragment(Entity entity, Artifact artifact, EnumDeclarationContext context) {
+			return Collections.singletonList(Fragments.create(
 					context.Identifier().getText(), 
 					FRAGMENTTYPE_ENUM, 
 					ANTLRUtils.originalText(context), 
 					entity, 
 					artifact
-					);
+					));
 		}
 		
 	}
@@ -307,7 +309,7 @@ public class JavaFragmentizer extends ANTLRFragmentizerPlugin<JavaParser, JavaLe
 
 		@Override
 		protected boolean isAtom(VariableDeclaratorContext context) {
-			return true;
+			return false; // due to possible annotations
 		}
 
 		@Override
@@ -316,7 +318,7 @@ public class JavaFragmentizer extends ANTLRFragmentizerPlugin<JavaParser, JavaLe
 		}
 
 		@Override
-		protected Fragment createFragment(Entity entity, Artifact artifact, VariableDeclaratorContext context) {
+		protected Collection<Fragment> createFragment(Entity entity, Artifact artifact, VariableDeclaratorContext context) {
 			
 			String name = context.variableDeclaratorId().getText();
 			
@@ -328,13 +330,13 @@ public class JavaFragmentizer extends ANTLRFragmentizerPlugin<JavaParser, JavaLe
 				
 			}
 			
-			return Fragments.create(
+			return Collections.singletonList(Fragments.create(
 					name,
 					FRAGMENTTYPE_FIELD, 
 					ANTLRUtils.originalText(context.getParent().getParent()),
 					entity, 
 					artifact
-					);
+					));
 		}
 		
 	};
@@ -355,7 +357,7 @@ public class JavaFragmentizer extends ANTLRFragmentizerPlugin<JavaParser, JavaLe
 
 		@Override
 		protected boolean isAtom(MethodDeclarationContext context) {
-			return true;
+			return false; // due to possible annotations
 		}
 
 		@Override
@@ -364,7 +366,7 @@ public class JavaFragmentizer extends ANTLRFragmentizerPlugin<JavaParser, JavaLe
 		}
 
 		@Override
-		protected Fragment createFragment(Entity entity, Artifact artifact, MethodDeclarationContext context) {
+		protected Collection<Fragment> createFragment(Entity entity, Artifact artifact, MethodDeclarationContext context) {
 			
 			String name = context.Identifier().getText();
 			
@@ -385,13 +387,13 @@ public class JavaFragmentizer extends ANTLRFragmentizerPlugin<JavaParser, JavaLe
 				
 			}
 			
-			return Fragments.create(
+			return Collections.singletonList(Fragments.create(
 					name,
 					FRAGMENTTYPE_METHOD, 
 					ANTLRUtils.originalText(context),
 					entity, 
 					artifact
-					);
+					));
 			
 		}
 
@@ -420,11 +422,11 @@ public class JavaFragmentizer extends ANTLRFragmentizerPlugin<JavaParser, JavaLe
 
 		@Override
 		protected boolean test(ConstructorDeclarationContext context) {
-			return true;
+			return false; // due to possible annotations
 		}
 
 		@Override
-		protected Fragment createFragment(Entity entity, Artifact artifact, ConstructorDeclarationContext context) {
+		protected Collection<Fragment> createFragment(Entity entity, Artifact artifact, ConstructorDeclarationContext context) {
 			
 			String name = context.Identifier().getText();
 			
@@ -443,17 +445,24 @@ public class JavaFragmentizer extends ANTLRFragmentizerPlugin<JavaParser, JavaLe
 			
 //			System.err.println(name);
 			
-			return Fragments.create(
+			return Collections.singletonList(Fragments.create(
 					name,
 					FRAGMENTTYPE_CONSTRUCTOR, 
 					ANTLRUtils.originalText(context),
 					entity, 
 					artifact
-					);
+					));
 		}
 		
 	}
 	
+	/**
+	 * 
+	 * Fragmentation rule for annotations
+	 * 
+	 * @author maxmeffert
+	 *
+	 */
 	static private class AnnotationRule extends FragmentationRule<AnnotationContext> {
 		
 
@@ -473,17 +482,17 @@ public class JavaFragmentizer extends ANTLRFragmentizerPlugin<JavaParser, JavaLe
 		}
 
 		@Override
-		protected Fragment createFragment(Entity entity, Artifact artifact, AnnotationContext context) {
-			System.out.println(context);
+		protected Collection<Fragment> createFragment(Entity entity, Artifact artifact, AnnotationContext context) {
+			
 			String name = context.annotationName().qualifiedName().getText();
-						
-			return Fragments.create(
+			
+			return Collections.singletonList(Fragments.create(
 					name,
 					FRAGMENTTYPE_ANNOTATION, 
 					ANTLRUtils.originalText(context.getParent().getParent()),
 					entity, 
 					artifact
-					);
+					));
 		}
 		
 	};

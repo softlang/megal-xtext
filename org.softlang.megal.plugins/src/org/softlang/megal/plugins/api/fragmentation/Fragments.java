@@ -204,6 +204,12 @@ public abstract class Fragments {
 			
 		}
 		
+		public void addParts(Collection<Fragment> children) {
+			for(Fragment child : children) {
+				addPart(child);
+			}
+		}
+		
 		/**
 		 * Gets the URI of the fragment
 		 * @return

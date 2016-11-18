@@ -95,7 +95,7 @@ public abstract class ANTLRFragmentizerPlugin<P extends Parser, L extends Lexer>
 		 * @param context The parser rule context from which the fragment is created
 		 * @return A new fragment
 		 */
-		abstract protected Fragment createFragment (Entity entity, Artifact artifact, C context);
+		abstract protected Collection<Fragment> createFragment (Entity entity, Artifact artifact, C context);
 		
 		//============================================================================================
 		// Hack for contra-variant method calls
@@ -129,7 +129,7 @@ public abstract class ANTLRFragmentizerPlugin<P extends Parser, L extends Lexer>
 		 * @param context
 		 * @return
 		 */
-		final public Fragment newFragment (Entity entity, Artifact artifact, ParserRuleContext context) {
+		final public Collection<Fragment> newFragment (Entity entity, Artifact artifact, ParserRuleContext context) {
 			if (!contextType().isInstance(context)) {
 				throw new IllegalContextException(contextType());
 			}
@@ -195,7 +195,7 @@ public abstract class ANTLRFragmentizerPlugin<P extends Parser, L extends Lexer>
 		/**
 		 * Mapping between ParserRuleContexts and their respective collected fragments.
 		 */
-		private Map<ParserRuleContext,Fragment> fragments = new HashMap<ParserRuleContext,Fragment>();
+		private Map<ParserRuleContext,Collection<Fragment>> fragments = new HashMap<ParserRuleContext,Collection<Fragment>>();
 		
 		/**
 		 * Constructs a new FragmentationListener
@@ -218,6 +218,7 @@ public abstract class ANTLRFragmentizerPlugin<P extends Parser, L extends Lexer>
 			// Since the fragments map has entries for every collected fragment including their child nodes,
 			// only fragments without parents, i.e. root fragments, are valid results
 			return fragments.values().stream()
+					.flatMap( f -> f.stream() )
 					.filter( f -> f.isRoot() )
 					.collect(Collectors.toList());
 		}
@@ -235,7 +236,7 @@ public abstract class ANTLRFragmentizerPlugin<P extends Parser, L extends Lexer>
 				if (rule.accept(context)) {
 					
 					// create a fragment from the parser rule context
-					Fragment f = rule.newFragment(entity, artifact, context);
+					Collection<Fragment> f = rule.newFragment(entity, artifact, context);
 
 					// if the rule is for compound fragment
 					if (rule.isCompound(context)) {
@@ -253,10 +254,13 @@ public abstract class ANTLRFragmentizerPlugin<P extends Parser, L extends Lexer>
 							&& fragments.containsKey(stack.peek())) {
 
 						// get the current compound fragment
-						Fragment compound = fragments.get(stack.peek());
+						Collection<Fragment> compounds = fragments.get(stack.peek());
 
 						// add the new fragment to its compound
-						compound.addPart(f);
+//						compound.addPart(f);
+						for(Fragment compound : compounds) {
+							compound.addParts(f);
+						}
 						
 						
 					}
@@ -289,8 +293,10 @@ public abstract class ANTLRFragmentizerPlugin<P extends Parser, L extends Lexer>
 					
 					// then the top of the stack is mapped to a compound fragment
 					// add the fragment mapped to the current context to this compound fragment
-					fragments.get(stack.peek()).addPart(fragments.get(context));
-					
+//					fragments.get(stack.peek().addPart(fragments.get(context));
+					for (Fragment fragment : fragments.get(stack.peek())) {
+						fragment.addParts(fragments.get(context));
+					}
 				}
 				
 			}
