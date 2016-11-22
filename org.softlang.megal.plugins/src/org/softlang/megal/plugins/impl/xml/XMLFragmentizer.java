@@ -2,6 +2,8 @@ package org.softlang.megal.plugins.impl.xml;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.softlang.megal.mi2.Entity;
 import org.softlang.megal.mi2.api.Artifact;
@@ -48,15 +50,18 @@ public class XMLFragmentizer extends ANTLRFragmentizerPlugin<XMLParser, XMLLexer
 		}
 
 		@Override
-		protected Fragment createFragment(Entity entity, Artifact artifact, ElementContext context) {
+		protected Collection<Fragment> createFragment(Entity entity, Artifact artifact, ElementContext context) {
 			
 			// Create a new XMLElement fragment
-			return Fragments.create(
-					context.Name(0).toString(),
-					"XMLElement",
-					ANTLRUtils.originalText(context),
-					entity, 
-					artifact);
+			return Collections.singletonList(
+					Fragments.create(
+						context.Name(0).toString(),
+						"XMLElement",
+						ANTLRUtils.originalText(context),
+						entity, 
+						artifact
+						)
+					);
 			
 		}
 		
@@ -80,13 +85,16 @@ public class XMLFragmentizer extends ANTLRFragmentizerPlugin<XMLParser, XMLLexer
 		}
 
 		@Override
-		protected Fragment createFragment(Entity entity, Artifact artifact, AttributeContext context) {
-			return Fragments.create(
-					context.Name().toString(),
-					"XMLAttribute",
-					ANTLRUtils.originalText(context),
-					entity, 
-					artifact);
+		protected Collection<Fragment> createFragment(Entity entity, Artifact artifact, AttributeContext context) {
+			return Collections.singletonList(
+					Fragments.create(
+						context.Name().toString(),
+						"XMLAttribute",
+						ANTLRUtils.originalText(context),
+						entity, 
+						artifact
+						)
+					);
 		}
 		
 	}
@@ -109,13 +117,16 @@ public class XMLFragmentizer extends ANTLRFragmentizerPlugin<XMLParser, XMLLexer
 		}
 
 		@Override
-		protected Fragment createFragment(Entity entity, Artifact artifact, AttributeContext context) {
-			return Fragments.create(
-					context.Name().toString(),
-					"XMLNSAttribute",
-					ANTLRUtils.originalText(context),
-					entity, 
-					artifact);
+		protected Collection<Fragment> createFragment(Entity entity, Artifact artifact, AttributeContext context) {
+			return Collections.singletonList(
+					Fragments.create(
+						context.Name().toString(),
+						"XMLNSAttribute",
+						ANTLRUtils.originalText(context),
+						entity, 
+						artifact
+						)
+					);
 		}
 		
 	}
