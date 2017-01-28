@@ -1,6 +1,7 @@
 model test
 import Prelude
 import Java
+import SQLDDL
 
 
 

@@ -136,6 +136,12 @@ public abstract class Fragments {
 			return parent;
 		}
 		
+		
+		
+		public void setParent(Fragment parent) {
+			this.parent = parent;
+		}
+
 		/**
 		 * Gets the index of the fragment
 		 * @return
