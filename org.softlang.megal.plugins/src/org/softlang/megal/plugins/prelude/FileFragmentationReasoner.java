@@ -54,7 +54,7 @@ public class FileFragmentationReasoner extends GuidedReasonerPlugin {
 	private void deriveFragments (Fragment f, String lang) {
 		
 		// Create an entity for the fragment with its qualified name
-		this.entityType(f.getType(), "Fragment");
+		entityType(f.getType(), "Fragment");
 		Entity e = entity(f.getQualifiedName(), f.getType());
 		entityAnnotation(e, "FragmentText", f.getText());
 		relationship(e.getName(), lang, "elementOf");

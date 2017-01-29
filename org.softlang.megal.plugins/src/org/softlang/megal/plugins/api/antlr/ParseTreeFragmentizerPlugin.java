@@ -46,6 +46,9 @@ public abstract class ParseTreeFragmentizerPlugin<P extends Parser, L extends Le
 		}
 
 
+		private String toLowerFirst(String s) {
+			return Character.toLowerCase(s.charAt(0)) + s.substring(1);
+		}
 
 		@Override
 		public void enterEveryRule(ParserRuleContext context) {
@@ -59,7 +62,9 @@ public abstract class ParseTreeFragmentizerPlugin<P extends Parser, L extends Le
 				nameCounters.put(type, nameCounters.get(type) + 1);
 			}
 			
-			String name = type + nameCounters.get(type);
+			int count = nameCounters.get(type);
+			
+			String name = toLowerFirst(type) + (count > 0 ? count : ""); 
 			String text = ANTLRUtils.originalText(context);
 			
 			Fragment f = Fragments.create(name, type, text, entity, artifact);
