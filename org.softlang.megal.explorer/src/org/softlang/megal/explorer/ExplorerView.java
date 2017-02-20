@@ -74,6 +74,7 @@ public class ExplorerView extends ViewPart {
 			public void selectionChanged(IWorkbenchPart part, ISelection selection) {
 				if (part instanceof XtextEditor && current != part) {
 					current = ((XtextEditor) part);
+					System.out.println("change");
 					change();
 				}
 			}
