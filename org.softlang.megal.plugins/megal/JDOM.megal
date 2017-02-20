@@ -1,5 +1,7 @@
 model JDOM
+import Prelude
 import XML
+import Deserialization
 
 deserialization:Function
 deserializedXmlFile:Transient

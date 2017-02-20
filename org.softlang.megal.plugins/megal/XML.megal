@@ -4,8 +4,8 @@ import Prelude
 XML: Language
 XSD: Language
 XSD subsetOf XML
-// xsdFiles: File+
-// xsdFiles elementOf XSD
+xsdFiles: File+
+xsdFiles elementOf XSD
 
 xmlFile: File
 xmlFile elementOf XML

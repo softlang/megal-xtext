@@ -1,5 +1,9 @@
 model Mapping
+import Prelude
+import XML
+import Java
 import Parts
+
 
 javaFiles: File +
 javaFiles elementOf JAXB.Java

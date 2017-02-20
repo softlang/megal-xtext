@@ -41,3 +41,5 @@ JavaFragmentizer = 'classpath:org.softlang.megal.plugins.impl.java.JavaFragmenti
 
 aJavaFile : File
 aJavaFile elementOf Java
+
+javaFiles : File+

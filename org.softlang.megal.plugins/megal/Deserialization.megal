@@ -1,6 +1,10 @@
 model Deserialization
-
+import Prelude
+import Java
 import JVM
+import Parts
+import XML
+
 
 deserializationCode: File
 deserializationCode elementOf Java
