@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Testplugin
+Bundle-SymbolicName: org.softlang.megal.browsing;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: org.softlang.megal.browsing.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.debug.core,
+ org.eclipse.ui.editors,
+ org.eclipse.jface.text,
+ org.softlang.megal;bundle-version="1.0.0",
+ org.softlang.megal.language;bundle-version="1.0.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-ActivationPolicy: lazy
+Bundle-ClassPath: src/,
+ .
