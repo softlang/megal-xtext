@@ -56,6 +56,7 @@ public class FileFragmentationReasoner extends GuidedReasonerPlugin {
 		// Create an entity for the fragment with its qualified name
 		entityType(f.getType(), "Fragment");
 		Entity e = entity(f.getQualifiedName(), f.getType());
+//		System.err.println(e);
 		entityAnnotation(e, "FragmentText", f.getText());
 		relationship(e.getName(), lang, "elementOf");
 		
@@ -89,7 +90,7 @@ public class FileFragmentationReasoner extends GuidedReasonerPlugin {
 //						);
 				
 				if (isElementOfLanguage(entity, lang)) {
-//					System.out.println(plugin.getFragments(entity, artifactOf(entity)));
+					
 					deriveFragments(plugin.getFragments(entity, artifactOf(entity)), lang.getName());
 					
 				}

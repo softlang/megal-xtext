@@ -110,7 +110,6 @@ public class Evaluator {
 
 	public List<Object> evaluate(URI uri) {
 		List<Object> current = roots(uri.getScheme(), isNet(uri));
-
 		for (String segment : skip(allSegments(uri), 1))
 			current = navigate(current, segment);
 

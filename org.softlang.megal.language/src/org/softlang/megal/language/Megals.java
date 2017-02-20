@@ -14,6 +14,7 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.softlang.megal.MegalFile;
 import org.softlang.megal.MegalPackage;
 import org.softlang.megal.language.util.ReaderInputStream;
+import org.softlang.sourcesupport.SourceSupportPlugin;
 
 import com.google.common.io.CharSource;
 import com.google.common.io.Files;
@@ -36,7 +37,7 @@ public class Megals {
 	public static MegalFile load(Charset charset, File source, File... imports) throws IOException {
 		CharSource csSource = Files.asCharSource(source, charset);
 		CharSource[] csImports = new CharSource[imports.length];
-
+		
 		for (int i = 0; i < imports.length; i++)
 			csImports[i] = Files.asCharSource(imports[i], charset);
 
@@ -49,7 +50,10 @@ public class Megals {
 		MegalStandaloneSetup.doSetup();
 
 		ResourceSet set = new ResourceSetImpl();
-
+		
+		// FYI: this creates resources with invalid urls regarding SourceSupportPlugin.findProjectName
+		// Regards, Max
+		
 		for (int i = 0; i < imports.length; i++) {
 			Resource importResource = set.createResource(URI.createURI("dummy:/import" + i + ".megal"));
 			importResource.load(new ReaderInputStream(imports[i].openStream()), emptyMap());

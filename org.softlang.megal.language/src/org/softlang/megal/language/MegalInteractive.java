@@ -47,7 +47,7 @@ public class MegalInteractive {
 
 		// New executor, evaluate the KB with it
 		ModelExecutor executor = new ModelExecutor();
-
+		
 		// Execute on KB
 		Result result = executor.evaluate(new LocalResolution() {
 			@Override

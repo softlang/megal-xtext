@@ -168,7 +168,7 @@ public abstract class Fragments {
 		public String getQualifiedName () {
 			
 			// The qualified name of the fragment
-			String name = getName() + "$" + getIndex();
+			String name = getName() + "" + getIndex();
 			
 			// If the fragment has parent
 			if (hasParent()) {
@@ -240,7 +240,7 @@ public abstract class Fragments {
 			
 			} catch (URISyntaxException e) {
 			
-				System.err.println(e);
+				System.err.println("Fragments says:" + e);
 				throw new IllegalStateException();
 				
 			}

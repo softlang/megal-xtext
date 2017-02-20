@@ -46,6 +46,7 @@ public abstract class LocalResolution extends AbstractResolution {
 	}
 
 	private Iterable<File> unbindFile(Object object) {
+//		System.err.println(object);
 		// If object is an URI
 		if (object instanceof URI) {
 			URI uri = (URI) object;

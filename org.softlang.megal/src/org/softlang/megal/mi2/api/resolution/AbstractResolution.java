@@ -24,6 +24,7 @@ public abstract class AbstractResolution implements Resolution {
 
 	@Override
 	public <T> Class<? extends T> getClass(Object binding, Class<T> deriving, Class<?> nextTo) {
+		
 		// If object is a class
 		if (binding instanceof Class<?>) {
 			// Cast as class
@@ -45,16 +46,21 @@ public abstract class AbstractResolution implements Resolution {
 			try {
 				// Get an URI on the string
 				URI uri = new URI(str);
-
+//				System.err.println(uri);
 				// If URI specifies a class
-				if (uri.isOpaque() && "classpath".equals(uri.getScheme()))
+				if (uri.isOpaque() && "classpath".equals(uri.getScheme())) {
 					// Load with source support
+//					System.err.println(binding);
+//					System.err.println(deriving);
+//					System.err.println(uri.getSchemeSpecificPart());
 					return getSourceSupport().loadClass(nextTo, deriving, uri.getSchemeSpecificPart());
-
+				}
+				
 				// Else return null
 				return null;
 			} catch (URISyntaxException e) {
 				// Exception at URI, so we're not responsible
+				e.printStackTrace();
 			}
 
 			// Load default with class load

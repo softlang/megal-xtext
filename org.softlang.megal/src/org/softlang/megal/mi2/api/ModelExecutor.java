@@ -24,6 +24,7 @@ import org.softlang.megal.mi2.api.resolution.Resolution;
 import com.google.common.base.Throwables;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.SetMultimap;
 
@@ -96,25 +97,27 @@ public class ModelExecutor {
 				warnings = HashMultimap.create();
 				errors = HashMultimap.create();
 				contextLocked = HashMultimap.create();
-
+				
 				// Get all instances of the plugin type
 				EntityType pluginType = input.getEntityType(getPluginName());
+				
 				if (pluginType != null)
 					for (Entity entityOrGroup : pluginType.getInstances())
 						for (Entity entity : devirtualize(entityOrGroup)) {
+							
 							if (!entity.hasBinding())
 								continue;
 							// Try to load a class
 							Class<? extends Plugin> pluginClass = resolution.getClass(entity.getBinding(),
 									Plugin.class);
-
+							
 							// If class exists, instantiate it
 							if (pluginClass != null)
 								try {
+									
 									// Make instance
 									Plugin plugin = pluginClass.newInstance();
 									plugins.put(entity, plugin);
-
 									// Connect to entity types
 									for (EntityType entityType : input.getEntityTypes())
 										if (entityType.getAnnotations(getPluginAnnotationName())
@@ -174,7 +177,7 @@ public class ModelExecutor {
 			Result run() {
 				// Origin of generated elements for origin tracking of errors
 				Map<Element, Element> origin = newHashMap();
-
+				
 				// Current knowledge base, initialized on input
 				KB current = KBs.mutable();
 				KBs.add(current, input);
@@ -188,9 +191,11 @@ public class ModelExecutor {
 
 						// Compose a local context
 						Context context = createContext(origin, element);
-
+//						System.out.println(pluginsByEntityType.size());
+//						System.out.println(Iterables.size(select(ReasonerPlugin.class, element)));
 						// Get the appropriate reasoners
-						for (ReasonerPlugin plugin : select(ReasonerPlugin.class, element))
+						for (ReasonerPlugin plugin : select(ReasonerPlugin.class, element)) {
+							
 							// Try to get the output KB, catch an exception into
 							// the error messages
 							try {
@@ -216,10 +221,13 @@ public class ModelExecutor {
 								// Add the output to the reasoner
 								KBs.add(expansion, output);
 							} catch (RuntimeException t) {
+								System.err.println(t.getLocalizedMessage());
 								context.warning(Throwables.getStackTraceAsString(t));
 							} catch (Throwable t) {
+								System.err.println(t.getLocalizedMessage());
 								context.error(Throwables.getStackTraceAsString(t));
 							}
+						}
 					}
 
 					if (!KBs.add(current, expansion))

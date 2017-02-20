@@ -13,8 +13,6 @@
 	<classpathentry kind="lib" path="input-lib/jaxb-impl.jar"/>
 	<classpathentry kind="lib" path="input-lib/jaxb-jxc.jar"/>
 	<classpathentry kind="lib" path="input-lib/jaxb-xjc.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/org.softlang.megal"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/org.softlang.sourcesupport"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

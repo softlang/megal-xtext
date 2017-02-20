@@ -29,7 +29,7 @@ public class Main {
 	static final private boolean showInstances = true;
 	
 	static final private File root = new File("..");
-	static final private Resolution rootResolution = new LocalResolution(){ 
+	static final private Resolution rootResolution = new LocalResolution(){
 
 		@Override
 		protected File getRoot() {

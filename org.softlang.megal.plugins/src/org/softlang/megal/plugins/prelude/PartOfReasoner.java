@@ -12,7 +12,7 @@ public class PartOfReasoner extends GuidedReasonerPlugin {
 	
 	@Override
 	protected void guidedDerive(Entity entity) throws Throwable {
-		System.err.println(entity.getName());
+//		System.err.println("PartOF: " + entity.getName());
 		when(entity.getName().contains(".") && !cache.contains(entity.getName()));
 		
 		cache.add(entity.getName());

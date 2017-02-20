@@ -79,6 +79,7 @@ public class OpenBindingHandler extends AbstractHandler {
 	public void openLink(IWorkbenchPage page, String linkToVisit) {
 		try {
 			URI visitURI = new URI(linkToVisit);
+			
 			List<Object> resolved = MegalPlugin.getEvaluator().evaluate(visitURI);
 
 			for (Object object : resolved) {
