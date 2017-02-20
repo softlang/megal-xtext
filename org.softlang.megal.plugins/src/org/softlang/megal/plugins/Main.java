@@ -29,7 +29,7 @@ public class Main {
 	static final private boolean showInstances = true;
 	
 	static final private File root = new File("..");
-	static final private Resolution rootResolution = new LocalResolution(){
+	static final private Resolution rootResolution = new LocalResolution(){ 
 
 		@Override
 		protected File getRoot() {
@@ -46,7 +46,7 @@ public class Main {
 	static private String input = "megal/bindings.megal";
 	static private String output = "output/out.megal";
 	
-	static private KB load (File f) throws IOException {
+	static public KB load (File f) throws IOException {
 		
 		if (f.isDirectory()) {
 		
@@ -64,7 +64,7 @@ public class Main {
 		
 	}
 	
-	static private KB evaluate (KB kb) throws IOException {
+	static public KB evaluate (KB kb) throws IOException {
 		
 		System.out.println("Evaluating KB...");
 		
