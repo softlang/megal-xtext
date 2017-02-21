@@ -4,10 +4,14 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.jface.layout.GridDataFactory;
+import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.nebula.widgets.nattable.NatTable;
 import org.eclipse.nebula.widgets.nattable.data.IDataProvider;
+import org.eclipse.nebula.widgets.nattable.grid.GridRegion;
 import org.eclipse.nebula.widgets.nattable.layer.DataLayer;
 import org.eclipse.nebula.widgets.nattable.layer.ILayer;
+import org.eclipse.nebula.widgets.nattable.selection.SelectionLayer;
+import org.eclipse.nebula.widgets.nattable.viewport.ViewportLayer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.layout.GridData;
@@ -24,6 +28,7 @@ import org.eclipse.jface.viewers.ColumnPixelData;
 public class MegaLBrowserComposite extends Composite {
 	private TabFolder tabsMegamodelBrowser;
 	private Text textMegamodelURI;
+	private Composite tbtmEntitiesComposite;
 
 	/**
 	 * Create the composite.
@@ -39,7 +44,7 @@ public class MegaLBrowserComposite extends Composite {
 		textMegamodelURI.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		
 		tabsMegamodelBrowser = new TabFolder(this, SWT.NONE);
-		GridData gd_tabsMegamodelBrowser = new GridData(SWT.LEFT, SWT.CENTER, true, true, 2, 1);
+		GridData gd_tabsMegamodelBrowser = new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1);
 		gd_tabsMegamodelBrowser.heightHint = 259;
 		gd_tabsMegamodelBrowser.widthHint = 436;
 		tabsMegamodelBrowser.setLayoutData(gd_tabsMegamodelBrowser);
@@ -48,27 +53,8 @@ public class MegaLBrowserComposite extends Composite {
 		tbtmEntities.setImage(null);
 		tbtmEntities.setText("Entities");
 		
-		Composite composite = new Composite(tabsMegamodelBrowser, SWT.NONE);
-		tbtmEntities.setControl(composite);
-		TreeColumnLayout tcl_composite = new TreeColumnLayout();
-		composite.setLayout(tcl_composite);
-		
-		TreeViewer treeViewer = new TreeViewer(composite, SWT.BORDER);
-		Tree tree = treeViewer.getTree();
-		tree.setSortDirection(SWT.DOWN);
-		tree.setHeaderVisible(true);
-		tree.setLinesVisible(true);
-		
-		TreeViewerColumn treeViewerColumn_1 = new TreeViewerColumn(treeViewer, SWT.NONE);
-		TreeColumn trclmnNewColumn_1 = treeViewerColumn_1.getColumn();
-		tcl_composite.setColumnData(trclmnNewColumn_1, new ColumnPixelData(150, true, true));
-		trclmnNewColumn_1.setText("New Column");
-		
-		TreeViewerColumn treeViewerColumn = new TreeViewerColumn(treeViewer, SWT.NONE);
-		TreeColumn trclmnNewColumn = treeViewerColumn.getColumn();
-		tcl_composite.setColumnData(trclmnNewColumn, new ColumnPixelData(150, true, true));
-		trclmnNewColumn.setText("New Column");
-		
+		tbtmEntitiesComposite = new Composite(tabsMegamodelBrowser, SWT.NONE);
+		tbtmEntities.setControl(tbtmEntitiesComposite);
 		
 		TabItem tbtmEntityTypes = new TabItem(tabsMegamodelBrowser, SWT.NONE);
 		tbtmEntityTypes.setText("EntityTypes");
@@ -91,5 +77,8 @@ public class MegaLBrowserComposite extends Composite {
 	}
 	public Text getTextMegamodelURI() {
 		return textMegamodelURI;
+	}
+	public Composite getTbtmEntitiesComposite() {
+		return tbtmEntitiesComposite;
 	}
 }

@@ -2,6 +2,8 @@ package org.softlang.megal.browsing.views;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -13,6 +15,7 @@ import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.TableItem;
 import org.softlang.megal.MegalFile;
+import org.softlang.megal.browsing.views.tables.EntitiesTable;
 import org.softlang.megal.language.MegalReasoning;
 import org.softlang.megal.language.Megals;
 import org.softlang.megal.mi2.Element;
@@ -54,6 +57,8 @@ public class SampleView extends AbstractMegalAwareView {
 	private IFile file;
 	
 	private MyView view;
+	private MegaLBrowserComposite composite;
+	private EntitiesTable entitiesTable;
 
 	/**
 	 * The constructor.
@@ -66,14 +71,19 @@ public class SampleView extends AbstractMegalAwareView {
 	 * to create the viewer and initialize it.
 	 */
 	public void createPartControl(Composite parent) {
-		view = new MyView(parent,0);
 		
-		view.getBtnEval().addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseDown(MouseEvent e) {
-				evaluate();
-			}
-		});
+		composite = new MegaLBrowserComposite(parent,SWT.NONE);
+		
+		entitiesTable = new EntitiesTable(composite.getTbtmEntitiesComposite());
+		
+//		view = new MyView(parent,SWT.NONE);
+//		
+//		view.getBtnEval().addMouseListener(new MouseAdapter() {
+//			@Override
+//			public void mouseDown(MouseEvent e) {
+//				evaluate();
+//			}
+//		});
 		
 	}
 	
@@ -85,7 +95,6 @@ public class SampleView extends AbstractMegalAwareView {
 	}
 
 	private void evaluate() {
-		
 		File megalFile = new File(file.getRawLocationURI());
 		
 		try {
@@ -103,13 +112,19 @@ public class SampleView extends AbstractMegalAwareView {
 
 			}, kb).getOutput();
 			
-			view.getTable().removeAll();
+			List<Entity> entities = kb.getEntities().stream()
+					.sorted( (a,b) -> a.getName().compareToIgnoreCase(b.getName()) )
+					.collect(Collectors.toList());
 			
-			for(Entity e : kb.getEntities()) {
-				TableItem item = new TableItem(view.getTable(),SWT.NONE);
-				item.setText(0, e.getName());
-				item.setText(1, e.getType().getName());
-			}
+			entitiesTable.setEntities(entities);
+			
+//			view.getTable().removeAll();
+//			
+//			for(Entity e : kb.getEntities()) {
+//				TableItem item = new TableItem(view.getTable(),SWT.NONE);
+//				item.setText(0, e.getName());
+//				item.setText(1, e.getType().getName());
+//			}
 			
 			
 			
@@ -125,9 +140,10 @@ public class SampleView extends AbstractMegalAwareView {
 	@Override
 	void megalFileChanged(IFile file) {
 		
-		view.getText().setText(file.getLocationURI().toString());
+//		view.getText().setText(file.getLocationURI().toString());
 		
 		this.file = file;
+		evaluate();
 		
 	}
 }
