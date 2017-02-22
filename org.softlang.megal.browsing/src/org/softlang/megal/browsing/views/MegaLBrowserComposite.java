@@ -25,6 +25,7 @@ import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.jface.viewers.TreeViewerColumn;
 import org.eclipse.jface.viewers.ColumnPixelData;
 import org.eclipse.swt.widgets.ProgressBar;
+import org.eclipse.swt.widgets.Button;
 
 public class MegaLBrowserComposite extends Composite {
 	private TabFolder tabsMegamodelBrowser;
@@ -33,7 +34,7 @@ public class MegaLBrowserComposite extends Composite {
 	private Composite tbtmEnctityTypesComposite;
 	private Composite tbtmRelationshipsComposite;
 	private Composite tbtmRelationshipTypesComposite;
-	private ProgressBar progressBar;
+	private Button btnEvaluate;
 
 	/**
 	 * Create the composite.
@@ -42,15 +43,18 @@ public class MegaLBrowserComposite extends Composite {
 	 */
 	public MegaLBrowserComposite(Composite parent, int style) {
 		super(parent, style);
-		setLayout(new GridLayout(2, false));
+		setLayout(new GridLayout(3, false));
 		new Label(this, SWT.NONE);
 		
 		textMegamodelURI = new Text(this, SWT.BORDER);
 		textMegamodelURI.setEditable(false);
 		textMegamodelURI.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		
+		btnEvaluate = new Button(this, SWT.NONE);
+		btnEvaluate.setText("Evaluate");
+		
 		tabsMegamodelBrowser = new TabFolder(this, SWT.NONE);
-		GridData gd_tabsMegamodelBrowser = new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1);
+		GridData gd_tabsMegamodelBrowser = new GridData(SWT.FILL, SWT.FILL, true, true, 3, 1);
 		gd_tabsMegamodelBrowser.heightHint = 259;
 		gd_tabsMegamodelBrowser.widthHint = 436;
 		tabsMegamodelBrowser.setLayoutData(gd_tabsMegamodelBrowser);
@@ -79,10 +83,6 @@ public class MegaLBrowserComposite extends Composite {
 		
 		tbtmRelationshipTypesComposite = new Composite(tabsMegamodelBrowser, SWT.NONE);
 		tbtmRelationshipTypes.setControl(tbtmRelationshipTypesComposite);
-		new Label(this, SWT.NONE);
-		
-		progressBar = new ProgressBar(this, SWT.NONE);
-		progressBar.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 
 	}
 
@@ -109,7 +109,7 @@ public class MegaLBrowserComposite extends Composite {
 	public Composite getTbtmRelationshipTypesComposite() {
 		return tbtmRelationshipTypesComposite;
 	}
-	public ProgressBar getProgressBar() {
-		return progressBar;
+	public Button getBtnEvaluate() {
+		return btnEvaluate;
 	}
 }

@@ -3,7 +3,7 @@ package org.softlang.megal.browsing.views.tables;
 import org.eclipse.nebula.widgets.nattable.data.IColumnAccessor;
 import org.softlang.megal.mi2.EntityType;
 
-public class EntityTypeTableColumnAccessor implements IColumnAccessor<EntityType> {
+public class EntityTypeColumnAccessor implements IColumnAccessor<EntityType> {
 
 	public final int COLUMN_COUNT = 2;
 	

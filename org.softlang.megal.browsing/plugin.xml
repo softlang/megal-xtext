@@ -66,7 +66,7 @@
       </category>
       <view
             category="testplugin"
-            class="org.softlang.megal.browsing.views.SampleView"
+            class="org.softlang.megal.browsing.views.MegalBrowserView"
             icon="icons/megalbrowser.png"
             id="testplugin.views.SampleView"
             name="MegaL Browsing">

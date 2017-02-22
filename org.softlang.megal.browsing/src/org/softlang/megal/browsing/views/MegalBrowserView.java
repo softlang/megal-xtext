@@ -20,6 +20,8 @@ import org.eclipse.swt.widgets.TableItem;
 import org.softlang.megal.MegalFile;
 import org.softlang.megal.browsing.views.tables.EntityTable;
 import org.softlang.megal.browsing.views.tables.EntityTypeTable;
+import org.softlang.megal.browsing.views.tables.RelationshipTable;
+import org.softlang.megal.browsing.views.tables.RelationshipTypeTable;
 import org.softlang.megal.language.MegalReasoning;
 import org.softlang.megal.language.Megals;
 import org.softlang.megal.mi2.Element;
@@ -28,6 +30,8 @@ import org.softlang.megal.mi2.EntityType;
 import org.softlang.megal.mi2.KB;
 import org.softlang.megal.mi2.MegamodelKB;
 import org.softlang.megal.mi2.Named;
+import org.softlang.megal.mi2.Relationship;
+import org.softlang.megal.mi2.RelationshipType;
 import org.softlang.megal.mi2.api.ModelExecutor;
 import org.softlang.megal.mi2.api.resolution.LocalResolution;
 import org.softlang.megal.mi2.api.resolution.ProjectResolution;
@@ -51,7 +55,7 @@ import org.softlang.megal.mi2.api.resolution.ProjectResolution;
  * <p>
  */
 
-public class SampleView extends AbstractMegalAwareView {
+public class MegalBrowserView extends AbstractMegalAwareView {
 
 	/**
 	 * The ID of the view as specified by the extension.
@@ -63,11 +67,13 @@ public class SampleView extends AbstractMegalAwareView {
 	private MegaLBrowserComposite browser;
 	private EntityTable entityTable;
 	private EntityTypeTable entityTypeTable;
+	private RelationshipTable relationshipTable;
+	private RelationshipTypeTable relationshipTypeTable;
 
 	/**
 	 * The constructor.
 	 */
-	public SampleView() {
+	public MegalBrowserView() {
 	}
 
 	/**
@@ -79,6 +85,17 @@ public class SampleView extends AbstractMegalAwareView {
 		browser = new MegaLBrowserComposite(parent,SWT.NONE);
 		entityTable = new EntityTable(browser.getTbtmEntitiesComposite());
 		entityTypeTable = new EntityTypeTable(browser.getTbtmEnctityTypesComposite());
+		relationshipTable = new RelationshipTable(browser.getTbtmRelationshipsComposite());
+		relationshipTypeTable = new RelationshipTypeTable(browser.getTbtmRelationshipTypesComposite());
+		
+		browser.getBtnEvaluate().addMouseListener(new MouseAdapter(){
+			
+			@Override
+			public void mouseDown(MouseEvent e) {
+				evaluate();
+			}
+			
+		});
 		
 	}
 	
@@ -86,11 +103,9 @@ public class SampleView extends AbstractMegalAwareView {
 	 * Passing the focus request to the viewer's control.
 	 */
 	public void setFocus() {
-//		viewer.getControl().setFocus();
+		browser.setFocus();
 	}
 
-	
-	
 	private void evaluate() {
 		File megalFile = new File(file.getRawLocationURI());
 		
@@ -117,10 +132,18 @@ public class SampleView extends AbstractMegalAwareView {
 					.sorted( (a,b) -> a.getName().compareToIgnoreCase(b.getName()) )
 					.collect(Collectors.toList());
 			
-			
+			List<Relationship> relationships = kb.getRelationships().stream()
+					.sorted( (a,b) -> a.getType().getName().compareToIgnoreCase(b.getType().getName()) )
+					.collect(Collectors.toList());
+
+			List<RelationshipType> relationshipTypes = kb.getRelationshipTypes().stream()
+					.sorted( (a,b) -> a.getName().compareToIgnoreCase(b.getName()) )
+					.collect(Collectors.toList());
 			
 			entityTable.setData(entities);
 			entityTypeTable.setData(entityTypes);
+			relationshipTable.setData(relationships);
+			relationshipTypeTable.setData(relationshipTypes);
 		
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -137,7 +160,7 @@ public class SampleView extends AbstractMegalAwareView {
 		browser.getTextMegamodelURI().setText(file.getLocationURI().toString());
 //		browser.getProgressBar().
 		this.file = file;
-		evaluate();
+//		evaluate();
 		
 	}
 }
