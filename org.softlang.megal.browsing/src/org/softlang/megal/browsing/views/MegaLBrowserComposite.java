@@ -3,29 +3,13 @@ package org.softlang.megal.browsing.views;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.TabFolder;
-import org.eclipse.jface.layout.GridDataFactory;
-import org.eclipse.jface.layout.GridLayoutFactory;
-import org.eclipse.nebula.widgets.nattable.NatTable;
-import org.eclipse.nebula.widgets.nattable.data.IDataProvider;
-import org.eclipse.nebula.widgets.nattable.grid.GridRegion;
-import org.eclipse.nebula.widgets.nattable.layer.DataLayer;
-import org.eclipse.nebula.widgets.nattable.layer.ILayer;
-import org.eclipse.nebula.widgets.nattable.selection.SelectionLayer;
-import org.eclipse.nebula.widgets.nattable.viewport.ViewportLayer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.TabItem;
-import org.eclipse.wb.swt.ResourceManager;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.swt.widgets.Tree;
-import org.eclipse.jface.viewers.TreeViewer;
-import org.eclipse.jface.layout.TreeColumnLayout;
-import org.eclipse.swt.widgets.TreeColumn;
-import org.eclipse.jface.viewers.TreeViewerColumn;
-import org.eclipse.jface.viewers.ColumnPixelData;
-import org.eclipse.swt.widgets.ProgressBar;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.ProgressBar;
 
 public class MegaLBrowserComposite extends Composite {
 	private TabFolder tabsMegamodelBrowser;
@@ -35,6 +19,7 @@ public class MegaLBrowserComposite extends Composite {
 	private Composite tbtmRelationshipsComposite;
 	private Composite tbtmRelationshipTypesComposite;
 	private Button btnEvaluate;
+	private ProgressBar progressBar;
 
 	/**
 	 * Create the composite.
@@ -52,6 +37,10 @@ public class MegaLBrowserComposite extends Composite {
 		
 		btnEvaluate = new Button(this, SWT.NONE);
 		btnEvaluate.setText("Evaluate");
+		new Label(this, SWT.NONE);
+		
+		progressBar = new ProgressBar(this, SWT.NONE);
+		progressBar.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 2, 1));
 		
 		tabsMegamodelBrowser = new TabFolder(this, SWT.NONE);
 		GridData gd_tabsMegamodelBrowser = new GridData(SWT.FILL, SWT.FILL, true, true, 3, 1);
@@ -111,5 +100,8 @@ public class MegaLBrowserComposite extends Composite {
 	}
 	public Button getBtnEvaluate() {
 		return btnEvaluate;
+	}
+	public ProgressBar getProgressBar() {
+		return progressBar;
 	}
 }
