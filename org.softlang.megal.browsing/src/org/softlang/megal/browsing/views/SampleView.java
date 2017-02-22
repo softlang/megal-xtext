@@ -3,6 +3,7 @@ package org.softlang.megal.browsing.views;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import org.eclipse.core.resources.IFile;
@@ -13,9 +14,12 @@ import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.ProgressBar;
 import org.eclipse.swt.widgets.TableItem;
 import org.softlang.megal.MegalFile;
-import org.softlang.megal.browsing.views.tables.EntitiesTable;
+import org.softlang.megal.browsing.views.tables.EntityTable;
+import org.softlang.megal.browsing.views.tables.EntityTypeTable;
 import org.softlang.megal.language.MegalReasoning;
 import org.softlang.megal.language.Megals;
 import org.softlang.megal.mi2.Element;
@@ -56,9 +60,9 @@ public class SampleView extends AbstractMegalAwareView {
 	
 	private IFile file;
 	
-	private MyView view;
-	private MegaLBrowserComposite composite;
-	private EntitiesTable entitiesTable;
+	private MegaLBrowserComposite browser;
+	private EntityTable entityTable;
+	private EntityTypeTable entityTypeTable;
 
 	/**
 	 * The constructor.
@@ -72,18 +76,9 @@ public class SampleView extends AbstractMegalAwareView {
 	 */
 	public void createPartControl(Composite parent) {
 		
-		composite = new MegaLBrowserComposite(parent,SWT.NONE);
-		
-		entitiesTable = new EntitiesTable(composite.getTbtmEntitiesComposite());
-		
-//		view = new MyView(parent,SWT.NONE);
-//		
-//		view.getBtnEval().addMouseListener(new MouseAdapter() {
-//			@Override
-//			public void mouseDown(MouseEvent e) {
-//				evaluate();
-//			}
-//		});
+		browser = new MegaLBrowserComposite(parent,SWT.NONE);
+		entityTable = new EntityTable(browser.getTbtmEntitiesComposite());
+		entityTypeTable = new EntityTypeTable(browser.getTbtmEnctityTypesComposite());
 		
 	}
 	
@@ -94,19 +89,21 @@ public class SampleView extends AbstractMegalAwareView {
 //		viewer.getControl().setFocus();
 	}
 
+	
+	
 	private void evaluate() {
 		File megalFile = new File(file.getRawLocationURI());
 		
+				
 		try {
+			
 			KB kb =  MegamodelKB.loadAll(Megals.load(megalFile, megalFile.getParentFile().listFiles()));
-			
-			
 			ModelExecutor ex = new ModelExecutor();
+			
 			kb = ex.evaluate(new ProjectResolution(){
 
 				@Override
 				protected IProject getProject() {
-					// TODO Auto-generated method stub
 					return file.getProject();
 				} 
 
@@ -116,23 +113,20 @@ public class SampleView extends AbstractMegalAwareView {
 					.sorted( (a,b) -> a.getName().compareToIgnoreCase(b.getName()) )
 					.collect(Collectors.toList());
 			
-			entitiesTable.setEntities(entities);
-			
-//			view.getTable().removeAll();
-//			
-//			for(Entity e : kb.getEntities()) {
-//				TableItem item = new TableItem(view.getTable(),SWT.NONE);
-//				item.setText(0, e.getName());
-//				item.setText(1, e.getType().getName());
-//			}
+			List<EntityType> entityTypes = kb.getEntityTypes().stream()
+					.sorted( (a,b) -> a.getName().compareToIgnoreCase(b.getName()) )
+					.collect(Collectors.toList());
 			
 			
 			
-			
+			entityTable.setData(entities);
+			entityTypeTable.setData(entityTypes);
+		
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 	}
 	
 	
@@ -140,8 +134,8 @@ public class SampleView extends AbstractMegalAwareView {
 	@Override
 	void megalFileChanged(IFile file) {
 		
-//		view.getText().setText(file.getLocationURI().toString());
-		
+		browser.getTextMegamodelURI().setText(file.getLocationURI().toString());
+//		browser.getProgressBar().
 		this.file = file;
 		evaluate();
 		

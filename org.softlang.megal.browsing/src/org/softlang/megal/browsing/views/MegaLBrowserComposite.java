@@ -24,11 +24,16 @@ import org.eclipse.jface.layout.TreeColumnLayout;
 import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.jface.viewers.TreeViewerColumn;
 import org.eclipse.jface.viewers.ColumnPixelData;
+import org.eclipse.swt.widgets.ProgressBar;
 
 public class MegaLBrowserComposite extends Composite {
 	private TabFolder tabsMegamodelBrowser;
 	private Text textMegamodelURI;
 	private Composite tbtmEntitiesComposite;
+	private Composite tbtmEnctityTypesComposite;
+	private Composite tbtmRelationshipsComposite;
+	private Composite tbtmRelationshipTypesComposite;
+	private ProgressBar progressBar;
 
 	/**
 	 * Create the composite.
@@ -41,6 +46,7 @@ public class MegaLBrowserComposite extends Composite {
 		new Label(this, SWT.NONE);
 		
 		textMegamodelURI = new Text(this, SWT.BORDER);
+		textMegamodelURI.setEditable(false);
 		textMegamodelURI.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		
 		tabsMegamodelBrowser = new TabFolder(this, SWT.NONE);
@@ -59,11 +65,24 @@ public class MegaLBrowserComposite extends Composite {
 		TabItem tbtmEntityTypes = new TabItem(tabsMegamodelBrowser, SWT.NONE);
 		tbtmEntityTypes.setText("EntityTypes");
 		
+		tbtmEnctityTypesComposite = new Composite(tabsMegamodelBrowser, SWT.NONE);
+		tbtmEntityTypes.setControl(tbtmEnctityTypesComposite);
+		
 		TabItem tbtmRelationships = new TabItem(tabsMegamodelBrowser, SWT.NONE);
 		tbtmRelationships.setText("Relationships");
 		
+		tbtmRelationshipsComposite = new Composite(tabsMegamodelBrowser, SWT.NONE);
+		tbtmRelationships.setControl(tbtmRelationshipsComposite);
+		
 		TabItem tbtmRelationshipTypes = new TabItem(tabsMegamodelBrowser, SWT.NONE);
 		tbtmRelationshipTypes.setText("RelationshipTypes");
+		
+		tbtmRelationshipTypesComposite = new Composite(tabsMegamodelBrowser, SWT.NONE);
+		tbtmRelationshipTypes.setControl(tbtmRelationshipTypesComposite);
+		new Label(this, SWT.NONE);
+		
+		progressBar = new ProgressBar(this, SWT.NONE);
+		progressBar.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 
 	}
 
@@ -80,5 +99,17 @@ public class MegaLBrowserComposite extends Composite {
 	}
 	public Composite getTbtmEntitiesComposite() {
 		return tbtmEntitiesComposite;
+	}
+	public Composite getTbtmEnctityTypesComposite() {
+		return tbtmEnctityTypesComposite;
+	}
+	public Composite getTbtmRelationshipsComposite() {
+		return tbtmRelationshipsComposite;
+	}
+	public Composite getTbtmRelationshipTypesComposite() {
+		return tbtmRelationshipTypesComposite;
+	}
+	public ProgressBar getProgressBar() {
+		return progressBar;
 	}
 }
