@@ -99,7 +99,7 @@
             class="org.softlang.megal.browsing.editors.MegalExplorer"
             default="false"
             id="org.softlang.megal.browsing.editors.MegalExplorer"
-            name="MegalExplorer">
+            name="Megal Explorer">
       </editor>
    </extension>
 

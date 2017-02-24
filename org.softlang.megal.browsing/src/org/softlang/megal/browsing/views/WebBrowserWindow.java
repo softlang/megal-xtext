@@ -42,7 +42,7 @@ public class WebBrowserWindow {
 //		}
 //	}
 	
-	protected Shell shell;
+	protected Shell shlMegalTypesNetwork;
 	private Browser webBrowser;
 
 	static private class GetJSONMegamodelFunction extends BrowserFunction {
@@ -172,9 +172,9 @@ public class WebBrowserWindow {
 	public void open() {
 		Display display = Display.getDefault();
 		createContents();
-		shell.open();
-		shell.layout();
-		while (!shell.isDisposed()) {
+		shlMegalTypesNetwork.open();
+		shlMegalTypesNetwork.layout();
+		while (!shlMegalTypesNetwork.isDisposed()) {
 			if (!display.readAndDispatch()) {
 				display.sleep();
 			}
@@ -183,14 +183,15 @@ public class WebBrowserWindow {
 
 	/**
 	 * Create contents of the window.
+	 * @wbp.parser.entryPoint
 	 */
 	protected void createContents() {
-		shell = new Shell();
-		shell.setSize(450, 300);
-		shell.setText("SWT Application");
-		shell.setLayout(new GridLayout(1, false));
+		shlMegalTypesNetwork = new Shell();
+		shlMegalTypesNetwork.setSize(450, 300);
+		shlMegalTypesNetwork.setText("MegaL Types Network Graph");
+		shlMegalTypesNetwork.setLayout(new GridLayout(1, false));
 		
-		webBrowser = new Browser(shell, SWT.NONE);
+		webBrowser = new Browser(shlMegalTypesNetwork, SWT.NONE);
 		webBrowser.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		webBrowser.setUrl(url);
 
