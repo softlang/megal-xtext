@@ -10,6 +10,16 @@ import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.ProgressBar;
+import org.eclipse.swt.widgets.ExpandBar;
+import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.custom.SashForm;
+import org.eclipse.swt.widgets.ExpandItem;
+import org.eclipse.swt.widgets.ToolBar;
+import org.eclipse.swt.widgets.ToolItem;
+import org.eclipse.swt.widgets.CoolBar;
+import org.eclipse.swt.widgets.CoolItem;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 
 public class MegaLBrowserComposite extends Composite {
 	private TabFolder tabsMegamodelBrowser;
@@ -21,7 +31,8 @@ public class MegaLBrowserComposite extends Composite {
 	private Button btnEvaluate;
 	private ProgressBar progressBar;
 	private Label lblNewLabel;
-
+	private Composite entityTableComposite;
+	private ToolBar toolBar;
 	/**
 	 * Create the composite.
 	 * @param parent
@@ -30,6 +41,15 @@ public class MegaLBrowserComposite extends Composite {
 	public MegaLBrowserComposite(Composite parent, int style) {
 		super(parent, style);
 		setLayout(new GridLayout(4, false));
+		
+		toolBar = new ToolBar(this, SWT.FLAT | SWT.RIGHT);
+		toolBar.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 4, 1));
+		
+		ToolItem tltmNewItem = new ToolItem(toolBar, SWT.NONE);
+		tltmNewItem.setText("New Item");
+		
+		ToolItem tltmDropdownItem = new ToolItem(toolBar, SWT.DROP_DOWN);
+		tltmDropdownItem.setText("DropDown Item");
 		new Label(this, SWT.NONE);
 		
 		lblNewLabel = new Label(this, SWT.NONE);
@@ -59,6 +79,12 @@ public class MegaLBrowserComposite extends Composite {
 		
 		tbtmEntitiesComposite = new Composite(tabsMegamodelBrowser, SWT.NONE);
 		tbtmEntities.setControl(tbtmEntitiesComposite);
+		tbtmEntitiesComposite.setLayout(new GridLayout(1, false));
+		
+		entityTableComposite = new Composite(tbtmEntitiesComposite, SWT.NONE);
+		entityTableComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		
+		
 		
 		TabItem tbtmEntityTypes = new TabItem(tabsMegamodelBrowser, SWT.NONE);
 		tbtmEntityTypes.setText("EntityTypes");
@@ -108,5 +134,11 @@ public class MegaLBrowserComposite extends Composite {
 	}
 	public ProgressBar getProgressBar() {
 		return progressBar;
+	}
+	public Composite getEntityTableComposite() {
+		return entityTableComposite;
+	}
+	public ToolBar getToolBar() {
+		return toolBar;
 	}
 }

@@ -18,12 +18,12 @@ import org.softlang.megal.mi2.api.ModelExecutor;
 import org.softlang.megal.mi2.api.Result;
 import org.softlang.megal.mi2.api.resolution.ProjectResolution;
 
-public class ConcurrentMegalEvaluator implements Runnable {
+public class MegalEvaluator implements Runnable {
 
 	private IFile file;
 	private Result result;
 	
-	public ConcurrentMegalEvaluator(IFile file) {
+	public MegalEvaluator(IFile file) {
 		this.file = file;
 	}
 	

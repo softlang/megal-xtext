@@ -11,7 +11,10 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.jface.text,
  org.softlang.megal;bundle-version="1.0.0",
  org.softlang.megal.language;bundle-version="1.0.0",
- org.eclipse.nebula.widgets.nattable.core;bundle-version="1.4.0"
+ org.eclipse.nebula.widgets.nattable.core;bundle-version="1.4.0",
+ org.eclipse.jetty.server;bundle-version="9.3.9",
+ org.eclipse.jetty.util;bundle-version="9.3.9",
+ org.eclipse.json;bundle-version="1.0.1"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: src/,

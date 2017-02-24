@@ -60,15 +60,11 @@
    </extension>
    <extension
          point="org.eclipse.ui.views">
-      <category
-            id="testplugin"
-            name="Sample Category">
-      </category>
       <view
             category="testplugin"
             class="org.softlang.megal.browsing.views.MegalBrowserView"
             icon="icons/megalbrowser.png"
-            id="testplugin.views.SampleView"
+            id="org.softlang.megal.browsing.views.MegalBrowserView"
             name="MegaL Browsing">
       </view>
    </extension>
@@ -100,12 +96,10 @@
    <extension
          point="org.eclipse.ui.editors">
       <editor
-            class="testplugin.editors.XMLEditor"
-            contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
-            extensions="xml"
-            icon="icons/sample.gif"
-            id="testplugin.editors.XMLEditor"
-            name="Sample XML Editor">
+            class="org.softlang.megal.browsing.editors.MegalExplorer"
+            default="false"
+            id="org.softlang.megal.browsing.editors.MegalExplorer"
+            name="MegalExplorer">
       </editor>
    </extension>
 

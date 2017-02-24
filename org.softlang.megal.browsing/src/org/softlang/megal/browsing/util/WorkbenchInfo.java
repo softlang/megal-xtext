@@ -1,4 +1,4 @@
-package org.softlang.megal.browsing.views;
+package org.softlang.megal.browsing.util;
 
 import org.eclipse.ui.part.WorkbenchPart;
 
