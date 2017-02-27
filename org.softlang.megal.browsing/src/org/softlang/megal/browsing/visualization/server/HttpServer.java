@@ -1,31 +1,16 @@
 package org.softlang.megal.browsing.visualization.server;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Collection;
-
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.ContextHandler;
-import org.eclipse.jetty.server.handler.DefaultHandler;
 import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
-import org.eclipse.jetty.util.resource.Resource;
-import org.glassfish.hk2.api.Factory;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
-import org.glassfish.hk2.utilities.general.ThreadSpecificObject;
 import org.glassfish.jersey.server.ResourceConfig;
-import org.glassfish.jersey.server.ResourceFinder;
-import org.glassfish.jersey.server.internal.scanning.PackageNamesScanner;
 import org.glassfish.jersey.servlet.ServletContainer;
-import org.glassfish.jersey.servlet.ServletProperties;
-import org.softlang.megal.browsing.visualization.server.servlets.TestWebService;
-
-import com.google.common.collect.ImmutableSet;
-import com.google.common.reflect.ClassPath;
-import com.google.common.reflect.ClassPath.ClassInfo;
+import org.softlang.megal.mi2.KB;
 
 public class HttpServer implements Runnable {
 
@@ -36,86 +21,34 @@ public class HttpServer implements Runnable {
 //		new HttpServer().run();
 	}
 	
-	public static class MegamodelProvider {
-		
-	}
 	
-	private static class MegamodelProviderFactory implements Factory<MegamodelProvider> {
-
-		@Override
-		public void dispose(MegamodelProvider arg0) {
-		}
-
-		@Override
-		public MegamodelProvider provide() {
-			return new MegamodelProvider();
-		}
-		
-	}
 	
 	private int port = 9999;
 	
 	private Server server;
 	
+	private MegamodelProvider megamodelProvider;
+	
 	public HttpServer() {
-		
-//		String[] packages = {"org.softlang.megal.browsing.visualization.server.servlets"};
-//		
-//		ResourceFinder finder = new PackageNamesScanner(getClass().getClassLoader(),packages, true);
-//		
-//		System.err.println("found stuff:");
-//		while (finder.hasNext()) {
-//			System.err.println(finder.next());
-//		}
-//		
-//		ImmutableSet<ClassInfo> classes;
-//		try {
-//			classes = ClassPath.from(getClass().getClassLoader()).getTopLevelClasses("org.softlang.megal.browsing.visualization.server.servlets");
-//			for (ClassInfo ci : classes) {
-//				System.err.println(ci.getName());
-//			}
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-		
-		
-		
-//		System.err.println(TestWebService.class.getPackage());
 
 	    server = new Server(port);
 	    
+	    megamodelProvider = new MegamodelProvider();
 	    
 		ResourceConfig resourceConfig = new ResourceConfig()
-//		.packages("org.softlang.megal.browsing.visualization.server.servlets")
 		.register(TestWebService.class)
 		.register(new AbstractBinder() {
 
 			@Override
 			protected void configure() {
-				
-				bindFactory(MegamodelProviderFactory.class).to(MegamodelProvider.class);
-				
-				
+				bindFactory(new MegamodelProviderFactory(megamodelProvider)).to(MegamodelProvider.class);
 			}
 			
 		});
 		
 		ServletContainer servletContainer = new ServletContainer(resourceConfig);
 		
-		
-		
 		ServletHolder servletHolder = new ServletHolder(servletContainer);
-		
-//		.setInitParameter("jersey.config.server.provider.packages", "org.softlang.megal.browsing.visualization.server.servlets");
-		
-//		ServletHolder sh = new ServletHolder();    
-//		sh.setInitParameter("com.sun.jersey.config.property.resourceConfigClass", "com.sun.jersey.api.core.PackagesResourceConfig");
-//		//Set the package where the services reside
-//		sh.setInitParameter("com.sun.jersey.config.property.packages", "org.softlang.megal.browsing.visualization.server.servlets");
-//		sh.setInitParameter("com.sun.jersey.api.json.POJOMappingFeature", "true");
-		
-		
 		
 		ServletContextHandler restContextHandler = new ServletContextHandler(server, "/rest", ServletContextHandler.NO_SESSIONS);
 		restContextHandler.addServlet(servletHolder, "/*");
@@ -146,6 +79,10 @@ public class HttpServer implements Runnable {
 	    server.setHandler(handlers);
 	    
 	   
+	}
+	
+	public void setMegamodel(KB megamodel) {
+		megamodelProvider.setMegamodel(megamodel);
 	}
 	
 	public String getAddress() {

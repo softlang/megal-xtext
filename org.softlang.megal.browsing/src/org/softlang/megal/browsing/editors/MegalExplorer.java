@@ -150,7 +150,7 @@ public class MegalExplorer extends EditorPart  {
 							.sorted( (a,b) -> a.getName().compareToIgnoreCase(b.getName()) )
 							.collect(Collectors.toList());
 					
-					
+					httpServer.setMegamodel(megamodel);
 					entityTable.setData(entities);
 					entityTypeTable.setData(entityTypes);
 					relationshipTable.setData(relationships);

@@ -11,11 +11,11 @@ deserializationCode elementOf Java
 deserializationCode refersTo JAXB.Library
 deserializationCode refersTo javaFiles
 deserializationCode defines deserialization 
-deserializationCode = 'workspace:/org.softlang.megal.examples/src/org/softlang/company/features/Serialization.java'
+//deserializationCode = 'workspace:/org.softlang.megal.examples/src/org/softlang/company/features/Serialization.java'
 
 deserialization: Function [ XML -> JVM.ObjectGraphs ]
 deserialization(xmlFile) |-> objectGraph
-deserialization = 'classpath:org.softlang.company.features.Serialization#deserializeCompany(ByteSource)'
+//deserialization = 'classpath:org.softlang.company.features.Serialization#deserializeCompany(ByteSource)'
 objectGraph conformsTo javaFiles
 xmlFile correspondsTo objectGraph 
 
