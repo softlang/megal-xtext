@@ -1,5 +1,6 @@
 package org.softlang.megal.browsing.dtos;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -7,6 +8,7 @@ import java.util.stream.Collectors;
 import org.softlang.megal.mi2.Entity;
 import org.softlang.megal.mi2.EntityType;
 import org.softlang.megal.mi2.KB;
+import org.softlang.megal.mi2.Relationship;
 import org.softlang.megal.mi2.RelationshipType;
 
 public class MegamodelDto {
@@ -23,6 +25,10 @@ public class MegamodelDto {
 		return map(entityTypes, EntityTypeDto::from);
 	}
 	
+	static private Set<RelationshipDto> relationshipDtos(Set<Relationship> entityTypes) {
+		return map(entityTypes, RelationshipDto::from);
+	}
+	
 	static private Set<RelationshipTypeDto> relationshipTypeDtos(Set<RelationshipType> relationshipTypes) {
 		return map(relationshipTypes, RelationshipTypeDto::from);
 	}
@@ -36,18 +42,23 @@ public class MegamodelDto {
 	private Set<RelationshipDto> relationships;;
 	private Set<RelationshipTypeDto> relationshipTypes;
 	
+	public MegamodelDto() {
+		this(new HashSet<EntityDto>(),new HashSet<EntityTypeDto>(),new HashSet<RelationshipDto>(),new HashSet<RelationshipTypeDto>());
+	}
 	
-	private MegamodelDto(KB kb) {
+	public MegamodelDto(KB kb) {
 		this(
 				entityDtos(kb.getEntities()),
 				entityTypeDtos(kb.getEntityTypes()),
+				relationshipDtos(kb.getRelationships()),
 				relationshipTypeDtos(kb.getRelationshipTypes())
 			);
 	}
 	
-	private MegamodelDto(Set<EntityDto> entities, Set<EntityTypeDto> entityTypes, Set<RelationshipTypeDto> relationshipTypes) {
+	public MegamodelDto(Set<EntityDto> entities, Set<EntityTypeDto> entityTypes, Set<RelationshipDto> relationships, Set<RelationshipTypeDto> relationshipTypes) {
 		this.entities = entities;
 		this.entityTypes = entityTypes;
+		this.relationships = relationships;
 		this.relationshipTypes = relationshipTypes;
 	}
 

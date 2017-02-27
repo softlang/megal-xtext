@@ -5,7 +5,7 @@ import org.softlang.megal.mi2.KB;
 
 public class MegamodelProvider {
 
-	private MegamodelDto megamodel;
+	private MegamodelDto megamodel = new MegamodelDto();
 
 	protected MegamodelDto getMegamodel() {
 		return megamodel;
