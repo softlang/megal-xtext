@@ -1,4 +1,4 @@
-package org.softlang.megal.browsing.visualization.server;
+package org.softlang.megal.browsing.server;
 
 import org.glassfish.hk2.api.Factory;
 

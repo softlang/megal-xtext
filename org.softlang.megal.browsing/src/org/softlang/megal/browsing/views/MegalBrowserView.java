@@ -27,11 +27,11 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.ProgressBar;
 import org.eclipse.ui.PlatformUI;
 import org.softlang.megal.browsing.eval.MegalEvaluator;
+import org.softlang.megal.browsing.server.MegamodelServer;
 import org.softlang.megal.browsing.views.tables.EntityTable;
 import org.softlang.megal.browsing.views.tables.EntityTypeTable;
 import org.softlang.megal.browsing.views.tables.RelationshipTable;
 import org.softlang.megal.browsing.views.tables.RelationshipTypeTable;
-import org.softlang.megal.browsing.visualization.server.HttpServer;
 import org.softlang.megal.language.Megals;
 import org.softlang.megal.mi2.Entity;
 import org.softlang.megal.mi2.EntityType;
@@ -78,7 +78,7 @@ public class MegalBrowserView extends AbstractMegalAwareView {
 	private RelationshipTable relationshipTable;
 	private RelationshipTypeTable relationshipTypeTable;
 
-	private HttpServer httpServer;
+	private MegamodelServer httpServer;
 	
 	private KB megamodel;
 	
@@ -87,7 +87,7 @@ public class MegalBrowserView extends AbstractMegalAwareView {
 	 */
 	public MegalBrowserView() {
 		try {
-			httpServer = new HttpServer();
+			httpServer = new MegamodelServer();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

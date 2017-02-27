@@ -1,4 +1,4 @@
-package org.softlang.megal.browsing.visualization.server;
+package org.softlang.megal.browsing.server;
 
 import java.io.IOException;
 import java.io.InputStream;

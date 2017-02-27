@@ -82,7 +82,7 @@
 	
 	$(function(){
 		
-		var url = "./rest/test/available";
+		var url = "./rest/megamodel";
 		
 		return $.getJSON(url, function(megamodel){
 			

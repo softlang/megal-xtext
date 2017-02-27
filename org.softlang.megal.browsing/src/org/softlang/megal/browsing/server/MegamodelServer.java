@@ -1,4 +1,4 @@
-package org.softlang.megal.browsing.visualization.server;
+package org.softlang.megal.browsing.server;
 
 import java.io.IOException;
 
@@ -16,7 +16,7 @@ import org.glassfish.jersey.servlet.ServletContainer;
 import org.softlang.megal.mi2.KB;
 
 
-public class HttpServer implements Runnable {
+public class MegamodelServer implements Runnable {
 
 //	static public void main(String[] args) {
 //		new Thread(new HttpServer()).start();
@@ -33,11 +33,11 @@ public class HttpServer implements Runnable {
 	private MegamodelProvider megamodelProvider;
 	private MegamodelProviderFactory megamodelProviderFactory;
 	
-	public HttpServer() throws IOException {
+	public MegamodelServer() throws IOException {
 		this(DEFAULT_PORT, DEFAULT_STATIC_CONTENT_PATH);
 	}
 	
-	public HttpServer(int port, String staticContentPath) throws IOException {
+	public MegamodelServer(int port, String staticContentPath) throws IOException {
 
 		this.port = port;
 		this.staticContentPath = staticContentPath;
@@ -48,7 +48,7 @@ public class HttpServer implements Runnable {
 	    megamodelProviderFactory = new MegamodelProviderFactory(megamodelProvider);
 	    
 		resourceConfig = new ResourceConfig()
-		.register(TestWebService.class)
+		.register(MegamodelService.class)
 		.register(GsonMessageBodyHandler.class)
 		.register(new AbstractBinder() {
 

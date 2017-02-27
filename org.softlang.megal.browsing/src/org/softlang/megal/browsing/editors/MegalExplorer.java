@@ -19,13 +19,13 @@ import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.EditorPart;
 import org.softlang.megal.browsing.eval.MegalEvaluator;
+import org.softlang.megal.browsing.server.MegamodelServer;
 import org.softlang.megal.browsing.views.MegaLBrowserComposite;
 import org.softlang.megal.browsing.views.WebBrowserWindow;
 import org.softlang.megal.browsing.views.tables.EntityTable;
 import org.softlang.megal.browsing.views.tables.EntityTypeTable;
 import org.softlang.megal.browsing.views.tables.RelationshipTable;
 import org.softlang.megal.browsing.views.tables.RelationshipTypeTable;
-import org.softlang.megal.browsing.visualization.server.HttpServer;
 import org.softlang.megal.mi2.Entity;
 import org.softlang.megal.mi2.EntityType;
 import org.softlang.megal.mi2.KB;
@@ -43,7 +43,7 @@ public class MegalExplorer extends EditorPart  {
 	private RelationshipTable relationshipTable;
 	private RelationshipTypeTable relationshipTypeTable;
 
-	private HttpServer httpServer;
+	private MegamodelServer httpServer;
 	
 	private KB megamodel;
 	
@@ -109,7 +109,7 @@ public class MegalExplorer extends EditorPart  {
 		});
 		
 		try {
-			httpServer = new HttpServer();
+			httpServer = new MegamodelServer();
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
