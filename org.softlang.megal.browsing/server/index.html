@@ -241,14 +241,54 @@
 		}
 		*/
 		
+		var manies = {};
+		
 		for (i in megamodel.relationshipTypes) {
 			var rel = megamodel.relationshipTypes[i];
-			edges.push({
-				from: rel.left,
-				to: rel.right,
-				label: rel.name
-			});
+			
+			
+			if (rel.isLeftMany) {
+				
+				id = rel.left + "+";
+				
+				label = id.substr(id.lastIndexOf(".")+1);
+				
+				if (manies[id] == undefined) {
+					
+					nodes.push({
+						id: id,
+						label: label,
+						group: "mints"
+					});
+					edges.push({
+						from: id,
+						to: rel.right,
+						label: rel.name
+					});
+					manies[id] = id;
+				}
+				
+				edges.push({
+					from: rel.left,
+					to: id,
+					label: "closureOf",
+					arrows:'to, from',
+					color:{color:'red'}
+				});
+				
+			}
+			else {
+				
+				edges.push({
+					from: rel.left,
+					to: rel.right,
+					label: rel.name
+				});
+				
+			}
+			
 		}
+		
 		
 		// create a network
 		var container = document.getElementById('mynetwork');
@@ -262,14 +302,16 @@
 			    stabilization: false
 			},
 			layout: {
+				/*	*/
                 hierarchical: {
                 	levelSeparation: 500,
-                	nodeSpacing: 500,
+                	//nodeSpacing: 500,
                     direction: "UD",
                     randomSeed:2,
-                   // sortMethod: "directed",
+                    sortMethod: "directed",
                     edgeMinimization: false
                 }
+			
             },
 			nodes : {
 				shape : 'dot',
@@ -286,7 +328,8 @@
 					size : 15,
 					color : '#ffffff'
 				},
-				arrows:'to'
+				arrows:'to',
+				smooth: { enabled: true }
 			},
 			groups : {
 				entities : {

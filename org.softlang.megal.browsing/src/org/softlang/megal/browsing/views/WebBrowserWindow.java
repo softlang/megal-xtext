@@ -118,10 +118,16 @@ public class WebBrowserWindow {
 			
 			for(RelationshipType relType : megamodel.getRelationshipTypes()) {
 				
+				if (relType.getName().equals("defines")) {
+					System.err.println(relType);
+				}
+				
 				JsonObject jsonRelType = new JsonObject();
 				jsonRelType.set("name", relType.getName());
 				jsonRelType.set("left", relType.getLeft().getName());
+				jsonRelType.set("isLeftMany", relType.isLeftMany());
 				jsonRelType.set("right", relType.getRight().getName());
+				jsonRelType.set("isRightMany", relType.isRightMany());
 				
 				jsonRelationshipTypess.add(jsonRelType);
 				
@@ -194,7 +200,7 @@ public class WebBrowserWindow {
 		webBrowser = new Browser(shlMegalTypesNetwork, SWT.NONE);
 		webBrowser.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		webBrowser.setUrl(url);
-
+		
 		GetJSONMegamodelFunction.register(webBrowser, megamodel);
 		
 	}
