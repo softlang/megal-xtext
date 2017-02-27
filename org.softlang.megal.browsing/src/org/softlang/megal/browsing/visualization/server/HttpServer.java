@@ -7,6 +7,7 @@ import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
+import org.eclipse.jetty.util.resource.Resource;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.servlet.ServletContainer;
@@ -14,19 +15,16 @@ import org.softlang.megal.mi2.KB;
 
 public class HttpServer implements Runnable {
 
-	static public void main(String[] args) {
-		
-		new Thread(new HttpServer()).start();
-		
-//		new HttpServer().run();
-	}
+//	static public void main(String[] args) {
+//		new Thread(new HttpServer()).start();
+//	}
 	
 	
 	
 	private int port = 9999;
 	
 	private Server server;
-	
+	private ResourceConfig resourceConfig;
 	private MegamodelProvider megamodelProvider;
 	
 	public HttpServer() {
@@ -35,7 +33,7 @@ public class HttpServer implements Runnable {
 	    
 	    megamodelProvider = new MegamodelProvider();
 	    
-		ResourceConfig resourceConfig = new ResourceConfig()
+		resourceConfig = new ResourceConfig()
 		.register(TestWebService.class)
 		.register(new AbstractBinder() {
 
@@ -46,9 +44,7 @@ public class HttpServer implements Runnable {
 			
 		});
 		
-		ServletContainer servletContainer = new ServletContainer(resourceConfig);
-		
-		ServletHolder servletHolder = new ServletHolder(servletContainer);
+		ServletHolder servletHolder = new ServletHolder(new ServletContainer(resourceConfig));
 		
 		ServletContextHandler restContextHandler = new ServletContextHandler(server, "/rest", ServletContextHandler.NO_SESSIONS);
 		restContextHandler.addServlet(servletHolder, "/*");
@@ -57,12 +53,9 @@ public class HttpServer implements Runnable {
 		ResourceHandler resourceHandler = new ResourceHandler();
 	    resourceHandler.setDirectoriesListed(true);
 	    resourceHandler.setWelcomeFiles(new String[]{ "index.html" });
+	    resourceHandler.setBaseResource(Resource.newResource(getClass().getClassLoader().getResource("./server")));
 	    
-	    System.out.println(getClass().getClassLoader().getResource("./server"));
-	    
-//	    resourceHandler.setBaseResource(Resource.newResource(getClass().getClassLoader().getResource("./server")));
-	    
-	    resourceHandler.setResourceBase("/home/darjeeling/Documents/uni/megal-xtext/org.softlang.megal.browsing/server");
+//	    resourceHandler.setResourceBase("/home/darjeeling/Documents/uni/megal-xtext/org.softlang.megal.browsing/server");
 	    
 	    ContextHandler staticContextHandler = new ContextHandler("/");
 	    staticContextHandler.setHandler(resourceHandler);
