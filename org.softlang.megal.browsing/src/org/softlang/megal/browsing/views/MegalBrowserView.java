@@ -86,7 +86,12 @@ public class MegalBrowserView extends AbstractMegalAwareView {
 	 * The constructor.
 	 */
 	public MegalBrowserView() {
-		httpServer = new HttpServer();
+		try {
+			httpServer = new HttpServer();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		Thread server = new Thread(httpServer);
 		server.start();
 	}

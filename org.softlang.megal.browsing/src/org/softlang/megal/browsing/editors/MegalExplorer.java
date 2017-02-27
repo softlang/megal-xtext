@@ -1,5 +1,6 @@
 package org.softlang.megal.browsing.editors;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -107,7 +108,12 @@ public class MegalExplorer extends EditorPart  {
 			}
 		});
 		
-		httpServer = new HttpServer();
+		try {
+			httpServer = new HttpServer();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		Thread server = new Thread(httpServer);
 		server.start();
 		

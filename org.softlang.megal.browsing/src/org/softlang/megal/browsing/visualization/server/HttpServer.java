@@ -1,5 +1,7 @@
 package org.softlang.megal.browsing.visualization.server;
 
+import java.io.IOException;
+
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.ContextHandler;
@@ -19,16 +21,25 @@ public class HttpServer implements Runnable {
 //		new Thread(new HttpServer()).start();
 //	}
 	
+	static public int DEFAULT_PORT = 9999;
+	static public String DEFAULT_STATIC_CONTENT_PATH = "./server";
 	
 	
-	private int port = 9999;
-	
+	private int port;
+	private String staticContentPath;
 	private Server server;
 	private ResourceConfig resourceConfig;
 	private MegamodelProvider megamodelProvider;
 	
-	public HttpServer() {
+	public HttpServer() throws IOException {
+		this(DEFAULT_PORT, DEFAULT_STATIC_CONTENT_PATH);
+	}
+	
+	public HttpServer(int port, String staticContentPath) throws IOException {
 
+		this.port = port;
+		this.staticContentPath = staticContentPath;
+		
 	    server = new Server(port);
 	    
 	    megamodelProvider = new MegamodelProvider();
@@ -53,9 +64,15 @@ public class HttpServer implements Runnable {
 		ResourceHandler resourceHandler = new ResourceHandler();
 	    resourceHandler.setDirectoriesListed(true);
 	    resourceHandler.setWelcomeFiles(new String[]{ "index.html" });
-	    resourceHandler.setBaseResource(Resource.newResource(getClass().getClassLoader().getResource("./server")));
 	    
-//	    resourceHandler.setResourceBase("/home/darjeeling/Documents/uni/megal-xtext/org.softlang.megal.browsing/server");
+	    Resource staticContents = Resource.newResource(getClass().getClassLoader().getResource(staticContentPath));
+	    
+//	    if (!staticContents.exists()) {
+//	    	throw new IOException("'" + staticContentPath + "' does not exist!");
+//	    }
+	    		
+	    resourceHandler.setBaseResource(staticContents);
+	    
 	    
 	    ContextHandler staticContextHandler = new ContextHandler("/");
 	    staticContextHandler.setHandler(resourceHandler);
@@ -74,8 +91,38 @@ public class HttpServer implements Runnable {
 	   
 	}
 	
+	
+	
+	protected static int getDEFAULT_PORT() {
+		return DEFAULT_PORT;
+	}
+
+	protected static String getDEFAULT_STATIC_CONTENT_PATH() {
+		return DEFAULT_STATIC_CONTENT_PATH;
+	}
+
+	protected int getPort() {
+		return port;
+	}
+
+	protected String getStaticContentPath() {
+		return staticContentPath;
+	}
+
+	protected Server getServer() {
+		return server;
+	}
+
+	protected ResourceConfig getResourceConfig() {
+		return resourceConfig;
+	}
+
+	protected MegamodelProvider getMegamodelProvider() {
+		return megamodelProvider;
+	}
+
 	public void setMegamodel(KB megamodel) {
-		megamodelProvider.setMegamodel(megamodel);
+		getMegamodelProvider().setMegamodel(megamodel);
 	}
 	
 	public String getAddress() {
