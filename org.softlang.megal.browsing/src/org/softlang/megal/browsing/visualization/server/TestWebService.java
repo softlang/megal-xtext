@@ -13,9 +13,9 @@ public class TestWebService {
 	
    @GET
    @Path("/available")
-   @Produces(MediaType.TEXT_PLAIN)
-   public String available() {
-      return "yes" + (megamodelProvider.getMegamodel() == null);
+   @Produces(MediaType.APPLICATION_JSON)
+   public Megamodel available() {
+      return megamodelProvider.getMegamodel(); //"yes" + (megamodelProvider.getMegamodel() == null);
    }
 
 }

@@ -15,6 +15,7 @@ import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.servlet.ServletContainer;
 import org.softlang.megal.mi2.KB;
 
+
 public class HttpServer implements Runnable {
 
 //	static public void main(String[] args) {
@@ -30,6 +31,7 @@ public class HttpServer implements Runnable {
 	private Server server;
 	private ResourceConfig resourceConfig;
 	private MegamodelProvider megamodelProvider;
+	private MegamodelProviderFactory megamodelProviderFactory;
 	
 	public HttpServer() throws IOException {
 		this(DEFAULT_PORT, DEFAULT_STATIC_CONTENT_PATH);
@@ -43,14 +45,16 @@ public class HttpServer implements Runnable {
 	    server = new Server(port);
 	    
 	    megamodelProvider = new MegamodelProvider();
+	    megamodelProviderFactory = new MegamodelProviderFactory(megamodelProvider);
 	    
 		resourceConfig = new ResourceConfig()
 		.register(TestWebService.class)
+		.register(GsonMessageBodyHandler.class)
 		.register(new AbstractBinder() {
 
 			@Override
 			protected void configure() {
-				bindFactory(new MegamodelProviderFactory(megamodelProvider)).to(MegamodelProvider.class);
+				bindFactory(megamodelProviderFactory).to(MegamodelProvider.class);
 			}
 			
 		});

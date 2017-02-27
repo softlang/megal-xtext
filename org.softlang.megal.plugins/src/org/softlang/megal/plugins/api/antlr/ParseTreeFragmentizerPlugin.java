@@ -107,6 +107,9 @@ public abstract class ParseTreeFragmentizerPlugin<P extends Parser, L extends Le
 		// Create a new parse tree walker
 		ParseTreeWalker walker = new ParseTreeWalker();
 		
+		System.out.println(entity.getName());
+		System.out.println(entity.getBinding());
+		
 		try {
 			
 			// Create a new from the input stream above

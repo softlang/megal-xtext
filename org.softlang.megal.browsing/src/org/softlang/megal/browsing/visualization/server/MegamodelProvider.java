@@ -4,14 +4,14 @@ import org.softlang.megal.mi2.KB;
 
 public class MegamodelProvider {
 
-	private KB megamodel;
+	private Megamodel megamodel;
 
-	protected KB getMegamodel() {
+	protected Megamodel getMegamodel() {
 		return megamodel;
 	}
 
 	protected void setMegamodel(KB megamodel) {
-		this.megamodel = megamodel;
+		this.megamodel = Megamodel.from(megamodel);
 	}
 	
 }

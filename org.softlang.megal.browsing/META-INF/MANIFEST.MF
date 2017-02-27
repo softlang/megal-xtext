@@ -17,7 +17,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.jetty.servlet;bundle-version="9.3.9",
  org.eclipse.json;bundle-version="1.0.1",
  javax.servlet;bundle-version="3.1.0",
- javax.annotation;bundle-version="1.2.0"
+ javax.annotation;bundle-version="1.2.0",
+ com.google.gson;bundle-version="2.2.4"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: src/,
